@@ -57,7 +57,7 @@ public class BuffFactory {
         if (buffData.hasApplyCondition()) {
             builder.condition(buildCondition(buffData.getApplyCondition()));
         }
-        if (buffData.getValuesCount() > level) {
+        if (buffData.getValuesCount() >= level) {
             builder.value(buffData.getValues(level - 1));
         } else if (buffData.getValuesCount() == 1) {
             builder.value(buffData.getValues(0));

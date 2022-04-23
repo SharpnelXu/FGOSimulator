@@ -16,7 +16,9 @@ public class NpChange extends Effect {
     @Override
     public void apply(final Simulation simulation, final int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
-            combatant.changeNp(percentNpChanges.get(level - 1));
+            if (shouldApply(simulation)) {
+                combatant.changeNp(percentNpChanges.get(level - 1));
+            }
         }
     }
 }

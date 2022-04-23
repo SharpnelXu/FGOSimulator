@@ -14,11 +14,27 @@ public class EffectFactory {
             setApplyConditionIfExists(builder, effectData);
 
             if (effectData.getIsOverchargedEffect()) {
-                builder.numStarsGains(effectData.getValuesList().stream().map(Double::intValue).collect(Collectors.toList()));
+                builder.numStarsGains(effectData.getValuesList()
+                                              .stream()
+                                              .map(Double::intValue)
+                                              .collect(Collectors.toList()));
                 builder.isOverchargedEffect(true);
             } else {
                 builder.numStarsGains(ImmutableList.of((int) effectData.getValues(level - 1)));
             }
+
+            return builder.build();
+        } else if (type.equalsIgnoreCase(GrantBuff.class.getSimpleName())) {
+            final GrantBuff.GrantBuffBuilder<?, ?> builder = GrantBuff.builder()
+                    .target(effectData.getTarget())
+                    .buffLevel(level)
+                    .buffData(effectData.getBuffDataList());
+
+            if (effectData.getIsOverchargedEffect()) {
+                builder.isOverchargedEffect(true);
+            }
+
+            setApplyConditionIfExists(builder, effectData);
 
             return builder.build();
         } else if (type.equalsIgnoreCase(NpChange.class.getSimpleName())) {

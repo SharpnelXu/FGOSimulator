@@ -9,12 +9,11 @@ import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 
 @SuperBuilder
 public abstract class Effect {
-
-    private final boolean isOverchargedEffect;
+    protected final boolean isOverchargedEffect;
     @Builder.Default
-    private final Condition applyCondition = ALWAYS;
+    protected final Condition applyCondition = ALWAYS;
 
-    public boolean shouldApply(final Simulation simulation) {
+    protected boolean shouldApply(final Simulation simulation) {
         return applyCondition.evaluate(simulation);
     }
 
