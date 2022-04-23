@@ -9,7 +9,6 @@ import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.levels.Stage;
-import yome.fgo.simulator.models.mysticcodes.MysticCode;
 
 import java.util.List;
 
@@ -38,7 +37,6 @@ public class SimulationTest {
             )), 3, ImmutableList.of())),
             ImmutableList.of()
     );
-    public static final MysticCode SIMPLE_MYSTIC_CODE = new MysticCode();
     public static final List<CombatAction> COMMAND_CARD_0_1_0 = ImmutableList.of(
             createCommandCardAction(0, 0, false),
             createCommandCardAction(1, 0, false),

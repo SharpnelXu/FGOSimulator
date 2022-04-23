@@ -240,3 +240,11 @@ message CraftEssenceOption {
   int32 craftEssenceLevel = 1;
   bool isLimitBreak = 2;
 }
+
+message MysticCodeData {
+  repeated ActiveSkillData activeSkillData = 1;
+}
+
+message MysticCodeOption {
+  int32 mysticCodeLevel = 1;
+}
