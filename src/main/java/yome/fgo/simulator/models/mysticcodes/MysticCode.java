@@ -8,8 +8,4 @@ public class MysticCode {
     public void activateSkill(final Simulation simulation, final int skillIndex) {
 
     }
-
-    public MysticCode makeCopy() {
-        return new MysticCode();
-    }
 }

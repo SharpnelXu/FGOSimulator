@@ -4,17 +4,24 @@ import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
+import yome.fgo.data.proto.FgoStorageData.AppendSkillData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
+import yome.fgo.data.proto.FgoStorageData.CommandCardData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
+import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
+import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
+import yome.fgo.data.proto.FgoStorageData.Status;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
 import yome.fgo.simulator.models.effects.CommandCardExecution;
 import yome.fgo.simulator.utils.RoundUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static yome.fgo.simulator.models.traits.Traits.SERVANT;
@@ -29,6 +36,8 @@ public class Servant extends Combatant {
     public static final double NP_GAIN_PITY_THRESHOLD = 98.99;
 
     private ServantData servantData;
+    private int attack;
+    private int maxHp;
     private int attackStatusUp;
     private int hpStatusUp;
     private int ascension;
@@ -74,34 +83,56 @@ public class Servant extends Combatant {
     public Servant(final String id, final ServantData servantData, final ServantOption servantOption) {
         super(id, getLastCombatantData(servantData, servantOption.getAscension()));
         this.servantData = servantData;
+        this.servantLevel = servantOption.getServantLevel();
+        this.ascension = servantOption.getAscension();
+
+        final Status servantStatus = servantData.getServantAscensionData(ascension)
+                .getServantStatusData(servantLevel - 1);
+        this.attack = servantStatus.getATK();
+        this.maxHp = servantStatus.getHP();
         this.attackStatusUp = servantOption.getAttackStatusUp();
         this.hpStatusUp = servantOption.getHealthStatusUp();
-        this.servantLevel = servantOption.getServantLevel();
         this.noblePhantasmLevel = servantOption.getNoblePhantasmLevel();
-        this.ascension = servantOption.getAscension();
         this.bond = servantOption.getBond();
 
-        final NoblePhantasmData noblePhantasmData = servantData.getServantAscensionData(this.ascension)
-                .getNoblePhantasmUpgrades()
+        final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(this.ascension);
+        final NoblePhantasmData noblePhantasmData = servantAscensionData.getNoblePhantasmUpgrades()
                 .getNoblePhantasmData(servantOption.getNoblePhantasmRank());
         this.noblePhantasm = new NoblePhantasm(noblePhantasmData, this.noblePhantasmLevel);
+
+        this.activeSkills = new ArrayList<>();
+        for (int i = 0; i < servantAscensionData.getActiveSkillUpgradesCount(); i++) {
+            final ActiveSkillData activeSkillData = servantAscensionData.getActiveSkillUpgrades(i)
+                    .getActiveSkillData(servantOption.getActiveSkillRanks(i));
+            this.activeSkills.add(new ActiveSkill(activeSkillData, servantOption.getActiveSkillLevels(i)));
+        }
+
+        this.passiveSkills = new ArrayList<>();
+        for (final PassiveSkillData passiveSkillData : servantAscensionData.getPassiveSkillDataList()) {
+            this.passiveSkills.add(new PassiveSkill(passiveSkillData));
+        }
+
+        this.appendSkills = new ArrayList<>();
+        for (int i = 0; i < servantAscensionData.getAppendSkillDataCount(); i++) {
+            final AppendSkillData appendSkillData = servantAscensionData.getAppendSkillData(i);
+            this.appendSkills.add(new AppendSkill(appendSkillData, servantOption.getAppendSkillLevels(i)));
+        }
+
+        this.commandCards = new ArrayList<>();
+        for (int i = 0; i < servantAscensionData.getCommandCardDataCount(); i++) {
+            final CommandCardData commandCardData = servantAscensionData.getCommandCardData(i);
+            this.commandCards.add(new CommandCard(commandCardData, servantOption.getCommandCardOptions(i)));
+        }
+
+        this.extraCommandCard = new CommandCard(servantAscensionData.getExtraCard());
     }
 
     @Override
     public void initiate(final Simulation simulation) {
     }
 
-    @Override
-    public boolean hasNextHpBar() {
-        return false;
-    }
-
     public int getAttack() {
-        return servantData.getServantAscensionData(ascension).getServantStatusData(servantLevel - 1).getATK();
-    }
-
-    public CommandCard getCommandCard(final int index) {
-        return commandCards.get(index);
+        return attack + craftEssence.getAttack() + attackStatusUp;
     }
 
     public void activateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
@@ -114,6 +145,10 @@ public class Servant extends Combatant {
     public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
         simulation.setAttacker(this);
         simulation.setCurrentCommandCard(noblePhantasm);
+
+        // TODO: missing overchargeIncreaseBuff
+        final int overchargeLevel = Math.max(extraOvercharge + Math.min(1, (int) currentNp / 100), 5);
+        noblePhantasm.activate(simulation, overchargeLevel);
 
         simulation.setCurrentCommandCard(null);
         simulation.setAttacker(null);
@@ -128,7 +163,7 @@ public class Servant extends Combatant {
             final CommandCardType firstCardType
     ) {
         simulation.setAttacker(this);
-        simulation.setCurrentCommandCard(getCommandCard(commandCardIndex));
+        simulation.setCurrentCommandCard(commandCards.get(commandCardIndex));
 
         CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain);
 
@@ -143,6 +178,8 @@ public class Servant extends Combatant {
     ) {
         simulation.setAttacker(this);
         simulation.setCurrentCommandCard(extraCommandCard);
+
+        CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain);
 
         simulation.setCurrentCommandCard(null);
         simulation.setAttacker(null);

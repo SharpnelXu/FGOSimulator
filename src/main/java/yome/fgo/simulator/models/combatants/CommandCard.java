@@ -1,6 +1,8 @@
 package yome.fgo.simulator.models.combatants;
 
+import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardData;
+import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 
 import java.util.List;
@@ -15,6 +17,14 @@ public class CommandCard {
             CommandCardData commandCardData
     ) {
         this.commandCardData = commandCardData;
+    }
+
+    public CommandCard(
+            CommandCardData commandCardData,
+            CommandCardOption commandCardOption
+    ) {
+        this(commandCardData);
+        this.commandCardStrengthen = commandCardOption.getStrengthen();
     }
 
     public CommandCard(

@@ -1,6 +1,7 @@
 package yome.fgo.simulator.models.effects;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.conditions.Condition;
@@ -8,6 +9,7 @@ import yome.fgo.simulator.models.conditions.Condition;
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 
 @SuperBuilder
+@Getter
 public abstract class Effect {
     protected final boolean isOverchargedEffect;
     @Builder.Default

@@ -77,7 +77,7 @@ public class CommandCardExecution {
         final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class);
 
         final DamageParameters damageParameters = DamageParameters.builder()
-                .attack(attacker.getAttack())
+                .attack(attacker.getAttack() + currentCard.commandCardStrengthen)
                 .totalHits(currentCard.getTotalHits())
                 .attackerClass(attacker.getFateClass())
                 .defenderClass(defenderClass)

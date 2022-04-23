@@ -1,16 +1,15 @@
 package yome.fgo.simulator.models.combatants;
 
-import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.effects.Effect;
+import lombok.Getter;
+import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
 
-import java.util.List;
+@Getter
+public class ActiveSkill extends Skill {
+    private final int maxCoolDown;
+    private int currentCoolDown;
 
-public class ActiveSkill {
-    public List<Effect> effects;
-
-    public void activate(final Simulation simulation) {
-        for (final Effect effect: effects) {
-            effect.apply(simulation);
-        }
+    public ActiveSkill(final ActiveSkillData activeSkillData, final int activeSkillLevel) {
+        super(activeSkillData.getEffectsList(), activeSkillLevel);
+        this.maxCoolDown = activeSkillData.getBaseCoolDown() - activeSkillLevel / 5;
     }
 }
