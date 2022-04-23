@@ -1,0 +1,1576 @@
+[
+  {
+    "class": "SHIELDER",
+    "gender": "FEMALE",
+    "alignments": [
+      "LAWFUL",
+      "GOOD"
+    ],
+    "attribute": "EARTH",
+    "deathRate": 24.5,
+    "rarity": 4,
+    "traits": [
+      "riding",
+      "demiServant",
+      "costumeOwning",
+      "hominidaeServant",
+      "humanoid",
+      "livingHuman",
+      "roundTableKnight",
+      "servant",
+      "weakToEnumaElish"
+    ],
+    "commandCards": [
+      {
+        "commandCardType": "QUICK",
+        "hitsData": [
+          25,
+          75
+        ],
+        "npRate": 0.84
+      },
+      {
+        "commandCardType": "ARTS",
+        "hitsData": [
+          33,
+          67
+        ],
+        "npRate": 0.84
+      },
+      {
+        "commandCardType": "ARTS",
+        "hitsData": [
+          33,
+          67
+        ],
+        "npRate": 0.84
+      },
+      {
+        "commandCardType": "BUSTER",
+        "hitsData": [
+          100
+        ],
+        "npRate": 0.84
+      },
+      {
+        "commandCardType": "BUSTER",
+        "hitsData": [
+          100
+        ],
+        "npRate": 0.84
+      }
+    ],
+    "extraCommandCard": {
+      "commandCardType": "EXTRA",
+      "hitsData": [
+        12,
+        25,
+        63
+      ],
+      "npRate": 0.84
+    },
+    "noblePhantasm": [
+      {
+        "commandCardType": "ARTS",
+        "noblePhantasmType": "SUPPORT",
+        "effects": [
+          {
+            "type": "defenseChange",
+            "target": "allAllies",
+            "numTurns": 3,
+            "isOverChargeEffect": true,
+            "values": [
+              30,
+              35,
+              40,
+              45,
+              50
+            ]
+          },
+          {
+            "type": "damageReduction",
+            "target": "allAllies",
+            "numTurns": 3,
+            "values": [
+              100,
+              550,
+              775,
+              888,
+              1000
+            ]
+          }
+        ]
+      },
+      {
+        "commandCardType": "ARTS",
+        "noblePhantasmType": "SUPPORT",
+        "effects": [
+          {
+            "type": "defenseChange",
+            "target": "allAllies",
+            "numTurns": 3,
+            "isOverChargeEffect": true,
+            "values": [
+              30,
+              35,
+              40,
+              45,
+              50
+            ]
+          },
+          {
+            "type": "damageReduction",
+            "target": "allAllies",
+            "numTurns": 3,
+            "values": [
+              100,
+              550,
+              775,
+              888,
+              1000
+            ]
+          },
+          {
+            "type": "attackChange",
+            "target": "allAlliesExcludingSelf",
+            "numTurns": 3,
+            "values": [
+              30
+            ]
+          }
+        ]
+      }
+    ],
+    "critStarRate": 9.9,
+    "npRateDef": 3,
+    "critStarWeight": 99,
+    "cost": 0,
+    "activeSkills": [
+      [
+        {
+          "effects": [
+            {
+              "type": "defenseChange",
+              "target": "allAllies",
+              "numTurns": 3,
+              "values": [
+                10,
+                10.5,
+                11,
+                11.5,
+                12,
+                12.5,
+                13,
+                13.5,
+                14,
+                15
+              ]
+            }
+          ],
+          "baseCoolDown": 7
+        },
+        {
+          "effects": [
+            {
+              "type": "defenseChange",
+              "target": "allAllies",
+              "numTurns": 3,
+              "values": [
+                15,
+                15.5,
+                16,
+                16.5,
+                17,
+                17.5,
+                18,
+                18.5,
+                19,
+                20
+              ]
+            },
+            {
+              "type": "damageReduction",
+              "target": "allAllies",
+              "numTimes": 1,
+              "values": [
+                2000
+              ]
+            }
+          ],
+          "baseCoolDown": 7
+        }
+      ],
+      [
+        {
+          "effects": [
+            {
+              "type": "invincibility",
+              "target": "targetedAlly",
+              "numTurns": 1
+            },
+            {
+              "type": "npChange",
+              "target": "targetedAlly",
+              "values": [
+                20
+              ]
+            }
+          ],
+          "baseCoolDown": 9
+        }
+      ],
+      [
+        {
+          "effects": [
+            {
+              "type": "targetFocus",
+              "target": "self",
+              "numTurns": 1,
+              "values": [
+                100,
+                120,
+                140,
+                160,
+                180,
+                200,
+                220,
+                240,
+                260,
+                300
+              ]
+            },
+            {
+              "type": "npRateChange",
+              "target": "self",
+              "numTurns": 1,
+              "values": [
+                200,
+                220,
+                240,
+                260,
+                280,
+                300,
+                320,
+                340,
+                360,
+                400
+              ]
+            }
+          ],
+          "baseCoolDown": 8
+        }
+      ]
+    ],
+    "passiveSkills": [
+      {
+        "type": "debuffResistChange",
+        "target": "self",
+        "values": [
+          20
+        ]
+      },
+      {
+        "type": "quickChange",
+        "target": "self",
+        "values": [
+          6
+        ]
+      }
+    ],
+    "appendSkills": [
+      {
+        "type": "extraChange",
+        "target": "self",
+        "values": [
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42,
+          44,
+          46,
+          50
+        ]
+      },
+      {
+        "type": "npChange",
+        "target": "self",
+        "values": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20
+        ]
+      },
+      {
+        "type": "conditionalAttackChange",
+        "target": "self",
+        "condition": {
+          "type": "targetClass",
+          "value": "extraClass"
+        },
+        "values": [
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          30
+        ]
+      }
+    ],
+    "statusData": [
+      {
+        "lv": 1,
+        "HP": 2060,
+        "ATK": 1455
+      },
+      {
+        "lv": 2,
+        "HP": 2192,
+        "ATK": 1544
+      },
+      {
+        "lv": 3,
+        "HP": 2324,
+        "ATK": 1633
+      },
+      {
+        "lv": 4,
+        "HP": 2466,
+        "ATK": 1728
+      },
+      {
+        "lv": 5,
+        "HP": 2598,
+        "ATK": 1817
+      },
+      {
+        "lv": 6,
+        "HP": 2740,
+        "ATK": 1912
+      },
+      {
+        "lv": 7,
+        "HP": 2873,
+        "ATK": 2001
+      },
+      {
+        "lv": 8,
+        "HP": 3015,
+        "ATK": 2097
+      },
+      {
+        "lv": 9,
+        "HP": 3147,
+        "ATK": 2186
+      },
+      {
+        "lv": 10,
+        "HP": 3289,
+        "ATK": 2281
+      },
+      {
+        "lv": 11,
+        "HP": 3421,
+        "ATK": 2370
+      },
+      {
+        "lv": 12,
+        "HP": 3563,
+        "ATK": 2466
+      },
+      {
+        "lv": 13,
+        "HP": 3695,
+        "ATK": 2555
+      },
+      {
+        "lv": 14,
+        "HP": 3837,
+        "ATK": 2650
+      },
+      {
+        "lv": 15,
+        "HP": 3970,
+        "ATK": 2739
+      },
+      {
+        "lv": 16,
+        "HP": 4111,
+        "ATK": 2835
+      },
+      {
+        "lv": 17,
+        "HP": 4244,
+        "ATK": 2924
+      },
+      {
+        "lv": 18,
+        "HP": 4386,
+        "ATK": 3019
+      },
+      {
+        "lv": 19,
+        "HP": 4518,
+        "ATK": 3108
+      },
+      {
+        "lv": 20,
+        "HP": 4660,
+        "ATK": 3204
+      },
+      {
+        "lv": 21,
+        "HP": 4792,
+        "ATK": 3293
+      },
+      {
+        "lv": 22,
+        "HP": 4934,
+        "ATK": 3388
+      },
+      {
+        "lv": 23,
+        "HP": 5067,
+        "ATK": 3477
+      },
+      {
+        "lv": 24,
+        "HP": 5208,
+        "ATK": 3572
+      },
+      {
+        "lv": 25,
+        "HP": 5341,
+        "ATK": 3661
+      },
+      {
+        "lv": 26,
+        "HP": 5483,
+        "ATK": 3757
+      },
+      {
+        "lv": 27,
+        "HP": 5615,
+        "ATK": 3846
+      },
+      {
+        "lv": 28,
+        "HP": 5757,
+        "ATK": 3941
+      },
+      {
+        "lv": 29,
+        "HP": 5889,
+        "ATK": 4030
+      },
+      {
+        "lv": 30,
+        "HP": 6031,
+        "ATK": 4126
+      },
+      {
+        "lv": 31,
+        "HP": 6163,
+        "ATK": 4215
+      },
+      {
+        "lv": 32,
+        "HP": 6305,
+        "ATK": 4310
+      },
+      {
+        "lv": 33,
+        "HP": 6438,
+        "ATK": 4399
+      },
+      {
+        "lv": 34,
+        "HP": 6579,
+        "ATK": 4495
+      },
+      {
+        "lv": 35,
+        "HP": 6712,
+        "ATK": 4584
+      },
+      {
+        "lv": 36,
+        "HP": 6854,
+        "ATK": 4679
+      },
+      {
+        "lv": 37,
+        "HP": 6986,
+        "ATK": 4768
+      },
+      {
+        "lv": 38,
+        "HP": 7128,
+        "ATK": 4863
+      },
+      {
+        "lv": 39,
+        "HP": 7260,
+        "ATK": 4953
+      },
+      {
+        "lv": 40,
+        "HP": 7402,
+        "ATK": 5048
+      },
+      {
+        "lv": 41,
+        "HP": 7535,
+        "ATK": 5137
+      },
+      {
+        "lv": 42,
+        "HP": 7676,
+        "ATK": 5232
+      },
+      {
+        "lv": 43,
+        "HP": 7809,
+        "ATK": 5321
+      },
+      {
+        "lv": 44,
+        "HP": 7951,
+        "ATK": 5417
+      },
+      {
+        "lv": 45,
+        "HP": 8083,
+        "ATK": 5506
+      },
+      {
+        "lv": 46,
+        "HP": 8225,
+        "ATK": 5601
+      },
+      {
+        "lv": 47,
+        "HP": 8357,
+        "ATK": 5690
+      },
+      {
+        "lv": 48,
+        "HP": 8499,
+        "ATK": 5786
+      },
+      {
+        "lv": 49,
+        "HP": 8631,
+        "ATK": 5875
+      },
+      {
+        "lv": 50,
+        "HP": 8773,
+        "ATK": 5970
+      },
+      {
+        "lv": 51,
+        "HP": 8906,
+        "ATK": 6059
+      },
+      {
+        "lv": 52,
+        "HP": 9047,
+        "ATK": 6155
+      },
+      {
+        "lv": 53,
+        "HP": 9180,
+        "ATK": 6244
+      },
+      {
+        "lv": 54,
+        "HP": 9322,
+        "ATK": 6339
+      },
+      {
+        "lv": 55,
+        "HP": 9454,
+        "ATK": 6428
+      },
+      {
+        "lv": 56,
+        "HP": 9596,
+        "ATK": 6523
+      },
+      {
+        "lv": 57,
+        "HP": 9728,
+        "ATK": 6612
+      },
+      {
+        "lv": 58,
+        "HP": 9870,
+        "ATK": 6708
+      },
+      {
+        "lv": 59,
+        "HP": 10003,
+        "ATK": 6797
+      },
+      {
+        "lv": 60,
+        "HP": 10144,
+        "ATK": 6892
+      },
+      {
+        "lv": 61,
+        "HP": 10277,
+        "ATK": 6981
+      },
+      {
+        "lv": 62,
+        "HP": 10419,
+        "ATK": 7077
+      },
+      {
+        "lv": 63,
+        "HP": 10551,
+        "ATK": 7166
+      },
+      {
+        "lv": 64,
+        "HP": 10693,
+        "ATK": 7261
+      },
+      {
+        "lv": 65,
+        "HP": 10825,
+        "ATK": 7350
+      },
+      {
+        "lv": 66,
+        "HP": 10967,
+        "ATK": 7446
+      },
+      {
+        "lv": 67,
+        "HP": 11099,
+        "ATK": 7535
+      },
+      {
+        "lv": 68,
+        "HP": 11241,
+        "ATK": 7630
+      },
+      {
+        "lv": 69,
+        "HP": 11374,
+        "ATK": 7719
+      },
+      {
+        "lv": 70,
+        "HP": 11516,
+        "ATK": 7815
+      },
+      {
+        "lv": 71,
+        "HP": 11648,
+        "ATK": 7904
+      },
+      {
+        "lv": 72,
+        "HP": 11780,
+        "ATK": 7993
+      },
+      {
+        "lv": 73,
+        "HP": 11922,
+        "ATK": 8088
+      },
+      {
+        "lv": 74,
+        "HP": 12054,
+        "ATK": 8177
+      },
+      {
+        "lv": 75,
+        "HP": 12196,
+        "ATK": 8272
+      },
+      {
+        "lv": 76,
+        "HP": 12329,
+        "ATK": 8361
+      },
+      {
+        "lv": 77,
+        "HP": 12471,
+        "ATK": 8457
+      },
+      {
+        "lv": 78,
+        "HP": 12603,
+        "ATK": 8546
+      },
+      {
+        "lv": 79,
+        "HP": 12745,
+        "ATK": 8641
+      },
+      {
+        "lv": 80,
+        "HP": 12877,
+        "ATK": 8730
+      },
+      {
+        "lv": 81,
+        "HP": 13019,
+        "ATK": 8826
+      },
+      {
+        "lv": 82,
+        "HP": 13151,
+        "ATK": 8915
+      },
+      {
+        "lv": 83,
+        "HP": 13293,
+        "ATK": 9010
+      },
+      {
+        "lv": 84,
+        "HP": 13426,
+        "ATK": 9099
+      },
+      {
+        "lv": 85,
+        "HP": 13567,
+        "ATK": 9195
+      },
+      {
+        "lv": 86,
+        "HP": 13700,
+        "ATK": 9284
+      },
+      {
+        "lv": 87,
+        "HP": 13842,
+        "ATK": 9379
+      },
+      {
+        "lv": 88,
+        "HP": 13974,
+        "ATK": 9468
+      },
+      {
+        "lv": 89,
+        "HP": 14116,
+        "ATK": 9564
+      },
+      {
+        "lv": 90,
+        "HP": 14248,
+        "ATK": 9653
+      }
+    ]
+  },
+  {
+    "class": "SHIELDER",
+    "gender": "FEMALE",
+    "alignments": [
+      "LAWFUL",
+      "GOOD"
+    ],
+    "attribute": "EARTH",
+    "deathRate": 24.5,
+    "rarity": 4,
+    "traits": [
+      "riding",
+      "demiServant",
+      "costumeOwning",
+      "hominidaeServant",
+      "humanoid",
+      "livingHuman",
+      "roundTableKnight",
+      "servant",
+      "weakToEnumaElish"
+    ],
+    "commandCards": [
+      {
+        "commandCardType": "QUICK",
+        "hitsData": [
+          25,
+          75
+        ],
+        "npRate": 0.84
+      },
+      {
+        "commandCardType": "ARTS",
+        "hitsData": [
+          33,
+          67
+        ],
+        "npRate": 0.84
+      },
+      {
+        "commandCardType": "ARTS",
+        "hitsData": [
+          33,
+          67
+        ],
+        "npRate": 0.84
+      },
+      {
+        "commandCardType": "BUSTER",
+        "hitsData": [
+          100
+        ],
+        "npRate": 0.84
+      },
+      {
+        "commandCardType": "BUSTER",
+        "hitsData": [
+          100
+        ],
+        "npRate": 0.84
+      }
+    ],
+    "extraCommandCard": {
+      "commandCardType": "EXTRA",
+      "hitsData": [
+        12,
+        25,
+        63
+      ],
+      "npRate": 0.84
+    },
+    "noblePhantasm": [
+      {
+        "commandCardType": "ARTS",
+        "noblePhantasmType": "SUPPORT",
+        "effects": [
+          {
+            "type": "defenseChange",
+            "target": "allAllies",
+            "numTurns": 3,
+            "isOverChargeEffect": true,
+            "values": [
+              30,
+              35,
+              40,
+              45,
+              50
+            ]
+          },
+          {
+            "type": "damageReduction",
+            "target": "allAllies",
+            "numTurns": 3,
+            "numTimes": 5,
+            "values": [
+              100,
+              550,
+              775,
+              888,
+              1000
+            ]
+          }
+        ]
+      }
+    ],
+    "critStarRate": 9.9,
+    "npRateDef": 3,
+    "critStarWeight": 99,
+    "cost": 0,
+    "activeSkills": [
+      [
+        {
+          "effects": [
+            {
+              "type": "busterChange",
+              "target": "self",
+              "numTurns": 3,
+              "numTimes": 1,
+              "values": [
+                30,
+                32,
+                34,
+                36,
+                38,
+                40,
+                42,
+                44,
+                46,
+                50
+              ]
+            },
+            {
+              "type": "busterCritDamageChange",
+              "target": "self",
+              "numTurns": 3,
+              "numTimes": 1,
+              "values": [
+                30,
+                32,
+                34,
+                36,
+                38,
+                40,
+                42,
+                44,
+                46,
+                50
+              ]
+            }
+          ],
+          "baseCoolDown": 6
+        },
+        {
+          "effects": [
+            {
+              "type": "busterChange",
+              "target": "self",
+              "numTurns": 3,
+              "numTimes": 1,
+              "values": [
+                30,
+                32,
+                34,
+                36,
+                38,
+                40,
+                42,
+                44,
+                46,
+                50
+              ]
+            },
+            {
+              "type": "busterCritDamageChange",
+              "target": "self",
+              "numTurns": 3,
+              "numTimes": 1,
+              "values": [
+                30,
+                32,
+                34,
+                36,
+                38,
+                40,
+                42,
+                44,
+                46,
+                50
+              ]
+            },
+            {
+              "type": "ignoreDefense",
+              "target": "self",
+              "numTurns": 3
+            }
+          ],
+          "baseCoolDown": 6
+        }
+      ],
+      [
+        {
+          "effects": [
+            {
+              "type": "targetFocus",
+              "target": "self",
+              "numTurns": 1,
+              "values": [
+                300
+              ]
+            },
+            {
+              "type": "npChange",
+              "target": "self",
+              "values": [
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                20
+              ]
+            }
+          ],
+          "baseCoolDown": 7
+        }
+      ],
+      [
+        {
+          "effects": [
+            {
+              "type": "invincibility",
+              "target": "self",
+              "numTurns": 1
+            },
+            {
+              "type": "targetFocus",
+              "target": "self",
+              "numTurns": 1,
+              "values": [
+                300
+              ]
+            },
+            {
+              "type": "hpChange",
+              "target": "self",
+              "values": [
+                -2500,
+                -2300,
+                -2100,
+                -1900,
+                -1700,
+                -1500,
+                -1300,
+                -1100,
+                -900,
+                -500
+              ]
+            }
+          ],
+          "baseCoolDown": 9
+        }
+      ]
+    ],
+    "passiveSkills": [
+      {
+        "type": "debuffResistChange",
+        "target": "self",
+        "values": [
+          20
+        ]
+      },
+      {
+        "type": "quickChange",
+        "target": "self",
+        "values": [
+          6
+        ]
+      }
+    ],
+    "appendSkills": [
+      {
+        "type": "extraChange",
+        "target": "self",
+        "values": [
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42,
+          44,
+          46,
+          50
+        ]
+      },
+      {
+        "type": "npChange",
+        "target": "self",
+        "values": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20
+        ]
+      },
+      {
+        "type": "conditionalAttackChange",
+        "target": "self",
+        "condition": {
+          "type": "targetClass",
+          "value": "extraClass"
+        },
+        "values": [
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          30
+        ]
+      }
+    ],
+    "statusData": [
+      {
+        "lv": 1,
+        "HP": 2060,
+        "ATK": 1455
+      },
+      {
+        "lv": 2,
+        "HP": 2192,
+        "ATK": 1544
+      },
+      {
+        "lv": 3,
+        "HP": 2324,
+        "ATK": 1633
+      },
+      {
+        "lv": 4,
+        "HP": 2466,
+        "ATK": 1728
+      },
+      {
+        "lv": 5,
+        "HP": 2598,
+        "ATK": 1817
+      },
+      {
+        "lv": 6,
+        "HP": 2740,
+        "ATK": 1912
+      },
+      {
+        "lv": 7,
+        "HP": 2873,
+        "ATK": 2001
+      },
+      {
+        "lv": 8,
+        "HP": 3015,
+        "ATK": 2097
+      },
+      {
+        "lv": 9,
+        "HP": 3147,
+        "ATK": 2186
+      },
+      {
+        "lv": 10,
+        "HP": 3289,
+        "ATK": 2281
+      },
+      {
+        "lv": 11,
+        "HP": 3421,
+        "ATK": 2370
+      },
+      {
+        "lv": 12,
+        "HP": 3563,
+        "ATK": 2466
+      },
+      {
+        "lv": 13,
+        "HP": 3695,
+        "ATK": 2555
+      },
+      {
+        "lv": 14,
+        "HP": 3837,
+        "ATK": 2650
+      },
+      {
+        "lv": 15,
+        "HP": 3970,
+        "ATK": 2739
+      },
+      {
+        "lv": 16,
+        "HP": 4111,
+        "ATK": 2835
+      },
+      {
+        "lv": 17,
+        "HP": 4244,
+        "ATK": 2924
+      },
+      {
+        "lv": 18,
+        "HP": 4386,
+        "ATK": 3019
+      },
+      {
+        "lv": 19,
+        "HP": 4518,
+        "ATK": 3108
+      },
+      {
+        "lv": 20,
+        "HP": 4660,
+        "ATK": 3204
+      },
+      {
+        "lv": 21,
+        "HP": 4792,
+        "ATK": 3293
+      },
+      {
+        "lv": 22,
+        "HP": 4934,
+        "ATK": 3388
+      },
+      {
+        "lv": 23,
+        "HP": 5067,
+        "ATK": 3477
+      },
+      {
+        "lv": 24,
+        "HP": 5208,
+        "ATK": 3572
+      },
+      {
+        "lv": 25,
+        "HP": 5341,
+        "ATK": 3661
+      },
+      {
+        "lv": 26,
+        "HP": 5483,
+        "ATK": 3757
+      },
+      {
+        "lv": 27,
+        "HP": 5615,
+        "ATK": 3846
+      },
+      {
+        "lv": 28,
+        "HP": 5757,
+        "ATK": 3941
+      },
+      {
+        "lv": 29,
+        "HP": 5889,
+        "ATK": 4030
+      },
+      {
+        "lv": 30,
+        "HP": 6031,
+        "ATK": 4126
+      },
+      {
+        "lv": 31,
+        "HP": 6163,
+        "ATK": 4215
+      },
+      {
+        "lv": 32,
+        "HP": 6305,
+        "ATK": 4310
+      },
+      {
+        "lv": 33,
+        "HP": 6438,
+        "ATK": 4399
+      },
+      {
+        "lv": 34,
+        "HP": 6579,
+        "ATK": 4495
+      },
+      {
+        "lv": 35,
+        "HP": 6712,
+        "ATK": 4584
+      },
+      {
+        "lv": 36,
+        "HP": 6854,
+        "ATK": 4679
+      },
+      {
+        "lv": 37,
+        "HP": 6986,
+        "ATK": 4768
+      },
+      {
+        "lv": 38,
+        "HP": 7128,
+        "ATK": 4863
+      },
+      {
+        "lv": 39,
+        "HP": 7260,
+        "ATK": 4953
+      },
+      {
+        "lv": 40,
+        "HP": 7402,
+        "ATK": 5048
+      },
+      {
+        "lv": 41,
+        "HP": 7535,
+        "ATK": 5137
+      },
+      {
+        "lv": 42,
+        "HP": 7676,
+        "ATK": 5232
+      },
+      {
+        "lv": 43,
+        "HP": 7809,
+        "ATK": 5321
+      },
+      {
+        "lv": 44,
+        "HP": 7951,
+        "ATK": 5417
+      },
+      {
+        "lv": 45,
+        "HP": 8083,
+        "ATK": 5506
+      },
+      {
+        "lv": 46,
+        "HP": 8225,
+        "ATK": 5601
+      },
+      {
+        "lv": 47,
+        "HP": 8357,
+        "ATK": 5690
+      },
+      {
+        "lv": 48,
+        "HP": 8499,
+        "ATK": 5786
+      },
+      {
+        "lv": 49,
+        "HP": 8631,
+        "ATK": 5875
+      },
+      {
+        "lv": 50,
+        "HP": 8773,
+        "ATK": 5970
+      },
+      {
+        "lv": 51,
+        "HP": 8906,
+        "ATK": 6059
+      },
+      {
+        "lv": 52,
+        "HP": 9047,
+        "ATK": 6155
+      },
+      {
+        "lv": 53,
+        "HP": 9180,
+        "ATK": 6244
+      },
+      {
+        "lv": 54,
+        "HP": 9322,
+        "ATK": 6339
+      },
+      {
+        "lv": 55,
+        "HP": 9454,
+        "ATK": 6428
+      },
+      {
+        "lv": 56,
+        "HP": 9596,
+        "ATK": 6523
+      },
+      {
+        "lv": 57,
+        "HP": 9728,
+        "ATK": 6612
+      },
+      {
+        "lv": 58,
+        "HP": 9870,
+        "ATK": 6708
+      },
+      {
+        "lv": 59,
+        "HP": 10003,
+        "ATK": 6797
+      },
+      {
+        "lv": 60,
+        "HP": 10144,
+        "ATK": 6892
+      },
+      {
+        "lv": 61,
+        "HP": 10277,
+        "ATK": 6981
+      },
+      {
+        "lv": 62,
+        "HP": 10419,
+        "ATK": 7077
+      },
+      {
+        "lv": 63,
+        "HP": 10551,
+        "ATK": 7166
+      },
+      {
+        "lv": 64,
+        "HP": 10693,
+        "ATK": 7261
+      },
+      {
+        "lv": 65,
+        "HP": 10825,
+        "ATK": 7350
+      },
+      {
+        "lv": 66,
+        "HP": 10967,
+        "ATK": 7446
+      },
+      {
+        "lv": 67,
+        "HP": 11099,
+        "ATK": 7535
+      },
+      {
+        "lv": 68,
+        "HP": 11241,
+        "ATK": 7630
+      },
+      {
+        "lv": 69,
+        "HP": 11374,
+        "ATK": 7719
+      },
+      {
+        "lv": 70,
+        "HP": 11516,
+        "ATK": 7815
+      },
+      {
+        "lv": 71,
+        "HP": 11648,
+        "ATK": 7904
+      },
+      {
+        "lv": 72,
+        "HP": 11780,
+        "ATK": 7993
+      },
+      {
+        "lv": 73,
+        "HP": 11922,
+        "ATK": 8088
+      },
+      {
+        "lv": 74,
+        "HP": 12054,
+        "ATK": 8177
+      },
+      {
+        "lv": 75,
+        "HP": 12196,
+        "ATK": 8272
+      },
+      {
+        "lv": 76,
+        "HP": 12329,
+        "ATK": 8361
+      },
+      {
+        "lv": 77,
+        "HP": 12471,
+        "ATK": 8457
+      },
+      {
+        "lv": 78,
+        "HP": 12603,
+        "ATK": 8546
+      },
+      {
+        "lv": 79,
+        "HP": 12745,
+        "ATK": 8641
+      },
+      {
+        "lv": 80,
+        "HP": 12877,
+        "ATK": 8730
+      },
+      {
+        "lv": 81,
+        "HP": 13019,
+        "ATK": 8826
+      },
+      {
+        "lv": 82,
+        "HP": 13151,
+        "ATK": 8915
+      },
+      {
+        "lv": 83,
+        "HP": 13293,
+        "ATK": 9010
+      },
+      {
+        "lv": 84,
+        "HP": 13426,
+        "ATK": 9099
+      },
+      {
+        "lv": 85,
+        "HP": 13567,
+        "ATK": 9195
+      },
+      {
+        "lv": 86,
+        "HP": 13700,
+        "ATK": 9284
+      },
+      {
+        "lv": 87,
+        "HP": 13842,
+        "ATK": 9379
+      },
+      {
+        "lv": 88,
+        "HP": 13974,
+        "ATK": 9468
+      },
+      {
+        "lv": 89,
+        "HP": 14116,
+        "ATK": 9564
+      },
+      {
+        "lv": 90,
+        "HP": 14248,
+        "ATK": 9653
+      }
+    ]
+  }
+]

@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'com.google.protobuf' version "0.8.18"
+}
+
+group 'yome.fgo.simulator'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("com.google.guava:guava:31.1-jre")
+    implementation("com.google.protobuf:protobuf-java:3.20.0")
+    implementation("com.google.protobuf:protobuf-java-util:3.20.0")
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testImplementation("org.assertj:assertj-core:3.22.0")
+    testImplementation 'org.easymock:easymock:4.3'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0'
+    }
+}
+sourceSets {
+    main {
+        java {
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

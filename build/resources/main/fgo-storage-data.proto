@@ -1,0 +1,242 @@
+syntax = "proto3";
+
+package yome.fgo.data.proto;
+
+enum FateClass {
+  NO_CLASS = 0;
+  SABER = 1;
+  ARCHER = 2;
+  LANCER = 3;
+  RIDER = 4;
+  CASTER = 5;
+  ASSASSIN = 6;
+  BERSERKER = 7;
+  RULER = 8;
+  AVENGER = 9;
+  ALTEREGO = 10;
+  MOONCANCER = 11;
+  FOREIGNER = 12;
+  PRETENDER = 13;
+  SHIELDER = 14;
+
+  BEAST_I = 30;
+  BEAST_II = 31;
+  BEAST_III_R = 32;
+  BEAST_III_L = 33;
+  BEAST_IV = 34;
+}
+
+enum Gender {
+  NO_GENDER = 0;
+  MALE = 1;
+  FEMALE = 2;
+  OTHER = 3;
+}
+
+enum Alignment {
+  NO_ALIGNMENT = 0;
+  LAWFUL = 1;
+  NEUTRAL = 2;
+  CHAOTIC = 3;
+  GOOD = 4;
+  BALANCED = 5;
+  EVIL = 6;
+  INSANE = 7;
+  SUMMER = 8;
+  BRIDE = 9;
+}
+
+enum Attribute {
+  NO_ATTRIBUTE = 0;
+  SKY = 1;
+  EARTH = 2;
+  MAN = 3;
+  STAR = 4;
+  BEAST = 5;
+}
+
+message CombatantData {
+  string id = 1;
+  int32 rarity = 2;
+  FateClass fateClass = 3;
+  Gender gender = 4;
+  repeated Alignment alignments = 5;
+  Attribute attribute = 6;
+  repeated string traits = 7;
+  double deathRate = 8;
+
+  bool undeadNpCorrection = 9;
+}
+
+message ServantData {
+  repeated ServantAscensionData servantAscensionData = 1;
+}
+
+message ServantAscensionData {
+  CombatantData combatantData = 1;
+  double defenseNpRate = 2;
+  int32 criticalStarWeight = 4;
+
+  repeated CommandCardData commandCardData = 5;
+  repeated ActiveSkillUpgrades activeSkillUpgrades = 6;
+  repeated PassiveSkillData passiveSkillData = 7;
+  repeated AppendSkillData appendSkillData = 8;
+
+  repeated Status servantStatusData = 9;
+
+  NoblePhantasmUpgrades noblePhantasmUpgrades = 10;
+  CommandCardData extraCard = 11;
+  int32 cost = 12;
+}
+
+enum CommandCardType {
+  ANY = 0;
+  QUICK = 1;
+  ARTS = 2;
+  BUSTER = 3;
+  EXTRA = 4;
+}
+
+message NoblePhantasmUpgrades {
+  repeated NoblePhantasmData noblePhantasmData = 1;
+}
+
+message NoblePhantasmData {
+  CommandCardData commandCardData = 1;
+  repeated EffectData effects = 2;
+}
+
+message CommandCardData {
+  CommandCardType commandCardType = 1;
+  repeated int32 hitsData = 2;
+  double npRate = 3;
+  double criticalStarGen = 4;
+}
+
+message ActiveSkillUpgrades {
+  repeated ActiveSkillData activeSkillData = 1;
+}
+
+message ActiveSkillData {
+  int32 baseCoolDown = 1;
+  repeated EffectData effects = 2;
+}
+
+message PassiveSkillData {
+  repeated EffectData effects = 1;
+}
+
+message AppendSkillData {
+  repeated EffectData effects = 1;
+}
+
+message EffectData {
+  string type = 1;
+  Target target = 2;
+  bool isOverchargedEffect = 5;
+  repeated double values = 6;
+  ConditionData applyCondition = 7;
+  repeated BuffData buffData = 8; // each represents one OC
+  repeated double probabilities = 9;
+}
+
+message BuffData {
+  string type = 1;
+  int32 numTurnsActive = 2;
+  int32 numTimesActive = 3;
+  ConditionData applyCondition = 4;
+  EffectData subEffects = 5;
+  repeated double values = 6;
+  string stringValue = 7;
+}
+
+enum Target {
+  NONE = 0;
+  SELF = 1;
+  FIRST_ALLY_EXCLUDING_SELF = 2;
+  TARGETED_ALLY = 3;
+  NON_TARGETED_ALLIES = 4;
+  ALL_ALLIES = 5;
+  ALL_ALLIES_EXCLUDING_SELF = 6;
+  ALL_ALLIES_INCLUDING_BACKUP = 7;
+  ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP = 8;
+  FIRST_ENEMY = 9;
+  TARGETED_ENEMY = 10;
+  NON_TARGETED_ENEMIES = 11;
+  ALL_ENEMIES = 12;
+  ALL_ENEMIES_INCLUDING_BACKUP = 13;
+  ALL_CHARACTERS = 14;
+  ALL_CHARACTERS_EXCLUDING_SELF = 15;
+  ALL_CHARACTERS_INCLUDING_BACKUP = 16;
+  ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP = 17;
+
+  ATTACKER = 18;
+  DEFENDER = 19;
+  EFFECT_TARGET = 20;
+  SERVANT_EXCHANGE = 30;
+}
+
+message ConditionData {
+  string type = 1;
+  string value = 2;
+  repeated ConditionData subConditionData = 3;
+  Target target = 4;
+}
+
+message Status {
+  int32 lv = 1;
+  int32 HP = 2;
+  int32 ATK = 3;
+}
+
+message LevelData {
+  string id = 1;
+  repeated StageData stageData = 2;
+}
+
+message StageData {
+
+}
+
+message EnemyData {
+  string enemyBaseId = 1;
+  repeated int32 hpBars = 2;
+  CombatantData combatantDataOverride = 3;
+
+  int32 customMaxNpGauge = 4;
+  bool hasCustomMaxNpGauge = 5;
+
+  int32 servantAscension = 6;
+}
+
+message CommandCardOption {
+  int32 strengthen = 1;
+  string commandCode = 2;
+}
+
+message ServantOption {
+  int32 servantLevel = 1;
+  int32 noblePhantasmRank = 2;
+  int32 noblePhantasmLevel = 3;
+  int32 attackStatusUp = 4;
+  int32 healthStatusUp = 5;
+
+  repeated int32 activeSkillRanks = 6;
+  repeated int32 activeSkillLevels = 7;
+  repeated int32 appendSkillLevels = 8;
+
+  repeated CommandCardOption commandCardOptions = 9;
+
+  int32 bond = 10;
+  int32 ascension = 11;
+}
+
+message CraftEssenceData {
+  repeated Status craftEssenceStatusData = 1;
+  repeated EffectData effects = 2;
+}
+
+message CraftEssenceOption {
+  int32 craftEssenceLevel = 1;
+  bool isLimitBreak = 2;
+}
