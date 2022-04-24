@@ -17,9 +17,10 @@ public class ResourceManager {
     private static final Map<String, CombatantData> ENEMY_DATA_MAP = new HashMap<>();
     private static final Map<String, ServantData> SERVANT_DATA_MAP = new HashMap<>();
 
-    public static CombatantData getEnemyCombatantData(final String id) {
+    public static CombatantData getEnemyCombatantData(final String enemyCategories, final String id) {
         if (!ENEMY_DATA_MAP.containsKey(id)) {
-            final File enemyDataFile = new File(ENEMY_DIRECTORY_PATH + "/" + id + "/" + id + ".json");
+            final String directoryPath = String.format("%s/%s/%s/%s.json", ENEMY_DIRECTORY_PATH, enemyCategories, id, id);
+            final File enemyDataFile = new File(directoryPath);
             if (enemyDataFile.exists()) {
                 final JsonFormat.Parser parser = JsonFormat.parser();
                 final CombatantData.Builder combatantDataBuilder = CombatantData.newBuilder();
@@ -40,14 +41,15 @@ public class ResourceManager {
 
     public static ServantData getServantData(final String id) {
         if (!SERVANT_DATA_MAP.containsKey(id)) {
-            final File enemyDataFile = new File(SERVANT_DIRECTORY_PATH + "/" + id + "/" + id + ".json");
-            if (enemyDataFile.exists()) {
+            final String directoryPath = String.format("%s/%s/%s.json", SERVANT_DIRECTORY_PATH, id, id);
+            final File servantDataFile = new File(directoryPath);
+            if (servantDataFile.exists()) {
                 final JsonFormat.Parser parser = JsonFormat.parser();
-                final ServantData.Builder combatantDataBuilder = ServantData.newBuilder();
+                final ServantData.Builder servantDataBuilder = ServantData.newBuilder();
                 try {
-                    parser.merge(new FileReader(enemyDataFile), combatantDataBuilder);
+                    parser.merge(new FileReader(servantDataFile), servantDataBuilder);
 
-                    SERVANT_DATA_MAP.put(id, combatantDataBuilder.build());
+                    SERVANT_DATA_MAP.put(id, servantDataBuilder.build());
                 } catch (final Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -60,14 +62,5 @@ public class ResourceManager {
         }
 
         return SERVANT_DATA_MAP.get(id);
-    }
-
-    public static CombatantData getServantCombatantData(final String id, final int ascension) {
-        final ServantData servantData = getServantData(id);
-        if (ascension > servantData.getServantAscensionDataCount()) {
-            return servantData.getServantAscensionData(0).getCombatantData();
-        } else {
-            return servantData.getServantAscensionData(ascension - 1).getCombatantData();
-        }
     }
 }

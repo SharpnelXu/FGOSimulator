@@ -220,6 +220,7 @@ message EnemyData {
   bool hasCustomMaxNpGauge = 5;
 
   int32 servantAscension = 6;
+  string enemyCategories = 7;
 }
 
 message CommandCardOption {

@@ -82,7 +82,7 @@ public class Simulation {
     private Combatant effectTarget;
 
     public void initiate() {
-        currentStage = 0;
+        currentStage = 1;
         currentTurn = 1;
         currentStars = 0;
 
@@ -245,9 +245,9 @@ public class Simulation {
         currentTurn++;
     }
 
-    private void populateStageWithEnemies(final int stageIndex) {
+    private void populateStageWithEnemies(final int currentStage) {
         currentEnemies.clear();
-        final Stage stage = level.getStage(stageIndex);
+        final Stage stage = level.getStage(currentStage);
         while (stage.hasMoreEnemies() && currentEnemies.size() < stage.getMaximumEnemiesOnScreen()) {
             currentEnemies.add(stage.getNextEnemy());
         }

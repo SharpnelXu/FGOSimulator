@@ -38,7 +38,7 @@ public class Level {
         return currentStage < stages.size() - 1;
     }
 
-    public Stage getStage(final int index) {
-        return stages.get(index);
+    public Stage getStage(final int currentStage) {
+        return stages.get(currentStage - 1);
     }
 }

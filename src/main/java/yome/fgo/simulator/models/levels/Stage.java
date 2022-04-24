@@ -31,7 +31,11 @@ public class Stage {
     }
 
     public Stage(final StageData stageData) {
-        this.maximumEnemiesOnScreen = stageData.getMaximumEnemiesOnScreen();
+        if (stageData.getMaximumEnemiesOnScreen() == 0) {
+            this.maximumEnemiesOnScreen = 3;
+        } else {
+            this.maximumEnemiesOnScreen = stageData.getMaximumEnemiesOnScreen();
+        }
         this.effects = EffectFactory.buildEffects(stageData.getEffectsList(), 1);
 
         this.enemies = new LinkedList<>();
@@ -40,7 +44,7 @@ public class Stage {
             if (enemyData.getServantAscension() != 0) {
                 this.enemies.add(new Servant(ResourceManager.getServantData(enemyId), enemyData));
             } else {
-                this.enemies.add(new Combatant(ResourceManager.getEnemyCombatantData(enemyId), enemyData));
+                this.enemies.add(new Combatant(ResourceManager.getEnemyCombatantData(enemyData.getEnemyCategories(), enemyId), enemyData));
             }
         }
     }

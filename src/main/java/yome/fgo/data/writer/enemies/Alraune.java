@@ -10,9 +10,9 @@ import static yome.fgo.data.writer.DataWriterMain.writeEnemy;
 import static yome.fgo.simulator.translation.EnemyCategory.EnemySubCategory.DEMON;
 import static yome.fgo.simulator.translation.EnemyCategory.TRANSENDENT;
 
-public class Efreet {
+public class Alraune {
     public static void main(final String[] args) {
-        final String id = "efreet";
+        final String id = "alraune";
         final CombatantData combatantData = CombatantData.newBuilder()
                 .setId(id)
                 .setRarity(4)
