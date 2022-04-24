@@ -7,7 +7,6 @@ import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.EffectFactory;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class NoblePhantasm extends CommandCard {
@@ -15,10 +14,7 @@ public class NoblePhantasm extends CommandCard {
 
     public NoblePhantasm(final NoblePhantasmData noblePhantasmData, final int noblePhantasmLevel) {
         super(noblePhantasmData.getCommandCardData());
-        this.effects = noblePhantasmData.getEffectsList()
-                .stream()
-                .map(effectData -> EffectFactory.buildEffect(effectData, noblePhantasmLevel))
-                .collect(Collectors.toList());
+        this.effects = EffectFactory.buildEffects(noblePhantasmData.getEffectsList(), noblePhantasmLevel);
     }
 
     public void activate(final Simulation simulation, final int overchargeLevel) {

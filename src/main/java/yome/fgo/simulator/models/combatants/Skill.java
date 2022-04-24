@@ -6,15 +6,12 @@ import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.EffectFactory;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Skill {
     protected final List<Effect> effects;
 
     public Skill(final List<EffectData> effectDataList, final int skillLevel) {
-        this.effects = effectDataList.stream()
-                .map(effectData -> EffectFactory.buildEffect(effectData, skillLevel))
-                .collect(Collectors.toList());
+        this.effects = EffectFactory.buildEffects(effectDataList, skillLevel);
     }
 
     public void activate(final Simulation simulation) {

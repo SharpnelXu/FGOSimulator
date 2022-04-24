@@ -3,9 +3,21 @@ package yome.fgo.simulator.models.effects;
 import com.google.common.collect.ImmutableList;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
+
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class EffectFactory {
+    public static List<Effect> buildEffects(final List<EffectData> effectData) {
+        return buildEffects(effectData, 1);
+    }
+
+    public static List<Effect> buildEffects(final List<EffectData> effectDataList, final int level) {
+        return effectDataList.stream()
+                .map(effectData -> buildEffect(effectData, level))
+                .collect(Collectors.toList());
+    }
+
     public static Effect buildEffect(final EffectData effectData, final int level) {
         final String type = effectData.getType();
         if (type.equalsIgnoreCase(CriticalStarChange.class.getSimpleName())) {

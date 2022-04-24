@@ -236,10 +236,10 @@ public class Simulation {
         currentEnemies.clear();
         final Stage stage = level.getStage(stageIndex);
         while (stage.hasMoreEnemies() && currentEnemies.size() < stage.getMaximumEnemiesOnScreen()) {
-            currentEnemies.add(stage.getEnemy());
+            currentEnemies.add(stage.getNextEnemy());
         }
         while (stage.hasMoreEnemies()) {
-            backupEnemies.add(stage.getEnemy());
+            backupEnemies.add(stage.getNextEnemy());
         }
     }
 

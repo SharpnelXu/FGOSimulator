@@ -192,10 +192,13 @@ message Status {
 message LevelData {
   string id = 1;
   repeated StageData stageData = 2;
+  repeated EffectData effects = 3;
 }
 
 message StageData {
-
+  repeated EnemyData enemyData = 1;
+  repeated EffectData effects = 2;
+  int32 maximumEnemiesOnScreen = 3;
 }
 
 message EnemyData {

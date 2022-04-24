@@ -9,6 +9,7 @@ import yome.fgo.data.proto.FgoStorageData.ServantData;
 import java.io.File;
 import java.io.FileReader;
 
+// TODO: delete
 public class DataReaderMain {
     public static final String ENEMY_DIRECTORY_PATH = System.getProperty("user.dir") + "/enemies";
     public static final String SERVANT_DIRECTORY_PATH = System.getProperty("user.dir") + "/servants";

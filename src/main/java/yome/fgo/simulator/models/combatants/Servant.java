@@ -86,8 +86,8 @@ public class Servant extends Combatant {
         this.servantLevel = servantOption.getServantLevel();
         this.ascension = servantOption.getAscension();
 
-        final Status servantStatus = servantData.getServantAscensionData(ascension)
-                .getServantStatusData(servantLevel - 1);
+        final Status servantStatus = servantData.getServantAscensionData(this.ascension - 1)
+                .getServantStatusData(this.servantLevel - 1);
         this.attack = servantStatus.getATK();
         this.maxHp = servantStatus.getHP();
         this.attackStatusUp = servantOption.getAttackStatusUp();
@@ -95,7 +95,7 @@ public class Servant extends Combatant {
         this.noblePhantasmLevel = servantOption.getNoblePhantasmLevel();
         this.bond = servantOption.getBond();
 
-        final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(this.ascension);
+        final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(this.ascension - 1);
         final NoblePhantasmData noblePhantasmData = servantAscensionData.getNoblePhantasmUpgrades()
                 .getNoblePhantasmData(servantOption.getNoblePhantasmRank());
         this.noblePhantasm = new NoblePhantasm(noblePhantasmData, this.noblePhantasmLevel);
