@@ -104,21 +104,26 @@ public class CommandCardExecution {
 
 
         final int totalDamage = calculateTotalDamage(damageParameters);
+
+        final boolean skipDamage = defender.activateEvade(simulation);
+
         int remainingDamage = totalDamage;
 
         double totalCritStar = 0;
         for (int i = 0; i < hitsPercentages.size(); i++) {
-            final int hitsPercentage = hitsPercentages.get(i);
-            final int hitDamage;
-            if (i < hitsPercentages.size() - 1) {
-                hitDamage = (int) (totalDamage * hitsPercentage / 100.0);
-            } else {
-                hitDamage = remainingDamage;
+            if (!skipDamage) {
+                final int hitsPercentage = hitsPercentages.get(i);
+                final int hitDamage;
+                if (i < hitsPercentages.size() - 1) {
+                    hitDamage = (int) (totalDamage * hitsPercentage / 100.0);
+                } else {
+                    hitDamage = remainingDamage;
+                }
+
+                remainingDamage -= hitDamage;
+
+                defender.receiveDamage(hitDamage);
             }
-
-            remainingDamage -= hitDamage;
-
-            defender.receiveDamage(hitDamage);
 
             final boolean isOverkill = defender.isAlreadyDead() || defender.isBuggedOverkill();
 
@@ -158,10 +163,10 @@ public class CommandCardExecution {
                 totalCritStar += hitStars;
             }
         }
-        simulation.gainStar(totalCritStar);
+        simulation.gainStar(RoundUtils.roundNearest(totalCritStar));
 
         // overkill bug
-        defender.addCumulativeTurnDamage(totalDamage);
+        defender.addCumulativeTurnDamage(totalDamage - remainingDamage);
     }
 
     public static int calculateTotalDamage(DamageParameters damageParameters) {

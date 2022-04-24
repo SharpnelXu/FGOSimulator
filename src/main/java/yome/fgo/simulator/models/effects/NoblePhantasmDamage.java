@@ -67,9 +67,9 @@ public class NoblePhantasmDamage extends Effect {
 
         final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class);
 
-        for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
-            simulation.setDefender(combatant);
-            final FateClass defenderClass = combatant.getFateClass();
+        for (final Combatant defender : TargetUtils.getTargets(simulation, target)) {
+            simulation.setDefender(defender);
+            final FateClass defenderClass = defender.getFateClass();
             final double npSpecificDamageRate;
             if (applyCondition.evaluate(simulation)) {
                 if (isNpSpecificDamageOverchargedEffect) {
@@ -81,11 +81,11 @@ public class NoblePhantasmDamage extends Effect {
                 npSpecificDamageRate = 1.0;
             }
 
-            final double commandCardResist = combatant.applyBuff(simulation, CommandCardResist.class);
-            final double defenseBuff = combatant.applyBuff(simulation, DefenseBuff.class);
-            final double specificDefenseBuff = combatant.applyBuff(simulation, SpecificDefenseBuff.class);
-            final double percentDefenseBuff = combatant.applyBuff(simulation, PercentDefenseBuff.class);
-            final double damageReductionBuff = combatant.applyBuff(simulation, DamageReductionBuff.class);
+            final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
+            final double defenseBuff = defender.applyBuff(simulation, DefenseBuff.class);
+            final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
+            final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
+            final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
 
             final NpDamageParameters npDamageParams = NpDamageParameters.builder()
                     .attack(attacker.getAttack())
@@ -95,7 +95,7 @@ public class NoblePhantasmDamage extends Effect {
                     .attackerClass(attacker.getFateClass())
                     .defenderClass(defenderClass)
                     .attackerAttribute(attacker.getAttribute())
-                    .defenderAttribute(combatant.getAttribute())
+                    .defenderAttribute(defender.getAttribute())
                     .currentCardType(currentCardType)
                     .commandCardBuff(commandCardBuff)
                     .commandCardResist(commandCardResist)
@@ -113,28 +113,32 @@ public class NoblePhantasmDamage extends Effect {
 
             final int totalDamage = calculateTotalNpDamage(npDamageParams);
 
+            final boolean skipDamage = defender.activateEvade(simulation);
+
             int remainingDamage = totalDamage;
 
             double totalCritStar = 0;
             for (int i = 0; i < hitsPercentages.size(); i++) {
-                final int hitsPercentage = hitsPercentages.get(i);
-                final int hitDamage;
-                if (i < hitsPercentages.size() - 1) {
-                    hitDamage = (int) (totalDamage * hitsPercentage / 100.0);
-                } else {
-                    hitDamage = remainingDamage;
+                if (!skipDamage) {
+                    final int hitsPercentage = hitsPercentages.get(i);
+                    final int hitDamage;
+                    if (i < hitsPercentages.size() - 1) {
+                        hitDamage = (int) (totalDamage * hitsPercentage / 100.0);
+                    } else {
+                        hitDamage = remainingDamage;
+                    }
+
+                    remainingDamage -= hitDamage;
+
+                    defender.receiveDamage(hitDamage);
                 }
 
-                remainingDamage -= hitDamage;
-
-                combatant.receiveDamage(hitDamage);
-
-                final boolean isOverkill = combatant.isAlreadyDead();
+                final boolean isOverkill = defender.isAlreadyDead();
 
                 final NpParameters npParameters = NpParameters.builder()
                         .npCharge(currentCard.getNpCharge())
                         .defenderClass(defenderClass)
-                        .useUndeadNpCorrection(combatant.getUndeadNpCorrection())
+                        .useUndeadNpCorrection(defender.getUndeadNpCorrection())
                         .currentCardType(currentCardType)
                         .chainIndex(0)
                         .isCriticalStrike(false)

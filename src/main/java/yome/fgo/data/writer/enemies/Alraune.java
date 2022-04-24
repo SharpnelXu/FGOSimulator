@@ -6,7 +6,7 @@ import yome.fgo.simulator.translation.Traits;
 import static yome.fgo.data.proto.FgoStorageData.Attribute.EARTH;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.CASTER;
 import static yome.fgo.data.proto.FgoStorageData.Gender.FEMALE;
-import static yome.fgo.data.writer.DataWriterMain.writeEnemy;
+import static yome.fgo.data.writer.DataWriter.writeEnemy;
 import static yome.fgo.simulator.translation.EnemyCategory.EnemySubCategory.DEMON;
 import static yome.fgo.simulator.translation.EnemyCategory.TRANSENDENT;
 

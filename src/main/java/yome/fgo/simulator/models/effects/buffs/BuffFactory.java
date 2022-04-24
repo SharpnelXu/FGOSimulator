@@ -24,6 +24,8 @@ public class BuffFactory {
             return setCommonBuffParams(DamageReductionBuff.builder(), buffData, level);
         } else if (type.equalsIgnoreCase(DefenseBuff.class.getSimpleName())) {
             return setCommonBuffParams(DefenseBuff.builder(), buffData, level);
+        } else if (type.equalsIgnoreCase(Evade.class.getSimpleName())) {
+            return setCommonBuffParams(Evade.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(GrantTrait.class.getSimpleName())) {
             return setCommonBuffParams(GrantTrait.builder().trait(buffData.getStringValue()), buffData, level);

@@ -9,6 +9,7 @@ import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
 
 import java.util.ArrayList;
@@ -139,6 +140,20 @@ public class Combatant {
             }
         }
         return totalValue;
+    }
+
+    public boolean activateEvade(final Simulation simulation) {
+        for (int j = buffs.size() - 1; j >= 0; j--) {
+            final Buff buff = buffs.get(j);
+            if (buff instanceof Evade && buff.shouldApply(simulation)) {
+                buff.applyOnce();
+                if (buff.isUsed()) {
+                    buffs.remove(j);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isAlreadyDead() {

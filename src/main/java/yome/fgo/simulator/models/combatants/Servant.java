@@ -139,6 +139,10 @@ public class Servant extends Combatant {
         this.currentHp = this.maxHp;
     }
 
+    public void equipCraftEssence(final CraftEssence craftEssence) {
+        this.craftEssence = craftEssence;
+    }
+
     @Override
     public void initiate(final Simulation simulation) {
         simulation.setActivator(this);
@@ -150,11 +154,16 @@ public class Servant extends Combatant {
             appendSkill.activate(simulation);
         }
 
+        if (craftEssence != null) {
+            craftEssence.activate(simulation);
+        }
+
         simulation.setActivator(null);
     }
 
     public int getAttack() {
-        return attack + craftEssence.getAttack() + attackStatusUp;
+        final int craftEssenceAtk = craftEssence == null ? 0 : craftEssence.getAttack();
+        return attack + craftEssenceAtk + attackStatusUp;
     }
 
     public void activateActiveSkill(final Simulation simulation, final int activeSkillIndex) {

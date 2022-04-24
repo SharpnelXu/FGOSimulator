@@ -92,6 +92,8 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.getAttribute()).andReturn(SKY);
         expect(simulation.getFixedRandom()).andReturn(0.9);
 
+        expect(defender.activateEvade(simulation)).andReturn(false);
+
         final List<Capture<Integer>> captures = new ArrayList<>();
         for (int i = 0; i < KAMA_AVENGER_BUSTER.getHitPercentages().size(); i++) {
             final Capture<Integer> capturedDamage = newCapture();
@@ -135,6 +137,8 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.getAttribute()).andReturn(SKY);
         expect(simulation.getFixedRandom()).andReturn(0.9);
 
+        expect(defender.activateEvade(simulation)).andReturn(false);
+
         final List<Capture<Integer>> captures = new ArrayList<>();
         for (int i = 0; i < KAMA_AVENGER_EXTRA.getHitPercentages().size(); i++) {
             final Capture<Integer> capturedDamage = newCapture();
@@ -154,6 +158,42 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         verifyAll();
         final int totalDamage = captures.stream().mapToInt(Capture::getValue).sum();
         assertEquals(19329, totalDamage, 10);
+    }
+
+    @Test
+    public void testExecuteCommandCard_kamaAvenger_evaded() {
+        simulation = mock(Simulation.class);
+        attacker = niceMock(Servant.class);
+        defender = niceMock(Combatant.class);
+
+        expect(simulation.getAttacker()).andReturn(attacker);
+        expect(simulation.getDefender()).andReturn(defender);
+        expect(defender.getFateClass()).andReturn(CASTER);
+        expect(simulation.getCurrentCommandCard()).andReturn(KAMA_AVENGER_EXTRA);
+
+        expect(attacker.applyBuff(simulation, CommandCardBuff.class)).andReturn(0.5);
+        expect(attacker.applyBuff(simulation, DamageAdditionBuff.class)).andReturn(225.0);
+
+        expect(attacker.getAttack()).andReturn(20977);
+        expect(attacker.getFateClass()).andReturn(AVENGER);
+        expect(attacker.getAttribute()).andReturn(SKY);
+        expect(defender.getAttribute()).andReturn(SKY);
+        expect(simulation.getFixedRandom()).andReturn(0.9);
+
+        expect(defender.activateEvade(simulation)).andReturn(true);
+
+        expect(defender.isAlreadyDead()).andReturn(false).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
+        expect(defender.isBuggedOverkill()).andReturn(false).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
+        expect(defender.getUndeadNpCorrection()).andReturn(false).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
+        attacker.changeNp(0.93);
+        expectLastCall().times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
+        simulation.gainStar(7.8);
+        defender.addCumulativeTurnDamage(0);
+        replayAll();
+
+        executeCommandCard(simulation, 3, false, BUSTER, false);
+
+        verifyAll();
     }
 
     @Test

@@ -5,7 +5,7 @@ import yome.fgo.simulator.translation.Traits;
 
 import static yome.fgo.data.proto.FgoStorageData.Attribute.SKY;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.BERSERKER;
-import static yome.fgo.data.writer.DataWriterMain.writeEnemy;
+import static yome.fgo.data.writer.DataWriter.writeEnemy;
 import static yome.fgo.simulator.translation.EnemyCategory.EnemySubCategory.MINION;
 import static yome.fgo.simulator.translation.EnemyCategory.OTHER;
 

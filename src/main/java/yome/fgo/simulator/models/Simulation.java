@@ -16,6 +16,7 @@ import yome.fgo.simulator.models.effects.NpChange;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.levels.Stage;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
+import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -408,7 +409,7 @@ public class Simulation {
     }
 
     public void gainStar(final double starsToGain) {
-        currentStars += starsToGain;
+        currentStars = RoundUtils.roundNearest(currentStars + starsToGain);
         if (currentStars < 0) {
             currentStars = 0;
         }

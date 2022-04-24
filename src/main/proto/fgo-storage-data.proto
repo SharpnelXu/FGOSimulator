@@ -248,6 +248,7 @@ message ServantOption {
 message CraftEssenceData {
   repeated Status craftEssenceStatusData = 1;
   repeated EffectData effects = 2;
+  string id = 3;
 }
 
 message CraftEssenceOption {
@@ -257,6 +258,7 @@ message CraftEssenceOption {
 
 message MysticCodeData {
   repeated ActiveSkillData activeSkillData = 1;
+  string id = 2;
 }
 
 message MysticCodeOption {
