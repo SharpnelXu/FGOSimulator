@@ -64,6 +64,29 @@ public class EffectFactory {
             }
 
             return builder.build();
+        } else if (type.equalsIgnoreCase(NoblePhantasmDamage.class.getSimpleName())) {
+            final NoblePhantasmDamage.NoblePhantasmDamageBuilder<?, ?> builder = NoblePhantasmDamage.builder()
+                    .target(effectData.getTarget());
+
+            if (effectData.getIsNpSpecificDamageOverchargedEffect()) {
+                builder.npSpecificDamageRates(effectData.getNpSpecificDamageRateList())
+                        .isNpSpecificDamageOverchargedEffect(effectData.getIsNpSpecificDamageOverchargedEffect());
+            } else if (effectData.getNpSpecificDamageRateCount() == 1) {
+                builder.npSpecificDamageRates(effectData.getNpSpecificDamageRateList());
+            } else {
+                builder.npSpecificDamageRates(ImmutableList.of(effectData.getNpSpecificDamageRate(level - 1)));
+            }
+
+            setApplyConditionIfExists(builder, effectData);
+
+            if (effectData.getIsOverchargedEffect()) {
+                builder.damageRates(effectData.getValuesList());
+                builder.isOverchargedEffect(true);
+            } else {
+                builder.damageRates(ImmutableList.of(effectData.getValues(level - 1)));
+            }
+
+            return builder.build();
         }
 
         throw new UnsupportedOperationException("Effect type unsupported: " + type);

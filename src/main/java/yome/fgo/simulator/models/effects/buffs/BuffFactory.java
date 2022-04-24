@@ -30,6 +30,8 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(NpGenerationBuff.class.getSimpleName())) {
             return setCommonBuffParams(NpGenerationBuff.builder(), buffData, level);
+        } else if (type.equalsIgnoreCase(NpDamageBuff.class.getSimpleName())) {
+            return setCommonBuffParams(NpDamageBuff.builder(), buffData, level);
         } else if (type.equalsIgnoreCase(PercentAttackBuff.class.getSimpleName())) {
             return setCommonBuffParams(PercentAttackBuff.builder(), buffData, level);
         } else if (type.equalsIgnoreCase(PercentDefenseBuff.class.getSimpleName())) {

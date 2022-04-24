@@ -146,6 +146,8 @@ message EffectData {
   ConditionData applyCondition = 7;
   repeated BuffData buffData = 8; // each represents one OC
   repeated double probabilities = 9;
+  repeated double npSpecificDamageRate = 10;
+  bool isNpSpecificDamageOverchargedEffect = 11;
 }
 
 message BuffData {

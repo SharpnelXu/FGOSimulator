@@ -77,7 +77,7 @@ public class Simulation {
     // condition related fields
     private Servant attacker;
     private Combatant defender;
-    private Combatant activator;
+    private Servant activator;
     private CommandCard currentCommandCard;
     private Combatant effectTarget;
 
