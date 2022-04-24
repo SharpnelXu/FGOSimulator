@@ -10,7 +10,7 @@ import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 
 @SuperBuilder
 @Getter
-public class Buff {
+public abstract class Buff {
 
     // set to -1 to be active forever (infinite turns or infinite times or both)
     @Builder.Default
@@ -21,9 +21,15 @@ public class Buff {
     @Builder.Default
     private final Condition condition = ALWAYS;
 
+    protected final int forceBuff;
+
     public boolean isUsed() {
         return numTimesActive == 0 || numTurnsActive == 0;
     }
+
+    public abstract boolean isBuff();
+
+    public abstract boolean isDebuff();
 
     public boolean shouldApply(final Simulation simulation) {
         return condition.evaluate(simulation) && !isUsed();

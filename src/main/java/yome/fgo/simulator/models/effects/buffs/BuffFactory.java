@@ -12,6 +12,9 @@ public class BuffFactory {
         if (type.equalsIgnoreCase(AttackBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(AttackBuff.builder(), buffData, level), buffData);
 
+        } else if (type.equalsIgnoreCase(BuffChanceBuff.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(BuffChanceBuff.builder(), buffData, level), buffData);
+
         } else if (type.equalsIgnoreCase(BuffSpecificAttackBuff.class.getSimpleName())) {
             final BuffSpecificAttackBuff.BuffSpecificAttackBuffBuilder<?, ?> builder;
             try {
@@ -48,8 +51,17 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(DamageReductionBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(DamageReductionBuff.builder(), buffData, level), buffData);
 
+        } else if (type.equalsIgnoreCase(DebuffChanceBuff.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(DebuffChanceBuff.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(DebuffResist.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(DebuffResist.builder(), buffData, level), buffData);
+
         } else if (type.equalsIgnoreCase(DefenseBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(DefenseBuff.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(DefNpGenerationBuff.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(DefNpGenerationBuff.builder(), buffData, level), buffData);
 
         } else if (type.equalsIgnoreCase(Evade.class.getSimpleName())) {
             return setCommonBuffParams(Evade.builder(), buffData);
@@ -75,6 +87,9 @@ public class BuffFactory {
                     buffData
             );
 
+        } else if (type.equalsIgnoreCase(ReceivedBuffChanceBuff.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(ReceivedBuffChanceBuff.builder(), buffData, level), buffData);
+
         } else if (type.equalsIgnoreCase(SpecificAttackBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(SpecificAttackBuff.builder(), buffData, level), buffData);
 
@@ -98,6 +113,8 @@ public class BuffFactory {
         if (buffData.hasApplyCondition()) {
             builder.condition(buildCondition(buffData.getApplyCondition()));
         }
+
+        builder.forceBuff(buffData.getForceBuff());
 
         return builder.build();
     }

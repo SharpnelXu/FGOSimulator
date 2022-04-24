@@ -7,4 +7,14 @@ import lombok.experimental.SuperBuilder;
 @Getter
 public class GrantTrait extends Buff {
     private final String trait;
+
+    @Override
+    public boolean isBuff() {
+        return forceBuff > 0;
+    }
+
+    @Override
+    public boolean isDebuff() {
+        return forceBuff < 0;
+    }
 }

@@ -8,10 +8,18 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
+import yome.fgo.simulator.models.conditions.TargetsHaveBuff;
 import yome.fgo.simulator.models.conditions.TargetsHaveTrait;
 import yome.fgo.simulator.models.effects.buffs.AttackBuff;
+import yome.fgo.simulator.models.effects.buffs.BuffChanceBuff;
+import yome.fgo.simulator.models.effects.buffs.Charm;
+import yome.fgo.simulator.models.effects.buffs.DebuffChanceBuff;
+import yome.fgo.simulator.models.effects.buffs.DebuffResist;
+import yome.fgo.simulator.models.effects.buffs.ReceivedBuffChanceBuff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.Target.EFFECT_TARGET;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.simulator.translation.Traits.DEMONIC;
@@ -112,5 +120,75 @@ public class GrantBuffTest {
 
         final double attackBuff = servant.applyBuff(simulation, AttackBuff.class);
         assertEquals(35.0, attackBuff);
+    }
+    @Test
+    public void testGrantBuff_buffProbability() {
+        final EffectData effectData = EffectData.newBuilder()
+                .setType(GrantBuff.class.getSimpleName())
+                .setTarget(SELF)
+                .addBuffData(
+                        BuffData.newBuilder()
+                                .setType(AttackBuff.class.getSimpleName())
+                                .addAllValues(ImmutableList.of(10.0, 11.0, 12.0, 13.0, 15.0))
+                )
+                .addProbabilities(0.8)
+                .build();
+
+        final Effect effect = EffectFactory.buildEffect(effectData, 5);
+
+        final Simulation simulation = new Simulation();
+        simulation.setProbabilityThreshold(0.9);
+
+        final Servant servant = new Servant("", CombatantData.newBuilder().build());
+        simulation.setActivator(servant);
+        effect.apply(simulation);
+
+        final double attackBuff = servant.applyBuff(simulation, AttackBuff.class);
+        assertEquals(0, attackBuff);
+
+        servant.addBuff(BuffChanceBuff.builder().value(0.05).build());
+        effect.apply(simulation);
+        final double attackBuff2 = servant.applyBuff(simulation, AttackBuff.class);
+        assertEquals(0, attackBuff2);
+
+        servant.addBuff(ReceivedBuffChanceBuff.builder().value(0.05).build());
+        effect.apply(simulation);
+        final double attackBuff3 = servant.applyBuff(simulation, AttackBuff.class);
+        assertEquals(15, attackBuff3);
+    }
+    @Test
+    public void testGrantBuff_debuffProbability() {
+        final EffectData effectData = EffectData.newBuilder()
+                .setType(GrantBuff.class.getSimpleName())
+                .setTarget(SELF)
+                .addBuffData(
+                        BuffData.newBuilder()
+                                .setType(Charm.class.getSimpleName())
+                )
+                .addProbabilities(0.8)
+                .build();
+
+        final Effect effect = EffectFactory.buildEffect(effectData, 5);
+
+        final Simulation simulation = new Simulation();
+        simulation.setProbabilityThreshold(0.9);
+
+        final Servant servant = new Servant("", CombatantData.newBuilder().build());
+        simulation.setActivator(servant);
+        effect.apply(simulation);
+
+        assertFalse(TargetsHaveBuff.builder().targetBuff(Charm.class).target(SELF).build().evaluate(simulation));
+
+        servant.addBuff(DebuffChanceBuff.builder().value(0.1).build());
+        effect.apply(simulation);
+
+        assertTrue(TargetsHaveBuff.builder().targetBuff(Charm.class).target(SELF).build().evaluate(simulation));
+
+        servant.getBuffs().clear();
+        assertFalse(TargetsHaveBuff.builder().targetBuff(Charm.class).target(SELF).build().evaluate(simulation));
+        servant.addBuff(DebuffResist.builder().value(0.05).build());
+        effect.apply(simulation);
+
+        assertFalse(TargetsHaveBuff.builder().targetBuff(Charm.class).target(SELF).build().evaluate(simulation));
     }
 }

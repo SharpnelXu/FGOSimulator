@@ -2,6 +2,7 @@ package yome.fgo.data.writer.servants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
+import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillUpgrades;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
@@ -9,6 +10,7 @@ import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardData;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.simulator.models.conditions.CardTypeEquals;
 import yome.fgo.simulator.models.conditions.Not;
@@ -19,6 +21,9 @@ import yome.fgo.simulator.models.effects.NpChange;
 import yome.fgo.simulator.models.effects.buffs.BuffSpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.Charm;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
+import yome.fgo.simulator.models.effects.buffs.CriticalDamageBuff;
+import yome.fgo.simulator.models.effects.buffs.DebuffResist;
+import yome.fgo.simulator.models.effects.buffs.DefNpGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
@@ -37,6 +42,7 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.AVENGER;
 import static yome.fgo.data.proto.FgoStorageData.Gender.FEMALE;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES;
 import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
@@ -191,7 +197,30 @@ public class Servant321 {
                 .addCommandCardData(artsCard)
                 .addCommandCardData(busterCard)
                 .setExtraCard(extraCard)
-                .addActiveSkillUpgrades(ActiveSkillUpgrades.newBuilder())
+                .addActiveSkillUpgrades(activeSkillUpgrades1)
+                .addActiveSkillUpgrades(activeSkillUpgrades2)
+                .addActiveSkillUpgrades(activeSkillUpgrades3)
+                .addPassiveSkillData(PassiveSkillData.newBuilder()
+                                             .addEffects(EffectData.newBuilder()
+                                                                 .setType(GrantBuff.class.getSimpleName())
+                                                                 .setTarget(SELF)
+                                                                 .addBuffData(BuffData.newBuilder()
+                                                                                      .setType(DefNpGenerationBuff.class.getSimpleName())
+                                                                                      .addValues(0.18)))
+                                             .addEffects(EffectData.newBuilder()
+                                                                 .setType(GrantBuff.class.getSimpleName())
+                                                                 .setTarget(ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP)
+                                                                 .addProbabilities(5)
+                                                                 .addBuffData(BuffData.newBuilder()
+                                                                                      .setType(DebuffResist.class.getSimpleName())
+                                                                                      .addValues(-0.08))))
+                .addPassiveSkillData(PassiveSkillData.newBuilder()
+                                             .addEffects(EffectData.newBuilder()
+                                                                 .setType(GrantBuff.class.getSimpleName())
+                                                                 .setTarget(SELF)
+                                                                 .addBuffData(BuffData.newBuilder()
+                                                                                      .setType(CriticalDamageBuff.class.getSimpleName())
+                                                                                      .addValues(0.08))))
                 .mergeFrom(status.build());
         final ServantAscensionData firstAscension = commonAscensionData.setCombatantData(firstAscensionCombatantData).build();
     }

@@ -15,4 +15,14 @@ public class PostAttackEffect extends Buff {
             effect.apply(simulation);
         }
     }
+
+    @Override
+    public boolean isBuff() {
+        return forceBuff > 0;
+    }
+
+    @Override
+    public boolean isDebuff() {
+        return forceBuff < 0;
+    }
 }

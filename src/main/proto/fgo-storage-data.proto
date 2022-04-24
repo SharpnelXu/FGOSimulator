@@ -159,6 +159,8 @@ message BuffData {
   repeated double values = 6;
   string stringValue = 7;
   Target target = 8;
+
+  int32 forceBuff = 9;
 }
 
 enum Target {
