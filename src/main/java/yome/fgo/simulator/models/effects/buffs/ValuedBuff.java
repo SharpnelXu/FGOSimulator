@@ -1,0 +1,13 @@
+package yome.fgo.simulator.models.effects.buffs;
+
+import lombok.experimental.SuperBuilder;
+import yome.fgo.simulator.models.Simulation;
+
+@SuperBuilder
+public class ValuedBuff extends Buff {
+    protected final double value;
+
+    public double getValue(final Simulation simulation) {
+        return value;
+    }
+}

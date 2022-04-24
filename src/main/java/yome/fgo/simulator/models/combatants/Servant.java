@@ -20,6 +20,8 @@ import yome.fgo.data.proto.FgoStorageData.Status;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
 import yome.fgo.simulator.models.effects.CommandCardExecution;
+import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
@@ -182,6 +184,8 @@ public class Servant extends Combatant {
         final int overchargeLevel = calculateOverchargeLevel(extraOvercharge, currentNp);
         noblePhantasm.activate(simulation, overchargeLevel);
 
+        activatePostAttackEffect(simulation);
+
         simulation.setCurrentCommandCard(null);
         simulation.setActivator(null);
     }
@@ -205,6 +209,8 @@ public class Servant extends Combatant {
 
         CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain);
 
+        activatePostAttackEffect(simulation);
+
         simulation.setCurrentCommandCard(null);
         simulation.setDefender(null);
         simulation.setAttacker(null);
@@ -221,9 +227,26 @@ public class Servant extends Combatant {
 
         CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain);
 
+        activatePostAttackEffect(simulation);
+
         simulation.setCurrentCommandCard(null);
         simulation.setDefender(null);
         simulation.setAttacker(null);
+    }
+
+    public void activatePostAttackEffect(final Simulation simulation) {
+        for (int j = buffs.size() - 1; j >= 0; j--) {
+            final Buff buff = buffs.get(j);
+            if (buff instanceof PostAttackEffect && buff.shouldApply(simulation)) {
+                simulation.setActivator(this);
+                ((PostAttackEffect) buff).activate(simulation);
+                buff.applyOnce();
+                if (buff.isUsed()) {
+                    buffs.remove(j);
+                }
+                simulation.setActivator(null);
+            }
+        }
     }
 
     public CommandCardType getNoblePhantasmType() {

@@ -9,11 +9,12 @@ import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
+import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static yome.fgo.simulator.utils.FateClassUtils.getClassMaxNpGauge;
@@ -32,7 +33,7 @@ public class Combatant {
 
     protected String id;
     protected int currentHp;
-    protected List<Buff> buffs = new LinkedList<>();
+    protected List<Buff> buffs = new ArrayList<>();
 
     // for testing
     public Combatant(final String id) {
@@ -127,19 +128,19 @@ public class Combatant {
         buffs.add(buff);
     }
 
-    public double applyBuff(final Simulation simulation, final Class<? extends Buff> buffClass) {
+    public double applyBuff(final Simulation simulation, final Class<? extends ValuedBuff> buffClass) {
         double totalValue = 0;
         for (int j = buffs.size() - 1; j >= 0; j--) {
             final Buff buff = buffs.get(j);
             if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
-                totalValue += buff.getValue();
+                totalValue += buffClass.cast(buff).getValue(simulation);
                 buff.applyOnce();
                 if (buff.isUsed()) {
                     buffs.remove(j);
                 }
             }
         }
-        return totalValue;
+        return RoundUtils.roundNearest(totalValue);
     }
 
     public boolean activateEvade(final Simulation simulation) {

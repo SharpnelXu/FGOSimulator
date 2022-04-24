@@ -3,5 +3,5 @@ package yome.fgo.simulator.models.effects.buffs;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-public class CriticalStarGenerationBuff extends Buff {
+public class CriticalStarGenerationBuff extends ValuedBuff {
 }

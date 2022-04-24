@@ -13,11 +13,11 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
 
-public class CommandCardTypeEqualsTest {
+public class CardTypeEqualsTest {
     @Test
     public void testCommandCardTypeEquals_specificType() {
         final ConditionData conditionData = ConditionData.newBuilder()
-                .setType(CommandCardTypeEquals.class.getSimpleName())
+                .setType(CardTypeEquals.class.getSimpleName())
                 .setValue(BUSTER.name())
                 .build();
 
@@ -33,7 +33,7 @@ public class CommandCardTypeEqualsTest {
     @Test
     public void testCommandCardTypeEquals_any() {
         final ConditionData conditionData = ConditionData.newBuilder()
-                .setType(CommandCardTypeEquals.class.getSimpleName())
+                .setType(CardTypeEquals.class.getSimpleName())
                 .setValue(ANY.name())
                 .build();
 

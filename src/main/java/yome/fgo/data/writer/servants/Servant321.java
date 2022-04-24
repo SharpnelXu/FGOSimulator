@@ -10,12 +10,19 @@ import yome.fgo.data.proto.FgoStorageData.CommandCardData;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
-import yome.fgo.simulator.models.conditions.CommandCardTypeEquals;
+import yome.fgo.simulator.models.conditions.CardTypeEquals;
+import yome.fgo.simulator.models.conditions.Not;
+import yome.fgo.simulator.models.conditions.NpCard;
+import yome.fgo.simulator.models.conditions.TargetsHaveBuff;
 import yome.fgo.simulator.models.effects.GrantBuff;
+import yome.fgo.simulator.models.effects.NpChange;
+import yome.fgo.simulator.models.effects.buffs.BuffSpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.Charm;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
 import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
+import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
+import yome.fgo.simulator.models.effects.buffs.BurningLove;
 import yome.fgo.simulator.translation.Traits;
 
 import java.io.IOException;
@@ -31,6 +38,7 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.AVENGER;
 import static yome.fgo.data.proto.FgoStorageData.Gender.FEMALE;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES;
+import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 
@@ -99,7 +107,7 @@ public class Servant321 {
                                                          .addAllValues(generateSkillValues(20, 1))
                                                          .setNumTurnsActive(3)
                                                          .setApplyCondition(ConditionData.newBuilder()
-                                                                                    .setType(CommandCardTypeEquals.class.getSimpleName())
+                                                                                    .setType(CardTypeEquals.class.getSimpleName())
                                                                                     .setValue(ARTS.name()))))
                 .addEffects(EffectData.newBuilder()
                                     .setType(GrantBuff.class.getSimpleName())
@@ -132,6 +140,46 @@ public class Servant321 {
                 .build();
         final ActiveSkillUpgrades activeSkillUpgrades2 = ActiveSkillUpgrades.newBuilder()
                 .addActiveSkillData(activeSkillData21)
+                .build();
+
+        final ActiveSkillData activeSkillData31 = ActiveSkillData.newBuilder()
+                .setBaseCoolDown(9)
+                .addEffects(EffectData.newBuilder()
+                                    .setType(NpChange.class.getSimpleName())
+                                    .setTarget(SELF)
+                                    .addAllValues(generateSkillValues(0.3, 0.02)))
+                .addEffects(EffectData.newBuilder()
+                                    .setType(GrantBuff.class.getSimpleName())
+                                    .setTarget(SELF)
+                                    .addBuffData(BuffData.newBuilder()
+                                                         .setType(PostAttackEffect.class.getSimpleName())
+                                                         .setNumTurnsActive(3)
+                                                         .setApplyCondition(ConditionData.newBuilder()
+                                                                                    .setType(Not.class.getSimpleName())
+                                                                                    .addSubConditionData(ConditionData.newBuilder()
+                                                                                                                 .setType(NpCard.class.getSimpleName())))
+                                                         .addSubEffects(EffectData.newBuilder()
+                                                                                .setType(GrantBuff.class.getSimpleName())
+                                                                                .setTarget(DEFENDER)
+                                                                                .addBuffData(BuffData.newBuilder()
+                                                                                                     .setType(BurningLove.class.getSimpleName())
+                                                                                                     .setNumTurnsActive(3)))))
+                .addEffects(EffectData.newBuilder()
+                                    .setType(GrantBuff.class.getSimpleName())
+                                    .setTarget(SELF)
+                                    .addBuffData(BuffData.newBuilder()
+                                                         .setType(BuffSpecificAttackBuff.class.getSimpleName())
+                                                         .addValues(10)
+                                                         .setNumTurnsActive(3)
+                                                         .setTarget(DEFENDER)
+                                                         .setStringValue(BurningLove.class.getSimpleName())
+                                                         .setApplyCondition(ConditionData.newBuilder()
+                                                                                    .setType(TargetsHaveBuff.class.getSimpleName())
+                                                                                    .setTarget(DEFENDER)
+                                                                                    .setValue(BurningLove.class.getSimpleName()))))
+                .build();
+        final ActiveSkillUpgrades activeSkillUpgrades3 = ActiveSkillUpgrades.newBuilder()
+                .addActiveSkillData(activeSkillData31)
                 .build();
 
         final ServantAscensionData.Builder commonAscensionData = ServantAscensionData.newBuilder()

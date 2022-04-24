@@ -15,17 +15,17 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 
 @AllArgsConstructor(access = PRIVATE)
-public class CommandCardTypeEquals implements Condition {
-    public static CommandCardTypeEquals get(final CommandCardType commandCardType) {
-        return COMMAND_CARD_TYPE_EQUALS.get(commandCardType);
+public class CardTypeEquals implements Condition {
+    public static CardTypeEquals get(final CommandCardType commandCardType) {
+        return CARD_TYPE_EQUALS.get(commandCardType);
     }
 
-    private static final Map<CommandCardType, CommandCardTypeEquals> COMMAND_CARD_TYPE_EQUALS = ImmutableMap.of(
-            ANY, new CommandCardTypeEquals(ANY),
-            BUSTER, new CommandCardTypeEquals(BUSTER),
-            ARTS, new CommandCardTypeEquals(ARTS),
-            QUICK, new CommandCardTypeEquals(QUICK),
-            EXTRA, new CommandCardTypeEquals(EXTRA)
+    private static final Map<CommandCardType, CardTypeEquals> CARD_TYPE_EQUALS = ImmutableMap.of(
+            ANY, new CardTypeEquals(ANY),
+            BUSTER, new CardTypeEquals(BUSTER),
+            ARTS, new CardTypeEquals(ARTS),
+            QUICK, new CardTypeEquals(QUICK),
+            EXTRA, new CardTypeEquals(EXTRA)
     );
     private final CommandCardType commandCardType;
     @Override

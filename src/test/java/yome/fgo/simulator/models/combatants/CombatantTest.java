@@ -3,11 +3,16 @@ package yome.fgo.simulator.models.combatants;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 import yome.fgo.simulator.models.Simulation;
+import yome.fgo.simulator.models.effects.buffs.BuffSpecificAttackBuff;
+import yome.fgo.simulator.models.effects.buffs.BurningLove;
+import yome.fgo.simulator.models.effects.buffs.Charm;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
 import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
+import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
 
 public class CombatantTest {
     @Test
@@ -44,5 +49,43 @@ public class CombatantTest {
 
         final double totalBuff = combatant.applyBuff(simulation, CommandCardBuff.class);
         assertEquals(0.8, totalBuff, 0.0000001);
+    }
+    @Test
+    public void testApplyBuff_subClassing() {
+        final Simulation simulation = new Simulation();
+
+        final Combatant combatant = new Combatant();
+
+        combatant.addBuff(SpecificAttackBuff.builder()
+                                  .value(0.3)
+                                  .build());
+        combatant.addBuff(SpecificAttackBuff.builder()
+                                  .value(0.5)
+                                  .build());
+
+        combatant.addBuff(BuffSpecificAttackBuff.builder()
+                                  .value(0.7)
+                                  .target(DEFENDER)
+                                  .targetBuff(BurningLove.class)
+                                  .build());
+        combatant.addBuff(BuffSpecificAttackBuff.builder()
+                                  .value(0.9)
+                                  .target(DEFENDER)
+                                  .targetBuff(BurningLove.class)
+                                  .build());
+        combatant.addBuff(BuffSpecificAttackBuff.builder()
+                                  .value(1.1)
+                                  .target(DEFENDER)
+                                  .targetBuff(Charm.class)
+                                  .build());
+
+        simulation.setDefender(combatant);
+        final double totalBuff = combatant.applyBuff(simulation, SpecificAttackBuff.class);
+        assertEquals(0.8, totalBuff, 0.0000001);
+
+        combatant.addBuff(BurningLove.builder().build());
+        combatant.addBuff(BurningLove.builder().build());
+        final double totalBuff2 = combatant.applyBuff(simulation, SpecificAttackBuff.class);
+        assertEquals(4, totalBuff2, 0.0000001);
     }
 }

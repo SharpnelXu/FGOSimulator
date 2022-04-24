@@ -6,6 +6,7 @@ import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.simulator.models.Simulation;
+import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.conditions.TargetsHaveTrait;
 
@@ -43,17 +44,56 @@ public class BuffFactoryTest {
                 .build();
 
         final Buff buff = buildBuff(buffData, 2);
-        assertEquals(-1, buff.getNumTimesActive());
-        assertEquals(3, buff.getNumTurnsActive());
-        assertEquals(15.0, buff.getValue());
 
         final Simulation simulation = new Simulation();
 
-        final CombatantData nonRiding = CombatantData.newBuilder()
+        assertEquals(-1, buff.getNumTimesActive());
+        assertEquals(3, buff.getNumTurnsActive());
+        assertEquals(15.0, ((ValuedBuff) buff).getValue(simulation));
+
+        final CombatantData demonic = CombatantData.newBuilder()
                 .addTraits(DEMONIC)
                 .build();
-        simulation.setDefender(new Servant("", nonRiding));
+        simulation.setDefender(new Servant("", demonic));
         assertTrue(buff.shouldApply(simulation));
+    }
+
+    @Test
+    public void testBuffFactory_buffSpecificAttack() {
+        final BuffData buffData = BuffData.newBuilder()
+                .setType(BuffSpecificAttackBuff.class.getSimpleName())
+                .setNumTurnsActive(3)
+                .setApplyCondition(
+                        ConditionData.newBuilder()
+                                .setType(TargetsHaveTrait.class.getSimpleName())
+                                .setTarget(DEFENDER)
+                                .setValue(DEMONIC)
+                )
+                .addAllValues(ImmutableList.of(10.0, 15.0, 20.0))
+                .setTarget(DEFENDER)
+                .setStringValue(BurningLove.class.getSimpleName())
+                .build();
+
+        final Buff buff = buildBuff(buffData, 2);
+
+        final Simulation simulation = new Simulation();
+
+        assertEquals(-1, buff.getNumTimesActive());
+        assertEquals(3, buff.getNumTurnsActive());
+
+        final CombatantData demonic = CombatantData.newBuilder()
+                .addTraits(DEMONIC)
+                .build();
+        final Combatant defender = new Combatant("", demonic);
+        simulation.setDefender(defender);
+        assertTrue(buff.shouldApply(simulation));
+        assertEquals(0, ((ValuedBuff) buff).getValue(simulation));
+
+        defender.addBuff(BurningLove.builder().build());
+        assertEquals(15.0, ((ValuedBuff) buff).getValue(simulation));
+
+        defender.addBuff(BurningLove.builder().build());
+        assertEquals(30.0, ((ValuedBuff) buff).getValue(simulation));
     }
 
     @Test

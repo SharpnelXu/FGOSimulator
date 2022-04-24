@@ -155,9 +155,10 @@ message BuffData {
   int32 numTurnsActive = 2;
   int32 numTimesActive = 3;
   ConditionData applyCondition = 4;
-  EffectData subEffects = 5;
+  repeated EffectData subEffects = 5;
   repeated double values = 6;
   string stringValue = 7;
+  Target target = 8;
 }
 
 enum Target {
