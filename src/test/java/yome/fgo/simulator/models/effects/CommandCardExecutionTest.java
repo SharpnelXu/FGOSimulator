@@ -35,7 +35,7 @@ import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_III_R;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.CASTER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.LANCER;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCritStar;
-import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGainPercentage;
+import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateTotalDamage;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.executeCommandCard;
 
@@ -44,29 +44,29 @@ public class CommandCardExecutionTest extends EasyMockSupport {
             CommandCardData.newBuilder()
                     .setCommandCardType(BUSTER)
                     .addAllHitsData(ImmutableList.of(16, 33, 51))
-                    .setNpRate(0.52)
-                    .setCriticalStarGen(6.1)
+                    .setNpRate(0.0052)
+                    .setCriticalStarGen(0.061)
                     .build());
     public static final CommandCard KAMA_AVENGER_ARTS = new CommandCard(
             CommandCardData.newBuilder()
                     .setCommandCardType(ARTS)
                     .addAllHitsData(ImmutableList.of(16, 33, 51))
-                    .setNpRate(0.52)
-                    .setCriticalStarGen(6.1)
+                    .setNpRate(0.0052)
+                    .setCriticalStarGen(0.061)
                     .build());
     public static final CommandCard KAMA_AVENGER_QUICK = new CommandCard(
             CommandCardData.newBuilder()
                      .setCommandCardType(QUICK)
                      .addAllHitsData(ImmutableList.of(10, 20, 30, 40))
-                     .setNpRate(0.52)
-                     .setCriticalStarGen(6.1)
+                     .setNpRate(0.0052)
+                    .setCriticalStarGen(0.061)
                      .build());
     public static final CommandCard KAMA_AVENGER_EXTRA = new CommandCard(
             CommandCardData.newBuilder()
                      .setCommandCardType(EXTRA)
                      .addAllHitsData(ImmutableList.of(6, 13, 20, 26, 35))
-                     .setNpRate(0.52)
-                     .setCriticalStarGen(6.1)
+                     .setNpRate(0.0052)
+                    .setCriticalStarGen(0.061)
                      .build());
 
     private Simulation simulation;
@@ -106,7 +106,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.getUndeadNpCorrection()).andReturn(false).times(3);
         attacker.changeNp(0);
         expectLastCall().times(3);
-        simulation.gainStar(1.08);
+        simulation.gainStar(1.0828);
         defender.addCumulativeTurnDamage(anyInt());
         replayAll();
 
@@ -147,9 +147,9 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         }
         expect(defender.isAlreadyDead()).andReturn(true).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
         expect(defender.getUndeadNpCorrection()).andReturn(false).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
-        attacker.changeNp(1.39);
+        attacker.changeNp(0.0139);
         expectLastCall().times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
-        simulation.gainStar(9.3);
+        simulation.gainStar(9.305);
         defender.addCumulativeTurnDamage(anyInt());
         replayAll();
 
@@ -185,9 +185,9 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.isAlreadyDead()).andReturn(false).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
         expect(defender.isBuggedOverkill()).andReturn(false).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
         expect(defender.getUndeadNpCorrection()).andReturn(false).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
-        attacker.changeNp(0.93);
+        attacker.changeNp(0.0093);
         expectLastCall().times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
-        simulation.gainStar(7.8);
+        simulation.gainStar(7.805);
         defender.addCumulativeTurnDamage(0);
         replayAll();
 
@@ -303,8 +303,8 @@ public class CommandCardExecutionTest extends EasyMockSupport {
     }
 
     @Test
-    public void testCalculateNpGainPercentage_kamaAvenger() {
-        final NpParameters.NpParametersBuilder npParametersBuilder = NpParameters.builder().npCharge(0.52);
+    public void testCalculateNpGain_kamaAvenger() {
+        final NpParameters.NpParametersBuilder npParametersBuilder = NpParameters.builder().npCharge(0.0052);
 
         // Kama (Avenger) AQB & ARTS 30%
         npParametersBuilder.defenderClass(LANCER);
@@ -314,30 +314,30 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         npParametersBuilder.currentCardType(ARTS).chainIndex(0).commandCardBuff(0.3).isOverkill(false);
         double totalHitsNp = 0;
         for (int i = 0; i < 3; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(7.62, totalHitsNp, 0.001);
+        assertEquals(0.0762, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(QUICK).chainIndex(1).commandCardBuff(0.1).isOverkill(false);
         for (int i = 0; i < 4; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(5.48, totalHitsNp, 0.001);
+        assertEquals(0.0548, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(BUSTER).chainIndex(2).commandCardBuff(0).isOverkill(true);
         for (int i = 0; i < 3; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(2.34, totalHitsNp, 0.001);
+        assertEquals(0.0234, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(EXTRA).chainIndex(3).commandCardBuff(0.5).isOverkill(true);
         for (int i = 0; i < 5; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(9.75, totalHitsNp, 0.001);
+        assertEquals(0.0975, totalHitsNp, 0.00001);
 
         // Kama (Avenger) BQA critical strike & ARTS 30%
         npParametersBuilder.firstCardType(BUSTER);
@@ -345,36 +345,36 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         npParametersBuilder.currentCardType(BUSTER).chainIndex(0).commandCardBuff(0).isOverkill(false);
         totalHitsNp = 0;
         for (int i = 0; i < 3; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(0, totalHitsNp, 0.001);
+        assertEquals(0, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(QUICK).chainIndex(1).commandCardBuff(0.1).isOverkill(true);
         for (int i = 0; i < 4; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(10.24, totalHitsNp, 0.001);
+        assertEquals(0.1024, totalHitsNp, 0.001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(ARTS).chainIndex(2).commandCardBuff(0.3).isOverkill(true);
         for (int i = 0; i < 3; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(36.48, totalHitsNp, 0.001);
+        assertEquals(0.3648, totalHitsNp, 0.001);
 
         totalHitsNp = 0;
         npParametersBuilder.isCriticalStrike(false);
         npParametersBuilder.currentCardType(EXTRA).chainIndex(3).commandCardBuff(0.5).isOverkill(true);
         for (int i = 0; i < 5; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(5.85, totalHitsNp, 0.001);
+        assertEquals(0.0585, totalHitsNp, 0.001);
     }
 
     @Test
-    public void testCalculateNpGainPercentage_minamotoNoRaikou() {
-        final NpParameters.NpParametersBuilder npParametersBuilder = NpParameters.builder().npCharge(0.46);
+    public void testCalculateNpGain_minamotoNoRaikou() {
+        final NpParameters.NpParametersBuilder npParametersBuilder = NpParameters.builder().npCharge(0.0046);
 
         npParametersBuilder.defenderClass(LANCER)
                 .useUndeadNpCorrection(false)
@@ -386,28 +386,28 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         npParametersBuilder.currentCardType(ARTS).chainIndex(1);
         double totalHitsNp = 0;
         for (int i = 0; i < 4; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(36, totalHitsNp, 0.001);
+        assertEquals(0.36, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(ARTS).chainIndex(2);
         for (int i = 0; i < 4; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(48, totalHitsNp, 0.001);
+        assertEquals(0.48, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(EXTRA).chainIndex(3).isCriticalStrike(false);
         for (int i = 0; i < 5; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(4.95, totalHitsNp, 0.001);
+        assertEquals(0.0495, totalHitsNp, 0.00001);
     }
 
     @Test
-    public void testCalculateNpGainPercentage_abigailWilliams() {
-        final NpParameters.NpParametersBuilder npParametersBuilder = NpParameters.builder().npCharge(0.25);
+    public void testCalculateNpGain_abigailWilliams() {
+        final NpParameters.NpParametersBuilder npParametersBuilder = NpParameters.builder().npCharge(0.0025);
 
         npParametersBuilder.defenderClass(BEAST_III_R)
                 .useUndeadNpCorrection(false)
@@ -419,14 +419,14 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         double totalHitsNp = 0;
         npParametersBuilder.currentCardType(ARTS).chainIndex(2);
         for (int i = 0; i < 6; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(69, totalHitsNp, 0.001);
+        assertEquals(0.69, totalHitsNp, 0.00001);
     }
 
     @Test
-    public void testCalculateNpGainPercentage_vladIII() {
-        final NpParameters.NpParametersBuilder npParametersBuilder = NpParameters.builder().npCharge(0.5);
+    public void testCalculateNpGain_vladIII() {
+        final NpParameters.NpParametersBuilder npParametersBuilder = NpParameters.builder().npCharge(0.005);
 
         npParametersBuilder.defenderClass(LANCER)
                 .useUndeadNpCorrection(false)
@@ -438,15 +438,15 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         double totalHitsNp = 0;
         npParametersBuilder.currentCardType(ARTS).chainIndex(2);
         for (int i = 0; i < 2; i++) {
-            totalHitsNp += calculateNpGainPercentage(npParametersBuilder.build());
+            totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
-        assertEquals(46, totalHitsNp, 0.001);
+        assertEquals(0.4602, totalHitsNp, 0.00001);
     }
 
     @Test
-    public void testCalculateCritStarPercentage_kamaAvenger() {
+    public void testCalculateCritStar_kamaAvenger() {
         final CriticalStarParameters.CriticalStarParametersBuilder critStarParamsBuilder = CriticalStarParameters.builder()
-                .servantCriticalStarGeneration(6.1)
+                .servantCriticalStarGeneration(0.061)
                 .defenderClass(LANCER);
 
         // QAB & ARTS 30%

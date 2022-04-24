@@ -11,13 +11,13 @@ import java.util.List;
 @SuperBuilder
 public class NpChange extends Effect {
     private final Target target;
-    private final List<Double> percentNpChanges;
+    private final List<Double> npChanges;
 
     @Override
     public void apply(final Simulation simulation, final int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             if (shouldApply(simulation)) {
-                combatant.changeNp(percentNpChanges.get(level - 1));
+                combatant.changeNp(npChanges.get(level - 1));
             }
         }
     }

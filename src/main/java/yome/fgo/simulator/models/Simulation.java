@@ -38,7 +38,7 @@ public class Simulation {
     public static final int MAXIMUM_CARDS_PER_TURN = 3;
     public static final Effect ARTS_CHAIN_EFFECT = NpChange.builder()
             .target(ALL_ALLIES)
-            .percentNpChanges(ImmutableList.of(20.0))
+            .npChanges(ImmutableList.of(0.2))
             .build();
     public static final Effect QUICK_CHAIN_EFFECT = CriticalStarChange.builder()
             .numStarsGains(ImmutableList.of(10))

@@ -141,7 +141,7 @@ public class CommandCardExecution {
                     .npGenerationBuff(npGenerationBuff)
                     .build();
 
-            attacker.changeNp(calculateNpGainPercentage(npParameters));
+            attacker.changeNp(calculateNpGain(npParameters));
 
             final CriticalStarParameters critStarParams = CriticalStarParameters.builder()
                     .servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
@@ -210,7 +210,7 @@ public class CommandCardExecution {
         return Math.max(0, totalDamage);
     }
 
-    public static double calculateNpGainPercentage(final NpParameters npParameters) {
+    public static double calculateNpGain(final NpParameters npParameters) {
         final double commandCardNpCorrection = getCommandCardNpCorrection(npParameters.currentCardType, npParameters.chainIndex);
         final double artsStartNpBoost = npParameters.firstCardType == ARTS ? 1 : 0;
         final double classNpCorrection = getClassNpCorrection(npParameters.defenderClass);
@@ -223,11 +223,11 @@ public class CommandCardExecution {
 
         final double hitNpBeforeRound = npParameters.npCharge * classNpCorrection * undeadNpCorrection *
                 (commandCardNpCorrection * (1 + commandCardBuff - npParameters.commandCardResist) + artsStartNpBoost) *
-                (1 + npParameters.npGenerationBuff) * criticalStrikeNpCorrection;
-        final double roundedNpBeforeOverkillBonus = RoundUtils.roundDown(hitNpBeforeRound) * overkillNpBonus;
-        final double roundedNp2 = RoundUtils.roundDown(roundedNpBeforeOverkillBonus);
+                (1 + npParameters.npGenerationBuff) * criticalStrikeNpCorrection * 10000;
+        final double roundedNpBeforeOverkillBonus = ((int) hitNpBeforeRound) * overkillNpBonus;
+        final double roundedNp2 = (int) roundedNpBeforeOverkillBonus;
 
-        return Math.max(0, roundedNp2);
+        return Math.max(0, RoundUtils.roundNearest(roundedNp2 / 10000));
     }
 
     public static double calculateCritStar(final CriticalStarParameters critStarParams) {
@@ -240,7 +240,7 @@ public class CommandCardExecution {
         // capped buffs
         final double commandCardBuff = modifierCap(critStarParams.commandCardBuff, 4, -1);
 
-        final double totalStars = critStarParams.servantCriticalStarGeneration / 100 +
+        final double totalStars = critStarParams.servantCriticalStarGeneration +
                 commandCardCritStarCorrection * (1 + commandCardBuff - critStarParams.commandCardResist) +
                 quickStartCritStarBoost + classCritStarCorrection + critStarParams.critStarGenerationBuff +
                 criticalStrikeCritStarCorrection + overkillCritStarBonus;

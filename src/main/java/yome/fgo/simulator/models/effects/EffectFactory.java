@@ -42,6 +42,12 @@ public class EffectFactory {
                     .buffLevel(level)
                     .buffData(effectData.getBuffDataList());
 
+            if (effectData.getProbabilitiesCount() == 1) {
+                builder.probability(effectData.getProbabilities(0));
+            } else if (effectData.getProbabilitiesCount() != 0) {
+                builder.probability(effectData.getProbabilities(level));
+            }
+
             if (effectData.getIsOverchargedEffect()) {
                 builder.isOverchargedEffect(true);
             }
@@ -52,15 +58,15 @@ public class EffectFactory {
         } else if (type.equalsIgnoreCase(NpChange.class.getSimpleName())) {
             final NpChange.NpChangeBuilder<?, ?> builder = NpChange.builder()
                     .target(effectData.getTarget())
-                    .percentNpChanges(effectData.getValuesList());
+                    .npChanges(effectData.getValuesList());
 
             setApplyConditionIfExists(builder, effectData);
 
             if (effectData.getIsOverchargedEffect()) {
-                builder.percentNpChanges(effectData.getValuesList());
+                builder.npChanges(effectData.getValuesList());
                 builder.isOverchargedEffect(true);
             } else {
-                builder.percentNpChanges(ImmutableList.of(effectData.getValues(level - 1)));
+                builder.npChanges(ImmutableList.of(effectData.getValues(level - 1)));
             }
 
             return builder.build();
@@ -71,6 +77,8 @@ public class EffectFactory {
             if (effectData.getIsNpSpecificDamageOverchargedEffect()) {
                 builder.npSpecificDamageRates(effectData.getNpSpecificDamageRateList())
                         .isNpSpecificDamageOverchargedEffect(effectData.getIsNpSpecificDamageOverchargedEffect());
+            } else if (effectData.getNpSpecificDamageRateCount() == 0) {
+                builder.npSpecificDamageRates(ImmutableList.of(1.0));
             } else if (effectData.getNpSpecificDamageRateCount() == 1) {
                 builder.npSpecificDamageRates(effectData.getNpSpecificDamageRateList());
             } else {

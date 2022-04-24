@@ -2,7 +2,6 @@ package yome.fgo.data.writer.servants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
-import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillUpgrades;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
@@ -11,10 +10,12 @@ import yome.fgo.data.proto.FgoStorageData.CommandCardData;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
-import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.conditions.CommandCardTypeEquals;
 import yome.fgo.simulator.models.effects.GrantBuff;
+import yome.fgo.simulator.models.effects.buffs.Charm;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
+import yome.fgo.simulator.models.effects.buffs.Evade;
+import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.translation.Traits;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.AVENGER;
 import static yome.fgo.data.proto.FgoStorageData.Gender.FEMALE;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 
@@ -103,11 +105,33 @@ public class Servant321 {
                                     .setType(GrantBuff.class.getSimpleName())
                                     .setTarget(SELF)
                                     .addBuffData(BuffData.newBuilder()
-                                                         .setType(CommandCardBuff.class.getSimpleName())
+                                                         .setType(Evade.class.getSimpleName())
                                                          .setNumTimesActive(2)
                                                          .setNumTurnsActive(3)))
                 .build();
         final ActiveSkillUpgrades activeSkillUpgrades1 = ActiveSkillUpgrades.newBuilder()
+                .addActiveSkillData(activeSkillData11)
+                .build();
+
+        final ActiveSkillData activeSkillData21 = ActiveSkillData.newBuilder()
+                .setBaseCoolDown(9)
+                .addEffects(EffectData.newBuilder()
+                                    .setType(GrantBuff.class.getSimpleName())
+                                    .setTarget(SELF)
+                                    .addBuffData(BuffData.newBuilder()
+                                                         .setType(NpDamageBuff.class.getSimpleName())
+                                                         .addAllValues(generateSkillValues(10, 1))
+                                                         .setNumTurnsActive(3)))
+                .addEffects(EffectData.newBuilder()
+                                    .setType(GrantBuff.class.getSimpleName())
+                                    .setTarget(ALL_ENEMIES)
+                                    .addAllProbabilities(generateSkillValues(0.5, 0.05))
+                                    .addBuffData(BuffData.newBuilder()
+                                                         .setType(Charm.class.getSimpleName())
+                                                         .setNumTurnsActive(1)))
+                .build();
+        final ActiveSkillUpgrades activeSkillUpgrades2 = ActiveSkillUpgrades.newBuilder()
+                .addActiveSkillData(activeSkillData21)
                 .build();
 
         final ServantAscensionData.Builder commonAscensionData = ServantAscensionData.newBuilder()

@@ -31,10 +31,10 @@ import static yome.fgo.simulator.translation.Traits.SERVANT;
 @Getter
 @Setter
 public class Servant extends Combatant {
-    public static final double NP_CAP_1 = 100;
-    public static final double NP_CAP_2 = 200;
-    public static final double NP_CAP_3 = 300;
-    public static final double NP_GAIN_PITY_THRESHOLD = 98.99;
+    public static final double NP_CAP_1 = 1;
+    public static final double NP_CAP_2 = 2;
+    public static final double NP_CAP_3 = 3;
+    public static final double NP_GAIN_PITY_THRESHOLD = 0.9899;
 
     private ServantData servantData;
     private int attack;
@@ -188,7 +188,7 @@ public class Servant extends Combatant {
 
     @VisibleForTesting
     static int calculateOverchargeLevel(final int extraOvercharge, double currentNp) {
-        return Math.min(extraOvercharge + Math.max(1, (int) currentNp / 100), 5);
+        return Math.min(extraOvercharge + Math.max(1, (int) currentNp), 5);
     }
 
     public void activateCommandCard(
@@ -252,14 +252,14 @@ public class Servant extends Combatant {
     }
 
     @Override
-    public void changeNp(final double percentNpChange) {
-        currentNp += percentNpChange;
+    public void changeNp(final double npChange) {
+        currentNp += npChange;
         currentNp = RoundUtils.roundNearest(currentNp);
 
         final double npCap = getNpCap(noblePhantasmLevel);
         if (currentNp > npCap) {
             currentNp = npCap;
-        } else if (shouldApplyNpPity(currentNp, percentNpChange)) {
+        } else if (shouldApplyNpPity(currentNp, npChange)) {
             currentNp = NP_CAP_1;
         } else if (currentNp < 0) {
             currentNp = 0;
@@ -276,7 +276,7 @@ public class Servant extends Combatant {
         }
     }
 
-    public static boolean shouldApplyNpPity(final double currentNp, final double percentNpChange) {
-        return Math.signum(percentNpChange) > 0 && currentNp < NP_CAP_1 && currentNp > NP_GAIN_PITY_THRESHOLD;
+    public static boolean shouldApplyNpPity(final double currentNp, final double npChange) {
+        return Math.signum(npChange) > 0 && currentNp < NP_CAP_1 && currentNp > NP_GAIN_PITY_THRESHOLD;
     }
 }

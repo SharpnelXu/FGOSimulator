@@ -30,7 +30,7 @@ import java.util.List;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ANY;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCritStar;
-import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGainPercentage;
+import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
 import static yome.fgo.simulator.utils.AttributeUtils.getAttributeAdvantage;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.getCommandCardDamageCorrection;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.modifierCap;
@@ -54,7 +54,7 @@ public class NoblePhantasmDamage extends Effect {
         final Servant attacker = simulation.getActivator();
         simulation.setAttacker(attacker);
 
-        final double damageRate = isOverchargedEffect ? damageRates.get(level - 1) : damageRates.get(0);
+        final double damageRate = damageRates.get(level - 1);
 
         final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);
         final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class);
@@ -149,7 +149,7 @@ public class NoblePhantasmDamage extends Effect {
                         .npGenerationBuff(npGenerationBuff)
                         .build();
 
-                attacker.changeNp(calculateNpGainPercentage(npParameters));
+                attacker.changeNp(calculateNpGain(npParameters));
 
                 final CriticalStarParameters critStarParams = CriticalStarParameters.builder()
                         .servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
