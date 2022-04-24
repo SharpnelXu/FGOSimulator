@@ -81,6 +81,7 @@ public class NoblePhantasmDamage extends Effect {
 
             final NpDamageParameters npDamageParams = NpDamageParameters.builder()
                     .attack(attacker.getAttack())
+                    .totalHits(currentCard.getTotalHits())
                     .damageRate(damageRate)
                     .npSpecificAttackRate(npSpecificDamageRate)
                     .attackerClass(attacker.getFateClass())
@@ -191,7 +192,8 @@ public class NoblePhantasmDamage extends Effect {
                 (1 + attackBuff - defenseBuff - npDamageParams.specificDefenseBuff) *
                 (1 + specificAttackBuff + npDamageBuff) * npDamageParams.npSpecificAttackRate *
                 (1 - percentDefenseBuff) *
-                (1 + percentAttackBuff) * npDamageParams.fixedRandom + npDamageParams.damageAdditionBuff - npDamageParams.damageReductionBuff);
+                (1 + percentAttackBuff) * npDamageParams.totalHits / 100.0 * npDamageParams.fixedRandom +
+                npDamageParams.damageAdditionBuff - npDamageParams.damageReductionBuff);
 
         return Math.max(0, totalDamage);
     }
@@ -200,6 +202,7 @@ public class NoblePhantasmDamage extends Effect {
     public static class NpDamageParameters {
         private final int attack;
         private final double damageRate;
+        private final int totalHits;
         private final double npSpecificAttackRate;
         private final FateClass attackerClass;
         private final FateClass defenderClass;
