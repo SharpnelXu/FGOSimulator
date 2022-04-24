@@ -12,6 +12,7 @@ import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static yome.fgo.simulator.utils.FateClassUtils.getClassMaxNpGauge;
@@ -23,14 +24,14 @@ public class Combatant {
     private int maxNpGauge;
     private int currentNpGauge;
     private List<Integer> hpBars;
-    private int currentHpBar;
+    private int currentHpBarIndex;
     private int cumulativeTurnDamage;
 
     protected CombatantData combatantData;
 
     protected String id;
     protected int currentHp;
-    protected List<Buff> buffs = new ArrayList<>();
+    protected List<Buff> buffs = new LinkedList<>();
 
     // for testing
     public Combatant(final String id) {
@@ -50,7 +51,7 @@ public class Combatant {
 
         this.id = id;
         this.hpBars = new ArrayList<>(hpBars);
-        this.currentHp = this.hpBars.get(this.currentHpBar);
+        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
     }
 
     // for servant
@@ -118,7 +119,7 @@ public class Combatant {
     }
 
     public boolean hasNextHpBar() {
-        return currentHpBar < hpBars.size() - 1;
+        return currentHpBarIndex < hpBars.size() - 1;
     }
 
     public void addBuff(final Buff buff) {
@@ -127,17 +128,29 @@ public class Combatant {
 
     public double applyBuff(final Simulation simulation, final Class<? extends Buff> buffClass) {
         double totalValue = 0;
-        for (final Buff buff : buffs) {
+        for (int j = buffs.size() - 1; j >= 0; j--) {
+            final Buff buff = buffs.get(j);
             if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
                 totalValue += buff.getValue();
                 buff.applyOnce();
+                if (buff.isUsed()) {
+                    buffs.remove(j);
+                }
             }
         }
         return totalValue;
     }
 
+    public boolean isAlreadyDead() {
+        return currentHp <= 0;
+    }
+
     public boolean isBuggedOverkill() {
         return getCumulativeTurnDamage() > getCurrentHp() && !hasNextHpBar();
+    }
+
+    public void addCumulativeTurnDamage(final int damage) {
+        cumulativeTurnDamage += damage;
     }
 
     public void clearCumulativeTurnDamage() {
@@ -156,26 +169,35 @@ public class Combatant {
         currentHp -= damage;
     }
 
-    public void addCumulativeTurnDamage(final int damage) {
-        cumulativeTurnDamage += damage;
-    }
-
-    public boolean isAlreadyDead() {
-        return currentHp <= 0;
-    }
-
     public void hpBarBreak() {
-        currentHpBar++;
-        currentHp = hpBars.get(currentHpBar);
+        currentHpBarIndex++;
+        currentHp = hpBars.get(currentHpBarIndex);
+    }
+
+    public void endOfTurn(final Simulation simulation) {
+        currentNpGauge++;
+        if (currentNpGauge > maxNpGauge) {
+            currentNpGauge = maxNpGauge;
+        }
+
+        for (final Buff buff : buffs) {
+            buff.decreaseTurnDuration();
+        }
+
+        removeUsedBuff();
+    }
+
+    public void removeUsedBuff() {
+        for (int j = buffs.size() - 1; j >= 0; j--) {
+            if (buffs.get(j).isUsed()) {
+                buffs.remove(j);
+            }
+        }
     }
 
     public boolean activateGuts(final Simulation simulation) {
         // TODO: implement
         return false;
-    }
-
-    public void endOfTurn(final Simulation simulation) {
-
     }
 
     public void changeNp(final double percentNpChange) {

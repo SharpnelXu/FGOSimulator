@@ -184,6 +184,19 @@ public class Simulation {
         proceedTurn();
     }
 
+    public void checkBuffStatus() {
+        for (final Servant servant : currentServants) {
+            if (servant != null) {
+                servant.removeUsedBuff();
+            }
+        }
+        for (final Combatant combatant : currentEnemies) {
+            if (combatant != null) {
+                combatant.removeUsedBuff();
+            }
+        }
+    }
+
     private void endAllyTurn() {
         for (final Servant servant : currentServants) {
             if (servant != null) {

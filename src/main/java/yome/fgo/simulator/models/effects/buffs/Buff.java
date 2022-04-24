@@ -22,17 +22,23 @@ public class Buff {
 
     private final double value;
 
-    public boolean isActive() {
-        return numTimesActive != 0 && numTurnsActive != 0;
+    public boolean isUsed() {
+        return numTimesActive == 0 || numTurnsActive == 0;
     }
 
     public boolean shouldApply(final Simulation simulation) {
-        return condition.evaluate(simulation) && isActive();
+        return condition.evaluate(simulation) && !isUsed();
     }
 
     public void applyOnce() {
         if (numTimesActive > 0) {
             numTimesActive -= 1;
+        }
+    }
+
+    public void decreaseTurnDuration() {
+        if (numTurnsActive > 0) {
+            numTurnsActive -= 1;
         }
     }
 

@@ -2,12 +2,12 @@ package yome.fgo.simulator.models.levels;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.StageData;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
+import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.EffectFactory;
 
@@ -36,10 +36,12 @@ public class Stage {
 
         this.enemies = new LinkedList<>();
         for (final EnemyData enemyData : stageData.getEnemyDataList()) {
-            final CombatantData combatantData = enemyData.getServantAscension() != 0 ?
-                    ResourceManager.getServantCombatantData(enemyData.getEnemyBaseId(), enemyData.getServantAscension()) :
-                    ResourceManager.getEnemyCombatantData(enemyData.getEnemyBaseId());
-            this.enemies.add(new Combatant(combatantData, enemyData));
+            final String enemyId = enemyData.getEnemyBaseId();
+            if (enemyData.getServantAscension() != 0) {
+                this.enemies.add(new Servant(ResourceManager.getServantData(enemyId), enemyData));
+            } else {
+                this.enemies.add(new Combatant(ResourceManager.getEnemyCombatantData(enemyId), enemyData));
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package yome.fgo.simulator.models.combatants;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -77,7 +78,16 @@ public class Servant extends Combatant {
     public Servant(final ServantData servantData, final EnemyData enemyData) {
         super(getLastCombatantData(servantData, enemyData.getServantAscension()), enemyData);
 
-        this.servantData = servantData; // shouldn't be used, but won't hurt to store a reference
+        this.servantData = servantData;
+
+        this.ascension = enemyData.getServantAscension();
+        final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(this.ascension - 1);
+
+        this.appendSkills = ImmutableList.of();
+        this.passiveSkills = new ArrayList<>();
+        for (final PassiveSkillData passiveSkillData : servantAscensionData.getPassiveSkillDataList()) {
+            this.passiveSkills.add(new PassiveSkill(passiveSkillData));
+        }
     }
 
     public Servant(final String id, final ServantData servantData, final ServantOption servantOption) {
@@ -125,10 +135,22 @@ public class Servant extends Combatant {
         }
 
         this.extraCommandCard = new CommandCard(servantAscensionData.getExtraCard());
+
+        this.currentHp = this.maxHp;
     }
 
     @Override
     public void initiate(final Simulation simulation) {
+        simulation.setActivator(this);
+
+        for (final PassiveSkill passiveSkill : passiveSkills) {
+            passiveSkill.activate(simulation);
+        }
+        for (final AppendSkill appendSkill : appendSkills) {
+            appendSkill.activate(simulation);
+        }
+
+        simulation.setActivator(null);
     }
 
     public int getAttack() {
@@ -137,21 +159,27 @@ public class Servant extends Combatant {
 
     public void activateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
         simulation.setActivator(this);
-        final ActiveSkill activeSkill = activeSkills.get(activeSkillIndex);
-        activeSkill.activate(simulation);
+
+        activeSkills.get(activeSkillIndex).activate(simulation);
+
         simulation.setActivator(null);
     }
 
     public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
-        simulation.setAttacker(this);
+        simulation.setActivator(this);
         simulation.setCurrentCommandCard(noblePhantasm);
 
         // TODO: missing overchargeIncreaseBuff
-        final int overchargeLevel = Math.max(extraOvercharge + Math.min(1, (int) currentNp / 100), 5);
+        final int overchargeLevel = calculateOverchargeLevel(extraOvercharge, currentNp);
         noblePhantasm.activate(simulation, overchargeLevel);
 
         simulation.setCurrentCommandCard(null);
-        simulation.setAttacker(null);
+        simulation.setActivator(null);
+    }
+
+    @VisibleForTesting
+    static int calculateOverchargeLevel(final int extraOvercharge, double currentNp) {
+        return Math.min(extraOvercharge + Math.max(1, (int) currentNp / 100), 5);
     }
 
     public void activateCommandCard(
@@ -163,11 +191,13 @@ public class Servant extends Combatant {
             final CommandCardType firstCardType
     ) {
         simulation.setAttacker(this);
+        simulation.setDefender(simulation.getTargetedEnemy());
         simulation.setCurrentCommandCard(commandCards.get(commandCardIndex));
 
         CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain);
 
         simulation.setCurrentCommandCard(null);
+        simulation.setDefender(null);
         simulation.setAttacker(null);
     }
 
@@ -177,11 +207,13 @@ public class Servant extends Combatant {
             final CommandCardType firstCardType
     ) {
         simulation.setAttacker(this);
+        simulation.setDefender(simulation.getTargetedEnemy());
         simulation.setCurrentCommandCard(extraCommandCard);
 
         CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain);
 
         simulation.setCurrentCommandCard(null);
+        simulation.setDefender(null);
         simulation.setAttacker(null);
     }
 
@@ -199,6 +231,15 @@ public class Servant extends Combatant {
         allTraits.addAll(super.getAllTraits(simulation));
         allTraits.add(SERVANT);
         return allTraits.build();
+    }
+
+    @Override
+    public void endOfTurn(final Simulation simulation) {
+        super.endOfTurn(simulation);
+
+        for (final ActiveSkill activeSkill : activeSkills) {
+            activeSkill.decreaseCoolDown(1);
+        }
     }
 
     @Override
