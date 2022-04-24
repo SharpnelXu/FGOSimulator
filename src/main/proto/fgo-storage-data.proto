@@ -97,6 +97,13 @@ enum CommandCardType {
   EXTRA = 4;
 }
 
+enum NoblePhantasmType {
+  ANY_NP_TYPE = 0;
+  SINGLE_TARGET_NP = 1;
+  ALL_TARGETS_NP = 2;
+  NON_DAMAGE = 3;
+}
+
 message NoblePhantasmUpgrades {
   repeated NoblePhantasmData noblePhantasmData = 1;
 }
@@ -104,6 +111,7 @@ message NoblePhantasmUpgrades {
 message NoblePhantasmData {
   CommandCardData commandCardData = 1;
   repeated EffectData effects = 2;
+  NoblePhantasmType noblePhantasmType = 3;
 }
 
 message CommandCardData {
