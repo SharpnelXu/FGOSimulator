@@ -25,7 +25,7 @@ import yome.fgo.simulator.utils.RoundUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static yome.fgo.simulator.models.traits.Traits.SERVANT;
+import static yome.fgo.simulator.translation.Traits.SERVANT;
 
 @NoArgsConstructor
 @Getter

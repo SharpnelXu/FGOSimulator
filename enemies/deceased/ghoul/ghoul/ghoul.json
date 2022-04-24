@@ -1,0 +1,9 @@
+{
+  "id": "ghoul",
+  "rarity": 1,
+  "fateClass": "BERSERKER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["demonic", "human", "humanoid", "undead", "oni"],
+  "deathRate": 1.0
+}

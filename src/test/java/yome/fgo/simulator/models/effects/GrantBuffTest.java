@@ -14,8 +14,8 @@ import yome.fgo.simulator.models.effects.buffs.AttackBuff;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static yome.fgo.data.proto.FgoStorageData.Target.EFFECT_TARGET;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
-import static yome.fgo.simulator.models.traits.Traits.DEMONIC;
-import static yome.fgo.simulator.models.traits.Traits.RIDING;
+import static yome.fgo.simulator.translation.Traits.DEMONIC;
+import static yome.fgo.simulator.translation.Traits.RIDING;
 
 public class GrantBuffTest {
     @Test

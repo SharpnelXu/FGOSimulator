@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
 import static yome.fgo.data.proto.FgoStorageData.Target.EFFECT_TARGET;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
-import static yome.fgo.simulator.models.traits.Traits.DEMONIC;
-import static yome.fgo.simulator.models.traits.Traits.RIDING;
+import static yome.fgo.simulator.translation.Traits.DEMONIC;
+import static yome.fgo.simulator.translation.Traits.RIDING;
 
 public class TargetsHaveTraitTest {
     @Test

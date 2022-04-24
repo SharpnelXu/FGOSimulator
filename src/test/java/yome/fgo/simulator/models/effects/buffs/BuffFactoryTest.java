@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.buildBuff;
-import static yome.fgo.simulator.models.traits.Traits.DEMONIC;
+import static yome.fgo.simulator.translation.Traits.DEMONIC;
 
 public class BuffFactoryTest {
 

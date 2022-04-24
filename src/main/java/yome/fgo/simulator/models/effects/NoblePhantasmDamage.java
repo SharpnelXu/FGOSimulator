@@ -55,8 +55,6 @@ public class NoblePhantasmDamage extends Effect {
         simulation.setAttacker(attacker);
 
         final double damageRate = isOverchargedEffect ? damageRates.get(level - 1) : damageRates.get(0);
-        final double npSpecificDamageRate = isNpSpecificDamageOverchargedEffect ?
-                npSpecificDamageRates.get(level - 1) : npSpecificDamageRates.get(0);
 
         final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);
         final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class);
@@ -72,6 +70,16 @@ public class NoblePhantasmDamage extends Effect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setDefender(combatant);
             final FateClass defenderClass = combatant.getFateClass();
+            final double npSpecificDamageRate;
+            if (applyCondition.evaluate(simulation)) {
+                if (isNpSpecificDamageOverchargedEffect) {
+                    npSpecificDamageRate = npSpecificDamageRates.get(level - 1);
+                } else {
+                    npSpecificDamageRate = npSpecificDamageRates.get(0);
+                }
+            } else {
+                npSpecificDamageRate = 1.0;
+            }
 
             final double commandCardResist = combatant.applyBuff(simulation, CommandCardResist.class);
             final double defenseBuff = combatant.applyBuff(simulation, DefenseBuff.class);

@@ -1,0 +1,9 @@
+{
+  "id": "efreet",
+  "rarity": 4,
+  "fateClass": "CASTER",
+  "gender": "FEMALE",
+  "attribute": "EARTH",
+  "traits": ["demonic"],
+  "deathRate": 0.1
+}

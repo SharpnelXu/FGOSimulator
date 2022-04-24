@@ -21,14 +21,16 @@ good=善
 earth=地
 
 [Trait]
-riding=骑乘
-demiServant=亚从者
 costumeOwning=持有灵衣者
-hominidaeServant=人科
+demiServant=亚从者
+hominidae=人科
+human=人类
 humanoid=人型
 livingHuman=活在当下的人类
+riding=骑乘
 roundTableKnight=圆桌骑士
 servant=从者
+undead=死灵
 weakToEnumaElish=被EA特攻
 
 [Target]
