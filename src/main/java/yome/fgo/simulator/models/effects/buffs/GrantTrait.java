@@ -19,6 +19,11 @@ public class GrantTrait extends Buff {
     }
 
     @Override
+    protected boolean commonStackableCondition() {
+        return true;
+    }
+
+    @Override
     public boolean isBuff() {
         return forceBuff > 0;
     }

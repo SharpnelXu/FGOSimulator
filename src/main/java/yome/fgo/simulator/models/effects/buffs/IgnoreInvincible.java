@@ -13,4 +13,9 @@ public class IgnoreInvincible extends Buff implements AttackerBuff {
     protected boolean commonDebuffCondition() {
         return false;
     }
+
+    @Override
+    protected boolean commonStackableCondition() {
+        return false;
+    }
 }

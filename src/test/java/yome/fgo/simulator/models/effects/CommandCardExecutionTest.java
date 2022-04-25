@@ -114,6 +114,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         attacker.changeNp(0);
         expectLastCall().times(3);
         simulation.gainStar(1.0828);
+        simulation.checkBuffStatus();
         defender.addCumulativeTurnDamage(anyInt());
         replayAll();
 
@@ -159,6 +160,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         attacker.changeNp(0.0139);
         expectLastCall().times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
         simulation.gainStar(9.305);
+        simulation.checkBuffStatus();
         defender.addCumulativeTurnDamage(anyInt());
         replayAll();
 
@@ -201,6 +203,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         attacker.changeNp(0.0093);
         expectLastCall().times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
         simulation.gainStar(7.805);
+        simulation.checkBuffStatus();
         defender.addCumulativeTurnDamage(0);
         replayAll();
 

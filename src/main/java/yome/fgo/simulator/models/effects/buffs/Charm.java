@@ -12,4 +12,9 @@ public class Charm extends Buff implements MentalDebuff {
     protected boolean commonDebuffCondition() {
         return true;
     }
+
+    @Override
+    protected boolean commonStackableCondition() {
+        return false;
+    }
 }

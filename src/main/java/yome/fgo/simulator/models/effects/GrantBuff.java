@@ -50,7 +50,20 @@ public class GrantBuff extends Effect {
                 }
 
                 if (activationProbability >= simulation.getProbabilityThreshold()) {
-                    combatant.addBuff(buff);
+                    if (!buff.isStackable()) {
+                        boolean alreadyPresent = false;
+                        for (final Buff existingBuff : combatant.getBuffs()) {
+                            if (existingBuff.getClass().isInstance(buff)) {
+                                alreadyPresent = true;
+                                break;
+                            }
+                        }
+                        if (!alreadyPresent) {
+                            combatant.addBuff(buff);
+                        }
+                    } else {
+                        combatant.addBuff(buff);
+                    }
                 }
 
                 simulation.setCurrentBuff(null);

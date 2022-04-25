@@ -13,4 +13,9 @@ public class BurningLove extends Buff {
     protected boolean commonDebuffCondition() {
         return true;
     }
+
+    @Override
+    protected boolean commonStackableCondition() {
+        return true;
+    }
 }

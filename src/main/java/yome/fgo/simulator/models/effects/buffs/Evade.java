@@ -13,4 +13,9 @@ public class Evade extends Buff implements DefenderBuff {
     protected boolean commonDebuffCondition() {
         return false;
     }
+
+    @Override
+    protected boolean commonStackableCondition() {
+        return false;
+    }
 }

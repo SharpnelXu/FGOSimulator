@@ -20,4 +20,9 @@ public class ValuedBuff extends Buff {
     protected boolean commonDebuffCondition() {
         return value < 0;
     }
+
+    @Override
+    protected boolean commonStackableCondition() {
+        return true;
+    }
 }

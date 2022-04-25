@@ -21,6 +21,8 @@ public abstract class Buff {
     @Builder.Default
     private final Condition condition = ALWAYS;
 
+    protected final boolean forceStackable;
+
     protected final int forceBuff;
 
     private final boolean irremovable;
@@ -34,6 +36,12 @@ public abstract class Buff {
     protected abstract boolean commonBuffCondition();
 
     protected abstract boolean commonDebuffCondition();
+
+    protected abstract boolean commonStackableCondition();
+
+    public boolean isStackable() {
+        return forceStackable || commonStackableCondition();
+    }
 
     public boolean isBuff() {
         if (forceBuff < 0) {

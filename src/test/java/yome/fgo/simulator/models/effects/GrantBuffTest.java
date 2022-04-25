@@ -15,6 +15,7 @@ import yome.fgo.simulator.models.effects.buffs.BuffChanceBuff;
 import yome.fgo.simulator.models.effects.buffs.Charm;
 import yome.fgo.simulator.models.effects.buffs.DebuffChanceBuff;
 import yome.fgo.simulator.models.effects.buffs.DebuffResist;
+import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.ReceivedBuffChanceBuff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -156,6 +157,7 @@ public class GrantBuffTest {
         final double attackBuff3 = servant.applyBuff(simulation, AttackBuff.class);
         assertEquals(15, attackBuff3);
     }
+
     @Test
     public void testGrantBuff_debuffProbability() {
         final EffectData effectData = EffectData.newBuilder()
@@ -190,5 +192,37 @@ public class GrantBuffTest {
         effect.apply(simulation);
 
         assertFalse(TargetsHaveBuff.builder().targetBuffType(Charm.class).target(SELF).build().evaluate(simulation));
+    }
+
+    @Test
+    public void testGrantBuff_stackable() {
+        final EffectData effectData = EffectData.newBuilder()
+                .setType(GrantBuff.class.getSimpleName())
+                .setTarget(SELF)
+                .addBuffData(
+                        BuffData.newBuilder()
+                                .setType(Evade.class.getSimpleName())
+                                .setNumTimesActive(1)
+                )
+                .build();
+
+        final Effect effect = EffectFactory.buildEffect(effectData, 5);
+
+        final Simulation simulation = new Simulation();
+
+        final Servant servant = new Servant("", CombatantData.newBuilder().build());
+        simulation.setActivator(servant);
+        effect.apply(simulation);
+
+        assertTrue(servant.consumeBuffIfExist(simulation, Evade.class));
+        simulation.checkBuffStatus();
+
+        effect.apply(simulation);
+        assertEquals(1, servant.getBuffs().size());
+
+        effect.apply(simulation);
+        assertEquals(1, servant.getBuffs().size());
+
+        assertTrue(servant.consumeBuffIfExist(simulation, Evade.class));
     }
 }

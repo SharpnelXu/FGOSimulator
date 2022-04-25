@@ -134,6 +134,7 @@ public class BuffFactory {
 
         builder.forceBuff(buffData.getForceBuff());
         builder.irremovable(buffData.getIrremovable());
+        builder.forceStackable(buffData.getForceStackable());
 
         return builder.build();
     }

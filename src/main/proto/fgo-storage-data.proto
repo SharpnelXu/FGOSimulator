@@ -162,6 +162,7 @@ message BuffData {
 
   int32 forceBuff = 9;
   bool irremovable = 10;
+  bool forceStackable = 11;
 }
 
 enum Target {
