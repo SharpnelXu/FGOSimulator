@@ -6,6 +6,7 @@ import com.google.protobuf.util.JsonFormat;
 import com.google.protobuf.util.JsonFormat.Printer;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
+import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -15,31 +16,39 @@ import java.util.List;
 
 import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
+import static yome.fgo.simulator.utils.FilePathUtils.LEVEL_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
 
 public class DataWriter {
 
     public static void writeEnemy(final CombatantData combatantData, final String category, final String subCategory) {
-        final String directoryPath = String.format("%s/%s/%s", ENEMY_DIRECTORY_PATH, category, subCategory);
+        final String directoryPath = String.format("%s/%s/%s/%s", ENEMY_DIRECTORY_PATH, category, subCategory, combatantData.getId());
         writeMessage(combatantData, directoryPath, combatantData.getId());
     }
 
     public static void writeServant(final ServantData servantData) {
         final String id = servantData.getServantAscensionData(0).getCombatantData().getId();
-        writeMessage(servantData, SERVANT_DIRECTORY_PATH, id);
+        final String directoryPath = String.format("%s/%s", SERVANT_DIRECTORY_PATH, id);
+        writeMessage(servantData, directoryPath, id);
     }
 
     public static void writeCraftEssence(final CraftEssenceData craftEssenceData) {
-        writeMessage(craftEssenceData, CRAFT_ESSENCE_DIRECTORY_PATH, craftEssenceData.getId());
+        final String directoryPath = String.format("%s/%s", CRAFT_ESSENCE_DIRECTORY_PATH, craftEssenceData.getId());
+        writeMessage(craftEssenceData, directoryPath, craftEssenceData.getId());
+    }
+
+    public static void writeLevel(final LevelData levelData, final String subPath) {
+        final String directoryPath = String.format("%s/%s", LEVEL_DIRECTORY_PATH, subPath);
+        writeMessage(levelData, directoryPath, levelData.getId());
     }
 
     public static void writeMessage(final Message message, final String directoryPath, final String id) {
-        final File newDirectory = new File(directoryPath + "/" + id);
+        final File newDirectory = new File(directoryPath);
         if (!newDirectory.exists()) {
             newDirectory.mkdirs();
         }
 
-        final File newFile = new File(directoryPath + "/" + id + "/" + id + ".json");
+        final File newFile = new File(directoryPath +  "/" + id + ".json");
         final Printer printer = JsonFormat.printer();
         try (PrintStream printStream = new PrintStream(newFile)) {
             printStream.println(printer.print(message));
