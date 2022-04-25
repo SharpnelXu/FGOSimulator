@@ -7,6 +7,9 @@ import yome.fgo.simulator.models.conditions.ConditionFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.models.effects.OrderChange.ORDER_CHANGE;
+import static yome.fgo.simulator.models.effects.ShuffleCards.SHUFFLE_CARDS;
+
 public class EffectFactory {
     public static List<Effect> buildEffects(final List<EffectData> effectData) {
         return buildEffects(effectData, 1);
@@ -131,7 +134,7 @@ public class EffectFactory {
 
             return builder.build();
         } else if (type.equalsIgnoreCase(OrderChange.class.getSimpleName())) {
-            return OrderChange.builder().build();
+            return ORDER_CHANGE;
         } else if (type.equalsIgnoreCase(RemoveBuff.class.getSimpleName())) {
             final RemoveBuff.RemoveBuffBuilder<?, ?> builder = RemoveBuff.builder()
                     .target(effectData.getTarget());
@@ -151,6 +154,8 @@ public class EffectFactory {
             }
 
             return builder.build();
+        } else if (type.equalsIgnoreCase(ShuffleCards.class.getSimpleName())) {
+            return SHUFFLE_CARDS;
         }
 
         throw new UnsupportedOperationException("Effect type unsupported: " + type);
