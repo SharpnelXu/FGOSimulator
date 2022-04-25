@@ -63,7 +63,8 @@ public class EffectFactory {
 
             if (effectData.getIsNpSpecificDamageOverchargedEffect()) {
                 builder.npSpecificDamageRates(effectData.getNpSpecificDamageRateList())
-                        .isNpSpecificDamageOverchargedEffect(effectData.getIsNpSpecificDamageOverchargedEffect());
+                        .isNpSpecificDamageOverchargedEffect(true)
+                        .isOverchargedEffect(true);
             } else if (effectData.getNpSpecificDamageRateCount() == 0) {
                 builder.npSpecificDamageRates(ImmutableList.of(1.0));
             } else if (effectData.getNpSpecificDamageRateCount() == 1) {
@@ -75,7 +76,18 @@ public class EffectFactory {
             setApplyConditionIfExists(builder, effectData);
 
             if (effectData.getIsOverchargedEffect()) {
-                builder.damageRates(effectData.getValuesList());
+                final double baseDamageRate;
+                if (effectData.getValuesCount() >= level) {
+                    baseDamageRate = effectData.getValues(level - 1);
+                } else {
+                    baseDamageRate = effectData.getValues(0);
+                }
+                builder.damageRates(
+                        effectData.getNpOverchargeDamageRateList()
+                                .stream()
+                                .map(rate -> rate + baseDamageRate)
+                                .collect(Collectors.toList())
+                );
                 builder.isOverchargedEffect(true);
             } else if (effectData.getValuesCount() >= level) {
                 builder.damageRates(ImmutableList.of(effectData.getValues(level - 1)));

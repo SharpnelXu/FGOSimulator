@@ -148,6 +148,7 @@ message EffectData {
   repeated double probabilities = 9;
   repeated double npSpecificDamageRate = 10;
   bool isNpSpecificDamageOverchargedEffect = 11;
+  repeated double npOverchargeDamageRate = 12;
 }
 
 message BuffData {

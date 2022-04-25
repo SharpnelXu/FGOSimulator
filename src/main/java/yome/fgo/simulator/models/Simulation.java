@@ -137,6 +137,7 @@ public class Simulation {
     public void executeCombatActions(final List<CombatAction> combatActions) {
         // TODO: move to front end
         assert !combatActions.isEmpty() && combatActions.size() <= MAXIMUM_CARDS_PER_TURN;
+        this.currentStars = 0;
 
         // calculate chain
         final boolean typeChain = isTypeChain(combatActions);

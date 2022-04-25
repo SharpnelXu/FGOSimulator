@@ -20,6 +20,7 @@ import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
 import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
+import yome.fgo.simulator.models.effects.buffs.PercentAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
@@ -55,7 +56,7 @@ public class NoblePhantasmDamage extends Effect {
         final Combatant attacker = simulation.getActivator();
         simulation.setAttacker(attacker);
 
-        final double damageRate = damageRates.get(level - 1);
+        final double damageRate = damageRates.size() >= level ? damageRates.get(level - 1) : damageRates.get(0);
 
         for (final Combatant defender : TargetUtils.getTargets(simulation, target)) {
             simulation.setDefender(defender);
@@ -65,7 +66,7 @@ public class NoblePhantasmDamage extends Effect {
             final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class);
             final double specificAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
             final double npDamageBuff = attacker.applyBuff(simulation, NpDamageBuff.class);
-            final double percentAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
+            final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class);
             final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class);
 
             final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class);

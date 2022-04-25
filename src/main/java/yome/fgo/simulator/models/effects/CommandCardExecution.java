@@ -19,6 +19,7 @@ import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
 import yome.fgo.simulator.models.effects.buffs.Invincible;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
+import yome.fgo.simulator.models.effects.buffs.PercentAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
 import yome.fgo.simulator.models.effects.buffs.SpecialInvincible;
@@ -72,7 +73,7 @@ public class CommandCardExecution {
         final double criticalDamageBuff = isCriticalStrike ? attacker.applyBuff(simulation, CriticalDamageBuff.class) : 0;
 
         final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
-        final double percentAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
+        final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class);
 
         final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class);
         final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
@@ -112,7 +113,7 @@ public class CommandCardExecution {
 
         final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
 
-        int remainingDamage = totalDamage;
+            int remainingDamage = totalDamage;
 
         double totalCritStar = 0;
         for (int i = 0; i < hitsPercentages.size(); i++) {
