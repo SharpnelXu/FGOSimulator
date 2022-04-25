@@ -15,7 +15,6 @@ import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
 import yome.fgo.simulator.models.levels.Level;
-import yome.fgo.simulator.models.levels.Stage;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 
 import java.util.List;
@@ -32,19 +31,6 @@ import static yome.fgo.simulator.models.combatants.CombatAction.createCommandCar
 import static yome.fgo.simulator.models.combatants.CombatAction.createNoblePhantasmAction;
 
 public class SimulationTest {
-    public static final String SERVANT_ID_1 = "servant1";
-    public static final String SERVANT_ID_2 = "servant2";
-    public static final String SERVANT_ID_3 = "servant3";
-    public static final String SERVANT_ID_4 = "servant4";
-
-    public static final Level SIMPLE_LEVEL = new Level(
-            "SIMPLE_LEVEL",
-            ImmutableList.of(new Stage(ImmutableList.of(new Combatant(
-                    "SIMPLE_COMBATANT",
-                    ImmutableList.of(10000)
-            )), 3, ImmutableList.of())),
-            ImmutableList.of()
-    );
     public static final List<CombatAction> COMMAND_CARD_0_1_0 = ImmutableList.of(
             createCommandCardAction(0, 0, false),
             createCommandCardAction(1, 0, false),
@@ -59,99 +45,122 @@ public class SimulationTest {
             createCommandCardAction(0, 0, false),
             createCommandCardAction(0, 0, false)
     );
+    public static final ServantOption KAMA_OPTION = ServantOption.newBuilder()
+            .setServantLevel(120)
+            .setNoblePhantasmRank(1)
+            .setNoblePhantasmLevel(5)
+            .setAttackStatusUp(2000)
+            .setHealthStatusUp(2000)
+            .addAllActiveSkillRanks(ImmutableList.of(1, 1, 1))
+            .addAllActiveSkillLevels(ImmutableList.of(10, 10, 10))
+            .addAllAppendSkillLevels(ImmutableList.of(10, 10, 10))
+            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .setBond(15)
+            .setAscension(1)
+            .build();
+    public static final String KAMA_ID = "servant321";
+
+    public static final CraftEssenceOption CE_OPTION = CraftEssenceOption.newBuilder()
+            .setCraftEssenceLevel(100)
+            .build();
+
+    public static final String ALTRIA_ID = "servant284";
+    public static final ServantOption ALTRIA_OPTION = ServantOption.newBuilder()
+            .setServantLevel(90)
+            .setNoblePhantasmRank(1)
+            .setNoblePhantasmLevel(5)
+            .setAttackStatusUp(1000)
+            .setHealthStatusUp(1000)
+            .addAllActiveSkillRanks(ImmutableList.of(1, 1, 1))
+            .addAllActiveSkillLevels(ImmutableList.of(10, 10, 10))
+            .addAllAppendSkillLevels(ImmutableList.of(10, 10, 10))
+            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .setBond(10)
+            .setAscension(1)
+            .build();
 
     public Simulation simulation;
 
     @Test
     public void testSimpleKamaLoop() {
-        final String id = "hq11_day5_90+_2";
-        final String subPath = "events/hq11";
-
-        final Level level = new Level(ResourceManager.getLevelData(subPath, id));
-
-        final String kamaId = "servant321";
-        final ServantOption kamaOption = ServantOption.newBuilder()
-                .setServantLevel(120)
-                .setNoblePhantasmRank(1)
-                .setNoblePhantasmLevel(5)
-                .setAttackStatusUp(2000)
-                .setHealthStatusUp(2000)
-                .addAllActiveSkillRanks(ImmutableList.of(1, 1, 1))
-                .addAllActiveSkillLevels(ImmutableList.of(10, 10, 10))
-                .addAllAppendSkillLevels(ImmutableList.of(10, 10, 10))
-                .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-                .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-                .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-                .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-                .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-                .setBond(15)
-                .setAscension(1)
-                .build();
-
-        final Servant kama = new Servant(kamaId, ResourceManager.getServantData(kamaId), kamaOption);
-
-        final CraftEssenceOption ceOption = CraftEssenceOption.newBuilder()
-                .setCraftEssenceLevel(100)
-                .build();
-        final CraftEssence ce = new CraftEssence(ResourceManager.getCraftEssenceData("craftEssence1080"), ceOption);
+        final Level level = new Level(ResourceManager.getLevelData("events/hq11", "hq11_day5_90+_2"));
+        final Servant kama = new Servant(KAMA_ID, ResourceManager.getServantData(KAMA_ID), KAMA_OPTION);
+        final CraftEssence ce = new CraftEssence(ResourceManager.getCraftEssenceData("craftEssence1080"), CE_OPTION);
         kama.equipCraftEssence(ce);
+        final Servant altria1 = new Servant(ALTRIA_ID, ResourceManager.getServantData(ALTRIA_ID), ALTRIA_OPTION);
+        final Servant altria2 = new Servant(ALTRIA_ID, ResourceManager.getServantData(ALTRIA_ID), ALTRIA_OPTION);
 
-        final String altriaId = "servant284";
-        final ServantOption altriaOption = ServantOption.newBuilder()
-                .setServantLevel(90)
-                .setNoblePhantasmRank(1)
-                .setNoblePhantasmLevel(5)
-                .setAttackStatusUp(1000)
-                .setHealthStatusUp(1000)
-                .addAllActiveSkillRanks(ImmutableList.of(1, 1, 1))
-                .addAllActiveSkillLevels(ImmutableList.of(10, 10, 10))
-                .addAllAppendSkillLevels(ImmutableList.of(10, 10, 10))
-                .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-                .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-                .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-                .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-                .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-                .setBond(10)
-                .setAscension(1)
-                .build();
-
-        final Servant altria1 = new Servant(altriaId, ResourceManager.getServantData(altriaId), altriaOption);
-        final Servant altria2 = new Servant(altriaId, ResourceManager.getServantData(altriaId), altriaOption);
-
-        final Simulation simulation = new Simulation(
+        final Simulation simNp3TClear = new Simulation(
                 level,
                 ImmutableList.of(kama, altria1, altria2),
                 new MysticCode(MysticCodeData.newBuilder().build(), MysticCodeOption.newBuilder().build())
         );
-        simulation.initiate();
-        simulation.setFixedRandom(0.9);
-        simulation.setCurrentAllyTargetIndex(0);
-        simulation.activateServantSkill(0, 0);
-        simulation.activateServantSkill(1, 0);
-        simulation.activateServantSkill(1, 1);
-        simulation.activateServantSkill(1, 2);
-        simulation.activateServantSkill(2, 0);
-        simulation.activateServantSkill(2, 1);
-        simulation.activateServantSkill(2, 2);
+        simNp3TClear.initiate();
+        simNp3TClear.setFixedRandom(0.9);
+        simNp3TClear.setCurrentAllyTargetIndex(0);
+        simNp3TClear.activateServantSkill(0, 0);
+        simNp3TClear.activateServantSkill(1, 0);
+        simNp3TClear.activateServantSkill(1, 1);
+        simNp3TClear.activateServantSkill(1, 2);
+        simNp3TClear.activateServantSkill(2, 0);
+        simNp3TClear.activateServantSkill(2, 1);
+        simNp3TClear.activateServantSkill(2, 2);
 
         assertEquals(1.20, kama.getCurrentNp());
 
         final CombatAction kamaNp = createNoblePhantasmAction(0);
-        simulation.executeCombatActions(ImmutableList.of(kamaNp));
+        simNp3TClear.executeCombatActions(ImmutableList.of(kamaNp));
 
         assertEquals(1.0472, kama.getCurrentNp());
 
-        simulation.executeCombatActions(ImmutableList.of(kamaNp));
+        simNp3TClear.executeCombatActions(ImmutableList.of(kamaNp));
 
         assertEquals(0.9842, kama.getCurrentNp());
 
-        simulation.activateServantSkill(0, 1);
-        simulation.activateServantSkill(0, 2);
-        simulation.executeCombatActions(ImmutableList.of(kamaNp));
+        simNp3TClear.activateServantSkill(0, 1);
+        simNp3TClear.activateServantSkill(0, 2);
 
-        assertEquals(0.8896, kama.getCurrentNp());
+        final CombatAction kamaArts1 = createCommandCardAction(0, 2, false);
+        final CombatAction kamaArts2 = createCommandCardAction(0, 3, true);
+        simNp3TClear.executeCombatActions(ImmutableList.of(kamaArts1, kamaArts2, kamaNp));
 
-        assertTrue(simulation.isSimulationCompleted());
+        assertEquals(0.9211, kama.getCurrentNp());
+
+        assertTrue(simNp3TClear.isSimulationCompleted());
+    }
+
+    @Test
+    public void testBuggedOverkill() {
+        final Level level = new Level(ResourceManager.getLevelData("events/hq11", "hq11_day5_90+_2"));
+        final Servant kama = new Servant(KAMA_ID, ResourceManager.getServantData(KAMA_ID), KAMA_OPTION);
+        final CraftEssence ce = new CraftEssence(ResourceManager.getCraftEssenceData("craftEssence1080"), CE_OPTION);
+        kama.equipCraftEssence(ce);
+
+        final Simulation simNp3TClear = new Simulation(
+                level,
+                ImmutableList.of(kama),
+                new MysticCode(MysticCodeData.newBuilder().build(), MysticCodeOption.newBuilder().build())
+        );
+        simNp3TClear.initiate();
+        simNp3TClear.setFixedRandom(0.9);
+        simNp3TClear.setCurrentAllyTargetIndex(0);
+
+        assertEquals(0.20, kama.getCurrentNp());
+
+        final CombatAction kamaQuick = createCommandCardAction(0, 0, true);
+        final CombatAction kamaArts = createCommandCardAction(0, 2, true);
+        final CombatAction kamaBuster = createCommandCardAction(0, 4, true);
+        simNp3TClear.executeCombatActions(ImmutableList.of(kamaBuster, kamaArts, kamaQuick));
+
+        assertEquals(0.6832, kama.getCurrentNp());
     }
 
     @Test
