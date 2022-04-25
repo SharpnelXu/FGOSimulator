@@ -138,6 +138,11 @@ public class SimulationTest {
             assertEquals(127111, combatant.getHpBars().get(combatant.getCurrentHpBarIndex()) - combatant.getCurrentHp(), 5);
         }
 
+        assertFalse(kama.getActiveSkills().get(0).canActivate());
+        assertFalse(altria1.getActiveSkills().get(1).canActivate());
+        assertFalse(altria2.getActiveSkills().get(2).canActivate());
+        assertTrue(kama.getActiveSkills().get(1).canActivate());
+
         simNp3TClear.activateServantSkill(0, 1);
         simNp3TClear.activateServantSkill(0, 2);
 
