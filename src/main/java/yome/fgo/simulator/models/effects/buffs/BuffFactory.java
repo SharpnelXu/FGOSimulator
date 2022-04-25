@@ -78,6 +78,21 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(GrantTrait.class.getSimpleName())) {
             return setCommonBuffParams(GrantTrait.builder().trait(buffData.getStringValue()), buffData);
 
+        } else if (type.equalsIgnoreCase(Guts.class.getSimpleName())) {
+            final int guts;
+            if (buffData.getValuesCount() >= level) {
+                guts = (int) buffData.getValues(level - 1);
+            } else {
+                guts = (int) buffData.getValues(0);
+            }
+
+            if (guts <= 0) {
+                throw new IllegalArgumentException("Guts have non positive value");
+            }
+
+            final Guts.GutsBuilder<?, ?> gutsBuilder = Guts.builder();
+            return setCommonBuffParams(gutsBuilder.gutsLeft(guts), buffData);
+
         } else if (type.equalsIgnoreCase(IgnoreInvincible.class.getSimpleName())) {
             return setCommonBuffParams(IgnoreInvincible.builder(), buffData);
 

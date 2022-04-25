@@ -84,6 +84,8 @@ public class Simulation {
     private Combatant effectTarget;
     private Buff currentBuff;
 
+    private Combatant nullSourceSkillActivator = new Combatant();
+
     public void initiate() {
         currentStage = 1;
         currentTurn = 1;
@@ -115,8 +117,10 @@ public class Simulation {
         }
 
         // level effect & stage effect
+        setActivator(nullSourceSkillActivator);
         level.applyLevelEffects(this);
         level.getStage(currentStage).applyStageEffects(this);
+        setActivator(null);
     }
 
     public boolean isSimulationCompleted() {
@@ -131,7 +135,9 @@ public class Simulation {
     }
 
     public void activateMysticCodeSkill(final int skillIndex) {
+        setActivator(nullSourceSkillActivator);
         mysticCode.activateSkill(this, skillIndex);
+        setActivator(null);
     }
 
     public void executeCombatActions(final List<CombatAction> combatActions) {

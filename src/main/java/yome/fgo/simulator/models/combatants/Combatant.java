@@ -12,6 +12,7 @@ import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
 import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
+import yome.fgo.simulator.models.effects.buffs.Guts;
 import yome.fgo.simulator.models.effects.buffs.ImmobilizeDebuff;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
@@ -236,8 +237,20 @@ public class Combatant {
     }
 
     public boolean activateGuts(final Simulation simulation) {
-        // TODO: implement
-        return false;
+        boolean activated = false;
+        for (final Buff buff : buffs) {
+            if (buff instanceof Guts && buff.shouldApply(simulation)) {
+                buff.setApplied();
+                currentHp = ((Guts) buff).getGutsLeft();
+                activated = true;
+                break;
+            }
+        }
+        if (activated) {
+            clearInactiveBuff();
+        }
+
+        return activated;
     }
 
     public void changeNp(final double percentNpChange) {
