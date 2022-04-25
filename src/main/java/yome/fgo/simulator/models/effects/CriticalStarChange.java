@@ -10,7 +10,7 @@ public class CriticalStarChange extends Effect {
     public final List<Integer> numStarsGains;
 
     @Override
-    public void apply(final Simulation simulation, final int level) {
+    public void internalApply(final Simulation simulation, final int level) {
         simulation.gainStar(numStarsGains.get(level - 1));
     }
 }

@@ -48,6 +48,7 @@ public class EffectFactoryTest extends EasyMockSupport {
         final Effect effect = buildEffect(effectData, 2);
 
         simulation.gainStar(15.0);
+        simulation.checkBuffStatus();
         replayAll();
 
         effect.apply(simulation);
@@ -64,6 +65,7 @@ public class EffectFactoryTest extends EasyMockSupport {
         final Effect effect = buildEffect(effectData, 2);
 
         simulation.gainStar(20.0);
+        simulation.checkBuffStatus();
         replayAll();
 
         effect.apply(simulation, 3);

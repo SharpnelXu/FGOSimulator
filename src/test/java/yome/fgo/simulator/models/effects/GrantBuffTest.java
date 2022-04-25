@@ -117,7 +117,7 @@ public class GrantBuffTest {
 
         final Servant servant = new Servant("", CombatantData.newBuilder().build());
         simulation.setActivator(servant);
-        effect.apply(simulation, 3);
+        effect.internalApply(simulation, 3);
 
         final double attackBuff = servant.applyBuff(simulation, AttackBuff.class);
         assertEquals(35.0, attackBuff);

@@ -27,7 +27,7 @@ public class GrantBuff extends Effect {
     private final double probability = 1;
 
     @Override
-    public void apply(Simulation simulation, int level) {
+    public void internalApply(Simulation simulation, int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {

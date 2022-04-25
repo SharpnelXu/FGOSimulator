@@ -26,7 +26,6 @@ public class Combatant {
     // enemy only data
     private int maxNpGauge;
     private int currentNpGauge;
-    private List<Integer> hpBars;
     private int currentHpBarIndex;
     private int cumulativeTurnDamage;
 
@@ -34,6 +33,7 @@ public class Combatant {
 
     protected String id;
     protected int currentHp;
+    protected List<Integer> hpBars;
     protected List<Buff> buffs = new ArrayList<>();
 
     // for testing
@@ -122,8 +122,8 @@ public class Combatant {
         return combatantData.getUndeadNpCorrection();
     }
 
-    public int getCurrentHp() {
-        return currentHp;
+    public int getMaxHp() {
+        return hpBars.get(currentHpBarIndex);
     }
 
     public boolean hasNextHpBar() {
@@ -195,8 +195,6 @@ public class Combatant {
         }
 
         activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
-
-        simulation.checkBuffStatus();
 
         for (final Buff buff : buffs) {
             buff.decreaseNumTurnsActive();

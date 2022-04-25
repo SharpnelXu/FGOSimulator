@@ -15,7 +15,7 @@ public class RemoveBuff extends Effect {
     private final List<Integer> numToRemove;
 
     @Override
-    public void apply(final Simulation simulation, final int level) {
+    public void internalApply(final Simulation simulation, final int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             int removeCount = 0;
             final List<Buff> buffList = combatant.getBuffs();

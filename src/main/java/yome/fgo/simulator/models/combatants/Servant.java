@@ -38,7 +38,6 @@ public class Servant extends Combatant {
 
     private ServantData servantData;
     private int attack;
-    private int maxHp;
     private int attackStatusUp;
     private int hpStatusUp;
     private int ascension;
@@ -99,7 +98,7 @@ public class Servant extends Combatant {
         final Status servantStatus = servantData.getServantAscensionData(this.ascension - 1)
                 .getServantStatusData(this.servantLevel - 1);
         this.attack = servantStatus.getATK();
-        this.maxHp = servantStatus.getHP();
+        this.hpBars = new ArrayList<>(ImmutableList.of(servantStatus.getHP()));
         this.attackStatusUp = servantOption.getAttackStatusUp();
         this.hpStatusUp = servantOption.getHealthStatusUp();
         this.noblePhantasmLevel = servantOption.getNoblePhantasmLevel();
@@ -136,7 +135,7 @@ public class Servant extends Combatant {
 
         this.extraCommandCard = new CommandCard(servantAscensionData.getExtraCard());
 
-        this.currentHp = this.maxHp;
+        this.currentHp = getMaxHp();
     }
 
     public void equipCraftEssence(final CraftEssence craftEssence) {
@@ -171,8 +170,6 @@ public class Servant extends Combatant {
 
         activeSkills.get(activeSkillIndex).activate(simulation);
 
-        simulation.checkBuffStatus();
-
         simulation.setActivator(null);
     }
 
@@ -184,8 +181,6 @@ public class Servant extends Combatant {
         final int overchargeLevel = calculateOverchargeLevel(extraOvercharge, currentNp);
         currentNp = 0;
         noblePhantasm.activate(simulation, overchargeLevel);
-
-        simulation.checkBuffStatus();
 
         simulation.setCurrentCommandCard(null);
         simulation.setActivator(null);

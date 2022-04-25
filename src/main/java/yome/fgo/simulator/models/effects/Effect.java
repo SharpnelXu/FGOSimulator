@@ -23,6 +23,12 @@ public abstract class Effect {
         apply(simulation, 1);
     }
 
+    public void apply(final Simulation simulation, final int level) {
+        internalApply(simulation, level);
+
+        simulation.checkBuffStatus();
+    }
+
     // for overcharged
-    public abstract void apply(final Simulation simulation, final int level);
+    protected abstract void internalApply(final Simulation simulation, final int level);
 }
