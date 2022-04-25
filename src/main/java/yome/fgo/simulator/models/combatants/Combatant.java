@@ -231,8 +231,14 @@ public class Combatant {
     }
 
     public void changeNp(final double percentNpChange) {
-//        final int gaugeChange = (int) Math.ceil(Math.abs(percentNpChange) / 50);
-//        final int changeSign = (int) Math.signum(percentNpChange);
-//        currentNpGauge += gaugeChange * changeSign;
+    }
+
+    public void changeHp(final int hpChange) {
+        currentHp += hpChange;
+
+        final int maxHp = getMaxHp();
+        if (currentHp > maxHp) {
+            currentHp = maxHp;
+        }
     }
 }
