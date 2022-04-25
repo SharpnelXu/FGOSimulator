@@ -9,9 +9,12 @@ import yome.fgo.simulator.models.effects.buffs.Charm;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
 import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
+import yome.fgo.simulator.models.effects.buffs.Stun;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
 
 public class CombatantTest {
@@ -87,5 +90,18 @@ public class CombatantTest {
         combatant.addBuff(BurningLove.builder().build());
         final double totalBuff2 = combatant.applyBuff(simulation, SpecificAttackBuff.class);
         assertEquals(4, totalBuff2, 0.0000001);
+    }
+
+    @Test
+    public void testIsImmobilized() {
+        final Combatant combatant = new Combatant();
+        assertFalse(combatant.isImmobilized());
+        combatant.addBuff(Stun.builder().build());
+        assertTrue(combatant.isImmobilized());
+
+        combatant.getBuffs().clear();
+        assertFalse(combatant.isImmobilized());
+        combatant.addBuff(Charm.builder().build());
+        assertTrue(combatant.isImmobilized());
     }
 }

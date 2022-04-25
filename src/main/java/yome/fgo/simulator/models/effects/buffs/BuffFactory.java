@@ -111,6 +111,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(SpecificDefenseBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(SpecificDefenseBuff.builder(), buffData, level), buffData);
 
+        } else if (type.equalsIgnoreCase(Stun.class.getSimpleName())) {
+            return setCommonBuffParams(Stun.builder(), buffData);
+
         } else if (type.equalsIgnoreCase(SureHit.class.getSimpleName())) {
             return setCommonBuffParams(SureHit.builder(), buffData);
         }

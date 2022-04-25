@@ -12,6 +12,7 @@ import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
 import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
+import yome.fgo.simulator.models.effects.buffs.ImmobilizeDebuff;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -149,6 +150,15 @@ public class Combatant {
         for (final Buff buff : buffs) {
             if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
                 buff.setApplied();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isImmobilized() {
+        for (final Buff buff : buffs) {
+            if (buff instanceof ImmobilizeDebuff) {
                 return true;
             }
         }
