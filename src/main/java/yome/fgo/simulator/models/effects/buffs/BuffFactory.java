@@ -39,6 +39,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(CommandCardResist.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(CommandCardResist.builder(), buffData, level), buffData);
 
+        } else if (type.equalsIgnoreCase(CriticalChanceResist.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(CriticalChanceResist.builder(), buffData, level), buffData);
+
         } else if (type.equalsIgnoreCase(CriticalDamageBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(CriticalDamageBuff.builder(), buffData, level), buffData);
 
@@ -75,6 +78,12 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(GrantTrait.class.getSimpleName())) {
             return setCommonBuffParams(GrantTrait.builder().trait(buffData.getStringValue()), buffData);
 
+        } else if (type.equalsIgnoreCase(IgnoreInvincible.class.getSimpleName())) {
+            return setCommonBuffParams(IgnoreInvincible.builder(), buffData);
+
+        } else if (type.equalsIgnoreCase(Invincible.class.getSimpleName())) {
+            return setCommonBuffParams(Invincible.builder(), buffData);
+
         } else if (type.equalsIgnoreCase(NpGenerationBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(NpGenerationBuff.builder(), buffData, level), buffData);
 
@@ -93,11 +102,17 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(ReceivedBuffChanceBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(ReceivedBuffChanceBuff.builder(), buffData, level), buffData);
 
+        } else if (type.equalsIgnoreCase(SpecialInvincible.class.getSimpleName())) {
+            return setCommonBuffParams(SpecialInvincible.builder(), buffData);
+
         } else if (type.equalsIgnoreCase(SpecificAttackBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(SpecificAttackBuff.builder(), buffData, level), buffData);
 
         } else if (type.equalsIgnoreCase(SpecificDefenseBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(SpecificDefenseBuff.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(SureHit.class.getSimpleName())) {
+            return setCommonBuffParams(SureHit.builder(), buffData);
         }
 
         throw new UnsupportedOperationException("Unsupported buff type: " + type);
@@ -118,6 +133,7 @@ public class BuffFactory {
         }
 
         builder.forceBuff(buffData.getForceBuff());
+        builder.irremovable(buffData.getIrremovable());
 
         return builder.build();
     }

@@ -3,26 +3,14 @@ package yome.fgo.simulator.models.effects.buffs;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-public class Evade extends Buff {
+public class Evade extends Buff implements DefenderBuff {
     @Override
-    public boolean isBuff() {
-        if (forceBuff < 0) {
-            return false;
-        } else if (forceBuff > 0) {
-            return true;
-        } else {
-            return true;
-        }
+    protected boolean commonBuffCondition() {
+        return true;
     }
 
     @Override
-    public boolean isDebuff() {
-        if (forceBuff < 0) {
-            return true;
-        } else if (forceBuff > 0) {
-            return false;
-        } else {
-            return false;
-        }
+    protected boolean commonDebuffCondition() {
+        return false;
     }
 }

@@ -9,6 +9,6 @@ public class BuffTypeEquals implements Condition {
 
     @Override
     public boolean evaluate(final Simulation simulation) {
-        return targetBuffType.isInstance(simulation.getCurrentBuffToApply());
+        return targetBuffType.isInstance(simulation.getCurrentBuff());
     }
 }

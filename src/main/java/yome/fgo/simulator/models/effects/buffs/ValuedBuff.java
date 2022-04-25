@@ -12,24 +12,12 @@ public class ValuedBuff extends Buff {
     }
 
     @Override
-    public boolean isBuff() {
-        if (forceBuff < 0) {
-            return false;
-        } else if (forceBuff > 0) {
-            return true;
-        } else {
-            return value > 0;
-        }
+    protected boolean commonBuffCondition() {
+        return value > 0;
     }
 
     @Override
-    public boolean isDebuff() {
-        if (forceBuff < 0) {
-            return true;
-        } else if (forceBuff > 0) {
-            return false;
-        } else {
-            return value < 0;
-        }
+    protected boolean commonDebuffCondition() {
+        return value < 0;
     }
 }

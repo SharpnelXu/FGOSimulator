@@ -32,7 +32,7 @@ public class GrantBuff extends Effect {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
                 final Buff buff = BuffFactory.buildBuff(buffData.get(level - 1), buffLevel);
-                simulation.setCurrentBuffToApply(buff);
+                simulation.setCurrentBuff(buff);
 
                 final double activationProbability;
                 if (buff.isDebuff()) {
@@ -53,7 +53,7 @@ public class GrantBuff extends Effect {
                     combatant.addBuff(buff);
                 }
 
-                simulation.setCurrentBuffToApply(null);
+                simulation.setCurrentBuff(null);
             }
             simulation.setEffectTarget(null);
         }

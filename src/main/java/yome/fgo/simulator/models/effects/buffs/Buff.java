@@ -23,13 +23,35 @@ public abstract class Buff {
 
     protected final int forceBuff;
 
+    private final boolean irremovable;
+
     public boolean isUsed() {
         return numTimesActive == 0 || numTurnsActive == 0;
     }
 
-    public abstract boolean isBuff();
+    protected abstract boolean commonBuffCondition();
 
-    public abstract boolean isDebuff();
+    protected abstract boolean commonDebuffCondition();
+
+    public boolean isBuff() {
+        if (forceBuff < 0) {
+            return false;
+        } else if (forceBuff > 0) {
+            return true;
+        } else {
+            return commonBuffCondition();
+        }
+    }
+
+    public boolean isDebuff() {
+        if (forceBuff < 0) {
+            return true;
+        } else if (forceBuff > 0) {
+            return false;
+        } else {
+            return commonDebuffCondition();
+        }
+    }
 
     public boolean shouldApply(final Simulation simulation) {
         return condition.evaluate(simulation) && !isUsed();

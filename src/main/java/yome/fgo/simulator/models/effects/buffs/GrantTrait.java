@@ -9,6 +9,16 @@ public class GrantTrait extends Buff {
     private final String trait;
 
     @Override
+    protected boolean commonBuffCondition() {
+        return false;
+    }
+
+    @Override
+    protected boolean commonDebuffCondition() {
+        return false;
+    }
+
+    @Override
     public boolean isBuff() {
         return forceBuff > 0;
     }

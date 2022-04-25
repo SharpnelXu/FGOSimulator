@@ -15,10 +15,15 @@ import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
 import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
+import yome.fgo.simulator.models.effects.buffs.Evade;
+import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
+import yome.fgo.simulator.models.effects.buffs.Invincible;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentDefenseBuff;
+import yome.fgo.simulator.models.effects.buffs.SpecialInvincible;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
+import yome.fgo.simulator.models.effects.buffs.SureHit;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.List;
@@ -104,7 +109,7 @@ public class CommandCardExecution {
 
         final int totalDamage = calculateTotalDamage(damageParameters);
 
-        final boolean skipDamage = defender.activateEvade(simulation);
+        final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
 
         int remainingDamage = totalDamage;
 
@@ -166,6 +171,27 @@ public class CommandCardExecution {
 
         // overkill bug
         defender.addCumulativeTurnDamage(totalDamage - remainingDamage);
+    }
+
+    public static boolean shouldSkipDamage(final Simulation simulation, final Combatant attacker, final Combatant defender) {
+        final boolean hasSpecialInvincible = defender.consumeBuffIfExist(simulation, SpecialInvincible.class);
+        final boolean hasIgnoreInvincible = attacker.consumeBuffIfExist(simulation, IgnoreInvincible.class);
+        if (hasSpecialInvincible) {
+            return true;
+        }
+        final boolean hasInvincible = defender.consumeBuffIfExist(simulation, Invincible.class);
+        if (hasIgnoreInvincible) {
+            return false;
+        }
+        final boolean hasSureHit = attacker.consumeBuffIfExist(simulation, SureHit.class);
+        if (hasInvincible) {
+            return true;
+        }
+        final boolean hasEvade = defender.consumeBuffIfExist(simulation, Evade.class);
+        if (hasSureHit) {
+            return false;
+        }
+        return hasEvade;
     }
 
     public static int calculateTotalDamage(DamageParameters damageParameters) {

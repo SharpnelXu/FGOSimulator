@@ -55,21 +55,6 @@ public class EffectFactory {
             setApplyConditionIfExists(builder, effectData);
 
             return builder.build();
-        } else if (type.equalsIgnoreCase(NpChange.class.getSimpleName())) {
-            final NpChange.NpChangeBuilder<?, ?> builder = NpChange.builder()
-                    .target(effectData.getTarget())
-                    .npChanges(effectData.getValuesList());
-
-            setApplyConditionIfExists(builder, effectData);
-
-            if (effectData.getIsOverchargedEffect()) {
-                builder.npChanges(effectData.getValuesList());
-                builder.isOverchargedEffect(true);
-            } else {
-                builder.npChanges(ImmutableList.of(effectData.getValues(level - 1)));
-            }
-
-            return builder.build();
         } else if (type.equalsIgnoreCase(NoblePhantasmDamage.class.getSimpleName())) {
             final NoblePhantasmDamage.NoblePhantasmDamageBuilder<?, ?> builder = NoblePhantasmDamage.builder()
                     .target(effectData.getTarget());
@@ -92,6 +77,37 @@ public class EffectFactory {
                 builder.isOverchargedEffect(true);
             } else {
                 builder.damageRates(ImmutableList.of(effectData.getValues(level - 1)));
+            }
+
+            return builder.build();
+        } else if (type.equalsIgnoreCase(NpChange.class.getSimpleName())) {
+            final NpChange.NpChangeBuilder<?, ?> builder = NpChange.builder()
+                    .target(effectData.getTarget());
+
+            setApplyConditionIfExists(builder, effectData);
+
+            if (effectData.getIsOverchargedEffect()) {
+                builder.npChanges(effectData.getValuesList());
+                builder.isOverchargedEffect(true);
+            } else {
+                builder.npChanges(ImmutableList.of(effectData.getValues(level - 1)));
+            }
+
+            return builder.build();
+        } else if (type.equalsIgnoreCase(RemoveBuff.class.getSimpleName())) {
+            final RemoveBuff.RemoveBuffBuilder<?, ?> builder = RemoveBuff.builder()
+                    .target(effectData.getTarget());
+
+            setApplyConditionIfExists(builder, effectData);
+
+            if (effectData.getIsOverchargedEffect()) {
+                builder.numToRemove(effectData.getValuesList()
+                                            .stream()
+                                            .map(Double::intValue)
+                                            .collect(Collectors.toList()));
+                builder.isOverchargedEffect(true);
+            } else {
+                builder.numToRemove(ImmutableList.of((int) effectData.getValues(level - 1)));
             }
 
             return builder.build();

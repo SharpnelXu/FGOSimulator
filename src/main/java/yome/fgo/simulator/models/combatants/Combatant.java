@@ -150,10 +150,10 @@ public class Combatant {
         return RoundUtils.roundNearest(totalValue);
     }
 
-    public boolean activateEvade(final Simulation simulation) {
+    public boolean consumeBuffIfExist(final Simulation simulation, final Class<? extends Buff> buffClass) {
         for (int j = buffs.size() - 1; j >= 0; j--) {
             final Buff buff = buffs.get(j);
-            if (buff instanceof Evade && buff.shouldApply(simulation)) {
+            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
                 buff.applyOnce();
                 if (buff.isUsed()) {
                     buffs.remove(j);

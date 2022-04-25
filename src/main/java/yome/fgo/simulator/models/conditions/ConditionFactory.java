@@ -8,6 +8,8 @@ import yome.fgo.simulator.models.effects.buffs.Buff;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
+import static yome.fgo.simulator.models.conditions.BuffIsBuff.BUFF_IS_BUFF;
+import static yome.fgo.simulator.models.conditions.BuffIsDebuff.BUFF_IS_DEBUFF;
 import static yome.fgo.simulator.models.conditions.Never.NEVER;
 import static yome.fgo.simulator.models.conditions.NpCard.NP_CARD;
 
@@ -22,6 +24,12 @@ public class ConditionFactory {
                                    .stream()
                                    .map(ConditionFactory::buildCondition)
                                    .collect(Collectors.toList()));
+
+        } else if (type.equalsIgnoreCase(BuffIsBuff.class.getSimpleName())) {
+            return BUFF_IS_BUFF;
+
+        } else if (type.equalsIgnoreCase(BuffIsDebuff.class.getSimpleName())) {
+            return BUFF_IS_DEBUFF;
 
         } else if (type.equalsIgnoreCase(BuffTypeEquals.class.getSimpleName())) {
             try {

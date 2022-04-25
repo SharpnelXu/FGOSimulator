@@ -3,5 +3,5 @@ package yome.fgo.simulator.models.effects.buffs;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-public class CommandCardBuff extends ValuedBuff {
+public class CommandCardBuff extends ValuedBuff implements AttackerBuff {
 }

@@ -8,9 +8,9 @@
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "SKY",
       "traits": ["demonic", "divine", "hominidaeServant", "humanoid", "pseudoServant", "riding", "weakToEnumaElish", "childServant"],
-      "deathRate": 5.0
+      "deathRate": 0.05
     },
-    "defenseNpRate": 5.0,
+    "defenseNpRate": 0.05,
     "criticalStarWeight": 29,
     "commandCardData": [{
       "commandCardType": "QUICK",
@@ -137,14 +137,16 @@
         "target": "SELF",
         "buffData": [{
           "type": "DefNpGenerationBuff",
-          "values": [0.18]
+          "values": [0.18],
+          "irremovable": true
         }]
       }, {
         "type": "GrantBuff",
         "target": "ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [-0.08]
+          "values": [-0.08],
+          "irremovable": true
         }],
         "probabilities": [5.0]
       }]
@@ -154,7 +156,8 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.08]
+          "values": [0.08],
+          "irremovable": true
         }]
       }]
     }, {
@@ -168,7 +171,8 @@
             "target": "SELF",
             "values": [0.038]
           }],
-          "forceBuff": 1
+          "forceBuff": 1,
+          "irremovable": true
         }]
       }]
     }, {
@@ -177,14 +181,16 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.02]
+          "values": [0.02],
+          "irremovable": true
         }]
       }, {
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
           "type": "DeathResist",
-          "values": [0.02]
+          "values": [0.02],
+          "irremovable": true
         }]
       }, {
         "type": "GrantBuff",
@@ -195,7 +201,8 @@
             "type": "BuffTypeEquals",
             "value": "MentalDebuff"
           },
-          "values": [0.02]
+          "values": [0.02],
+          "irremovable": true
         }]
       }]
     }, {
@@ -204,7 +211,8 @@
         "target": "SELF",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [0.2]
+          "values": [0.2],
+          "irremovable": true
         }]
       }]
     }, {
@@ -217,11 +225,20 @@
             "type": "CardTypeEquals",
             "value": "QUICK"
           },
-          "values": [0.1]
+          "values": [0.1],
+          "irremovable": true
         }]
       }]
     }, {
       "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DamageAdditionBuff",
+          "values": [225.0],
+          "irremovable": true
+        }]
+      }, {
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
@@ -230,7 +247,8 @@
             "type": "BuffTypeEquals",
             "value": "Charm"
           },
-          "values": [5.0]
+          "values": [5.0],
+          "irremovable": true
         }]
       }]
     }],
@@ -244,7 +262,8 @@
             "type": "CardTypeEquals",
             "value": "EXTRA"
           },
-          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+          "irremovable": true
         }]
       }]
     }, {
@@ -264,7 +283,8 @@
             "value": "LANCER",
             "target": "DEFENDER"
           },
-          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+          "irremovable": true
         }]
       }]
     }],
@@ -791,9 +811,9 @@
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "SKY",
       "traits": ["demonic", "divine", "hominidaeServant", "humanoid", "pseudoServant", "riding", "weakToEnumaElish"],
-      "deathRate": 5.0
+      "deathRate": 0.05
     },
-    "defenseNpRate": 5.0,
+    "defenseNpRate": 0.05,
     "criticalStarWeight": 29,
     "commandCardData": [{
       "commandCardType": "QUICK",
@@ -920,14 +940,16 @@
         "target": "SELF",
         "buffData": [{
           "type": "DefNpGenerationBuff",
-          "values": [0.18]
+          "values": [0.18],
+          "irremovable": true
         }]
       }, {
         "type": "GrantBuff",
         "target": "ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [-0.08]
+          "values": [-0.08],
+          "irremovable": true
         }],
         "probabilities": [5.0]
       }]
@@ -937,7 +959,8 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.08]
+          "values": [0.08],
+          "irremovable": true
         }]
       }]
     }, {
@@ -951,7 +974,8 @@
             "target": "SELF",
             "values": [0.038]
           }],
-          "forceBuff": 1
+          "forceBuff": 1,
+          "irremovable": true
         }]
       }]
     }, {
@@ -960,14 +984,16 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.02]
+          "values": [0.02],
+          "irremovable": true
         }]
       }, {
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
           "type": "DeathResist",
-          "values": [0.02]
+          "values": [0.02],
+          "irremovable": true
         }]
       }, {
         "type": "GrantBuff",
@@ -978,7 +1004,8 @@
             "type": "BuffTypeEquals",
             "value": "MentalDebuff"
           },
-          "values": [0.02]
+          "values": [0.02],
+          "irremovable": true
         }]
       }]
     }, {
@@ -987,7 +1014,8 @@
         "target": "SELF",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [0.2]
+          "values": [0.2],
+          "irremovable": true
         }]
       }]
     }, {
@@ -1000,11 +1028,20 @@
             "type": "CardTypeEquals",
             "value": "QUICK"
           },
-          "values": [0.1]
+          "values": [0.1],
+          "irremovable": true
         }]
       }]
     }, {
       "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DamageAdditionBuff",
+          "values": [225.0],
+          "irremovable": true
+        }]
+      }, {
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
@@ -1013,7 +1050,8 @@
             "type": "BuffTypeEquals",
             "value": "Charm"
           },
-          "values": [5.0]
+          "values": [5.0],
+          "irremovable": true
         }]
       }]
     }],
@@ -1027,7 +1065,8 @@
             "type": "CardTypeEquals",
             "value": "EXTRA"
           },
-          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+          "irremovable": true
         }]
       }]
     }, {
@@ -1047,7 +1086,8 @@
             "value": "LANCER",
             "target": "DEFENDER"
           },
-          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+          "irremovable": true
         }]
       }]
     }],

@@ -161,6 +161,7 @@ message BuffData {
   Target target = 8;
 
   int32 forceBuff = 9;
+  bool irremovable = 10;
 }
 
 enum Target {

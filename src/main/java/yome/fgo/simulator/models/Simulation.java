@@ -82,7 +82,7 @@ public class Simulation {
     private Combatant activator;
     private CommandCard currentCommandCard;
     private Combatant effectTarget;
-    private Buff currentBuffToApply;
+    private Buff currentBuff;
 
     public void initiate() {
         currentStage = 1;

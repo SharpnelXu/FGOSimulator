@@ -30,6 +30,7 @@ import java.util.List;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ANY;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCritStar;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
+import static yome.fgo.simulator.models.effects.CommandCardExecution.shouldSkipDamage;
 import static yome.fgo.simulator.utils.AttributeUtils.getAttributeAdvantage;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.getCommandCardDamageCorrection;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.modifierCap;
@@ -112,7 +113,7 @@ public class NoblePhantasmDamage extends Effect {
 
             final int totalDamage = calculateTotalNpDamage(npDamageParams);
 
-            final boolean skipDamage = defender.activateEvade(simulation);
+            final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
 
             int remainingDamage = totalDamage;
 
