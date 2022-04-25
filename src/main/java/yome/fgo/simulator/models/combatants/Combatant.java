@@ -256,6 +256,15 @@ public class Combatant {
     public void changeNp(final double percentNpChange) {
     }
 
+    public void changeNpGauge(final int gaugeChange) {
+        currentNpGauge += gaugeChange;
+        if (currentNpGauge > maxNpGauge) {
+            currentNpGauge = maxNpGauge;
+        } if (currentNpGauge < 0) {
+            currentNpGauge = 0;
+        }
+    }
+
     public void changeHp(final int hpChange) {
         currentHp += hpChange;
 

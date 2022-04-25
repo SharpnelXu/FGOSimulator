@@ -149,6 +149,22 @@ public class EffectFactory {
             }
 
             return builder.build();
+        } else if (type.equalsIgnoreCase(NpGaugeChange.class.getSimpleName())) {
+            final NpGaugeChange.NpGaugeChangeBuilder<?, ?> builder = NpGaugeChange.builder();
+
+            setApplyConditionIfExists(builder, effectData);
+
+            if (effectData.getIsOverchargedEffect()) {
+                builder.npGaugeChanges(effectData.getValuesList()
+                                       .stream()
+                                       .map(Double::intValue)
+                                       .collect(Collectors.toList()));
+                builder.isOverchargedEffect(true);
+            } else if (effectData.getValuesCount() >= level) {
+                builder.npGaugeChanges(ImmutableList.of((int) effectData.getValues(level - 1)));
+            } else {
+                builder.npGaugeChanges(ImmutableList.of((int) effectData.getValues(0)));
+            }
         } else if (type.equalsIgnoreCase(OrderChange.class.getSimpleName())) {
             return ORDER_CHANGE;
         } else if (type.equalsIgnoreCase(RemoveBuff.class.getSimpleName())) {
