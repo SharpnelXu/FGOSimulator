@@ -171,6 +171,8 @@ public class Servant extends Combatant {
 
         activeSkills.get(activeSkillIndex).activate(simulation);
 
+        simulation.checkBuffStatus();
+
         simulation.setActivator(null);
     }
 
@@ -183,7 +185,7 @@ public class Servant extends Combatant {
         currentNp = 0;
         noblePhantasm.activate(simulation, overchargeLevel);
 
-        activatePostAttackEffect(simulation);
+        simulation.checkBuffStatus();
 
         simulation.setCurrentCommandCard(null);
         simulation.setActivator(null);
@@ -208,8 +210,6 @@ public class Servant extends Combatant {
 
         CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain);
 
-        activatePostAttackEffect(simulation);
-
         simulation.setCurrentCommandCard(null);
         simulation.setDefender(null);
         simulation.setAttacker(null);
@@ -225,8 +225,6 @@ public class Servant extends Combatant {
         simulation.setCurrentCommandCard(extraCommandCard);
 
         CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain);
-
-        activatePostAttackEffect(simulation);
 
         simulation.setCurrentCommandCard(null);
         simulation.setDefender(null);

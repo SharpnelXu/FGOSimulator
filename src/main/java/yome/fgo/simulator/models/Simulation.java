@@ -190,12 +190,24 @@ public class Simulation {
     public void checkBuffStatus() {
         for (final Servant servant : currentServants) {
             if (servant != null) {
-                servant.removeUsedBuff();
+                for (final Buff buff : servant.getBuffs()) {
+                    if (buff.isApplied()) {
+                        buff.decreaseNumTimeActive();
+                    }
+                }
+
+                servant.clearInactiveBuff();
             }
         }
         for (final Combatant combatant : currentEnemies) {
             if (combatant != null) {
-                combatant.removeUsedBuff();
+                for (final Buff buff : combatant.getBuffs()) {
+                    if (buff.isApplied()) {
+                        buff.decreaseNumTimeActive();
+                    }
+                }
+
+                combatant.clearInactiveBuff();
             }
         }
     }

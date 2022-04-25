@@ -206,12 +206,23 @@ public class SimulationTest {
         simulation.activateServantSkill(2, 0);
         simulation.activateServantSkill(2, 1);
         simulation.activateServantSkill(2, 2);
+
+        assertEquals(1.20, kama.getCurrentNp());
+
         final CombatAction kamaNp = createNoblePhantasmAction(0);
         simulation.executeCombatActions(ImmutableList.of(kamaNp));
+
+        assertEquals(1.0472, kama.getCurrentNp());
+
         simulation.executeCombatActions(ImmutableList.of(kamaNp));
+
+        assertEquals(0.9842, kama.getCurrentNp());
+
         simulation.activateServantSkill(0, 1);
         simulation.activateServantSkill(0, 2);
         simulation.executeCombatActions(ImmutableList.of(kamaNp));
+
+        assertEquals(0.8896, kama.getCurrentNp());
 
         assertTrue(simulation.isSimulationCompleted());
     }

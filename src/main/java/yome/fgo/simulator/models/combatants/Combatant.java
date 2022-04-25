@@ -9,10 +9,9 @@ import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
 import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
-import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
-import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -112,7 +111,7 @@ public class Combatant {
         for (final Buff buff : buffs) {
             if (buff instanceof GrantTrait && buff.shouldApply(simulation)) {
                 allTraits.add(((GrantTrait) buff).getTrait());
-                buff.applyOnce();
+                buff.setApplied();
             }
         }
 
@@ -137,27 +136,19 @@ public class Combatant {
 
     public double applyBuff(final Simulation simulation, final Class<? extends ValuedBuff> buffClass) {
         double totalValue = 0;
-        for (int j = buffs.size() - 1; j >= 0; j--) {
-            final Buff buff = buffs.get(j);
+        for (final Buff buff : buffs) {
             if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
                 totalValue += buffClass.cast(buff).getValue(simulation);
-                buff.applyOnce();
-                if (buff.isUsed()) {
-                    buffs.remove(j);
-                }
+                buff.setApplied();
             }
         }
         return RoundUtils.roundNearest(totalValue);
     }
 
     public boolean consumeBuffIfExist(final Simulation simulation, final Class<? extends Buff> buffClass) {
-        for (int j = buffs.size() - 1; j >= 0; j--) {
-            final Buff buff = buffs.get(j);
+        for (final Buff buff : buffs) {
             if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
-                buff.applyOnce();
-                if (buff.isUsed()) {
-                    buffs.remove(j);
-                }
+                buff.setApplied();
                 return true;
             }
         }
@@ -203,48 +194,34 @@ public class Combatant {
             currentNpGauge = maxNpGauge;
         }
 
-        activateEndOfTurnEffect(simulation);
+        activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
+
+        simulation.checkBuffStatus();
 
         for (final Buff buff : buffs) {
-            buff.decreaseTurnDuration();
+            buff.decreaseNumTurnsActive();
         }
 
-        removeUsedBuff();
+        clearInactiveBuff();
     }
 
-    public void removeUsedBuff() {
+    public void clearInactiveBuff() {
         for (int j = buffs.size() - 1; j >= 0; j--) {
-            if (buffs.get(j).isUsed()) {
+            if (buffs.get(j).isInactive()) {
                 buffs.remove(j);
             }
         }
     }
 
-    public void activatePostAttackEffect(final Simulation simulation) {
-        for (int j = buffs.size() - 1; j >= 0; j--) {
-            final Buff buff = buffs.get(j);
-            if (buff instanceof PostAttackEffect && buff.shouldApply(simulation)) {
+    public void activateEffectActivatingBuff(
+            final Simulation simulation,
+            final Class<? extends EffectActivatingBuff> buffClass
+    ) {
+        for (final Buff buff : buffs) {
+            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
                 simulation.setActivator(this);
-                ((PostAttackEffect) buff).activate(simulation);
-                buff.applyOnce();
-                if (buff.isUsed()) {
-                    buffs.remove(j);
-                }
-                simulation.setActivator(null);
-            }
-        }
-    }
-
-    public void activateEndOfTurnEffect(final Simulation simulation) {
-        for (int j = buffs.size() - 1; j >= 0; j--) {
-            final Buff buff = buffs.get(j);
-            if (buff instanceof EndOfTurnEffect && buff.shouldApply(simulation)) {
-                simulation.setActivator(this);
-                ((EndOfTurnEffect) buff).activate(simulation);
-                buff.applyOnce();
-                if (buff.isUsed()) {
-                    buffs.remove(j);
-                }
+                ((EffectActivatingBuff) buff).activate(simulation);
+                buff.setApplied();
                 simulation.setActivator(null);
             }
         }

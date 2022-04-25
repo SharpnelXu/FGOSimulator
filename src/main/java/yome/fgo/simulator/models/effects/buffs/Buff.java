@@ -25,7 +25,9 @@ public abstract class Buff {
 
     private final boolean irremovable;
 
-    public boolean isUsed() {
+    private boolean isApplied; // for correcting decreasing numTimesActive
+
+    public boolean isInactive() {
         return numTimesActive == 0 || numTurnsActive == 0;
     }
 
@@ -54,16 +56,21 @@ public abstract class Buff {
     }
 
     public boolean shouldApply(final Simulation simulation) {
-        return condition.evaluate(simulation) && !isUsed();
+        return condition.evaluate(simulation) && !isInactive();
     }
 
-    public void applyOnce() {
+    public void setApplied() {
+        isApplied = true;
+    }
+
+    public void decreaseNumTimeActive() {
+        isApplied = false;
         if (numTimesActive > 0) {
             numTimesActive -= 1;
         }
     }
 
-    public void decreaseTurnDuration() {
+    public void decreaseNumTurnsActive() {
         if (numTurnsActive > 0) {
             numTurnsActive -= 1;
         }

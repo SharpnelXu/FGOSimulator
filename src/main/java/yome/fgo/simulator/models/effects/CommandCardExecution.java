@@ -20,6 +20,7 @@ import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
 import yome.fgo.simulator.models.effects.buffs.Invincible;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentDefenseBuff;
+import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
 import yome.fgo.simulator.models.effects.buffs.SpecialInvincible;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
@@ -168,6 +169,10 @@ public class CommandCardExecution {
             }
         }
         simulation.gainStar(RoundUtils.roundNearest(totalCritStar));
+
+        attacker.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
+
+        simulation.checkBuffStatus();
 
         // overkill bug
         defender.addCumulativeTurnDamage(totalDamage - remainingDamage);
