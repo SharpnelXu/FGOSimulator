@@ -9,16 +9,16 @@ import yome.fgo.simulator.utils.TargetUtils;
 import java.util.List;
 
 @SuperBuilder
-public class HpChange extends Effect {
+public class DecreaseActiveSKillCoolDown extends Effect {
     private final Target target;
     private final List<Integer> values;
 
     @Override
-    protected void internalApply(final Simulation simulation, final int level) {
+    protected void internalApply(Simulation simulation, int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                combatant.changeHp(values.get(level - 1));
+                combatant.decreaseActiveSkillsCoolDown(values.get(level));
             }
             simulation.setEffectTarget(null);
         }

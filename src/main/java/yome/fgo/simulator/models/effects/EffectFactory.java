@@ -41,6 +41,22 @@ public class EffectFactory {
             }
 
             return builder.build();
+        } else if (type.equalsIgnoreCase(DecreaseActiveSKillCoolDown.class.getSimpleName())) {
+            final DecreaseActiveSKillCoolDown.DecreaseActiveSKillCoolDownBuilder<?, ?> builder = DecreaseActiveSKillCoolDown.builder();
+
+            setApplyConditionIfExists(builder, effectData);
+
+            if (effectData.getIsOverchargedEffect()) {
+                builder.values(effectData.getValuesList()
+                                       .stream()
+                                       .map(Double::intValue)
+                                       .collect(Collectors.toList()));
+                builder.isOverchargedEffect(true);
+            } else if (effectData.getValuesCount() >= level) {
+                builder.values(ImmutableList.of((int) effectData.getValues(level - 1)));
+            } else {
+                builder.values(ImmutableList.of((int) effectData.getValues(0)));
+            }
         } else if (type.equalsIgnoreCase(GrantBuff.class.getSimpleName())) {
             final GrantBuff.GrantBuffBuilder<?, ?> builder = GrantBuff.builder()
                     .target(effectData.getTarget())

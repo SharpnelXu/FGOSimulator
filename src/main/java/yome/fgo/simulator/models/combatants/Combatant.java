@@ -251,4 +251,8 @@ public class Combatant {
             currentHp = maxHp;
         }
     }
+
+    public void decreaseActiveSkillsCoolDown(final int change) {
+
+    }
 }

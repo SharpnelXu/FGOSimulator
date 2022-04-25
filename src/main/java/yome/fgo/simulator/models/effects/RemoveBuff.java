@@ -1,7 +1,7 @@
 package yome.fgo.simulator.models.effects;
 
 import lombok.experimental.SuperBuilder;
-import yome.fgo.data.proto.FgoStorageData;
+import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
@@ -11,12 +11,13 @@ import java.util.List;
 
 @SuperBuilder
 public class RemoveBuff extends Effect {
-    private final FgoStorageData.Target target;
+    private final Target target;
     private final List<Integer> numToRemove;
 
     @Override
     public void internalApply(final Simulation simulation, final int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
+            simulation.setEffectTarget(combatant);
             int removeCount = 0;
             final List<Buff> buffList = combatant.getBuffs();
 
@@ -34,6 +35,7 @@ public class RemoveBuff extends Effect {
                 }
                 simulation.setCurrentBuff(null);
             }
+            simulation.setEffectTarget(null);
         }
     }
 }

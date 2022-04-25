@@ -279,4 +279,11 @@ public class Servant extends Combatant {
     public static boolean shouldApplyNpPity(final double currentNp, final double npChange) {
         return Math.signum(npChange) > 0 && currentNp < NP_CAP_1 && currentNp > NP_GAIN_PITY_THRESHOLD;
     }
+
+    @Override
+    public void decreaseActiveSkillsCoolDown(final int decrease) {
+        for (final ActiveSkill activeSkill : activeSkills) {
+            activeSkill.decreaseCoolDown(decrease);
+        }
+    }
 }

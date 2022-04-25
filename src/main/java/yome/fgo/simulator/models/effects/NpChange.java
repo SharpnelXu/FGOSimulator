@@ -16,9 +16,11 @@ public class NpChange extends Effect {
     @Override
     public void internalApply(final Simulation simulation, final int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
+            simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
                 combatant.changeNp(npChanges.get(level - 1));
             }
+            simulation.setEffectTarget(null);
         }
     }
 }
