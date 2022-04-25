@@ -9,7 +9,6 @@ import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
-import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.CommandCardExecution.CriticalStarParameters;
 import yome.fgo.simulator.models.effects.CommandCardExecution.NpParameters;
 import yome.fgo.simulator.models.effects.buffs.AttackBuff;
@@ -51,7 +50,7 @@ public class NoblePhantasmDamage extends Effect {
         final CommandCard currentCard = simulation.getCurrentCommandCard();
         final CommandCardType currentCardType = currentCard.getCommandCardType();
         final List<Integer> hitsPercentages = currentCard.getHitPercentages();
-        final Servant attacker = simulation.getActivator();
+        final Combatant attacker = simulation.getActivator();
         simulation.setAttacker(attacker);
 
         final double damageRate = damageRates.get(level - 1);

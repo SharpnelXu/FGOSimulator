@@ -20,8 +20,6 @@ import yome.fgo.data.proto.FgoStorageData.Status;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
 import yome.fgo.simulator.models.effects.CommandCardExecution;
-import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
@@ -109,13 +107,13 @@ public class Servant extends Combatant {
 
         final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(this.ascension - 1);
         final NoblePhantasmData noblePhantasmData = servantAscensionData.getNoblePhantasmUpgrades()
-                .getNoblePhantasmData(servantOption.getNoblePhantasmRank());
+                .getNoblePhantasmData(servantOption.getNoblePhantasmRank() - 1);
         this.noblePhantasm = new NoblePhantasm(noblePhantasmData, this.noblePhantasmLevel);
 
         this.activeSkills = new ArrayList<>();
         for (int i = 0; i < servantAscensionData.getActiveSkillUpgradesCount(); i++) {
             final ActiveSkillData activeSkillData = servantAscensionData.getActiveSkillUpgrades(i)
-                    .getActiveSkillData(servantOption.getActiveSkillRanks(i));
+                    .getActiveSkillData(servantOption.getActiveSkillRanks(i) - 1);
             this.activeSkills.add(new ActiveSkill(activeSkillData, servantOption.getActiveSkillLevels(i)));
         }
 
@@ -232,21 +230,6 @@ public class Servant extends Combatant {
         simulation.setCurrentCommandCard(null);
         simulation.setDefender(null);
         simulation.setAttacker(null);
-    }
-
-    public void activatePostAttackEffect(final Simulation simulation) {
-        for (int j = buffs.size() - 1; j >= 0; j--) {
-            final Buff buff = buffs.get(j);
-            if (buff instanceof PostAttackEffect && buff.shouldApply(simulation)) {
-                simulation.setActivator(this);
-                ((PostAttackEffect) buff).activate(simulation);
-                buff.applyOnce();
-                if (buff.isUsed()) {
-                    buffs.remove(j);
-                }
-                simulation.setActivator(null);
-            }
-        }
     }
 
     public CommandCardType getNoblePhantasmType() {

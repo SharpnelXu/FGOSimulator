@@ -13,6 +13,7 @@ import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.CriticalStarChange;
 import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.NpChange;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.levels.Stage;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
@@ -76,11 +77,12 @@ public class Simulation {
     public double probabilityThreshold;
 
     // condition related fields
-    private Servant attacker;
+    private Combatant attacker;
     private Combatant defender;
-    private Servant activator;
+    private Combatant activator;
     private CommandCard currentCommandCard;
     private Combatant effectTarget;
+    private Buff currentBuffToApply;
 
     public void initiate() {
         currentStage = 1;

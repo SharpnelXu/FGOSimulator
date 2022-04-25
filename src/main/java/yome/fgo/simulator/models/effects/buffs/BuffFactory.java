@@ -51,6 +51,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(DamageReductionBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(DamageReductionBuff.builder(), buffData, level), buffData);
 
+        } else if (type.equalsIgnoreCase(DeathResist.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(DeathResist.builder(), buffData, level), buffData);
+
         } else if (type.equalsIgnoreCase(DebuffChanceBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(DebuffChanceBuff.builder(), buffData, level), buffData);
 
@@ -62,6 +65,9 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(DefNpGenerationBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(DefNpGenerationBuff.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(EndOfTurnEffect.class.getSimpleName())) {
+            return setCommonBuffParams(setEffectActivatingBuffParams(EndOfTurnEffect.builder(), buffData, level), buffData);
 
         } else if (type.equalsIgnoreCase(Evade.class.getSimpleName())) {
             return setCommonBuffParams(Evade.builder(), buffData);
@@ -82,10 +88,7 @@ public class BuffFactory {
             return setCommonBuffParams(setValuedBuffParams(PercentDefenseBuff.builder(), buffData, level), buffData);
 
         } else if (type.equalsIgnoreCase(PostAttackEffect.class.getSimpleName())) {
-            return setCommonBuffParams(
-                    PostAttackEffect.builder().effects(EffectFactory.buildEffects(buffData.getSubEffectsList(), level)),
-                    buffData
-            );
+            return setCommonBuffParams(setEffectActivatingBuffParams(PostAttackEffect.builder(), buffData, level), buffData);
 
         } else if (type.equalsIgnoreCase(ReceivedBuffChanceBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(ReceivedBuffChanceBuff.builder(), buffData, level), buffData);
@@ -131,5 +134,13 @@ public class BuffFactory {
         }
 
         return builder;
+    }
+
+    public static EffectActivatingBuff.EffectActivatingBuffBuilder<?, ?> setEffectActivatingBuffParams(
+            final EffectActivatingBuff.EffectActivatingBuffBuilder<?, ?> builder,
+            final BuffData buffData,
+            final int level
+    ) {
+        return builder.effects(EffectFactory.buildEffects(buffData.getSubEffectsList(), level));
     }
 }

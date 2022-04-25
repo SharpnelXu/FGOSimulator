@@ -2,32 +2,43 @@ package yome.fgo.data.writer.servants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
-import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillUpgrades;
+import yome.fgo.data.proto.FgoStorageData.AppendSkillData;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardData;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
+import yome.fgo.data.proto.FgoStorageData.NoblePhantasmUpgrades;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
+import yome.fgo.data.proto.FgoStorageData.ServantData;
+import yome.fgo.simulator.models.conditions.BuffTypeEquals;
 import yome.fgo.simulator.models.conditions.CardTypeEquals;
 import yome.fgo.simulator.models.conditions.Not;
 import yome.fgo.simulator.models.conditions.NpCard;
 import yome.fgo.simulator.models.conditions.TargetsHaveBuff;
+import yome.fgo.simulator.models.conditions.TargetsHaveClass;
 import yome.fgo.simulator.models.effects.GrantBuff;
+import yome.fgo.simulator.models.effects.NoblePhantasmDamage;
 import yome.fgo.simulator.models.effects.NpChange;
+import yome.fgo.simulator.models.effects.buffs.AttackBuff;
 import yome.fgo.simulator.models.effects.buffs.BuffSpecificAttackBuff;
+import yome.fgo.simulator.models.effects.buffs.BurningLove;
 import yome.fgo.simulator.models.effects.buffs.Charm;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
 import yome.fgo.simulator.models.effects.buffs.CriticalDamageBuff;
+import yome.fgo.simulator.models.effects.buffs.DeathResist;
 import yome.fgo.simulator.models.effects.buffs.DebuffResist;
 import yome.fgo.simulator.models.effects.buffs.DefNpGenerationBuff;
+import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
+import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
 import yome.fgo.simulator.models.effects.buffs.Evade;
+import yome.fgo.simulator.models.effects.buffs.MentalDebuff;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
-import yome.fgo.simulator.models.effects.buffs.BurningLove;
 import yome.fgo.simulator.translation.Traits;
 
 import java.io.IOException;
@@ -41,12 +52,15 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.AVENGER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.LANCER;
 import static yome.fgo.data.proto.FgoStorageData.Gender.FEMALE;
+import static yome.fgo.data.proto.FgoStorageData.NoblePhantasmType.ALL_TARGETS_NP;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES;
 import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
+import static yome.fgo.data.writer.DataWriter.writeServant;
 
 public class Servant321 {
     public static void main(String[] args) {
@@ -81,26 +95,26 @@ public class Servant321 {
         final CommandCardData quickCard = CommandCardData.newBuilder()
                 .setCommandCardType(QUICK)
                 .addAllHitsData(ImmutableList.of(10, 20, 30, 40))
-                .setNpRate(0.52)
-                .setCriticalStarGen(6.1)
+                .setNpRate(0.0052)
+                .setCriticalStarGen(0.061)
                 .build();
         final CommandCardData artsCard = CommandCardData.newBuilder()
                 .setCommandCardType(ARTS)
                 .addAllHitsData(ImmutableList.of(16, 33, 51))
-                .setNpRate(0.52)
-                .setCriticalStarGen(6.1)
+                .setNpRate(0.0052)
+                .setCriticalStarGen(0.061)
                 .build();
         final CommandCardData busterCard = CommandCardData.newBuilder()
                 .setCommandCardType(BUSTER)
                 .addAllHitsData(ImmutableList.of(16, 33, 51))
-                .setNpRate(0.52)
-                .setCriticalStarGen(6.1)
+                .setNpRate(0.0052)
+                .setCriticalStarGen(0.061)
                 .build();
         final CommandCardData extraCard = CommandCardData.newBuilder()
                 .setCommandCardType(EXTRA)
                 .addAllHitsData(ImmutableList.of(6, 13, 20, 26, 35))
-                .setNpRate(0.52)
-                .setCriticalStarGen(6.1)
+                .setNpRate(0.0052)
+                .setCriticalStarGen(0.061)
                 .build();
 
         final ActiveSkillData activeSkillData11 = ActiveSkillData.newBuilder()
@@ -110,7 +124,7 @@ public class Servant321 {
                                     .setTarget(SELF)
                                     .addBuffData(BuffData.newBuilder()
                                                          .setType(CommandCardBuff.class.getSimpleName())
-                                                         .addAllValues(generateSkillValues(20, 1))
+                                                         .addAllValues(generateSkillValues(0.2, 0.01))
                                                          .setNumTurnsActive(3)
                                                          .setApplyCondition(ConditionData.newBuilder()
                                                                                     .setType(CardTypeEquals.class.getSimpleName())
@@ -134,7 +148,7 @@ public class Servant321 {
                                     .setTarget(SELF)
                                     .addBuffData(BuffData.newBuilder()
                                                          .setType(NpDamageBuff.class.getSimpleName())
-                                                         .addAllValues(generateSkillValues(10, 1))
+                                                         .addAllValues(generateSkillValues(0.1, 0.01))
                                                          .setNumTurnsActive(3)))
                 .addEffects(EffectData.newBuilder()
                                     .setType(GrantBuff.class.getSimpleName())
@@ -159,6 +173,7 @@ public class Servant321 {
                                     .setTarget(SELF)
                                     .addBuffData(BuffData.newBuilder()
                                                          .setType(PostAttackEffect.class.getSimpleName())
+                                                         .setForceBuff(1)
                                                          .setNumTurnsActive(3)
                                                          .setApplyCondition(ConditionData.newBuilder()
                                                                                     .setType(Not.class.getSimpleName())
@@ -175,7 +190,7 @@ public class Servant321 {
                                     .setTarget(SELF)
                                     .addBuffData(BuffData.newBuilder()
                                                          .setType(BuffSpecificAttackBuff.class.getSimpleName())
-                                                         .addValues(10)
+                                                         .addValues(0.1)
                                                          .setNumTurnsActive(3)
                                                          .setTarget(DEFENDER)
                                                          .setStringValue(BurningLove.class.getSimpleName())
@@ -188,9 +203,35 @@ public class Servant321 {
                 .addActiveSkillData(activeSkillData31)
                 .build();
 
+        final NoblePhantasmData noblePhantasmData1 = NoblePhantasmData.newBuilder()
+                .setCommandCardData(CommandCardData.newBuilder()
+                                            .setCommandCardType(ARTS)
+                                            .addAllHitsData(ImmutableList.of(10, 20, 30, 40))
+                                            .setNpRate(0.0052)
+                                            .setCriticalStarGen(0.061))
+                .setNoblePhantasmType(ALL_TARGETS_NP)
+                .addEffects(EffectData.newBuilder()
+                                    .setType(NoblePhantasmDamage.class.getSimpleName())
+                                    .setTarget(ALL_ENEMIES)
+                                    .addAllValues(ImmutableList.of(4.5, 6.0, 6.75, 7.125, 7.5))
+                                    .setIsNpSpecificDamageOverchargedEffect(true)
+                                    .addAllNpSpecificDamageRate(ImmutableList.of(1.5, 1.625, 1.75, 1.875, 2.0)))
+                .addEffects(EffectData.newBuilder()
+                                    .setType(GrantBuff.class.getSimpleName())
+                                    .setTarget(ALL_ENEMIES)
+                                    .addBuffData(BuffData.newBuilder()
+                                                         .setType(DefenseBuff.class.getSimpleName())
+                                                         .addValues(0.2)
+                                                         .setNumTurnsActive(3)))
+                .build();
+        final NoblePhantasmUpgrades noblePhantasmUpgrades = NoblePhantasmUpgrades.newBuilder()
+                .addNoblePhantasmData(noblePhantasmData1)
+                .build();
+
         final ServantAscensionData.Builder commonAscensionData = ServantAscensionData.newBuilder()
                 .setDefenseNpRate(5)
                 .setCriticalStarWeight(29)
+                .setCost(16)
                 .addCommandCardData(quickCard)
                 .addCommandCardData(quickCard)
                 .addCommandCardData(artsCard)
@@ -200,6 +241,7 @@ public class Servant321 {
                 .addActiveSkillUpgrades(activeSkillUpgrades1)
                 .addActiveSkillUpgrades(activeSkillUpgrades2)
                 .addActiveSkillUpgrades(activeSkillUpgrades3)
+                .setNoblePhantasmUpgrades(noblePhantasmUpgrades)
                 .addPassiveSkillData(PassiveSkillData.newBuilder()
                                              .addEffects(EffectData.newBuilder()
                                                                  .setType(GrantBuff.class.getSimpleName())
@@ -221,7 +263,101 @@ public class Servant321 {
                                                                  .addBuffData(BuffData.newBuilder()
                                                                                       .setType(CriticalDamageBuff.class.getSimpleName())
                                                                                       .addValues(0.08))))
+                .addPassiveSkillData(PassiveSkillData.newBuilder()
+                                             .addEffects(EffectData.newBuilder()
+                                                                 .setType(GrantBuff.class.getSimpleName())
+                                                                 .setTarget(SELF)
+                                                                 .addBuffData(BuffData.newBuilder()
+                                                                                      .setType(EndOfTurnEffect.class.getSimpleName())
+                                                                                      .setForceBuff(1)
+                                                                                      .addSubEffects(EffectData.newBuilder()
+                                                                                                             .setType(NpChange.class.getSimpleName())
+                                                                                                             .setTarget(SELF)
+                                                                                                             .addValues(0.038)))))
+                .addPassiveSkillData(PassiveSkillData.newBuilder()
+                                             .addEffects(EffectData.newBuilder()
+                                                                 .setType(GrantBuff.class.getSimpleName())
+                                                                 .setTarget(SELF)
+                                                                 .addBuffData(BuffData.newBuilder()
+                                                                                      .setType(CriticalDamageBuff.class.getSimpleName())
+                                                                                      .addValues(0.02)))
+                                             .addEffects(EffectData.newBuilder()
+                                                                 .setType(GrantBuff.class.getSimpleName())
+                                                                 .setTarget(SELF)
+                                                                 .addBuffData(BuffData.newBuilder()
+                                                                                      .setType(DeathResist.class.getSimpleName())
+                                                                                      .addValues(0.02)))
+                                             .addEffects(EffectData.newBuilder()
+                                                                 .setType(GrantBuff.class.getSimpleName())
+                                                                 .setTarget(SELF)
+                                                                 .addBuffData(BuffData.newBuilder()
+                                                                                      .setType(DebuffResist.class.getSimpleName())
+                                                                                      .addValues(0.02)
+                                                                                      .setApplyCondition(ConditionData.newBuilder()
+                                                                                                                 .setType(BuffTypeEquals.class.getSimpleName())
+                                                                                                                 .setValue(MentalDebuff.class.getSimpleName())))))
+                .addPassiveSkillData(PassiveSkillData.newBuilder()
+                                             .addEffects(EffectData.newBuilder()
+                                                                 .setType(GrantBuff.class.getSimpleName())
+                                                                 .setTarget(SELF)
+                                                                 .addBuffData(BuffData.newBuilder()
+                                                                                      .setType(DebuffResist.class.getSimpleName())
+                                                                                      .addValues(0.2))))
+                .addPassiveSkillData(PassiveSkillData.newBuilder()
+                                             .addEffects(EffectData.newBuilder()
+                                                                 .setType(GrantBuff.class.getSimpleName())
+                                                                 .setTarget(SELF)
+                                                                 .addBuffData(BuffData.newBuilder()
+                                                                                      .setType(CommandCardBuff.class.getSimpleName())
+                                                                                      .addValues(0.1)
+                                                                                      .setApplyCondition(ConditionData.newBuilder()
+                                                                                                                 .setType(CardTypeEquals.class.getSimpleName())
+                                                                                                                 .setValue(QUICK.name())))))
+                .addPassiveSkillData(PassiveSkillData.newBuilder()
+                                             .addEffects(EffectData.newBuilder()
+                                                                 .setType(GrantBuff.class.getSimpleName())
+                                                                 .setTarget(SELF)
+                                                                 .addBuffData(BuffData.newBuilder()
+                                                                                      .setType(DebuffResist.class.getSimpleName())
+                                                                                      .addValues(5)
+                                                                                      .setApplyCondition(ConditionData.newBuilder()
+                                                                                                                 .setType(BuffTypeEquals.class.getSimpleName())
+                                                                                                                 .setValue(Charm.class.getSimpleName())))))
+                .addAppendSkillData(AppendSkillData.newBuilder()
+                                            .addEffects(EffectData.newBuilder()
+                                                                .setType(GrantBuff.class.getSimpleName())
+                                                                .setTarget(SELF)
+                                                                .addBuffData(BuffData.newBuilder()
+                                                                                     .setType(CommandCardBuff.class.getSimpleName())
+                                                                                     .addAllValues(generateSkillValues(0.3, 0.02))
+                                                                                     .setApplyCondition(ConditionData.newBuilder()
+                                                                                                                .setType(CardTypeEquals.class.getSimpleName())
+                                                                                                                .setValue(EXTRA.name())))))
+                .addAppendSkillData(AppendSkillData.newBuilder()
+                                            .addEffects(EffectData.newBuilder()
+                                                                .setType(NpChange.class.getSimpleName())
+                                                                .setTarget(SELF)
+                                                                .addAllValues(generateSkillValues(0.1, 0.01))))
+                .addAppendSkillData(AppendSkillData.newBuilder()
+                                            .addEffects(EffectData.newBuilder()
+                                                                .setType(GrantBuff.class.getSimpleName())
+                                                                .setTarget(SELF)
+                                                                .addBuffData(BuffData.newBuilder()
+                                                                                     .setType(AttackBuff.class.getSimpleName())
+                                                                                     .addAllValues(generateSkillValues(0.2, 0.01))
+                                                                                     .setApplyCondition(ConditionData.newBuilder()
+                                                                                                                .setType(TargetsHaveClass.class.getSimpleName())
+                                                                                                                .setTarget(DEFENDER)
+                                                                                                                .setValue(LANCER.name())))))
                 .mergeFrom(status.build());
         final ServantAscensionData firstAscension = commonAscensionData.setCombatantData(firstAscensionCombatantData).build();
+        final ServantAscensionData secondAscension = commonAscensionData.setCombatantData(secondAscensionCombatantData).build();
+
+        final ServantData servantData = ServantData.newBuilder()
+                .addServantAscensionData(firstAscension)
+                .addServantAscensionData(secondAscension)
+                .build();
+
+        writeServant(servantData);
     }
 }

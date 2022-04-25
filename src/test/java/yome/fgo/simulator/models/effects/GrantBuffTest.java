@@ -177,18 +177,18 @@ public class GrantBuffTest {
         simulation.setActivator(servant);
         effect.apply(simulation);
 
-        assertFalse(TargetsHaveBuff.builder().targetBuff(Charm.class).target(SELF).build().evaluate(simulation));
+        assertFalse(TargetsHaveBuff.builder().targetBuffType(Charm.class).target(SELF).build().evaluate(simulation));
 
         servant.addBuff(DebuffChanceBuff.builder().value(0.1).build());
         effect.apply(simulation);
 
-        assertTrue(TargetsHaveBuff.builder().targetBuff(Charm.class).target(SELF).build().evaluate(simulation));
+        assertTrue(TargetsHaveBuff.builder().targetBuffType(Charm.class).target(SELF).build().evaluate(simulation));
 
         servant.getBuffs().clear();
-        assertFalse(TargetsHaveBuff.builder().targetBuff(Charm.class).target(SELF).build().evaluate(simulation));
+        assertFalse(TargetsHaveBuff.builder().targetBuffType(Charm.class).target(SELF).build().evaluate(simulation));
         servant.addBuff(DebuffResist.builder().value(0.05).build());
         effect.apply(simulation);
 
-        assertFalse(TargetsHaveBuff.builder().targetBuff(Charm.class).target(SELF).build().evaluate(simulation));
+        assertFalse(TargetsHaveBuff.builder().targetBuffType(Charm.class).target(SELF).build().evaluate(simulation));
     }
 }

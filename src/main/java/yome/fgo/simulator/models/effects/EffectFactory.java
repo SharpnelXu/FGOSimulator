@@ -45,7 +45,7 @@ public class EffectFactory {
             if (effectData.getProbabilitiesCount() == 1) {
                 builder.probability(effectData.getProbabilities(0));
             } else if (effectData.getProbabilitiesCount() != 0) {
-                builder.probability(effectData.getProbabilities(level));
+                builder.probability(effectData.getProbabilities(level - 1));
             }
 
             if (effectData.getIsOverchargedEffect()) {

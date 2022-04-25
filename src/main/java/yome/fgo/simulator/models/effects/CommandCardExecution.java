@@ -7,7 +7,6 @@ import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
-import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.buffs.AttackBuff;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
 import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
@@ -49,7 +48,7 @@ public class CommandCardExecution {
             final CommandCardType firstCardType,
             final boolean isTypeChain
     ) {
-        final Servant attacker = simulation.getAttacker();
+        final Combatant attacker = simulation.getAttacker();
         final Combatant defender = simulation.getDefender();
         final FateClass defenderClass = defender.getFateClass();
         final CommandCard currentCard = simulation.getCurrentCommandCard();

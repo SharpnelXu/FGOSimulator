@@ -2,6 +2,7 @@ package yome.fgo.simulator.models.conditions;
 
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
+import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import java.util.stream.Collectors;
@@ -21,6 +22,13 @@ public class ConditionFactory {
                                    .stream()
                                    .map(ConditionFactory::buildCondition)
                                    .collect(Collectors.toList()));
+
+        } else if (type.equalsIgnoreCase(BuffTypeEquals.class.getSimpleName())) {
+            try {
+                return new BuffTypeEquals(Class.forName(Buff.class.getPackage().getName() + "." + conditionData.getValue()));
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
 
         } else if (type.equalsIgnoreCase(CardTypeEquals.class.getSimpleName())) {
             return CardTypeEquals.get(CommandCardType.valueOf(conditionData.getValue().toUpperCase()));
@@ -47,11 +55,17 @@ public class ConditionFactory {
             try {
                 return TargetsHaveBuff.builder()
                         .target(conditionData.getTarget())
-                        .targetBuff(Class.forName(Buff.class.getPackage().getName() + "." + conditionData.getValue()))
+                        .targetBuffType(Class.forName(Buff.class.getPackage().getName() + "." + conditionData.getValue()))
                         .build();
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
+
+        } else if (type.equalsIgnoreCase(TargetsHaveClass.class.getSimpleName())) {
+            return TargetsHaveClass.builder()
+                    .target(conditionData.getTarget())
+                    .targetClass(FateClass.valueOf(conditionData.getValue()))
+                    .build();
 
         } else if (type.equalsIgnoreCase(TargetsHaveTrait.class.getSimpleName())) {
             return TargetsHaveTrait.builder()
