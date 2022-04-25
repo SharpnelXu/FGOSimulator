@@ -391,6 +391,10 @@ public class Simulation {
         return currentEnemies.get(currentEnemyTargetIndex);
     }
 
+    public Servant getTargetedBackup() {
+        return backupServants.get(currentBackupTargetIndex);
+    }
+
     @VisibleForTesting
     static int getNextNonNullTargetIndex(final List<? extends Combatant> combatants, int currentTargetIndex) {
         if (combatants.get(currentTargetIndex) == null) {

@@ -130,6 +130,8 @@ public class EffectFactory {
             }
 
             return builder.build();
+        } else if (type.equalsIgnoreCase(OrderChange.class.getSimpleName())) {
+            return OrderChange.builder().build();
         } else if (type.equalsIgnoreCase(RemoveBuff.class.getSimpleName())) {
             final RemoveBuff.RemoveBuffBuilder<?, ?> builder = RemoveBuff.builder()
                     .target(effectData.getTarget());
