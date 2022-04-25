@@ -48,6 +48,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(CriticalStarGenerationBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(CriticalStarGenerationBuff.builder(), buffData, level), buffData);
 
+        } else if (type.equalsIgnoreCase(CriticalStarWeightBuff.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(CriticalStarWeightBuff.builder(), buffData, level), buffData);
+
         } else if (type.equalsIgnoreCase(DamageAdditionBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(DamageAdditionBuff.builder(), buffData, level), buffData);
 
