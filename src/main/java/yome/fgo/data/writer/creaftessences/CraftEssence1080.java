@@ -1,7 +1,6 @@
 package yome.fgo.data.writer.creaftessences;
 
 import com.google.protobuf.util.JsonFormat;
-import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 
 import java.io.IOException;
