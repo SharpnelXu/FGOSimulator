@@ -49,7 +49,7 @@ public class NoblePhantasmDamage extends Effect {
     private final boolean isNpSpecificDamageOverchargedEffect;
 
     @Override
-    public void internalApply(final Simulation simulation, final int level) {
+    protected void internalApply(final Simulation simulation, final int level) {
         final CommandCard currentCard = simulation.getCurrentCommandCard();
         final CommandCardType currentCardType = currentCard.getCommandCardType();
         final List<Integer> hitsPercentages = currentCard.getHitPercentages();

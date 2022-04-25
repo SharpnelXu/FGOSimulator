@@ -15,6 +15,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(BuffChanceBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(BuffChanceBuff.builder(), buffData, level), buffData);
 
+        } else if (type.equalsIgnoreCase(BuffRemovalResist.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(BuffRemovalResist.builder(), buffData, level), buffData);
+
         } else if (type.equalsIgnoreCase(BuffSpecificAttackBuff.class.getSimpleName())) {
             final BuffSpecificAttackBuff.BuffSpecificAttackBuffBuilder<?, ?> builder;
             try {

@@ -1,10 +1,13 @@
 package yome.fgo.simulator.models.effects;
 
+import com.google.common.collect.Lists;
+import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.BuffRemovalResist;
 import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.List;
@@ -12,10 +15,12 @@ import java.util.List;
 @SuperBuilder
 public class RemoveBuff extends Effect {
     private final Target target;
-    private final List<Integer> numToRemove;
+
+    @Builder.Default
+    private final List<Integer> numToRemove = Lists.newArrayList(0);
 
     @Override
-    public void internalApply(final Simulation simulation, final int level) {
+    protected void internalApply(final Simulation simulation, final int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             int removeCount = 0;
@@ -26,10 +31,15 @@ public class RemoveBuff extends Effect {
 
                 simulation.setCurrentBuff(buff);
                 if (!buff.isIrremovable() && shouldApply(simulation)) {
+                    final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
+                    if (1 - buffRemovalResist < simulation.getProbabilityThreshold()) {
+                        continue;
+                    }
+
                     buffList.remove(j);
                     removeCount++;
 
-                    if (removeCount == numToRemove.get(level)) {
+                    if (removeCount == numToRemove.get(level - 1)) {
                         break;
                     }
                 }
