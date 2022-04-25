@@ -56,20 +56,22 @@ public class NoblePhantasmDamage extends Effect {
 
         final double damageRate = damageRates.get(level - 1);
 
-        final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);
-        final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class);
-        final double specificAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
-        final double npDamageBuff = attacker.applyBuff(simulation, NpDamageBuff.class);
-        final double percentAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
-        final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class);
-
-        final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class);
-
-        final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class);
-
         for (final Combatant defender : TargetUtils.getTargets(simulation, target)) {
             simulation.setDefender(defender);
             final FateClass defenderClass = defender.getFateClass();
+
+            // TODO: move usage consumption to end of NP damage calculation
+            final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);
+            final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class);
+            final double specificAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
+            final double npDamageBuff = attacker.applyBuff(simulation, NpDamageBuff.class);
+            final double percentAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
+            final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class);
+
+            final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class);
+
+            final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class);
+
             final double npSpecificDamageRate;
             if (applyCondition.evaluate(simulation)) {
                 if (isNpSpecificDamageOverchargedEffect) {

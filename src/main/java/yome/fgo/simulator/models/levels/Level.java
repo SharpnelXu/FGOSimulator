@@ -35,7 +35,7 @@ public class Level {
     }
 
     public boolean hasNextStage(final int currentStage) {
-        return currentStage < stages.size() - 1;
+        return currentStage < stages.size();
     }
 
     public Stage getStage(final int currentStage) {

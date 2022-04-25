@@ -31,8 +31,10 @@ public class EffectFactory {
                                               .map(Double::intValue)
                                               .collect(Collectors.toList()));
                 builder.isOverchargedEffect(true);
-            } else {
+            } else if (effectData.getValuesCount() >= level) {
                 builder.numStarsGains(ImmutableList.of((int) effectData.getValues(level - 1)));
+            } else {
+                builder.numStarsGains(ImmutableList.of((int) effectData.getValues(0)));
             }
 
             return builder.build();
@@ -75,8 +77,10 @@ public class EffectFactory {
             if (effectData.getIsOverchargedEffect()) {
                 builder.damageRates(effectData.getValuesList());
                 builder.isOverchargedEffect(true);
-            } else {
+            } else if (effectData.getValuesCount() >= level) {
                 builder.damageRates(ImmutableList.of(effectData.getValues(level - 1)));
+            } else {
+                builder.damageRates(ImmutableList.of(effectData.getValues(0)));
             }
 
             return builder.build();
@@ -89,8 +93,10 @@ public class EffectFactory {
             if (effectData.getIsOverchargedEffect()) {
                 builder.npChanges(effectData.getValuesList());
                 builder.isOverchargedEffect(true);
-            } else {
+            } else if (effectData.getValuesCount() >= level) {
                 builder.npChanges(ImmutableList.of(effectData.getValues(level - 1)));
+            } else {
+                builder.npChanges(ImmutableList.of(effectData.getValues(0)));
             }
 
             return builder.build();
@@ -101,13 +107,15 @@ public class EffectFactory {
             setApplyConditionIfExists(builder, effectData);
 
             if (effectData.getIsOverchargedEffect()) {
+                builder.isOverchargedEffect(true);
                 builder.numToRemove(effectData.getValuesList()
                                             .stream()
                                             .map(Double::intValue)
                                             .collect(Collectors.toList()));
-                builder.isOverchargedEffect(true);
-            } else {
+            } else if (effectData.getValuesCount() >= level) {
                 builder.numToRemove(ImmutableList.of((int) effectData.getValues(level - 1)));
+            } else if (effectData.getValuesCount() == 1) {
+                builder.numToRemove(ImmutableList.of((int) effectData.getValues(0)));
             }
 
             return builder.build();

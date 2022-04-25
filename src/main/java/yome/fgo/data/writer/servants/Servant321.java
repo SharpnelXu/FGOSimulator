@@ -257,6 +257,12 @@ public class Servant321 {
                                 .addAllValues(ImmutableList.of(4.5, 6.0, 6.75, 7.125, 7.5))
                                 .setIsNpSpecificDamageOverchargedEffect(true)
                                 .addAllNpSpecificDamageRate(ImmutableList.of(1.5, 1.625, 1.75, 1.875, 2.0))
+                                .setApplyCondition(
+                                        ConditionData.newBuilder()
+                                                .setType(TargetsHaveBuff.class.getSimpleName())
+                                                .setTarget(DEFENDER)
+                                                .setValue(Charm.class.getSimpleName())
+                                )
                 )
                 .addEffects(
                         EffectData.newBuilder()

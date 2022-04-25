@@ -180,6 +180,7 @@ public class Servant extends Combatant {
 
         // TODO: missing overchargeIncreaseBuff
         final int overchargeLevel = calculateOverchargeLevel(extraOvercharge, currentNp);
+        currentNp = 0;
         noblePhantasm.activate(simulation, overchargeLevel);
 
         activatePostAttackEffect(simulation);
