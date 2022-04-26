@@ -1,7 +1,5 @@
 package yome.fgo.simulator.models.effects;
 
-import com.google.common.collect.Lists;
-import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
@@ -13,11 +11,8 @@ import yome.fgo.simulator.utils.TargetUtils;
 import java.util.List;
 
 @SuperBuilder
-public class RemoveBuff extends Effect {
+public class RemoveBuff extends IntValuedEffect {
     private final Target target;
-
-    @Builder.Default
-    private final List<Integer> numToRemove = Lists.newArrayList(0);
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
@@ -39,7 +34,7 @@ public class RemoveBuff extends Effect {
                     buffList.remove(j);
                     removeCount++;
 
-                    if (removeCount == numToRemove.get(level - 1)) {
+                    if (removeCount == values.get(level - 1)) {
                         break;
                     }
                 }

@@ -42,7 +42,7 @@ public class EffectFactoryTest extends EasyMockSupport {
     public void testEffectFactory_critStar_nonOvercharged() {
         final EffectData effectData = EffectData.newBuilder()
                 .setType(CriticalStarChange.class.getSimpleName())
-                .addAllValues(ImmutableList.of(10.0, 15.0, 20.0))
+                .addAllIntValues(ImmutableList.of(10, 15, 20))
                 .build();
 
         final Effect effect = buildEffect(effectData, 2);
@@ -58,7 +58,7 @@ public class EffectFactoryTest extends EasyMockSupport {
     public void testEffectFactory_critStar_overcharged() {
         final EffectData effectData = EffectData.newBuilder()
                 .setType(CriticalStarChange.class.getSimpleName())
-                .addAllValues(ImmutableList.of(10.0, 15.0, 20.0))
+                .addAllIntValues(ImmutableList.of(10, 15, 20))
                 .setIsOverchargedEffect(true)
                 .build();
 
@@ -75,7 +75,7 @@ public class EffectFactoryTest extends EasyMockSupport {
     public void testEffectFactory_critStar_conditional() {
         final EffectData alwaysData = EffectData.newBuilder()
                 .setType(CriticalStarChange.class.getSimpleName())
-                .addAllValues(ImmutableList.of(10.0, 15.0, 20.0))
+                .addAllIntValues(ImmutableList.of(10, 15, 20))
                 .build();
 
         final Effect always = buildEffect(alwaysData, 2);
@@ -83,7 +83,7 @@ public class EffectFactoryTest extends EasyMockSupport {
 
         final EffectData neverData = EffectData.newBuilder()
                 .setType(CriticalStarChange.class.getSimpleName())
-                .addAllValues(ImmutableList.of(10.0, 15.0, 20.0))
+                .addAllIntValues(ImmutableList.of(10, 15, 20))
                 .setApplyCondition(ConditionData.newBuilder().setType(Never.class.getSimpleName()))
                 .build();
 

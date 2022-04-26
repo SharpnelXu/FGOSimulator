@@ -3,14 +3,10 @@ package yome.fgo.simulator.models.effects;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
 
-import java.util.List;
-
 @SuperBuilder
-public class CriticalStarChange extends Effect {
-    public final List<Integer> numStarsGains;
-
+public class CriticalStarChange extends IntValuedEffect {
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
-        simulation.gainStar(numStarsGains.get(level - 1));
+        simulation.gainStar(values.get(level - 1));
     }
 }

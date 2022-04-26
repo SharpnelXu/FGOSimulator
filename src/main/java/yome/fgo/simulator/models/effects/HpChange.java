@@ -6,12 +6,9 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.utils.TargetUtils;
 
-import java.util.List;
-
 @SuperBuilder
-public class HpChange extends Effect {
+public class HpChange extends IntValuedEffect {
     private final Target target;
-    private final List<Integer> values;
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {

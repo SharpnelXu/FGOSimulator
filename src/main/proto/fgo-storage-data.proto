@@ -150,6 +150,7 @@ message EffectData {
   bool isNpSpecificDamageOverchargedEffect = 11;
   repeated double npOverchargeDamageRate = 12;
   int32 turnsActive = 13; // for MaxHpChange
+  repeated int32 intValues = 14;
 }
 
 message BuffData {

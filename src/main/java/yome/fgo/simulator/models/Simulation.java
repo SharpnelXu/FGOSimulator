@@ -42,7 +42,7 @@ public class Simulation {
             .npChanges(ImmutableList.of(0.2))
             .build();
     public static final Effect QUICK_CHAIN_EFFECT = CriticalStarChange.builder()
-            .numStarsGains(ImmutableList.of(10))
+            .values(ImmutableList.of(10))
             .build();
 
     public Simulation(

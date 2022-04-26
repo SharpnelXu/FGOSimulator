@@ -7,12 +7,9 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.utils.TargetUtils;
 
-import java.util.List;
-
 @SuperBuilder
-public class MaxHpChange extends Effect {
+public class MaxHpChange extends IntValuedEffect {
     private final Target target;
-    private final List<Integer> values;
     @Builder.Default
     private final int numTurnsActive = -1;
 
