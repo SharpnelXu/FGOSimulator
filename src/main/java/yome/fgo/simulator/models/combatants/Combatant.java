@@ -206,18 +206,18 @@ public class Combatant {
         return false;
     }
 
-    public boolean isSkillSealed() {
+    public boolean isSkillInaccessible() {
         for (final Buff buff : buffs) {
-            if (buff instanceof SkillSeal) {
+            if (buff instanceof SkillSeal || buff instanceof ImmobilizeDebuff) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isNpSealed() {
+    public boolean isNpInaccessible() {
         for (final Buff buff : buffs) {
-            if (buff instanceof NpSeal) {
+            if (buff instanceof NpSeal || buff instanceof ImmobilizeDebuff) {
                 return true;
             }
         }

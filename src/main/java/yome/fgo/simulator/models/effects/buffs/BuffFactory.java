@@ -157,6 +157,9 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(SureHit.class.getSimpleName())) {
             return setCommonBuffParams(SureHit.builder(), buffData);
+
+        } else if (type.equalsIgnoreCase(Taunt.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(Taunt.builder(), buffData, level), buffData);
         }
 
         throw new UnsupportedOperationException("Unsupported buff type: " + type);
