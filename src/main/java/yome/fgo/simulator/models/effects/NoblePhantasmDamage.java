@@ -9,6 +9,7 @@ import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
+import yome.fgo.simulator.models.conditions.Condition;
 import yome.fgo.simulator.models.effects.CommandCardExecution.CriticalStarParameters;
 import yome.fgo.simulator.models.effects.CommandCardExecution.NpParameters;
 import yome.fgo.simulator.models.effects.buffs.AttackBuff;
@@ -17,7 +18,6 @@ import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
 import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
-import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.IgnoreDefenceBuff;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
@@ -31,6 +31,7 @@ import yome.fgo.simulator.utils.TargetUtils;
 import java.util.List;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ANY;
+import static yome.fgo.simulator.models.conditions.Never.NEVER;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCritStar;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.shouldSkipDamage;
@@ -45,8 +46,11 @@ public class NoblePhantasmDamage extends Effect {
     public static final double NP_DAMAGE_MULTIPLIER = 0.23;
 
     private final Target target;
+    private final boolean isNpDamageOverchargedEffect;
     private final List<Double> damageRates;
     private final List<Double> npSpecificDamageRates;
+    @Builder.Default
+    private final Condition npSpecificDamageCondition = NEVER;
     private final boolean isNpSpecificDamageOverchargedEffect;
     private final boolean isNpIgnoreDefense;
 
@@ -58,7 +62,7 @@ public class NoblePhantasmDamage extends Effect {
         final Combatant attacker = simulation.getActivator();
         simulation.setAttacker(attacker);
 
-        final double damageRate = damageRates.size() >= level ? damageRates.get(level - 1) : damageRates.get(0);
+        final double damageRate = isNpDamageOverchargedEffect ? damageRates.get(level - 1) : damageRates.get(0);
 
         for (final Combatant defender : TargetUtils.getTargets(simulation, target)) {
             simulation.setDefender(defender);
@@ -77,12 +81,10 @@ public class NoblePhantasmDamage extends Effect {
             final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class);
 
             final double npSpecificDamageRate;
-            if (applyCondition.evaluate(simulation)) {
-                if (isNpSpecificDamageOverchargedEffect) {
-                    npSpecificDamageRate = npSpecificDamageRates.get(level - 1);
-                } else {
-                    npSpecificDamageRate = npSpecificDamageRates.get(0);
-                }
+            if (npSpecificDamageCondition.evaluate(simulation)) {
+                npSpecificDamageRate = isNpSpecificDamageOverchargedEffect ?
+                        npSpecificDamageRates.get(level - 1) :
+                        npSpecificDamageRates.get(0);
             } else {
                 npSpecificDamageRate = 1.0;
             }

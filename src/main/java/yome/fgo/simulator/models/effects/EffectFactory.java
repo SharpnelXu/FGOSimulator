@@ -2,6 +2,7 @@ package yome.fgo.simulator.models.effects;
 
 import com.google.common.collect.ImmutableList;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
 
 import java.util.List;
@@ -46,40 +47,41 @@ public class EffectFactory {
 
         } else if (type.equalsIgnoreCase(NoblePhantasmDamage.class.getSimpleName())) {
             final NoblePhantasmDamage.NoblePhantasmDamageBuilder<?, ?> builder = NoblePhantasmDamage.builder()
-                    .target(effectData.getTarget())
-                    .isNpIgnoreDefense(effectData.getIsNpIgnoreDefense());
+                    .target(effectData.getTarget());
 
-            if (effectData.getIsNpSpecificDamageOverchargedEffect()) {
-                builder.npSpecificDamageRates(effectData.getNpSpecificDamageRateList())
-                        .isNpSpecificDamageOverchargedEffect(true)
-                        .isOverchargedEffect(true);
-            } else if (effectData.getNpSpecificDamageRateCount() >= level) {
-                builder.npSpecificDamageRates(ImmutableList.of(effectData.getNpSpecificDamageRate(level - 1)));
-            } else if (effectData.getNpSpecificDamageRateCount() == 1) {
-                builder.npSpecificDamageRates(ImmutableList.of(effectData.getNpSpecificDamageRate(0)));
+            if (effectData.hasNpDamageAdditionalParams()) {
+                final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
+                builder.isNpIgnoreDefense(additionalParams.getIsNpIgnoreDefense());
+                if (additionalParams.hasNpSpecificDamageCondition()) {
+                    builder.npSpecificDamageCondition(ConditionFactory.buildCondition(additionalParams.getNpSpecificDamageCondition()));
+                }
+
+                if (additionalParams.getIsNpSpecificDamageOverchargedEffect()) {
+                    builder.npSpecificDamageRates(additionalParams.getNpSpecificDamageRateList())
+                            .isNpSpecificDamageOverchargedEffect(true)
+                            .isOverchargedEffect(true);
+                } else {
+                    builder.npSpecificDamageRates(getSingletonValueListForLevel(additionalParams.getNpSpecificDamageRateList(), level));
+                }
+
+                if (additionalParams.getIsNpDamageOverchargedEffect()) {
+                    final double baseDamageRate = getSingletonValueListForLevel(effectData.getValuesList(), level).get(0);
+
+                    builder.damageRates(
+                            additionalParams.getNpOverchargeDamageRateList()
+                                    .stream()
+                                    .map(rate -> rate + baseDamageRate)
+                                    .collect(Collectors.toList())
+                    );
+                    builder.isOverchargedEffect(true).isNpDamageOverchargedEffect(true);
+                } else {
+                    builder.damageRates(getSingletonValueListForLevel(effectData.getValuesList(), level));
+                }
+            } else {
+                builder.damageRates(getSingletonValueListForLevel(effectData.getValuesList(), level));
             }
 
             setApplyConditionIfExists(builder, effectData);
-
-            if (effectData.getIsOverchargedEffect()) {
-                final double baseDamageRate;
-                if (effectData.getValuesCount() >= level) {
-                    baseDamageRate = effectData.getValues(level - 1);
-                } else {
-                    baseDamageRate = effectData.getValues(0);
-                }
-                builder.damageRates(
-                        effectData.getNpOverchargeDamageRateList()
-                                .stream()
-                                .map(rate -> rate + baseDamageRate)
-                                .collect(Collectors.toList())
-                );
-                builder.isOverchargedEffect(true);
-            } else if (effectData.getValuesCount() >= level) {
-                builder.damageRates(ImmutableList.of(effectData.getValues(level - 1)));
-            } else {
-                builder.damageRates(ImmutableList.of(effectData.getValues(0)));
-            }
             return builder.build();
 
         } else if (type.equalsIgnoreCase(NpChange.class.getSimpleName())) {
@@ -89,10 +91,8 @@ public class EffectFactory {
             if (effectData.getIsOverchargedEffect()) {
                 builder.npChanges(effectData.getValuesList());
                 builder.isOverchargedEffect(true);
-            } else if (effectData.getValuesCount() >= level) {
-                builder.npChanges(ImmutableList.of(effectData.getValues(level - 1)));
             } else {
-                builder.npChanges(ImmutableList.of(effectData.getValues(0)));
+                builder.npChanges(getSingletonValueListForLevel(effectData.getValuesList(), level));
             }
             return builder.build();
 
@@ -131,10 +131,8 @@ public class EffectFactory {
         if (effectData.getIsOverchargedEffect()) {
             builder.values(effectData.getIntValuesList())
                     .isOverchargedEffect(true);
-        } else if (effectData.getIntValuesCount() >= level) {
-            builder.values(ImmutableList.of(effectData.getIntValues(level - 1)));
-        } else if (effectData.getIntValuesCount() == 1) {
-            builder.values(ImmutableList.of(effectData.getIntValues(0)));
+        } else {
+            builder.values(getSingletonValueListForLevel(effectData.getIntValuesList(), level));
         }
 
         return builder.build();
@@ -154,12 +152,20 @@ public class EffectFactory {
         }
         if (effectData.getIsOverchargedEffect()) {
             builder.isOverchargedEffect(true).buffData(effectData.getBuffDataList());
-        } else if (effectData.getBuffDataCount() >= level) {
-            builder.buffData(ImmutableList.of(effectData.getBuffData(level - 1)));
         } else {
-            builder.buffData(ImmutableList.of(effectData.getBuffData(0)));
+            builder.buffData(getSingletonValueListForLevel(effectData.getBuffDataList(), level));
         }
         setApplyConditionIfExists(builder, effectData);
         return builder.build();
+    }
+
+    private static <E> List<E> getSingletonValueListForLevel(final List<E> values, final int level) {
+        if (values.size() >= level) {
+            return ImmutableList.of(values.get(level - 1));
+        } else if (!values.isEmpty()) {
+            return ImmutableList.of(values.get(0));
+        } else {
+            return ImmutableList.of();
+        }
     }
 }

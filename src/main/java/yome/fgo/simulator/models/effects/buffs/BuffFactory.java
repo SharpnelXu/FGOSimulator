@@ -26,8 +26,7 @@ public class BuffFactory {
             final BuffSpecificAttackBuff.BuffSpecificAttackBuffBuilder<?, ?> builder;
             try {
                 builder = BuffSpecificAttackBuff.builder()
-                        .targetBuff(Class.forName(Buff.class.getPackage().getName() + "." + buffData.getStringValue()))
-                        .target(buffData.getTarget());
+                        .targetBuff(Class.forName(Buff.class.getPackage().getName() + "." + buffData.getStringValue()));
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }

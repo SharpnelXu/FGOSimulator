@@ -12,6 +12,7 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmUpgrades;
+import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
@@ -226,7 +227,6 @@ public class Servant321 {
                                                     .setType(BuffSpecificAttackBuff.class.getSimpleName())
                                                     .addValues(0.1)
                                                     .setNumTurnsActive(3)
-                                                    .setTarget(DEFENDER)
                                                     .setStringValue(BurningLove.class.getSimpleName())
                                                     .setApplyCondition(
                                                             ConditionData.newBuilder()
@@ -255,13 +255,17 @@ public class Servant321 {
                                 .setType(NoblePhantasmDamage.class.getSimpleName())
                                 .setTarget(ALL_ENEMIES)
                                 .addAllValues(ImmutableList.of(4.5, 6.0, 6.75, 7.125, 7.5))
-                                .setIsNpSpecificDamageOverchargedEffect(true)
-                                .addAllNpSpecificDamageRate(ImmutableList.of(1.5, 1.625, 1.75, 1.875, 2.0))
-                                .setApplyCondition(
-                                        ConditionData.newBuilder()
-                                                .setType(TargetsHaveBuff.class.getSimpleName())
-                                                .setTarget(DEFENDER)
-                                                .setValue(Charm.class.getSimpleName())
+                                .setNpDamageAdditionalParams(
+                                        NpDamageAdditionalParams.newBuilder()
+                                                .setIsNpSpecificDamageOverchargedEffect(true)
+                                                .addAllNpSpecificDamageRate(ImmutableList.of(1.5, 1.625, 1.75, 1.875, 2.0))
+                                                .setNpSpecificDamageCondition(
+                                                        ConditionData.newBuilder()
+                                                                .setType(TargetsHaveBuff.class.getSimpleName())
+                                                                .setTarget(DEFENDER)
+                                                                .setValue(Charm.class.getSimpleName())
+                                                )
+
                                 )
                 )
                 .addEffects(

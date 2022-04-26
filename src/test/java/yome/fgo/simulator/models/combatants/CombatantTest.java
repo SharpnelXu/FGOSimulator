@@ -68,17 +68,14 @@ public class CombatantTest {
 
         combatant.addBuff(BuffSpecificAttackBuff.builder()
                                   .value(0.7)
-                                  .target(DEFENDER)
                                   .targetBuff(BurningLove.class)
                                   .build());
         combatant.addBuff(BuffSpecificAttackBuff.builder()
                                   .value(0.9)
-                                  .target(DEFENDER)
                                   .targetBuff(BurningLove.class)
                                   .build());
         combatant.addBuff(BuffSpecificAttackBuff.builder()
                                   .value(1.1)
-                                  .target(DEFENDER)
                                   .targetBuff(Charm.class)
                                   .build());
 

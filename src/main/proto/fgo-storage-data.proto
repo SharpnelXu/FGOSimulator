@@ -143,15 +143,25 @@ message EffectData {
   Target target = 2;
   bool isOverchargedEffect = 5;
   repeated double values = 6;
-  ConditionData applyCondition = 7; // for np this will be npSpecificDamage condition
+  ConditionData applyCondition = 7;
   repeated BuffData buffData = 8; // each represents one OC for GrantBuff
   repeated double probabilities = 9;
-  repeated double npSpecificDamageRate = 10;
-  bool isNpSpecificDamageOverchargedEffect = 11;
-  repeated double npOverchargeDamageRate = 12;
 
-  repeated int32 intValues = 14; // for int values effects
-  bool isNpIgnoreDefense = 15;
+  NpDamageAdditionalParams npDamageAdditionalParams = 10;
+
+  repeated int32 intValues = 14; // for int value effects
+}
+
+message NpDamageAdditionalParams {
+  bool isNpDamageOverchargedEffect = 1;
+  repeated double npOverchargeDamageRate = 2;
+
+  bool hasNpSpecificDamage = 3;
+  ConditionData npSpecificDamageCondition = 4;
+  bool isNpSpecificDamageOverchargedEffect = 5;
+  repeated double npSpecificDamageRate = 6;
+
+  bool isNpIgnoreDefense = 7;
 }
 
 message BuffData {
@@ -162,7 +172,6 @@ message BuffData {
   repeated EffectData subEffects = 5;
   repeated double values = 6;
   string stringValue = 7;
-  Target target = 8;
 
   int32 forceBuff = 9;
   bool irremovable = 10;

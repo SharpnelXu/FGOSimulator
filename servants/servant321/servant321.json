@@ -125,8 +125,7 @@
               "target": "DEFENDER"
             },
             "values": [0.1],
-            "stringValue": "BurningLove",
-            "target": "DEFENDER"
+            "stringValue": "BurningLove"
           }]
         }]
       }]
@@ -781,13 +780,15 @@
           "type": "NoblePhantasmDamage",
           "target": "ALL_ENEMIES",
           "values": [4.5, 6.0, 6.75, 7.125, 7.5],
-          "applyCondition": {
-            "type": "TargetsHaveBuff",
-            "value": "Charm",
-            "target": "DEFENDER"
-          },
-          "npSpecificDamageRate": [1.5, 1.625, 1.75, 1.875, 2.0],
-          "isNpSpecificDamageOverchargedEffect": true
+          "npDamageAdditionalParams": {
+            "npSpecificDamageCondition": {
+              "type": "TargetsHaveBuff",
+              "value": "Charm",
+              "target": "DEFENDER"
+            },
+            "isNpSpecificDamageOverchargedEffect": true,
+            "npSpecificDamageRate": [1.5, 1.625, 1.75, 1.875, 2.0]
+          }
         }, {
           "type": "GrantBuff",
           "target": "ALL_ENEMIES",
@@ -933,8 +934,7 @@
               "target": "DEFENDER"
             },
             "values": [0.1],
-            "stringValue": "BurningLove",
-            "target": "DEFENDER"
+            "stringValue": "BurningLove"
           }]
         }]
       }]
@@ -1589,13 +1589,15 @@
           "type": "NoblePhantasmDamage",
           "target": "ALL_ENEMIES",
           "values": [4.5, 6.0, 6.75, 7.125, 7.5],
-          "applyCondition": {
-            "type": "TargetsHaveBuff",
-            "value": "Charm",
-            "target": "DEFENDER"
-          },
-          "npSpecificDamageRate": [1.5, 1.625, 1.75, 1.875, 2.0],
-          "isNpSpecificDamageOverchargedEffect": true
+          "npDamageAdditionalParams": {
+            "npSpecificDamageCondition": {
+              "type": "TargetsHaveBuff",
+              "value": "Charm",
+              "target": "DEFENDER"
+            },
+            "isNpSpecificDamageOverchargedEffect": true,
+            "npSpecificDamageRate": [1.5, 1.625, 1.75, 1.875, 2.0]
+          }
         }, {
           "type": "GrantBuff",
           "target": "ALL_ENEMIES",

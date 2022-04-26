@@ -70,7 +70,6 @@ public class BuffFactoryTest {
                                 .setValue(DEMONIC)
                 )
                 .addAllValues(ImmutableList.of(10.0, 15.0, 20.0))
-                .setTarget(DEFENDER)
                 .setStringValue(BurningLove.class.getSimpleName())
                 .build();
 
