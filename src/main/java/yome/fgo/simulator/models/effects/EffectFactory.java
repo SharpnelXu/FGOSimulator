@@ -94,6 +94,25 @@ public class EffectFactory {
             }
 
             return builder.build();
+        } else if (type.equalsIgnoreCase(MaxHpChange.class.getSimpleName())) {
+            final MaxHpChange.MaxHpChangeBuilder<?, ?> builder = MaxHpChange.builder()
+                    .numTurnsActive(effectData.getTurnsActive());
+
+            setApplyConditionIfExists(builder, effectData);
+
+            if (effectData.getIsOverchargedEffect()) {
+                builder.values(effectData.getValuesList()
+                                       .stream()
+                                       .map(Double::intValue)
+                                       .collect(Collectors.toList()));
+                builder.isOverchargedEffect(true);
+            } else if (effectData.getValuesCount() >= level) {
+                builder.values(ImmutableList.of((int) effectData.getValues(level - 1)));
+            } else {
+                builder.values(ImmutableList.of((int) effectData.getValues(0)));
+            }
+
+            return builder.build();
         } else if (type.equalsIgnoreCase(NoblePhantasmDamage.class.getSimpleName())) {
             final NoblePhantasmDamage.NoblePhantasmDamageBuilder<?, ?> builder = NoblePhantasmDamage.builder()
                     .target(effectData.getTarget());

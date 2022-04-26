@@ -105,6 +105,17 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(Invincible.class.getSimpleName())) {
             return setCommonBuffParams(Invincible.builder(), buffData);
 
+        } else if (type.equalsIgnoreCase(MaxHpBuff.class.getSimpleName())) {
+            final MaxHpBuff.MaxHpBuffBuilder<?, ?> builder = MaxHpBuff.builder();
+            final int change;
+            if (buffData.getValuesCount() >= level) {
+                change = (int) buffData.getValues(level - 1);
+            } else {
+                change = (int) buffData.getValues(0);
+            }
+
+            return setCommonBuffParams(builder.change(change), buffData);
+
         } else if (type.equalsIgnoreCase(NpGenerationBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(NpGenerationBuff.builder(), buffData, level), buffData);
 

@@ -14,6 +14,7 @@ import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
 import yome.fgo.simulator.models.effects.buffs.Guts;
 import yome.fgo.simulator.models.effects.buffs.ImmobilizeDebuff;
+import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -125,7 +126,15 @@ public class Combatant {
     }
 
     public int getMaxHp() {
-        return hpBars.get(currentHpBarIndex);
+        double additionalHp = 0;
+
+        for (final Buff buff : buffs) {
+            if (buff instanceof MaxHpBuff) {
+                additionalHp += ((MaxHpBuff) buff).getChange();
+            }
+        }
+
+        return Math.max(hpBars.get(currentHpBarIndex) + (int) RoundUtils.roundNearest(additionalHp), 1);
     }
 
     public boolean hasNextHpBar() {
@@ -276,5 +285,22 @@ public class Combatant {
 
     public void decreaseActiveSkillsCoolDown(final int change) {
 
+    }
+
+    public void changeMaxHp(final int change, final int numTurnsActive) {
+        addBuff(
+                MaxHpBuff.builder()
+                        .change(change)
+                        .numTurnsActive(numTurnsActive)
+                        .build()
+        );
+        if (change > 0) {
+            currentHp += change;
+        } else {
+            final int maxHp = getMaxHp();
+            if (maxHp < currentHp) {
+                currentHp = maxHp;
+            }
+        }
     }
 }
