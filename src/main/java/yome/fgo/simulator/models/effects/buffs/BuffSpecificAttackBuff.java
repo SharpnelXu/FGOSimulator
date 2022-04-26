@@ -1,5 +1,6 @@
 package yome.fgo.simulator.models.effects.buffs;
 
+import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
@@ -7,12 +8,15 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
+
 @SuperBuilder
 public class BuffSpecificAttackBuff extends SpecificAttackBuff {
     private static final int MAX_BUFF_COUNT = 10;
 
     private final Class<?> targetBuff;
-    private final Target target;
+    @Builder.Default
+    private final Target target = DEFENDER;
 
     @Override
     public double getValue(final Simulation simulation) {

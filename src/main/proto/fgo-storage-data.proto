@@ -144,7 +144,7 @@ message EffectData {
   bool isOverchargedEffect = 5;
   repeated double values = 6;
   ConditionData applyCondition = 7; // for np this will be npSpecificDamage condition
-  repeated BuffData buffData = 8; // each represents one OC
+  repeated BuffData buffData = 8; // each represents one OC for GrantBuff
   repeated double probabilities = 9;
   repeated double npSpecificDamageRate = 10;
   bool isNpSpecificDamageOverchargedEffect = 11;
@@ -167,6 +167,14 @@ message BuffData {
   int32 forceBuff = 9;
   bool irremovable = 10;
   bool forceStackable = 11;
+
+  HpVariedBuffAdditionalParams hpVariedBuffAdditionalParams = 12;
+}
+
+message HpVariedBuffAdditionalParams {
+  repeated double maxHpPercent = 1;
+  repeated double minHpPercent = 2;
+  repeated double baseValue = 3;
 }
 
 enum Target {

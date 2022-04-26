@@ -2,7 +2,10 @@ package yome.fgo.simulator.models.effects.buffs;
 
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
+import yome.fgo.data.proto.FgoStorageData.HpVariedBuffAdditionalParams;
 import yome.fgo.simulator.models.effects.EffectFactory;
+
+import java.util.List;
 
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
 
@@ -92,19 +95,31 @@ public class BuffFactory {
             return setCommonBuffParams(GrantTrait.builder().trait(buffData.getStringValue()), buffData);
 
         } else if (type.equalsIgnoreCase(Guts.class.getSimpleName())) {
-            final int guts;
-            if (buffData.getValuesCount() >= level) {
-                guts = (int) buffData.getValues(level - 1);
-            } else {
-                guts = (int) buffData.getValues(0);
-            }
-
+            final int guts = (int) getValueFromListForLevel(buffData.getValuesList(), level);
             if (guts <= 0) {
                 throw new IllegalArgumentException("Guts have non positive value");
             }
 
-            final Guts.GutsBuilder<?, ?> gutsBuilder = Guts.builder();
-            return setCommonBuffParams(gutsBuilder.gutsLeft(guts), buffData);
+            return setCommonBuffParams(Guts.builder().gutsLeft(guts), buffData);
+
+        } else if (type.equalsIgnoreCase(HpVariedBuffChanceBuff.class.getSimpleName())) {
+            if (!buffData.hasHpVariedBuffAdditionalParams()) {
+                throw new IllegalArgumentException("No available params to work with");
+            }
+
+            final HpVariedBuffAdditionalParams additionalParams = buffData.getHpVariedBuffAdditionalParams();
+
+            return setCommonBuffParams(
+                    setValuedBuffParams(
+                            HpVariedBuffChanceBuff.builder()
+                                    .maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level))
+                                    .minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level))
+                                    .baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level)),
+                            buffData,
+                            level
+                    ),
+                    buffData
+            );
 
         } else if (type.equalsIgnoreCase(IgnoreDefenceBuff.class.getSimpleName())) {
             return setCommonBuffParams(IgnoreDefenceBuff.builder(), buffData);
@@ -198,13 +213,15 @@ public class BuffFactory {
             final BuffData buffData,
             final int level
     ) {
-        if (buffData.getValuesCount() >= level) {
-            builder.value(buffData.getValues(level - 1));
-        } else {
-            builder.value(buffData.getValues(0));
-        }
+        return  builder.value(getValueFromListForLevel(buffData.getValuesList(), level));
+    }
 
-        return builder;
+    public static double getValueFromListForLevel(final List<Double> values, final int level) {
+        if (values.size() >= level) {
+            return values.get(level - 1);
+        } else {
+            return values.get(0);
+        }
     }
 
     public static EffectActivatingBuff.EffectActivatingBuffBuilder<?, ?> setEffectActivatingBuffParams(
