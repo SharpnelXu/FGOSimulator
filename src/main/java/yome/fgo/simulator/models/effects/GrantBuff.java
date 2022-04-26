@@ -19,7 +19,7 @@ import java.util.List;
 
 @SuperBuilder
 public class GrantBuff extends Effect {
-    private final List<BuffData> buffData;
+    private final List<BuffData> buffData; // here stores each overcharged effect
     private final Target target;
     private final int buffLevel;
 

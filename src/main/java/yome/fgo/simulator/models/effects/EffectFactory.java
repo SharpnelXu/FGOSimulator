@@ -36,15 +36,18 @@ public class EffectFactory {
         } else if (type.equalsIgnoreCase(GrantBuff.class.getSimpleName())) {
             final GrantBuff.GrantBuffBuilder<?, ?> builder = GrantBuff.builder()
                     .target(effectData.getTarget())
-                    .buffLevel(level)
-                    .buffData(effectData.getBuffDataList());
+                    .buffLevel(level);
             if (effectData.getProbabilitiesCount() == 1) {
                 builder.probability(effectData.getProbabilities(0));
             } else if (effectData.getProbabilitiesCount() != 0) {
                 builder.probability(effectData.getProbabilities(level - 1));
             }
             if (effectData.getIsOverchargedEffect()) {
-                builder.isOverchargedEffect(true);
+                builder.isOverchargedEffect(true).buffData(effectData.getBuffDataList());
+            } else if (effectData.getBuffDataCount() >= level) {
+                builder.buffData(ImmutableList.of(effectData.getBuffData(level - 1)));
+            } else {
+                builder.buffData(ImmutableList.of(effectData.getBuffData(0)));
             }
             setApplyConditionIfExists(builder, effectData);
             return builder.build();
@@ -68,12 +71,10 @@ public class EffectFactory {
                 builder.npSpecificDamageRates(effectData.getNpSpecificDamageRateList())
                         .isNpSpecificDamageOverchargedEffect(true)
                         .isOverchargedEffect(true);
-            } else if (effectData.getNpSpecificDamageRateCount() == 0) {
-                builder.npSpecificDamageRates(ImmutableList.of(1.0));
-            } else if (effectData.getNpSpecificDamageRateCount() == 1) {
-                builder.npSpecificDamageRates(effectData.getNpSpecificDamageRateList());
-            } else {
+            } else if (effectData.getNpSpecificDamageRateCount() >= level) {
                 builder.npSpecificDamageRates(ImmutableList.of(effectData.getNpSpecificDamageRate(level - 1)));
+            } else if (effectData.getNpSpecificDamageRateCount() == 1) {
+                builder.npSpecificDamageRates(ImmutableList.of(effectData.getNpSpecificDamageRate(0)));
             }
 
             setApplyConditionIfExists(builder, effectData);
