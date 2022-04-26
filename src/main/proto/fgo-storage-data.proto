@@ -146,10 +146,19 @@ message EffectData {
   ConditionData applyCondition = 7;
   repeated BuffData buffData = 8; // each represents one OC for GrantBuff
   repeated double probabilities = 9;
+  GrantBuffAdditionalParams grantBuffAdditionalParams = 10;
 
-  NpDamageAdditionalParams npDamageAdditionalParams = 10;
+  NpDamageAdditionalParams npDamageAdditionalParams = 11;
 
   repeated int32 intValues = 14; // for int value effects
+}
+
+message GrantBuffAdditionalParams {
+  bool isBuffOvercharged = 1;
+  bool isProbabilityOvercharged = 3;
+
+  bool isRepeatable = 5;
+  int32 repeatTimes = 6;
 }
 
 message NpDamageAdditionalParams {

@@ -19,30 +19,52 @@ import java.util.List;
 
 @SuperBuilder
 public class GrantBuff extends Effect {
+    protected final boolean isBuffOvercharged;
     protected final List<BuffData> buffData; // here stores each overcharged effect
     protected final Target target;
     protected final int buffLevel;
 
+    protected final boolean isProbabilityOvercharged;
+    protected final List<Double> probabilities;
     @Builder.Default
-    protected final double probability = 1;
+    private final int repeatTimes = 1;
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
-            if (shouldApply(simulation)) {
-                final Buff buff = BuffFactory.buildBuff(buffData.get(level - 1), buffLevel);
-                simulation.setCurrentBuff(buff);
+            for (int i = 0; i < repeatTimes; i++) {
+                if (shouldApply(simulation)) {
+                    final BuffData buffDataToUse = isBuffOvercharged ?
+                            buffData.get(level - 1) :
+                            buffData.get(0);
 
-                grantBuff(simulation, buff, combatant, probability);
+                    final Buff buff = BuffFactory.buildBuff(buffDataToUse, buffLevel);
+                    simulation.setCurrentBuff(buff);
 
-                simulation.setCurrentBuff(null);
+                    final double probability;
+                    if (!probabilities.isEmpty()) {
+                        probability = isProbabilityOvercharged ?
+                                probabilities.get(level - 1) :
+                                probabilities.get(0);
+                    } else {
+                        probability = 1;
+                    }
+
+                    final boolean success = grantBuff(simulation, buff, combatant, probability);
+                    if (!success) {
+                        break;
+                    }
+
+                    simulation.setCurrentBuff(null);
+                }
             }
+
             simulation.setEffectTarget(null);
         }
     }
 
-    public void grantBuff(
+    public boolean grantBuff(
             final Simulation simulation,
             final Buff buff,
             final Combatant combatant,
@@ -77,8 +99,10 @@ public class GrantBuff extends Effect {
             if (canActivate) {
                 combatant.addBuff(buff);
                 afterBuffAdditionalChange(simulation);
+                return true;
             }
         }
+        return false;
     }
 
     protected void afterBuffAdditionalChange(final Simulation simulation) {

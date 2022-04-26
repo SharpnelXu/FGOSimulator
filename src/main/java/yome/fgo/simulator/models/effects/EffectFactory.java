@@ -2,6 +2,7 @@ package yome.fgo.simulator.models.effects;
 
 import com.google.common.collect.ImmutableList;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.GrantBuffAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
 
@@ -145,15 +146,31 @@ public class EffectFactory {
     ) {
         builder.target(effectData.getTarget())
                 .buffLevel(level);
-        if (effectData.getProbabilitiesCount() == 1) {
-            builder.probability(effectData.getProbabilities(0));
-        } else if (effectData.getProbabilitiesCount() != 0) {
-            builder.probability(effectData.getProbabilities(level - 1));
-        }
-        if (effectData.getIsOverchargedEffect()) {
-            builder.isOverchargedEffect(true).buffData(effectData.getBuffDataList());
+        if (effectData.hasGrantBuffAdditionalParams()) {
+            final GrantBuffAdditionalParams additionalParams = effectData.getGrantBuffAdditionalParams();
+            if (additionalParams.getIsRepeatable()) {
+                builder.repeatTimes(additionalParams.getRepeatTimes());
+            }
+
+            if (additionalParams.getIsProbabilityOvercharged()) {
+                builder.probabilities(effectData.getProbabilitiesList())
+                        .isOverchargedEffect(true)
+                        .isProbabilityOvercharged(true);
+            } else {
+                builder.probabilities(getSingletonValueListForLevel(effectData.getProbabilitiesList(), level));
+            }
+
+
+            if (additionalParams.getIsBuffOvercharged()) {
+                builder.buffData(effectData.getBuffDataList())
+                        .isOverchargedEffect(true)
+                        .isBuffOvercharged(true);
+            } else {
+                builder.buffData(getSingletonValueListForLevel(effectData.getBuffDataList(), level));
+            }
         } else {
-            builder.buffData(getSingletonValueListForLevel(effectData.getBuffDataList(), level));
+            builder.buffData(getSingletonValueListForLevel(effectData.getBuffDataList(), level))
+                    .probabilities(getSingletonValueListForLevel(effectData.getProbabilitiesList(), level));
         }
         setApplyConditionIfExists(builder, effectData);
         return builder.build();
