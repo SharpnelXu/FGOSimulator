@@ -66,7 +66,7 @@ public class ServantTest {
         simulation.setActivator(kama);
         kama.activateActiveSkill(simulation, 0);
 
-        simulation.setCurrentCommandCard(kama.getCommandCards().get(2));
+        simulation.setCurrentCommandCard(kama.getCommandCard(simulation, 2));
 
         final double artsBuff = kama.applyBuff(simulation, CommandCardBuff.class);
         assertEquals(0.3, artsBuff);

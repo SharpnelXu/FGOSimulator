@@ -197,24 +197,12 @@ public class Simulation {
     public void checkBuffStatus() {
         for (final Servant servant : currentServants) {
             if (servant != null) {
-                for (final Buff buff : servant.getBuffs()) {
-                    if (buff.isApplied()) {
-                        buff.decreaseNumTimeActive();
-                    }
-                }
-
-                servant.clearInactiveBuff();
+                servant.checkBuffStatus();
             }
         }
         for (final Combatant combatant : currentEnemies) {
             if (combatant != null) {
-                for (final Buff buff : combatant.getBuffs()) {
-                    if (buff.isApplied()) {
-                        buff.decreaseNumTimeActive();
-                    }
-                }
-
-                combatant.clearInactiveBuff();
+                combatant.checkBuffStatus();
             }
         }
     }
@@ -315,9 +303,9 @@ public class Simulation {
     private CommandCardType getCommandCardType(final CombatAction combatAction) {
         final Servant currentServant = currentServants.get(combatAction.servantIndex);
         if (combatAction.isNoblePhantasm) {
-            return currentServant.getNoblePhantasmType();
+            return currentServant.getNoblePhantasmCardType();
         } else {
-            return currentServant.getCommandCardType(combatAction.commandCardIndex);
+            return currentServant.getCommandCardType(this, combatAction.commandCardIndex);
         }
     }
 

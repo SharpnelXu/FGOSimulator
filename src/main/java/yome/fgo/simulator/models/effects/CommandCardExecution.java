@@ -14,7 +14,6 @@ import yome.fgo.simulator.models.effects.buffs.CriticalDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
-import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.IgnoreDefenceBuff;
 import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
@@ -88,7 +87,7 @@ public class CommandCardExecution {
         final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class);
 
         final DamageParameters damageParameters = DamageParameters.builder()
-                .attack(attacker.getAttack() + currentCard.commandCardStrengthen)
+                .attack(attacker.getAttack() + currentCard.getCommandCardStrengthen())
                 .totalHits(currentCard.getTotalHits())
                 .attackerClass(attacker.getFateClass())
                 .defenderClass(defenderClass)

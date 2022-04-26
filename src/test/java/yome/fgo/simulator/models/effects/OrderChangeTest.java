@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
 
-import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.mock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
@@ -24,8 +23,7 @@ public class OrderChangeTest {
         final OrderChange orderChange = OrderChange.builder().build();
 
         inBackup.enterField(simulation);
-        expect(inBackup.getBuffs()).andReturn(ImmutableList.of());
-        inBackup.clearInactiveBuff();
+        inBackup.checkBuffStatus();
 
         replay(onField, inBackup);
 

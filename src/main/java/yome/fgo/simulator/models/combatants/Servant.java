@@ -20,6 +20,7 @@ import yome.fgo.data.proto.FgoStorageData.Status;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
 import yome.fgo.simulator.models.effects.CommandCardExecution;
+import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
@@ -201,7 +202,7 @@ public class Servant extends Combatant {
     ) {
         simulation.setAttacker(this);
         simulation.setDefender(simulation.getTargetedEnemy());
-        simulation.setCurrentCommandCard(commandCards.get(commandCardIndex));
+        simulation.setCurrentCommandCard(getCommandCard(simulation, commandCardIndex));
 
         CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain);
 
@@ -226,12 +227,33 @@ public class Servant extends Combatant {
         simulation.setAttacker(null);
     }
 
-    public CommandCardType getNoblePhantasmType() {
+    public CommandCardType getNoblePhantasmCardType() {
         return noblePhantasm.getCommandCardType();
     }
 
-    public CommandCardType getCommandCardType(final int commandCardIndex) {
-        return commandCards.get(commandCardIndex).getCommandCardType();
+    public CommandCardType getCommandCardType(final Simulation simulation, final int commandCardIndex) {
+        return getCommandCard(simulation, commandCardIndex).getCommandCardType();
+    }
+
+    public CommandCard getCommandCard(final Simulation simulation, final int index) {
+        final CardTypeChange cardTypeChange = hasCardTypeChangeBuff(simulation);
+        if (cardTypeChange != null) {
+            final CommandCardType cardTypeOfChangedType = cardTypeChange.getCommandCardType();
+
+            CommandCardData cardDataOfChangedType = null;
+            for (final CommandCard commandCard : commandCards) {
+                if (commandCard.getCommandCardType() == cardTypeOfChangedType) {
+                    cardDataOfChangedType = commandCard.getCommandCardData();
+                    break;
+                }
+            }
+            assert cardDataOfChangedType != null;
+
+            final CommandCard supposedCard = commandCards.get(index);
+            return new CommandCard(cardDataOfChangedType, supposedCard.getCommandCode(), supposedCard.getCommandCardStrengthen());
+        } else {
+            return commandCards.get(index);
+        }
     }
 
     @Override
@@ -285,5 +307,10 @@ public class Servant extends Combatant {
         for (final ActiveSkill activeSkill : activeSkills) {
             activeSkill.decreaseCoolDown(decrease);
         }
+    }
+
+    @Deprecated
+    public List<CommandCard> getCommandCards() {
+        throw new IllegalArgumentException("Deprecated, use getCommandCard() instead");
     }
 }

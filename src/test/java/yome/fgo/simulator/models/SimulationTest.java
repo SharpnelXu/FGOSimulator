@@ -3,7 +3,7 @@ package yome.fgo.simulator.models;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
-import yome.fgo.data.proto.FgoStorageData;
+import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeOption;
@@ -55,11 +55,11 @@ public class SimulationTest {
             .addAllActiveSkillRanks(ImmutableList.of(1, 1, 1))
             .addAllActiveSkillLevels(ImmutableList.of(10, 10, 10))
             .addAllAppendSkillLevels(ImmutableList.of(10, 10, 10))
-            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .addCommandCardOptions(CommandCardOption.newBuilder().setStrengthen(500))
+            .addCommandCardOptions(CommandCardOption.newBuilder())
+            .addCommandCardOptions(CommandCardOption.newBuilder())
+            .addCommandCardOptions(CommandCardOption.newBuilder())
+            .addCommandCardOptions(CommandCardOption.newBuilder())
             .setBond(15)
             .setAscension(1)
             .build();
@@ -79,11 +79,11 @@ public class SimulationTest {
             .addAllActiveSkillRanks(ImmutableList.of(1, 1, 1))
             .addAllActiveSkillLevels(ImmutableList.of(10, 10, 10))
             .addAllAppendSkillLevels(ImmutableList.of(10, 10, 10))
-            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
-            .addCommandCardOptions(FgoStorageData.CommandCardOption.newBuilder())
+            .addCommandCardOptions(CommandCardOption.newBuilder())
+            .addCommandCardOptions(CommandCardOption.newBuilder())
+            .addCommandCardOptions(CommandCardOption.newBuilder())
+            .addCommandCardOptions(CommandCardOption.newBuilder())
+            .addCommandCardOptions(CommandCardOption.newBuilder())
             .setBond(10)
             .setAscension(1)
             .build();

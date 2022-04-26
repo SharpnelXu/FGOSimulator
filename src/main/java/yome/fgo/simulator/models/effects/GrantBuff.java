@@ -6,7 +6,6 @@ import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
-import yome.fgo.simulator.models.conditions.Condition;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.BuffChanceBuff;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory;
@@ -34,14 +33,16 @@ public class GrantBuff extends Effect {
             if (shouldApply(simulation)) {
                 final Buff buff = BuffFactory.buildBuff(buffData.get(level - 1), buffLevel);
                 simulation.setCurrentBuff(buff);
+
                 grantBuff(simulation, buff, combatant, probability);
+
                 simulation.setCurrentBuff(null);
             }
             simulation.setEffectTarget(null);
         }
     }
 
-    public static void grantBuff(
+    public void grantBuff(
             final Simulation simulation,
             final Buff buff,
             final Combatant combatant,
@@ -63,20 +64,24 @@ public class GrantBuff extends Effect {
         }
 
         if (activationProbability >= simulation.getProbabilityThreshold()) {
+            boolean canActivate = true;
             if (!buff.isStackable()) {
-                boolean alreadyPresent = false;
                 for (final Buff existingBuff : combatant.getBuffs()) {
                     if (existingBuff.getClass().isInstance(buff)) {
-                        alreadyPresent = true;
+                        canActivate = false;
                         break;
                     }
                 }
-                if (!alreadyPresent) {
-                    combatant.addBuff(buff);
-                }
-            } else {
+            }
+
+            if (canActivate) {
                 combatant.addBuff(buff);
+                afterBuffAdditionalChange(simulation);
             }
         }
+    }
+
+    protected void afterBuffAdditionalChange(final Simulation simulation) {
+        // for subClass to override
     }
 }

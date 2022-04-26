@@ -9,6 +9,7 @@ import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
 import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
@@ -272,6 +273,16 @@ public class Combatant {
         clearInactiveBuff();
     }
 
+    public void checkBuffStatus() {
+        for (final Buff buff : buffs) {
+            if (buff.isApplied()) {
+                buff.decreaseNumTimeActive();
+            }
+        }
+
+        clearInactiveBuff();
+    }
+
     public void clearInactiveBuff() {
         for (int j = buffs.size() - 1; j >= 0; j--) {
             if (buffs.get(j).isInactive()) {
@@ -292,6 +303,16 @@ public class Combatant {
                 simulation.setActivator(null);
             }
         }
+    }
+
+    public CardTypeChange hasCardTypeChangeBuff(final Simulation simulation) {
+        for (final Buff buff : buffs) {
+            if (buff instanceof CardTypeChange && buff.shouldApply(simulation)) {
+                buff.setApplied();
+                return (CardTypeChange) buff;
+            }
+        }
+        return null;
     }
 
     public boolean activateGuts(final Simulation simulation) {

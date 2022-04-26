@@ -1,6 +1,7 @@
 package yome.fgo.simulator.models.effects.buffs;
 
 import yome.fgo.data.proto.FgoStorageData.BuffData;
+import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.simulator.models.effects.EffectFactory;
 
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
@@ -41,6 +42,12 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(CommandCardResist.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(CommandCardResist.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(CardTypeChange.class.getSimpleName())) {
+            return setCommonBuffParams(
+                    CardTypeChange.builder().commandCardType(CommandCardType.valueOf(buffData.getStringValue().toUpperCase())),
+                    buffData
+            );
 
         } else if (type.equalsIgnoreCase(CriticalChanceResist.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(CriticalChanceResist.builder(), buffData, level), buffData);

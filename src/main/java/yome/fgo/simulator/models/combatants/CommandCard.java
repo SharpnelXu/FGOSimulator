@@ -1,43 +1,45 @@
 package yome.fgo.simulator.models.combatants;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import yome.fgo.data.proto.FgoStorageData.CommandCardData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 
 import java.util.List;
 
+@RequiredArgsConstructor
+@Getter
 public class CommandCard {
-
-    public CommandCardData commandCardData;
-    public CommandCode commandCode;
-    public int commandCardStrengthen;
+    private final CommandCardData commandCardData;
+    private final CommandCode commandCode;
+    private final int commandCardStrengthen;
 
     public CommandCard(
-            CommandCardData commandCardData
+            final CommandCardData commandCardData
     ) {
-        this.commandCardData = commandCardData;
+        this(commandCardData, null, 0);
     }
 
     public CommandCard(
-            CommandCardData commandCardData,
-            CommandCardOption commandCardOption
+            final CommandCardData commandCardData,
+            final CommandCardOption commandCardOption
     ) {
-        this(commandCardData);
-        this.commandCardStrengthen = commandCardOption.getStrengthen();
+        this(commandCardData, null, commandCardOption.getStrengthen());
     }
 
     public CommandCard(
-            CommandCardType commandCardType,
-            List<Integer> hitPercentages,
-            double npCharge,
-            double starGeneration
+            final CommandCardType commandCardType,
+            final List<Integer> hitPercentages,
+            final double npCharge,
+            final double starGeneration
     ) {
-        this.commandCardData = CommandCardData.newBuilder()
+        this(CommandCardData.newBuilder()
                      .setCommandCardType(commandCardType)
                      .addAllHitsData(hitPercentages)
                      .setNpRate(npCharge)
                      .setCriticalStarGen(starGeneration)
-                     .build();
+                     .build(), null, 0);
     }
 
     public double getCriticalStarGeneration() {
