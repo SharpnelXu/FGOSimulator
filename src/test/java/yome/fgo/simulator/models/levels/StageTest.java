@@ -2,7 +2,6 @@ package yome.fgo.simulator.models.levels;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
-import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.StageData;
