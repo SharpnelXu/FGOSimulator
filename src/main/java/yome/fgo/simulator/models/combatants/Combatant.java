@@ -9,6 +9,7 @@ import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
 import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
@@ -153,6 +154,34 @@ public class Combatant {
             if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
                 totalValue += buffClass.cast(buff).getValue(simulation);
                 buff.setApplied();
+            }
+        }
+        return RoundUtils.roundNearest(totalValue);
+    }
+
+    public double applyDefenseUpBuff(final Simulation simulation) {
+        double totalValue = 0;
+        for (final Buff buff : buffs) {
+            if (buff instanceof DefenseBuff && buff.shouldApply(simulation)) {
+                final double value = ((DefenseBuff) buff).getValue(simulation);
+                if (value > 0) {
+                    totalValue += value;
+                    buff.setApplied();
+                }
+            }
+        }
+        return RoundUtils.roundNearest(totalValue);
+    }
+
+    public double applyDefenseDownBuff(final Simulation simulation) {
+        double totalValue = 0;
+        for (final Buff buff : buffs) {
+            if (buff instanceof DefenseBuff && buff.shouldApply(simulation)) {
+                final double value = ((DefenseBuff) buff).getValue(simulation);
+                if (value < 0) {
+                    totalValue += value;
+                    buff.setApplied();
+                }
             }
         }
         return RoundUtils.roundNearest(totalValue);

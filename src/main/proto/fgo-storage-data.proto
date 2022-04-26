@@ -143,14 +143,15 @@ message EffectData {
   Target target = 2;
   bool isOverchargedEffect = 5;
   repeated double values = 6;
-  ConditionData applyCondition = 7;
+  ConditionData applyCondition = 7; // for np this will be npSpecificDamage condition
   repeated BuffData buffData = 8; // each represents one OC
   repeated double probabilities = 9;
   repeated double npSpecificDamageRate = 10;
   bool isNpSpecificDamageOverchargedEffect = 11;
   repeated double npOverchargeDamageRate = 12;
   int32 turnsActive = 13; // for MaxHpChange
-  repeated int32 intValues = 14;
+  repeated int32 intValues = 14; // for int values effects
+  bool isNpIgnoreDefense = 15;
 }
 
 message BuffData {

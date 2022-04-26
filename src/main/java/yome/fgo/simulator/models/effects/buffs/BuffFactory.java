@@ -99,6 +99,9 @@ public class BuffFactory {
             final Guts.GutsBuilder<?, ?> gutsBuilder = Guts.builder();
             return setCommonBuffParams(gutsBuilder.gutsLeft(guts), buffData);
 
+        } else if (type.equalsIgnoreCase(IgnoreDefenceBuff.class.getSimpleName())) {
+            return setCommonBuffParams(IgnoreDefenceBuff.builder(), buffData);
+
         } else if (type.equalsIgnoreCase(IgnoreInvincible.class.getSimpleName())) {
             return setCommonBuffParams(IgnoreInvincible.builder(), buffData);
 

@@ -18,6 +18,7 @@ import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
 import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
+import yome.fgo.simulator.models.effects.buffs.IgnoreDefenceBuff;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentAttackBuff;
@@ -47,6 +48,7 @@ public class NoblePhantasmDamage extends Effect {
     private final List<Double> damageRates;
     private final List<Double> npSpecificDamageRates;
     private final boolean isNpSpecificDamageOverchargedEffect;
+    private final boolean isNpIgnoreDefense;
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
@@ -68,6 +70,7 @@ public class NoblePhantasmDamage extends Effect {
             final double npDamageBuff = attacker.applyBuff(simulation, NpDamageBuff.class);
             final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class);
             final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class);
+            final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenceBuff.class) || isNpIgnoreDefense;
 
             final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class);
 
@@ -85,7 +88,10 @@ public class NoblePhantasmDamage extends Effect {
             }
 
             final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
-            final double defenseBuff = defender.applyBuff(simulation, DefenseBuff.class);
+
+            final double defenseUpBuff = defender.applyDefenseUpBuff(simulation);
+            final double defenseDownBuff = Math.max(defender.applyDefenseDownBuff(simulation), -1); // this is negative
+            final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
             final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
             final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
             final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);

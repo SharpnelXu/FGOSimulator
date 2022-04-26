@@ -65,7 +65,8 @@ public class EffectFactory {
 
         } else if (type.equalsIgnoreCase(NoblePhantasmDamage.class.getSimpleName())) {
             final NoblePhantasmDamage.NoblePhantasmDamageBuilder<?, ?> builder = NoblePhantasmDamage.builder()
-                    .target(effectData.getTarget());
+                    .target(effectData.getTarget())
+                    .isNpIgnoreDefense(effectData.getIsNpIgnoreDefense());
 
             if (effectData.getIsNpSpecificDamageOverchargedEffect()) {
                 builder.npSpecificDamageRates(effectData.getNpSpecificDamageRateList())
