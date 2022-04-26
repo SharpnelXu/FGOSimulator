@@ -15,6 +15,8 @@ import yome.fgo.simulator.models.effects.buffs.GrantTrait;
 import yome.fgo.simulator.models.effects.buffs.Guts;
 import yome.fgo.simulator.models.effects.buffs.ImmobilizeDebuff;
 import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
+import yome.fgo.simulator.models.effects.buffs.NpSeal;
+import yome.fgo.simulator.models.effects.buffs.SkillSeal;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -169,6 +171,24 @@ public class Combatant {
     public boolean isImmobilized() {
         for (final Buff buff : buffs) {
             if (buff instanceof ImmobilizeDebuff) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isSkillSealed() {
+        for (final Buff buff : buffs) {
+            if (buff instanceof SkillSeal) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isNpSealed() {
+        for (final Buff buff : buffs) {
+            if (buff instanceof NpSeal) {
                 return true;
             }
         }

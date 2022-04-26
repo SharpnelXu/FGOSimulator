@@ -116,11 +116,14 @@ public class BuffFactory {
 
             return setCommonBuffParams(builder.change(change), buffData);
 
+        } else if (type.equalsIgnoreCase(NpDamageBuff.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(NpDamageBuff.builder(), buffData, level), buffData);
+
         } else if (type.equalsIgnoreCase(NpGenerationBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(NpGenerationBuff.builder(), buffData, level), buffData);
 
-        } else if (type.equalsIgnoreCase(NpDamageBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(NpDamageBuff.builder(), buffData, level), buffData);
+        } else if (type.equalsIgnoreCase(NpSeal.class.getSimpleName())) {
+            return setCommonBuffParams(NpSeal.builder(), buffData);
 
         } else if (type.equalsIgnoreCase(PercentAttackBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(PercentAttackBuff.builder(), buffData, level), buffData);
@@ -133,6 +136,9 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(ReceivedBuffChanceBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(ReceivedBuffChanceBuff.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(SkillSeal.class.getSimpleName())) {
+            return setCommonBuffParams(SkillSeal.builder(), buffData);
 
         } else if (type.equalsIgnoreCase(SpecialInvincible.class.getSimpleName())) {
             return setCommonBuffParams(SpecialInvincible.builder(), buffData);
