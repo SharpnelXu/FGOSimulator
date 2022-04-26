@@ -149,7 +149,7 @@ message EffectData {
   repeated double npSpecificDamageRate = 10;
   bool isNpSpecificDamageOverchargedEffect = 11;
   repeated double npOverchargeDamageRate = 12;
-  int32 turnsActive = 13; // for MaxHpChange
+
   repeated int32 intValues = 14; // for int values effects
   bool isNpIgnoreDefense = 15;
 }

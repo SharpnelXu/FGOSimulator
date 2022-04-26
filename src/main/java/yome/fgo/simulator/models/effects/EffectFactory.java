@@ -34,23 +34,7 @@ public class EffectFactory {
             return setCommonIntValuedEffectValue(builder, effectData, level);
 
         } else if (type.equalsIgnoreCase(GrantBuff.class.getSimpleName())) {
-            final GrantBuff.GrantBuffBuilder<?, ?> builder = GrantBuff.builder()
-                    .target(effectData.getTarget())
-                    .buffLevel(level);
-            if (effectData.getProbabilitiesCount() == 1) {
-                builder.probability(effectData.getProbabilities(0));
-            } else if (effectData.getProbabilitiesCount() != 0) {
-                builder.probability(effectData.getProbabilities(level - 1));
-            }
-            if (effectData.getIsOverchargedEffect()) {
-                builder.isOverchargedEffect(true).buffData(effectData.getBuffDataList());
-            } else if (effectData.getBuffDataCount() >= level) {
-                builder.buffData(ImmutableList.of(effectData.getBuffData(level - 1)));
-            } else {
-                builder.buffData(ImmutableList.of(effectData.getBuffData(0)));
-            }
-            setApplyConditionIfExists(builder, effectData);
-            return builder.build();
+            return setCommonGrantBuffEffectValue(GrantBuff.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(HpChange.class.getSimpleName())) {
             final HpChange.HpChangeBuilder<?, ?> builder = HpChange.builder();
@@ -58,10 +42,7 @@ public class EffectFactory {
             return setCommonIntValuedEffectValue(builder, effectData, level);
 
         } else if (type.equalsIgnoreCase(MaxHpChange.class.getSimpleName())) {
-            final MaxHpChange.MaxHpChangeBuilder<?, ?> builder = MaxHpChange.builder()
-                    .numTurnsActive(effectData.getTurnsActive());
-            setApplyConditionIfExists(builder, effectData);
-            return setCommonIntValuedEffectValue(builder, effectData, level);
+            return setCommonGrantBuffEffectValue(MaxHpChange.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(NoblePhantasmDamage.class.getSimpleName())) {
             final NoblePhantasmDamage.NoblePhantasmDamageBuilder<?, ?> builder = NoblePhantasmDamage.builder()
@@ -156,6 +137,29 @@ public class EffectFactory {
             builder.values(ImmutableList.of(effectData.getIntValues(0)));
         }
 
+        return builder.build();
+    }
+
+    private static Effect setCommonGrantBuffEffectValue(
+            final GrantBuff.GrantBuffBuilder<?, ?> builder,
+            final EffectData effectData,
+            final int level
+    ) {
+        builder.target(effectData.getTarget())
+                .buffLevel(level);
+        if (effectData.getProbabilitiesCount() == 1) {
+            builder.probability(effectData.getProbabilities(0));
+        } else if (effectData.getProbabilitiesCount() != 0) {
+            builder.probability(effectData.getProbabilities(level - 1));
+        }
+        if (effectData.getIsOverchargedEffect()) {
+            builder.isOverchargedEffect(true).buffData(effectData.getBuffDataList());
+        } else if (effectData.getBuffDataCount() >= level) {
+            builder.buffData(ImmutableList.of(effectData.getBuffData(level - 1)));
+        } else {
+            builder.buffData(ImmutableList.of(effectData.getBuffData(0)));
+        }
+        setApplyConditionIfExists(builder, effectData);
         return builder.build();
     }
 }

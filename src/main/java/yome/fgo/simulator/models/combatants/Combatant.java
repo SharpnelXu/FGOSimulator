@@ -336,20 +336,13 @@ public class Combatant {
 
     }
 
-    public void changeMaxHp(final int change, final int numTurnsActive) {
-        addBuff(
-                MaxHpBuff.builder()
-                        .change(change)
-                        .numTurnsActive(numTurnsActive)
-                        .build()
-        );
-        if (change > 0) {
-            currentHp += change;
-        } else {
-            final int maxHp = getMaxHp();
-            if (maxHp < currentHp) {
-                currentHp = maxHp;
-            }
+    // this is to avoid taking away heal buff
+    public void changeHpAfterMaxHpChange(final int change) {
+        currentHp += change;
+
+        final int maxHp = getMaxHp();
+        if (currentHp > maxHp) {
+            currentHp = maxHp;
         }
     }
 }
