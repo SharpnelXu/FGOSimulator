@@ -23,11 +23,13 @@ public class Stage {
     private final Queue<Combatant> enemies;
     private final int maximumEnemiesOnScreen;
     private final List<Effect> effects;
+    private final List<String> traits;
 
     public Stage(final Collection<Combatant> enemies, final int maximumEnemiesOnScreen, final List<Effect> effects) {
         this.enemies = new LinkedList<>(enemies);
         this.maximumEnemiesOnScreen = maximumEnemiesOnScreen;
         this.effects = new ArrayList<>(effects);
+        this.traits = new ArrayList<>();
     }
 
     public Stage(final StageData stageData) {
@@ -47,6 +49,7 @@ public class Stage {
                 this.enemies.add(new Combatant(ResourceManager.getEnemyCombatantData(enemyData.getEnemyCategories(), enemyId), enemyData));
             }
         }
+        this.traits = new ArrayList<>(stageData.getTraitsList());
     }
 
     public void applyStageEffects(final Simulation simulation) {

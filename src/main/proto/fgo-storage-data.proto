@@ -218,6 +218,7 @@ message StageData {
   repeated EnemyData enemyData = 1;
   repeated EffectData effects = 2;
   int32 maximumEnemiesOnScreen = 3;
+  repeated string traits = 4;
 }
 
 message EnemyData {

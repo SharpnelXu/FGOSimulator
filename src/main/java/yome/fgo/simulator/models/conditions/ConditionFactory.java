@@ -58,6 +58,8 @@ public class ConditionFactory {
                                   .stream()
                                   .map(ConditionFactory::buildCondition)
                                   .collect(Collectors.toList()));
+        } else if (type.equalsIgnoreCase(StageHasTrait.class.getSimpleName())) {
+            return new StageHasTrait(conditionData.getValue());
 
         } else if (type.equalsIgnoreCase(TargetsHaveBuff.class.getSimpleName())) {
             try {

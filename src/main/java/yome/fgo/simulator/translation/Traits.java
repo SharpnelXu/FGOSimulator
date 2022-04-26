@@ -3,6 +3,7 @@ package yome.fgo.simulator.translation;
 public class Traits {
     public static final String ARTHUR = "arthur";
     public static final String CHILD_SERVANT = "childServant";
+    public static final String CITY = "city";
     public static final String DEMONIC = "demonic";
     public static final String DIVINE = "divine";
     public static final String FAE = "fae";
@@ -15,6 +16,7 @@ public class Traits {
     public static final String RIDING = "riding";
     public static final String SABER_FACE = "saberFace";
     public static final String SERVANT = "servant";
+    public static final String SHORE = "shore";
     public static final String THREAT_TO_HUMANITY = "threatToHumanity";
     public static final String WEAK_TO_ENUMA_ELISH = "weakToEnumaElish";
     public static final String UNDEAD = "undead";
