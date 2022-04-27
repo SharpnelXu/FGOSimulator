@@ -114,6 +114,22 @@ public class BuffFactory {
 
             return setCommonBuffParams(Guts.builder().gutsLeft(guts), buffData);
 
+        } else if (type.equalsIgnoreCase(HpVariedAttackBuff.class.getSimpleName())) {
+            if (!buffData.hasHpVariedBuffAdditionalParams()) {
+                throw new IllegalArgumentException("No available params to work with");
+            }
+
+            final HpVariedBuffAdditionalParams additionalParams = buffData.getHpVariedBuffAdditionalParams();
+
+            return setValuedBuffParams(
+                    HpVariedAttackBuff.builder()
+                            .maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level))
+                            .minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level))
+                            .baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level)),
+                    buffData,
+                    level
+            );
+
         } else if (type.equalsIgnoreCase(HpVariedBuffChanceBuff.class.getSimpleName())) {
             if (!buffData.hasHpVariedBuffAdditionalParams()) {
                 throw new IllegalArgumentException("No available params to work with");
