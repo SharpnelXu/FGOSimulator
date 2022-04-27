@@ -113,11 +113,11 @@ public class CommandCardExecution {
                 .build();
 
 
-        final int totalDamage = calculateTotalDamage(damageParameters);
-
         final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
 
-            int remainingDamage = totalDamage;
+        final int totalDamage = calculateTotalDamage(damageParameters);
+
+        int remainingDamage = totalDamage;
 
         double totalCritStar = 0;
         for (int i = 0; i < hitsPercentages.size(); i++) {

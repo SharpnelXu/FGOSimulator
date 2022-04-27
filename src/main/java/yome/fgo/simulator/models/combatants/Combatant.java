@@ -3,7 +3,6 @@ package yome.fgo.simulator.models.combatants;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
@@ -51,6 +50,8 @@ public class Combatant {
     protected int currentHp;
     protected List<Integer> hpBars;
     protected List<Buff> buffs = new ArrayList<>();
+
+    private boolean receivedInstantDeath;
 
     // for testing
     public Combatant(final String id) {
@@ -263,6 +264,7 @@ public class Combatant {
     }
 
     public void hpBarBreak() {
+        receivedInstantDeath = false;
         currentHpBarIndex++;
         currentHp = hpBars.get(currentHpBarIndex);
     }
@@ -407,7 +409,12 @@ public class Combatant {
         return combatantData.getGender();
     }
 
-    public void forceInstantDeath() {
-        this.currentHp = 0;
+    public double getDeathRate() {
+        return combatantData.getDeathRate();
+    }
+
+    public void instantDeath() {
+        receivedInstantDeath = true;
+        currentHp = 0;
     }
 }

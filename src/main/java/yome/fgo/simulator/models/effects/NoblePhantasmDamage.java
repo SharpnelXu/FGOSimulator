@@ -130,9 +130,13 @@ public class NoblePhantasmDamage extends Effect {
                     .fixedRandom(simulation.getFixedRandom())
                     .build();
 
-            final int totalDamage = calculateTotalNpDamage(npDamageParams);
-
             final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
+
+            if (defender.isReceivedInstantDeath()) {
+                continue; // for NP I remembered it skips damage calculation
+            }
+
+            final int totalDamage = calculateTotalNpDamage(npDamageParams);
 
             int remainingDamage = totalDamage;
 

@@ -82,6 +82,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(DamageReductionBuff.class.getSimpleName())) {
             return setValuedBuffParams(DamageReductionBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(DeathChanceBuff.class.getSimpleName())) {
+            return setValuedBuffParams(DeathChanceBuff.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(DeathResist.class.getSimpleName())) {
             return setValuedBuffParams(DeathResist.builder(), buffData, level);
 
