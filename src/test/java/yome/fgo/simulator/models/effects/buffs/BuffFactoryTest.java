@@ -63,6 +63,7 @@ public class BuffFactoryTest {
         final BuffData buffData = BuffData.newBuilder()
                 .setType(BuffSpecificAttackBuff.class.getSimpleName())
                 .setNumTurnsActive(3)
+                .setTarget(DEFENDER)
                 .setApplyCondition(
                         ConditionData.newBuilder()
                                 .setType(TargetsHaveTrait.class.getSimpleName())

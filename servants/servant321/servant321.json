@@ -125,7 +125,8 @@
               "target": "DEFENDER"
             },
             "values": [0.1],
-            "stringValue": "BurningLove"
+            "stringValue": "BurningLove",
+            "target": "DEFENDER"
           }]
         }]
       }]
@@ -934,7 +935,8 @@
               "target": "DEFENDER"
             },
             "values": [0.1],
-            "stringValue": "BurningLove"
+            "stringValue": "BurningLove",
+            "target": "DEFENDER"
           }]
         }]
       }]

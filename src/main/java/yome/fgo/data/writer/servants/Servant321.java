@@ -227,6 +227,7 @@ public class Servant321 {
                                                     .setType(BuffSpecificAttackBuff.class.getSimpleName())
                                                     .addValues(0.1)
                                                     .setNumTurnsActive(3)
+                                                    .setTarget(DEFENDER)
                                                     .setStringValue(BurningLove.class.getSimpleName())
                                                     .setApplyCondition(
                                                             ConditionData.newBuilder()

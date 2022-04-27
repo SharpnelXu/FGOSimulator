@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
 
 public class CombatantTest {
     @Test
@@ -68,14 +69,17 @@ public class CombatantTest {
         combatant.addBuff(BuffSpecificAttackBuff.builder()
                                   .value(0.7)
                                   .targetBuff(BurningLove.class)
+                                  .target(DEFENDER)
                                   .build());
         combatant.addBuff(BuffSpecificAttackBuff.builder()
                                   .value(0.9)
                                   .targetBuff(BurningLove.class)
+                                  .target(DEFENDER)
                                   .build());
         combatant.addBuff(BuffSpecificAttackBuff.builder()
                                   .value(1.1)
                                   .targetBuff(Charm.class)
+                                  .target(DEFENDER)
                                   .build());
 
         simulation.setDefender(combatant);
