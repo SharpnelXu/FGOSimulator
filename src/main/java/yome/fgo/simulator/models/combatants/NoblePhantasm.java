@@ -42,7 +42,7 @@ public class NoblePhantasm extends CommandCard {
 
     public void activate(final Simulation simulation, final int overchargeLevel) {
         for (final Effect effect : effects) {
-            if (effect.isOverchargedEffect()) {
+            if (effect.isOverchargedEffect() || effect.isProbabilityOvercharged()) {
                 effect.apply(simulation, overchargeLevel);
             } else {
                 effect.apply(simulation);

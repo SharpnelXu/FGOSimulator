@@ -23,9 +23,6 @@ public class GrantBuff extends Effect {
     protected final List<BuffData> buffData; // here stores each overcharged effect
     protected final Target target;
     protected final int buffLevel;
-
-    protected final boolean isProbabilityOvercharged;
-    protected final List<Double> probabilities;
     @Builder.Default
     private final int repeatTimes = 1;
 
@@ -85,23 +82,26 @@ public class GrantBuff extends Effect {
             activationProbability = probability;
         }
 
-        if (activationProbability >= simulation.getProbabilityThreshold()) {
-            boolean canActivate = true;
-            if (!buff.isStackable()) {
-                for (final Buff existingBuff : combatant.getBuffs()) {
-                    if (existingBuff.getClass().isInstance(buff)) {
-                        canActivate = false;
-                        break;
-                    }
+        if (activationProbability < simulation.getProbabilityThreshold()) {
+            return false;
+        }
+
+        boolean canActivate = true;
+        if (!buff.isStackable()) {
+            for (final Buff existingBuff : combatant.getBuffs()) {
+                if (existingBuff.getClass().isInstance(buff)) {
+                    canActivate = false;
+                    break;
                 }
             }
-
-            if (canActivate) {
-                combatant.addBuff(buff);
-                afterBuffAdditionalChange(simulation);
-                return true;
-            }
         }
+
+        if (canActivate) {
+            combatant.addBuff(buff);
+            afterBuffAdditionalChange(simulation);
+            return true;
+        }
+
         return false;
     }
 

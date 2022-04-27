@@ -109,9 +109,7 @@ public class GrantBuffTest {
                                 .setType(AttackBuff.class.getSimpleName())
                                 .addAllValues(ImmutableList.of(30.0, 31.0, 32.0, 33.0, 35.0))
                 )
-                .setGrantBuffAdditionalParams(
-                        GrantBuffAdditionalParams.newBuilder().setIsBuffOvercharged(true)
-                )
+                .setIsOverchargedEffect(true)
                 .build();
 
         final Effect effect = EffectFactory.buildEffect(effectData, 5);

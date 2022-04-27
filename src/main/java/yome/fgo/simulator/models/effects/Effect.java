@@ -6,6 +6,8 @@ import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.conditions.Condition;
 
+import java.util.List;
+
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 
 @SuperBuilder
@@ -14,6 +16,9 @@ public abstract class Effect {
     protected final boolean isOverchargedEffect;
     @Builder.Default
     protected final Condition applyCondition = ALWAYS;
+
+    protected final boolean isProbabilityOvercharged;
+    protected final List<Double> probabilities;
 
     protected boolean shouldApply(final Simulation simulation) {
         return applyCondition.evaluate(simulation);

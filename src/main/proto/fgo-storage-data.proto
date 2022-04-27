@@ -141,11 +141,14 @@ message AppendSkillData {
 message EffectData {
   string type = 1;
   Target target = 2;
+  ConditionData applyCondition = 7;
   bool isOverchargedEffect = 5; // for effects with additional params, need to specifically set which part is overcharged in respecting params
   repeated double values = 6;
-  ConditionData applyCondition = 7;
   repeated BuffData buffData = 8; // each represents one OC for GrantBuff
+
+  bool isProbabilityOvercharged = 13;
   repeated double probabilities = 9;
+
   GrantBuffAdditionalParams grantBuffAdditionalParams = 10;
 
   NpDamageAdditionalParams npDamageAdditionalParams = 11;
@@ -156,9 +159,6 @@ message EffectData {
 }
 
 message GrantBuffAdditionalParams {
-  bool isBuffOvercharged = 1;
-  bool isProbabilityOvercharged = 3;
-
   bool isRepeatable = 5;
   int32 repeatTimes = 6;
 }

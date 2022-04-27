@@ -29,25 +29,19 @@ public class EffectFactory {
         if (type.equalsIgnoreCase(CardTypeChangeSelect.class.getSimpleName())) {
             final CardTypeChangeSelect.CardTypeChangeSelectBuilder<?, ?> builder = CardTypeChangeSelect.builder()
                     .selections(new TreeSet<>(effectData.getCardTypeSelectionsList()));
-            setApplyConditionIfExists(builder, effectData);
             return setCommonGrantBuffEffectValue(builder, effectData, level);
+
         } else if (type.equalsIgnoreCase(CriticalStarChange.class.getSimpleName())) {
-            final CriticalStarChange.CriticalStarChangeBuilder<?, ?> builder = CriticalStarChange.builder();
-            setApplyConditionIfExists(builder, effectData);
-            return setCommonIntValuedEffectValue(builder, effectData, level);
+            return setCommonIntValuedEffectValue(CriticalStarChange.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(DecreaseActiveSKillCoolDown.class.getSimpleName())) {
-            final DecreaseActiveSKillCoolDown.DecreaseActiveSKillCoolDownBuilder<?, ?> builder = DecreaseActiveSKillCoolDown.builder();
-            setApplyConditionIfExists(builder, effectData);
-            return setCommonIntValuedEffectValue(builder, effectData, level);
+            return setCommonIntValuedEffectValue(DecreaseActiveSKillCoolDown.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(GrantBuff.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(GrantBuff.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(HpChange.class.getSimpleName())) {
-            final HpChange.HpChangeBuilder<?, ?> builder = HpChange.builder();
-            setApplyConditionIfExists(builder, effectData);
-            return setCommonIntValuedEffectValue(builder, effectData, level);
+            return setCommonIntValuedEffectValue(HpChange.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(MaxHpChange.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(MaxHpChange.builder(), effectData, level);
@@ -88,13 +82,13 @@ public class EffectFactory {
                 builder.damageRates(getSingletonValueListForLevel(effectData.getValuesList(), level));
             }
 
-            setApplyConditionIfExists(builder, effectData);
+            setCommonEffectParams(builder, effectData, level);
             return builder.build();
 
         } else if (type.equalsIgnoreCase(NpChange.class.getSimpleName())) {
             final NpChange.NpChangeBuilder<?, ?> builder = NpChange.builder()
                     .target(effectData.getTarget());
-            setApplyConditionIfExists(builder, effectData);
+            setCommonEffectParams(builder, effectData, level);
             if (effectData.getIsOverchargedEffect()) {
                 builder.npChanges(effectData.getValuesList());
                 builder.isOverchargedEffect(true);
@@ -104,9 +98,7 @@ public class EffectFactory {
             return builder.build();
 
         } else if (type.equalsIgnoreCase(NpGaugeChange.class.getSimpleName())) {
-            final NpGaugeChange.NpGaugeChangeBuilder<?, ?> builder = NpGaugeChange.builder();
-            setApplyConditionIfExists(builder, effectData);
-            return setCommonIntValuedEffectValue(builder, effectData, level);
+            return setCommonIntValuedEffectValue(NpGaugeChange.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(OrderChange.class.getSimpleName())) {
             return ORDER_CHANGE;
@@ -114,7 +106,6 @@ public class EffectFactory {
         } else if (type.equalsIgnoreCase(RemoveBuff.class.getSimpleName())) {
             final RemoveBuff.RemoveBuffBuilder<?, ?> builder = RemoveBuff.builder()
                     .target(effectData.getTarget());
-            setApplyConditionIfExists(builder, effectData);
             return setCommonIntValuedEffectValue(builder, effectData, level);
 
         } else if (type.equalsIgnoreCase(ShuffleCards.class.getSimpleName())) {
@@ -124,9 +115,17 @@ public class EffectFactory {
         throw new UnsupportedOperationException("Effect type unsupported: " + type);
     }
 
-    private static void setApplyConditionIfExists(Effect.EffectBuilder<?, ?> builder, EffectData effectData) {
+    private static void setCommonEffectParams(Effect.EffectBuilder<?, ?> builder, EffectData effectData, final int level) {
         if (effectData.hasApplyCondition()) {
             builder.applyCondition(ConditionFactory.buildCondition(effectData.getApplyCondition()));
+        }
+
+        if (effectData.getIsProbabilityOvercharged()) {
+            builder.probabilities(effectData.getProbabilitiesList())
+                    .probabilities(getSingletonValueListForLevel(effectData.getProbabilitiesList(), level))
+                    .isProbabilityOvercharged(true);
+        } else {
+            builder.probabilities(getSingletonValueListForLevel(effectData.getProbabilitiesList(), level));
         }
     }
 
@@ -141,6 +140,7 @@ public class EffectFactory {
         } else {
             builder.values(getSingletonValueListForLevel(effectData.getIntValuesList(), level));
         }
+        setCommonEffectParams(builder, effectData, level);
 
         return builder.build();
     }
@@ -157,28 +157,17 @@ public class EffectFactory {
             if (additionalParams.getIsRepeatable()) {
                 builder.repeatTimes(additionalParams.getRepeatTimes());
             }
-
-            if (additionalParams.getIsProbabilityOvercharged()) {
-                builder.probabilities(effectData.getProbabilitiesList())
-                        .isOverchargedEffect(true)
-                        .isProbabilityOvercharged(true);
-            } else {
-                builder.probabilities(getSingletonValueListForLevel(effectData.getProbabilitiesList(), level));
-            }
-
-
-            if (additionalParams.getIsBuffOvercharged()) {
-                builder.buffData(effectData.getBuffDataList())
-                        .isOverchargedEffect(true)
-                        .isBuffOvercharged(true);
-            } else {
-                builder.buffData(getSingletonValueListForLevel(effectData.getBuffDataList(), level));
-            }
-        } else {
-            builder.buffData(getSingletonValueListForLevel(effectData.getBuffDataList(), level))
-                    .probabilities(getSingletonValueListForLevel(effectData.getProbabilitiesList(), level));
         }
-        setApplyConditionIfExists(builder, effectData);
+
+        if (effectData.getIsOverchargedEffect()) {
+            builder.buffData(effectData.getBuffDataList())
+                    .isOverchargedEffect(true)
+                    .isBuffOvercharged(true);
+        } else {
+            builder.buffData(getSingletonValueListForLevel(effectData.getBuffDataList(), level));
+        }
+
+        setCommonEffectParams(builder, effectData, level);
         return builder.build();
     }
 

@@ -12,6 +12,10 @@ public class NpGaugeChange extends IntValuedEffect {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
+        if (probabilities.get(level) < simulation.getProbabilityThreshold()) {
+            return;
+        }
+
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
