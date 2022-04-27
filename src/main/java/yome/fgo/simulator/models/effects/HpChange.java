@@ -21,9 +21,9 @@ public class HpChange extends IntValuedEffect {
                 if (baseChange > 0) {
                     final double healEffectiveness = combatant.applyBuff(simulation, HealEffectivenessBuff.class);
                     final int finalHeal = Math.max(0, (int) RoundUtils.roundNearest(baseChange * (1 + healEffectiveness)));
-                    combatant.heal(finalHeal);
+                    combatant.changeHp(finalHeal);
                 } else {
-                    combatant.receiveDamage(baseChange);
+                    combatant.changeHp(baseChange);
                 }
             }
             simulation.setEffectTarget(null);

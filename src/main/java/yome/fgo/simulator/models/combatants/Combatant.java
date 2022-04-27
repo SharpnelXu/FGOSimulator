@@ -3,7 +3,6 @@ package yome.fgo.simulator.models.combatants;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.Alignment;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
@@ -401,12 +400,16 @@ public class Combatant {
         }
     }
 
-    public void heal(final int hpChange) {
+    public void changeHp(final int hpChange) {
         currentHp += hpChange;
 
         final int maxHp = getMaxHp();
         if (currentHp > maxHp) {
             currentHp = maxHp;
+        }
+        // non-lethal
+        if (currentHp <= 0) {
+            currentHp = 1;
         }
     }
 
