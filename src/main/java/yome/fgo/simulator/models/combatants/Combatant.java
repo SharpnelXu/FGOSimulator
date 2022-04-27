@@ -27,6 +27,7 @@ import yome.fgo.simulator.models.effects.buffs.NpSeal;
 import yome.fgo.simulator.models.effects.buffs.Poison;
 import yome.fgo.simulator.models.effects.buffs.PoisonEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.SkillSeal;
+import yome.fgo.simulator.models.effects.buffs.TriggerOnGutsEffect;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -323,11 +324,21 @@ public class Combatant {
             final Simulation simulation,
             final Class<? extends EffectActivatingBuff> buffClass
     ) {
+        final List<EffectActivatingBuff> buffsToActivate = new ArrayList<>();
         for (final Buff buff : buffs) {
-            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
+            if (buffClass.isInstance(buff)) {
+                buffsToActivate.add((EffectActivatingBuff) buff);
+            }
+        }
+
+        for (final EffectActivatingBuff buff : buffsToActivate) {
+            if (buff.shouldApply(simulation)) {
                 simulation.setActivator(this);
-                ((EffectActivatingBuff) buff).activate(simulation);
+                buff.activate(simulation);
+
+                // extra step since this is a buff
                 buff.setApplied();
+                checkBuffStatus();
                 simulation.setActivator(null);
             }
         }
@@ -364,7 +375,8 @@ public class Combatant {
             }
         }
         if (activated) {
-            clearInactiveBuff();
+            checkBuffStatus();
+            activateEffectActivatingBuff(simulation, TriggerOnGutsEffect.class);
         }
 
         return activated;

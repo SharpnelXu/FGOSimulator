@@ -2,18 +2,19 @@ package yome.fgo.simulator.models.effects.buffs;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
-import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
+import yome.fgo.data.proto.FgoStorageData.MysticCodeOption;
 import yome.fgo.data.proto.FgoStorageData.StageData;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
+import yome.fgo.simulator.models.effects.CriticalStarChange;
 import yome.fgo.simulator.models.effects.GrantBuff;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
@@ -54,6 +55,21 @@ public class GutsTest {
                                                 .addValues(20)
                                 )
                 )
+                .addEffects(
+                        EffectData.newBuilder()
+                                .setType(GrantBuff.class.getSimpleName())
+                                .setTarget(ALL_ENEMIES)
+                                .addBuffData(
+                                        BuffData.newBuilder()
+                                                .setType(TriggerOnGutsEffect.class.getSimpleName())
+                                                .setNumTimesActive(1)
+                                                .addSubEffects(
+                                                        EffectData.newBuilder()
+                                                                .setType(CriticalStarChange.class.getSimpleName())
+                                                                .addIntValues(20)
+                                                )
+                                )
+                )
                 .build();
         final LevelData levelData = LevelData.newBuilder()
                 .setId("test")
@@ -65,14 +81,18 @@ public class GutsTest {
         final Simulation simulation = new Simulation(
                 level,
                 ImmutableList.of(kama),
-                new MysticCode(MysticCodeData.newBuilder().build(), FgoStorageData.MysticCodeOption.newBuilder().build())
+                new MysticCode(
+                        MysticCodeData.newBuilder().build(),
+                        MysticCodeOption.newBuilder().build()
+                )
         );
         simulation.initiate();
         final Combatant enemy = simulation.getCurrentEnemies().get(0);
         assertEquals(100, enemy.getCurrentHp());
         assertFalse(enemy.getBuffs().isEmpty());
-        simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 0, false)));
+        simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
         assertEquals(20, enemy.getCurrentHp());
+        assertEquals(21.0828, simulation.getCurrentStars());
         assertTrue(enemy.getBuffs().isEmpty());
     }
 }

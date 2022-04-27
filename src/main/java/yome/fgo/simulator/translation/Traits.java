@@ -19,5 +19,6 @@ public class Traits {
     public static final String SHORE = "shore";
     public static final String THREAT_TO_HUMANITY = "threatToHumanity";
     public static final String WEAK_TO_ENUMA_ELISH = "weakToEnumaElish";
+    public static final String WILD_BEAST = "wildBeast";
     public static final String UNDEAD = "undead";
 }

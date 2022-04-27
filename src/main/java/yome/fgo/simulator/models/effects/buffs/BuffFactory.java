@@ -223,6 +223,9 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(Taunt.class.getSimpleName())) {
             return setValuedBuffParams(Taunt.builder(), buffData, level);
+
+        } else if (type.equalsIgnoreCase(TriggerOnGutsEffect.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(TriggerOnGutsEffect.builder(), buffData, level);
         }
 
         throw new UnsupportedOperationException("Unsupported buff type: " + type);
