@@ -3,10 +3,12 @@ package yome.fgo.simulator.models.combatants;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
+import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.Burn;
@@ -399,5 +401,9 @@ public class Combatant {
         if (currentHp > maxHp) {
             currentHp = maxHp;
         }
+    }
+
+    public Gender getGender() {
+        return combatantData.getGender();
     }
 }

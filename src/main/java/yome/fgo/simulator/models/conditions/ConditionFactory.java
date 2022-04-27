@@ -1,8 +1,10 @@
 package yome.fgo.simulator.models.conditions;
 
+import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
+import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import java.util.stream.Collectors;
@@ -75,6 +77,12 @@ public class ConditionFactory {
             return TargetsHaveClass.builder()
                     .target(conditionData.getTarget())
                     .targetClass(FateClass.valueOf(conditionData.getValue()))
+                    .build();
+
+        } else if (type.equalsIgnoreCase(TargetsHaveGender.class.getSimpleName())) {
+            return TargetsHaveGender.builder()
+                    .target(conditionData.getTarget())
+                    .targetGender(Gender.valueOf(conditionData.getValue()))
                     .build();
 
         } else if (type.equalsIgnoreCase(TargetsHaveTrait.class.getSimpleName())) {
