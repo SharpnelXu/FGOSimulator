@@ -12,6 +12,7 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.busterChainDamageAddition;
+import static yome.fgo.simulator.utils.CommandCardTypeUtils.convertDamageRate;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.extraCardBuff;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.getCommandCardCritStarCorrection;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.getCommandCardDamageCorrection;
@@ -115,5 +116,19 @@ public class CommandCardTypeUtilsTest {
         assertEquals(2.0, extraCardBuff(EXTRA, true, ARTS));
         assertEquals(2.0, extraCardBuff(EXTRA, true, QUICK));
         assertEquals(1.0, extraCardBuff(BUSTER, true, BUSTER));
+    }
+
+    @Test
+    public void testConvertDamageRate() {
+        assertEquals(7.5, convertDamageRate(5, BUSTER, ARTS));
+        assertEquals(24, convertDamageRate(18, ARTS, QUICK));
+        assertEquals(12, convertDamageRate(24, QUICK, BUSTER));
+        assertEquals(5.75, convertDamageRate(8.625, ARTS, BUSTER));
+        assertEquals(4.75, convertDamageRate(7.125, ARTS, BUSTER));
+        assertEquals(11.5, convertDamageRate(8.625, ARTS, QUICK));
+        assertEquals(9.5, convertDamageRate(7.125, ARTS, QUICK));
+        assertEquals(15, convertDamageRate(20, QUICK, ARTS));
+        assertEquals(7.125, convertDamageRate(9.5, QUICK, ARTS));
+        assertEquals(6.75, convertDamageRate(9, QUICK, ARTS));
     }
 }

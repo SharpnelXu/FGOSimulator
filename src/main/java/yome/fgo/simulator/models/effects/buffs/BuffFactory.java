@@ -36,6 +36,12 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(BurningLove.class.getSimpleName())) {
                 return setCommonBuffParams(BurningLove.builder(), buffData);
 
+        } else if (type.equalsIgnoreCase(CardTypeChange.class.getSimpleName())) {
+            return setCommonBuffParams(
+                    CardTypeChange.builder().commandCardType(CommandCardType.valueOf(buffData.getStringValue().toUpperCase())),
+                    buffData
+            );
+
         } else if (type.equalsIgnoreCase(Charm.class.getSimpleName())) {
             return setCommonBuffParams(Charm.builder(), buffData);
 
@@ -44,12 +50,6 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(CommandCardResist.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(CommandCardResist.builder(), buffData, level), buffData);
-
-        } else if (type.equalsIgnoreCase(CardTypeChange.class.getSimpleName())) {
-            return setCommonBuffParams(
-                    CardTypeChange.builder().commandCardType(CommandCardType.valueOf(buffData.getStringValue().toUpperCase())),
-                    buffData
-            );
 
         } else if (type.equalsIgnoreCase(CriticalChanceResist.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(CriticalChanceResist.builder(), buffData, level), buffData);
@@ -139,6 +139,12 @@ public class BuffFactory {
             }
 
             return setCommonBuffParams(builder.change(change), buffData);
+
+        } else if (type.equalsIgnoreCase(NpCardTypeChange.class.getSimpleName())) {
+            return setCommonBuffParams(
+                    NpCardTypeChange.builder().commandCardType(CommandCardType.valueOf(buffData.getStringValue().toUpperCase())),
+                    buffData
+            );
 
         } else if (type.equalsIgnoreCase(NpDamageBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(NpDamageBuff.builder(), buffData, level), buffData);

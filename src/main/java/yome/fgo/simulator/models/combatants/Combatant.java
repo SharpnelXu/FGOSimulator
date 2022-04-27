@@ -17,6 +17,7 @@ import yome.fgo.simulator.models.effects.buffs.GrantTrait;
 import yome.fgo.simulator.models.effects.buffs.Guts;
 import yome.fgo.simulator.models.effects.buffs.ImmobilizeDebuff;
 import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
+import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.NpSeal;
 import yome.fgo.simulator.models.effects.buffs.SkillSeal;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
@@ -310,6 +311,16 @@ public class Combatant {
             if (buff instanceof CardTypeChange && buff.shouldApply(simulation)) {
                 buff.setApplied();
                 return (CardTypeChange) buff;
+            }
+        }
+        return null;
+    }
+
+    public NpCardTypeChange hasNpCardTypeChangeBuff(final Simulation simulation) {
+        for (final Buff buff : buffs) {
+            if (buff instanceof NpCardTypeChange && buff.shouldApply(simulation)) {
+                buff.setApplied();
+                return (NpCardTypeChange) buff;
             }
         }
         return null;

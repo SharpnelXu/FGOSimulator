@@ -141,7 +141,7 @@ message AppendSkillData {
 message EffectData {
   string type = 1;
   Target target = 2;
-  bool isOverchargedEffect = 5;
+  bool isOverchargedEffect = 5; // for effects with additional params, need to specifically set which part is overcharged in respecting params
   repeated double values = 6;
   ConditionData applyCondition = 7;
   repeated BuffData buffData = 8; // each represents one OC for GrantBuff

@@ -21,6 +21,7 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
 import yome.fgo.simulator.models.effects.CommandCardExecution;
 import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
+import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
@@ -176,7 +177,22 @@ public class Servant extends Combatant {
 
     public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
         simulation.setActivator(this);
-        simulation.setCurrentCommandCard(noblePhantasm);
+
+        final NpCardTypeChange cardTypeChange = hasNpCardTypeChangeBuff(simulation);
+        if (cardTypeChange != null) {
+            simulation.setCurrentCommandCard(
+                    new NoblePhantasm(
+                            cardTypeChange.getCommandCardType(),
+                            noblePhantasm.getHitPercentages(),
+                            noblePhantasm.getNpCharge(),
+                            noblePhantasm.getCriticalStarGeneration(),
+                            noblePhantasm.getEffects(),
+                            noblePhantasm.getNoblePhantasmType()
+                    )
+            );
+        } else {
+            simulation.setCurrentCommandCard(noblePhantasm);
+        }
 
         // TODO: missing overchargeIncreaseBuff
         final int overchargeLevel = calculateOverchargeLevel(extraOvercharge, currentNp);
@@ -227,7 +243,16 @@ public class Servant extends Combatant {
         simulation.setAttacker(null);
     }
 
-    public CommandCardType getNoblePhantasmCardType() {
+    public CommandCardType getNoblePhantasmCardType(final Simulation simulation) {
+        final NpCardTypeChange cardTypeChange = hasNpCardTypeChangeBuff(simulation);
+        if (cardTypeChange != null) {
+            return cardTypeChange.getCommandCardType();
+        } else {
+            return noblePhantasm.getCommandCardType();
+        }
+    }
+
+    public CommandCardType getOriginalNoblePhantasmCardType() {
         return noblePhantasm.getCommandCardType();
     }
 
@@ -307,10 +332,5 @@ public class Servant extends Combatant {
         for (final ActiveSkill activeSkill : activeSkills) {
             activeSkill.decreaseCoolDown(decrease);
         }
-    }
-
-    @Deprecated
-    public List<CommandCard> getCommandCards() {
-        throw new IllegalArgumentException("Deprecated, use getCommandCard() instead");
     }
 }

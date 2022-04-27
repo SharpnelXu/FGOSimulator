@@ -9,6 +9,7 @@ import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
+import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.conditions.Condition;
 import yome.fgo.simulator.models.effects.CommandCardExecution.CriticalStarParameters;
 import yome.fgo.simulator.models.effects.CommandCardExecution.NpParameters;
@@ -36,6 +37,7 @@ import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCr
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.shouldSkipDamage;
 import static yome.fgo.simulator.utils.AttributeUtils.getAttributeAdvantage;
+import static yome.fgo.simulator.utils.CommandCardTypeUtils.convertDamageRate;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.getCommandCardDamageCorrection;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.modifierCap;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAdvantage;
@@ -62,7 +64,13 @@ public class NoblePhantasmDamage extends Effect {
         final Combatant attacker = simulation.getActivator();
         simulation.setAttacker(attacker);
 
-        final double damageRate = isNpDamageOverchargedEffect ? damageRates.get(level - 1) : damageRates.get(0);
+        final double originalDamageRate = isNpDamageOverchargedEffect ? damageRates.get(level - 1) : damageRates.get(0);
+        final CommandCardType originalCardType = attacker instanceof Servant ?
+                ((Servant) attacker).getOriginalNoblePhantasmCardType() :
+                currentCardType;
+        final double damageRate = originalCardType == currentCardType ?
+                originalDamageRate :
+                convertDamageRate(originalDamageRate, originalCardType, currentCardType);
 
         for (final Combatant defender : TargetUtils.getTargets(simulation, target)) {
             simulation.setDefender(defender);

@@ -303,7 +303,7 @@ public class Simulation {
     private CommandCardType getCommandCardType(final CombatAction combatAction) {
         final Servant currentServant = currentServants.get(combatAction.servantIndex);
         if (combatAction.isNoblePhantasm) {
-            return currentServant.getNoblePhantasmCardType();
+            return currentServant.getNoblePhantasmCardType(this);
         } else {
             return currentServant.getCommandCardType(this, combatAction.commandCardIndex);
         }

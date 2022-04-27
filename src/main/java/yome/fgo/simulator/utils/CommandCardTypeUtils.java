@@ -165,4 +165,42 @@ public class CommandCardTypeUtils {
             return 1;
         }
     }
+
+    public static double convertDamageRate(
+            final double originalDamageRate,
+            final CommandCardType originalCardType,
+            final CommandCardType currentCardType
+    ) {
+        switch (originalCardType) {
+            case BUSTER:
+                switch (currentCardType) {
+                    case BUSTER:
+                        return originalDamageRate;
+                    case ARTS:
+                        return RoundUtils.roundNearest(originalDamageRate * 1.5);
+                    case QUICK:
+                        return RoundUtils.roundNearest(originalDamageRate * 2);
+                }
+            case ARTS:
+                switch (currentCardType) {
+                    case BUSTER:
+                        return RoundUtils.roundNearest(originalDamageRate * 2 / 3);
+                    case ARTS:
+                        return originalDamageRate;
+                    case QUICK:
+                        return RoundUtils.roundNearest(originalDamageRate * 4 / 3);
+                }
+            case QUICK:
+                switch (currentCardType) {
+                    case BUSTER:
+                        return RoundUtils.roundNearest(originalDamageRate * 0.5);
+                    case ARTS:
+                        return RoundUtils.roundNearest(originalDamageRate * 0.75);
+                    case QUICK:
+                        return originalDamageRate;
+                }
+        }
+
+        throw new IllegalArgumentException("Unrecognized card types, cannot convert. Original: " + originalCardType + ", Current: " + currentCardType);
+    }
 }
