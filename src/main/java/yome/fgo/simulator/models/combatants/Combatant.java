@@ -3,6 +3,8 @@ package yome.fgo.simulator.models.combatants;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import yome.fgo.data.proto.FgoStorageData;
+import yome.fgo.data.proto.FgoStorageData.Alignment;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
@@ -33,6 +35,7 @@ import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.utils.FateClassUtils.getClassMaxNpGauge;
 
@@ -126,6 +129,9 @@ public class Combatant {
     public List<String> getAllTraits(final Simulation simulation) {
         final ImmutableList.Builder<String> allTraits = ImmutableList.builder();
         allTraits.addAll(combatantData.getTraitsList());
+        allTraits.add(combatantData.getGender().name());
+        allTraits.add(combatantData.getAttribute().name());
+        allTraits.addAll(combatantData.getAlignmentsList().stream().map(Alignment::name).collect(Collectors.toList()));
         for (final Buff buff : buffs) {
             if (buff instanceof GrantTrait && buff.shouldApply(simulation)) {
                 allTraits.add(((GrantTrait) buff).getTrait());

@@ -27,6 +27,7 @@ enum Traits {
   WEAK_TO_ENUMA_ELISH = 21;
   WILD_BEAST = 22;
   UNDEAD = 23;
+  KING = 24;
 }
 
 enum FateClass {
