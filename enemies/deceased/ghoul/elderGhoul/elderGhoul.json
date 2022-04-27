@@ -3,6 +3,6 @@
   "rarity": 4,
   "fateClass": "ASSASSIN",
   "attribute": "EARTH",
-  "traits": ["demonic", "undead", "oni"],
+  "traits": ["DEMONIC", "UNDEAD", "ONI"],
   "deathRate": 0.2
 }

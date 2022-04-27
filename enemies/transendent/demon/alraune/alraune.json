@@ -4,6 +4,6 @@
   "fateClass": "CASTER",
   "gender": "FEMALE",
   "attribute": "EARTH",
-  "traits": ["demonic"],
+  "traits": ["DEMONIC"],
   "deathRate": 0.1
 }

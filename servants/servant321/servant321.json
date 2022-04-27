@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "SKY",
-      "traits": ["demonic", "divine", "hominidaeServant", "humanoid", "pseudoServant", "riding", "weakToEnumaElish", "childServant"],
+      "traits": ["DEMONIC", "DIVINE", "HOMINIDAE_SERVANT", "HUMANOID", "PSEUDO_SERVANT", "RIDING", "WEAK_TO_ENUMA_ELISH", "CHILD_SERVANT"],
       "deathRate": 0.05
     },
     "defenseNpRate": 0.05,
@@ -817,7 +817,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "SKY",
-      "traits": ["demonic", "divine", "hominidaeServant", "humanoid", "pseudoServant", "riding", "weakToEnumaElish"],
+      "traits": ["DEMONIC", "DIVINE", "HOMINIDAE_SERVANT", "HUMANOID", "PSEUDO_SERVANT", "RIDING", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.05
     },
     "defenseNpRate": 0.05,

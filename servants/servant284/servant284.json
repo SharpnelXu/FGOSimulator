@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "GOOD"],
       "attribute": "STAR",
-      "traits": ["arthur", "saberFace", "knightsOfTheRound", "humanoid"],
+      "traits": ["ARTHUR", "SABER_FACE", "KNIGHTS_OF_THE_ROUND", "HUMANOID"],
       "deathRate": 0.36
     },
     "defenseNpRate": 0.03,
@@ -95,7 +95,7 @@
             "numTurnsActive": 3,
             "applyCondition": {
               "type": "TargetsHaveTrait",
-              "value": "threatToHumanity",
+              "value": "THREAT_TO_HUMANITY",
               "target": "DEFENDER"
             },
             "values": [0.1]
@@ -729,7 +729,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "GOOD"],
       "attribute": "STAR",
-      "traits": ["arthur", "saberFace", "knightsOfTheRound", "humanoid", "fae"],
+      "traits": ["ARTHUR", "SABER_FACE", "KNIGHTS_OF_THE_ROUND", "HUMANOID", "FAE"],
       "deathRate": 0.36
     },
     "defenseNpRate": 0.03,
@@ -817,7 +817,7 @@
             "numTurnsActive": 3,
             "applyCondition": {
               "type": "TargetsHaveTrait",
-              "value": "threatToHumanity",
+              "value": "THREAT_TO_HUMANITY",
               "target": "DEFENDER"
             },
             "values": [0.1]

@@ -4,6 +4,6 @@
   "fateClass": "BERSERKER",
   "gender": "MALE",
   "attribute": "EARTH",
-  "traits": ["demonic", "human", "humanoid", "undead", "oni"],
+  "traits": ["DEMONIC", "HUMAN", "HUMANOID", "UNDEAD", "ONI"],
   "deathRate": 1.0
 }
