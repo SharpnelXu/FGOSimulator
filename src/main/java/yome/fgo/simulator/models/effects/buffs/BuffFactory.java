@@ -14,13 +14,13 @@ public class BuffFactory {
         final String type = buffData.getType();
 
         if (type.equalsIgnoreCase(AttackBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(AttackBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(AttackBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(BuffChanceBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(BuffChanceBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(BuffChanceBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(BuffRemovalResist.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(BuffRemovalResist.builder(), buffData, level), buffData);
+            return setValuedBuffParams(BuffRemovalResist.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(BuffSpecificAttackBuff.class.getSimpleName())) {
             final BuffSpecificAttackBuff.BuffSpecificAttackBuffBuilder<?, ?> builder;
@@ -31,20 +31,21 @@ public class BuffFactory {
                 throw new RuntimeException(e);
             }
 
-            return setCommonBuffParams(setValuedBuffParams(builder, buffData, level), buffData);
+            return setValuedBuffParams(builder, buffData, level);
 
         } else if (type.equalsIgnoreCase(Burn.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(Burn.builder(), buffData, level), buffData);
+            return setValuedBuffParams(Burn.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(BurnEffectivenessUp.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(BurnEffectivenessUp.builder(), buffData, level), buffData);
+            return setValuedBuffParams(BurnEffectivenessUp.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(BurningLove.class.getSimpleName())) {
-                return setCommonBuffParams(BurningLove.builder(), buffData);
+            return setCommonBuffParams(BurningLove.builder(), buffData);
 
         } else if (type.equalsIgnoreCase(CardTypeChange.class.getSimpleName())) {
             return setCommonBuffParams(
-                    CardTypeChange.builder().commandCardType(CommandCardType.valueOf(buffData.getStringValue().toUpperCase())),
+                    CardTypeChange.builder()
+                            .commandCardType(CommandCardType.valueOf(buffData.getStringValue().toUpperCase())),
                     buffData
             );
 
@@ -52,52 +53,52 @@ public class BuffFactory {
             return setCommonBuffParams(Charm.builder(), buffData);
 
         } else if (type.equalsIgnoreCase(CommandCardBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(CommandCardBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(CommandCardBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(CommandCardResist.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(CommandCardResist.builder(), buffData, level), buffData);
+            return setValuedBuffParams(CommandCardResist.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(CriticalChanceResist.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(CriticalChanceResist.builder(), buffData, level), buffData);
+            return setValuedBuffParams(CriticalChanceResist.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(CriticalDamageBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(CriticalDamageBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(CriticalDamageBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(CriticalStarGenerationBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(CriticalStarGenerationBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(CriticalStarGenerationBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(CriticalStarWeightBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(CriticalStarWeightBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(CriticalStarWeightBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(Curse.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(Curse.builder(), buffData, level), buffData);
+            return setValuedBuffParams(Curse.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(CurseEffectivenessUp.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(CurseEffectivenessUp.builder(), buffData, level), buffData);
+            return setValuedBuffParams(CurseEffectivenessUp.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(DamageAdditionBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(DamageAdditionBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(DamageAdditionBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(DamageReductionBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(DamageReductionBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(DamageReductionBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(DeathResist.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(DeathResist.builder(), buffData, level), buffData);
+            return setValuedBuffParams(DeathResist.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(DebuffChanceBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(DebuffChanceBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(DebuffChanceBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(DebuffResist.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(DebuffResist.builder(), buffData, level), buffData);
+            return setValuedBuffParams(DebuffResist.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(DefenseBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(DefenseBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(DefenseBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(DefNpGenerationBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(DefNpGenerationBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(DefNpGenerationBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(EndOfTurnEffect.class.getSimpleName())) {
-            return setCommonBuffParams(setEffectActivatingBuffParams(EndOfTurnEffect.builder(), buffData, level), buffData);
+            return setEffectActivatingBuffParams(EndOfTurnEffect.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(Evade.class.getSimpleName())) {
             return setCommonBuffParams(Evade.builder(), buffData);
@@ -120,16 +121,13 @@ public class BuffFactory {
 
             final HpVariedBuffAdditionalParams additionalParams = buffData.getHpVariedBuffAdditionalParams();
 
-            return setCommonBuffParams(
-                    setValuedBuffParams(
-                            HpVariedBuffChanceBuff.builder()
-                                    .maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level))
-                                    .minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level))
-                                    .baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level)),
-                            buffData,
-                            level
-                    ),
-                    buffData
+            return setValuedBuffParams(
+                    HpVariedBuffChanceBuff.builder()
+                            .maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level))
+                            .minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level))
+                            .baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level)),
+                    buffData,
+                    level
             );
 
         } else if (type.equalsIgnoreCase(IgnoreDefenceBuff.class.getSimpleName())) {
@@ -154,36 +152,37 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(NpCardTypeChange.class.getSimpleName())) {
             return setCommonBuffParams(
-                    NpCardTypeChange.builder().commandCardType(CommandCardType.valueOf(buffData.getStringValue().toUpperCase())),
+                    NpCardTypeChange.builder()
+                            .commandCardType(CommandCardType.valueOf(buffData.getStringValue().toUpperCase())),
                     buffData
             );
 
         } else if (type.equalsIgnoreCase(NpDamageBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(NpDamageBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(NpDamageBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(NpGenerationBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(NpGenerationBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(NpGenerationBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(NpSeal.class.getSimpleName())) {
             return setCommonBuffParams(NpSeal.builder(), buffData);
 
         } else if (type.equalsIgnoreCase(PercentAttackBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(PercentAttackBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(PercentAttackBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(PercentDefenseBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(PercentDefenseBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(PercentDefenseBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(Poison.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(Poison.builder(), buffData, level), buffData);
+            return setValuedBuffParams(Poison.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(PoisonEffectivenessUp.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(PoisonEffectivenessUp.builder(), buffData, level), buffData);
+            return setValuedBuffParams(PoisonEffectivenessUp.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(PostAttackEffect.class.getSimpleName())) {
-            return setCommonBuffParams(setEffectActivatingBuffParams(PostAttackEffect.builder(), buffData, level), buffData);
+            return setEffectActivatingBuffParams(PostAttackEffect.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(ReceivedBuffChanceBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(ReceivedBuffChanceBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(ReceivedBuffChanceBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(SkillSeal.class.getSimpleName())) {
             return setCommonBuffParams(SkillSeal.builder(), buffData);
@@ -192,10 +191,10 @@ public class BuffFactory {
             return setCommonBuffParams(SpecialInvincible.builder(), buffData);
 
         } else if (type.equalsIgnoreCase(SpecificAttackBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(SpecificAttackBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(SpecificAttackBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(SpecificDefenseBuff.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(SpecificDefenseBuff.builder(), buffData, level), buffData);
+            return setValuedBuffParams(SpecificDefenseBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(Stun.class.getSimpleName())) {
             return setCommonBuffParams(Stun.builder(), buffData);
@@ -204,7 +203,7 @@ public class BuffFactory {
             return setCommonBuffParams(SureHit.builder(), buffData);
 
         } else if (type.equalsIgnoreCase(Taunt.class.getSimpleName())) {
-            return setCommonBuffParams(setValuedBuffParams(Taunt.builder(), buffData, level), buffData);
+            return setValuedBuffParams(Taunt.builder(), buffData, level);
         }
 
         throw new UnsupportedOperationException("Unsupported buff type: " + type);
@@ -231,12 +230,13 @@ public class BuffFactory {
         return builder.build();
     }
 
-    public static ValuedBuff.ValuedBuffBuilder<?, ?> setValuedBuffParams(
+    public static Buff setValuedBuffParams(
             final ValuedBuff.ValuedBuffBuilder<?, ?> builder,
             final BuffData buffData,
             final int level
     ) {
-        return  builder.value(getValueFromListForLevel(buffData.getValuesList(), level));
+        builder.value(getValueFromListForLevel(buffData.getValuesList(), level));
+        return setCommonBuffParams(builder, buffData);
     }
 
     public static double getValueFromListForLevel(final List<Double> values, final int level) {
@@ -247,11 +247,12 @@ public class BuffFactory {
         }
     }
 
-    public static EffectActivatingBuff.EffectActivatingBuffBuilder<?, ?> setEffectActivatingBuffParams(
+    public static Buff setEffectActivatingBuffParams(
             final EffectActivatingBuff.EffectActivatingBuffBuilder<?, ?> builder,
             final BuffData buffData,
             final int level
     ) {
-        return builder.effects(EffectFactory.buildEffects(buffData.getSubEffectsList(), level));
+        builder.effects(EffectFactory.buildEffects(buffData.getSubEffectsList(), level));
+        return setCommonBuffParams(builder, buffData);
     }
 }
