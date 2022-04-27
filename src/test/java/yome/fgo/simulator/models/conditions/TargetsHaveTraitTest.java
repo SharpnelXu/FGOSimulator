@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
 import static yome.fgo.data.proto.FgoStorageData.Target.EFFECT_TARGET;
+import static yome.fgo.data.proto.FgoStorageData.Traits.DEMONIC;
+import static yome.fgo.data.proto.FgoStorageData.Traits.RIDING;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
-import static yome.fgo.simulator.translation.Traits.DEMONIC;
-import static yome.fgo.simulator.translation.Traits.RIDING;
 
 public class TargetsHaveTraitTest {
     @Test
@@ -21,20 +21,20 @@ public class TargetsHaveTraitTest {
         final ConditionData conditionData = ConditionData.newBuilder()
                 .setType(TargetsHaveTrait.class.getSimpleName())
                 .setTarget(EFFECT_TARGET)
-                .setValue(RIDING)
+                .setValue(RIDING.name())
                 .build();
 
         final Condition condition = buildCondition(conditionData);
         final Simulation simulation = new Simulation();
 
         final CombatantData riding = CombatantData.newBuilder()
-                .addTraits(RIDING)
+                .addTraits(RIDING.name())
                 .build();
         simulation.setEffectTarget(new Servant("", riding));
         assertTrue(condition.evaluate(simulation));
 
         final CombatantData nonRiding = CombatantData.newBuilder()
-                .addTraits(DEMONIC)
+                .addTraits(DEMONIC.name())
                 .build();
         simulation.setEffectTarget(new Servant("", nonRiding));
         assertFalse(condition.evaluate(simulation));
@@ -44,17 +44,17 @@ public class TargetsHaveTraitTest {
         final ConditionData conditionData = ConditionData.newBuilder()
                 .setType(TargetsHaveTrait.class.getSimpleName())
                 .setTarget(ALL_ALLIES)
-                .setValue(RIDING)
+                .setValue(RIDING.name())
                 .build();
 
         final Condition condition = buildCondition(conditionData);
         final Simulation simulation = new Simulation();
 
         final CombatantData riding = CombatantData.newBuilder()
-                .addTraits(RIDING)
+                .addTraits(RIDING.name())
                 .build();
         final CombatantData nonRiding = CombatantData.newBuilder()
-                .addTraits(DEMONIC)
+                .addTraits(DEMONIC.name())
                 .build();
         simulation.setCurrentServants(ImmutableList.of(
                 new Servant("riding", riding),

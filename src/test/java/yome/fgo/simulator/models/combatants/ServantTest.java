@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
+import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
@@ -60,7 +61,7 @@ public class ServantTest {
         kama.initiate(simulation);
 
         final List<String> traits = kama.getAllTraits(simulation);
-        assertTrue(traits.contains(Traits.CHILD_SERVANT));
+        assertTrue(traits.contains(Traits.CHILD_SERVANT.name()));
 
         simulation.setActivator(kama);
         kama.activateActiveSkill(simulation, 0);

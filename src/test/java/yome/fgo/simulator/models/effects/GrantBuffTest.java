@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.Target.EFFECT_TARGET;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
-import static yome.fgo.simulator.translation.Traits.DEMONIC;
-import static yome.fgo.simulator.translation.Traits.RIDING;
+import static yome.fgo.data.proto.FgoStorageData.Traits.DEMONIC;
+import static yome.fgo.data.proto.FgoStorageData.Traits.RIDING;
 
 public class GrantBuffTest {
     @Test
@@ -61,7 +61,7 @@ public class GrantBuffTest {
                         ConditionData.newBuilder()
                                 .setType(TargetsHaveTrait.class.getSimpleName())
                                 .setTarget(EFFECT_TARGET)
-                                .setValue(DEMONIC)
+                                .setValue(DEMONIC.name())
                 )
                 .addBuffData(
                         BuffData.newBuilder()
@@ -74,14 +74,14 @@ public class GrantBuffTest {
 
         final Simulation simulation = new Simulation();
 
-        final Servant demonic = new Servant("", CombatantData.newBuilder().addTraits(DEMONIC).build());
+        final Servant demonic = new Servant("", CombatantData.newBuilder().addTraits(DEMONIC.name()).build());
         simulation.setActivator(demonic);
         effect.apply(simulation);
 
         final double attackBuff1 = demonic.applyBuff(simulation, AttackBuff.class);
         assertEquals(15.0, attackBuff1);
 
-        final Servant nonDemonic = new Servant("", CombatantData.newBuilder().addTraits(RIDING).build());
+        final Servant nonDemonic = new Servant("", CombatantData.newBuilder().addTraits(RIDING.name()).build());
         simulation.setActivator(nonDemonic);
         effect.apply(simulation);
 

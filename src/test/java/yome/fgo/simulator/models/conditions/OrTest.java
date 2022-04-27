@@ -9,10 +9,10 @@ import yome.fgo.simulator.models.combatants.Servant;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.Target.EFFECT_TARGET;
+import static yome.fgo.data.proto.FgoStorageData.Traits.DEMONIC;
+import static yome.fgo.data.proto.FgoStorageData.Traits.HOMINIDAE_SERVANT;
+import static yome.fgo.data.proto.FgoStorageData.Traits.RIDING;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
-import static yome.fgo.simulator.translation.Traits.DEMONIC;
-import static yome.fgo.simulator.translation.Traits.HOMINIDAE_SERVANT;
-import static yome.fgo.simulator.translation.Traits.RIDING;
 
 public class OrTest {
     @Test
@@ -23,13 +23,13 @@ public class OrTest {
                         ConditionData.newBuilder()
                                 .setType(TargetsHaveTrait.class.getSimpleName())
                                 .setTarget(EFFECT_TARGET)
-                                .setValue(RIDING)
+                                .setValue(RIDING.name())
                 )
                 .addSubConditionData(
                         ConditionData.newBuilder()
                                 .setType(TargetsHaveTrait.class.getSimpleName())
                                 .setTarget(EFFECT_TARGET)
-                                .setValue(DEMONIC)
+                                .setValue(DEMONIC.name())
                 )
                 .build();
 
@@ -38,20 +38,20 @@ public class OrTest {
         final Simulation simulation = new Simulation();
 
         final CombatantData servant1 = CombatantData.newBuilder()
-                .addTraits(RIDING)
-                .addTraits(DEMONIC)
+                .addTraits(RIDING.name())
+                .addTraits(DEMONIC.name())
                 .build();
         simulation.setEffectTarget(new Servant("", servant1));
         assertTrue(condition.evaluate(simulation));
 
         final CombatantData servant2 = CombatantData.newBuilder()
-                .addTraits(RIDING)
+                .addTraits(RIDING.name())
                 .build();
         simulation.setEffectTarget(new Servant("", servant2));
         assertTrue(condition.evaluate(simulation));
 
         final CombatantData servant3 = CombatantData.newBuilder()
-                .addTraits(HOMINIDAE_SERVANT)
+                .addTraits(HOMINIDAE_SERVANT.name())
                 .build();
         simulation.setEffectTarget(new Servant("", servant3));
         assertFalse(condition.evaluate(simulation));

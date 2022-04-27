@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
+import static yome.fgo.data.proto.FgoStorageData.Traits.DEMONIC;
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.buildBuff;
-import static yome.fgo.simulator.translation.Traits.DEMONIC;
 
 public class BuffFactoryTest {
 
@@ -38,7 +38,7 @@ public class BuffFactoryTest {
                         ConditionData.newBuilder()
                                 .setType(TargetsHaveTrait.class.getSimpleName())
                                 .setTarget(DEFENDER)
-                                .setValue(DEMONIC)
+                                .setValue(DEMONIC.name())
                 )
                 .addAllValues(ImmutableList.of(10.0, 15.0, 20.0))
                 .build();
@@ -52,7 +52,7 @@ public class BuffFactoryTest {
         assertEquals(15.0, ((ValuedBuff) buff).getValue(simulation));
 
         final CombatantData demonic = CombatantData.newBuilder()
-                .addTraits(DEMONIC)
+                .addTraits(DEMONIC.name())
                 .build();
         simulation.setDefender(new Servant("", demonic));
         assertTrue(buff.shouldApply(simulation));
@@ -68,7 +68,7 @@ public class BuffFactoryTest {
                         ConditionData.newBuilder()
                                 .setType(TargetsHaveTrait.class.getSimpleName())
                                 .setTarget(DEFENDER)
-                                .setValue(DEMONIC)
+                                .setValue(DEMONIC.name())
                 )
                 .addAllValues(ImmutableList.of(10.0, 15.0, 20.0))
                 .setStringValue(BurningLove.class.getSimpleName())
@@ -82,7 +82,7 @@ public class BuffFactoryTest {
         assertEquals(3, buff.getNumTurnsActive());
 
         final CombatantData demonic = CombatantData.newBuilder()
-                .addTraits(DEMONIC)
+                .addTraits(DEMONIC.name())
                 .build();
         final Combatant defender = new Combatant("", demonic);
         simulation.setDefender(defender);
@@ -101,7 +101,7 @@ public class BuffFactoryTest {
         final BuffData buffData = BuffData.newBuilder()
                 .setType(GrantTrait.class.getSimpleName())
                 .setNumTurnsActive(3)
-                .setStringValue(DEMONIC)
+                .setStringValue(DEMONIC.name())
                 .build();
 
         final Buff buff = buildBuff(buffData, 2);
