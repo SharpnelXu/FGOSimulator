@@ -9,7 +9,11 @@ import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.Burn;
+import yome.fgo.simulator.models.effects.buffs.BurnEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
+import yome.fgo.simulator.models.effects.buffs.Curse;
+import yome.fgo.simulator.models.effects.buffs.CurseEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
 import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
@@ -19,6 +23,8 @@ import yome.fgo.simulator.models.effects.buffs.ImmobilizeDebuff;
 import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
 import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.NpSeal;
+import yome.fgo.simulator.models.effects.buffs.Poison;
+import yome.fgo.simulator.models.effects.buffs.PoisonEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.SkillSeal;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
@@ -266,6 +272,23 @@ public class Combatant {
         }
 
         activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
+
+        final int poisonDamage = (int) RoundUtils.roundNearest(
+                applyBuff(simulation, Poison.class) * (1 + applyBuff(simulation, PoisonEffectivenessUp.class))
+        );
+
+        final int burnDamage = (int) RoundUtils.roundNearest(
+                applyBuff(simulation, Burn.class) * (1 + applyBuff(simulation, BurnEffectivenessUp.class))
+        );
+
+        final int curseDamage = (int) RoundUtils.roundNearest(
+                applyBuff(simulation, Curse.class) * (1 + applyBuff(simulation, CurseEffectivenessUp.class))
+        );
+
+        currentHp = currentHp - poisonDamage - burnDamage - curseDamage;
+        if (currentHp <= 0 && hasNextHpBar()) {
+            currentHp = 1;
+        }
 
         for (final Buff buff : buffs) {
             buff.decreaseNumTurnsActive();

@@ -33,6 +33,12 @@ public class BuffFactory {
 
             return setCommonBuffParams(setValuedBuffParams(builder, buffData, level), buffData);
 
+        } else if (type.equalsIgnoreCase(Burn.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(Burn.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(BurnEffectivenessUp.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(BurnEffectivenessUp.builder(), buffData, level), buffData);
+
         } else if (type.equalsIgnoreCase(BurningLove.class.getSimpleName())) {
                 return setCommonBuffParams(BurningLove.builder(), buffData);
 
@@ -62,6 +68,12 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(CriticalStarWeightBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(CriticalStarWeightBuff.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(Curse.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(Curse.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(CurseEffectivenessUp.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(CurseEffectivenessUp.builder(), buffData, level), buffData);
 
         } else if (type.equalsIgnoreCase(DamageAdditionBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(DamageAdditionBuff.builder(), buffData, level), buffData);
@@ -160,6 +172,12 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(PercentDefenseBuff.class.getSimpleName())) {
             return setCommonBuffParams(setValuedBuffParams(PercentDefenseBuff.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(Poison.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(Poison.builder(), buffData, level), buffData);
+
+        } else if (type.equalsIgnoreCase(PoisonEffectivenessUp.class.getSimpleName())) {
+            return setCommonBuffParams(setValuedBuffParams(PoisonEffectivenessUp.builder(), buffData, level), buffData);
 
         } else if (type.equalsIgnoreCase(PostAttackEffect.class.getSimpleName())) {
             return setCommonBuffParams(setEffectActivatingBuffParams(PostAttackEffect.builder(), buffData, level), buffData);
