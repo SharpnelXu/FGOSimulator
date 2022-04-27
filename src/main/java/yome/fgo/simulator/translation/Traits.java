@@ -6,7 +6,9 @@ public class Traits {
     public static final String CITY = "city";
     public static final String DEMONIC = "demonic";
     public static final String DIVINE = "divine";
+    public static final String DRAGON = "dragon";
     public static final String FAE = "fae";
+    public static final String FEMININE_LOOKING_SERVANT = "feminineLookingServant";
     public static final String HOMINIDAE_SERVANT = "hominidaeServant";
     public static final String HUMAN = "human";
     public static final String HUMANOID = "humanoid";
@@ -14,6 +16,7 @@ public class Traits {
     public static final String ONI = "oni";
     public static final String PSEUDO_SERVANT = "pseudoServant";
     public static final String RIDING = "riding";
+    public static final String ROMAN = "roman";
     public static final String SABER_FACE = "saberFace";
     public static final String SERVANT = "servant";
     public static final String SHORE = "shore";

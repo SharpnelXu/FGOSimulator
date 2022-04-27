@@ -183,6 +183,7 @@ message BuffData {
   repeated EffectData subEffects = 5;
   repeated double values = 6;
   string stringValue = 7;
+  repeated double probabilities = 8;
 
   int32 forceBuff = 9;
   bool irremovable = 10;

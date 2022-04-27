@@ -27,6 +27,9 @@ public abstract class Buff {
 
     private final boolean irremovable;
 
+    @Builder.Default
+    private final double probability = 1;
+
     private boolean isApplied; // for correcting decreasing numTimesActive
 
     public boolean isInactive() {
@@ -64,7 +67,7 @@ public abstract class Buff {
     }
 
     public boolean shouldApply(final Simulation simulation) {
-        return condition.evaluate(simulation) && !isInactive();
+        return condition.evaluate(simulation) && !isInactive() && simulation.getProbabilityThreshold() <= probability;
     }
 
     public void setApplied() {

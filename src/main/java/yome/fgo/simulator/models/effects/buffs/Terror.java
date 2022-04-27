@@ -3,7 +3,7 @@ package yome.fgo.simulator.models.effects.buffs;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-public class Charm extends Buff implements MentalDebuff, ImmobilizeDebuff {
+public class Terror extends EndOfTurnEffect implements MentalDebuff {
     @Override
     protected boolean commonBuffCondition() {
         return false;
@@ -16,6 +16,6 @@ public class Charm extends Buff implements MentalDebuff, ImmobilizeDebuff {
 
     @Override
     protected boolean commonStackableCondition() {
-        return false;
+        return true;
     }
 }
