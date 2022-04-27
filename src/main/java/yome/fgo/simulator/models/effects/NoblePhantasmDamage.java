@@ -48,13 +48,17 @@ public class NoblePhantasmDamage extends Effect {
     public static final double NP_DAMAGE_MULTIPLIER = 0.23;
 
     private final Target target;
-    private final boolean isNpDamageOverchargedEffect;
-    private final List<Double> damageRates;
+    protected final boolean isNpDamageOverchargedEffect;
+    protected final List<Double> damageRates;
     private final List<Double> npSpecificDamageRates;
     @Builder.Default
     private final Condition npSpecificDamageCondition = NEVER;
     private final boolean isNpSpecificDamageOverchargedEffect;
     private final boolean isNpIgnoreDefense;
+
+    protected double getDamageRate(final Simulation simulation, final int level) {
+        return isNpDamageOverchargedEffect ? damageRates.get(level - 1) : damageRates.get(0);
+    }
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
@@ -64,7 +68,7 @@ public class NoblePhantasmDamage extends Effect {
         final Combatant attacker = simulation.getActivator();
         simulation.setAttacker(attacker);
 
-        final double originalDamageRate = isNpDamageOverchargedEffect ? damageRates.get(level - 1) : damageRates.get(0);
+        final double originalDamageRate = getDamageRate(simulation, level);
         final CommandCardType originalCardType = attacker instanceof Servant ?
                 ((Servant) attacker).getOriginalNoblePhantasmCardType() :
                 currentCardType;
@@ -207,7 +211,10 @@ public class NoblePhantasmDamage extends Effect {
         // fixed values
         final double classAttackCorrection = getClassAttackCorrection(npDamageParams.attackerClass);
         final double classAdvantage = getClassAdvantage(npDamageParams.attackerClass, npDamageParams.defenderClass);
-        final double attributeAdvantage = getAttributeAdvantage(npDamageParams.attackerAttribute, npDamageParams.defenderAttribute);
+        final double attributeAdvantage = getAttributeAdvantage(
+                npDamageParams.attackerAttribute,
+                npDamageParams.defenderAttribute
+        );
         final double commandCardDamageCorrection = getCommandCardDamageCorrection(npDamageParams.currentCardType, 0);
 
         // capped buffs

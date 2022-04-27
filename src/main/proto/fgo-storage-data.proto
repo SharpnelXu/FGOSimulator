@@ -203,6 +203,9 @@ message NpDamageAdditionalParams {
   repeated double npSpecificDamageRate = 6;
 
   bool isNpIgnoreDefense = 7;
+
+  bool isHpVariedDamageOverchargeEffect = 8;
+  repeated double hpVariedAdditionalDamage = 9;
 }
 
 message BuffData {

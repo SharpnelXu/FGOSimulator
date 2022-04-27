@@ -46,46 +46,27 @@ public class EffectFactory {
         } else if (type.equalsIgnoreCase(HpChange.class.getSimpleName())) {
             return setCommonIntValuedEffectValue(HpChange.builder().isLethal(effectData.getIsLethal()), effectData, level);
 
+        } else if (type.equalsIgnoreCase(HpVariedNpDamage.class.getSimpleName())) {
+            final HpVariedNpDamage.HpVariedNpDamageBuilder<?, ?> builder = HpVariedNpDamage.builder();
+
+            final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
+
+            if (additionalParams.getIsHpVariedDamageOverchargeEffect()) {
+                builder.additionDamageRates(additionalParams.getHpVariedAdditionalDamageList())
+                        .isOverchargedEffect(true)
+                        .isHpVariedDamageOverchargeEffect(true);
+            } else {
+                builder.additionDamageRates(getSingletonValueListForLevel(additionalParams.getHpVariedAdditionalDamageList(), level));
+            }
+
+            return setCommonNpDamageParams(HpVariedNpDamage.builder(), effectData, level);
+
+
         } else if (type.equalsIgnoreCase(MaxHpChange.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(MaxHpChange.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(NoblePhantasmDamage.class.getSimpleName())) {
-            final NoblePhantasmDamage.NoblePhantasmDamageBuilder<?, ?> builder = NoblePhantasmDamage.builder()
-                    .target(effectData.getTarget());
-
-            if (effectData.hasNpDamageAdditionalParams()) {
-                final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
-                builder.isNpIgnoreDefense(additionalParams.getIsNpIgnoreDefense());
-                if (additionalParams.hasNpSpecificDamageCondition()) {
-                    builder.npSpecificDamageCondition(ConditionFactory.buildCondition(additionalParams.getNpSpecificDamageCondition()));
-                }
-
-                if (additionalParams.getIsNpSpecificDamageOverchargedEffect()) {
-                    builder.npSpecificDamageRates(additionalParams.getNpSpecificDamageRateList())
-                            .isNpSpecificDamageOverchargedEffect(true)
-                            .isOverchargedEffect(true);
-                } else {
-                    builder.npSpecificDamageRates(getSingletonValueListForLevel(additionalParams.getNpSpecificDamageRateList(), level));
-                }
-
-                if (additionalParams.getIsNpDamageOverchargedEffect()) {
-                    final double baseDamageRate = getSingletonValueListForLevel(effectData.getValuesList(), level).get(0);
-
-                    builder.damageRates(
-                            additionalParams.getNpOverchargeDamageRateList()
-                                    .stream()
-                                    .map(rate -> rate + baseDamageRate)
-                                    .collect(Collectors.toList())
-                    );
-                    builder.isOverchargedEffect(true).isNpDamageOverchargedEffect(true);
-                } else {
-                    builder.damageRates(getSingletonValueListForLevel(effectData.getValuesList(), level));
-                }
-            } else {
-                builder.damageRates(getSingletonValueListForLevel(effectData.getValuesList(), level));
-            }
-
-            return setCommonEffectParams(builder, effectData, level);
+            return setCommonNpDamageParams(NoblePhantasmDamage.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(NpChange.class.getSimpleName())) {
             final NpChange.NpChangeBuilder<?, ?> builder = NpChange.builder()
@@ -165,6 +146,48 @@ public class EffectFactory {
                     .isBuffOvercharged(true);
         } else {
             builder.buffData(getSingletonValueListForLevel(effectData.getBuffDataList(), level));
+        }
+
+        return setCommonEffectParams(builder, effectData, level);
+    }
+
+    private static Effect setCommonNpDamageParams(
+            final NoblePhantasmDamage.NoblePhantasmDamageBuilder<?, ?> builder,
+            final EffectData effectData,
+            final int level
+    ) {
+        builder.target(effectData.getTarget());
+
+        if (effectData.hasNpDamageAdditionalParams()) {
+            final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
+            builder.isNpIgnoreDefense(additionalParams.getIsNpIgnoreDefense());
+            if (additionalParams.hasNpSpecificDamageCondition()) {
+                builder.npSpecificDamageCondition(ConditionFactory.buildCondition(additionalParams.getNpSpecificDamageCondition()));
+            }
+
+            if (additionalParams.getIsNpSpecificDamageOverchargedEffect()) {
+                builder.npSpecificDamageRates(additionalParams.getNpSpecificDamageRateList())
+                        .isNpSpecificDamageOverchargedEffect(true)
+                        .isOverchargedEffect(true);
+            } else {
+                builder.npSpecificDamageRates(getSingletonValueListForLevel(additionalParams.getNpSpecificDamageRateList(), level));
+            }
+
+            if (additionalParams.getIsNpDamageOverchargedEffect()) {
+                final double baseDamageRate = getSingletonValueListForLevel(effectData.getValuesList(), level).get(0);
+
+                builder.damageRates(
+                        additionalParams.getNpOverchargeDamageRateList()
+                                .stream()
+                                .map(rate -> rate + baseDamageRate)
+                                .collect(Collectors.toList())
+                );
+                builder.isOverchargedEffect(true).isNpDamageOverchargedEffect(true);
+            } else {
+                builder.damageRates(getSingletonValueListForLevel(effectData.getValuesList(), level));
+            }
+        } else {
+            builder.damageRates(getSingletonValueListForLevel(effectData.getValuesList(), level));
         }
 
         return setCommonEffectParams(builder, effectData, level);

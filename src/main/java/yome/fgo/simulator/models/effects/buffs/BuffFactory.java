@@ -138,11 +138,19 @@ public class BuffFactory {
 
             final HpVariedBuffAdditionalParams additionalParams = buffData.getHpVariedBuffAdditionalParams();
 
+            final HpVariedAttackBuff.HpVariedAttackBuffBuilder<?, ?> builder = HpVariedAttackBuff.builder();
+            if (additionalParams.getMaxHpPercentCount() != 0) {
+                builder.maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level));
+            }
+            if (additionalParams.getMaxHpPercentCount() != 0) {
+                builder.minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level));
+            }
+            if (additionalParams.getBaseValueCount() != 0) {
+                builder.baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level));
+            }
+
             return setValuedBuffParams(
-                    HpVariedAttackBuff.builder()
-                            .maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level))
-                            .minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level))
-                            .baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level)),
+                    builder,
                     buffData,
                     level
             );
@@ -154,11 +162,19 @@ public class BuffFactory {
 
             final HpVariedBuffAdditionalParams additionalParams = buffData.getHpVariedBuffAdditionalParams();
 
+            final HpVariedBuffChanceBuff.HpVariedBuffChanceBuffBuilder<?, ?> builder = HpVariedBuffChanceBuff.builder();
+            if (additionalParams.getMaxHpPercentCount() != 0) {
+                builder.maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level));
+            }
+            if (additionalParams.getMaxHpPercentCount() != 0) {
+                builder.minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level));
+            }
+            if (additionalParams.getBaseValueCount() != 0) {
+                builder.baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level));
+            }
+
             return setValuedBuffParams(
-                    HpVariedBuffChanceBuff.builder()
-                            .maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level))
-                            .minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level))
-                            .baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level)),
+                    builder,
                     buffData,
                     level
             );
