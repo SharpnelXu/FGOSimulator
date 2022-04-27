@@ -10,13 +10,15 @@ import java.util.List;
 import static yome.fgo.simulator.utils.TargetUtils.getTargets;
 
 @Builder
-public class TargetsHaveTrait implements Condition {
+public class TargetsContainsSpecificServant implements Condition {
     private final Target target;
-    private final String trait;
+    private final String servantId;
+
+    @Override
     public boolean evaluate(final Simulation simulation) {
         final List<Combatant> combatants = getTargets(simulation, target);
         for (final Combatant combatant : combatants) {
-            if (combatant.getAllTraits(simulation).stream().anyMatch(trait::equalsIgnoreCase)) {
+            if (combatant.getId().equalsIgnoreCase(servantId)) {
                 return true;
             }
         }

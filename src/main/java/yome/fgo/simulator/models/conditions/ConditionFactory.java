@@ -61,6 +61,12 @@ public class ConditionFactory {
         } else if (type.equalsIgnoreCase(StageHasTrait.class.getSimpleName())) {
             return new StageHasTrait(conditionData.getValue());
 
+        } else if (type.equalsIgnoreCase(TargetsContainsSpecificServant.class.getSimpleName())) {
+            return TargetsContainsSpecificServant.builder()
+                    .target(conditionData.getTarget())
+                    .servantId(conditionData.getValue())
+                    .build();
+
         } else if (type.equalsIgnoreCase(TargetsHaveBuff.class.getSimpleName())) {
             try {
                 return TargetsHaveBuff.builder()
