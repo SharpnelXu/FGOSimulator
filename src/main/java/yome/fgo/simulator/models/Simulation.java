@@ -345,7 +345,6 @@ public class Simulation {
     }
 
     private void removeDeadCombatant(final List<? extends Combatant> combatants) {
-        // TODO: test this when combatants have guts implemented
         for (int i = 0; i < combatants.size(); i++) {
             final Combatant combatant = combatants.get(i);
             if (combatant == null) {

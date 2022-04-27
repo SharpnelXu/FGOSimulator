@@ -89,6 +89,9 @@ public class ConditionFactory {
                     .target(conditionData.getTarget())
                     .trait(conditionData.getValue())
                     .build();
+
+        } else if (type.equalsIgnoreCase(TargetsReceivedInstantDeath.class.getSimpleName())) {
+            return new TargetsReceivedInstantDeath(conditionData.getTarget());
         }
 
         throw new UnsupportedOperationException("Unsupported condition: " + type);
