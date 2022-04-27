@@ -184,6 +184,8 @@ message EffectData {
   repeated CommandCardType cardTypeSelections = 12;
 
   repeated int32 intValues = 14; // for int value effects
+
+  bool isLethal = 15; // for hp change
 }
 
 message GrantBuffAdditionalParams {

@@ -44,7 +44,7 @@ public class EffectFactory {
             return setCommonEffectParams(ForceInstantDeath.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(HpChange.class.getSimpleName())) {
-            return setCommonIntValuedEffectValue(HpChange.builder(), effectData, level);
+            return setCommonIntValuedEffectValue(HpChange.builder().isLethal(effectData.getIsLethal()), effectData, level);
 
         } else if (type.equalsIgnoreCase(MaxHpChange.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(MaxHpChange.builder(), effectData, level);
