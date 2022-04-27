@@ -1,7 +1,6 @@
 package yome.fgo.data.writer.enemies;
 
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
-import yome.fgo.simulator.translation.Traits;
 
 import static yome.fgo.data.proto.FgoStorageData.Attribute.SKY;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.BERSERKER;
@@ -17,7 +16,6 @@ public class MagicalStick {
                 .setRarity(3)
                 .setFateClass(BERSERKER)
                 .setAttribute(SKY)
-                .addTraits(Traits.DEMONIC)
                 .setDeathRate(0.5)
                 .build();
 

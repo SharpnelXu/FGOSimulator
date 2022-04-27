@@ -1,7 +1,7 @@
 package yome.fgo.data.writer.enemies;
 
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
-import yome.fgo.simulator.translation.Traits;
+import yome.fgo.data.proto.FgoStorageData.Traits;
 
 import static yome.fgo.data.proto.FgoStorageData.Attribute.EARTH;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.CASTER;
@@ -19,7 +19,7 @@ public class Alraune {
                 .setFateClass(CASTER)
                 .setGender(FEMALE)
                 .setAttribute(EARTH)
-                .addTraits(Traits.DEMONIC)
+                .addTraits(Traits.DEMONIC.name())
                 .setDeathRate(0.1)
                 .build();
 

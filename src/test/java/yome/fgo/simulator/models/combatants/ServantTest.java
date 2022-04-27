@@ -7,7 +7,6 @@ import yome.fgo.data.proto.FgoStorageData.ServantOption;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
-import yome.fgo.simulator.translation.Traits;
 
 import java.util.ArrayList;
 import java.util.List;

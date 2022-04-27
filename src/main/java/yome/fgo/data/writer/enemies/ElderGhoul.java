@@ -1,7 +1,7 @@
 package yome.fgo.data.writer.enemies;
 
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
-import yome.fgo.simulator.translation.Traits;
+import yome.fgo.data.proto.FgoStorageData.Traits;
 
 import static yome.fgo.data.proto.FgoStorageData.Attribute.EARTH;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.ASSASSIN;
@@ -17,9 +17,9 @@ public class ElderGhoul {
                 .setRarity(4)
                 .setFateClass(ASSASSIN)
                 .setAttribute(EARTH)
-                .addTraits(Traits.DEMONIC)
-                .addTraits(Traits.UNDEAD)
-                .addTraits(Traits.ONI)
+                .addTraits(Traits.DEMONIC.name())
+                .addTraits(Traits.UNDEAD.name())
+                .addTraits(Traits.ONI.name())
                 .setDeathRate(0.2)
                 .build();
 

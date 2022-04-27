@@ -16,6 +16,7 @@ import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
+import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.models.conditions.BuffTypeEquals;
 import yome.fgo.simulator.models.conditions.CardTypeEquals;
 import yome.fgo.simulator.models.conditions.Not;
@@ -41,7 +42,6 @@ import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.MentalDebuff;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
-import yome.fgo.simulator.translation.Traits;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -83,16 +83,16 @@ public class Servant321 {
         commonCombatantData.addAlignments(NEUTRAL);
         commonCombatantData.addAlignments(EVIL);
         commonCombatantData.setAttribute(SKY);
-        commonCombatantData.addTraits(Traits.DEMONIC);
-        commonCombatantData.addTraits(Traits.DIVINE);
-        commonCombatantData.addTraits(Traits.HOMINIDAE_SERVANT);
-        commonCombatantData.addTraits(Traits.HUMANOID);
-        commonCombatantData.addTraits(Traits.PSEUDO_SERVANT);
-        commonCombatantData.addTraits(Traits.RIDING);
-        commonCombatantData.addTraits(Traits.WEAK_TO_ENUMA_ELISH);
+        commonCombatantData.addTraits(Traits.DEMONIC.name());
+        commonCombatantData.addTraits(Traits.DIVINE.name());
+        commonCombatantData.addTraits(Traits.HOMINIDAE_SERVANT.name());
+        commonCombatantData.addTraits(Traits.HUMANOID.name());
+        commonCombatantData.addTraits(Traits.PSEUDO_SERVANT.name());
+        commonCombatantData.addTraits(Traits.RIDING.name());
+        commonCombatantData.addTraits(Traits.WEAK_TO_ENUMA_ELISH.name());
         commonCombatantData.setDeathRate(0.05);
         final CombatantData secondAscensionCombatantData = commonCombatantData.build();
-        final CombatantData firstAscensionCombatantData = commonCombatantData.addTraits(Traits.CHILD_SERVANT).build();
+        final CombatantData firstAscensionCombatantData = commonCombatantData.addTraits(Traits.CHILD_SERVANT.name()).build();
 
         final CommandCardData quickCard = CommandCardData.newBuilder()
                 .setCommandCardType(QUICK)

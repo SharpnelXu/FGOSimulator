@@ -15,6 +15,7 @@ import yome.fgo.data.proto.FgoStorageData.NoblePhantasmUpgrades;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
+import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.models.conditions.BuffIsDebuff;
 import yome.fgo.simulator.models.conditions.CardTypeEquals;
 import yome.fgo.simulator.models.conditions.TargetsHaveClass;
@@ -31,7 +32,6 @@ import yome.fgo.simulator.models.effects.buffs.Invincible;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.SpecialInvincible;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
-import yome.fgo.simulator.translation.Traits;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -73,13 +73,13 @@ public class Servant284 {
         commonCombatantData.addAlignments(NEUTRAL);
         commonCombatantData.addAlignments(GOOD);
         commonCombatantData.setAttribute(STAR);
-        commonCombatantData.addTraits(Traits.ARTHUR);
-        commonCombatantData.addTraits(Traits.SABER_FACE);
-        commonCombatantData.addTraits(Traits.KNIGHTS_OF_THE_ROUND);
-        commonCombatantData.addTraits(Traits.HUMANOID);
+        commonCombatantData.addTraits(Traits.ARTHUR.name());
+        commonCombatantData.addTraits(Traits.SABER_FACE.name());
+        commonCombatantData.addTraits(Traits.KNIGHTS_OF_THE_ROUND.name());
+        commonCombatantData.addTraits(Traits.HUMANOID.name());
         commonCombatantData.setDeathRate(0.36);
         final CombatantData firstAscensionCombatantData = commonCombatantData.build();
-        final CombatantData secondAscensionCombatantData = commonCombatantData.addTraits(Traits.FAE).build();
+        final CombatantData secondAscensionCombatantData = commonCombatantData.addTraits(Traits.FAE.name()).build();
 
         final CommandCardData quickCard = CommandCardData.newBuilder()
                 .setCommandCardType(QUICK)
@@ -185,7 +185,7 @@ public class Servant284 {
                                                         ConditionData.newBuilder()
                                                                 .setType(TargetsHaveTrait.class.getSimpleName())
                                                                 .setTarget(DEFENDER)
-                                                                .setValue(Traits.THREAT_TO_HUMANITY)
+                                                                .setValue(Traits.THREAT_TO_HUMANITY.name())
                                                 )
                                 )
                 )

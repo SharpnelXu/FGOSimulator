@@ -27,7 +27,7 @@ import yome.fgo.simulator.utils.RoundUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static yome.fgo.simulator.translation.Traits.SERVANT;
+import static yome.fgo.data.proto.FgoStorageData.Traits.SERVANT;
 
 @NoArgsConstructor
 @Getter
@@ -285,7 +285,7 @@ public class Servant extends Combatant {
     public List<String> getAllTraits(final Simulation simulation) {
         final ImmutableList.Builder<String> allTraits = ImmutableList.builder();
         allTraits.addAll(super.getAllTraits(simulation));
-        allTraits.add(SERVANT);
+        allTraits.add(SERVANT.name());
         return allTraits.build();
     }
 

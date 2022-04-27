@@ -1,7 +1,7 @@
 package yome.fgo.data.writer.enemies;
 
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
-import yome.fgo.simulator.translation.Traits;
+import yome.fgo.data.proto.FgoStorageData.Traits;
 
 import static yome.fgo.data.proto.FgoStorageData.Attribute.EARTH;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.BERSERKER;
@@ -19,11 +19,11 @@ public class Ghoul {
                 .setFateClass(BERSERKER)
                 .setGender(MALE)
                 .setAttribute(EARTH)
-                .addTraits(Traits.DEMONIC)
-                .addTraits(Traits.HUMAN)
-                .addTraits(Traits.HUMANOID)
-                .addTraits(Traits.UNDEAD)
-                .addTraits(Traits.ONI)
+                .addTraits(Traits.DEMONIC.name())
+                .addTraits(Traits.HUMAN.name())
+                .addTraits(Traits.HUMANOID.name())
+                .addTraits(Traits.UNDEAD.name())
+                .addTraits(Traits.ONI.name())
                 .setDeathRate(1.0)
                 .build();
 

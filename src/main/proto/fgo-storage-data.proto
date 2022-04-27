@@ -2,6 +2,33 @@ syntax = "proto3";
 
 package yome.fgo.data.proto;
 
+enum Traits {
+  NO_TRAITS = 0;
+  ARTHUR = 1;
+  CHILD_SERVANT = 2;
+  CITY = 3;
+  DEMONIC = 4;
+  DIVINE = 5;
+  DRAGON = 6;
+  FAE = 7;
+  FEMININE_LOOKING_SERVANT = 8;
+  HOMINIDAE_SERVANT = 9;
+  HUMAN = 10;
+  HUMANOID = 11;
+  KNIGHTS_OF_THE_ROUND = 12;
+  ONI = 13;
+  PSEUDO_SERVANT = 14;
+  RIDING = 15;
+  ROMAN = 16;
+  SABER_FACE = 17;
+  SERVANT = 18;
+  SHORE = 19;
+  THREAT_TO_HUMANITY = 20;
+  WEAK_TO_ENUMA_ELISH = 21;
+  WILD_BEAST = 22;
+  UNDEAD = 23;
+}
+
 enum FateClass {
   NO_CLASS = 0;
   SABER = 1;
