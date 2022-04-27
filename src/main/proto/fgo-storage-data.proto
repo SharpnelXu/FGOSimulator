@@ -190,6 +190,8 @@ message BuffData {
   bool forceStackable = 11;
 
   HpVariedBuffAdditionalParams hpVariedBuffAdditionalParams = 12;
+
+  Target target = 13;
 }
 
 message HpVariedBuffAdditionalParams {

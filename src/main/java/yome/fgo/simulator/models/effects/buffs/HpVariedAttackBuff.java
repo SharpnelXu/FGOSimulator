@@ -16,6 +16,6 @@ public class HpVariedAttackBuff extends AttackBuff {
 
     @Override
     public double getValue(final Simulation simulation) {
-        return HpVariedValuedBuffUtils.calculateValue(simulation.getActivator(), baseValue, value, maxHpPercent, minHpPercent);
+        return HpVariedValuedBuffUtils.calculateValue(simulation.getAttacker(), baseValue, value, maxHpPercent, minHpPercent);
     }
 }
