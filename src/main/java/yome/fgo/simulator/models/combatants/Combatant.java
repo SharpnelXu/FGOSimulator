@@ -375,6 +375,7 @@ public class Combatant {
             }
         }
         if (activated) {
+            receivedInstantDeath = false;
             checkBuffStatus();
             activateEffectActivatingBuff(simulation, TriggerOnGutsEffect.class);
         }
