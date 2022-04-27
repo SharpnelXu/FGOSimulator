@@ -406,4 +406,8 @@ public class Combatant {
     public Gender getGender() {
         return combatantData.getGender();
     }
+
+    public void forceInstantDeath() {
+        this.currentHp = 0;
+    }
 }

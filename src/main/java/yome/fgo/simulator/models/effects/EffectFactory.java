@@ -40,6 +40,9 @@ public class EffectFactory {
         } else if (type.equalsIgnoreCase(GrantBuff.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(GrantBuff.builder(), effectData, level);
 
+        } else if (type.equalsIgnoreCase(ForceInstantDeath.class.getSimpleName())) {
+            return setCommonEffectParams(ForceInstantDeath.builder().target(effectData.getTarget()), effectData, level);
+
         } else if (type.equalsIgnoreCase(HpChange.class.getSimpleName())) {
             return setCommonIntValuedEffectValue(HpChange.builder(), effectData, level);
 
@@ -82,20 +85,18 @@ public class EffectFactory {
                 builder.damageRates(getSingletonValueListForLevel(effectData.getValuesList(), level));
             }
 
-            setCommonEffectParams(builder, effectData, level);
-            return builder.build();
+            return setCommonEffectParams(builder, effectData, level);
 
         } else if (type.equalsIgnoreCase(NpChange.class.getSimpleName())) {
             final NpChange.NpChangeBuilder<?, ?> builder = NpChange.builder()
                     .target(effectData.getTarget());
-            setCommonEffectParams(builder, effectData, level);
             if (effectData.getIsOverchargedEffect()) {
                 builder.npChanges(effectData.getValuesList());
                 builder.isOverchargedEffect(true);
             } else {
                 builder.npChanges(getSingletonValueListForLevel(effectData.getValuesList(), level));
             }
-            return builder.build();
+            return setCommonEffectParams(builder, effectData, level);
 
         } else if (type.equalsIgnoreCase(NpGaugeChange.class.getSimpleName())) {
             return setCommonIntValuedEffectValue(NpGaugeChange.builder(), effectData, level);
@@ -115,7 +116,7 @@ public class EffectFactory {
         throw new UnsupportedOperationException("Effect type unsupported: " + type);
     }
 
-    private static void setCommonEffectParams(Effect.EffectBuilder<?, ?> builder, EffectData effectData, final int level) {
+    private static Effect setCommonEffectParams(Effect.EffectBuilder<?, ?> builder, EffectData effectData, final int level) {
         if (effectData.hasApplyCondition()) {
             builder.applyCondition(ConditionFactory.buildCondition(effectData.getApplyCondition()));
         }
@@ -127,6 +128,7 @@ public class EffectFactory {
         } else {
             builder.probabilities(getSingletonValueListForLevel(effectData.getProbabilitiesList(), level));
         }
+        return builder.build();
     }
 
     private static Effect setCommonIntValuedEffectValue(
@@ -140,9 +142,7 @@ public class EffectFactory {
         } else {
             builder.values(getSingletonValueListForLevel(effectData.getIntValuesList(), level));
         }
-        setCommonEffectParams(builder, effectData, level);
-
-        return builder.build();
+        return setCommonEffectParams(builder, effectData, level);
     }
 
     private static Effect setCommonGrantBuffEffectValue(
@@ -167,8 +167,7 @@ public class EffectFactory {
             builder.buffData(getSingletonValueListForLevel(effectData.getBuffDataList(), level));
         }
 
-        setCommonEffectParams(builder, effectData, level);
-        return builder.build();
+        return setCommonEffectParams(builder, effectData, level);
     }
 
     private static <E> List<E> getSingletonValueListForLevel(final List<E> values, final int level) {
