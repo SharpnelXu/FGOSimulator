@@ -14,9 +14,9 @@ public abstract class Buff {
 
     // set to -1 to be active forever (infinite turns or infinite times or both)
     @Builder.Default
-    private int numTurnsActive = -1;
+    protected int numTurnsActive = -1;
     @Builder.Default
-    private int numTimesActive = -1;
+    protected int numTimesActive = -1;
 
     @Builder.Default
     private final Condition condition = ALWAYS;

@@ -14,11 +14,12 @@ import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
+import yome.fgo.simulator.models.effects.CriticalStarChange;
 import yome.fgo.simulator.models.effects.GrantBuff;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES;
@@ -28,9 +29,9 @@ import static yome.fgo.simulator.models.combatants.CombatAction.createCommandCar
 import static yome.fgo.simulator.translation.EnemyCategory.DECEASED;
 import static yome.fgo.simulator.translation.EnemyCategory.EnemySubCategory.GHOUL;
 
-public class TerrorTest {
+public class DelayedEffectTest {
     @Test
-    public void testTerror() {
+    public void testDelayedEffect() {
         final StageData stageData1 = StageData.newBuilder()
                 .addEnemyData(
                         EnemyData.newBuilder()
@@ -48,9 +49,28 @@ public class TerrorTest {
                                 .setTarget(ALL_ENEMIES)
                                 .addBuffData(
                                         BuffData.newBuilder()
-                                                .setType(Terror.class.getSimpleName())
-                                                .addProbabilities(0.5)
-                                                .setNumTimesActive(1)
+                                                .setType(EndOfTurnEffect.class.getSimpleName())
+                                                .setNumTurnsActive(2)
+                                                .addSubEffects(
+                                                        EffectData.newBuilder()
+                                                                .setType(CriticalStarChange.class.getSimpleName())
+                                                                .addIntValues(20)
+                                                )
+                                )
+                )
+                .addEffects(
+                        EffectData.newBuilder()
+                                .setType(GrantBuff.class.getSimpleName())
+                                .setTarget(ALL_ENEMIES)
+                                .addBuffData(
+                                        BuffData.newBuilder()
+                                                .setType(DelayedEffect.class.getSimpleName())
+                                                .setNumTurnsActive(2)
+                                                .addSubEffects(
+                                                        EffectData.newBuilder()
+                                                                .setType(CriticalStarChange.class.getSimpleName())
+                                                                .addIntValues(20)
+                                                )
                                 )
                 )
                 .build();
@@ -70,18 +90,18 @@ public class TerrorTest {
                 )
         );
         simulation.initiate();
-        simulation.setProbabilityThreshold(1.0);
         final Combatant enemy = simulation.getCurrentEnemies().get(0);
-        assertTrue(enemy.getBuffs().get(0) instanceof Terror);
-        assertFalse(enemy.isImmobilized());
 
         simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
-        assertTrue(enemy.getBuffs().get(0) instanceof Terror);
-        assertFalse(enemy.isImmobilized());
+        assertEquals(2, enemy.getBuffs().size());
+        assertEquals(20.483, simulation.getCurrentStars());
 
-        simulation.setProbabilityThreshold(0.4);
         simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
-        assertTrue(enemy.getBuffs().get(0) instanceof Stun);
-        assertTrue(enemy.isImmobilized());
+        assertTrue(enemy.getBuffs().isEmpty());
+        assertEquals(40.483, simulation.getCurrentStars());
+
+        simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
+        assertTrue(enemy.getBuffs().isEmpty());
+        assertEquals(0.483, simulation.getCurrentStars());
     }
 }

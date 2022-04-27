@@ -108,6 +108,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(DefNpGenerationBuff.class.getSimpleName())) {
             return setValuedBuffParams(DefNpGenerationBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(DelayedEffect.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(DelayedEffect.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(EndOfTurnEffect.class.getSimpleName())) {
             return setEffectActivatingBuffParams(EndOfTurnEffect.builder(), buffData, level);
 
