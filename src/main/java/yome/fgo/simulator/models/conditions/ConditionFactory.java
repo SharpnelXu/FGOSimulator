@@ -1,6 +1,5 @@
 package yome.fgo.simulator.models.conditions;
 
-import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;

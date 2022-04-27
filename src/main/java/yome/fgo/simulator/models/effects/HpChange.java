@@ -4,6 +4,8 @@ import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
+import yome.fgo.simulator.models.effects.buffs.HealEffectivenessBuff;
+import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
 @SuperBuilder
@@ -15,7 +17,14 @@ public class HpChange extends IntValuedEffect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                combatant.changeHp(values.get(level - 1));
+                final int baseChange = values.get(level - 1);
+                if (baseChange > 0) {
+                    final double healEffectiveness = combatant.applyBuff(simulation, HealEffectivenessBuff.class);
+                    final int finalHeal = Math.max(0, (int) RoundUtils.roundNearest(baseChange * (1 + healEffectiveness)));
+                    combatant.heal(finalHeal);
+                } else {
+                    combatant.receiveDamage(baseChange);
+                }
             }
             simulation.setEffectTarget(null);
         }

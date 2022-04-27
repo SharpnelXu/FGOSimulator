@@ -6,16 +6,11 @@ import lombok.experimental.SuperBuilder;
 public class PoisonEffectivenessUp extends ValuedBuff {
     @Override
     protected boolean commonBuffCondition() {
-        return false;
+        return super.commonDebuffCondition();
     }
 
     @Override
     protected boolean commonDebuffCondition() {
-        return true;
-    }
-
-    @Override
-    protected boolean commonStackableCondition() {
-        return true;
+        return super.commonBuffCondition();
     }
 }

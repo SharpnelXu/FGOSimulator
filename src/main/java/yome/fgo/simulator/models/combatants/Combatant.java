@@ -394,7 +394,7 @@ public class Combatant {
         }
     }
 
-    public void changeHp(final int hpChange) {
+    public void heal(final int hpChange) {
         currentHp += hpChange;
 
         final int maxHp = getMaxHp();

@@ -13,9 +13,4 @@ public class Poison extends ValuedBuff {
     protected boolean commonDebuffCondition() {
         return true;
     }
-
-    @Override
-    protected boolean commonStackableCondition() {
-        return true;
-    }
 }
