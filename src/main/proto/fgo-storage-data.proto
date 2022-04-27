@@ -150,6 +150,8 @@ message EffectData {
 
   NpDamageAdditionalParams npDamageAdditionalParams = 11;
 
+  repeated CommandCardType cardTypeSelections = 12;
+
   repeated int32 intValues = 14; // for int value effects
 }
 

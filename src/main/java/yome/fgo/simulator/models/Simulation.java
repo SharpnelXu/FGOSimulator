@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
@@ -426,5 +427,10 @@ public class Simulation {
         if (currentStars < 0) {
             currentStars = 0;
         }
+    }
+
+    public CommandCardType selectCommandCardType(final Set<CommandCardType> selections) {
+        // TODO: UI
+        return selections.stream().findFirst().get();
     }
 }

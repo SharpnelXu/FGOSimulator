@@ -7,6 +7,7 @@ import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
 
 import java.util.List;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.effects.OrderChange.ORDER_CHANGE;
@@ -25,7 +26,12 @@ public class EffectFactory {
 
     public static Effect buildEffect(final EffectData effectData, final int level) {
         final String type = effectData.getType();
-        if (type.equalsIgnoreCase(CriticalStarChange.class.getSimpleName())) {
+        if (type.equalsIgnoreCase(CardTypeChangeSelect.class.getSimpleName())) {
+            final CardTypeChangeSelect.CardTypeChangeSelectBuilder<?, ?> builder = CardTypeChangeSelect.builder()
+                    .selections(new TreeSet<>(effectData.getCardTypeSelectionsList()));
+            setApplyConditionIfExists(builder, effectData);
+            return setCommonGrantBuffEffectValue(builder, effectData, level);
+        } else if (type.equalsIgnoreCase(CriticalStarChange.class.getSimpleName())) {
             final CriticalStarChange.CriticalStarChangeBuilder<?, ?> builder = CriticalStarChange.builder();
             setApplyConditionIfExists(builder, effectData);
             return setCommonIntValuedEffectValue(builder, effectData, level);
