@@ -69,6 +69,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(CriticalDamageBuff.class.getSimpleName())) {
             return setValuedBuffParams(CriticalDamageBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(CriticalRateBuff.class.getSimpleName())) {
+            return setValuedBuffParams(CriticalRateBuff.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(CriticalStarGenerationBuff.class.getSimpleName())) {
             return setValuedBuffParams(CriticalStarGenerationBuff.builder(), buffData, level);
 
