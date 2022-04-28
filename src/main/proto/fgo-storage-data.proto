@@ -224,7 +224,7 @@ message BuffData {
 
   HpVariedBuffAdditionalParams hpVariedBuffAdditionalParams = 12;
 
-  Target target = 13;
+  Target target = 13; // for buff specific attack buff
 }
 
 message HpVariedBuffAdditionalParams {

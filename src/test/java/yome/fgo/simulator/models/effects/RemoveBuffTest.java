@@ -2,6 +2,7 @@ package yome.fgo.simulator.models.effects;
 
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
+import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.buffs.AttackBuff;
@@ -13,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
+import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
+import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
 import static yome.fgo.simulator.models.conditions.BuffIsBuff.BUFF_IS_BUFF;
 import static yome.fgo.simulator.models.conditions.BuffIsDebuff.BUFF_IS_DEBUFF;
 
@@ -141,5 +144,26 @@ public class RemoveBuffTest {
 
         assertEquals(3, servant.getBuffs().size());
         assertFalse(servant.isImmobilized());
+    }
+
+    @Test
+    public void testRemoveBuff_irremovable() {
+        final Servant kama = new Servant(KAMA_ID, ResourceManager.getServantData(KAMA_ID), KAMA_OPTION);
+        final Simulation simulation = new Simulation();
+        simulation.setCurrentServants(Lists.newArrayList(kama));
+        simulation.setProbabilityThreshold(0);
+
+        kama.initiate(simulation);
+
+        assertEquals(12, kama.getBuffs().size());
+
+        final RemoveBuff removeBuff = RemoveBuff.builder()
+                .target(SELF)
+                .build();
+
+        simulation.setActivator(kama);
+        removeBuff.apply(simulation);
+
+        assertEquals(12, kama.getBuffs().size());
     }
 }

@@ -108,7 +108,9 @@ public class SimulationTest {
         simNp3TClear.initiate();
         simNp3TClear.setFixedRandom(0.9);
 
-        final int buffCount = kama.getBuffs().size();
+        assertEquals(12, kama.getBuffs().size());
+        assertEquals(6, altria1.getBuffs().size());
+        assertEquals(6, altria2.getBuffs().size());
 
         simNp3TClear.setCurrentAllyTargetIndex(0);
         simNp3TClear.activateServantSkill(0, 0);
@@ -160,7 +162,7 @@ public class SimulationTest {
         assertEquals(450096, stage3third.getHpBars().get(stage3third.getCurrentHpBarIndex()) - stage3third.getCurrentHp(), 5);
 
         assertTrue(simNp3TClear.isSimulationCompleted());
-        assertEquals(buffCount + 3, kama.getBuffs().size()); // skill 2 & 3 activated at turn 3
+        assertEquals(12 + 3, kama.getBuffs().size()); // skill 2 & 3 activated at turn 3
     }
 
     @Test

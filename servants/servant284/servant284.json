@@ -116,8 +116,7 @@
         "target": "SELF",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [0.2],
-          "irremovable": true
+          "values": [0.2]
         }]
       }]
     }, {
@@ -130,8 +129,7 @@
             "type": "CardTypeEquals",
             "value": "ARTS"
           },
-          "values": [0.12],
-          "irremovable": true
+          "values": [0.12]
         }]
       }]
     }, {
@@ -144,8 +142,7 @@
             "type": "CardTypeEquals",
             "value": "ARTS"
           },
-          "values": [0.08],
-          "irremovable": true
+          "values": [0.08]
         }]
       }]
     }],
@@ -159,8 +156,7 @@
             "type": "CardTypeEquals",
             "value": "EXTRA"
           },
-          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
-          "irremovable": true
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
         }]
       }]
     }, {
@@ -180,8 +176,7 @@
             "value": "SABER",
             "target": "DEFENDER"
           },
-          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
-          "irremovable": true
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
         }]
       }]
     }],
@@ -838,8 +833,7 @@
         "target": "SELF",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [0.2],
-          "irremovable": true
+          "values": [0.2]
         }]
       }]
     }, {
@@ -852,8 +846,7 @@
             "type": "CardTypeEquals",
             "value": "ARTS"
           },
-          "values": [0.12],
-          "irremovable": true
+          "values": [0.12]
         }]
       }]
     }, {
@@ -866,8 +859,7 @@
             "type": "CardTypeEquals",
             "value": "ARTS"
           },
-          "values": [0.08],
-          "irremovable": true
+          "values": [0.08]
         }]
       }]
     }, {
@@ -876,8 +868,7 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalChanceResist",
-          "values": [0.2],
-          "irremovable": true
+          "values": [0.2]
         }]
       }]
     }],
@@ -891,8 +882,7 @@
             "type": "CardTypeEquals",
             "value": "EXTRA"
           },
-          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
-          "irremovable": true
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
         }]
       }]
     }, {
@@ -912,8 +902,7 @@
             "value": "SABER",
             "target": "DEFENDER"
           },
-          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
-          "irremovable": true
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
         }]
       }]
     }],

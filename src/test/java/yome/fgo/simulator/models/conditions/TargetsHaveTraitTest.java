@@ -60,6 +60,6 @@ public class TargetsHaveTraitTest {
                 new Servant("riding", riding),
                 new Servant("nonRiding", nonRiding)
         ));
-        assertFalse(condition.evaluate(simulation));
+        assertTrue(condition.evaluate(simulation));
     }
 }

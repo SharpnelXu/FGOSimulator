@@ -308,7 +308,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(DefNpGenerationBuff.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addValues(0.18)
                                                 )
                                 )
@@ -320,7 +319,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(DebuffResist.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addValues(-0.08)
                                                 )
                                 )
@@ -334,7 +332,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(CriticalDamageBuff.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addValues(0.08)
                                                 )
                                 )
@@ -348,7 +345,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(EndOfTurnEffect.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .setForceBuff(1)
                                                                 .addSubEffects(
                                                                         EffectData.newBuilder()
@@ -368,7 +364,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(CriticalDamageBuff.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addValues(0.02)
                                                 )
                                 )
@@ -379,7 +374,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(DeathResist.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addValues(0.02)
                                                 )
                                 )
@@ -390,7 +384,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(DebuffResist.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addValues(0.02)
                                                                 .setApplyCondition(
                                                                         ConditionData.newBuilder()
@@ -409,7 +402,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(DebuffResist.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addValues(0.2)
                                                 )
                                 )
@@ -423,7 +415,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(CommandCardBuff.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addValues(0.1)
                                                                 .setApplyCondition(
                                                                         ConditionData.newBuilder()
@@ -442,7 +433,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(DamageAdditionBuff.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addValues(225)
                                                 )
                                 )
@@ -453,7 +443,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(DebuffResist.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addValues(5)
                                                                 .setApplyCondition(
                                                                         ConditionData.newBuilder()
@@ -472,7 +461,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(CommandCardBuff.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addAllValues(generateSkillValues(0.3, 0.02))
                                                                 .setApplyCondition(
                                                                         ConditionData.newBuilder()
@@ -498,7 +486,6 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(AttackBuff.class.getSimpleName())
-                                                                .setIrremovable(true)
                                                                 .addAllValues(generateSkillValues(0.2, 0.01))
                                                                 .setApplyCondition(
                                                                         ConditionData.newBuilder()

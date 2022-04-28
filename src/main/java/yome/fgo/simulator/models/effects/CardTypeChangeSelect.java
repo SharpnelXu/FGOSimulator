@@ -15,38 +15,19 @@ import java.util.Set;
 public class CardTypeChangeSelect extends GrantBuff {
     private final Set<CommandCardType> selections;
 
+    private CommandCardType selectedCardType;
+
+    @Override
+    protected Buff buildBuff(final int level) {
+        final BuffData buffDataToUse = isBuffOvercharged ?
+                buffData.get(level - 1) :
+                buffData.get(0);
+        return BuffFactory.buildBuff(buffDataToUse.toBuilder().setStringValue(selectedCardType.name()).build(), buffLevel);
+    }
+
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
-        final CommandCardType selectedCardType = simulation.selectCommandCardType(selections);
-
-        for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
-            simulation.setEffectTarget(combatant);
-            if (shouldApply(simulation)) {
-                final BuffData buffDataToUse = isBuffOvercharged ?
-                        buffData.get(level - 1) :
-                        buffData.get(0);
-
-                final Buff buff = BuffFactory.buildBuff(
-                        buffDataToUse.toBuilder().setStringValue(selectedCardType.name()).build(),
-                        buffLevel
-                );
-                simulation.setCurrentBuff(buff);
-
-                final double probability;
-                if (!probabilities.isEmpty()) {
-                    probability = isProbabilityOvercharged ?
-                            probabilities.get(level - 1) :
-                            probabilities.get(0);
-                } else {
-                    probability = 1;
-                }
-
-                grantBuff(simulation, buff, combatant, probability);
-
-                simulation.setCurrentBuff(null);
-            }
-
-            simulation.setEffectTarget(null);
-        }
+        selectedCardType = simulation.selectCommandCardType(selections);
+        super.internalApply(simulation, level);
     }
 }

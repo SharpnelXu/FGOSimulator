@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
+import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.conditions.Condition;
 
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
@@ -25,7 +26,11 @@ public abstract class Buff {
 
     protected final int forceBuff;
 
-    private final boolean irremovable;
+    private boolean irremovable;
+
+    // used to correctly remove passive & append skills during ascension transition
+    private boolean isPassive;
+    private Combatant activator;
 
     @Builder.Default
     private final double probability = 1;
@@ -97,5 +102,17 @@ public abstract class Buff {
 
     public boolean isPermanentTimeEffect() {
         return this.numTimesActive < 0;
+    }
+
+    public void setIrremovable(final boolean irremovable) {
+        this.irremovable = irremovable;
+    }
+
+    public void setIsPassive(final boolean isPassive) {
+        this.isPassive = isPassive;
+    }
+
+    public void setActivator(final Combatant activator) {
+        this.activator = activator;
     }
 }

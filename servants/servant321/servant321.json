@@ -137,16 +137,14 @@
         "target": "SELF",
         "buffData": [{
           "type": "DefNpGenerationBuff",
-          "values": [0.18],
-          "irremovable": true
+          "values": [0.18]
         }]
       }, {
         "type": "GrantBuff",
         "target": "ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [-0.08],
-          "irremovable": true
+          "values": [-0.08]
         }],
         "probabilities": [5.0]
       }]
@@ -156,8 +154,7 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.08],
-          "irremovable": true
+          "values": [0.08]
         }]
       }]
     }, {
@@ -171,8 +168,7 @@
             "target": "SELF",
             "values": [0.038]
           }],
-          "forceBuff": 1,
-          "irremovable": true
+          "forceBuff": 1
         }]
       }]
     }, {
@@ -181,16 +177,14 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.02],
-          "irremovable": true
+          "values": [0.02]
         }]
       }, {
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
           "type": "DeathResist",
-          "values": [0.02],
-          "irremovable": true
+          "values": [0.02]
         }]
       }, {
         "type": "GrantBuff",
@@ -201,8 +195,7 @@
             "type": "BuffTypeEquals",
             "value": "MentalDebuff"
           },
-          "values": [0.02],
-          "irremovable": true
+          "values": [0.02]
         }]
       }]
     }, {
@@ -211,8 +204,7 @@
         "target": "SELF",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [0.2],
-          "irremovable": true
+          "values": [0.2]
         }]
       }]
     }, {
@@ -225,8 +217,7 @@
             "type": "CardTypeEquals",
             "value": "QUICK"
           },
-          "values": [0.1],
-          "irremovable": true
+          "values": [0.1]
         }]
       }]
     }, {
@@ -235,8 +226,7 @@
         "target": "SELF",
         "buffData": [{
           "type": "DamageAdditionBuff",
-          "values": [225.0],
-          "irremovable": true
+          "values": [225.0]
         }]
       }, {
         "type": "GrantBuff",
@@ -247,8 +237,7 @@
             "type": "BuffTypeEquals",
             "value": "Charm"
           },
-          "values": [5.0],
-          "irremovable": true
+          "values": [5.0]
         }]
       }]
     }],
@@ -262,8 +251,7 @@
             "type": "CardTypeEquals",
             "value": "EXTRA"
           },
-          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
-          "irremovable": true
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
         }]
       }]
     }, {
@@ -283,8 +271,7 @@
             "value": "LANCER",
             "target": "DEFENDER"
           },
-          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
-          "irremovable": true
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
         }]
       }]
     }],
@@ -947,16 +934,14 @@
         "target": "SELF",
         "buffData": [{
           "type": "DefNpGenerationBuff",
-          "values": [0.18],
-          "irremovable": true
+          "values": [0.18]
         }]
       }, {
         "type": "GrantBuff",
         "target": "ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [-0.08],
-          "irremovable": true
+          "values": [-0.08]
         }],
         "probabilities": [5.0]
       }]
@@ -966,8 +951,7 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.08],
-          "irremovable": true
+          "values": [0.08]
         }]
       }]
     }, {
@@ -981,8 +965,7 @@
             "target": "SELF",
             "values": [0.038]
           }],
-          "forceBuff": 1,
-          "irremovable": true
+          "forceBuff": 1
         }]
       }]
     }, {
@@ -991,16 +974,14 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.02],
-          "irremovable": true
+          "values": [0.02]
         }]
       }, {
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
           "type": "DeathResist",
-          "values": [0.02],
-          "irremovable": true
+          "values": [0.02]
         }]
       }, {
         "type": "GrantBuff",
@@ -1011,8 +992,7 @@
             "type": "BuffTypeEquals",
             "value": "MentalDebuff"
           },
-          "values": [0.02],
-          "irremovable": true
+          "values": [0.02]
         }]
       }]
     }, {
@@ -1021,8 +1001,7 @@
         "target": "SELF",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [0.2],
-          "irremovable": true
+          "values": [0.2]
         }]
       }]
     }, {
@@ -1035,8 +1014,7 @@
             "type": "CardTypeEquals",
             "value": "QUICK"
           },
-          "values": [0.1],
-          "irremovable": true
+          "values": [0.1]
         }]
       }]
     }, {
@@ -1045,8 +1023,7 @@
         "target": "SELF",
         "buffData": [{
           "type": "DamageAdditionBuff",
-          "values": [225.0],
-          "irremovable": true
+          "values": [225.0]
         }]
       }, {
         "type": "GrantBuff",
@@ -1057,8 +1034,7 @@
             "type": "BuffTypeEquals",
             "value": "Charm"
           },
-          "values": [5.0],
-          "irremovable": true
+          "values": [5.0]
         }]
       }]
     }],
@@ -1072,8 +1048,7 @@
             "type": "CardTypeEquals",
             "value": "EXTRA"
           },
-          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
-          "irremovable": true
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
         }]
       }]
     }, {
@@ -1093,8 +1068,7 @@
             "value": "LANCER",
             "target": "DEFENDER"
           },
-          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
-          "irremovable": true
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
         }]
       }]
     }],

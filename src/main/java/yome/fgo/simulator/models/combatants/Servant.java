@@ -69,7 +69,7 @@ public class Servant extends Combatant {
         super(id, combatantData);
     }
 
-    private static CombatantData getLastCombatantData(final ServantData servantData, final int ascension) {
+    private static CombatantData getAscensionOrLastCombatantData(final ServantData servantData, final int ascension) {
         final int index = servantData.getServantAscensionDataCount() < ascension ?
                 servantData.getServantAscensionDataCount() - 1 : ascension - 1;
         return servantData.getServantAscensionData(index).getCombatantData();
@@ -77,7 +77,7 @@ public class Servant extends Combatant {
 
     // when as enemy
     public Servant(final ServantData servantData, final EnemyData enemyData) {
-        super(getLastCombatantData(servantData, enemyData.getServantAscension()), enemyData);
+        super(getAscensionOrLastCombatantData(servantData, enemyData.getServantAscension()), enemyData);
 
         this.servantData = servantData;
 
@@ -92,7 +92,7 @@ public class Servant extends Combatant {
     }
 
     public Servant(final String id, final ServantData servantData, final ServantOption servantOption) {
-        super(id, getLastCombatantData(servantData, servantOption.getAscension()));
+        super(id, getAscensionOrLastCombatantData(servantData, servantOption.getAscension()));
         this.servantData = servantData;
         this.servantLevel = servantOption.getServantLevel();
         this.ascension = servantOption.getAscension();
@@ -147,6 +147,7 @@ public class Servant extends Combatant {
     @Override
     public void initiate(final Simulation simulation) {
         simulation.setActivator(this);
+        simulation.setActivatingServantPassiveEffects(true);
 
         for (final PassiveSkill passiveSkill : passiveSkills) {
             passiveSkill.activate(simulation);
@@ -155,8 +156,12 @@ public class Servant extends Combatant {
             appendSkill.activate(simulation);
         }
 
+        simulation.setActivatingServantPassiveEffects(false);
+
         if (craftEssence != null) {
+            simulation.setActivatingCePassiveEffects(true);
             craftEssence.activate(simulation);
+            simulation.setActivatingCePassiveEffects(false);
         }
 
         simulation.setActivator(null);

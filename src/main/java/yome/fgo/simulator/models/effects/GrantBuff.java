@@ -26,17 +26,30 @@ public class GrantBuff extends Effect {
     @Builder.Default
     private final int repeatTimes = 1;
 
+    protected Buff buildBuff(final int level) {
+        final BuffData buffDataToUse = isBuffOvercharged ?
+                buffData.get(level - 1) :
+                buffData.get(0);
+        return BuffFactory.buildBuff(buffDataToUse, buffLevel);
+    }
+
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             for (int i = 0; i < repeatTimes; i++) {
                 if (shouldApply(simulation)) {
-                    final BuffData buffDataToUse = isBuffOvercharged ?
-                            buffData.get(level - 1) :
-                            buffData.get(0);
+                    final Buff buff = buildBuff(level);
 
-                    final Buff buff = BuffFactory.buildBuff(buffDataToUse, buffLevel);
+                    if (simulation.isActivatingCePassiveEffects() || simulation.isActivatingServantPassiveEffects()) {
+                        buff.setIrremovable(true);
+                        buff.setIsPassive(true);
+
+                        if (simulation.isActivatingServantPassiveEffects()) {
+                            buff.setActivator(simulation.getActivator());
+                        }
+                    }
+
                     simulation.setCurrentBuff(buff);
 
                     final double probability;

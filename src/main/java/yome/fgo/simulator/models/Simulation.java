@@ -84,6 +84,8 @@ public class Simulation {
     private CommandCard currentCommandCard;
     private Combatant effectTarget;
     private Buff currentBuff;
+    private boolean activatingServantPassiveEffects;
+    private boolean activatingCePassiveEffects;
 
     private Combatant nullSourceSkillActivator = new Combatant();
 
