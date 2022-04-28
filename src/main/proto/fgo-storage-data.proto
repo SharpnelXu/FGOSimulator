@@ -212,7 +212,9 @@ message EffectData {
 
   repeated int32 intValues = 14; // for int value effects
 
-  bool isLethal = 15; // for hp change
+  // for hp change
+  bool isLethal = 15;
+  bool isHpChangePercentBased = 16;
 }
 
 message GrantBuffAdditionalParams {
@@ -255,6 +257,7 @@ message BuffData {
   HpVariedBuffAdditionalParams hpVariedBuffAdditionalParams = 12;
 
   Target target = 13; // for buff specific attack buff
+  bool isGutsPercentBased = 14;
 }
 
 message HpVariedBuffAdditionalParams {

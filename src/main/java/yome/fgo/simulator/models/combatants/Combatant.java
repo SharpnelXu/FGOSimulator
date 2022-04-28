@@ -383,7 +383,12 @@ public class Combatant {
         for (final Buff buff : buffs) {
             if (buff instanceof Guts && buff.shouldApply(simulation)) {
                 buff.setApplied();
-                currentHp = ((Guts) buff).getGutsLeft();
+                final Guts guts = (Guts) buff;
+                if (guts.isPercentageGuts()) {
+                    currentHp = (int) (getMaxHp() * guts.getPercent());
+                } else {
+                    currentHp = guts.getGutsLeft();
+                }
                 activated = true;
                 break;
             }
@@ -426,13 +431,14 @@ public class Combatant {
 
     }
 
-    // this is to avoid taking away heal buff
     public void changeHpAfterMaxHpChange(final int change) {
-        currentHp += change;
-
-        final int maxHp = getMaxHp();
-        if (currentHp > maxHp) {
-            currentHp = maxHp;
+        if (change > 0) {
+            currentHp += change;
+        } else {
+            final int maxHp = getMaxHp();
+            if (currentHp > maxHp) {
+                currentHp = maxHp;
+            }
         }
     }
 

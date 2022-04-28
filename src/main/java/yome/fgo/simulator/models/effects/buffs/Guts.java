@@ -7,6 +7,8 @@ import lombok.experimental.SuperBuilder;
 @Getter
 public class Guts extends Buff {
     private final int gutsLeft;
+    private final boolean isPercentageGuts;
+    private final double percent;
 
     @Override
     protected boolean commonBuffCondition() {

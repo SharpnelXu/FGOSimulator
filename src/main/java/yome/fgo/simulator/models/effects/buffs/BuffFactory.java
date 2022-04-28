@@ -121,12 +121,19 @@ public class BuffFactory {
             return setCommonBuffParams(GrantTrait.builder().trait(buffData.getStringValue()), buffData, level);
 
         } else if (type.equalsIgnoreCase(Guts.class.getSimpleName())) {
-            final int guts = (int) getValueFromListForLevel(buffData.getValuesList(), level);
-            if (guts <= 0) {
+            final double value = getValueFromListForLevel(buffData.getValuesList(), level);
+            if (value <= 0) {
                 throw new IllegalArgumentException("Guts have non positive value");
             }
 
-            return setCommonBuffParams(Guts.builder().gutsLeft(guts), buffData, level);
+            final Guts.GutsBuilder<?, ?> builder = Guts.builder();
+            if (buffData.getIsGutsPercentBased()) {
+                builder.percent(value);
+            } else {
+                builder.gutsLeft((int) value);
+            }
+
+            return setCommonBuffParams(builder, buffData, level);
 
         } else if (type.equalsIgnoreCase(HealEffectivenessBuff.class.getSimpleName())) {
             return setValuedBuffParams(HealEffectivenessBuff.builder(), buffData, level);

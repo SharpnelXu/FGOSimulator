@@ -60,7 +60,25 @@ public class EffectFactory {
             return setCommonEffectParams(ForceInstantDeath.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(HpChange.class.getSimpleName())) {
-            return setCommonIntValuedEffectValue(HpChange.builder().isLethal(effectData.getIsLethal()), effectData, level);
+            final HpChange.HpChangeBuilder<?, ?> builder = HpChange.builder()
+                    .isLethal(effectData.getIsLethal());
+            if (effectData.getIsOverchargedEffect()) {
+                builder.isOverchargedEffect(true);
+                if (effectData.getIsHpChangePercentBased()) {
+                    builder.isPercentBased(true).percents(effectData.getValuesList());
+                } else {
+                    builder.values(effectData.getIntValuesList());
+                }
+            } else {
+                if (effectData.getIsHpChangePercentBased()) {
+                    builder.isPercentBased(true)
+                            .percents(getSingletonValueListForLevel(effectData.getValuesList(), level));
+                } else {
+                    builder.values(getSingletonValueListForLevel(effectData.getIntValuesList(), level));
+                }
+            }
+
+            return setCommonEffectParams(builder, effectData, level);
 
         } else if (type.equalsIgnoreCase(HpVariedNpDamage.class.getSimpleName())) {
             final HpVariedNpDamage.HpVariedNpDamageBuilder<?, ?> builder = HpVariedNpDamage.builder();
