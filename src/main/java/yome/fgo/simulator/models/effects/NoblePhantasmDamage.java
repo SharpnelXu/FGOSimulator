@@ -25,7 +25,9 @@ import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
+import yome.fgo.simulator.models.effects.buffs.PostDefenseEffect;
 import yome.fgo.simulator.models.effects.buffs.PreAttackEffect;
+import yome.fgo.simulator.models.effects.buffs.PreDefenseEffect;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
 import yome.fgo.simulator.utils.TargetUtils;
@@ -91,6 +93,7 @@ public class NoblePhantasmDamage extends Effect {
             simulation.setDefender(defender);
 
             attacker.activateEffectActivatingBuff(simulation, PreAttackEffect.class);
+            defender.activateEffectActivatingBuff(simulation, PreDefenseEffect.class);
 
             final FateClass defenderClass = defender.getFateClass();
 
@@ -208,6 +211,7 @@ public class NoblePhantasmDamage extends Effect {
             simulation.gainStar(totalCritStar);
 
             attacker.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
+            defender.activateEffectActivatingBuff(simulation, PostDefenseEffect.class);
 
             simulation.setDefender(null);
         }

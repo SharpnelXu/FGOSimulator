@@ -370,6 +370,11 @@ public class Combatant {
         }
 
         clearInactiveBuff();
+
+        final int maxHp = getMaxHp();
+        if (currentHp > maxHp) {
+            currentHp = maxHp;
+        }
     }
 
     public void clearInactiveBuff() {
