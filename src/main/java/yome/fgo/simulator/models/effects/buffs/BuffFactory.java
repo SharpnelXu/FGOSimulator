@@ -142,6 +142,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(Evade.class.getSimpleName())) {
             return setCommonBuffParams(Evade.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(GrantStageTrait.class.getSimpleName())) {
+            return setCommonBuffParams(GrantStageTrait.builder().trait(buffData.getStringValue()), buffData, level);
+
         } else if (type.equalsIgnoreCase(GrantTrait.class.getSimpleName())) {
             return setCommonBuffParams(GrantTrait.builder().trait(buffData.getStringValue()), buffData, level);
 
