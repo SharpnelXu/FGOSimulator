@@ -63,6 +63,25 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(CommandCardResist.class.getSimpleName())) {
             return setValuedBuffParams(CommandCardResist.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(Confusion.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(
+                    Confusion.builder(),
+                    buffData.toBuilder()
+                            .addSubEffects(
+                                    EffectData.newBuilder()
+                                            .setType(GrantBuff.class.getSimpleName())
+                                            .setTarget(SELF)
+                                            .addProbabilities(5)
+                                            .addBuffData(
+                                                    BuffData.newBuilder()
+                                                            .setType(SkillSeal.class.getSimpleName())
+                                                            .setNumTurnsActive(1)
+                                            )
+                            )
+                            .build()
+                    , level
+            );
+
         } else if (type.equalsIgnoreCase(CriticalChanceResist.class.getSimpleName())) {
             return setValuedBuffParams(CriticalChanceResist.builder(), buffData, level);
 
