@@ -283,17 +283,17 @@ public class Combatant {
 
         activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
 
-        final int poisonDamage = (int) RoundUtils.roundNearest(
+        final int poisonDamage = Math.min(0, (int) RoundUtils.roundNearest(
                 applyBuff(simulation, Poison.class) * (1 + applyBuff(simulation, PoisonEffectivenessUp.class))
-        );
+        ));
 
-        final int burnDamage = (int) RoundUtils.roundNearest(
+        final int burnDamage = Math.min(0, (int) RoundUtils.roundNearest(
                 applyBuff(simulation, Burn.class) * (1 + applyBuff(simulation, BurnEffectivenessUp.class))
-        );
+        ));
 
-        final int curseDamage = (int) RoundUtils.roundNearest(
+        final int curseDamage = Math.min(0, (int) RoundUtils.roundNearest(
                 applyBuff(simulation, Curse.class) * (1 + applyBuff(simulation, CurseEffectivenessUp.class))
-        );
+        ));
 
         currentHp = currentHp - poisonDamage - burnDamage - curseDamage;
         if (currentHp <= 0 && hasNextHpBar()) {
