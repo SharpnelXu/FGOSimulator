@@ -29,6 +29,32 @@ enum Traits {
   UNDEAD = 23;
   KING = 24;
   BRYNHILDS_BELOVED = 25;
+  SHUTEN = 26;
+  SUNLIGHT = 27;
+  WILDBEAST = 28;
+  SHADOW_SERVANT = 29;
+  DEMON = 30;
+  DEMI_SERVANT = 31;
+  FOREST = 32;
+  GREEK_MYTHOLOGY_MALES = 33;
+  BURNING = 34;
+  ILLYA = 35;
+  ASSOCIATED_TO_THE_ARGO = 36;
+  WEAK_POINTS_REVEALED = 37;
+  CAENIS = 38;
+  DEMONIC_BEAST = 39;
+  LIVING_HUMAN = 40;
+  GIANT = 41;
+  IMAGINARY_SPACE = 42;
+  EXISTENCE_OUTSIDE_DOMAIN = 43;
+  GENJI = 44;
+  HAS_COSTUME = 45;
+  MECHANICAL = 46;
+  DIVINE_SPIRIT = 47;
+  BURNING_LOVE = 48;
+  FAIRY_TALE_SERVANT = 49;
+  HAVING_ANIMAL_CHARACTERISTICS = 50;
+  LIKE = 51;
 }
 
 enum FateClass {
@@ -207,6 +233,9 @@ message NpDamageAdditionalParams {
 
   bool isHpVariedDamageOverchargeEffect = 8;
   repeated double hpVariedAdditionalDamage = 9;
+
+  string targetedTrait = 10;
+  string targetedBuff = 11;
 }
 
 message BuffData {

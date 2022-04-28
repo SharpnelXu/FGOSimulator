@@ -5,6 +5,7 @@ import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.GrantBuffAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import java.util.List;
 import java.util.TreeSet;
@@ -28,6 +29,19 @@ public class EffectFactory {
         final String type = effectData.getType();
         if (type.equalsIgnoreCase(AscensionChange.class.getSimpleName())) {
             return setCommonIntValuedEffectValue(AscensionChange.builder(), effectData, level);
+
+        } else if (type.equalsIgnoreCase(BuffSpecificNpDamage.class.getSimpleName())) {
+            final BuffSpecificNpDamage.BuffSpecificNpDamageBuilder<?, ?> builder = BuffSpecificNpDamage.builder();
+
+            final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
+            try {
+                builder.targetBuff(Class.forName(Buff.class.getPackage().getName() + "." + additionalParams.getTargetedBuff()));
+            } catch (final ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            return setCommonNpDamageParams(HpVariedNpDamage.builder(), effectData, level);
+
         } else if (type.equalsIgnoreCase(CardTypeChangeSelect.class.getSimpleName())) {
             final CardTypeChangeSelect.CardTypeChangeSelectBuilder<?, ?> builder = CardTypeChangeSelect.builder()
                     .selections(new TreeSet<>(effectData.getCardTypeSelectionsList()));
@@ -94,6 +108,14 @@ public class EffectFactory {
 
         } else if (type.equalsIgnoreCase(ShuffleCards.class.getSimpleName())) {
             return SHUFFLE_CARDS;
+
+        } else if (type.equalsIgnoreCase(TraitSpecificNpDamage.class.getSimpleName())) {
+            final TraitSpecificNpDamage.TraitSpecificNpDamageBuilder<?, ?> builder = TraitSpecificNpDamage.builder();
+
+            final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
+            builder.targetTrait(additionalParams.getTargetedTrait());
+
+            return setCommonNpDamageParams(HpVariedNpDamage.builder(), effectData, level);
         }
 
         throw new UnsupportedOperationException("Effect type unsupported: " + type);

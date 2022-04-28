@@ -47,17 +47,27 @@ import static yome.fgo.simulator.utils.FateClassUtils.getClassAttackCorrection;
 public class NoblePhantasmDamage extends Effect {
     public static final double NP_DAMAGE_MULTIPLIER = 0.23;
 
-    private final Target target;
+    protected final Target target;
     protected final boolean isNpDamageOverchargedEffect;
     protected final List<Double> damageRates;
-    private final List<Double> npSpecificDamageRates;
+    protected final List<Double> npSpecificDamageRates;
     @Builder.Default
-    private final Condition npSpecificDamageCondition = NEVER;
-    private final boolean isNpSpecificDamageOverchargedEffect;
+    protected final Condition npSpecificDamageCondition = NEVER;
+    protected final boolean isNpSpecificDamageOverchargedEffect;
     private final boolean isNpIgnoreDefense;
 
     protected double getDamageRate(final Simulation simulation, final int level) {
         return isNpDamageOverchargedEffect ? damageRates.get(level - 1) : damageRates.get(0);
+    }
+
+    protected double getNpSpecificDamageRate(final Simulation simulation, final int level) {
+        if (npSpecificDamageCondition.evaluate(simulation)) {
+            return isNpSpecificDamageOverchargedEffect ?
+                    npSpecificDamageRates.get(level - 1) :
+                    npSpecificDamageRates.get(0);
+        } else {
+            return 1.0;
+        }
     }
 
     @Override
@@ -92,14 +102,7 @@ public class NoblePhantasmDamage extends Effect {
 
             final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class);
 
-            final double npSpecificDamageRate;
-            if (npSpecificDamageCondition.evaluate(simulation)) {
-                npSpecificDamageRate = isNpSpecificDamageOverchargedEffect ?
-                        npSpecificDamageRates.get(level - 1) :
-                        npSpecificDamageRates.get(0);
-            } else {
-                npSpecificDamageRate = 1.0;
-            }
+            final double npSpecificDamageRate = getNpSpecificDamageRate(simulation, level);
 
             final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
 

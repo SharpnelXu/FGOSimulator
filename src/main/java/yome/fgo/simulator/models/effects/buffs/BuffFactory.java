@@ -31,7 +31,7 @@ public class BuffFactory {
                 builder = BuffSpecificAttackBuff.builder()
                         .targetBuff(Class.forName(Buff.class.getPackage().getName() + "." + buffData.getStringValue()))
                         .target(buffData.getTarget());
-            } catch (ClassNotFoundException e) {
+            } catch (final ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
 
@@ -274,6 +274,14 @@ public class BuffFactory {
                             .build()
                     , level
             );
+
+        } else if (type.equalsIgnoreCase(TraitSpecificAttackBuff.class.getSimpleName())) {
+            final TraitSpecificAttackBuff.TraitSpecificAttackBuffBuilder<?, ?> builder;
+            builder = TraitSpecificAttackBuff.builder()
+                    .targetTrait(buffData.getStringValue())
+                    .target(buffData.getTarget());
+
+            return setValuedBuffParams(builder, buffData, level);
 
         } else if (type.equalsIgnoreCase(TriggerOnGutsEffect.class.getSimpleName())) {
             return setEffectActivatingBuffParams(TriggerOnGutsEffect.builder(), buffData, level);
