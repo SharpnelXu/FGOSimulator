@@ -24,6 +24,10 @@ public class ActiveSkill extends Skill {
         currentCoolDown = maxCoolDown;
     }
 
+    public void setCurrentCoolDown(final int coolDown) {
+        currentCoolDown = coolDown;
+    }
+
     public void decreaseCoolDown(final int decrease) {
         currentCoolDown -= decrease;
         if (currentCoolDown < 0) {

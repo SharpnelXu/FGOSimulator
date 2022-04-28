@@ -23,10 +23,13 @@ import yome.fgo.simulator.models.effects.CommandCardExecution;
 import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
 import yome.fgo.simulator.utils.RoundUtils;
+import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP;
 import static yome.fgo.data.proto.FgoStorageData.Traits.SERVANT;
 
 @NoArgsConstructor
@@ -39,6 +42,7 @@ public class Servant extends Combatant {
     public static final double NP_GAIN_PITY_THRESHOLD = 0.9899;
 
     private ServantData servantData;
+    private ServantOption servantOption;
     private int attack;
     private int attackStatusUp;
     private int hpStatusUp;
@@ -69,15 +73,15 @@ public class Servant extends Combatant {
         super(id, combatantData);
     }
 
-    private static CombatantData getAscensionOrLastCombatantData(final ServantData servantData, final int ascension) {
+    private static ServantAscensionData getAscensionOrLastData(final ServantData servantData, final int ascension) {
         final int index = servantData.getServantAscensionDataCount() < ascension ?
                 servantData.getServantAscensionDataCount() - 1 : ascension - 1;
-        return servantData.getServantAscensionData(index).getCombatantData();
+        return servantData.getServantAscensionData(index);
     }
 
     // when as enemy
     public Servant(final ServantData servantData, final EnemyData enemyData) {
-        super(getAscensionOrLastCombatantData(servantData, enemyData.getServantAscension()), enemyData);
+        super(getAscensionOrLastData(servantData, enemyData.getServantAscension()).getCombatantData(), enemyData);
 
         this.servantData = servantData;
 
@@ -92,52 +96,100 @@ public class Servant extends Combatant {
     }
 
     public Servant(final String id, final ServantData servantData, final ServantOption servantOption) {
-        super(id, getAscensionOrLastCombatantData(servantData, servantOption.getAscension()));
+        this.id = id;
         this.servantData = servantData;
+        this.servantOption = servantOption;
         this.servantLevel = servantOption.getServantLevel();
         this.ascension = servantOption.getAscension();
-
-        final Status servantStatus = servantData.getServantAscensionData(this.ascension - 1)
-                .getServantStatusData(this.servantLevel - 1);
-        this.attack = servantStatus.getATK();
-        this.hpBars = new ArrayList<>(ImmutableList.of(servantStatus.getHP()));
         this.attackStatusUp = servantOption.getAttackStatusUp();
         this.hpStatusUp = servantOption.getHealthStatusUp();
         this.noblePhantasmLevel = servantOption.getNoblePhantasmLevel();
         this.bond = servantOption.getBond();
 
-        final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(this.ascension - 1);
+        buildAscension(this.ascension);
+
+        this.currentHp = getMaxHp();
+    }
+
+    public void buildAscension(final int ascension) {
+        final ServantAscensionData servantAscensionData = getAscensionOrLastData(servantData, ascension);
+        combatantData = servantAscensionData.getCombatantData();
+
+        final Status servantStatus = servantAscensionData.getServantStatusData(servantLevel - 1);
+        attack = servantStatus.getATK();
+        hpBars = new ArrayList<>(ImmutableList.of(servantStatus.getHP()));
+
         final NoblePhantasmData noblePhantasmData = servantAscensionData.getNoblePhantasmUpgrades()
                 .getNoblePhantasmData(servantOption.getNoblePhantasmRank() - 1);
-        this.noblePhantasm = new NoblePhantasm(noblePhantasmData, this.noblePhantasmLevel);
+        noblePhantasm = new NoblePhantasm(noblePhantasmData, noblePhantasmLevel);
 
-        this.activeSkills = new ArrayList<>();
+        activeSkills = new ArrayList<>();
         for (int i = 0; i < servantAscensionData.getActiveSkillUpgradesCount(); i++) {
             final ActiveSkillData activeSkillData = servantAscensionData.getActiveSkillUpgrades(i)
                     .getActiveSkillData(servantOption.getActiveSkillRanks(i) - 1);
-            this.activeSkills.add(new ActiveSkill(activeSkillData, servantOption.getActiveSkillLevels(i)));
+            activeSkills.add(new ActiveSkill(activeSkillData, servantOption.getActiveSkillLevels(i)));
         }
 
-        this.passiveSkills = new ArrayList<>();
+        passiveSkills = new ArrayList<>();
         for (final PassiveSkillData passiveSkillData : servantAscensionData.getPassiveSkillDataList()) {
-            this.passiveSkills.add(new PassiveSkill(passiveSkillData));
+            passiveSkills.add(new PassiveSkill(passiveSkillData));
         }
 
-        this.appendSkills = new ArrayList<>();
+        appendSkills = new ArrayList<>();
         for (int i = 0; i < servantAscensionData.getAppendSkillDataCount(); i++) {
-            final AppendSkillData appendSkillData = servantAscensionData.getAppendSkillData(i);
-            this.appendSkills.add(new AppendSkill(appendSkillData, servantOption.getAppendSkillLevels(i)));
+            final int appendSkillLevel = servantOption.getAppendSkillLevels(i);
+            if (appendSkillLevel > 0) {
+                final AppendSkillData appendSkillData = servantAscensionData.getAppendSkillData(i);
+                appendSkills.add(new AppendSkill(appendSkillData, appendSkillLevel));
+            } else {
+                appendSkills.add(new AppendSkill(AppendSkillData.newBuilder().build(), 1));
+            }
         }
 
-        this.commandCards = new ArrayList<>();
+        commandCards = new ArrayList<>();
         for (int i = 0; i < servantAscensionData.getCommandCardDataCount(); i++) {
             final CommandCardData commandCardData = servantAscensionData.getCommandCardData(i);
-            this.commandCards.add(new CommandCard(commandCardData, servantOption.getCommandCardOptions(i)));
+            if (servantOption.getCommandCardOptionsCount() == 0) {
+                commandCards.add(new CommandCard(commandCardData));
+            } else {
+                commandCards.add(new CommandCard(commandCardData, servantOption.getCommandCardOptions(i)));
+            }
         }
 
-        this.extraCommandCard = new CommandCard(servantAscensionData.getExtraCard());
+        extraCommandCard = new CommandCard(servantAscensionData.getExtraCard());
+    }
 
-        this.currentHp = getMaxHp();
+    public void changeAscension(final Simulation simulation, final int newAscension) {
+        for (final Combatant clearBuff : TargetUtils.getTargets(simulation, ALL_CHARACTERS_INCLUDING_BACKUP)) {
+            clearBuff.clearPassiveBuff(this);
+        }
+
+        final List<Integer> coolDowns = activeSkills.stream()
+                .map(ActiveSkill::getCurrentCoolDown)
+                .collect(Collectors.toList());
+
+        ascension = newAscension;
+        buildAscension(newAscension);
+
+        simulation.setActivator(this);
+        simulation.setActivatingServantPassiveEffects(true);
+
+        // should all be buffs
+        for (final PassiveSkill passiveSkill : passiveSkills) {
+            passiveSkill.activate(simulation);
+        }
+        for (final AppendSkill appendSkill : appendSkills) {
+            appendSkill.activateOnlyBuffGrantingEffects(simulation);
+        }
+
+        for (int i = 0; i < activeSkills.size(); i++) {
+            if (coolDowns.size() > i) {
+                activeSkills.get(i).setCurrentCoolDown(coolDowns.get(i));
+            }
+        }
+
+        simulation.setActivatingServantPassiveEffects(false);
+        simulation.unsetActivator();
     }
 
     public void equipCraftEssence(final CraftEssence craftEssence) {
@@ -164,7 +216,7 @@ public class Servant extends Combatant {
             simulation.setActivatingCePassiveEffects(false);
         }
 
-        simulation.setActivator(null);
+        simulation.unsetActivator();
     }
 
     public int getAttack() {
@@ -177,7 +229,7 @@ public class Servant extends Combatant {
 
         activeSkills.get(activeSkillIndex).activate(simulation);
 
-        simulation.setActivator(null);
+        simulation.unsetActivator();
     }
 
     public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
@@ -205,7 +257,7 @@ public class Servant extends Combatant {
         noblePhantasm.activate(simulation, overchargeLevel);
 
         simulation.setCurrentCommandCard(null);
-        simulation.setActivator(null);
+        simulation.unsetActivator();
     }
 
     @VisibleForTesting

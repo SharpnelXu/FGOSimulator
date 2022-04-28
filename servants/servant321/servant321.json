@@ -86,7 +86,7 @@
       }]
     }, {
       "activeSkillData": [{
-        "baseCoolDown": 9,
+        "baseCoolDown": 8,
         "effects": [{
           "type": "NpChange",
           "target": "SELF",
@@ -883,7 +883,7 @@
       }]
     }, {
       "activeSkillData": [{
-        "baseCoolDown": 9,
+        "baseCoolDown": 8,
         "effects": [{
           "type": "NpChange",
           "target": "SELF",

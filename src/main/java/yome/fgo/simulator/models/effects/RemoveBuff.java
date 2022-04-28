@@ -40,7 +40,7 @@ public class RemoveBuff extends IntValuedEffect {
                 }
                 simulation.setCurrentBuff(null);
             }
-            simulation.setEffectTarget(null);
+            simulation.unsetEffectTarget();
         }
     }
 }

@@ -78,7 +78,7 @@ public class SimulationTest {
             .setHealthStatusUp(1000)
             .addAllActiveSkillRanks(ImmutableList.of(1, 1, 1))
             .addAllActiveSkillLevels(ImmutableList.of(10, 10, 10))
-            .addAllAppendSkillLevels(ImmutableList.of(10, 10, 10))
+            .addAllAppendSkillLevels(ImmutableList.of(10, 0, 10))
             .addCommandCardOptions(CommandCardOption.newBuilder())
             .addCommandCardOptions(CommandCardOption.newBuilder())
             .addCommandCardOptions(CommandCardOption.newBuilder())
@@ -120,6 +120,13 @@ public class SimulationTest {
         simNp3TClear.activateServantSkill(2, 0);
         simNp3TClear.activateServantSkill(2, 1);
         simNp3TClear.activateServantSkill(2, 2);
+        assertEquals(6, kama.getActiveSkills().get(0).getCurrentCoolDown());
+        assertEquals(6, altria1.getActiveSkills().get(0).getCurrentCoolDown());
+        assertEquals(5, altria1.getActiveSkills().get(1).getCurrentCoolDown());
+        assertEquals(6, altria1.getActiveSkills().get(2).getCurrentCoolDown());
+        assertEquals(6, altria2.getActiveSkills().get(0).getCurrentCoolDown());
+        assertEquals(5, altria2.getActiveSkills().get(1).getCurrentCoolDown());
+        assertEquals(6, altria2.getActiveSkills().get(2).getCurrentCoolDown());
 
         assertEquals(1.20, kama.getCurrentNp());
 
@@ -163,6 +170,15 @@ public class SimulationTest {
 
         assertTrue(simNp3TClear.isSimulationCompleted());
         assertEquals(12 + 3, kama.getBuffs().size()); // skill 2 & 3 activated at turn 3
+        assertEquals(3, kama.getActiveSkills().get(0).getCurrentCoolDown());
+        assertEquals(6, kama.getActiveSkills().get(1).getCurrentCoolDown());
+        assertEquals(5, kama.getActiveSkills().get(2).getCurrentCoolDown());
+        assertEquals(3, altria1.getActiveSkills().get(0).getCurrentCoolDown());
+        assertEquals(2, altria1.getActiveSkills().get(1).getCurrentCoolDown());
+        assertEquals(3, altria1.getActiveSkills().get(2).getCurrentCoolDown());
+        assertEquals(3, altria2.getActiveSkills().get(0).getCurrentCoolDown());
+        assertEquals(2, altria2.getActiveSkills().get(1).getCurrentCoolDown());
+        assertEquals(3, altria2.getActiveSkills().get(2).getCurrentCoolDown());
     }
 
     @Test

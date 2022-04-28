@@ -21,7 +21,7 @@ public class NpGaugeChange extends IntValuedEffect {
             if (shouldApply(simulation)) {
                 combatant.changeNpGauge(values.get(level - 1));
             }
-            simulation.setEffectTarget(null);
+            simulation.unsetEffectTarget();
         }
     }
 }

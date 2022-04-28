@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
@@ -78,14 +79,41 @@ public class Simulation {
     public double probabilityThreshold;
 
     // condition related fields
+    // used when dealing damages
     private Combatant attacker;
     private Combatant defender;
-    private Combatant activator;
     private CommandCard currentCommandCard;
-    private Combatant effectTarget;
-    private Buff currentBuff;
-    private boolean activatingServantPassiveEffects;
-    private boolean activatingCePassiveEffects;
+
+    // used when activating effects
+    private Stack<Combatant> activator = new Stack<>();
+    private Stack<Combatant> effectTarget = new Stack<>();
+
+    public void setActivator(final Combatant combatant) {
+        activator.push(combatant);
+    }
+
+    public Combatant getActivator() {
+        return activator.peek();
+    }
+
+    public void unsetActivator() {
+        activator.pop();
+    }
+    public void setEffectTarget(final Combatant combatant) {
+        effectTarget.push(combatant);
+    }
+
+    public Combatant getEffectTarget() {
+        return effectTarget.peek();
+    }
+
+    public void unsetEffectTarget() {
+        effectTarget.pop();
+    }
+
+    private Buff currentBuff; // used by grantBuff
+    private boolean activatingServantPassiveEffects; // used to denote passive & append skill buffs
+    private boolean activatingCePassiveEffects; // used to denote ce skills
 
     private Combatant nullSourceSkillActivator = new Combatant();
 
@@ -123,7 +151,7 @@ public class Simulation {
         setActivator(nullSourceSkillActivator);
         level.applyLevelEffects(this);
         level.getStage(currentStage).applyStageEffects(this);
-        setActivator(null);
+        unsetActivator();
     }
 
     public boolean isSimulationCompleted() {
@@ -140,7 +168,7 @@ public class Simulation {
     public void activateMysticCodeSkill(final int skillIndex) {
         setActivator(nullSourceSkillActivator);
         mysticCode.activateSkill(this, skillIndex);
-        setActivator(null);
+        unsetActivator();
     }
 
     public void executeCombatActions(final List<CombatAction> combatActions) {

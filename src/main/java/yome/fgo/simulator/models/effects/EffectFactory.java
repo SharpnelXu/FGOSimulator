@@ -26,7 +26,9 @@ public class EffectFactory {
 
     public static Effect buildEffect(final EffectData effectData, final int level) {
         final String type = effectData.getType();
-        if (type.equalsIgnoreCase(CardTypeChangeSelect.class.getSimpleName())) {
+        if (type.equalsIgnoreCase(AscensionChange.class.getSimpleName())) {
+            return setCommonIntValuedEffectValue(AscensionChange.builder(), effectData, level);
+        } else if (type.equalsIgnoreCase(CardTypeChangeSelect.class.getSimpleName())) {
             final CardTypeChangeSelect.CardTypeChangeSelectBuilder<?, ?> builder = CardTypeChangeSelect.builder()
                     .selections(new TreeSet<>(effectData.getCardTypeSelectionsList()));
             return setCommonGrantBuffEffectValue(builder, effectData, level);

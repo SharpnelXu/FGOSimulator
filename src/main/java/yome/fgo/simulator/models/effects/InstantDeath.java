@@ -27,7 +27,7 @@ public class InstantDeath extends Effect {
                 }
                 combatant.instantDeath();
             }
-            simulation.setEffectTarget(null);
+            simulation.unsetEffectTarget();
         }
     }
 }

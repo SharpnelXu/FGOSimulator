@@ -183,7 +183,7 @@ public class Servant321 {
                 .build();
 
         final ActiveSkillData activeSkillData31 = ActiveSkillData.newBuilder()
-                .setBaseCoolDown(9)
+                .setBaseCoolDown(8)
                 .addEffects(
                         EffectData.newBuilder()
                                 .setType(NpChange.class.getSimpleName())

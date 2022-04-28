@@ -70,7 +70,7 @@ public class GrantBuff extends Effect {
                 }
             }
 
-            simulation.setEffectTarget(null);
+            simulation.unsetEffectTarget();
         }
     }
 

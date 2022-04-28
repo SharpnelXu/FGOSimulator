@@ -77,7 +77,7 @@ public class Combatant {
         this.currentHp = this.hpBars.get(this.currentHpBarIndex);
     }
 
-    // for servant
+    // for testing
     public Combatant(final String id, final CombatantData combatantData) {
         this.id = id;
         this.combatantData = combatantData;
@@ -325,6 +325,15 @@ public class Combatant {
         }
     }
 
+    public void clearPassiveBuff(final Combatant activator) {
+        for (int j = buffs.size() - 1; j >= 0; j--) {
+            final Buff buff  = buffs.get(j);
+            if (buff.isPassive() && buff.getActivator() == activator) {
+                buffs.remove(j);
+            }
+        }
+    }
+
     public void activateEffectActivatingBuff(
             final Simulation simulation,
             final Class<? extends EffectActivatingBuff> buffClass
@@ -344,7 +353,7 @@ public class Combatant {
                 // extra step since this is a buff
                 buff.setApplied();
                 checkBuffStatus();
-                simulation.setActivator(null);
+                simulation.unsetActivator();
             }
         }
     }

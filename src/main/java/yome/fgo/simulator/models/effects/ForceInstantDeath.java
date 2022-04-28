@@ -13,7 +13,9 @@ public class ForceInstantDeath extends Effect {
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
+            simulation.setEffectTarget(combatant);
             combatant.instantDeath();
+            simulation.unsetEffectTarget();
         }
     }
 }

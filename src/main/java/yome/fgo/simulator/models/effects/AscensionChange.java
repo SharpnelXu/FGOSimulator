@@ -4,22 +4,26 @@ import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
+import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.List;
 
 @SuperBuilder
-public class NpChange extends Effect {
+public class AscensionChange extends IntValuedEffect {
     private final Target target;
-    private final List<Double> npChanges;
+    private final List<Integer> ascensionLevels;
 
     @Override
-    protected void internalApply(final Simulation simulation, final int level) {
+    protected void internalApply(final  Simulation simulation, final int level) {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
-            simulation.setEffectTarget(combatant);
-            if (shouldApply(simulation)) {
-                combatant.changeNp(npChanges.get(level - 1));
+            if (!(combatant instanceof Servant)) {
+                continue;
             }
+
+            simulation.setEffectTarget(combatant);
+            final Servant servant = (Servant) combatant;
+            servant.changeAscension(simulation, ascensionLevels.get(level - 1));
             simulation.unsetEffectTarget();
         }
     }

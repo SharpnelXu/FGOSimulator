@@ -29,7 +29,7 @@ public class HpChange extends IntValuedEffect {
                     combatant.changeHp(baseChange);
                 }
             }
-            simulation.setEffectTarget(null);
+            simulation.unsetEffectTarget();
         }
     }
 }
