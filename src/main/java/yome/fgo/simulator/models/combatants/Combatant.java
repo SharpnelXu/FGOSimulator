@@ -16,6 +16,7 @@ import yome.fgo.simulator.models.effects.buffs.BurnEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.Curse;
 import yome.fgo.simulator.models.effects.buffs.CurseEffectivenessUp;
+import yome.fgo.simulator.models.effects.buffs.DamageReflect;
 import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.DelayedEffect;
 import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
@@ -269,6 +270,13 @@ public class Combatant {
     }
 
     public void receiveDamage(final int damage) {
+        for (final Buff buff : buffs) {
+            if (buff instanceof DamageReflect) {
+                final DamageReflect damageReflect = (DamageReflect) buff;
+                damageReflect.storeDamage(damage);
+            }
+        }
+
         currentHp -= damage;
     }
 
@@ -278,8 +286,34 @@ public class Combatant {
         currentHp = hpBars.get(currentHpBarIndex);
     }
 
+    public void receiveNonHpBarBreakDamage(final int damage) {
+        currentHp -= damage;
+        if (currentHp <= 0 && hasNextHpBar()) {
+            currentHp = 1;
+        }
+    }
+
+    private void activateDamageReflect(final Simulation simulation) {
+        for (final Buff buff : buffs) {
+            if (buff instanceof DamageReflect && buff.shouldApply(simulation)) {
+                final DamageReflect damageReflect = (DamageReflect) buff;
+
+                for (final Combatant combatant : simulation.getOtherTeam(this)) {
+                    combatant.receiveNonHpBarBreakDamage((int) (damageReflect.getStoredDamage() * damageReflect.getValue(simulation)));
+                }
+                damageReflect.resetDamageStored();
+
+                damageReflect.setApplied();
+            }
+        }
+
+        checkBuffStatus();
+    }
+
     public void endOfYourTurn(final Simulation simulation) {
         activateEffectActivatingBuff(simulation, DelayedEffect.class);
+
+        activateDamageReflect(simulation);
 
         for (final Buff buff : buffs) {
             if (!shouldDecreaseNumTurnsActiveAtMyTurn(buff) && !isImmobilizeOrSeal(buff)) {
@@ -317,10 +351,7 @@ public class Combatant {
                 applyBuff(simulation, Curse.class) * (1 + applyBuff(simulation, CurseEffectivenessUp.class))
         ));
 
-        currentHp = currentHp - poisonDamage - burnDamage - curseDamage;
-        if (currentHp <= 0 && hasNextHpBar()) {
-            currentHp = 1;
-        }
+        receiveNonHpBarBreakDamage(poisonDamage + burnDamage + curseDamage);
 
         for (final Buff buff : buffs) {
             if (shouldDecreaseNumTurnsActiveAtMyTurn(buff)) {

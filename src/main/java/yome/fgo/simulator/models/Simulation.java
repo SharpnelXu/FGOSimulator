@@ -188,7 +188,7 @@ public class Simulation {
         for (int i = 0; i < combatActions.size(); i++) {
             final CombatAction combatAction = combatActions.get(i);
             final Servant servant = currentServants.get(combatAction.servantIndex);
-            if (servant == null || isAllEnemiesDead()) { // servant dead in previous attack or all enemies dead
+            if (servant == null || servant.isImmobilized() || isAllEnemiesDead()) { // servant dead in previous attack or all enemies dead
                 continue;
             }
 
@@ -418,6 +418,14 @@ public class Simulation {
 
     public List<Servant> getAliveAllies() {
         return currentServants.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    public List<Combatant> getOtherTeam(final Combatant combatant) {
+        if (currentEnemies.contains(combatant)) {
+            return currentServants.stream().map(servant -> (Combatant) servant).collect(Collectors.toList());
+        } else {
+            return currentEnemies;
+        }
     }
 
     public Servant getTargetedAlly() {
