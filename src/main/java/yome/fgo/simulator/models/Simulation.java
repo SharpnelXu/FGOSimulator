@@ -241,7 +241,12 @@ public class Simulation {
     private void endAllyTurn() {
         for (final Servant servant : currentServants) {
             if (servant != null) {
-                servant.endOfTurn(this);
+                servant.endOfMyTurn(this);
+            }
+        }
+        for (final Combatant combatant : currentEnemies) {
+            if (combatant != null) {
+                combatant.endOfYourTurn(this);
             }
         }
         removeDeadAlly();
@@ -259,9 +264,17 @@ public class Simulation {
     private void endEnemyTurn() {
         for (final Combatant combatant : currentEnemies) {
             if (combatant != null) {
-                combatant.endOfTurn(this);
+                combatant.endOfMyTurn(this);
             }
         }
+
+        for (final Servant servant : currentServants) {
+            if (servant != null) {
+                servant.endOfYourTurn(this);
+            }
+        }
+        checkBuffStatus();
+
         removeDeadEnemies();
         replenishDeadCombatantFromBackup(currentEnemies, backupEnemies);
     }

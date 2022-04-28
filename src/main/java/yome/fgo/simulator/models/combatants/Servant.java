@@ -363,8 +363,8 @@ public class Servant extends Combatant {
     }
 
     @Override
-    public void endOfTurn(final Simulation simulation) {
-        super.endOfTurn(simulation);
+    public void endOfMyTurn(final Simulation simulation) {
+        super.endOfMyTurn(simulation);
 
         for (final ActiveSkill activeSkill : activeSkills) {
             activeSkill.decreaseCoolDown(1);

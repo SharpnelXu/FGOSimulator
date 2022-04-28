@@ -4,7 +4,7 @@ import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
 
 @SuperBuilder
-public class ValuedBuff extends Buff {
+public abstract class ValuedBuff extends Buff {
     protected final double value;
 
     public double getValue(final Simulation simulation) {

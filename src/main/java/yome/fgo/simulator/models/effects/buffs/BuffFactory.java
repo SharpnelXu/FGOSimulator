@@ -275,7 +275,7 @@ public class BuffFactory {
                                             .addBuffData(
                                                     BuffData.newBuilder()
                                                             .setType(Stun.class.getSimpleName())
-                                                            .setNumTurnsActive(2)
+                                                            .setNumTurnsActive(1)
                                             )
                             )
                             .build()

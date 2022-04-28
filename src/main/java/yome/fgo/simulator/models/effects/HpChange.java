@@ -30,11 +30,9 @@ public class HpChange extends Effect {
                 if (baseChange > 0) {
                     final double healEffectiveness = combatant.applyBuff(simulation, HealEffectivenessBuff.class);
                     final int finalHeal = Math.max(0, (int) RoundUtils.roundNearest(baseChange * (1 + healEffectiveness)));
-                    combatant.changeHp(finalHeal);
-                } else if (isLethal) {
-                    combatant.receiveDamage(baseChange);
+                    combatant.changeHp(finalHeal, false); // heal cannot be lethal (勇者传除外)
                 } else {
-                    combatant.changeHp(baseChange);
+                    combatant.changeHp(baseChange, isLethal);
                 }
             }
             simulation.unsetEffectTarget();

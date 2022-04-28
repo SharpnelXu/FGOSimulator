@@ -17,6 +17,7 @@ import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.Curse;
 import yome.fgo.simulator.models.effects.buffs.CurseEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
+import yome.fgo.simulator.models.effects.buffs.DelayedEffect;
 import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
 import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.utils.BuffUtils.isImmobilizeOrSeal;
+import static yome.fgo.simulator.utils.BuffUtils.shouldDecreaseNumTurnsActiveAtMyTurn;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassMaxNpGauge;
 
 @NoArgsConstructor
@@ -275,11 +278,30 @@ public class Combatant {
         currentHp = hpBars.get(currentHpBarIndex);
     }
 
-    public void endOfTurn(final Simulation simulation) {
+    public void endOfYourTurn(final Simulation simulation) {
+        activateEffectActivatingBuff(simulation, DelayedEffect.class);
+
+        for (final Buff buff : buffs) {
+            if (!shouldDecreaseNumTurnsActiveAtMyTurn(buff) && !isImmobilizeOrSeal(buff)) {
+                buff.decreaseNumTurnsActive();
+            }
+        }
+
+        clearInactiveBuff();
+    }
+
+    public void endOfMyTurn(final Simulation simulation) {
         currentNpGauge++;
         if (currentNpGauge > maxNpGauge) {
             currentNpGauge = maxNpGauge;
         }
+
+        for (final Buff buff : buffs) {
+            if (isImmobilizeOrSeal(buff)) {
+                buff.decreaseNumTurnsActive();
+            }
+        }
+        clearInactiveBuff();
 
         activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
 
@@ -301,7 +323,9 @@ public class Combatant {
         }
 
         for (final Buff buff : buffs) {
-            buff.decreaseNumTurnsActive();
+            if (shouldDecreaseNumTurnsActiveAtMyTurn(buff)) {
+                buff.decreaseNumTurnsActive();
+            }
         }
 
         clearInactiveBuff();
@@ -414,7 +438,7 @@ public class Combatant {
         }
     }
 
-    public void changeHp(final int hpChange) {
+    public void changeHp(final int hpChange, final boolean isLethal) {
         currentHp += hpChange;
 
         final int maxHp = getMaxHp();
@@ -422,7 +446,7 @@ public class Combatant {
             currentHp = maxHp;
         }
         // non-lethal
-        if (currentHp <= 0) {
+        if (currentHp <= 0 && !isLethal) {
             currentHp = 1;
         }
     }

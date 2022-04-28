@@ -72,7 +72,7 @@ public abstract class Buff {
     }
 
     public boolean shouldApply(final Simulation simulation) {
-        return condition.evaluate(simulation) && !isInactive() && simulation.getProbabilityThreshold() <= probability;
+        return condition.evaluate(simulation) && simulation.getProbabilityThreshold() <= probability;
     }
 
     public void setApplied() {

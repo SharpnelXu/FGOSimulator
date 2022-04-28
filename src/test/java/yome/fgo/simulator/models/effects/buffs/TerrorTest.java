@@ -83,5 +83,8 @@ public class TerrorTest {
         simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
         assertTrue(enemy.getBuffs().get(0) instanceof Stun);
         assertTrue(enemy.isImmobilized());
+
+        simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
+        assertFalse(enemy.isImmobilized());
     }
 }
