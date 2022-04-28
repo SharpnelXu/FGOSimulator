@@ -211,6 +211,12 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(NpSeal.class.getSimpleName())) {
             return setCommonBuffParams(NpSeal.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(OverchargeBuff.class.getSimpleName())) {
+            final OverchargeBuff.OverchargeBuffBuilder<?, ?> builder = OverchargeBuff.builder();
+            final int value = (int) getValueFromListForLevel(buffData.getValuesList(), level);
+
+            return setCommonBuffParams(builder.value(value), buffData, level);
+
         } else if (type.equalsIgnoreCase(PercentAttackBuff.class.getSimpleName())) {
             return setValuedBuffParams(PercentAttackBuff.builder(), buffData, level);
 

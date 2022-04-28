@@ -20,8 +20,10 @@ import yome.fgo.data.proto.FgoStorageData.Status;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
 import yome.fgo.simulator.models.effects.CommandCardExecution;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
+import yome.fgo.simulator.models.effects.buffs.OverchargeBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
@@ -251,8 +253,7 @@ public class Servant extends Combatant {
             simulation.setCurrentCommandCard(noblePhantasm);
         }
 
-        // TODO: missing overchargeIncreaseBuff
-        final int overchargeLevel = calculateOverchargeLevel(extraOvercharge, currentNp);
+        final int overchargeLevel = calculateOverchargeLevel(simulation, extraOvercharge);
         currentNp = 0;
         noblePhantasm.activate(simulation, overchargeLevel);
 
@@ -261,8 +262,23 @@ public class Servant extends Combatant {
     }
 
     @VisibleForTesting
-    static int calculateOverchargeLevel(final int extraOvercharge, double currentNp) {
-        return Math.min(extraOvercharge + Math.max(1, (int) currentNp), 5);
+    int calculateOverchargeLevel(final Simulation simulation, final int extraOvercharge) {
+        int overchargeBuff = 0;
+
+        for (final Buff buff : buffs) {
+            if (buff instanceof OverchargeBuff && buff.shouldApply(simulation)) {
+                overchargeBuff += ((OverchargeBuff) buff).getValue();
+            }
+        }
+
+        final int calculatedOvercharge = overchargeBuff + extraOvercharge + (int) currentNp;
+        if (calculatedOvercharge > 5) {
+            return 5;
+        } if (calculatedOvercharge < 1) {
+            return 1;
+        } else {
+            return calculatedOvercharge;
+        }
     }
 
     public void activateCommandCard(

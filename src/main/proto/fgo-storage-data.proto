@@ -28,6 +28,7 @@ enum Traits {
   WILD_BEAST = 22;
   UNDEAD = 23;
   KING = 24;
+  BRYNHILDS_BELOVED = 25;
 }
 
 enum FateClass {

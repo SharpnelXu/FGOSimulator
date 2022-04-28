@@ -8,6 +8,7 @@ import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
+import yome.fgo.simulator.models.effects.buffs.OverchargeBuff;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +22,42 @@ import static yome.fgo.simulator.models.combatants.Servant.NP_CAP_3;
 public class ServantTest {
     @Test
     public void testCalculateOverchargeLevel() {
-        assertEquals(1, Servant.calculateOverchargeLevel(0, 0.50));
-        assertEquals(1, Servant.calculateOverchargeLevel(0, 0.9999));
-        assertEquals(1, Servant.calculateOverchargeLevel(0, NP_CAP_1));
-        assertEquals(2, Servant.calculateOverchargeLevel(1, 1.002));
-        assertEquals(3, Servant.calculateOverchargeLevel(0, NP_CAP_3));
-        assertEquals(4, Servant.calculateOverchargeLevel(2, NP_CAP_2));
-        assertEquals(4, Servant.calculateOverchargeLevel(2, 2.1235));
-        assertEquals(4, Servant.calculateOverchargeLevel(2, 2.9999));
-        assertEquals(5, Servant.calculateOverchargeLevel(2, NP_CAP_3));
-        assertEquals(5, Servant.calculateOverchargeLevel(20, 20.002));
+        final Servant servant = new Servant();
+        servant.setNoblePhantasmLevel(5);
+        final Simulation simulation = new Simulation();
+        servant.changeNp(0.5);
+        assertEquals(1, servant.calculateOverchargeLevel(simulation, 0));
+        servant.changeNp(-10);
+        servant.changeNp(0.9899);
+        assertEquals(1, servant.calculateOverchargeLevel(simulation, 0));
+        servant.changeNp(-10);
+        servant.changeNp(NP_CAP_1);
+        assertEquals(1, servant.calculateOverchargeLevel(simulation, 0));
+        servant.changeNp(-10);
+        servant.changeNp(1.002);
+        assertEquals(2, servant.calculateOverchargeLevel(simulation, 1));
+        servant.changeNp(-10);
+        servant.changeNp(NP_CAP_3);
+        assertEquals(3, servant.calculateOverchargeLevel(simulation, 0));
+        servant.changeNp(-10);
+        servant.changeNp(NP_CAP_2);
+        assertEquals(4, servant.calculateOverchargeLevel(simulation, 2));
+        servant.changeNp(-10);
+        servant.changeNp(2.1235);
+        assertEquals(4, servant.calculateOverchargeLevel(simulation, 2));
+        servant.changeNp(-10);
+        servant.changeNp(2.9999);
+        assertEquals(4, servant.calculateOverchargeLevel(simulation, 2));
+        servant.changeNp(-10);
+        servant.changeNp(NP_CAP_3);
+        assertEquals(5, servant.calculateOverchargeLevel(simulation, 2));
+        servant.changeNp(-10);
+        servant.changeNp(20.002);
+        assertEquals(5, servant.calculateOverchargeLevel(simulation, 20));
+        servant.changeNp(-10);
+        servant.addBuff(OverchargeBuff.builder().value(2).build());
+        servant.changeNp(1);
+        assertEquals(4, servant.calculateOverchargeLevel(simulation, 1));
     }
 
     @Test
