@@ -57,6 +57,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(Charm.class.getSimpleName())) {
             return setCommonBuffParams(Charm.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(CharmResistDown.class.getSimpleName())) {
+            return setValuedBuffParams(CharmResistDown.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(CommandCardBuff.class.getSimpleName())) {
             return setValuedBuffParams(CommandCardBuff.builder(), buffData, level);
 
