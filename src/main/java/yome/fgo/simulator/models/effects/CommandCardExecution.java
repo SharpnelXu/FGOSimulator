@@ -22,6 +22,7 @@ import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
+import yome.fgo.simulator.models.effects.buffs.PreAttackEffect;
 import yome.fgo.simulator.models.effects.buffs.SpecialInvincible;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
@@ -61,6 +62,8 @@ public class CommandCardExecution {
         final CommandCard currentCard = simulation.getCurrentCommandCard();
         final CommandCardType currentCardType = currentCard.getCommandCardType();
         final List<Integer> hitsPercentages = currentCard.getHitPercentages();
+
+        attacker.activateEffectActivatingBuff(simulation, PreAttackEffect.class);
 
         final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);
         final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);

@@ -25,6 +25,7 @@ import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
+import yome.fgo.simulator.models.effects.buffs.PreAttackEffect;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
 import yome.fgo.simulator.utils.TargetUtils;
@@ -88,6 +89,9 @@ public class NoblePhantasmDamage extends Effect {
 
         for (final Combatant defender : TargetUtils.getTargets(simulation, target)) {
             simulation.setDefender(defender);
+
+            attacker.activateEffectActivatingBuff(simulation, PreAttackEffect.class);
+
             final FateClass defenderClass = defender.getFateClass();
 
             final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);

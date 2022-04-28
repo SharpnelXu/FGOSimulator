@@ -174,7 +174,7 @@ public class BuffFactory {
             if (additionalParams.getMaxHpPercentCount() != 0) {
                 builder.maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level));
             }
-            if (additionalParams.getMaxHpPercentCount() != 0) {
+            if (additionalParams.getMinHpPercentCount() != 0) {
                 builder.minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level));
             }
             if (additionalParams.getBaseValueCount() != 0) {
@@ -198,7 +198,7 @@ public class BuffFactory {
             if (additionalParams.getMaxHpPercentCount() != 0) {
                 builder.maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level));
             }
-            if (additionalParams.getMaxHpPercentCount() != 0) {
+            if (additionalParams.getMinHpPercentCount() != 0) {
                 builder.minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level));
             }
             if (additionalParams.getBaseValueCount() != 0) {
@@ -263,6 +263,9 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(PostAttackEffect.class.getSimpleName())) {
             return setEffectActivatingBuffParams(PostAttackEffect.builder(), buffData, level);
+
+        } else if (type.equalsIgnoreCase(PreAttackEffect.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(PreAttackEffect.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(ReceivedBuffChanceBuff.class.getSimpleName())) {
             return setValuedBuffParams(ReceivedBuffChanceBuff.builder(), buffData, level);
