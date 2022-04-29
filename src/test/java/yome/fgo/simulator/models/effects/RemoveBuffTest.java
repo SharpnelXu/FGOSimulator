@@ -18,6 +18,7 @@ import yome.fgo.simulator.models.effects.buffs.SureHit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.ATTACKER_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.BuffTraits.NEGATIVE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.BuffTraits.POSITIVE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
@@ -189,9 +190,12 @@ public class RemoveBuffTest {
         kama.initiate(simulation);
 
         assertEquals(12, kama.getBuffs().size());
+        kama.activateActiveSkill(simulation, 2);
+        assertEquals(14, kama.getBuffs().size());
 
         final RemoveBuff removeBuff = RemoveBuff.builder()
                 .target(SELF)
+                .applyCondition(new BuffHasTrait(ATTACKER_BUFF.name()))
                 .build();
 
         simulation.setActivator(kama);

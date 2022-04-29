@@ -17,7 +17,6 @@ import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.models.conditions.BuffHasTrait;
-import yome.fgo.simulator.models.conditions.BuffIsDebuff;
 import yome.fgo.simulator.models.conditions.CardTypeEquals;
 import yome.fgo.simulator.models.conditions.TargetsHaveClass;
 import yome.fgo.simulator.models.conditions.TargetsHaveTrait;
