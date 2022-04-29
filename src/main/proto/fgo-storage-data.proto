@@ -266,6 +266,8 @@ message BuffData {
   bool isGutsPercentBased = 14;
 
   ClassAdvantageChangeAdditionalParams classAdvChangeAdditionalParams = 15;
+  repeated double increasedValue = 16; // only used by plain valued buffs
+  bool increasing = 17;
 }
 
 enum BuffTraits {

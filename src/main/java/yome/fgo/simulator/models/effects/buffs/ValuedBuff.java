@@ -2,13 +2,20 @@ package yome.fgo.simulator.models.effects.buffs;
 
 import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
+import yome.fgo.simulator.utils.RoundUtils;
 
 @SuperBuilder
 public abstract class ValuedBuff extends Buff {
     protected final double value;
+    protected final double increaseValueEachTurn;
+    protected final boolean isIncreasing;
 
     public double getValue(final Simulation simulation) {
-        return value;
+        if (isIncreasing) {
+            return RoundUtils.roundNearest(value + increaseValueEachTurn * turnPassed);
+        } else {
+            return value;
+        }
     }
 
     @Override

@@ -23,6 +23,8 @@ public abstract class Buff {
     protected int numTurnsActive = -1;
     @Builder.Default
     protected int numTimesActive = -1;
+    @Builder.Default
+    protected int turnPassed = 0;
 
     @Builder.Default
     private final Condition condition = ALWAYS;
@@ -75,6 +77,7 @@ public abstract class Buff {
 
     public void decreaseNumTimeActive() {
         isApplied = false;
+        turnPassed += 1;
         if (numTimesActive > 0) {
             numTimesActive -= 1;
         }

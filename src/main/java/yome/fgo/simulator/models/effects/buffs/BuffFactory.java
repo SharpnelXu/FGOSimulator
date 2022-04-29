@@ -450,6 +450,10 @@ public class BuffFactory {
             final int level
     ) {
         builder.value(getValueFromListForLevel(buffData.getValuesList(), level));
+        if (buffData.getIncreasing()) {
+            builder.increaseValueEachTurn(getValueFromListForLevel(buffData.getIncreasedValueList(), level))
+                    .isIncreasing(true);
+        }
         return setCommonBuffParams(builder, buffData, level);
     }
 
