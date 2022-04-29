@@ -8,6 +8,7 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.effects.buffs.AttackBuff;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
 import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
 import yome.fgo.simulator.models.effects.buffs.CriticalDamageBuff;
@@ -15,6 +16,7 @@ import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
 import yome.fgo.simulator.models.effects.buffs.Evade;
+import yome.fgo.simulator.models.effects.buffs.HitsDoubledBuff;
 import yome.fgo.simulator.models.effects.buffs.IgnoreDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
 import yome.fgo.simulator.models.effects.buffs.Invincible;
@@ -31,7 +33,9 @@ import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.SureHit;
 import yome.fgo.simulator.utils.RoundUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
@@ -51,6 +55,25 @@ import static yome.fgo.simulator.utils.FateClassUtils.getClassNpCorrection;
 public class CommandCardExecution {
     public static final double COMMAND_CARD_DAMAGE_MULTIPLIER = 0.23;
 
+    public static List<Double> getHitsPercentages(
+            final Simulation simulation,
+            final Combatant attacker,
+            final List<Integer> baseHitsPercentages
+    ) {
+        for (final Buff buff : attacker.getBuffs()) {
+            if (buff instanceof HitsDoubledBuff && buff.shouldApply(simulation)) {
+                final List<Double> doubledHits = new ArrayList<>();
+                for (final int hit : baseHitsPercentages) {
+                    for (int i = 0; i < 2; i++) {
+                        doubledHits.add(hit / 2.0);
+                    }
+                }
+                return doubledHits;
+            }
+        }
+        return baseHitsPercentages.stream().map(Integer::doubleValue).collect(Collectors.toList());
+    }
+
     public static void executeCommandCard(
             final Simulation simulation,
             final int chainIndex,
@@ -63,7 +86,8 @@ public class CommandCardExecution {
         final FateClass defenderClass = defender.getFateClass();
         final CommandCard currentCard = simulation.getCurrentCommandCard();
         final CommandCardType currentCardType = currentCard.getCommandCardType();
-        final List<Integer> hitsPercentages = currentCard.getHitPercentages();
+
+        final List<Double> hitsPercentages = getHitsPercentages(simulation, attacker, currentCard.getHitPercentages());
 
         attacker.activateEffectActivatingBuff(simulation, PreAttackEffect.class);
         defender.activateEffectActivatingBuff(simulation, PreDefenseEffect.class);
@@ -128,7 +152,7 @@ public class CommandCardExecution {
         double totalCritStar = 0;
         for (int i = 0; i < hitsPercentages.size(); i++) {
             if (!skipDamage) {
-                final int hitsPercentage = hitsPercentages.get(i);
+                final double hitsPercentage = hitsPercentages.get(i);
                 final int hitDamage;
                 if (i < hitsPercentages.size() - 1) {
                     hitDamage = (int) (totalDamage * hitsPercentage / 100.0);

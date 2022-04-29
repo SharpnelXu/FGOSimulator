@@ -15,6 +15,7 @@ import yome.fgo.simulator.models.effects.CommandCardExecution.NpParameters;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.Evade;
+import yome.fgo.simulator.models.effects.buffs.HitsDoubledBuff;
 import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
 import yome.fgo.simulator.models.effects.buffs.Invincible;
 import yome.fgo.simulator.models.effects.buffs.SpecialInvincible;
@@ -23,6 +24,7 @@ import yome.fgo.simulator.models.effects.buffs.SureHit;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.easymock.EasyMock.anyInt;
 import static org.easymock.EasyMock.captureInt;
 import static org.easymock.EasyMock.expect;
@@ -43,6 +45,7 @@ import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCr
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateTotalDamage;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.executeCommandCard;
+import static yome.fgo.simulator.models.effects.CommandCardExecution.getHitsPercentages;
 
 public class CommandCardExecutionTest extends EasyMockSupport {
     public static final CommandCard KAMA_AVENGER_BUSTER = new CommandCard(
@@ -527,5 +530,15 @@ public class CommandCardExecutionTest extends EasyMockSupport {
             totalStars += calculateCritStar(critStarParamsBuilder.build());
         }
         assertEquals(11.55, totalStars, 0.1);
+    }
+
+    @Test
+    public void testDoubleHits() {
+        final Combatant combatant = new Combatant();
+        combatant.addBuff(HitsDoubledBuff.builder().build());
+        final List<Double> doubledHits = getHitsPercentages(new Simulation(), combatant, KAMA_AVENGER_ARTS.getHitPercentages());
+        assertThat(doubledHits).containsExactly(8.0, 8.0, 16.5, 16.5, 25.5, 25.5);
+        final List<Double> doubledHits2 = getHitsPercentages(new Simulation(), combatant, KAMA_AVENGER_QUICK.getHitPercentages());
+        assertThat(doubledHits2).containsExactly(5.0, 5.0, 10.0, 10.0, 15.0, 15.0, 20.0, 20.0);
     }
 }

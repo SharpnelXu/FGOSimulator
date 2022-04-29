@@ -38,6 +38,7 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ANY;
 import static yome.fgo.simulator.models.conditions.Never.NEVER;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCritStar;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
+import static yome.fgo.simulator.models.effects.CommandCardExecution.getHitsPercentages;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.shouldSkipDamage;
 import static yome.fgo.simulator.utils.AttributeUtils.getAttributeAdvantage;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.convertDamageRate;
@@ -77,9 +78,9 @@ public class NoblePhantasmDamage extends Effect {
     protected void internalApply(final Simulation simulation, final int level) {
         final CommandCard currentCard = simulation.getCurrentCommandCard();
         final CommandCardType currentCardType = currentCard.getCommandCardType();
-        final List<Integer> hitsPercentages = currentCard.getHitPercentages();
         final Combatant attacker = simulation.getActivator();
         simulation.setAttacker(attacker);
+        final List<Double> hitsPercentages = getHitsPercentages(simulation, attacker, currentCard.getHitPercentages());
 
         final double originalDamageRate = getDamageRate(simulation, level);
         final CommandCardType originalCardType = attacker instanceof Servant ?
@@ -157,7 +158,7 @@ public class NoblePhantasmDamage extends Effect {
             double totalCritStar = 0;
             for (int i = 0; i < hitsPercentages.size(); i++) {
                 if (!skipDamage) {
-                    final int hitsPercentage = hitsPercentages.get(i);
+                    final double hitsPercentage = hitsPercentages.get(i);
                     final int hitDamage;
                     if (i < hitsPercentages.size() - 1) {
                         hitDamage = (int) (totalDamage * hitsPercentage / 100.0);

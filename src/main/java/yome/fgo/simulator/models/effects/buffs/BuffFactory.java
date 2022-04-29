@@ -201,6 +201,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(HealEffectivenessBuff.class.getSimpleName())) {
             return setValuedBuffParams(HealEffectivenessBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(HitsDoubledBuff.class.getSimpleName())) {
+            return setCommonBuffParams(HitsDoubledBuff.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(HpVariedAttackBuff.class.getSimpleName())) {
             if (!buffData.hasHpVariedBuffAdditionalParams()) {
                 throw new IllegalArgumentException("No available params to work with");
