@@ -298,6 +298,9 @@ enum ClassAdvantageChangeMode {
 
 enum Target {
   NONE = 0;
+  // Should use EFFECT_TARGET when writing condition for debuffResists, e.g. debuffResist +20% if self (should be EFFECT_TARGET) has EVIL.
+  // This won't work because in code SELF is always ACTIVATOR when activating skills.
+  // To avoid any confusions, can also just stick with ACTIVATOR & EFFECT_TARGET for all skills
   SELF = 1;
   FIRST_ALLY_EXCLUDING_SELF = 2;
   TARGETED_ALLY = 3;
@@ -319,6 +322,7 @@ enum Target {
   ATTACKER = 18;
   DEFENDER = 19;
   EFFECT_TARGET = 20;
+  ACTIVATOR = 21; // just to avoid ambiguity. This is same as self, or self is the same as activator
   SERVANT_EXCHANGE = 30;
 }
 

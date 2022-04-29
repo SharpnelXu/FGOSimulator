@@ -13,6 +13,7 @@ public class TargetUtils {
     public static List<Combatant> getTargets(final Simulation simulation, final Target target) {
         final ImmutableList.Builder<Combatant> targets = ImmutableList.builder();
         switch (target) {
+            case ACTIVATOR:
             case SELF:
                 targets.add(simulation.getActivator());
                 break;
