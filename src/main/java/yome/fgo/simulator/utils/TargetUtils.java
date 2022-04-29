@@ -22,7 +22,7 @@ public class TargetUtils {
             case FIRST_ALLY_EXCLUDING_SELF:
                 simulation.getAliveAllies()
                         .stream()
-                        .filter(ally -> ally != simulation.getActivator())
+                        .filter(ally -> ally != simulation.getActivator() && ally.isSelectable())
                         .findFirst()
                         .ifPresent(targets::add);
                 break;

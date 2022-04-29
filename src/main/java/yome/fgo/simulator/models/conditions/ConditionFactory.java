@@ -8,8 +8,11 @@ import yome.fgo.simulator.models.effects.buffs.Buff;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
+import static yome.fgo.simulator.models.conditions.BuffRemovable.BUFF_REMOVABLE;
+import static yome.fgo.simulator.models.conditions.IsCriticalStrike.IS_CRITICAL_STRIKE;
 import static yome.fgo.simulator.models.conditions.Never.NEVER;
 import static yome.fgo.simulator.models.conditions.NpCard.NP_CARD;
+import static yome.fgo.simulator.models.conditions.ServantsExplodable.EXPLOOOOOOOOOSION;
 
 public class ConditionFactory {
     public static Condition buildCondition(final ConditionData conditionData) {
@@ -25,6 +28,9 @@ public class ConditionFactory {
 
         } else if (type.equalsIgnoreCase(BuffHasTrait.class.getSimpleName())) {
             return new BuffHasTrait(conditionData.getValue());
+
+        } else if (type.equalsIgnoreCase(BuffRemovable.class.getSimpleName())) {
+            return BUFF_REMOVABLE;
 
         } else if (type.equalsIgnoreCase(BuffTypeEquals.class.getSimpleName())) {
             try {
@@ -46,7 +52,7 @@ public class ConditionFactory {
             return new HpPercentAtMost(conditionData.getDoubleValue());
 
         } else if (type.equalsIgnoreCase(IsCriticalStrike.class.getSimpleName())) {
-            return new IsCriticalStrike();
+            return IS_CRITICAL_STRIKE;
 
         } else if (type.equalsIgnoreCase(Never.class.getSimpleName())) {
             return NEVER;
@@ -72,7 +78,7 @@ public class ConditionFactory {
             return new StageHasTrait(conditionData.getValue());
 
         } else if (type.equalsIgnoreCase(ServantsExplodable.class.getSimpleName())) {
-            return new ServantsExplodable();
+            return EXPLOOOOOOOOOSION;
 
         } else if (type.equalsIgnoreCase(TargetsContainsSpecificServant.class.getSimpleName())) {
             return TargetsContainsSpecificServant.builder()
