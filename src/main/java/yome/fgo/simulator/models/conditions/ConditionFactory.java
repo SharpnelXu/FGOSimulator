@@ -39,6 +39,9 @@ public class ConditionFactory {
         } else if (type.equalsIgnoreCase(CritStarAtLeast.class.getSimpleName())) {
             return new CritStarAtLeast((int) conditionData.getDoubleValue());
 
+        } else if (type.equalsIgnoreCase(HpAtMost.class.getSimpleName())) {
+            return new HpAtMost((int) conditionData.getDoubleValue());
+
         } else if (type.equalsIgnoreCase(Never.class.getSimpleName())) {
             return NEVER;
 
