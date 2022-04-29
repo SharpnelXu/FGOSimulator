@@ -83,6 +83,7 @@ public class Simulation {
     private Combatant attacker;
     private Combatant defender;
     private CommandCard currentCommandCard;
+    private boolean criticalStrike;
 
     // used when activating effects
     private Stack<Combatant> activator = new Stack<>();

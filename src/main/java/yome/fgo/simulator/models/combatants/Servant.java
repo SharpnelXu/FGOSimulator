@@ -313,9 +313,11 @@ public class Servant extends Combatant {
         simulation.setAttacker(this);
         simulation.setDefender(simulation.getTargetedEnemy());
         simulation.setCurrentCommandCard(getCommandCard(simulation, commandCardIndex));
+        simulation.setCriticalStrike(isCriticalStrike);
 
         CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain);
 
+        simulation.setCriticalStrike(false);
         simulation.setCurrentCommandCard(null);
         simulation.setDefender(null);
         simulation.setAttacker(null);

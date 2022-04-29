@@ -45,6 +45,9 @@ public class ConditionFactory {
         } else if (type.equalsIgnoreCase(HpPercentAtMost.class.getSimpleName())) {
             return new HpPercentAtMost(conditionData.getDoubleValue());
 
+        } else if (type.equalsIgnoreCase(IsCriticalStrike.class.getSimpleName())) {
+            return new IsCriticalStrike();
+
         } else if (type.equalsIgnoreCase(Never.class.getSimpleName())) {
             return NEVER;
 
