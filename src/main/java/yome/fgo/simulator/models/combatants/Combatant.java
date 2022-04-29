@@ -528,4 +528,8 @@ public class Combatant {
         receivedInstantDeath = true;
         currentHp = 0;
     }
+
+    public int getRarity() {
+        return combatantData.getRarity();
+    }
 }

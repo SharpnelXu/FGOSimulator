@@ -74,6 +74,10 @@ public class ConditionFactory {
                                   .stream()
                                   .map(ConditionFactory::buildCondition)
                                   .collect(Collectors.toList()));
+
+        } else if (type.equalsIgnoreCase(RarityAtLeast.class.getSimpleName())) {
+            return new RarityAtLeast((int) conditionData.getDoubleValue(), conditionData.getTarget());
+
         } else if (type.equalsIgnoreCase(StageHasTrait.class.getSimpleName())) {
             return new StageHasTrait(conditionData.getValue());
 
