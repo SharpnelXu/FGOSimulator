@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import static yome.fgo.data.proto.FgoStorageData.Target.NONE;
 import static yome.fgo.simulator.models.effects.OrderChange.ORDER_CHANGE;
 import static yome.fgo.simulator.models.effects.ShuffleCards.SHUFFLE_CARDS;
 
@@ -36,6 +37,9 @@ public class EffectFactory {
             final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
             try {
                 builder.targetBuff(Class.forName(Buff.class.getPackage().getName() + "." + additionalParams.getTargetedBuff()));
+                if (additionalParams.getSpecificTarget() != NONE) {
+                    builder.specificTarget(additionalParams.getSpecificTarget());
+                }
             } catch (final ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -132,6 +136,9 @@ public class EffectFactory {
 
             final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
             builder.targetTrait(additionalParams.getTargetedTrait());
+            if (additionalParams.getSpecificTarget() != NONE) {
+                builder.specificTarget(additionalParams.getSpecificTarget());
+            }
 
             return setCommonNpDamageParams(HpVariedNpDamage.builder(), effectData, level);
         }

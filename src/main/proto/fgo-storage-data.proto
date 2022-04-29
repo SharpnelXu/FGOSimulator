@@ -243,6 +243,7 @@ message NpDamageAdditionalParams {
 
   string targetedTrait = 10;
   string targetedBuff = 11;
+  Target specificTarget = 12;
 }
 
 message BuffData {
