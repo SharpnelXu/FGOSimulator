@@ -3,19 +3,19 @@ package yome.fgo.simulator.models.combatants;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.effects.buffs.BuffSpecificAttackBuff;
-import yome.fgo.simulator.models.effects.buffs.BurningLove;
+import yome.fgo.simulator.models.conditions.BuffTypeEquals;
 import yome.fgo.simulator.models.effects.buffs.Charm;
+import yome.fgo.simulator.models.effects.buffs.CharmResistDown;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
 import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
-import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
+import yome.fgo.simulator.models.effects.buffs.Confusion;
+import yome.fgo.simulator.models.effects.buffs.DebuffResist;
 import yome.fgo.simulator.models.effects.buffs.Stun;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
 
 public class CombatantTest {
     @Test
@@ -59,37 +59,33 @@ public class CombatantTest {
 
         final Combatant combatant = new Combatant();
 
-        combatant.addBuff(SpecificAttackBuff.builder()
+        combatant.addBuff(DebuffResist.builder()
                                   .value(0.3)
                                   .build());
-        combatant.addBuff(SpecificAttackBuff.builder()
+        combatant.addBuff(DebuffResist.builder()
                                   .value(0.5)
                                   .build());
 
-        combatant.addBuff(BuffSpecificAttackBuff.builder()
+        combatant.addBuff(CharmResistDown.builder()
+                                  .condition(new BuffTypeEquals(Charm.class))
                                   .value(0.7)
-                                  .targetBuff(BurningLove.class)
-                                  .target(DEFENDER)
                                   .build());
-        combatant.addBuff(BuffSpecificAttackBuff.builder()
+        combatant.addBuff(CharmResistDown.builder()
+                                  .condition(new BuffTypeEquals(Charm.class))
                                   .value(0.9)
-                                  .targetBuff(BurningLove.class)
-                                  .target(DEFENDER)
                                   .build());
-        combatant.addBuff(BuffSpecificAttackBuff.builder()
+        combatant.addBuff(CharmResistDown.builder()
+                                  .condition(new BuffTypeEquals(Charm.class))
                                   .value(1.1)
-                                  .targetBuff(Charm.class)
-                                  .target(DEFENDER)
                                   .build());
 
-        simulation.setDefender(combatant);
-        final double totalBuff = combatant.applyBuff(simulation, SpecificAttackBuff.class);
+        simulation.setCurrentBuff(Confusion.builder().build());
+        final double totalBuff = combatant.applyBuff(simulation, DebuffResist.class);
         assertEquals(0.8, totalBuff, 0.0000001);
 
-        combatant.addBuff(BurningLove.builder().build());
-        combatant.addBuff(BurningLove.builder().build());
-        final double totalBuff2 = combatant.applyBuff(simulation, SpecificAttackBuff.class);
-        assertEquals(4, totalBuff2, 0.0000001);
+        simulation.setCurrentBuff(Charm.builder().build());
+        final double totalBuff2 = combatant.applyBuff(simulation, DebuffResist.class);
+        assertEquals(-1.9, totalBuff2, 0.0000001);
     }
 
     @Test

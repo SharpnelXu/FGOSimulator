@@ -1,17 +1,22 @@
-package yome.fgo.simulator.models.effects.buffs;
+package yome.fgo.simulator.models;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
-import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
+import yome.fgo.simulator.models.effects.buffs.BuffChanceBuff;
+import yome.fgo.simulator.models.variations.HpVariation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 
-public class HpVariedBuffChanceBuffTest {
+public class HpVariationTest {
+
     @Test
     public void testHpVariedBuffChanceBuff_default() {
-        final HpVariedBuffChanceBuff buff = HpVariedBuffChanceBuff.builder()
-                .value(0.4)
+        final BuffChanceBuff buff = BuffChanceBuff.builder()
+                .value(0)
+                .addition(0.4)
+                .variation(new HpVariation(1, 0, SELF))
                 .build();
 
         final Simulation simulation = new Simulation();
@@ -36,11 +41,10 @@ public class HpVariedBuffChanceBuffTest {
     }
     @Test
     public void testHpVariedBuffChanceBuff_nonDefaults() {
-        final HpVariedBuffChanceBuff buff = HpVariedBuffChanceBuff.builder()
-                .value(0.4)
-                .minHpPercent(0.3)
-                .maxHpPercent(0.5)
-                .baseValue(0.2)
+        final BuffChanceBuff buff = BuffChanceBuff.builder()
+                .value(0.2)
+                .addition(0.4)
+                .variation(new HpVariation(0.5, 0.3, SELF))
                 .build();
 
         final Simulation simulation = new Simulation();

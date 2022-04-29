@@ -3,7 +3,9 @@ package yome.fgo.simulator.models.effects.buffs;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
+import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.simulator.models.conditions.BuffTypeEquals;
 import yome.fgo.simulator.models.effects.EffectFactory;
 import yome.fgo.simulator.models.effects.GrantBuff;
 import yome.fgo.simulator.models.variations.VariationFactory;
@@ -59,7 +61,17 @@ public class BuffFactory {
             return setCommonBuffParams(Charm.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(CharmResistDown.class.getSimpleName())) {
-            return setValuedBuffParams(CharmResistDown.builder(), buffData, level);
+            return setValuedBuffParams(
+                    CharmResistDown.builder(),
+                    buffData.toBuilder()
+                            .setApplyCondition(
+                                    ConditionData.newBuilder()
+                                            .setType(BuffTypeEquals.class.getSimpleName())
+                                            .setValue(Charm.class.getSimpleName())
+                            )
+                            .build(),
+                    level
+            );
 
         } else if (type.equalsIgnoreCase(ClassAdvantageChangeBuff.class.getSimpleName())) {
             final ClassAdvantageChangeBuff.ClassAdvantageChangeBuffBuilder<?, ?> builder = ClassAdvantageChangeBuff.builder();
