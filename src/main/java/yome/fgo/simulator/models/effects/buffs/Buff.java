@@ -77,13 +77,13 @@ public abstract class Buff {
 
     public void decreaseNumTimeActive() {
         isApplied = false;
-        turnPassed += 1;
         if (numTimesActive > 0) {
             numTimesActive -= 1;
         }
     }
 
     public void decreaseNumTurnsActive() {
+        turnPassed += 1;
         if (numTurnsActive > 0) {
             numTurnsActive -= 1;
         }

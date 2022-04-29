@@ -12,7 +12,8 @@ public class NpGaugeChange extends IntValuedEffect {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
-        if (probabilities.get(level) < simulation.getProbabilityThreshold()) {
+        final double probability = getProbability(level);
+        if (probability < simulation.getProbabilityThreshold()) {
             return;
         }
 

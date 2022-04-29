@@ -16,8 +16,13 @@ public class RemoveBuff extends IntValuedEffect {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
+        final double probability = getProbability(level);
+        final int numToRemove = isOverchargedEffect ? values.get(level - 1) : values.get(0);
+        final boolean removeAll = numToRemove <= 0;
+
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
+
             int removeCount = 0;
             final List<Buff> buffList = combatant.getBuffs();
 
@@ -25,21 +30,23 @@ public class RemoveBuff extends IntValuedEffect {
                 final Buff buff = buffList.get(j);
 
                 simulation.setCurrentBuff(buff);
+
                 if (!buff.isIrremovable() && shouldApply(simulation)) {
                     final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
-                    if (1 - buffRemovalResist < simulation.getProbabilityThreshold()) {
-                        continue;
+                    if (probability - buffRemovalResist >= simulation.getProbabilityThreshold()) {
+                        buffList.remove(j);
+                        removeCount++;
                     }
 
-                    buffList.remove(j);
-                    removeCount++;
-
-                    if (removeCount == values.get(level - 1)) {
-                        break;
-                    }
                 }
-                simulation.setCurrentBuff(null);
+
+                simulation.unsetCurrentBuff();
+
+                if (!removeAll && numToRemove == removeCount) {
+                    break;
+                }
             }
+
             simulation.unsetEffectTarget();
         }
     }

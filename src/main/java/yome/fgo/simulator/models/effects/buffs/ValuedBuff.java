@@ -1,21 +1,25 @@
 package yome.fgo.simulator.models.effects.buffs;
 
+import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.utils.RoundUtils;
+import yome.fgo.simulator.models.variations.Variation;
+
+import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 
 @SuperBuilder
 public abstract class ValuedBuff extends Buff {
     protected final double value;
-    protected final double increaseValueEachTurn;
+    @Builder.Default
+    protected final Variation variation = NO_VARIATION;
+    protected final double addition;
     protected final boolean isIncreasing;
 
     public double getValue(final Simulation simulation) {
-        if (isIncreasing) {
-            return RoundUtils.roundNearest(value + increaseValueEachTurn * turnPassed);
-        } else {
-            return value;
-        }
+        simulation.setCurrentBuff(this);
+        final double result = variation.evaluate(simulation, value, addition);
+        simulation.unsetCurrentBuff();
+        return result;
     }
 
     @Override

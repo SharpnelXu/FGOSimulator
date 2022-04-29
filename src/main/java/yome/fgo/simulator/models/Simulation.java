@@ -41,7 +41,7 @@ public class Simulation {
     public static final int MAXIMUM_CARDS_PER_TURN = 3;
     public static final Effect ARTS_CHAIN_EFFECT = NpChange.builder()
             .target(ALL_ALLIES)
-            .npChanges(ImmutableList.of(0.2))
+            .values(ImmutableList.of(0.2))
             .build();
     public static final Effect QUICK_CHAIN_EFFECT = CriticalStarChange.builder()
             .values(ImmutableList.of(10))
@@ -112,7 +112,20 @@ public class Simulation {
         effectTarget.pop();
     }
 
-    private Buff currentBuff; // used by grantBuff
+    private Stack<Buff> currentBuff = new Stack<>(); // used by grantBuff, removeBuff and variation
+
+    public void setCurrentBuff(final Buff buff) {
+        currentBuff.push(buff);
+    }
+
+    public Buff getCurrentBuff() {
+        return currentBuff.peek();
+    }
+
+    public void unsetCurrentBuff() {
+        currentBuff.pop();
+    }
+
     private boolean activatingServantPassiveEffects; // used to denote passive & append skill buffs
     private boolean activatingCePassiveEffects; // used to denote ce skills
 

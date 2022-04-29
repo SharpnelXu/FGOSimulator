@@ -22,10 +22,9 @@ public class InstantDeath extends Effect {
 
                 final double deathProbability = probabilities.get(level) * combatant.getDeathRate() * (1 + deathSuccessChance - deathResist);
 
-                if (deathProbability < simulation.getProbabilityThreshold()) {
-                    break;
+                if (deathProbability >= simulation.getProbabilityThreshold()) {
+                    combatant.instantDeath();
                 }
-                combatant.instantDeath();
             }
             simulation.unsetEffectTarget();
         }

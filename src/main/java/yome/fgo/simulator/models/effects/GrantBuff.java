@@ -35,8 +35,11 @@ public class GrantBuff extends Effect {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
+        final double probability = getProbability(level);
+
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
+
             for (int i = 0; i < repeatTimes; i++) {
                 if (shouldApply(simulation)) {
                     final Buff buff = buildBuff(level);
@@ -52,21 +55,13 @@ public class GrantBuff extends Effect {
 
                     simulation.setCurrentBuff(buff);
 
-                    final double probability;
-                    if (!probabilities.isEmpty()) {
-                        probability = isProbabilityOvercharged ?
-                                probabilities.get(level - 1) :
-                                probabilities.get(0);
-                    } else {
-                        probability = 1;
-                    }
-
                     final boolean success = grantBuff(simulation, buff, combatant, probability);
+
+                    simulation.unsetCurrentBuff();
+
                     if (!success) {
                         break;
                     }
-
-                    simulation.setCurrentBuff(null);
                 }
             }
 

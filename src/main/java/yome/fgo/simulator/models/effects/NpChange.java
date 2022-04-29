@@ -6,19 +6,25 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.utils.TargetUtils;
 
-import java.util.List;
-
 @SuperBuilder
-public class NpChange extends Effect {
+public class NpChange extends ValuedEffect {
     private final Target target;
-    private final List<Double> npChanges;
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
+        final double probability = getProbability(level);
+        if (probability < simulation.getProbabilityThreshold()) {
+            return;
+        }
+
+        final double baseValue = isValueOvercharged ? values.get(level - 1) : values.get(0);
+        final double additionValue = isAdditionsOvercharged ? additions.get(level - 1) : additions.get(0);
+        final double value = variation.evaluate(simulation, baseValue, additionValue);
+
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                combatant.changeNp(npChanges.get(level - 1));
+                combatant.changeNp(value);
             }
             simulation.unsetEffectTarget();
         }

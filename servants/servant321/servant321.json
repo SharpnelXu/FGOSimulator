@@ -117,16 +117,24 @@
           "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
-            "type": "BuffSpecificAttackBuff",
+            "type": "SpecificAttackBuff",
             "numTurnsActive": 3,
             "applyCondition": {
               "type": "TargetsHaveBuff",
               "value": "BurningLove",
               "target": "DEFENDER"
             },
-            "values": [0.1],
-            "stringValue": "BurningLove",
-            "target": "DEFENDER"
+            "values": [0.0],
+            "variationData": {
+              "type": "BuffCountVariation",
+              "conditionData": {
+                "type": "BuffTypeEquals",
+                "value": "BurningLove"
+              },
+              "maxCount": 10,
+              "target": "DEFENDER"
+            },
+            "additions": [0.1]
           }]
         }]
       }]
@@ -783,7 +791,7 @@
           "buffData": [{
             "type": "DefenseBuff",
             "numTurnsActive": 3,
-            "values": [0.2]
+            "values": [-0.2]
           }]
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"
@@ -914,16 +922,24 @@
           "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
-            "type": "BuffSpecificAttackBuff",
+            "type": "SpecificAttackBuff",
             "numTurnsActive": 3,
             "applyCondition": {
               "type": "TargetsHaveBuff",
               "value": "BurningLove",
               "target": "DEFENDER"
             },
-            "values": [0.1],
-            "stringValue": "BurningLove",
-            "target": "DEFENDER"
+            "values": [0.0],
+            "variationData": {
+              "type": "BuffCountVariation",
+              "conditionData": {
+                "type": "BuffTypeEquals",
+                "value": "BurningLove"
+              },
+              "maxCount": 10,
+              "target": "DEFENDER"
+            },
+            "additions": [0.1]
           }]
         }]
       }]
@@ -1580,7 +1596,7 @@
           "buffData": [{
             "type": "DefenseBuff",
             "numTurnsActive": 3,
-            "values": [0.2]
+            "values": [-0.2]
           }]
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"

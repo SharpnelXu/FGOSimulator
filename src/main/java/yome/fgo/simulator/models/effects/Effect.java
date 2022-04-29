@@ -1,5 +1,6 @@
 package yome.fgo.simulator.models.effects;
 
+import com.google.common.collect.Lists;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -18,7 +19,17 @@ public abstract class Effect {
     protected final Condition applyCondition = ALWAYS;
 
     protected final boolean isProbabilityOvercharged;
-    protected final List<Double> probabilities;
+
+    @Builder.Default
+    protected final List<Double> probabilities = Lists.newArrayList(1.0);
+
+    protected double getProbability(final int level) {
+        if (isProbabilityOvercharged) {
+            return probabilities.get(level - 1);
+        } else {
+            return probabilities.get(0);
+        }
+    }
 
     protected boolean shouldApply(final Simulation simulation) {
         return applyCondition.evaluate(simulation);

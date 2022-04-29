@@ -1,5 +1,6 @@
 package yome.fgo.simulator.models.effects;
 
+import com.google.common.collect.Lists;
 import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
@@ -30,6 +31,7 @@ import yome.fgo.simulator.models.effects.buffs.PreAttackEffect;
 import yome.fgo.simulator.models.effects.buffs.PreDefenseEffect;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
+import yome.fgo.simulator.models.variations.Variation;
 import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.List;
@@ -40,6 +42,7 @@ import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCr
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.getHitsPercentages;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.shouldSkipDamage;
+import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 import static yome.fgo.simulator.utils.AttributeUtils.getAttributeAdvantage;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.convertDamageRate;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.getCommandCardDamageCorrection;
@@ -60,15 +63,38 @@ public class NoblePhantasmDamage extends Effect {
     protected final boolean isNpSpecificDamageOverchargedEffect;
     private final boolean isNpIgnoreDefense;
 
+    @Builder.Default
+    private final Variation damageRateVariation = NO_VARIATION;
+    private final boolean isNpDamageAdditionOvercharged;
+    @Builder.Default
+    protected final List<Double> damageRateAdditions = Lists.newArrayList(0.0);
+    @Builder.Default
+    private final Variation specificDamageRateVariation = NO_VARIATION;
+    private final boolean isNpSpecificDamageAdditionOvercharged;
+    @Builder.Default
+    protected final List<Double> npSpecificDamageRateAdditions = Lists.newArrayList(0.0);
+
     protected double getDamageRate(final Simulation simulation, final int level) {
-        return isNpDamageOverchargedEffect ? damageRates.get(level - 1) : damageRates.get(0);
+        final double baseDamageRate = isNpDamageOverchargedEffect ?
+                damageRates.get(level - 1) :
+                damageRates.get(0);
+        final double addition = isNpDamageAdditionOvercharged ?
+                damageRateAdditions.get(level - 1) :
+                damageRateAdditions.get(0);
+
+        return damageRateVariation.evaluate(simulation, baseDamageRate, addition);
     }
 
     protected double getNpSpecificDamageRate(final Simulation simulation, final int level) {
         if (npSpecificDamageCondition.evaluate(simulation)) {
-            return isNpSpecificDamageOverchargedEffect ?
+            final double baseDamageRate = isNpSpecificDamageOverchargedEffect ?
                     npSpecificDamageRates.get(level - 1) :
                     npSpecificDamageRates.get(0);
+            final double addition = isNpSpecificDamageAdditionOvercharged ?
+                    npSpecificDamageRateAdditions.get(level - 1) :
+                    npSpecificDamageRateAdditions.get(0);
+
+            return specificDamageRateVariation.evaluate(simulation, baseDamageRate, addition);
         } else {
             return 1.0;
         }
@@ -81,22 +107,21 @@ public class NoblePhantasmDamage extends Effect {
         final Combatant attacker = simulation.getActivator();
         simulation.setAttacker(attacker);
         final List<Double> hitsPercentages = getHitsPercentages(simulation, attacker, currentCard.getHitPercentages());
-
-        final double originalDamageRate = getDamageRate(simulation, level);
         final CommandCardType originalCardType = attacker instanceof Servant ?
                 ((Servant) attacker).getOriginalNoblePhantasmCardType() :
                 currentCardType;
-        final double damageRate = originalCardType == currentCardType ?
-                originalDamageRate :
-                convertDamageRate(originalDamageRate, originalCardType, currentCardType);
 
         for (final Combatant defender : TargetUtils.getTargets(simulation, target)) {
             simulation.setDefender(defender);
+            final FateClass defenderClass = defender.getFateClass();
 
             attacker.activateEffectActivatingBuff(simulation, PreAttackEffect.class);
             defender.activateEffectActivatingBuff(simulation, PreDefenseEffect.class);
 
-            final FateClass defenderClass = defender.getFateClass();
+            final double originalDamageRate = getDamageRate(simulation, level);
+            final double damageRate = originalCardType == currentCardType ?
+                    originalDamageRate :
+                    convertDamageRate(originalDamageRate, originalCardType, currentCardType);
 
             final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);
             final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class);

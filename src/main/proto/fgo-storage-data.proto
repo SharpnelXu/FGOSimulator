@@ -221,6 +221,10 @@ message EffectData {
   // for hp change
   bool isLethal = 15;
   bool isHpChangePercentBased = 16;
+
+  VariationData variationData = 17;
+  repeated double additions = 18;
+  bool isAdditionOvercharged = 19;
 }
 
 message GrantBuffAdditionalParams {
@@ -232,19 +236,15 @@ message NpDamageAdditionalParams {
   bool isNpDamageOverchargedEffect = 1;
   repeated double npOverchargeDamageRate = 2;
 
-  bool hasNpSpecificDamage = 3;
   ConditionData npSpecificDamageCondition = 4;
   bool isNpSpecificDamageOverchargedEffect = 5;
   repeated double npSpecificDamageRate = 6;
 
   bool isNpIgnoreDefense = 7;
 
-  bool isHpVariedDamageOverchargeEffect = 8;
-  repeated double hpVariedAdditionalDamage = 9;
-
-  string targetedTrait = 10;
-  string targetedBuff = 11;
-  Target specificTarget = 12;
+  VariationData npSpecificDamageVariation = 13;
+  repeated double npSpecificDamageAdditions = 14;
+  bool isNpSpecificDamageAdditionOvercharged = 15;
 }
 
 message BuffData {
@@ -269,6 +269,9 @@ message BuffData {
   ClassAdvantageChangeAdditionalParams classAdvChangeAdditionalParams = 15;
   repeated double increasedValue = 16; // only used by plain valued buffs
   bool increasing = 17;
+
+  VariationData variationData = 18;
+  repeated double additions = 19;
 }
 
 enum BuffTraits {
@@ -338,6 +341,16 @@ message ConditionData {
   repeated ConditionData subConditionData = 3;
   Target target = 4;
   double doubleValue = 5;
+}
+
+message VariationData {
+  string type = 1;
+  ConditionData conditionData = 2;
+  double maxHp = 3;
+  double minHp = 4;
+  string trait = 5;
+  int32 maxCount = 6;
+  Target target = 7;
 }
 
 message Status {

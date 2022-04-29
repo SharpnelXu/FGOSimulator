@@ -49,7 +49,7 @@ public class AscensionChangeTest {
 
         final NpChange npChange = NpChange.builder()
                 .target(SELF)
-                .npChanges(ImmutableList.of(1.0))
+                .values(ImmutableList.of(1.0))
                 .build();
         npChange.apply(simulation);
 

@@ -4,9 +4,9 @@ import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
-import yome.fgo.data.proto.FgoStorageData.HpVariedBuffAdditionalParams;
 import yome.fgo.simulator.models.effects.EffectFactory;
 import yome.fgo.simulator.models.effects.GrantBuff;
+import yome.fgo.simulator.models.variations.VariationFactory;
 
 import java.util.List;
 
@@ -37,18 +37,6 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(BuffRemovalResist.class.getSimpleName())) {
             return setValuedBuffParams(BuffRemovalResist.builder(), buffData, level);
-
-        } else if (type.equalsIgnoreCase(BuffSpecificAttackBuff.class.getSimpleName())) {
-            final BuffSpecificAttackBuff.BuffSpecificAttackBuffBuilder<?, ?> builder;
-            try {
-                builder = BuffSpecificAttackBuff.builder()
-                        .targetBuff(Class.forName(Buff.class.getPackage().getName() + "." + buffData.getStringValue()))
-                        .target(buffData.getTarget());
-            } catch (final ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-
-            return setValuedBuffParams(builder, buffData, level);
 
         } else if (type.equalsIgnoreCase(Burn.class.getSimpleName())) {
             return setValuedBuffParams(Burn.builder(), buffData, level);
@@ -215,78 +203,6 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(HitsDoubledBuff.class.getSimpleName())) {
             return setCommonBuffParams(HitsDoubledBuff.builder(), buffData, level);
 
-        } else if (type.equalsIgnoreCase(HpVariedAttackBuff.class.getSimpleName())) {
-            if (!buffData.hasHpVariedBuffAdditionalParams()) {
-                throw new IllegalArgumentException("No available params to work with");
-            }
-
-            final HpVariedBuffAdditionalParams additionalParams = buffData.getHpVariedBuffAdditionalParams();
-
-            final HpVariedAttackBuff.HpVariedAttackBuffBuilder<?, ?> builder = HpVariedAttackBuff.builder();
-            if (additionalParams.getMaxHpPercentCount() != 0) {
-                builder.maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level));
-            }
-            if (additionalParams.getMinHpPercentCount() != 0) {
-                builder.minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level));
-            }
-            if (additionalParams.getBaseValueCount() != 0) {
-                builder.baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level));
-            }
-
-            return setValuedBuffParams(
-                    builder,
-                    buffData,
-                    level
-            );
-
-        } else if (type.equalsIgnoreCase(HpVariedCriticalDamageBuff.class.getSimpleName())) {
-            if (!buffData.hasHpVariedBuffAdditionalParams()) {
-                throw new IllegalArgumentException("No available params to work with");
-            }
-
-            final HpVariedBuffAdditionalParams additionalParams = buffData.getHpVariedBuffAdditionalParams();
-
-            final HpVariedCriticalDamageBuff.HpVariedCriticalDamageBuffBuilder<?, ?> builder = HpVariedCriticalDamageBuff.builder();
-            if (additionalParams.getMaxHpPercentCount() != 0) {
-                builder.maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level));
-            }
-            if (additionalParams.getMinHpPercentCount() != 0) {
-                builder.minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level));
-            }
-            if (additionalParams.getBaseValueCount() != 0) {
-                builder.baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level));
-            }
-
-            return setValuedBuffParams(
-                    builder,
-                    buffData,
-                    level
-            );
-
-        } else if (type.equalsIgnoreCase(HpVariedBuffChanceBuff.class.getSimpleName())) {
-            if (!buffData.hasHpVariedBuffAdditionalParams()) {
-                throw new IllegalArgumentException("No available params to work with");
-            }
-
-            final HpVariedBuffAdditionalParams additionalParams = buffData.getHpVariedBuffAdditionalParams();
-
-            final HpVariedBuffChanceBuff.HpVariedBuffChanceBuffBuilder<?, ?> builder = HpVariedBuffChanceBuff.builder();
-            if (additionalParams.getMaxHpPercentCount() != 0) {
-                builder.maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level));
-            }
-            if (additionalParams.getMinHpPercentCount() != 0) {
-                builder.minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level));
-            }
-            if (additionalParams.getBaseValueCount() != 0) {
-                builder.baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level));
-            }
-
-            return setValuedBuffParams(
-                    builder,
-                    buffData,
-                    level
-            );
-
         } else if (type.equalsIgnoreCase(IgnoreDefenseBuff.class.getSimpleName())) {
             return setCommonBuffParams(IgnoreDefenseBuff.builder(), buffData, level);
 
@@ -395,14 +311,6 @@ public class BuffFactory {
                     , level
             );
 
-        } else if (type.equalsIgnoreCase(TraitSpecificAttackBuff.class.getSimpleName())) {
-            final TraitSpecificAttackBuff.TraitSpecificAttackBuffBuilder<?, ?> builder;
-            builder = TraitSpecificAttackBuff.builder()
-                    .targetTrait(buffData.getStringValue())
-                    .target(buffData.getTarget());
-
-            return setValuedBuffParams(builder, buffData, level);
-
         } else if (type.equalsIgnoreCase(TriggerOnGutsEffect.class.getSimpleName())) {
             return setEffectActivatingBuffParams(TriggerOnGutsEffect.builder(), buffData, level);
         }
@@ -467,13 +375,14 @@ public class BuffFactory {
             final int level
     ) {
         builder.value(getValueFromListForLevel(buffData.getValuesList(), level));
-        if (buffData.getIncreasing()) {
-            builder.increaseValueEachTurn(getValueFromListForLevel(buffData.getIncreasedValueList(), level))
-                    .isIncreasing(true);
+        if (buffData.hasVariationData()) {
+            builder.variation(VariationFactory.buildVariation(buffData.getVariationData()));
+            builder.addition(getValueFromListForLevel(buffData.getAdditionsList(), level));
         }
         return setCommonBuffParams(builder, buffData, level);
     }
 
+    // special: maxHp, overcharge, guts
     public static double getValueFromListForLevel(final List<Double> values, final int level) {
         if (values.size() >= level) {
             return values.get(level - 1);

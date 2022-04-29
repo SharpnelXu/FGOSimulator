@@ -5,13 +5,12 @@ import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.GrantBuffAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
-import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.variations.VariationFactory;
 
 import java.util.List;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import static yome.fgo.data.proto.FgoStorageData.Target.NONE;
 import static yome.fgo.simulator.models.effects.OrderChange.ORDER_CHANGE;
 import static yome.fgo.simulator.models.effects.ShuffleCards.SHUFFLE_CARDS;
 
@@ -30,21 +29,6 @@ public class EffectFactory {
         final String type = effectData.getType();
         if (type.equalsIgnoreCase(AscensionChange.class.getSimpleName())) {
             return setCommonIntValuedEffectValue(AscensionChange.builder(), effectData, level);
-
-        } else if (type.equalsIgnoreCase(BuffSpecificNpDamage.class.getSimpleName())) {
-            final BuffSpecificNpDamage.BuffSpecificNpDamageBuilder<?, ?> builder = BuffSpecificNpDamage.builder();
-
-            final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
-            try {
-                builder.targetBuff(Class.forName(Buff.class.getPackage().getName() + "." + additionalParams.getTargetedBuff()));
-                if (additionalParams.getSpecificTarget() != NONE) {
-                    builder.specificTarget(additionalParams.getSpecificTarget());
-                }
-            } catch (final ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-
-            return setCommonNpDamageParams(HpVariedNpDamage.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(CardTypeChangeSelect.class.getSimpleName())) {
             final CardTypeChangeSelect.CardTypeChangeSelectBuilder<?, ?> builder = CardTypeChangeSelect.builder()
@@ -84,22 +68,6 @@ public class EffectFactory {
 
             return setCommonEffectParams(builder, effectData, level);
 
-        } else if (type.equalsIgnoreCase(HpVariedNpDamage.class.getSimpleName())) {
-            final HpVariedNpDamage.HpVariedNpDamageBuilder<?, ?> builder = HpVariedNpDamage.builder();
-
-            final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
-
-            if (additionalParams.getIsHpVariedDamageOverchargeEffect()) {
-                builder.additionDamageRates(additionalParams.getHpVariedAdditionalDamageList())
-                        .isOverchargedEffect(true)
-                        .isHpVariedDamageOverchargeEffect(true);
-            } else {
-                builder.additionDamageRates(getSingletonValueListForLevel(additionalParams.getHpVariedAdditionalDamageList(), level));
-            }
-
-            return setCommonNpDamageParams(HpVariedNpDamage.builder(), effectData, level);
-
-
         } else if (type.equalsIgnoreCase(MaxHpChange.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(MaxHpChange.builder(), effectData, level);
 
@@ -107,15 +75,7 @@ public class EffectFactory {
             return setCommonNpDamageParams(NoblePhantasmDamage.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(NpChange.class.getSimpleName())) {
-            final NpChange.NpChangeBuilder<?, ?> builder = NpChange.builder()
-                    .target(effectData.getTarget());
-            if (effectData.getIsOverchargedEffect()) {
-                builder.npChanges(effectData.getValuesList());
-                builder.isOverchargedEffect(true);
-            } else {
-                builder.npChanges(getSingletonValueListForLevel(effectData.getValuesList(), level));
-            }
-            return setCommonEffectParams(builder, effectData, level);
+            return setCommonValuedEffectValue(NpChange.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(NpGaugeChange.class.getSimpleName())) {
             return setCommonIntValuedEffectValue(NpGaugeChange.builder(), effectData, level);
@@ -131,16 +91,6 @@ public class EffectFactory {
         } else if (type.equalsIgnoreCase(ShuffleCards.class.getSimpleName())) {
             return SHUFFLE_CARDS;
 
-        } else if (type.equalsIgnoreCase(TraitSpecificNpDamage.class.getSimpleName())) {
-            final TraitSpecificNpDamage.TraitSpecificNpDamageBuilder<?, ?> builder = TraitSpecificNpDamage.builder();
-
-            final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
-            builder.targetTrait(additionalParams.getTargetedTrait());
-            if (additionalParams.getSpecificTarget() != NONE) {
-                builder.specificTarget(additionalParams.getSpecificTarget());
-            }
-
-            return setCommonNpDamageParams(HpVariedNpDamage.builder(), effectData, level);
         }
 
         throw new UnsupportedOperationException("Effect type unsupported: " + type);
@@ -151,14 +101,43 @@ public class EffectFactory {
             builder.applyCondition(ConditionFactory.buildCondition(effectData.getApplyCondition()));
         }
 
+        final List<Double> probabilities = effectData.getProbabilitiesList();
         if (effectData.getIsProbabilityOvercharged()) {
-            builder.probabilities(effectData.getProbabilitiesList())
-                    .probabilities(getSingletonValueListForLevel(effectData.getProbabilitiesList(), level))
+            builder.probabilities(probabilities)
                     .isProbabilityOvercharged(true);
-        } else {
-            builder.probabilities(getSingletonValueListForLevel(effectData.getProbabilitiesList(), level));
+        } else if (!probabilities.isEmpty()) {
+            builder.probabilities(getSingletonValueListForLevel(probabilities, level));
         }
+
         return builder.build();
+    }
+
+    private static Effect setCommonValuedEffectValue(
+            final ValuedEffect.ValuedEffectBuilder<?, ?> builder,
+            final EffectData effectData,
+            final int level
+    ) {
+        final List<Double> values = effectData.getValuesList();
+        if (effectData.getIsOverchargedEffect()) {
+            builder.values(values).isOverchargedEffect(true).isValueOvercharged(true);
+        } else if (!values.isEmpty()) {
+            builder.values(getSingletonValueListForLevel(values, level));
+        }
+
+        if (effectData.hasVariationData()) {
+            final List<Double> additions = effectData.getAdditionsList();
+            if (additions.isEmpty()) {
+                throw new IllegalArgumentException("Variation is specified, but value is not provided.");
+            }
+            builder.variation(VariationFactory.buildVariation(effectData.getVariationData()));
+            if (effectData.getIsAdditionOvercharged()) {
+                builder.additions(additions).isOverchargedEffect(true).isAdditionsOvercharged(true);
+            } else {
+                builder.additions(getSingletonValueListForLevel(additions, level));
+            }
+        }
+
+        return setCommonEffectParams(builder, effectData, level);
     }
 
     private static Effect setCommonIntValuedEffectValue(
@@ -166,12 +145,29 @@ public class EffectFactory {
             final EffectData effectData,
             final int level
     ) {
+        final List<Integer> intValues = effectData.getIntValuesList();
         if (effectData.getIsOverchargedEffect()) {
-            builder.values(effectData.getIntValuesList())
-                    .isOverchargedEffect(true);
-        } else {
-            builder.values(getSingletonValueListForLevel(effectData.getIntValuesList(), level));
+            builder.values(intValues).isOverchargedEffect(true).isValueOvercharged(true);
+        } else if (!intValues.isEmpty()) {
+            builder.values(getSingletonValueListForLevel(intValues, level));
         }
+
+        if (effectData.hasVariationData()) {
+            final List<Integer> additions = effectData.getAdditionsList()
+                    .stream()
+                    .map(Double::intValue)
+                    .collect(Collectors.toList());
+            if (additions.isEmpty()) {
+                throw new IllegalArgumentException("Variation is specified, but value is not provided.");
+            }
+            builder.variation(VariationFactory.buildVariation(effectData.getVariationData()));
+            if (effectData.getIsAdditionOvercharged()) {
+                builder.additions(additions).isOverchargedEffect(true).isAdditionsOvercharged(true);
+            } else {
+                builder.additions(getSingletonValueListForLevel(additions, level));
+            }
+        }
+
         return setCommonEffectParams(builder, effectData, level);
     }
 
@@ -206,37 +202,70 @@ public class EffectFactory {
             final int level
     ) {
         builder.target(effectData.getTarget());
+        final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
 
-        if (effectData.hasNpDamageAdditionalParams()) {
-            final NpDamageAdditionalParams additionalParams = effectData.getNpDamageAdditionalParams();
-            builder.isNpIgnoreDefense(additionalParams.getIsNpIgnoreDefense());
-            if (additionalParams.hasNpSpecificDamageCondition()) {
-                builder.npSpecificDamageCondition(ConditionFactory.buildCondition(additionalParams.getNpSpecificDamageCondition()));
-            }
-
-            if (additionalParams.getIsNpSpecificDamageOverchargedEffect()) {
-                builder.npSpecificDamageRates(additionalParams.getNpSpecificDamageRateList())
-                        .isNpSpecificDamageOverchargedEffect(true)
-                        .isOverchargedEffect(true);
-            } else {
-                builder.npSpecificDamageRates(getSingletonValueListForLevel(additionalParams.getNpSpecificDamageRateList(), level));
-            }
-
-            if (additionalParams.getIsNpDamageOverchargedEffect()) {
-                final double baseDamageRate = getSingletonValueListForLevel(effectData.getValuesList(), level).get(0);
-
-                builder.damageRates(
-                        additionalParams.getNpOverchargeDamageRateList()
-                                .stream()
-                                .map(rate -> rate + baseDamageRate)
-                                .collect(Collectors.toList())
-                );
-                builder.isOverchargedEffect(true).isNpDamageOverchargedEffect(true);
-            } else {
-                builder.damageRates(getSingletonValueListForLevel(effectData.getValuesList(), level));
-            }
+        // base damage rate
+        if (effectData.hasNpDamageAdditionalParams() && additionalParams.getIsNpDamageOverchargedEffect()) {
+            final double baseDamageRate = getSingletonValueListForLevel(effectData.getValuesList(), level).get(0);
+            builder.damageRates(
+                    additionalParams.getNpOverchargeDamageRateList()
+                            .stream()
+                            .map(rate -> rate + baseDamageRate)
+                            .collect(Collectors.toList())
+            );
+            builder.isOverchargedEffect(true).isNpDamageOverchargedEffect(true);
         } else {
             builder.damageRates(getSingletonValueListForLevel(effectData.getValuesList(), level));
+        }
+
+        // damage rate addition
+        if (effectData.hasVariationData()) {
+            final List<Double> additions = effectData.getAdditionsList();
+            if (additions.isEmpty()) {
+                throw new IllegalArgumentException("Variation is specified, but value is not provided.");
+            }
+            builder.damageRateVariation(VariationFactory.buildVariation(effectData.getVariationData()));
+            if (effectData.getIsAdditionOvercharged()) {
+                builder.isNpDamageAdditionOvercharged(true).isOverchargedEffect(true).damageRateAdditions(additions);
+            } else {
+                builder.damageRateAdditions(getSingletonValueListForLevel(additions, level));
+            }
+        }
+
+        // other params
+        if (effectData.hasNpDamageAdditionalParams()) {
+            // ignore defense
+            builder.isNpIgnoreDefense(additionalParams.getIsNpIgnoreDefense());
+
+            // specific damage
+            if (additionalParams.hasNpSpecificDamageCondition()) {
+                builder.npSpecificDamageCondition(ConditionFactory.buildCondition(additionalParams.getNpSpecificDamageCondition()));
+
+                // base specific damage
+                if (additionalParams.getIsNpSpecificDamageOverchargedEffect()) {
+                    builder.npSpecificDamageRates(additionalParams.getNpSpecificDamageRateList())
+                            .isNpSpecificDamageOverchargedEffect(true)
+                            .isOverchargedEffect(true);
+                } else {
+                    builder.npSpecificDamageRates(getSingletonValueListForLevel(additionalParams.getNpSpecificDamageRateList(), level));
+                }
+
+                // specific damage variation
+                if (additionalParams.hasNpSpecificDamageVariation()) {
+                    final List<Double> additions = additionalParams.getNpSpecificDamageAdditionsList();
+                    if (additions.isEmpty()) {
+                        throw new IllegalArgumentException("Variation is specified, but value is not provided.");
+                    }
+                    builder.specificDamageRateVariation(VariationFactory.buildVariation(effectData.getVariationData()));
+                    if (additionalParams.getIsNpSpecificDamageAdditionOvercharged()) {
+                        builder.isNpSpecificDamageAdditionOvercharged(true)
+                                .isOverchargedEffect(true)
+                                .npSpecificDamageRateAdditions(additions);
+                    } else {
+                        builder.npSpecificDamageRateAdditions(getSingletonValueListForLevel(additions, level));
+                    }
+                }
+            }
         }
 
         return setCommonEffectParams(builder, effectData, level);

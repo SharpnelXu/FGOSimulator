@@ -17,6 +17,7 @@ import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.data.proto.FgoStorageData.Traits;
+import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.models.conditions.BuffTypeEquals;
 import yome.fgo.simulator.models.conditions.CardTypeEquals;
 import yome.fgo.simulator.models.conditions.Not;
@@ -27,7 +28,6 @@ import yome.fgo.simulator.models.effects.GrantBuff;
 import yome.fgo.simulator.models.effects.NoblePhantasmDamage;
 import yome.fgo.simulator.models.effects.NpChange;
 import yome.fgo.simulator.models.effects.buffs.AttackBuff;
-import yome.fgo.simulator.models.effects.buffs.BuffSpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.BurningLove;
 import yome.fgo.simulator.models.effects.buffs.Charm;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
@@ -42,6 +42,8 @@ import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.MentalDebuff;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
+import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
+import yome.fgo.simulator.models.variations.BuffCountVariation;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -227,17 +229,27 @@ public class Servant321 {
                                     .setTarget(SELF)
                                     .addBuffData(
                                             BuffData.newBuilder()
-                                                    .setType(BuffSpecificAttackBuff.class.getSimpleName())
-                                                    .addValues(0.1)
+                                                    .setType(SpecificAttackBuff.class.getSimpleName())
+                                                    .addValues(0)
                                                     .setNumTurnsActive(3)
-                                                    .setTarget(DEFENDER)
-                                                    .setStringValue(BurningLove.class.getSimpleName())
                                                     .setApplyCondition(
                                                             ConditionData.newBuilder()
                                                                     .setType(TargetsHaveBuff.class.getSimpleName())
                                                                     .setTarget(DEFENDER)
                                                                     .setValue(BurningLove.class.getSimpleName())
                                                     )
+                                                    .setVariationData(
+                                                            VariationData.newBuilder()
+                                                                    .setType(BuffCountVariation.class.getSimpleName())
+                                                                    .setTarget(DEFENDER)
+                                                                    .setMaxCount(10)
+                                                                    .setConditionData(
+                                                                            ConditionData.newBuilder()
+                                                                                    .setType(BuffTypeEquals.class.getSimpleName())
+                                                                                    .setValue(BurningLove.class.getSimpleName())
+                                                                    )
+                                                    )
+                                                    .addAdditions(0.1)
                                     )
                 )
                 .build();
@@ -279,7 +291,7 @@ public class Servant321 {
                                 .addBuffData(
                                         BuffData.newBuilder()
                                                 .setType(DefenseBuff.class.getSimpleName())
-                                                .addValues(0.2)
+                                                .addValues(-0.2)
                                                 .setNumTurnsActive(3)
                                 )
                 )
