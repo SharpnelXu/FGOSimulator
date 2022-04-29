@@ -176,6 +176,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(DelayedEffect.class.getSimpleName())) {
             return setEffectActivatingBuffParams(DelayedEffect.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(DoNotShuffleIn.class.getSimpleName())) {
+            return setCommonBuffParams(DoNotShuffleIn.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(EndOfTurnEffect.class.getSimpleName())) {
             return setEffectActivatingBuffParams(EndOfTurnEffect.builder(), buffData, level);
 
