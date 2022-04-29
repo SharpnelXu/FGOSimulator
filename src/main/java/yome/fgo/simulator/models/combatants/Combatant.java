@@ -100,14 +100,14 @@ public class Combatant {
             final CombatantData override = enemyData.getCombatantDataOverride();
             final CombatantData.Builder builder = combatantData.toBuilder();
             builder.mergeFrom(override);
-            builder.clearAlignments();
-            builder.addAllAlignments(override.getAlignmentsCount() == 0
-                                             ? combatantData.getAlignmentsList()
-                                             : override.getAlignmentsList());
-            builder.clearTraits();
-            builder.addAllTraits(override.getTraitsCount() == 0
-                                         ? combatantData.getTraitsList()
-                                         : override.getTraitsList());
+//            builder.clearAlignments();
+//            builder.addAllAlignments(override.getAlignmentsCount() == 0
+//                                             ? combatantData.getAlignmentsList()
+//                                             : override.getAlignmentsList());
+//            builder.clearTraits();
+//            builder.addAllTraits(override.getTraitsCount() == 0
+//                                         ? combatantData.getTraitsList()
+//                                         : override.getTraitsList());
             this.combatantData = builder.build();
         } else {
             this.combatantData = combatantData;
