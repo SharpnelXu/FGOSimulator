@@ -228,6 +228,30 @@ public class BuffFactory {
                     level
             );
 
+        } else if (type.equalsIgnoreCase(HpVariedCriticalDamageBuff.class.getSimpleName())) {
+            if (!buffData.hasHpVariedBuffAdditionalParams()) {
+                throw new IllegalArgumentException("No available params to work with");
+            }
+
+            final HpVariedBuffAdditionalParams additionalParams = buffData.getHpVariedBuffAdditionalParams();
+
+            final HpVariedCriticalDamageBuff.HpVariedCriticalDamageBuffBuilder<?, ?> builder = HpVariedCriticalDamageBuff.builder();
+            if (additionalParams.getMaxHpPercentCount() != 0) {
+                builder.maxHpPercent(getValueFromListForLevel(additionalParams.getMaxHpPercentList(), level));
+            }
+            if (additionalParams.getMinHpPercentCount() != 0) {
+                builder.minHpPercent(getValueFromListForLevel(additionalParams.getMinHpPercentList(), level));
+            }
+            if (additionalParams.getBaseValueCount() != 0) {
+                builder.baseValue(getValueFromListForLevel(additionalParams.getBaseValueList(), level));
+            }
+
+            return setValuedBuffParams(
+                    builder,
+                    buffData,
+                    level
+            );
+
         } else if (type.equalsIgnoreCase(HpVariedBuffChanceBuff.class.getSimpleName())) {
             if (!buffData.hasHpVariedBuffAdditionalParams()) {
                 throw new IllegalArgumentException("No available params to work with");

@@ -55,6 +55,7 @@ enum Traits {
   FAIRY_TALE_SERVANT = 49;
   HAVING_ANIMAL_CHARACTERISTICS = 50;
   LIKE = 51;
+  MASSIVE = 52;
 }
 
 enum FateClass {
