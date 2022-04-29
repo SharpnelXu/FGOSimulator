@@ -16,6 +16,7 @@ import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.data.proto.FgoStorageData.Traits;
+import yome.fgo.simulator.models.conditions.BuffHasTrait;
 import yome.fgo.simulator.models.conditions.BuffIsDebuff;
 import yome.fgo.simulator.models.conditions.CardTypeEquals;
 import yome.fgo.simulator.models.conditions.TargetsHaveClass;
@@ -39,6 +40,7 @@ import java.io.StringReader;
 import static yome.fgo.data.proto.FgoStorageData.Alignment.GOOD;
 import static yome.fgo.data.proto.FgoStorageData.Alignment.NEUTRAL;
 import static yome.fgo.data.proto.FgoStorageData.Attribute.STAR;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.NEGATIVE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
@@ -224,7 +226,8 @@ public class Servant284 {
                                 .setTarget(ALL_ALLIES)
                                 .setApplyCondition(
                                         ConditionData.newBuilder()
-                                                .setType(BuffIsDebuff.class.getSimpleName())
+                                                .setType(BuffHasTrait.class.getSimpleName())
+                                                .setValue(NEGATIVE_BUFF.name())
                                 )
                 )
                 .addEffects(

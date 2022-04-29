@@ -1,5 +1,6 @@
 package yome.fgo.simulator.models.effects.buffs;
 
+import com.google.common.collect.Lists;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -7,6 +8,10 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.conditions.Condition;
 
+import java.util.List;
+
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.NEGATIVE_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.POSITIVE_BUFF;
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 
 @SuperBuilder
@@ -24,8 +29,6 @@ public abstract class Buff {
 
     protected final boolean forceStackable;
 
-    protected final int forceBuff;
-
     private boolean irremovable;
 
     // used to correctly remove passive & append skills during ascension transition
@@ -37,13 +40,16 @@ public abstract class Buff {
 
     private boolean isApplied; // for correcting decreasing numTimesActive
 
+    @Builder.Default
+    protected final List<String> buffTraits = Lists.newArrayList();
+
     public boolean isInactive() {
         return numTimesActive == 0 || numTurnsActive == 0;
     }
 
-    protected abstract boolean commonBuffCondition();
+    public abstract boolean commonBuffCondition();
 
-    protected abstract boolean commonDebuffCondition();
+    public abstract boolean commonDebuffCondition();
 
     protected abstract boolean commonStackableCondition();
 
@@ -52,23 +58,11 @@ public abstract class Buff {
     }
 
     public boolean isBuff() {
-        if (forceBuff < 0) {
-            return false;
-        } else if (forceBuff > 0) {
-            return true;
-        } else {
-            return commonBuffCondition();
-        }
+        return buffTraits.contains(POSITIVE_BUFF.name());
     }
 
     public boolean isDebuff() {
-        if (forceBuff < 0) {
-            return true;
-        } else if (forceBuff > 0) {
-            return false;
-        } else {
-            return commonDebuffCondition();
-        }
+        return buffTraits.contains(NEGATIVE_BUFF.name());
     }
 
     public boolean shouldApply(final Simulation simulation) {

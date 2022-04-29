@@ -5,12 +5,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class SureHit extends Buff implements AttackerBuff {
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return true;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return false;
     }
 

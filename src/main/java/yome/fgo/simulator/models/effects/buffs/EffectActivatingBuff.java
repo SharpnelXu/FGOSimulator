@@ -17,27 +17,17 @@ public abstract class EffectActivatingBuff extends Buff {
     }
 
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return false;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return false;
     }
 
     @Override
     protected boolean commonStackableCondition() {
         return true;
-    }
-
-    @Override
-    public boolean isBuff() {
-        return forceBuff > 0;
-    }
-
-    @Override
-    public boolean isDebuff() {
-        return forceBuff < 0;
     }
 }

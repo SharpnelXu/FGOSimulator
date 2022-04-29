@@ -10,12 +10,12 @@ public class CardTypeChange extends Buff {
     private final CommandCardType commandCardType;
 
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return true;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return false;
     }
 

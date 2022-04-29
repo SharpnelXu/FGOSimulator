@@ -678,7 +678,8 @@
           "type": "RemoveBuff",
           "target": "ALL_ALLIES",
           "applyCondition": {
-            "type": "BuffIsDebuff"
+            "type": "BuffHasTrait",
+            "value": "NEGATIVE_BUFF"
           }
         }, {
           "type": "GrantBuff",
@@ -1404,7 +1405,8 @@
           "type": "RemoveBuff",
           "target": "ALL_ALLIES",
           "applyCondition": {
-            "type": "BuffIsDebuff"
+            "type": "BuffHasTrait",
+            "value": "NEGATIVE_BUFF"
           }
         }, {
           "type": "GrantBuff",

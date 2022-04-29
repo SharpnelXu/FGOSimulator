@@ -5,12 +5,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class CurseEffectivenessUp extends ValuedBuff implements EndOfTurnDamage {
     @Override
-    protected boolean commonBuffCondition() {
-        return super.commonDebuffCondition();
+    public boolean commonBuffCondition() {
+        return false;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
-        return super.commonBuffCondition();
+    public boolean commonDebuffCondition() {
+        return true;
     }
 }

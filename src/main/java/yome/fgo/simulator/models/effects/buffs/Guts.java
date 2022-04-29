@@ -11,17 +11,17 @@ public class Guts extends Buff {
     private final double percent;
 
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return true;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return false;
     }
 
     @Override
-    protected boolean commonStackableCondition() {
+    public boolean commonStackableCondition() {
         return false;
     }
 }

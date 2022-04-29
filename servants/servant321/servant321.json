@@ -111,7 +111,7 @@
                 "numTurnsActive": 3
               }]
             }],
-            "forceBuff": 1
+            "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"]
           }]
         }, {
           "type": "GrantBuff",
@@ -168,7 +168,7 @@
             "target": "SELF",
             "values": [0.038]
           }],
-          "forceBuff": 1
+          "customTraits": ["POSITIVE_BUFF"]
         }]
       }]
     }, {
@@ -908,7 +908,7 @@
                 "numTurnsActive": 3
               }]
             }],
-            "forceBuff": 1
+            "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"]
           }]
         }, {
           "type": "GrantBuff",
@@ -965,7 +965,7 @@
             "target": "SELF",
             "values": [0.038]
           }],
-          "forceBuff": 1
+          "customTraits": ["POSITIVE_BUFF"]
         }]
       }]
     }, {

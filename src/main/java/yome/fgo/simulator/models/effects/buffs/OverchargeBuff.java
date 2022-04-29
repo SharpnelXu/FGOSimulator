@@ -9,12 +9,12 @@ public class OverchargeBuff extends Buff {
     private final int value;
 
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return value > 0;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return value < 0;
     }
 

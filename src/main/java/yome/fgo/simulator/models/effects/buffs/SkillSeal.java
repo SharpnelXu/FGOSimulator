@@ -5,12 +5,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class SkillSeal extends Buff {
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return false;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return true;
     }
 

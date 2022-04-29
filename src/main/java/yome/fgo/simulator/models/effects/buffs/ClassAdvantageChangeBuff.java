@@ -72,12 +72,12 @@ public class ClassAdvantageChangeBuff extends Buff {
     }
 
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return true;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return false;
     }
 

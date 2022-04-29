@@ -5,12 +5,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Invincible extends Buff implements DefenderBuff {
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return true;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return false;
     }
 

@@ -12,12 +12,12 @@ public abstract class ValuedBuff extends Buff {
     }
 
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return value > 0;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return value < 0;
     }
 

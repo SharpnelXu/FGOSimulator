@@ -5,12 +5,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Stun extends Buff implements ImmobilizeDebuff {
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return false;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return true;
     }
 

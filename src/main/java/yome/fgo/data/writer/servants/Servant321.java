@@ -49,6 +49,8 @@ import java.io.StringReader;
 import static yome.fgo.data.proto.FgoStorageData.Alignment.EVIL;
 import static yome.fgo.data.proto.FgoStorageData.Alignment.NEUTRAL;
 import static yome.fgo.data.proto.FgoStorageData.Attribute.SKY;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.ATTACKER_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.POSITIVE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
@@ -197,7 +199,8 @@ public class Servant321 {
                                 .addBuffData(
                                         BuffData.newBuilder()
                                                 .setType(PostAttackEffect.class.getSimpleName())
-                                                .setForceBuff(1)
+                                                .addCustomTraits(POSITIVE_BUFF.name())
+                                                .addCustomTraits(ATTACKER_BUFF.name())
                                                 .setNumTurnsActive(3)
                                                 .setApplyCondition(
                                                         ConditionData.newBuilder()
@@ -345,7 +348,7 @@ public class Servant321 {
                                                 .addBuffData(
                                                         BuffData.newBuilder()
                                                                 .setType(EndOfTurnEffect.class.getSimpleName())
-                                                                .setForceBuff(1)
+                                                                .addCustomTraits(POSITIVE_BUFF.name())
                                                                 .addSubEffects(
                                                                         EffectData.newBuilder()
                                                                                 .setType(NpChange.class.getSimpleName())

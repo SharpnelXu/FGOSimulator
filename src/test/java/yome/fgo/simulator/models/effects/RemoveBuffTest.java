@@ -1,11 +1,16 @@
 package yome.fgo.simulator.models.effects;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
+import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
+import yome.fgo.simulator.models.conditions.BuffHasTrait;
 import yome.fgo.simulator.models.effects.buffs.AttackBuff;
+import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.BuffFactory;
 import yome.fgo.simulator.models.effects.buffs.BuffRemovalResist;
 import yome.fgo.simulator.models.effects.buffs.Charm;
 import yome.fgo.simulator.models.effects.buffs.SureHit;
@@ -13,13 +18,33 @@ import yome.fgo.simulator.models.effects.buffs.SureHit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.NEGATIVE_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.POSITIVE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
-import static yome.fgo.simulator.models.conditions.BuffIsBuff.BUFF_IS_BUFF;
-import static yome.fgo.simulator.models.conditions.BuffIsDebuff.BUFF_IS_DEBUFF;
 
 public class RemoveBuffTest {
+    public static final Buff CHARM = BuffFactory.buildBuff(
+            BuffData.newBuilder()
+                    .setType(Charm.class.getSimpleName())
+                    .build(),
+            1
+    );
+    public static final Buff SURE_HIT = BuffFactory.buildBuff(
+            BuffData.newBuilder()
+                    .setType(SureHit.class.getSimpleName())
+                    .build(),
+            1
+    );
+    public static final Buff ATTACK_BUFF = BuffFactory.buildBuff(
+            BuffData.newBuilder()
+                    .setType(AttackBuff.class.getSimpleName())
+                    .addValues(0.3)
+                    .build(),
+            1
+    );
+
     @Test
     public void testRemoveBuff_removeAny() {
         final Servant servant = new Servant();
@@ -30,9 +55,9 @@ public class RemoveBuffTest {
                 .target(SELF)
                 .build();
 
-        servant.addBuff(Charm.builder().build());
-        servant.addBuff(SureHit.builder().build());
-        servant.addBuff(AttackBuff.builder().value(0.3).build());
+        servant.addBuff(CHARM);
+        servant.addBuff(SURE_HIT);
+        servant.addBuff(ATTACK_BUFF);
 
         assertEquals(3, servant.getBuffs().size());
 
@@ -49,13 +74,13 @@ public class RemoveBuffTest {
         simulation.setCurrentServants(Lists.newArrayList(servant));
 
         final RemoveBuff removeBuff = RemoveBuff.builder()
-                .applyCondition(BUFF_IS_BUFF)
+                .applyCondition(new BuffHasTrait(POSITIVE_BUFF.name()))
                 .target(SELF)
                 .build();
 
-        servant.addBuff(Charm.builder().build());
-        servant.addBuff(SureHit.builder().build());
-        servant.addBuff(AttackBuff.builder().value(0.3).build());
+        servant.addBuff(CHARM);
+        servant.addBuff(SURE_HIT);
+        servant.addBuff(ATTACK_BUFF);
 
         assertEquals(3, servant.getBuffs().size());
 
@@ -72,13 +97,13 @@ public class RemoveBuffTest {
         simulation.setCurrentServants(Lists.newArrayList(servant));
 
         final RemoveBuff removeBuff = RemoveBuff.builder()
-                .applyCondition(BUFF_IS_DEBUFF)
+                .applyCondition(new BuffHasTrait(NEGATIVE_BUFF.name()))
                 .target(SELF)
                 .build();
 
-        servant.addBuff(Charm.builder().build());
-        servant.addBuff(SureHit.builder().build());
-        servant.addBuff(AttackBuff.builder().value(0.3).build());
+        servant.addBuff(CHARM);
+        servant.addBuff(SURE_HIT);
+        servant.addBuff(ATTACK_BUFF);
 
         assertEquals(3, servant.getBuffs().size());
 
@@ -96,21 +121,28 @@ public class RemoveBuffTest {
         simulation.setProbabilityThreshold(1.0);
 
         final RemoveBuff removeBuff = RemoveBuff.builder()
-                .applyCondition(BUFF_IS_BUFF)
+                .applyCondition(new BuffHasTrait(POSITIVE_BUFF.name()))
                 .target(SELF)
                 .build();
 
-        servant.addBuff(Charm.builder().build());
-        servant.addBuff(SureHit.builder().build());
-        servant.addBuff(AttackBuff.builder().value(0.3).build());
-        servant.addBuff(BuffRemovalResist.builder().value(1.0).numTimesActive(1).build());
+        servant.addBuff(CHARM);
+        servant.addBuff(SURE_HIT);
+        servant.addBuff(ATTACK_BUFF);
+        servant.addBuff(ATTACK_BUFF);
+        servant.addBuff(
+                BuffRemovalResist.builder()
+                        .value(1.0)
+                        .numTimesActive(1)
+                        .buffTraits(ImmutableList.of(POSITIVE_BUFF.name()))
+                        .build()
+        );
 
-        assertEquals(4, servant.getBuffs().size());
+        assertEquals(5, servant.getBuffs().size());
 
         simulation.setActivator(servant);
         removeBuff.apply(simulation);
 
-        assertEquals(3, servant.getBuffs().size());
+        assertEquals(4, servant.getBuffs().size());
         assertTrue(servant.isImmobilized());
     }
 
@@ -122,18 +154,19 @@ public class RemoveBuffTest {
         simulation.setProbabilityThreshold(1.0);
 
         final RemoveBuff removeBuff = RemoveBuff.builder()
-                .applyCondition(BUFF_IS_DEBUFF)
+                .applyCondition(new BuffHasTrait(NEGATIVE_BUFF.name()))
                 .target(SELF)
                 .build();
 
-        servant.addBuff(Charm.builder().build());
-        servant.addBuff(SureHit.builder().build());
-        servant.addBuff(AttackBuff.builder().value(0.3).build());
+        servant.addBuff(CHARM);
+        servant.addBuff(SURE_HIT);
+        servant.addBuff(ATTACK_BUFF);
         servant.addBuff(
                 BuffRemovalResist.builder()
                         .value(1.0)
                         .numTimesActive(1)
-                        .condition(BUFF_IS_BUFF)
+                        .condition(new BuffHasTrait(POSITIVE_BUFF.name()))
+                        .buffTraits(ImmutableList.of(POSITIVE_BUFF.name()))
                         .build()
         );
 

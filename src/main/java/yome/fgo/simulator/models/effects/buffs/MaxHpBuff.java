@@ -9,12 +9,12 @@ public class MaxHpBuff extends Buff {
     private final int change;
 
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return change > 0;
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return change < 0;
     }
 

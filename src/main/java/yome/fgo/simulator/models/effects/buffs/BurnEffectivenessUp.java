@@ -5,12 +5,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class BurnEffectivenessUp extends ValuedBuff implements EndOfTurnDamage {
     @Override
-    protected boolean commonBuffCondition() {
+    public boolean commonBuffCondition() {
         return super.commonDebuffCondition();
     }
 
     @Override
-    protected boolean commonDebuffCondition() {
+    public boolean commonDebuffCondition() {
         return super.commonBuffCondition();
     }
 }

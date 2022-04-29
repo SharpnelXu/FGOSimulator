@@ -10,6 +10,12 @@ import yome.fgo.simulator.models.effects.GrantBuff;
 
 import java.util.List;
 
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.ATTACKER_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.DEFENDER_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.IMMOBILIZE_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.MENTAL_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.NEGATIVE_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.POSITIVE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
@@ -377,11 +383,35 @@ public class BuffFactory {
             builder.probability(buffData.getProbabilities(0));
         }
 
-        builder.forceBuff(buffData.getForceBuff());
         builder.irremovable(buffData.getIrremovable());
         builder.forceStackable(buffData.getForceStackable());
 
-        return builder.build();
+        final Buff buff =  builder.build();
+        if (buffData.getCustomTraitsCount() != 0) {
+            buff.getBuffTraits().addAll(buffData.getCustomTraitsList());
+        } else {
+            final List<String> buffTraits = buff.getBuffTraits();
+            if (buff instanceof AttackerBuff) {
+                buffTraits.add(ATTACKER_BUFF.name());
+            }
+            if (buff instanceof DefenderBuff) {
+                buffTraits.add(DEFENDER_BUFF.name());
+            }
+            if (buff.commonBuffCondition()) {
+                buffTraits.add(POSITIVE_BUFF.name());
+            }
+            if (buff.commonDebuffCondition()) {
+                buffTraits.add(NEGATIVE_BUFF.name());
+            }
+            if (buff instanceof MentalDebuff) {
+                buffTraits.add(MENTAL_BUFF.name());
+            }
+            if (buff instanceof ImmobilizeDebuff) {
+                buffTraits.add(IMMOBILIZE_BUFF.name());
+            }
+        }
+
+        return buff;
     }
 
     public static Buff setValuedBuffParams(
