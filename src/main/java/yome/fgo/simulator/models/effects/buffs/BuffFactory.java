@@ -18,6 +18,8 @@ import static yome.fgo.data.proto.FgoStorageData.BuffTraits.NEGATIVE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.BuffTraits.POSITIVE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
+import static yome.fgo.data.proto.FgoStorageData.Traits.BLESSED_BY_KUR;
+import static yome.fgo.data.proto.FgoStorageData.Traits.BURNING_LOVE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
 
 public class BuffFactory {
@@ -26,6 +28,9 @@ public class BuffFactory {
 
         if (type.equalsIgnoreCase(AttackBuff.class.getSimpleName())) {
             return setValuedBuffParams(AttackBuff.builder(), buffData, level);
+
+        } else if (type.equalsIgnoreCase(BlessedByKur.class.getSimpleName())) {
+            return setCommonBuffParams(BlessedByKur.builder().trait(BLESSED_BY_KUR.name()), buffData, level);
 
         } else if (type.equalsIgnoreCase(BuffChanceBuff.class.getSimpleName())) {
             return setValuedBuffParams(BuffChanceBuff.builder(), buffData, level);
@@ -52,7 +57,7 @@ public class BuffFactory {
             return setValuedBuffParams(BurnEffectivenessUp.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(BurningLove.class.getSimpleName())) {
-            return setCommonBuffParams(BurningLove.builder(), buffData, level);
+            return setCommonBuffParams(BurningLove.builder().trait(BURNING_LOVE.name()), buffData, level);
 
         } else if (type.equalsIgnoreCase(CardTypeChange.class.getSimpleName())) {
             return setCommonBuffParams(
@@ -322,6 +327,9 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(PermanentSleep.class.getSimpleName())) {
             return setCommonBuffParams(PermanentSleep.builder(), buffData, level);
+
+        } else if (type.equalsIgnoreCase(Pigify.class.getSimpleName())) {
+            return setCommonBuffParams(Pigify.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(Poison.class.getSimpleName())) {
             return setValuedBuffParams(Poison.builder(), buffData, level);

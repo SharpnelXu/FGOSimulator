@@ -3,16 +3,16 @@ package yome.fgo.simulator.models.effects.buffs;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-public class BurningLove extends GrantTrait {
+public class BlessedByKur extends GrantTrait {
 
     @Override
     public boolean commonBuffCondition() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean commonDebuffCondition() {
-        return true;
+        return false;
     }
 
     @Override
