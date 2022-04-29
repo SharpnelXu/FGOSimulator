@@ -36,6 +36,9 @@ public class ConditionFactory {
         } else if (type.equalsIgnoreCase(CardTypeEquals.class.getSimpleName())) {
             return CardTypeEquals.get(CommandCardType.valueOf(conditionData.getValue().toUpperCase()));
 
+        } else if (type.equalsIgnoreCase(CritStarAtLeast.class.getSimpleName())) {
+            return new CritStarAtLeast((int) conditionData.getDoubleValue());
+
         } else if (type.equalsIgnoreCase(Never.class.getSimpleName())) {
             return NEVER;
 
@@ -44,6 +47,9 @@ public class ConditionFactory {
                 throw new IllegalArgumentException("Not should only have one argument");
             }
             return new Not(buildCondition(conditionData.getSubConditionData(0)));
+
+        } else if (type.equalsIgnoreCase(NpAtLeast.class.getSimpleName())) {
+            return new NpAtLeast((int) conditionData.getDoubleValue());
 
         } else if (type.equalsIgnoreCase(NpCard.class.getSimpleName())) {
             return NP_CARD;
@@ -55,6 +61,9 @@ public class ConditionFactory {
                                   .collect(Collectors.toList()));
         } else if (type.equalsIgnoreCase(StageHasTrait.class.getSimpleName())) {
             return new StageHasTrait(conditionData.getValue());
+
+        } else if (type.equalsIgnoreCase(ServantsExplodable.class.getSimpleName())) {
+            return new ServantsExplodable();
 
         } else if (type.equalsIgnoreCase(TargetsContainsSpecificServant.class.getSimpleName())) {
             return TargetsContainsSpecificServant.builder()

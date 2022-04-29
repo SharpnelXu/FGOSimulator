@@ -293,6 +293,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(PercentDefenseBuff.class.getSimpleName())) {
             return setValuedBuffParams(PercentDefenseBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(PermanentSleep.class.getSimpleName())) {
+            return setCommonBuffParams(PermanentSleep.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(Poison.class.getSimpleName())) {
             return setValuedBuffParams(Poison.builder(), buffData, level);
 

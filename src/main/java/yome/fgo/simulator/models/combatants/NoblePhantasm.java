@@ -6,15 +6,20 @@ import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmType;
 import yome.fgo.simulator.models.Simulation;
+import yome.fgo.simulator.models.conditions.Condition;
+import yome.fgo.simulator.models.conditions.ConditionFactory;
 import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.EffectFactory;
 
 import java.util.List;
 
+import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
+
 @Getter
 public class NoblePhantasm extends CommandCard {
     private final List<Effect> effects;
     private final NoblePhantasmType noblePhantasmType;
+    private final Condition activationCondition;
 
     public NoblePhantasm(
             final CommandCardType commandCardType,
@@ -22,7 +27,8 @@ public class NoblePhantasm extends CommandCard {
             final double npCharge,
             final double starGeneration,
             final List<Effect> effects,
-            final NoblePhantasmType noblePhantasmType
+            final NoblePhantasmType noblePhantasmType,
+            final Condition activationCondition
     ) {
         super(CommandCardData.newBuilder()
                      .setCommandCardType(commandCardType)
@@ -32,12 +38,18 @@ public class NoblePhantasm extends CommandCard {
                      .build());
         this.effects = effects;
         this.noblePhantasmType = noblePhantasmType;
+        this.activationCondition = activationCondition;
     }
 
     public NoblePhantasm(final NoblePhantasmData noblePhantasmData, final int noblePhantasmLevel) {
         super(noblePhantasmData.getCommandCardData());
         this.effects = EffectFactory.buildEffects(noblePhantasmData.getEffectsList(), noblePhantasmLevel);
         this.noblePhantasmType = noblePhantasmData.getNoblePhantasmType();
+        if (noblePhantasmData.hasActivationCondition()) {
+            this.activationCondition = ConditionFactory.buildCondition(noblePhantasmData.getActivationCondition());
+        } else {
+            this.activationCondition = ALWAYS;
+        }
     }
 
     public void activate(final Simulation simulation, final int overchargeLevel) {
@@ -48,5 +60,9 @@ public class NoblePhantasm extends CommandCard {
                 effect.apply(simulation);
             }
         }
+    }
+
+    public boolean canActivate(final Simulation simulation) {
+        return activationCondition.evaluate(simulation);
     }
 }

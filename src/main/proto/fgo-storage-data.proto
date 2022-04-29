@@ -169,6 +169,7 @@ message NoblePhantasmData {
   CommandCardData commandCardData = 1;
   repeated EffectData effects = 2;
   NoblePhantasmType noblePhantasmType = 3;
+  ConditionData activationCondition = 4;
 }
 
 message CommandCardData {
@@ -185,6 +186,7 @@ message ActiveSkillUpgrades {
 message ActiveSkillData {
   int32 baseCoolDown = 1;
   repeated EffectData effects = 2;
+  ConditionData activationCondition = 3;
 }
 
 message PassiveSkillData {
@@ -330,6 +332,7 @@ message ConditionData {
   string value = 2;
   repeated ConditionData subConditionData = 3;
   Target target = 4;
+  double doubleValue = 5;
 }
 
 message Status {

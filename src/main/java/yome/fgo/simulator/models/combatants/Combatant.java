@@ -26,6 +26,7 @@ import yome.fgo.simulator.models.effects.buffs.ImmobilizeDebuff;
 import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
 import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.NpSeal;
+import yome.fgo.simulator.models.effects.buffs.PermanentSleep;
 import yome.fgo.simulator.models.effects.buffs.Poison;
 import yome.fgo.simulator.models.effects.buffs.PoisonEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.SkillSeal;
@@ -227,6 +228,15 @@ public class Combatant {
             }
         }
         return false;
+    }
+
+    public boolean isSelectable() {
+        for (final Buff buff : buffs) {
+            if (buff instanceof PermanentSleep) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isSkillInaccessible() {

@@ -234,6 +234,26 @@ public class Servant extends Combatant {
         simulation.unsetActivator();
     }
 
+    public boolean canActivateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
+        simulation.setActivator(this);
+
+        final boolean canActivate = !isSkillInaccessible() && activeSkills.get(activeSkillIndex).canActivate(simulation);
+
+        simulation.unsetActivator();
+
+        return canActivate;
+    }
+
+    public boolean canActivateNoblePhantasm(final Simulation simulation, final int activeSkillIndex) {
+        simulation.setActivator(this);
+
+        final boolean canActivate = !isNpInaccessible() && noblePhantasm.canActivate(simulation);
+
+        simulation.unsetActivator();
+
+        return canActivate;
+    }
+
     public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
         simulation.setActivator(this);
 
@@ -246,7 +266,8 @@ public class Servant extends Combatant {
                             noblePhantasm.getNpCharge(),
                             noblePhantasm.getCriticalStarGeneration(),
                             noblePhantasm.getEffects(),
-                            noblePhantasm.getNoblePhantasmType()
+                            noblePhantasm.getNoblePhantasmType(),
+                            noblePhantasm.getActivationCondition()
                     )
             );
         } else {
