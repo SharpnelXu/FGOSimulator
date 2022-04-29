@@ -111,6 +111,7 @@ public class Servant extends Combatant {
         buildAscension(this.ascension);
 
         this.currentHp = getMaxHp();
+        this.isAlly = true;
     }
 
     public void buildAscension(final int ascension) {

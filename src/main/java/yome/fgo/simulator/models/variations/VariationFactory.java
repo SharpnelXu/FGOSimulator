@@ -23,6 +23,9 @@ public class VariationFactory {
         } else if (type.equalsIgnoreCase(NoVariation.class.getSimpleName())) {
             return NO_VARIATION;
 
+        } else if (type.equalsIgnoreCase(NpAbsorptionVariation.class.getSimpleName())) {
+            return new NpAbsorptionVariation(variationData.getTarget());
+
         } else if (type.equalsIgnoreCase(TraitCountVariation.class.getSimpleName())) {
             return new TraitCountVariation(variationData.getMaxCount(), variationData.getTrait(), variationData.getTarget());
 

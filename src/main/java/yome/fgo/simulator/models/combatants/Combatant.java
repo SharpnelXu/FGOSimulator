@@ -60,6 +60,7 @@ public class Combatant {
     protected List<Buff> buffs = new ArrayList<>();
 
     private boolean receivedInstantDeath;
+    protected boolean isAlly;
 
     public Combatant() {
         this.hpBars = ImmutableList.of(100);
