@@ -79,6 +79,8 @@ enum FateClass {
   BEAST_III_R = 32;
   BEAST_III_L = 33;
   BEAST_IV = 34;
+
+  ANY_CLASS = 50;
 }
 
 enum Gender {
@@ -258,12 +260,33 @@ message BuffData {
 
   Target target = 13; // for buff specific attack buff
   bool isGutsPercentBased = 14;
+
+  ClassAdvantageChangeAdditionalParams classAdvChangeAdditionalParams = 15;
 }
 
 message HpVariedBuffAdditionalParams {
   repeated double maxHpPercent = 1;
   repeated double minHpPercent = 2;
   repeated double baseValue = 3;
+}
+
+message ClassAdvantageChangeAdditionalParams {
+  ClassAdvantageChangeMode attackMode = 1;
+  bool customizeAttackModifier = 7;
+  double attackAdv = 2;
+  repeated FateClass attackModeAffectedClasses = 5;
+
+  ClassAdvantageChangeMode defenseMode = 3;
+  bool customizeDefenseModifier = 8;
+  double defenseAdv = 4;
+  repeated FateClass defenseModeAffectedClasses = 6;
+}
+
+enum ClassAdvantageChangeMode {
+  CLASS_ADV_NO_CHANGE = 0;
+  CLASS_ADV_FIXED_RATE = 1;
+  CLASS_ADV_REMOVE_ADV = 2;
+  CLASS_ADV_REMOVE_DISADV = 3;
 }
 
 enum Target {

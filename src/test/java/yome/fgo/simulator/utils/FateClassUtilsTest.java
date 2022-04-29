@@ -1,9 +1,14 @@
 package yome.fgo.simulator.utils;
 
+import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
+import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
+import yome.fgo.simulator.models.combatants.Combatant;
+import yome.fgo.simulator.models.effects.buffs.ClassAdvantageChangeBuff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_REMOVE_DISADV;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.ALTEREGO;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.ARCHER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.ASSASSIN;
@@ -85,5 +90,23 @@ public class FateClassUtilsTest {
                 assertEquals(CLASS_ADVANTAGES[i][j], getClassAdvantage(ALL_CLASSES[i], ALL_CLASSES[j]));
             }
         }
+    }
+
+    @Test
+    public void testGetClassAdvantage_classAdvantageChangeBuff() {
+        final Combatant attacker = new Combatant("test", CombatantData.newBuilder().setFateClass(BERSERKER).build());
+        final Combatant defender = new Combatant("test", CombatantData.newBuilder().setFateClass(FOREIGNER).build());
+
+        final ClassAdvantageChangeBuff buff = ClassAdvantageChangeBuff.builder()
+                .attackMode(CLASS_ADV_REMOVE_DISADV)
+                .defenseMode(CLASS_ADV_REMOVE_DISADV)
+                .defenseModeAffectedClasses(ImmutableList.of(BERSERKER))
+                .build();
+
+        attacker.addBuff(buff);
+
+        assertEquals(1.0, getClassAdvantage(attacker, defender));
+        assertEquals(2.0, getClassAdvantage(defender, attacker));
+        assertEquals(1.0, getClassAdvantage(attacker, attacker));
     }
 }

@@ -19,7 +19,7 @@ import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
 import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
-import yome.fgo.simulator.models.effects.buffs.IgnoreDefenceBuff;
+import yome.fgo.simulator.models.effects.buffs.IgnoreDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentAttackBuff;
@@ -103,7 +103,7 @@ public class NoblePhantasmDamage extends Effect {
             final double npDamageBuff = attacker.applyBuff(simulation, NpDamageBuff.class);
             final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class);
             final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class);
-            final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenceBuff.class) || isNpIgnoreDefense;
+            final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class) || isNpIgnoreDefense;
 
             final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class);
 

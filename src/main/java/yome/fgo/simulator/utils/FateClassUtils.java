@@ -2,6 +2,8 @@ package yome.fgo.simulator.utils;
 
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.combatants.Combatant;
+import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.ClassAdvantageChangeBuff;
 
 import static yome.fgo.data.proto.FgoStorageData.FateClass.CASTER;
 
@@ -79,7 +81,22 @@ public class FateClassUtils {
     public static double getClassAdvantage(final Combatant attacker, final Combatant defender) {
         final FateClass attackerClass = attacker.getFateClass();
         final FateClass defenderClass = defender.getFateClass();
-        return getClassAdvantage(attackerClass, defenderClass);
+
+        double baseRate = getClassAdvantage(attackerClass, defenderClass);
+
+        for (final Buff buff : attacker.getBuffs()) {
+            if (buff instanceof ClassAdvantageChangeBuff) {
+                baseRate = ((ClassAdvantageChangeBuff) buff).asAttacker(baseRate, defenderClass);
+            }
+        }
+
+        for (final Buff buff : defender.getBuffs()) {
+            if (buff instanceof ClassAdvantageChangeBuff) {
+                baseRate = ((ClassAdvantageChangeBuff) buff).asDefender(baseRate, attackerClass);
+            }
+        }
+
+        return baseRate;
     }
 
     public static double getClassAdvantage(final FateClass attackerClass, final FateClass defenderClass) {

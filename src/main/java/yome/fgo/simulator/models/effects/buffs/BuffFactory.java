@@ -1,6 +1,7 @@
 package yome.fgo.simulator.models.effects.buffs;
 
 import yome.fgo.data.proto.FgoStorageData.BuffData;
+import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.HpVariedBuffAdditionalParams;
@@ -9,6 +10,7 @@ import yome.fgo.simulator.models.effects.GrantBuff;
 
 import java.util.List;
 
+import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
 
@@ -59,6 +61,33 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(CharmResistDown.class.getSimpleName())) {
             return setValuedBuffParams(CharmResistDown.builder(), buffData, level);
+
+        } else if (type.equalsIgnoreCase(ClassAdvantageChangeBuff.class.getSimpleName())) {
+            final ClassAdvantageChangeBuff.ClassAdvantageChangeBuffBuilder<?, ?> builder = ClassAdvantageChangeBuff.builder();
+            if (!buffData.hasClassAdvChangeAdditionalParams()) {
+                throw new IllegalArgumentException("No params provided for class advantage change buff.");
+            }
+            final ClassAdvantageChangeAdditionalParams additionalParams = buffData.getClassAdvChangeAdditionalParams();
+            if (additionalParams.getAttackMode() != CLASS_ADV_NO_CHANGE) {
+                builder.attackMode(additionalParams.getAttackMode());
+                if (additionalParams.getCustomizeAttackModifier()) {
+                    builder.attackAdvantage(additionalParams.getAttackAdv());
+                }
+                if (additionalParams.getAttackModeAffectedClassesCount() != 0) {
+                    builder.attackModeAffectedClasses(additionalParams.getAttackModeAffectedClassesList());
+                }
+            }
+            if (additionalParams.getDefenseMode() != CLASS_ADV_NO_CHANGE) {
+                builder.defenseMode(additionalParams.getDefenseMode());
+                if (additionalParams.getCustomizeDefenseModifier()) {
+                    builder.defenseAdvantage(additionalParams.getDefenseAdv());
+                }
+                if (additionalParams.getDefenseModeAffectedClassesCount() != 0) {
+                    builder.defenseModeAffectedClasses(additionalParams.getDefenseModeAffectedClassesList());
+                }
+            }
+
+            return setCommonBuffParams(builder, buffData, level);
 
         } else if (type.equalsIgnoreCase(CommandCardBuff.class.getSimpleName())) {
             return setValuedBuffParams(CommandCardBuff.builder(), buffData, level);
@@ -214,8 +243,8 @@ public class BuffFactory {
                     level
             );
 
-        } else if (type.equalsIgnoreCase(IgnoreDefenceBuff.class.getSimpleName())) {
-            return setCommonBuffParams(IgnoreDefenceBuff.builder(), buffData, level);
+        } else if (type.equalsIgnoreCase(IgnoreDefenseBuff.class.getSimpleName())) {
+            return setCommonBuffParams(IgnoreDefenseBuff.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(IgnoreInvincible.class.getSimpleName())) {
             return setCommonBuffParams(IgnoreInvincible.builder(), buffData, level);

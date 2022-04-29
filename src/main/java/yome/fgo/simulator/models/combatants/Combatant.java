@@ -2,7 +2,6 @@ package yome.fgo.simulator.models.combatants;
 
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import yome.fgo.data.proto.FgoStorageData.Alignment;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
@@ -42,7 +41,6 @@ import static yome.fgo.simulator.utils.BuffUtils.isImmobilizeOrSeal;
 import static yome.fgo.simulator.utils.BuffUtils.shouldDecreaseNumTurnsActiveAtMyTurn;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassMaxNpGauge;
 
-@NoArgsConstructor
 @Getter
 public class Combatant {
     // enemy only data
@@ -59,6 +57,10 @@ public class Combatant {
     protected List<Buff> buffs = new ArrayList<>();
 
     private boolean receivedInstantDeath;
+
+    public Combatant() {
+        this.hpBars = ImmutableList.of(100);
+    }
 
     // for testing
     public Combatant(final String id) {

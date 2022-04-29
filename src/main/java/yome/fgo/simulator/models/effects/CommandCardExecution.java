@@ -15,7 +15,7 @@ import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
 import yome.fgo.simulator.models.effects.buffs.Evade;
-import yome.fgo.simulator.models.effects.buffs.IgnoreDefenceBuff;
+import yome.fgo.simulator.models.effects.buffs.IgnoreDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
 import yome.fgo.simulator.models.effects.buffs.Invincible;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
@@ -75,7 +75,7 @@ public class CommandCardExecution {
 
         final double defenseUpBuff = defender.applyDefenseUpBuff(simulation);
         final double defenseDownBuff = Math.max(defender.applyDefenseDownBuff(simulation), -1); // this is negative
-        final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenceBuff.class);
+        final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class);
         final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
         final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
 
