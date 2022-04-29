@@ -6,7 +6,6 @@ import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
-import yome.fgo.data.proto.FgoStorageData.GrantBuffAdditionalParams;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.conditions.TargetsHaveBuff;
@@ -226,45 +225,5 @@ public class GrantBuffTest {
         assertEquals(1, servant.getBuffs().size());
 
         assertTrue(servant.consumeBuffIfExist(simulation, Evade.class));
-    }
-    @Test
-    public void testGrantBuff_repeatable() {
-        final EffectData effectData = EffectData.newBuilder()
-                .setType(GrantBuff.class.getSimpleName())
-                .setTarget(SELF)
-                .addBuffData(
-                        BuffData.newBuilder()
-                                .setType(AttackBuff.class.getSimpleName())
-                                .addAllValues(ImmutableList.of(10.0, 11.0, 12.0, 13.0, 15.0))
-                )
-                .addProbabilities(0.8)
-                .setGrantBuffAdditionalParams(
-                        GrantBuffAdditionalParams.newBuilder()
-                                .setIsRepeatable(true)
-                                .setRepeatTimes(5)
-                )
-                .build();
-
-        final Effect effect = EffectFactory.buildEffect(effectData, 5);
-
-        final Simulation simulation = new Simulation();
-        simulation.setProbabilityThreshold(0.9);
-
-        final Servant servant = new Servant("", CombatantData.newBuilder().build());
-        simulation.setActivator(servant);
-        effect.apply(simulation);
-
-        final double attackBuff = servant.applyBuff(simulation, AttackBuff.class);
-        assertEquals(0, attackBuff);
-
-        servant.addBuff(BuffChanceBuff.builder().value(0.05).build());
-        effect.apply(simulation);
-        final double attackBuff2 = servant.applyBuff(simulation, AttackBuff.class);
-        assertEquals(0, attackBuff2);
-
-        servant.addBuff(ReceivedBuffChanceBuff.builder().value(0.05).build());
-        effect.apply(simulation);
-        final double attackBuff3 = servant.applyBuff(simulation, AttackBuff.class);
-        assertEquals(75, attackBuff3);
     }
 }

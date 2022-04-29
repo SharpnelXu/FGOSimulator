@@ -13,7 +13,6 @@ public abstract class ValuedBuff extends Buff {
     @Builder.Default
     protected final Variation variation = NO_VARIATION;
     protected final double addition;
-    protected final boolean isIncreasing;
 
     public double getValue(final Simulation simulation) {
         simulation.setCurrentBuff(this);

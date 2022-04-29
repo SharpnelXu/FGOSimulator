@@ -1,6 +1,5 @@
 package yome.fgo.simulator.models.effects;
 
-import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.Target;
@@ -23,8 +22,6 @@ public class GrantBuff extends Effect {
     protected final List<BuffData> buffData; // here stores each overcharged effect
     protected final Target target;
     protected final int buffLevel;
-    @Builder.Default
-    private final int repeatTimes = 1;
 
     protected Buff buildBuff(final int level) {
         final BuffData buffDataToUse = isBuffOvercharged ?
@@ -40,36 +37,30 @@ public class GrantBuff extends Effect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
 
-            for (int i = 0; i < repeatTimes; i++) {
-                if (shouldApply(simulation)) {
-                    final Buff buff = buildBuff(level);
+            if (shouldApply(simulation)) {
+                final Buff buff = buildBuff(level);
 
-                    if (simulation.isActivatingCePassiveEffects() || simulation.isActivatingServantPassiveEffects()) {
-                        buff.setIrremovable(true);
-                        buff.setIsPassive(true);
+                if (simulation.isActivatingCePassiveEffects() || simulation.isActivatingServantPassiveEffects()) {
+                    buff.setIrremovable(true);
+                    buff.setIsPassive(true);
 
-                        if (simulation.isActivatingServantPassiveEffects()) {
-                            buff.setActivator(simulation.getActivator());
-                        }
-                    }
-
-                    simulation.setCurrentBuff(buff);
-
-                    final boolean success = grantBuff(simulation, buff, combatant, probability);
-
-                    simulation.unsetCurrentBuff();
-
-                    if (!success) {
-                        break;
+                    if (simulation.isActivatingServantPassiveEffects()) {
+                        buff.setActivator(simulation.getActivator());
                     }
                 }
+
+                simulation.setCurrentBuff(buff);
+
+                grantBuff(simulation, buff, combatant, probability);
+
+                simulation.unsetCurrentBuff();
             }
 
             simulation.unsetEffectTarget();
         }
     }
 
-    public boolean grantBuff(
+    private void grantBuff(
             final Simulation simulation,
             final Buff buff,
             final Combatant combatant,
@@ -91,7 +82,7 @@ public class GrantBuff extends Effect {
         }
 
         if (activationProbability < simulation.getProbabilityThreshold()) {
-            return false;
+            return;
         }
 
         boolean canActivate = true;
@@ -107,10 +98,7 @@ public class GrantBuff extends Effect {
         if (canActivate) {
             combatant.addBuff(buff);
             afterBuffAdditionalChange(simulation);
-            return true;
         }
-
-        return false;
     }
 
     protected void afterBuffAdditionalChange(final Simulation simulation) {

@@ -2,7 +2,6 @@ package yome.fgo.simulator.models.effects;
 
 import com.google.common.collect.ImmutableList;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
-import yome.fgo.data.proto.FgoStorageData.GrantBuffAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
 import yome.fgo.simulator.models.variations.VariationFactory;
@@ -178,12 +177,6 @@ public class EffectFactory {
     ) {
         builder.target(effectData.getTarget())
                 .buffLevel(level);
-        if (effectData.hasGrantBuffAdditionalParams()) {
-            final GrantBuffAdditionalParams additionalParams = effectData.getGrantBuffAdditionalParams();
-            if (additionalParams.getIsRepeatable()) {
-                builder.repeatTimes(additionalParams.getRepeatTimes());
-            }
-        }
 
         if (effectData.getIsOverchargedEffect()) {
             builder.buffData(effectData.getBuffDataList())

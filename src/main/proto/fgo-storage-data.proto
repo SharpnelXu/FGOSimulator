@@ -210,8 +210,6 @@ message EffectData {
   bool isProbabilityOvercharged = 13;
   repeated double probabilities = 9;
 
-  GrantBuffAdditionalParams grantBuffAdditionalParams = 10;
-
   NpDamageAdditionalParams npDamageAdditionalParams = 11;
 
   repeated CommandCardType cardTypeSelections = 12;
@@ -225,11 +223,6 @@ message EffectData {
   VariationData variationData = 17;
   repeated double additions = 18;
   bool isAdditionOvercharged = 19;
-}
-
-message GrantBuffAdditionalParams {
-  bool isRepeatable = 5;
-  int32 repeatTimes = 6;
 }
 
 message NpDamageAdditionalParams {
@@ -261,14 +254,9 @@ message BuffData {
   bool irremovable = 10;
   bool forceStackable = 11;
 
-  HpVariedBuffAdditionalParams hpVariedBuffAdditionalParams = 12;
-
-  Target target = 13; // for buff specific attack buff
   bool isGutsPercentBased = 14;
 
   ClassAdvantageChangeAdditionalParams classAdvChangeAdditionalParams = 15;
-  repeated double increasedValue = 16; // only used by plain valued buffs
-  bool increasing = 17;
 
   VariationData variationData = 18;
   repeated double additions = 19;
