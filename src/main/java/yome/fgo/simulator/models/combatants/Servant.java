@@ -389,8 +389,10 @@ public class Servant extends Combatant {
     public void endOfMyTurn(final Simulation simulation) {
         super.endOfMyTurn(simulation);
 
-        for (final ActiveSkill activeSkill : activeSkills) {
-            activeSkill.decreaseCoolDown(1);
+        if (!isSkillInaccessible()) {
+            for (final ActiveSkill activeSkill : activeSkills) {
+                activeSkill.decreaseCoolDown(1);
+            }
         }
     }
 
