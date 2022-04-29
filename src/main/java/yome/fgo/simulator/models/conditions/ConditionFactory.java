@@ -39,8 +39,11 @@ public class ConditionFactory {
         } else if (type.equalsIgnoreCase(CritStarAtLeast.class.getSimpleName())) {
             return new CritStarAtLeast((int) conditionData.getDoubleValue());
 
-        } else if (type.equalsIgnoreCase(HpAtMost.class.getSimpleName())) {
-            return new HpAtMost((int) conditionData.getDoubleValue());
+        } else if (type.equalsIgnoreCase(HpAtLeast.class.getSimpleName())) {
+            return new HpAtLeast((int) conditionData.getDoubleValue());
+
+        } else if (type.equalsIgnoreCase(HpPercentAtMost.class.getSimpleName())) {
+            return new HpPercentAtMost(conditionData.getDoubleValue());
 
         } else if (type.equalsIgnoreCase(Never.class.getSimpleName())) {
             return NEVER;
@@ -52,7 +55,7 @@ public class ConditionFactory {
             return new Not(buildCondition(conditionData.getSubConditionData(0)));
 
         } else if (type.equalsIgnoreCase(NpAtLeast.class.getSimpleName())) {
-            return new NpAtLeast((int) conditionData.getDoubleValue());
+            return new NpAtLeast(conditionData.getDoubleValue());
 
         } else if (type.equalsIgnoreCase(NpCard.class.getSimpleName())) {
             return NP_CARD;

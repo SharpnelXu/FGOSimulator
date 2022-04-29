@@ -6,7 +6,7 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
 
 @AllArgsConstructor
-public class HpAtMost implements Condition {
+public class HpPercentAtMost implements Condition {
     private final double value;
 
     @Override
