@@ -179,6 +179,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(EndOfTurnEffect.class.getSimpleName())) {
             return setEffectActivatingBuffParams(EndOfTurnEffect.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(EnterFieldEffect.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(EnterFieldEffect.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(Evade.class.getSimpleName())) {
             return setCommonBuffParams(Evade.builder(), buffData, level);
 
@@ -289,6 +292,9 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(Invincible.class.getSimpleName())) {
             return setCommonBuffParams(Invincible.builder(), buffData, level);
+
+        } else if (type.equalsIgnoreCase(LeaveFieldEffect.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(LeaveFieldEffect.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(MaxHpBuff.class.getSimpleName())) {
             final MaxHpBuff.MaxHpBuffBuilder<?, ?> builder = MaxHpBuff.builder();

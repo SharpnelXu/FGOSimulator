@@ -20,9 +20,11 @@ import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.DelayedEffect;
 import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
 import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
+import yome.fgo.simulator.models.effects.buffs.EnterFieldEffect;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
 import yome.fgo.simulator.models.effects.buffs.Guts;
 import yome.fgo.simulator.models.effects.buffs.ImmobilizeDebuff;
+import yome.fgo.simulator.models.effects.buffs.LeaveFieldEffect;
 import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
 import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.NpSeal;
@@ -274,11 +276,11 @@ public class Combatant {
     }
 
     public void enterField(final Simulation simulation) {
-        // TODO: implement
+        activateEffectActivatingBuff(simulation, EnterFieldEffect.class);
     }
 
     public void leaveField(final Simulation simulation) {
-        // TODO: implement
+        activateEffectActivatingBuff(simulation, LeaveFieldEffect.class);
     }
 
     public void receiveDamage(final int damage) {
