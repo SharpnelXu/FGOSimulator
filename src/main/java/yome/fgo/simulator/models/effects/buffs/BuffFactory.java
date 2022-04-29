@@ -185,6 +185,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(Evade.class.getSimpleName())) {
             return setCommonBuffParams(Evade.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(FacelessMoon.class.getSimpleName())) {
+            return setCommonBuffParams(FacelessMoon.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(GrantStageTrait.class.getSimpleName())) {
             return setCommonBuffParams(GrantStageTrait.builder().trait(buffData.getStringValue()), buffData, level);
 
