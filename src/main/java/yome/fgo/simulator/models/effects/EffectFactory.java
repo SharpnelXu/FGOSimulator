@@ -28,6 +28,8 @@ public class EffectFactory {
         final String type = effectData.getType();
         if (type.equalsIgnoreCase(AscensionChange.class.getSimpleName())) {
             return setCommonIntValuedEffectValue(AscensionChange.builder(), effectData, level);
+        } else if (type.equalsIgnoreCase(BuffAbsorption.class.getSimpleName())) {
+            return setCommonEffectParams(BuffAbsorption.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(CardTypeChangeSelect.class.getSimpleName())) {
             final CardTypeChangeSelect.CardTypeChangeSelectBuilder<?, ?> builder = CardTypeChangeSelect.builder()
