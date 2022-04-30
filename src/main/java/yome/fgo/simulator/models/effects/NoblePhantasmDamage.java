@@ -15,11 +15,13 @@ import yome.fgo.simulator.models.conditions.Condition;
 import yome.fgo.simulator.models.effects.CommandCardExecution.CriticalStarParameters;
 import yome.fgo.simulator.models.effects.CommandCardExecution.NpParameters;
 import yome.fgo.simulator.models.effects.buffs.AttackBuff;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
 import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
 import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
+import yome.fgo.simulator.models.effects.buffs.DamageReflect;
 import yome.fgo.simulator.models.effects.buffs.IgnoreDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
@@ -29,6 +31,7 @@ import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
 import yome.fgo.simulator.models.effects.buffs.PostDefenseEffect;
 import yome.fgo.simulator.models.effects.buffs.PreAttackEffect;
 import yome.fgo.simulator.models.effects.buffs.PreDefenseEffect;
+import yome.fgo.simulator.models.effects.buffs.Sleep;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
 import yome.fgo.simulator.models.variations.Variation;
@@ -238,6 +241,13 @@ public class NoblePhantasmDamage extends Effect {
 
             attacker.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
             defender.activateEffectActivatingBuff(simulation, PostDefenseEffect.class);
+            final List<Buff> buffs = defender.getBuffs();
+            for (int j = buffs.size() - 1; j >= 0; j -= 1) {
+                final Buff buff = buffs.get(j);
+                if (buff instanceof Sleep) {
+                    buffs.remove(j);
+                }
+            }
 
             simulation.setDefender(null);
         }

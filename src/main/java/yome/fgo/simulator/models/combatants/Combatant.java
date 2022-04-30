@@ -285,13 +285,10 @@ public class Combatant {
     }
 
     public void receiveDamage(final int damage) {
-        for (int j = buffs.size() - 1; j >= 0; j -= 1) {
-            final Buff buff = buffs.get(j);
+        for (final Buff buff : buffs) {
             if (buff instanceof DamageReflect) {
                 final DamageReflect damageReflect = (DamageReflect) buff;
                 damageReflect.storeDamage(damage);
-            } else if (buff instanceof Sleep) {
-                buffs.remove(j);
             }
         }
 
