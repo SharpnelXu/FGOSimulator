@@ -22,6 +22,7 @@ import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.data.proto.FgoStorageData.Traits.BLESSED_BY_KUR;
 import static yome.fgo.data.proto.FgoStorageData.Traits.BURNING_LOVE;
+import static yome.fgo.data.proto.FgoStorageData.Traits.VENGEANCE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
 
 public class BuffFactory {
@@ -337,6 +338,9 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(TriggerOnGutsEffect.class.getSimpleName())) {
             return setEffectActivatingBuffParams(TriggerOnGutsEffect.builder(), buffData, level);
+
+        } else if (type.equalsIgnoreCase(Vengeance.class.getSimpleName())) {
+            return setCommonBuffParams(Vengeance.builder().trait(VENGEANCE.name()), buffData, level);
         }
 
         throw new UnsupportedOperationException("Unsupported buff type: " + type);
