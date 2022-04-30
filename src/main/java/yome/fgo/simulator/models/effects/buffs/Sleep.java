@@ -3,7 +3,7 @@ package yome.fgo.simulator.models.effects.buffs;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-public class PermanentSleep extends Buff implements MentalDebuff, ImmobilizeDebuff {
+public class Sleep extends Buff implements MentalDebuff, ImmobilizeDebuff {
     @Override
     public boolean commonBuffCondition() {
         return false;

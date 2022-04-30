@@ -32,6 +32,7 @@ import yome.fgo.simulator.models.effects.buffs.PermanentSleep;
 import yome.fgo.simulator.models.effects.buffs.Poison;
 import yome.fgo.simulator.models.effects.buffs.PoisonEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.SkillSeal;
+import yome.fgo.simulator.models.effects.buffs.Sleep;
 import yome.fgo.simulator.models.effects.buffs.TriggerOnGutsEffect;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
@@ -285,10 +286,13 @@ public class Combatant {
     }
 
     public void receiveDamage(final int damage) {
-        for (final Buff buff : buffs) {
+        for (int j = buffs.size() - 1; j >= 0; j -= 1) {
+            final Buff buff = buffs.get(j);
             if (buff instanceof DamageReflect) {
                 final DamageReflect damageReflect = (DamageReflect) buff;
                 damageReflect.storeDamage(damage);
+            } else if (buff instanceof Sleep) {
+                buffs.remove(j);
             }
         }
 

@@ -286,6 +286,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(ReceivedBuffChanceBuff.class.getSimpleName())) {
             return setValuedBuffParams(ReceivedBuffChanceBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(Sleep.class.getSimpleName())) {
+            return setCommonBuffParams(Sleep.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(SkillRankUp.class.getSimpleName())) {
             return setCommonBuffParams(SkillRankUp.builder(), buffData, level);
 

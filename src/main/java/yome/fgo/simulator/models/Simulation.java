@@ -435,7 +435,7 @@ public class Simulation {
     }
 
     public List<Combatant> getOtherTeam(final Combatant combatant) {
-        if (currentEnemies.contains(combatant)) {
+        if (!combatant.isAlly()) {
             return currentServants.stream().map(servant -> (Combatant) servant).collect(Collectors.toList());
         } else {
             return currentEnemies;
