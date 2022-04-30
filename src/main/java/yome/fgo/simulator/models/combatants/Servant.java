@@ -225,16 +225,19 @@ public class Servant extends Combatant {
         return attack + craftEssenceAtk + attackStatusUp;
     }
 
-    private int calculateSkillRank(final Simulation simulation, final int activeSkillIndex) {
-        final int currentRank = servantOption.getActiveSkillRanks(activeSkillIndex);
-        final int increasedRank = countAndConsumeBuffs(simulation, SkillRankUp.class);
-        return currentRank + increasedRank;
-    }
-
     public void activateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
         simulation.setActivator(this);
 
-        activeSkills.get(activeSkillIndex).activate(simulation, calculateSkillRank(simulation, activeSkillIndex));
+        final int currentRank = servantOption.getActiveSkillRanks(activeSkillIndex);
+        int increasedRank = 0;
+        for (final Buff buff : buffs) {
+            if (buff instanceof SkillRankUp && buff.shouldApply(simulation)) {
+                buff.setApplied();
+                increasedRank += 1;
+            }
+        }
+
+        activeSkills.get(activeSkillIndex).activate(simulation, currentRank + increasedRank);
 
         simulation.unsetActivator();
     }
@@ -242,8 +245,16 @@ public class Servant extends Combatant {
     public boolean canActivateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
         simulation.setActivator(this);
 
+        final int currentRank = servantOption.getActiveSkillRanks(activeSkillIndex);
+        int increasedRank = 0;
+        for (final Buff buff : buffs) {
+            if (buff instanceof SkillRankUp && buff.shouldApply(simulation)) {
+                increasedRank += 1;
+            }
+        }
+
         final boolean canActivate = !isSkillInaccessible() &&
-                activeSkills.get(activeSkillIndex).canActivate(simulation, calculateSkillRank(simulation, activeSkillIndex));
+                activeSkills.get(activeSkillIndex).canActivate(simulation, currentRank + increasedRank);
 
         simulation.unsetActivator();
 

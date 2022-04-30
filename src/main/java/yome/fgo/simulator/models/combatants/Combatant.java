@@ -224,17 +224,6 @@ public class Combatant {
         return false;
     }
 
-    public int countAndConsumeBuffs(final Simulation simulation, final Class<? extends Buff> buffClass) {
-        int count = 0;
-        for (final Buff buff : buffs) {
-            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
-                buff.setApplied();
-                count += 1;
-            }
-        }
-        return count;
-    }
-
     public boolean isImmobilized() {
         for (final Buff buff : buffs) {
             if (buff instanceof ImmobilizeDebuff) {
