@@ -80,10 +80,45 @@ public class Simulation {
 
     // condition related fields
     // used when dealing damages
-    private Combatant attacker;
-    private Combatant defender;
-    private CommandCard currentCommandCard;
+    private Stack<Combatant> attacker = new Stack<>();
+    private Stack<Combatant> defender = new Stack<>();
+    private Stack<CommandCard> currentCommandCard = new Stack<>();
     private boolean criticalStrike;
+
+    public void setAttacker(final Combatant combatant) {
+        attacker.push(combatant);
+    }
+
+    public Combatant getAttacker() {
+        return attacker.peek();
+    }
+
+    public void unsetAttacker() {
+        attacker.pop();
+    }
+    public void setDefender(final Combatant combatant) {
+        defender.push(combatant);
+    }
+
+    public Combatant getDefender() {
+        return defender.peek();
+    }
+
+    public void unsetDefender() {
+        defender.pop();
+    }
+
+    public void setCurrentCommandCard(final CommandCard commandCard) {
+        currentCommandCard.push(commandCard);
+    }
+
+    public CommandCard getCurrentCommandCard() {
+        return currentCommandCard.peek();
+    }
+
+    public void unsetCurrentCommandCard() {
+        currentCommandCard.pop();
+    }
 
     // used when activating effects
     private Stack<Combatant> activator = new Stack<>();

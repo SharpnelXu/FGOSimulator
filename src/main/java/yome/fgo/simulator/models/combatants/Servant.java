@@ -273,29 +273,12 @@ public class Servant extends Combatant {
 
     public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
         simulation.setActivator(this);
-
-        final NpCardTypeChange cardTypeChange = hasNpCardTypeChangeBuff(simulation);
-        if (cardTypeChange != null) {
-            simulation.setCurrentCommandCard(
-                    new NoblePhantasm(
-                            cardTypeChange.getCommandCardType(),
-                            noblePhantasm.getHitPercentages(),
-                            noblePhantasm.getNpCharge(),
-                            noblePhantasm.getCriticalStarGeneration(),
-                            noblePhantasm.getEffects(),
-                            noblePhantasm.getNoblePhantasmType(),
-                            noblePhantasm.getActivationCondition()
-                    )
-            );
-        } else {
-            simulation.setCurrentCommandCard(noblePhantasm);
-        }
+        simulation.setCriticalStrike(false);
 
         final int overchargeLevel = calculateOverchargeLevel(simulation, extraOvercharge);
         currentNp = 0;
         noblePhantasm.activate(simulation, overchargeLevel);
 
-        simulation.setCurrentCommandCard(null);
         simulation.unsetActivator();
     }
 
@@ -335,9 +318,9 @@ public class Servant extends Combatant {
         CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain);
 
         simulation.setCriticalStrike(false);
-        simulation.setCurrentCommandCard(null);
-        simulation.setDefender(null);
-        simulation.setAttacker(null);
+        simulation.unsetCurrentCommandCard();
+        simulation.unsetDefender();
+        simulation.unsetAttacker();
     }
 
     public void activateExtraAttack(
@@ -348,12 +331,13 @@ public class Servant extends Combatant {
         simulation.setAttacker(this);
         simulation.setDefender(simulation.getTargetedEnemy());
         simulation.setCurrentCommandCard(extraCommandCard);
+        simulation.setCriticalStrike(false);
 
         CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain);
 
-        simulation.setCurrentCommandCard(null);
-        simulation.setDefender(null);
-        simulation.setAttacker(null);
+        simulation.unsetCurrentCommandCard();
+        simulation.unsetDefender();
+        simulation.unsetAttacker();
     }
 
     public CommandCardType getNoblePhantasmCardType(final Simulation simulation) {
@@ -365,12 +349,34 @@ public class Servant extends Combatant {
         }
     }
 
+    public NoblePhantasm getNoblePhantasm(final Simulation simulation) {
+        final NpCardTypeChange cardTypeChange = hasNpCardTypeChangeBuff(simulation);
+        if (cardTypeChange != null) {
+            return new NoblePhantasm(
+                    cardTypeChange.getCommandCardType(),
+                    noblePhantasm.getHitPercentages(),
+                    noblePhantasm.getNpCharge(),
+                    noblePhantasm.getCriticalStarGeneration(),
+                    noblePhantasm.getEffects(),
+                    noblePhantasm.getNoblePhantasmType(),
+                    noblePhantasm.getActivationCondition()
+            );
+        } else {
+            return noblePhantasm;
+        }
+    }
+
     public CommandCardType getOriginalNoblePhantasmCardType() {
         return noblePhantasm.getCommandCardType();
     }
 
     public CommandCardType getCommandCardType(final Simulation simulation, final int commandCardIndex) {
-        return getCommandCard(simulation, commandCardIndex).getCommandCardType();
+        final CardTypeChange cardTypeChange = hasCardTypeChangeBuff(simulation);
+        if (cardTypeChange != null) {
+            return cardTypeChange.getCommandCardType();
+        } else {
+            return commandCards.get(commandCardIndex).getCommandCardType();
+        }
     }
 
     public CommandCard getCommandCard(final Simulation simulation, final int index) {

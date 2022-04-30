@@ -106,14 +106,20 @@ public class NoblePhantasmDamage extends Effect {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
-        final CommandCard currentCard = simulation.getCurrentCommandCard();
+        final Combatant activator = simulation.getActivator();
+        simulation.setAttacker(activator);
+        if (!(activator instanceof Servant)) {
+            simulation.unsetAttacker();
+            return;
+        }
+        final Servant attacker = (Servant) activator;
+
+        final CommandCard currentCard = attacker.getNoblePhantasm(simulation);
+        simulation.setCurrentCommandCard(currentCard);
+
         final CommandCardType currentCardType = currentCard.getCommandCardType();
-        final Combatant attacker = simulation.getActivator();
-        simulation.setAttacker(attacker);
         final List<Double> hitsPercentages = getHitsPercentages(simulation, attacker, currentCard.getHitPercentages());
-        final CommandCardType originalCardType = attacker instanceof Servant ?
-                ((Servant) attacker).getOriginalNoblePhantasmCardType() :
-                currentCardType;
+        final CommandCardType originalCardType = attacker.getOriginalNoblePhantasmCardType();
 
         for (final Combatant defender : TargetUtils.getTargets(simulation, target)) {
             simulation.setDefender(defender);
@@ -179,6 +185,7 @@ public class NoblePhantasmDamage extends Effect {
             final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
 
             if (defender.isReceivedInstantDeath()) {
+                simulation.unsetDefender();
                 continue; // for NP I remembered it skips damage calculation
             }
 
@@ -252,9 +259,11 @@ public class NoblePhantasmDamage extends Effect {
                 }
             }
 
-            simulation.setDefender(null);
+            simulation.unsetDefender();
         }
-        simulation.setAttacker(null);
+
+        simulation.unsetCurrentCommandCard();
+        simulation.unsetAttacker();
     }
 
     public static int calculateTotalNpDamage(final NpDamageParameters npDamageParams) {
