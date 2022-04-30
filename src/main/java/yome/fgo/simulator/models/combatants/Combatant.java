@@ -31,7 +31,6 @@ import yome.fgo.simulator.models.effects.buffs.PermanentSleep;
 import yome.fgo.simulator.models.effects.buffs.Poison;
 import yome.fgo.simulator.models.effects.buffs.PreventDeathAgainstDoT;
 import yome.fgo.simulator.models.effects.buffs.SkillSeal;
-import yome.fgo.simulator.models.effects.buffs.Sleep;
 import yome.fgo.simulator.models.effects.buffs.TriggerOnGutsEffect;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;

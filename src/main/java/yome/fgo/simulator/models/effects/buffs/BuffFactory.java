@@ -248,6 +248,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(NpDamageBuff.class.getSimpleName())) {
             return setValuedBuffParams(NpDamageBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(NpDamageBuffEffectivenessUp.class.getSimpleName())) {
+            return setValuedBuffParams(NpDamageBuffEffectivenessUp.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(NpGenerationBuff.class.getSimpleName())) {
             return setValuedBuffParams(NpGenerationBuff.builder(), buffData, level);
 

@@ -21,9 +21,9 @@ import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
 import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
-import yome.fgo.simulator.models.effects.buffs.DamageReflect;
 import yome.fgo.simulator.models.effects.buffs.IgnoreDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
+import yome.fgo.simulator.models.effects.buffs.NpDamageBuffEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.PercentDefenseBuff;
@@ -35,6 +35,7 @@ import yome.fgo.simulator.models.effects.buffs.Sleep;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
 import yome.fgo.simulator.models.variations.Variation;
+import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.List;
@@ -129,7 +130,9 @@ public class NoblePhantasmDamage extends Effect {
             final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);
             final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class);
             final double specificAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
-            final double npDamageBuff = attacker.applyBuff(simulation, NpDamageBuff.class);
+            final double npDamageBuff = RoundUtils.roundNearest(attacker.applyBuff(simulation, NpDamageBuff.class) *
+                    (1 + attacker.applyBuff(simulation, NpDamageBuffEffectivenessUp.class)));
+
             final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class);
             final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class);
             final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class) || isNpIgnoreDefense;
