@@ -35,7 +35,7 @@ public class BuffCountVariation implements Variation {
 
                 if (matchCondition.evaluate(simulation)) {
                     count++;
-                    if (maxCount == count) {
+                    if (maxCount > 0 && maxCount == count) {
                         return maxCount;
                     }
                 }
