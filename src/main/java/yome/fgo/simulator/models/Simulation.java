@@ -124,6 +124,10 @@ public class Simulation {
     private Stack<Combatant> activator = new Stack<>();
     private Stack<Combatant> effectTarget = new Stack<>();
 
+    public boolean hasActivator() {
+        return !activator.isEmpty();
+    }
+
     public void setActivator(final Combatant combatant) {
         activator.push(combatant);
     }
@@ -164,7 +168,7 @@ public class Simulation {
     private boolean activatingServantPassiveEffects; // used to denote passive & append skill buffs
     private boolean activatingCePassiveEffects; // used to denote ce skills
 
-    private Combatant nullSourceSkillActivator = new Combatant();
+    private Combatant nullSourceSkillActivator = new Servant(true); // on ally side
 
     public void initiate() {
         currentStage = 1;
@@ -234,7 +238,7 @@ public class Simulation {
 
         // apply command card effects
         int extraOvercharge = 0;
-        for (int i = 0; i < combatActions.size(); i++) {
+        for (int i = 0; i < combatActions.size(); i += 1) {
             final CombatAction combatAction = combatActions.get(i);
             final Servant servant = currentServants.get(combatAction.servantIndex);
             if (servant == null || servant.isImmobilized() || isAllEnemiesDead()) { // servant dead in previous attack or all enemies dead
@@ -243,7 +247,7 @@ public class Simulation {
 
             if (combatAction.isNoblePhantasm) {
                 servant.activateNoblePhantasm(this, extraOvercharge);
-                extraOvercharge++;
+                extraOvercharge += 1;
 
                 for (final Combatant combatant : getAliveEnemies()) {
                     combatant.clearCumulativeTurnDamage();
@@ -330,7 +334,7 @@ public class Simulation {
 
     private void proceedTurn() {
         if (isAllEnemiesDead() && level.hasNextStage(currentStage)) {
-            currentStage++;
+            currentStage += 1;
             populateStageWithEnemies(currentStage);
             for (final Combatant combatant : currentEnemies) {
                 combatant.initiate(this);
@@ -345,7 +349,7 @@ public class Simulation {
 
             level.getStage(currentStage).applyStageEffects(this);
         }
-        currentTurn++;
+        currentTurn += 1;
     }
 
     private void populateStageWithEnemies(final int currentStage) {
@@ -370,7 +374,7 @@ public class Simulation {
         }
 
         final int firstServantIndex = combatActions.get(0).servantIndex;
-        for (int i = 1; i < MAXIMUM_CARDS_PER_TURN; i++) {
+        for (int i = 1; i < MAXIMUM_CARDS_PER_TURN; i += 1) {
             if (combatActions.get(i).servantIndex != firstServantIndex) {
                 return false;
             }
@@ -385,7 +389,7 @@ public class Simulation {
         }
 
         final CommandCardType firstCardType = getCommandCardType(combatActions.get(0));
-        for (int i = 1; i < MAXIMUM_CARDS_PER_TURN; i++) {
+        for (int i = 1; i < MAXIMUM_CARDS_PER_TURN; i += 1) {
             if (getCommandCardType(combatActions.get(i)) != firstCardType) {
                 return false;
             }
@@ -403,11 +407,13 @@ public class Simulation {
     }
 
     private void applyTypeChainEffect(final CommandCardType commandCardType) {
+        setActivator(nullSourceSkillActivator);
         if (commandCardType == ARTS) {
             ARTS_CHAIN_EFFECT.apply(this);
         } else if (commandCardType == QUICK) {
             QUICK_CHAIN_EFFECT.apply(this);
         }
+        unsetActivator();
         // well, if another chain effect is available in the future...
     }
 
@@ -437,7 +443,7 @@ public class Simulation {
     }
 
     private void removeDeadCombatant(final List<? extends Combatant> combatants) {
-        for (int i = 0; i < combatants.size(); i++) {
+        for (int i = 0; i < combatants.size(); i += 1) {
             final Combatant combatant = combatants.get(i);
             if (combatant == null) {
                 continue;
@@ -478,10 +484,18 @@ public class Simulation {
     }
 
     public Servant getTargetedAlly() {
+        if (currentServants.size() <= currentAllyTargetIndex) {
+            return null;
+        }
+
         return currentServants.get(currentAllyTargetIndex);
     }
 
     public Combatant getTargetedEnemy() {
+        if (currentEnemies.size() <= currentEnemyTargetIndex) {
+            return null;
+        }
+
         return currentEnemies.get(currentEnemyTargetIndex);
     }
 
@@ -492,7 +506,7 @@ public class Simulation {
     @VisibleForTesting
     static int getNextNonNullTargetIndex(final List<? extends Combatant> combatants, int currentTargetIndex) {
         if (combatants.get(currentTargetIndex) == null) {
-            for (int i = 0; i < combatants.size(); i++) {
+            for (int i = 0; i < combatants.size(); i += 1) {
                 if (combatants.get(i) != null) {
                     return i;
                 }
@@ -508,7 +522,7 @@ public class Simulation {
             final Queue<E> backupCombatants
     ) {
         final List<Combatant> newCombatants = new ArrayList<>();
-        for (int i = 0; i < currentCombatants.size(); i++) {
+        for (int i = 0; i < currentCombatants.size(); i += 1) {
             final Combatant combatant = currentCombatants.get(i);
             if (combatant == null && !backupCombatants.isEmpty()) {
                 final E backupServant = backupCombatants.poll();

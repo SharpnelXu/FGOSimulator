@@ -29,7 +29,7 @@ public class TraitCountVariation implements Variation {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             for (final String trait : combatant.getAllTraits(simulation)) {
                 if (targetTrait.equalsIgnoreCase(trait)) {
-                    count++;
+                    count += 1;
                     if (maxCount > 0 && maxCount == count) {
                         return maxCount;
                     }

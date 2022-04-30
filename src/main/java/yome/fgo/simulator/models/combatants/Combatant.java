@@ -306,7 +306,7 @@ public class Combatant {
 
     public void hpBarBreak() {
         receivedInstantDeath = false;
-        currentHpBarIndex++;
+        currentHpBarIndex += 1;
         currentHp = hpBars.get(currentHpBarIndex);
     }
 
@@ -375,7 +375,7 @@ public class Combatant {
     }
 
     public void endOfMyTurn(final Simulation simulation) {
-        currentNpGauge++;
+        currentNpGauge += 1;
         if (currentNpGauge > maxNpGauge) {
             currentNpGauge = maxNpGauge;
         }
@@ -425,7 +425,7 @@ public class Combatant {
     }
 
     public void clearInactiveBuff() {
-        for (int j = buffs.size() - 1; j >= 0; j--) {
+        for (int j = buffs.size() - 1; j >= 0; j -= 1) {
             if (buffs.get(j).isInactive()) {
                 buffs.remove(j);
             }
@@ -433,7 +433,7 @@ public class Combatant {
     }
 
     public void clearPassiveBuff(final Combatant activator) {
-        for (int j = buffs.size() - 1; j >= 0; j--) {
+        for (int j = buffs.size() - 1; j >= 0; j -= 1) {
             final Buff buff  = buffs.get(j);
             if (buff.isPassive() && buff.getActivator() == activator) {
                 buffs.remove(j);

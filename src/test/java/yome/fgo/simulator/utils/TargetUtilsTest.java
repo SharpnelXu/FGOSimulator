@@ -174,14 +174,20 @@ public class TargetUtilsTest {
 
         final List<Combatant> currentEnemies = Lists.newArrayList(
                 null,
-                new Servant(SERVANT_1),
+                new Combatant(SERVANT_1),
                 null
         );
 
-        final LinkedList<Combatant> backupEnemies = Lists.newLinkedList(ImmutableList.of(new Servant(SERVANT_3)));
+        final LinkedList<Combatant> backupEnemies = Lists.newLinkedList(ImmutableList.of(new Combatant(SERVANT_3)));
 
         simulation.setCurrentEnemies(currentEnemies);
         simulation.setBackupEnemies(backupEnemies);
+
+        simulation.setActivator(currentEnemies.get(1));
+        assertThat(getTargets(simulation, ALL_ENEMIES).stream().map(Combatant::getId)).containsExactlyInAnyOrder(SERVANT_2);
+        assertThat(getTargets(simulation, ALL_ALLIES).stream().map(Combatant::getId)).containsExactlyInAnyOrder(SERVANT_1);
+        assertThat(getTargets(simulation, ALL_ALLIES_INCLUDING_BACKUP).stream().map(Combatant::getId))
+                .containsExactlyInAnyOrder(SERVANT_1, SERVANT_3);
 
         final List<Combatant> allCharacters = getTargets(simulation, ALL_CHARACTERS);
         assertThat(allCharacters.stream().map(Combatant::getId))

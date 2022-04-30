@@ -23,8 +23,8 @@ public class AttributeUtilsTest {
 
     @Test
     public void testGetAttributeAdvantage() {
-        for (int i = 0; i < ATTRIBUTES.length; i++) {
-            for (int j = 0; j < ATTRIBUTES.length; j++) {
+        for (int i = 0; i < ATTRIBUTES.length; i += 1) {
+            for (int j = 0; j < ATTRIBUTES.length; j += 1) {
                 assertEquals(EXPECTED_RESULTS[i][j], getAttributeAdvantage(ATTRIBUTES[i], ATTRIBUTES[j]));
             }
         }

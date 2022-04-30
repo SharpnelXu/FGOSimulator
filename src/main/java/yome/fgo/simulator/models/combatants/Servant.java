@@ -3,7 +3,6 @@ package yome.fgo.simulator.models.combatants;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import yome.fgo.data.proto.FgoStorageData.AppendSkillData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
@@ -34,7 +33,6 @@ import java.util.stream.Collectors;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP;
 import static yome.fgo.data.proto.FgoStorageData.Traits.SERVANT;
 
-@NoArgsConstructor
 @Getter
 @Setter
 public class Servant extends Combatant {
@@ -66,8 +64,18 @@ public class Servant extends Combatant {
     private double currentNp;
 
     // for testing
+    public Servant() {
+        this.isAlly = true;
+    }
+
+    public Servant(final boolean isAlly) {
+        this.isAlly = isAlly;
+    }
+
+    // for testing
     public Servant(final String id) {
         super(id);
+        this.isAlly = true;
     }
 
     // for testing
@@ -127,7 +135,7 @@ public class Servant extends Combatant {
         noblePhantasm = new NoblePhantasm(noblePhantasmData, noblePhantasmLevel);
 
         activeSkills = new ArrayList<>();
-        for (int i = 0; i < servantAscensionData.getActiveSkillUpgradesCount(); i++) {
+        for (int i = 0; i < servantAscensionData.getActiveSkillUpgradesCount(); i += 1) {
             activeSkills.add(new ActiveSkill(servantAscensionData.getActiveSkillUpgrades(i), servantOption.getActiveSkillLevels(i)));
         }
 
@@ -137,7 +145,7 @@ public class Servant extends Combatant {
         }
 
         appendSkills = new ArrayList<>();
-        for (int i = 0; i < servantAscensionData.getAppendSkillDataCount(); i++) {
+        for (int i = 0; i < servantAscensionData.getAppendSkillDataCount(); i += 1) {
             final int appendSkillLevel = servantOption.getAppendSkillLevels(i);
             if (appendSkillLevel > 0) {
                 final AppendSkillData appendSkillData = servantAscensionData.getAppendSkillData(i);
@@ -148,7 +156,7 @@ public class Servant extends Combatant {
         }
 
         commandCards = new ArrayList<>();
-        for (int i = 0; i < servantAscensionData.getCommandCardDataCount(); i++) {
+        for (int i = 0; i < servantAscensionData.getCommandCardDataCount(); i += 1) {
             final CommandCardData commandCardData = servantAscensionData.getCommandCardData(i);
             if (servantOption.getCommandCardOptionsCount() == 0) {
                 commandCards.add(new CommandCard(commandCardData));
@@ -183,7 +191,7 @@ public class Servant extends Combatant {
             appendSkill.activateOnlyBuffGrantingEffects(simulation);
         }
 
-        for (int i = 0; i < activeSkills.size(); i++) {
+        for (int i = 0; i < activeSkills.size(); i += 1) {
             if (coolDowns.size() > i) {
                 activeSkills.get(i).setCurrentCoolDown(coolDowns.get(i));
             }
@@ -310,6 +318,7 @@ public class Servant extends Combatant {
             final boolean isTypeChain,
             final CommandCardType firstCardType
     ) {
+        simulation.setActivator(this);
         simulation.setAttacker(this);
         simulation.setDefender(simulation.getTargetedEnemy());
         simulation.setCurrentCommandCard(getCommandCard(simulation, commandCardIndex));
@@ -321,6 +330,7 @@ public class Servant extends Combatant {
         simulation.unsetCurrentCommandCard();
         simulation.unsetDefender();
         simulation.unsetAttacker();
+        simulation.unsetActivator();
     }
 
     public void activateExtraAttack(
@@ -328,6 +338,7 @@ public class Servant extends Combatant {
             final boolean isTypeChain,
             final CommandCardType firstCardType
     ) {
+        simulation.setActivator(this);
         simulation.setAttacker(this);
         simulation.setDefender(simulation.getTargetedEnemy());
         simulation.setCurrentCommandCard(extraCommandCard);
@@ -338,6 +349,7 @@ public class Servant extends Combatant {
         simulation.unsetCurrentCommandCard();
         simulation.unsetDefender();
         simulation.unsetAttacker();
+        simulation.unsetActivator();
     }
 
     public CommandCardType getNoblePhantasmCardType(final Simulation simulation) {

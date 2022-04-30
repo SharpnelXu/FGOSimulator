@@ -194,7 +194,7 @@ public class NoblePhantasmDamage extends Effect {
             int remainingDamage = totalDamage;
 
             double totalCritStar = 0;
-            for (int i = 0; i < hitsPercentages.size(); i++) {
+            for (int i = 0; i < hitsPercentages.size(); i += 1) {
                 if (!skipDamage) {
                     final double hitsPercentage = hitsPercentages.get(i);
                     final int hitDamage;

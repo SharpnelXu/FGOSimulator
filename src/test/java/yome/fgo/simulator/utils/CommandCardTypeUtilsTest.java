@@ -57,8 +57,8 @@ public class CommandCardTypeUtilsTest {
     public void testGetCommandCardDamageCorrection() {
         assertThrows(IllegalArgumentException.class, () -> getCommandCardDamageCorrection(BUSTER, -1));
 
-        for (int i = 0; i < COMMAND_CARD_TYPES.length; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < COMMAND_CARD_TYPES.length; i += 1) {
+            for (int j = 0; j < 3; j += 1) {
                 assertEquals(EXPECTED_DAMAGE_CORRECTION[i][j], getCommandCardDamageCorrection(COMMAND_CARD_TYPES[i], j));
             }
         }
@@ -69,8 +69,8 @@ public class CommandCardTypeUtilsTest {
     public void testGetCommandCardNpCorrection() {
         assertThrows(IllegalArgumentException.class, () -> getCommandCardNpCorrection(BUSTER, -1));
 
-        for (int i = 0; i < COMMAND_CARD_TYPES.length; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < COMMAND_CARD_TYPES.length; i += 1) {
+            for (int j = 0; j < 3; j += 1) {
                 assertEquals(EXPECTED_NP_CORRECTION[i][j], getCommandCardNpCorrection(COMMAND_CARD_TYPES[i], j));
             }
         }
@@ -81,8 +81,8 @@ public class CommandCardTypeUtilsTest {
     public void testGetCommandCardCritStarCorrection() {
         assertThrows(IllegalArgumentException.class, () -> getCommandCardCritStarCorrection(BUSTER, -1));
 
-        for (int i = 0; i < COMMAND_CARD_TYPES.length; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < COMMAND_CARD_TYPES.length; i += 1) {
+            for (int j = 0; j < 3; j += 1) {
                 assertEquals(EXPECTED_CRIT_STAR_CORRECTION[i][j], getCommandCardCritStarCorrection(COMMAND_CARD_TYPES[i], j));
             }
         }

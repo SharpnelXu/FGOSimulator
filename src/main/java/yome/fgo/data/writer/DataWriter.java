@@ -59,7 +59,7 @@ public class DataWriter {
 
     public static List<Double> generateSkillValues(final double base, final double step) {
         final ImmutableList.Builder<Double> builder = ImmutableList.builder();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i += 1) {
             final double roundedValue = RoundUtils.roundNearest(base + i * step);
             builder.add(roundedValue);
         }

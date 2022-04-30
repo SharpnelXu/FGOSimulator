@@ -65,7 +65,7 @@ public class CommandCardExecution {
             if (buff instanceof HitsDoubledBuff && buff.shouldApply(simulation)) {
                 final List<Double> doubledHits = new ArrayList<>();
                 for (final int hit : baseHitsPercentages) {
-                    for (int i = 0; i < 2; i++) {
+                    for (int i = 0; i < 2; i += 1) {
                         doubledHits.add(hit / 2.0);
                     }
                 }
@@ -151,7 +151,7 @@ public class CommandCardExecution {
         int remainingDamage = totalDamage;
 
         double totalCritStar = 0;
-        for (int i = 0; i < hitsPercentages.size(); i++) {
+        for (int i = 0; i < hitsPercentages.size(); i += 1) {
             if (!skipDamage) {
                 final double hitsPercentage = hitsPercentages.get(i);
                 final int hitDamage;

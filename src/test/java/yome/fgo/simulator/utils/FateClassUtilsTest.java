@@ -64,29 +64,29 @@ public class FateClassUtilsTest {
 
     @Test
     public void testGetClassAttackCorrection() {
-        for (int i = 0; i < ALL_SERVANT_CLASSES.length; i++) {
+        for (int i = 0; i < ALL_SERVANT_CLASSES.length; i += 1) {
             assertEquals(CLASS_ATTACK_CORRECTION[i], getClassAttackCorrection(ALL_SERVANT_CLASSES[i]));
         }
     }
 
     @Test
     public void testGetClassNpCorrection() {
-        for (int i = 0; i < ALL_SERVANT_CLASSES.length; i++) {
+        for (int i = 0; i < ALL_SERVANT_CLASSES.length; i += 1) {
             assertEquals(CLASS_NP_CORRECTION[i], getClassNpCorrection(ALL_SERVANT_CLASSES[i]));
         }
     }
 
     @Test
     public void testGetClassCritStarCorrection() {
-        for (int i = 0; i < ALL_SERVANT_CLASSES.length; i++) {
+        for (int i = 0; i < ALL_SERVANT_CLASSES.length; i += 1) {
             assertEquals(CLASS_CRIT_CORRECTION[i], getClassCritStarCorrection(ALL_SERVANT_CLASSES[i]));
         }
     }
 
     @Test
     public void testGetClassAdvantages() {
-        for (int i = 0; i < ALL_CLASSES.length; i++) {
-            for (int j = 0; j < ALL_CLASSES.length; j++) {
+        for (int i = 0; i < ALL_CLASSES.length; i += 1) {
+            for (int j = 0; j < ALL_CLASSES.length; j += 1) {
                 assertEquals(CLASS_ADVANTAGES[i][j], getClassAdvantage(ALL_CLASSES[i], ALL_CLASSES[j]));
             }
         }

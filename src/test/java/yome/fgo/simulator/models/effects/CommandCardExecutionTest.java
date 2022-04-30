@@ -107,7 +107,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.consumeBuffIfExist(simulation, Invincible.class)).andReturn(false);
 
         final List<Capture<Integer>> captures = new ArrayList<>();
-        for (int i = 0; i < KAMA_AVENGER_BUSTER.getHitPercentages().size(); i++) {
+        for (int i = 0; i < KAMA_AVENGER_BUSTER.getHitPercentages().size(); i += 1) {
             final Capture<Integer> capturedDamage = newCapture();
             defender.receiveDamage(captureInt(capturedDamage));
             captures.add(capturedDamage);
@@ -157,7 +157,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.consumeBuffIfExist(simulation, Invincible.class)).andReturn(false);
 
         final List<Capture<Integer>> captures = new ArrayList<>();
-        for (int i = 0; i < KAMA_AVENGER_EXTRA.getHitPercentages().size(); i++) {
+        for (int i = 0; i < KAMA_AVENGER_EXTRA.getHitPercentages().size(); i += 1) {
             final Capture<Integer> capturedDamage = newCapture();
             defender.receiveDamage(captureInt(capturedDamage));
             captures.add(capturedDamage);
@@ -338,28 +338,28 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         npParametersBuilder.isCriticalStrike(false);
         npParametersBuilder.currentCardType(ARTS).chainIndex(0).commandCardBuff(0.3).isOverkill(false);
         double totalHitsNp = 0;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.0762, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(QUICK).chainIndex(1).commandCardBuff(0.1).isOverkill(false);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.0548, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(BUSTER).chainIndex(2).commandCardBuff(0).isOverkill(true);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.0234, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(EXTRA).chainIndex(3).commandCardBuff(0.5).isOverkill(true);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.0975, totalHitsNp, 0.00001);
@@ -369,21 +369,21 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         npParametersBuilder.isCriticalStrike(true);
         npParametersBuilder.currentCardType(BUSTER).chainIndex(0).commandCardBuff(0).isOverkill(false);
         totalHitsNp = 0;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(QUICK).chainIndex(1).commandCardBuff(0.1).isOverkill(true);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.1024, totalHitsNp, 0.001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(ARTS).chainIndex(2).commandCardBuff(0.3).isOverkill(true);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.3648, totalHitsNp, 0.001);
@@ -391,7 +391,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         totalHitsNp = 0;
         npParametersBuilder.isCriticalStrike(false);
         npParametersBuilder.currentCardType(EXTRA).chainIndex(3).commandCardBuff(0.5).isOverkill(true);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.0585, totalHitsNp, 0.001);
@@ -410,21 +410,21 @@ public class CommandCardExecutionTest extends EasyMockSupport {
                 .isOverkill(true);
         npParametersBuilder.currentCardType(ARTS).chainIndex(1);
         double totalHitsNp = 0;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.36, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(ARTS).chainIndex(2);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.48, totalHitsNp, 0.00001);
 
         totalHitsNp = 0;
         npParametersBuilder.currentCardType(EXTRA).chainIndex(3).isCriticalStrike(false);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.0495, totalHitsNp, 0.00001);
@@ -443,7 +443,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
                 .isOverkill(true);
         double totalHitsNp = 0;
         npParametersBuilder.currentCardType(ARTS).chainIndex(2);
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 6; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.69, totalHitsNp, 0.00001);
@@ -462,7 +462,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
                 .isOverkill(true);
         double totalHitsNp = 0;
         npParametersBuilder.currentCardType(ARTS).chainIndex(2);
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build());
         }
         assertEquals(0.4602, totalHitsNp, 0.00001);
@@ -478,14 +478,14 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         double totalStars = 0;
         critStarParamsBuilder.isCriticalStrike(false).firstCardType(QUICK).isOverkill(false);
         critStarParamsBuilder.currentCardType(QUICK).chainIndex(0).commandCardBuff(0.1);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i += 1) {
             totalStars += calculateCritStar(critStarParamsBuilder.build());
         }
         assertEquals(4.36, totalStars, 0.1);
 
         totalStars = 0;
         critStarParamsBuilder.currentCardType(ARTS).chainIndex(1).commandCardBuff(0.3);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i += 1) {
             totalStars += calculateCritStar(critStarParamsBuilder.build());
         }
         assertEquals(0.63, totalStars, 0.1);
@@ -493,14 +493,14 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         totalStars = 0;
         critStarParamsBuilder.isOverkill(true);
         critStarParamsBuilder.currentCardType(BUSTER).chainIndex(2).commandCardBuff(0);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i += 1) {
             totalStars += calculateCritStar(critStarParamsBuilder.build());
         }
         assertEquals(2.13, totalStars, 0.1);
 
         totalStars = 0;
         critStarParamsBuilder.currentCardType(EXTRA).chainIndex(3).commandCardBuff(0.5);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i += 1) {
             totalStars += calculateCritStar(critStarParamsBuilder.build());
         }
         assertEquals(10.05, totalStars, 0.1);
@@ -509,7 +509,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         totalStars = 0;
         critStarParamsBuilder.isCriticalStrike(true).firstCardType(ARTS).isOverkill(false).critStarGenerationBuff(0.5);
         critStarParamsBuilder.currentCardType(ARTS).chainIndex(0).commandCardBuff(0.3);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i += 1) {
             totalStars += calculateCritStar(critStarParamsBuilder.build());
         }
         assertEquals(2.13, totalStars, 0.1);
@@ -517,14 +517,14 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         totalStars = 0;
         critStarParamsBuilder.isOverkill(true);
         critStarParamsBuilder.currentCardType(QUICK).chainIndex(1).commandCardBuff(0.1);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i += 1) {
             totalStars += calculateCritStar(critStarParamsBuilder.build());
         }
         assertEquals(9.76, totalStars, 0.1);
 
         totalStars = 0;
         critStarParamsBuilder.currentCardType(BUSTER).chainIndex(2).commandCardBuff(0);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i += 1) {
             totalStars += calculateCritStar(critStarParamsBuilder.build());
         }
         assertEquals(3.63, totalStars, 0.1);
@@ -532,7 +532,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         totalStars = 0;
         critStarParamsBuilder.isCriticalStrike(false);
         critStarParamsBuilder.currentCardType(EXTRA).chainIndex(3).commandCardBuff(0.5);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i += 1) {
             totalStars += calculateCritStar(critStarParamsBuilder.build());
         }
         assertEquals(11.55, totalStars, 0.1);

@@ -34,7 +34,7 @@ public class BuffCountVariation implements Variation {
                 simulation.setCurrentBuff(buff);
 
                 if (matchCondition.evaluate(simulation)) {
-                    count++;
+                    count += 1;
                     if (maxCount > 0 && maxCount == count) {
                         return maxCount;
                     }

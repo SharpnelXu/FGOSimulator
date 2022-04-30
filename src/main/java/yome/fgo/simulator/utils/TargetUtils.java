@@ -6,97 +6,102 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TargetUtils {
     public static List<Combatant> getTargets(final Simulation simulation, final Target target) {
         final ImmutableList.Builder<Combatant> targets = ImmutableList.builder();
+        final Combatant activator = simulation.hasActivator() ? simulation.getActivator() : null;
+        final boolean isAlly = activator == null || activator.isAlly();
+        final Collection<? extends Combatant> backupAllies = isAlly ? simulation.getBackupServants() : simulation.getBackupEnemies();
+        final Collection<? extends Combatant> aliveAllies = isAlly ? simulation.getAliveAllies() : simulation.getAliveEnemies();
+        final Combatant targetedAlly = isAlly ? simulation.getTargetedAlly() : simulation.getTargetedEnemy();
+
+        final Collection<? extends Combatant> backupEnemies = isAlly ? simulation.getBackupEnemies() : simulation.getBackupServants();
+        final Collection<? extends Combatant> aliveEnemies = isAlly ? simulation.getAliveEnemies() : simulation.getAliveAllies();
+        final Combatant targetedEnemy = isAlly ? simulation.getTargetedEnemy() : simulation.getTargetedAlly();
+
         switch (target) {
             case ACTIVATOR:
             case SELF:
                 targets.add(simulation.getActivator());
                 break;
             case FIRST_ENEMY:
-                targets.add(simulation.getFirstAliveEnemy());
+                aliveEnemies.stream().findFirst().ifPresent(targets::add);
                 break;
             case FIRST_ALLY_EXCLUDING_SELF:
-                simulation.getAliveAllies()
-                        .stream()
-                        .filter(ally -> ally != simulation.getActivator() && ally.isSelectable())
+                aliveAllies.stream()
+                        .filter(ally -> ally != activator && ally.isSelectable())
                         .findFirst()
                         .ifPresent(targets::add);
                 break;
             case TARGETED_ALLY:
-                targets.add(simulation.getTargetedAlly());
+                if (targetedAlly != null) {
+                    targets.add(targetedAlly);
+                }
                 break;
             case TARGETED_ENEMY:
-                targets.add(simulation.getTargetedEnemy());
+                if (targetedEnemy != null) {
+                    targets.add(targetedEnemy);
+                }
                 break;
             case NON_TARGETED_ALLIES:
-                targets.addAll(simulation.getAliveAllies()
-                                       .stream()
-                                       .filter(ally -> ally != simulation.getTargetedAlly())
-                                       .collect(Collectors.toList()));
+                targets.addAll(aliveAllies.stream().filter(ally -> ally != targetedAlly).collect(Collectors.toList()));
                 break;
             case NON_TARGETED_ENEMIES:
-                targets.addAll(simulation.getAliveEnemies()
-                                       .stream()
-                                       .filter(enemy -> enemy != simulation.getTargetedEnemy())
-                                       .collect(Collectors.toList()));
+                targets.addAll(aliveEnemies.stream().filter(enemy -> enemy != targetedEnemy).collect(Collectors.toList()));
                 break;
             case ALL_ALLIES:
-                targets.addAll(simulation.getAliveAllies());
+                targets.addAll(aliveAllies);
                 break;
             case ALL_ALLIES_EXCLUDING_SELF:
-                targets.addAll(simulation.getAliveAllies()
-                                       .stream()
-                                       .filter(ally -> ally != simulation.getActivator())
-                                       .collect(Collectors.toList()));
+                targets.addAll(aliveAllies.stream().filter(ally -> ally != activator).collect(Collectors.toList()));
                 break;
             case ALL_ALLIES_INCLUDING_BACKUP:
-                targets.addAll(simulation.getAliveAllies());
-                targets.addAll(simulation.getBackupServants());
+                targets.addAll(aliveAllies);
+                targets.addAll(backupAllies);
                 break;
             case ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP:
-                final List<Combatant> allAllies = new ArrayList<>();
-                allAllies.addAll(simulation.getAliveAllies());
-                allAllies.addAll(simulation.getBackupServants());
-                allAllies.remove(simulation.getActivator());
-                targets.addAll(allAllies);
+                final List<Combatant> allyList = new ArrayList<>();
+                allyList.addAll(aliveAllies);
+                allyList.addAll(backupAllies);
+                allyList.remove(activator);
+                targets.addAll(allyList);
                 break;
             case ALL_ENEMIES:
-                targets.addAll(simulation.getAliveEnemies());
+                targets.addAll(aliveEnemies);
                 break;
             case ALL_ENEMIES_INCLUDING_BACKUP:
-                targets.addAll(simulation.getAliveEnemies());
-                targets.addAll(simulation.getBackupEnemies());
+                targets.addAll(aliveEnemies);
+                targets.addAll(backupEnemies);
                 break;
             case ALL_CHARACTERS:
-                targets.addAll(simulation.getAliveEnemies());
-                targets.addAll(simulation.getAliveAllies());
+                targets.addAll(aliveEnemies);
+                targets.addAll(aliveAllies);
                 break;
             case ALL_CHARACTERS_EXCLUDING_SELF:
-                final List<Combatant> allCharacters = new ArrayList<>(simulation.getAliveAllies());
-                allCharacters.remove(simulation.getActivator());
+                final List<Combatant> allCharacters = new ArrayList<>(aliveAllies);
+                allCharacters.remove(activator);
                 targets.addAll(allCharacters);
-                targets.addAll(simulation.getAliveEnemies());
+                targets.addAll(aliveEnemies);
                 break;
             case ALL_CHARACTERS_INCLUDING_BACKUP:
-                targets.addAll(simulation.getAliveEnemies());
-                targets.addAll(simulation.getAliveAllies());
-                targets.addAll(simulation.getBackupEnemies());
-                targets.addAll(simulation.getBackupServants());
+                targets.addAll(aliveEnemies);
+                targets.addAll(aliveAllies);
+                targets.addAll(backupEnemies);
+                targets.addAll(backupAllies);
                 break;
             case ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP:
                 final List<Combatant> allAllyServants = new ArrayList<>();
-                allAllyServants.addAll(simulation.getBackupServants());
-                allAllyServants.addAll(simulation.getAliveAllies());
-                allAllyServants.remove(simulation.getActivator());
+                allAllyServants.addAll(backupAllies);
+                allAllyServants.addAll(aliveAllies);
+                allAllyServants.remove(activator);
 
                 targets.addAll(allAllyServants);
-                targets.addAll(simulation.getAliveEnemies());
-                targets.addAll(simulation.getBackupEnemies());
+                targets.addAll(aliveEnemies);
+                targets.addAll(backupEnemies);
                 break;
             case ATTACKER:
                 targets.add(simulation.getAttacker());

@@ -50,7 +50,7 @@ public class RemoveBuff extends IntValuedEffect {
                 final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
                 if (probability - buffRemovalResist >= simulation.getProbabilityThreshold()) {
                     buffList.remove(j);
-                    removeCount++;
+                    removeCount += 1;
                 }
             }
 
@@ -80,7 +80,7 @@ public class RemoveBuff extends IntValuedEffect {
                 if (probability - buffRemovalResist >= simulation.getProbabilityThreshold()) {
                     buffList.remove(i);
                     i -= 1;
-                    removeCount++;
+                    removeCount += 1;
                 }
             }
 
