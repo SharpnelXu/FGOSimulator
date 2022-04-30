@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.models.effects.MoveToLastBackup.MOVE_TO_LAST_BACKUP;
 import static yome.fgo.simulator.models.effects.OrderChange.ORDER_CHANGE;
 import static yome.fgo.simulator.models.effects.ShuffleCards.SHUFFLE_CARDS;
 
@@ -72,6 +73,9 @@ public class EffectFactory {
 
         } else if (type.equalsIgnoreCase(MaxHpChange.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(MaxHpChange.builder(), effectData, level);
+
+        } else if (type.equalsIgnoreCase(MoveToLastBackup.class.getSimpleName())) {
+            return MOVE_TO_LAST_BACKUP;
 
         } else if (type.equalsIgnoreCase(NoblePhantasmDamage.class.getSimpleName())) {
             return setCommonNpDamageParams(NoblePhantasmDamage.builder(), effectData, level);
