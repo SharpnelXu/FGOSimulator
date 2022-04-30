@@ -3,7 +3,7 @@ package yome.fgo.simulator.models.effects.buffs;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-public class PoisonEffectivenessUp extends ValuedBuff implements EndOfTurnDamage {
+public class PoisonEffectivenessUp extends ValuedBuff implements DamageOverTime {
     @Override
     public boolean commonBuffCondition() {
         return super.commonDebuffCondition();

@@ -1,5 +1,6 @@
 package yome.fgo.simulator.models.combatants;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import yome.fgo.data.proto.FgoStorageData.Alignment;
@@ -11,10 +12,8 @@ import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.Burn;
-import yome.fgo.simulator.models.effects.buffs.BurnEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.Curse;
-import yome.fgo.simulator.models.effects.buffs.CurseEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.DamageReflect;
 import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.DelayedEffect;
@@ -30,7 +29,7 @@ import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.NpSeal;
 import yome.fgo.simulator.models.effects.buffs.PermanentSleep;
 import yome.fgo.simulator.models.effects.buffs.Poison;
-import yome.fgo.simulator.models.effects.buffs.PoisonEffectivenessUp;
+import yome.fgo.simulator.models.effects.buffs.PreventDeathAgainstDoT;
 import yome.fgo.simulator.models.effects.buffs.SkillSeal;
 import yome.fgo.simulator.models.effects.buffs.Sleep;
 import yome.fgo.simulator.models.effects.buffs.TriggerOnGutsEffect;
@@ -343,6 +342,30 @@ public class Combatant {
         clearInactiveBuff();
     }
 
+    public int calculateDoTDamage(
+            final Simulation simulation,
+            final Class<? extends ValuedBuff> doTClass,
+            final Class<? extends ValuedBuff> doTEffClass
+    ) {
+        final double baseDamage = applyBuff(simulation, doTClass);
+        final double effectiveness = applyBuff(simulation, doTEffClass);
+        int totalDamage = Math.min(0, (int) RoundUtils.roundNearest(baseDamage * (1 + effectiveness)));
+
+        if (totalDamage >= currentHp) {
+            for (final Buff buff : buffs) {
+                if (buff instanceof PreventDeathAgainstDoT && buff.shouldApply(simulation)) {
+                    final String preventType = ((PreventDeathAgainstDoT) buff).getType();
+                    if (doTClass.getSimpleName().equalsIgnoreCase(preventType) || Strings.isNullOrEmpty(preventType)) {
+                        buff.setApplied();
+                        return currentHp - 1;
+                    }
+                }
+            }
+        }
+
+        return totalDamage;
+    }
+
     public void endOfMyTurn(final Simulation simulation) {
         currentNpGauge++;
         if (currentNpGauge > maxNpGauge) {
@@ -358,17 +381,10 @@ public class Combatant {
 
         activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
 
-        final int poisonDamage = Math.min(0, (int) RoundUtils.roundNearest(
-                applyBuff(simulation, Poison.class) * (1 + applyBuff(simulation, PoisonEffectivenessUp.class))
-        ));
+        final int poisonDamage = calculateDoTDamage(simulation, Poison.class, Poison.getEffectivenessClass());
+        final int burnDamage = calculateDoTDamage(simulation, Burn.class, Burn.getEffectivenessClass());
+        final int curseDamage = calculateDoTDamage(simulation, Curse.class, Curse.getEffectivenessClass());
 
-        final int burnDamage = Math.min(0, (int) RoundUtils.roundNearest(
-                applyBuff(simulation, Burn.class) * (1 + applyBuff(simulation, BurnEffectivenessUp.class))
-        ));
-
-        final int curseDamage = Math.min(0, (int) RoundUtils.roundNearest(
-                applyBuff(simulation, Curse.class) * (1 + applyBuff(simulation, CurseEffectivenessUp.class))
-        ));
 
         receiveNonHpBarBreakDamage(poisonDamage + burnDamage + curseDamage);
 
