@@ -10,6 +10,7 @@ import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.simulator.models.Simulation;
+import yome.fgo.simulator.models.effects.buffs.AttackBuffDurationExtend;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.Burn;
 import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
@@ -259,6 +260,15 @@ public class Combatant {
         return false;
     }
 
+    public boolean isBuffExtended() {
+        for (final Buff buff : buffs) {
+            if (buff instanceof AttackBuffDurationExtend) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isAlreadyDead() {
         return currentHp <= 0;
     }
@@ -329,8 +339,10 @@ public class Combatant {
 
         activateDamageReflect(simulation);
 
+        final boolean isBuffExtended = isBuffExtended();
+
         for (final Buff buff : buffs) {
-            if (!shouldDecreaseNumTurnsActiveAtMyTurn(buff) && !isImmobilizeOrSeal(buff)) {
+            if (isBuffExtended || (!shouldDecreaseNumTurnsActiveAtMyTurn(buff) && !isImmobilizeOrSeal(buff))) {
                 buff.decreaseNumTurnsActive();
             }
         }
@@ -383,6 +395,10 @@ public class Combatant {
 
 
         receiveNonHpBarBreakDamage(poisonDamage + burnDamage + curseDamage);
+
+        if (isBuffExtended()) {
+            return;
+        }
 
         for (final Buff buff : buffs) {
             if (shouldDecreaseNumTurnsActiveAtMyTurn(buff)) {

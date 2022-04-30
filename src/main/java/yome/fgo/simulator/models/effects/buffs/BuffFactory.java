@@ -32,6 +32,9 @@ public class BuffFactory {
         if (type.equalsIgnoreCase(AttackBuff.class.getSimpleName())) {
             return setValuedBuffParams(AttackBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(AttackBuffDurationExtend.class.getSimpleName())) {
+            return setCommonBuffParams(AttackBuffDurationExtend.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(BlessedByKur.class.getSimpleName())) {
             return setCommonBuffParams(BlessedByKur.builder().trait(BLESSED_BY_KUR.name()), buffData, level);
 
