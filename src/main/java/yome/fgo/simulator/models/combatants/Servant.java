@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.AppendSkillData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardData;
@@ -24,6 +23,7 @@ import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.OverchargeBuff;
+import yome.fgo.simulator.models.effects.buffs.SkillRankUp;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
@@ -128,9 +128,7 @@ public class Servant extends Combatant {
 
         activeSkills = new ArrayList<>();
         for (int i = 0; i < servantAscensionData.getActiveSkillUpgradesCount(); i++) {
-            final ActiveSkillData activeSkillData = servantAscensionData.getActiveSkillUpgrades(i)
-                    .getActiveSkillData(servantOption.getActiveSkillRanks(i) - 1);
-            activeSkills.add(new ActiveSkill(activeSkillData, servantOption.getActiveSkillLevels(i)));
+            activeSkills.add(new ActiveSkill(servantAscensionData.getActiveSkillUpgrades(i), servantOption.getActiveSkillLevels(i)));
         }
 
         passiveSkills = new ArrayList<>();
@@ -227,10 +225,16 @@ public class Servant extends Combatant {
         return attack + craftEssenceAtk + attackStatusUp;
     }
 
+    private int calculateSkillRank(final Simulation simulation, final int activeSkillIndex) {
+        final int currentRank = servantOption.getActiveSkillRanks(activeSkillIndex);
+        final int increasedRank = countAndConsumeBuffs(simulation, SkillRankUp.class);
+        return currentRank + increasedRank;
+    }
+
     public void activateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
         simulation.setActivator(this);
 
-        activeSkills.get(activeSkillIndex).activate(simulation);
+        activeSkills.get(activeSkillIndex).activate(simulation, calculateSkillRank(simulation, activeSkillIndex));
 
         simulation.unsetActivator();
     }
@@ -238,14 +242,15 @@ public class Servant extends Combatant {
     public boolean canActivateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
         simulation.setActivator(this);
 
-        final boolean canActivate = !isSkillInaccessible() && activeSkills.get(activeSkillIndex).canActivate(simulation);
+        final boolean canActivate = !isSkillInaccessible() &&
+                activeSkills.get(activeSkillIndex).canActivate(simulation, calculateSkillRank(simulation, activeSkillIndex));
 
         simulation.unsetActivator();
 
         return canActivate;
     }
 
-    public boolean canActivateNoblePhantasm(final Simulation simulation, final int activeSkillIndex) {
+    public boolean canActivateNoblePhantasm(final Simulation simulation) {
         simulation.setActivator(this);
 
         final boolean canActivate = !isNpInaccessible() && noblePhantasm.canActivate(simulation);
