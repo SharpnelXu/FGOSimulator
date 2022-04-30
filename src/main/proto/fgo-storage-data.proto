@@ -41,6 +41,7 @@ enum Traits {
   LIVING_HUMAN = 40;
   MASSIVE = 52;
   MECHANICAL = 46;
+  MERLIN = 56;
   NOBUNAGA = 54;
   ONI = 13;
   PSEUDO_SERVANT = 14;
@@ -226,6 +227,8 @@ message EffectData {
   bool isAdditionOvercharged = 19;
 
   bool removeFromStart = 20;
+
+  repeated EffectData randomEffectSelections = 21;
 }
 
 message NpDamageAdditionalParams {

@@ -497,4 +497,9 @@ public class Simulation {
         // TODO: UI
         return selections.stream().findFirst().get();
     }
+
+    public Effect selectRandomEffects(final List<Effect> selections) {
+        // TODO: UI
+        return selections.stream().findFirst().get();
+    }
 }

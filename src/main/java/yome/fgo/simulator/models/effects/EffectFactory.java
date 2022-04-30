@@ -28,6 +28,7 @@ public class EffectFactory {
         final String type = effectData.getType();
         if (type.equalsIgnoreCase(AscensionChange.class.getSimpleName())) {
             return setCommonIntValuedEffectValue(AscensionChange.builder(), effectData, level);
+
         } else if (type.equalsIgnoreCase(BuffAbsorption.class.getSimpleName())) {
             return setCommonEffectParams(BuffAbsorption.builder().target(effectData.getTarget()), effectData, level);
 
@@ -83,6 +84,13 @@ public class EffectFactory {
 
         } else if (type.equalsIgnoreCase(OrderChange.class.getSimpleName())) {
             return ORDER_CHANGE;
+
+        } else if (type.equalsIgnoreCase(RandomEffects.class.getSimpleName())) {
+            return setCommonEffectParams(
+                    RandomEffects.builder().effectList(buildEffects(effectData.getRandomEffectSelectionsList(), level)),
+                    effectData,
+                    level
+            );
 
         } else if (type.equalsIgnoreCase(RemoveBuff.class.getSimpleName())) {
             final RemoveBuff.RemoveBuffBuilder<?, ?> builder = RemoveBuff.builder()
