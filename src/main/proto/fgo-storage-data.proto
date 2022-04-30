@@ -222,6 +222,8 @@ message EffectData {
   VariationData variationData = 17;
   repeated double additions = 18;
   bool isAdditionOvercharged = 19;
+
+  bool removeFromStart = 20;
 }
 
 message NpDamageAdditionalParams {

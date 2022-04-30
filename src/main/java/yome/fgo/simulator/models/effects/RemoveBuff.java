@@ -13,41 +13,82 @@ import java.util.List;
 @SuperBuilder
 public class RemoveBuff extends IntValuedEffect {
     private final Target target;
+    private final boolean removeFromStart;
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
         final double probability = getProbability(level);
         final int numToRemove = isOverchargedEffect ? values.get(level - 1) : values.get(0);
-        final boolean removeAll = numToRemove <= 0;
 
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
 
-            int removeCount = 0;
-            final List<Buff> buffList = combatant.getBuffs();
-
-            for (int j = buffList.size() - 1; j >= 0; j--) {
-                final Buff buff = buffList.get(j);
-
-                simulation.setCurrentBuff(buff);
-
-                if (!buff.isIrremovable() && shouldApply(simulation)) {
-                    final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
-                    if (probability - buffRemovalResist >= simulation.getProbabilityThreshold()) {
-                        buffList.remove(j);
-                        removeCount++;
-                    }
-
-                }
-
-                simulation.unsetCurrentBuff();
-
-                if (!removeAll && numToRemove == removeCount) {
-                    break;
-                }
+            if (removeFromStart) {
+                removeFromStart(simulation, combatant, probability, numToRemove);
+            } else {
+                removeFromEnd(simulation, combatant, probability, numToRemove);
             }
 
             simulation.unsetEffectTarget();
+        }
+    }
+
+    private void removeFromEnd(
+            final Simulation simulation,
+            final Combatant combatant,
+            final double probability,
+            final int numToRemove
+    ) {
+        int removeCount = 0;
+        final List<Buff> buffList = combatant.getBuffs();
+        for (int j = buffList.size() - 1; j >= 0; j -= 1) {
+            final Buff buff = buffList.get(j);
+
+            simulation.setCurrentBuff(buff);
+
+            if (!buff.isIrremovable() && shouldApply(simulation)) {
+                final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
+                if (probability - buffRemovalResist >= simulation.getProbabilityThreshold()) {
+                    buffList.remove(j);
+                    removeCount++;
+                }
+            }
+
+            simulation.unsetCurrentBuff();
+
+            if (numToRemove > 0 && numToRemove == removeCount) {
+                break;
+            }
+        }
+    }
+
+    private void removeFromStart(
+            final Simulation simulation,
+            final Combatant combatant,
+            final double probability,
+            final int numToRemove
+    ) {
+        int removeCount = 0;
+        final List<Buff> buffList = combatant.getBuffs();
+        for (int i = 0; i < buffList.size() - 1; i += 1) {
+            final Buff buff = buffList.get(i);
+
+            simulation.setCurrentBuff(buff);
+
+            if (!buff.isIrremovable() && shouldApply(simulation)) {
+                final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
+                if (probability - buffRemovalResist >= simulation.getProbabilityThreshold()) {
+                    buffList.remove(i);
+                    i -= 1;
+                    removeCount++;
+                }
+            }
+
+            simulation.unsetCurrentBuff();
+
+            if (numToRemove > 0 && numToRemove == removeCount) {
+                break;
+            }
         }
     }
 }

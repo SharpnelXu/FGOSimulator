@@ -84,7 +84,8 @@ public class EffectFactory {
 
         } else if (type.equalsIgnoreCase(RemoveBuff.class.getSimpleName())) {
             final RemoveBuff.RemoveBuffBuilder<?, ?> builder = RemoveBuff.builder()
-                    .target(effectData.getTarget());
+                    .target(effectData.getTarget())
+                    .removeFromStart(effectData.getRemoveFromStart());
             return setCommonIntValuedEffectValue(builder, effectData, level);
 
         } else if (type.equalsIgnoreCase(ShuffleCards.class.getSimpleName())) {
