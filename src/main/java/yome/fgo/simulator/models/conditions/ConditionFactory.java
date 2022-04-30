@@ -91,14 +91,14 @@ public class ConditionFactory {
                     .build();
 
         } else if (type.equalsIgnoreCase(TargetsHaveBuff.class.getSimpleName())) {
-            try {
-                return TargetsHaveBuff.builder()
-                        .target(conditionData.getTarget())
-                        .targetBuffType(Class.forName(Buff.class.getPackage().getName() + "." + conditionData.getValue()))
-                        .build();
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+            if (conditionData.getSubConditionDataCount() != 1) {
+                throw new IllegalArgumentException("TargetsHaveBuff should only have one argument");
             }
+
+            return TargetsHaveBuff.builder()
+                    .target(conditionData.getTarget())
+                    .buffMatchCondition(buildCondition(conditionData.getSubConditionData(0)))
+                    .build();
 
         } else if (type.equalsIgnoreCase(TargetsHaveClass.class.getSimpleName())) {
             return TargetsHaveClass.builder()

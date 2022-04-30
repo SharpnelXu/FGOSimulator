@@ -8,6 +8,7 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
+import yome.fgo.simulator.models.conditions.BuffTypeEquals;
 import yome.fgo.simulator.models.conditions.TargetsHaveBuff;
 import yome.fgo.simulator.models.conditions.TargetsHaveTrait;
 import yome.fgo.simulator.models.effects.buffs.AttackBuff;
@@ -180,19 +181,19 @@ public class GrantBuffTest {
         simulation.setActivator(servant);
         effect.apply(simulation);
 
-        assertFalse(TargetsHaveBuff.builder().targetBuffType(Charm.class).target(SELF).build().evaluate(simulation));
+        assertFalse(TargetsHaveBuff.builder().buffMatchCondition(new BuffTypeEquals(Charm.class)).target(SELF).build().evaluate(simulation));
 
         servant.addBuff(DebuffChanceBuff.builder().value(0.1).build());
         effect.apply(simulation);
 
-        assertTrue(TargetsHaveBuff.builder().targetBuffType(Charm.class).target(SELF).build().evaluate(simulation));
+        assertTrue(TargetsHaveBuff.builder().buffMatchCondition(new BuffTypeEquals(Charm.class)).target(SELF).build().evaluate(simulation));
 
         servant.getBuffs().clear();
-        assertFalse(TargetsHaveBuff.builder().targetBuffType(Charm.class).target(SELF).build().evaluate(simulation));
+        assertFalse(TargetsHaveBuff.builder().buffMatchCondition(new BuffTypeEquals(Charm.class)).target(SELF).build().evaluate(simulation));
         servant.addBuff(DebuffResist.builder().value(0.05).build());
         effect.apply(simulation);
 
-        assertFalse(TargetsHaveBuff.builder().targetBuffType(Charm.class).target(SELF).build().evaluate(simulation));
+        assertFalse(TargetsHaveBuff.builder().buffMatchCondition(new BuffTypeEquals(Charm.class)).target(SELF).build().evaluate(simulation));
     }
 
     @Test

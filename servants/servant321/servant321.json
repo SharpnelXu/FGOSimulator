@@ -121,7 +121,10 @@
             "numTurnsActive": 3,
             "applyCondition": {
               "type": "TargetsHaveBuff",
-              "value": "BurningLove",
+              "subConditionData": [{
+                "type": "BuffTypeEquals",
+                "value": "BurningLove"
+              }],
               "target": "DEFENDER"
             },
             "values": [0.0],
@@ -779,7 +782,10 @@
           "npDamageAdditionalParams": {
             "npSpecificDamageCondition": {
               "type": "TargetsHaveBuff",
-              "value": "Charm",
+              "subConditionData": [{
+                "type": "BuffTypeEquals",
+                "value": "Charm"
+              }],
               "target": "DEFENDER"
             },
             "isNpSpecificDamageOverchargedEffect": true,
@@ -926,7 +932,10 @@
             "numTurnsActive": 3,
             "applyCondition": {
               "type": "TargetsHaveBuff",
-              "value": "BurningLove",
+              "subConditionData": [{
+                "type": "BuffTypeEquals",
+                "value": "BurningLove"
+              }],
               "target": "DEFENDER"
             },
             "values": [0.0],
@@ -1584,7 +1593,10 @@
           "npDamageAdditionalParams": {
             "npSpecificDamageCondition": {
               "type": "TargetsHaveBuff",
-              "value": "Charm",
+              "subConditionData": [{
+                "type": "BuffTypeEquals",
+                "value": "Charm"
+              }],
               "target": "DEFENDER"
             },
             "isNpSpecificDamageOverchargedEffect": true,

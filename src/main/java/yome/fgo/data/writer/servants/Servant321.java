@@ -236,7 +236,11 @@ public class Servant321 {
                                                             ConditionData.newBuilder()
                                                                     .setType(TargetsHaveBuff.class.getSimpleName())
                                                                     .setTarget(DEFENDER)
-                                                                    .setValue(BurningLove.class.getSimpleName())
+                                                                    .addSubConditionData(
+                                                                            ConditionData.newBuilder()
+                                                                                    .setType(BuffTypeEquals.class.getSimpleName())
+                                                                                    .setValue(BurningLove.class.getSimpleName())
+                                                                    )
                                                     )
                                                     .setVariationData(
                                                             VariationData.newBuilder()
@@ -279,7 +283,11 @@ public class Servant321 {
                                                         ConditionData.newBuilder()
                                                                 .setType(TargetsHaveBuff.class.getSimpleName())
                                                                 .setTarget(DEFENDER)
-                                                                .setValue(Charm.class.getSimpleName())
+                                                                .addSubConditionData(
+                                                                        ConditionData.newBuilder()
+                                                                                .setType(BuffTypeEquals.class.getSimpleName())
+                                                                                .setValue(Charm.class.getSimpleName())
+                                                                )
                                                 )
 
                                 )
