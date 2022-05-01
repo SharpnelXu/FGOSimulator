@@ -132,7 +132,7 @@ public class EnemyCreatorFXMLController implements Initializable {
     public static final String TRAIT_SPLIT_REGEX = "\s*[，,]\s*";
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(final URL url, final ResourceBundle rb) {
         idLabel.setText(getTranslation(APPLICATION_SECTION, "ID"));
         deathRateLabel.setText(getTranslation(APPLICATION_SECTION, "Death Rate (%)"));
         useUndeadCheck.setText(getTranslation(APPLICATION_SECTION, "Use Undead Correction"));

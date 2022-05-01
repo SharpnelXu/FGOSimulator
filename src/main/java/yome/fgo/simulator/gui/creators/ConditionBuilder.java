@@ -7,23 +7,25 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import yome.fgo.simulator.translation.TranslationManager;
 
+import java.io.IOException;
+
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
-public class EnemyCreator extends Application {
+public class ConditionBuilder extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
-    public void start(final Stage stage) throws Exception {
-        final Parent root = FXMLLoader.load(getClass().getResource("enemyCreator.fxml"));
+    public void start(final Stage primaryStage) throws IOException {
+        final Parent root = FXMLLoader.load(getClass().getResource("conditionBuilder.fxml"));
 
         final Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
-        stage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "EnemyCreator"));
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public static void main(final String[] args) {
-        launch();
+        primaryStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "EnemyCreator"));
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }
