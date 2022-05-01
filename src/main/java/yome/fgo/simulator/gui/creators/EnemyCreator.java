@@ -18,7 +18,7 @@ public class EnemyCreator extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
-        stage.setTitle(TranslationManager.getTranslations(APPLICATION_SECTION, "EnemyCreator"));
+        stage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "EnemyCreator"));
         stage.setScene(scene);
         stage.show();
     }

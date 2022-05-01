@@ -15,11 +15,12 @@ public class TranslationManager {
     private static final Map<String, String> TRAIT_REVERSE_MAP = new HashMap<>();
 
     public static final String APPLICATION_SECTION = "Application";
-    public static final String CLASS = "Class";
-    public static final String TRAIT = "Trait";
+    public static final String CLASS_SECTION = "Class";
+    public static final String TRAIT_SECTION = "Trait";
 
     public static void setTranslations(final String language) {
         TRANSLATIONS.clear();
+        TRANSLATIONS.setSeparatorUsedInInput("=");
         try {
             TRANSLATIONS.read(new FileReader(TRANSLATION_DIRECTORY_PATH + "\\" + language + ".ini"));
         } catch (final Exception e) {
@@ -27,8 +28,8 @@ public class TranslationManager {
             throw new RuntimeException(e);
         }
 
-        final SubnodeConfiguration traits = TRANSLATIONS.getSection(TRAIT);
-        final Iterator<String> keys = traits.getKeys();
+        final SubnodeConfiguration traits = TRANSLATIONS.getSection(TRAIT_SECTION);
+        final Iterator<String> keys = TRANSLATIONS.getSection(TRAIT_SECTION).getKeys();
 
         while (keys.hasNext()) {
             final String key = keys.next();
@@ -36,7 +37,7 @@ public class TranslationManager {
         }
     }
 
-    public static String getTranslations(final String sectionName, final String key) {
+    public static String getTranslation(final String sectionName, final String key) {
         final String translation = TRANSLATIONS.getSection(sectionName).getString(key, key);
         if (translation.isEmpty()) {
             return key;
@@ -45,11 +46,15 @@ public class TranslationManager {
         }
     }
 
+    public static boolean hasTranslation(final String sectionName, final String key) {
+        return TRANSLATIONS.containsKey(sectionName) && TRANSLATIONS.getSection(sectionName).containsKey(key);
+    }
+
     public static String getKeyForTrait(final String traitTranslation) {
         return TRAIT_REVERSE_MAP.getOrDefault(traitTranslation, traitTranslation);
     }
 
     public static boolean hasKeyForTrait(final String traitTranslation) {
-        return TRAIT_REVERSE_MAP.containsKey(traitTranslation) || TRANSLATIONS.getSection(TRAIT).containsKey(traitTranslation);
+        return TRAIT_REVERSE_MAP.containsKey(traitTranslation) || TRANSLATIONS.getSection(TRAIT_SECTION).containsKey(traitTranslation);
     }
 }
