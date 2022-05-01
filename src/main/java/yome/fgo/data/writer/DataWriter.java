@@ -20,6 +20,16 @@ import static yome.fgo.simulator.utils.FilePathUtils.LEVEL_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
 
 public class DataWriter {
+    public static void writeMessage(final Message message, final String directoryPath) {
+        final File newFile = new File(directoryPath);
+
+        final Printer printer = JsonFormat.printer();
+        try (PrintStream printStream = new PrintStream(newFile)) {
+            printStream.println(printer.print(message));
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void writeEnemy(final CombatantData combatantData, final String category, final String subCategory) {
         final String directoryPath = String.format("%s/%s/%s/%s", ENEMY_DIRECTORY_PATH, category, subCategory, combatantData.getId());
