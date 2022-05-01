@@ -18,6 +18,7 @@ import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.writer.DataWriter;
+import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.File;
@@ -29,12 +30,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import static yome.fgo.simulator.translation.TranslationManager.ALIGNMENT;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.ATTRIBUTE;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS;
-import static yome.fgo.simulator.translation.TranslationManager.GENDER;
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT;
+import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslations;
+import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 
 public class EnemyCreatorFXMLController implements Initializable {
@@ -125,6 +126,8 @@ public class EnemyCreatorFXMLController implements Initializable {
 
     private List<CheckBox> alignBoxes;
 
+    public static final String TRAIT_SPLIT_REGEX = "\s*[，,]\s*";
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         idLabel.setText(getTranslations(APPLICATION_SECTION, "ID"));
@@ -149,7 +152,7 @@ public class EnemyCreatorFXMLController implements Initializable {
         final List<Gender> genderClasses = Lists.newArrayList(Gender.values());
         genderClasses.remove(Gender.UNRECOGNIZED);
         genderCombo.setItems(FXCollections.observableArrayList(
-                genderClasses.stream().map(s -> getTranslations(GENDER, s.name())).collect(Collectors.toList())
+                genderClasses.stream().map(s -> getTranslations(TRAIT, s.name())).collect(Collectors.toList())
         ));
         genderCombo.getSelectionModel().selectFirst();
 
@@ -159,27 +162,43 @@ public class EnemyCreatorFXMLController implements Initializable {
         attributeClasses.remove(Attribute.NO_ATTRIBUTE);
         attributeClasses.remove(Attribute.UNRECOGNIZED);
         attributeCombo.setItems(FXCollections.observableArrayList(
-                attributeClasses.stream().map(s -> getTranslations(ATTRIBUTE, s.name())).collect(Collectors.toList())
+                attributeClasses.stream().map(s -> getTranslations(TRAIT, s.name())).collect(Collectors.toList())
         ));
         attributeCombo.getSelectionModel().selectFirst();
 
         alignmentLabel.setText(getTranslations(APPLICATION_SECTION, "Alignments"));
         alignBoxes = new ArrayList<>();
-        align1.setText(getTranslations(ALIGNMENT, Alignment.LAWFUL.name()));
-        align2.setText(getTranslations(ALIGNMENT, Alignment.NEUTRAL.name()));
-        align3.setText(getTranslations(ALIGNMENT, Alignment.CHAOTIC.name()));
-        align4.setText(getTranslations(ALIGNMENT, Alignment.GOOD.name()));
-        align5.setText(getTranslations(ALIGNMENT, Alignment.BALANCED.name()));
-        align6.setText(getTranslations(ALIGNMENT, Alignment.EVIL.name()));
-        align7.setText(getTranslations(ALIGNMENT, Alignment.INSANE.name()));
-        align8.setText(getTranslations(ALIGNMENT, Alignment.BRIDE.name()));
-        align9.setText(getTranslations(ALIGNMENT, Alignment.SUMMER.name()));
+        align1.setText(getTranslations(TRAIT, Alignment.LAWFUL.name()));
+        align2.setText(getTranslations(TRAIT, Alignment.NEUTRAL.name()));
+        align3.setText(getTranslations(TRAIT, Alignment.CHAOTIC.name()));
+        align4.setText(getTranslations(TRAIT, Alignment.GOOD.name()));
+        align5.setText(getTranslations(TRAIT, Alignment.BALANCED.name()));
+        align6.setText(getTranslations(TRAIT, Alignment.EVIL.name()));
+        align7.setText(getTranslations(TRAIT, Alignment.INSANE.name()));
+        align8.setText(getTranslations(TRAIT, Alignment.BRIDE.name()));
+        align9.setText(getTranslations(TRAIT, Alignment.SUMMER.name()));
 
         alignBoxes.addAll(ImmutableList.of(align1, align2, align3, align4, align5, align6, align7, align8, align9));
 
         traitLabel.setText(getTranslations(APPLICATION_SECTION, "Traits"));
 
-        System.out.println(getTranslations(APPLICATION_SECTION, "Load From"));
+        traitText.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+
+                    final List<String> unmappedTraits = Arrays.stream(newValue.split(TRAIT_SPLIT_REGEX))
+                            .sequential()
+                            .filter(s -> !s.isEmpty() && !hasKeyForTrait(s))
+                            .collect(Collectors.toList());
+
+                    if (!unmappedTraits.isEmpty()) {
+                        errorLabel.setText(getTranslations(APPLICATION_SECTION, "Warning: unmapped traits:" + unmappedTraits));
+                        errorLabel.setVisible(true);
+                    } else {
+                        errorLabel.setVisible(false);
+                    }
+                }
+        );
+
         loadFromButton.setText(getTranslations(APPLICATION_SECTION, "Load From"));
         saveButton.setText(getTranslations(APPLICATION_SECTION, "Save To"));
 
@@ -190,7 +209,7 @@ public class EnemyCreatorFXMLController implements Initializable {
     public void onSaveButtonClick() {
         final String id = idTextField.getText();
         if (id == null || id.isEmpty()) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"ID is null or empty!"));
+            errorLabel.setText(getTranslations(APPLICATION_SECTION, "ID is null or empty!"));
             errorLabel.setVisible(true);
             return;
         }
@@ -199,20 +218,20 @@ public class EnemyCreatorFXMLController implements Initializable {
         try {
             deathRate = RoundUtils.roundNearest(Double.parseDouble(deathRateTextField.getText()) / 100);
         } catch (final Exception e) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Death Rate is not a valid double."));
+            errorLabel.setText(getTranslations(APPLICATION_SECTION, "Death Rate is not a valid double."));
             errorLabel.setVisible(true);
             return;
         }
 
         if (deathRate < 0) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Death Rate is negative."));
+            errorLabel.setText(getTranslations(APPLICATION_SECTION, "Death Rate is negative."));
             errorLabel.setVisible(true);
             return;
         }
 
         final FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(ENEMY_DIRECTORY_PATH));
-        fileChooser.setTitle(getTranslations(APPLICATION_SECTION,"Save Enemy Data"));
+        fileChooser.setTitle(getTranslations(APPLICATION_SECTION, "Save Enemy Data"));
         fileChooser.setInitialFileName(id + ".json");
 
         final File saveFile = fileChooser.showSaveDialog(null);
@@ -222,29 +241,30 @@ public class EnemyCreatorFXMLController implements Initializable {
 
         final List<Alignment> checkedAlignments = alignBoxes.stream()
                 .filter(CheckBox::isSelected)
-                .map(checkBox -> Alignment.valueOf(checkBox.getText()))
+                .map(checkBox -> Alignment.valueOf(getKeyForTrait(checkBox.getText())))
                 .collect(Collectors.toList());
 
-        final List<String> traits = Arrays.stream(traitText.getText().split("\s*[，,]\s*"))
+        final List<String> traits = Arrays.stream(traitText.getText().split(TRAIT_SPLIT_REGEX))
                 .filter(s -> !s.isEmpty())
+                .map(TranslationManager::getKeyForTrait)
                 .collect(Collectors.toList());
         final CombatantData combatantData = CombatantData.newBuilder().setId(id)
                 .setDeathRate(deathRate)
                 .setUndeadNpCorrection(useUndeadCheck.isSelected())
                 .setRarity(rarityCombo.getValue())
-                .setFateClass(FateClass.valueOf(fateClassCombo.getValue()))
-                .setGender(Gender.valueOf(genderCombo.getValue()))
-                .setAttribute(Attribute.valueOf(attributeCombo.getValue()))
+                .setFateClass(FateClass.valueOf(getKeyForTrait(fateClassCombo.getValue())))
+                .setGender(Gender.valueOf(getKeyForTrait(genderCombo.getValue())))
+                .setAttribute(Attribute.valueOf(getKeyForTrait(attributeCombo.getValue())))
                 .addAllAlignments(checkedAlignments)
                 .addAllTraits(traits)
                 .build();
 
         try {
             DataWriter.writeMessage(combatantData, saveFile.getAbsolutePath());
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Save success!"));
+            errorLabel.setText(getTranslations(APPLICATION_SECTION, "Save success!"));
             errorLabel.setVisible(true);
         } catch (final Exception e) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Error while saving enemy!"+ e.getMessage()));
+            errorLabel.setText(getTranslations(APPLICATION_SECTION, "Error while saving enemy!" + e.getMessage()));
             errorLabel.setVisible(true);
         }
     }
@@ -253,7 +273,7 @@ public class EnemyCreatorFXMLController implements Initializable {
     public void onLoadFromButtonClick() {
         final FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(ENEMY_DIRECTORY_PATH));
-        fileChooser.setTitle(getTranslations(APPLICATION_SECTION,"Load Enemy Data"));
+        fileChooser.setTitle(getTranslations(APPLICATION_SECTION, "Load Enemy Data"));
         final File enemyDataFile = fileChooser.showOpenDialog(null);
         if (enemyDataFile == null) {
             return;
@@ -264,48 +284,57 @@ public class EnemyCreatorFXMLController implements Initializable {
         try {
             parser.merge(new FileReader(enemyDataFile), combatantDataBuilder);
         } catch (final Exception e) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Error loading file!" + " "  + e.getMessage()));
+            errorLabel.setText(getTranslations(APPLICATION_SECTION, "Error loading file!" + " " + e.getMessage()));
             errorLabel.setVisible(true);
             return;
         }
 
         final String id = combatantDataBuilder.getId();
         if (id == null || id.isEmpty()) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Loaded file has no valid ID!"));
+            errorLabel.setText(getTranslations(APPLICATION_SECTION, "Loaded file has no valid ID!"));
             errorLabel.setVisible(true);
             return;
         }
 
         final double deathRate = combatantDataBuilder.getDeathRate() * 100;
         if (deathRate < 0) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Loaded file has negative Death Rate:" + " "  + String.format("%.2f", deathRate)));
+            errorLabel.setText(getTranslations(
+                    APPLICATION_SECTION,
+                    "Loaded file has negative Death Rate:" + " " + String.format(
+                            "%.2f",
+                            deathRate
+                    )
+            ));
         }
 
 
         final Integer rarity = combatantDataBuilder.getRarity();
         if (!rarityCombo.getItems().contains(rarity)) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Unrecognized rarity from file:" + rarity));
+            errorLabel.setText(getTranslations(APPLICATION_SECTION, "Unrecognized rarity from file:" + rarity));
             errorLabel.setVisible(true);
             return;
         }
 
-        final FateClass fateClass = combatantDataBuilder.getFateClass();
-        if (!fateClassCombo.getItems().contains(fateClass.name())) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Unrecognized class from file:" + " " + fateClass));
+        final String fateClass = getTranslations(TRAIT, combatantDataBuilder.getFateClass().name());
+        if (!fateClassCombo.getItems().contains(fateClass)) {
+            errorLabel.setText(getTranslations(APPLICATION_SECTION, "Unrecognized class from file:" + " " + fateClass));
             errorLabel.setVisible(true);
             return;
         }
 
-        final Gender gender = combatantDataBuilder.getGender();
-        if (!genderCombo.getItems().contains(gender.name())) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Unrecognized gender from file:" + " " + gender));
+        final String gender = getTranslations(TRAIT, combatantDataBuilder.getGender().name());
+        if (!genderCombo.getItems().contains(gender)) {
+            errorLabel.setText(getTranslations(APPLICATION_SECTION, "Unrecognized gender from file:" + " " + gender));
             errorLabel.setVisible(true);
             return;
         }
 
-        final Attribute attribute = combatantDataBuilder.getAttribute();
-        if (!attributeCombo.getItems().contains(attribute.name())) {
-            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Unrecognized attribute from file:" + " " + attribute));
+        final String attribute = getTranslations(TRAIT, combatantDataBuilder.getAttribute().name());
+        if (!attributeCombo.getItems().contains(attribute)) {
+            errorLabel.setText(getTranslations(
+                    APPLICATION_SECTION,
+                    "Unrecognized attribute from file:" + " " + attribute
+            ));
             errorLabel.setVisible(true);
             return;
         }
@@ -314,13 +343,13 @@ public class EnemyCreatorFXMLController implements Initializable {
         deathRateTextField.setText(String.format("%.2f", deathRate));
         useUndeadCheck.setSelected(combatantDataBuilder.getUndeadNpCorrection());
         rarityCombo.getSelectionModel().select(rarity);
-        fateClassCombo.getSelectionModel().select(fateClass.name());
-        genderCombo.getSelectionModel().select(gender.name());
-        attributeCombo.getSelectionModel().select(attribute.name());
+        fateClassCombo.getSelectionModel().select(fateClass);
+        genderCombo.getSelectionModel().select(gender);
+        attributeCombo.getSelectionModel().select(attribute);
 
         final List<String> selectedAlignments = combatantDataBuilder.getAlignmentsList()
                 .stream()
-                .map(Alignment::name)
+                .map(alignment -> getTranslations(TRAIT, alignment.name()))
                 .collect(Collectors.toList());
 
         for (final CheckBox checkBox : alignBoxes) {
@@ -328,10 +357,16 @@ public class EnemyCreatorFXMLController implements Initializable {
         }
 
         if (combatantDataBuilder.getTraitsCount() != 0) {
-            traitText.setText(String.join(", ", combatantDataBuilder.getTraitsList()));
+            traitText.setText(combatantDataBuilder.getTraitsList()
+                                      .stream()
+                                      .map(s -> getTranslations(TRAIT, s))
+                                      .collect(Collectors.joining(", "))
+            );
+        } else {
+            traitText.setText("");
         }
 
-        errorLabel.setText(getTranslations(APPLICATION_SECTION,"Load success!"));
+        errorLabel.setText(getTranslations(APPLICATION_SECTION, "Load success!"));
         errorLabel.setVisible(true);
     }
 }
