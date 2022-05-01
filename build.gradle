@@ -17,6 +17,14 @@ dependencies {
     implementation("com.google.protobuf:protobuf-java:3.20.0")
     implementation("com.google.protobuf:protobuf-java-util:3.20.0")
 
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-configuration2
+    implementation 'org.apache.commons:commons-configuration2:2.7'
+    // https://mvnrepository.com/artifact/commons-logging/commons-logging
+    compileOnly 'commons-logging:commons-logging:1.2'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compileOnly 'org.apache.commons:commons-lang3:3.12.0'
+
+
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
@@ -54,4 +62,4 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
-mainClassName = "yome.fgo.simulator.gui.creators.EnemyCreator"
+mainClassName = "yome.fgo.simulator.SimulatorMain"

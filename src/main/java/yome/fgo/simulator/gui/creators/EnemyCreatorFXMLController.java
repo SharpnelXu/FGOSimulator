@@ -29,6 +29,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.translation.TranslationManager.ALIGNMENT;
+import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ATTRIBUTE;
+import static yome.fgo.simulator.translation.TranslationManager.CLASS;
+import static yome.fgo.simulator.translation.TranslationManager.GENDER;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslations;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 
 public class EnemyCreatorFXMLController implements Initializable {
@@ -64,7 +70,7 @@ public class EnemyCreatorFXMLController implements Initializable {
     private Label alignmentLabel;
 
     @FXML
-    private ChoiceBox<Attribute> attributeCombo;
+    private ChoiceBox<String> attributeCombo;
 
     @FXML
     private Label attributeLabel;
@@ -76,13 +82,13 @@ public class EnemyCreatorFXMLController implements Initializable {
     private TextField deathRateTextField;
 
     @FXML
-    private ChoiceBox<FateClass> fateClassCombo;
+    private ChoiceBox<String> fateClassCombo;
 
     @FXML
     private Label fateClassLabel;
 
     @FXML
-    private ChoiceBox<Gender> genderCombo;
+    private ChoiceBox<String> genderCombo;
 
     @FXML
     private Label genderLabel;
@@ -121,54 +127,61 @@ public class EnemyCreatorFXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        idLabel.setText("ID: ");
-        deathRateLabel.setText("Death Rate (%): ");
-        useUndeadCheck.setText("Use Undead Correction");
+        idLabel.setText(getTranslations(APPLICATION_SECTION, "ID"));
+        deathRateLabel.setText(getTranslations(APPLICATION_SECTION, "Death Rate (%)"));
+        useUndeadCheck.setText(getTranslations(APPLICATION_SECTION, "Use Undead Correction"));
 
-        rarityLabel.setText("Rarity: ");
+        rarityLabel.setText(getTranslations(APPLICATION_SECTION, "Rarity"));
         rarityCombo.setItems(FXCollections.observableArrayList(5, 4, 3, 2, 1, 0));
         rarityCombo.getSelectionModel().selectFirst();
 
-        fateClassLabel.setText("Class: ");
+        fateClassLabel.setText(getTranslations(APPLICATION_SECTION, "Class"));
 
         final List<FateClass> fateClasses = Lists.newArrayList(FateClass.values());
         fateClasses.remove(FateClass.NO_CLASS);
         fateClasses.remove(FateClass.UNRECOGNIZED);
-        fateClassCombo.setItems(FXCollections.observableArrayList(fateClasses));
+        fateClassCombo.setItems(FXCollections.observableArrayList(
+                fateClasses.stream().map(s -> getTranslations(CLASS, s.name())).collect(Collectors.toList())
+        ));
         fateClassCombo.getSelectionModel().selectFirst();
 
-        genderLabel.setText("Gender: ");
+        genderLabel.setText(getTranslations(APPLICATION_SECTION, "Gender"));
         final List<Gender> genderClasses = Lists.newArrayList(Gender.values());
         genderClasses.remove(Gender.UNRECOGNIZED);
-        genderCombo.setItems(FXCollections.observableArrayList(genderClasses));
+        genderCombo.setItems(FXCollections.observableArrayList(
+                genderClasses.stream().map(s -> getTranslations(GENDER, s.name())).collect(Collectors.toList())
+        ));
         genderCombo.getSelectionModel().selectFirst();
 
-        attributeLabel.setText("Attribute: ");
+        attributeLabel.setText(getTranslations(APPLICATION_SECTION, "Attribute"));
 
         final List<Attribute> attributeClasses = Lists.newArrayList(Attribute.values());
         attributeClasses.remove(Attribute.NO_ATTRIBUTE);
         attributeClasses.remove(Attribute.UNRECOGNIZED);
-        attributeCombo.setItems(FXCollections.observableArrayList(attributeClasses));
+        attributeCombo.setItems(FXCollections.observableArrayList(
+                attributeClasses.stream().map(s -> getTranslations(ATTRIBUTE, s.name())).collect(Collectors.toList())
+        ));
         attributeCombo.getSelectionModel().selectFirst();
 
-        alignmentLabel.setText("Alignments: ");
+        alignmentLabel.setText(getTranslations(APPLICATION_SECTION, "Alignments"));
         alignBoxes = new ArrayList<>();
-        align1.setText(Alignment.LAWFUL.name());
-        align2.setText(Alignment.NEUTRAL.name());
-        align3.setText(Alignment.CHAOTIC.name());
-        align4.setText(Alignment.GOOD.name());
-        align5.setText(Alignment.BALANCED.name());
-        align6.setText(Alignment.EVIL.name());
-        align7.setText(Alignment.INSANE.name());
-        align8.setText(Alignment.BRIDE.name());
-        align9.setText(Alignment.SUMMER.name());
+        align1.setText(getTranslations(ALIGNMENT, Alignment.LAWFUL.name()));
+        align2.setText(getTranslations(ALIGNMENT, Alignment.NEUTRAL.name()));
+        align3.setText(getTranslations(ALIGNMENT, Alignment.CHAOTIC.name()));
+        align4.setText(getTranslations(ALIGNMENT, Alignment.GOOD.name()));
+        align5.setText(getTranslations(ALIGNMENT, Alignment.BALANCED.name()));
+        align6.setText(getTranslations(ALIGNMENT, Alignment.EVIL.name()));
+        align7.setText(getTranslations(ALIGNMENT, Alignment.INSANE.name()));
+        align8.setText(getTranslations(ALIGNMENT, Alignment.BRIDE.name()));
+        align9.setText(getTranslations(ALIGNMENT, Alignment.SUMMER.name()));
 
         alignBoxes.addAll(ImmutableList.of(align1, align2, align3, align4, align5, align6, align7, align8, align9));
 
-        traitLabel.setText("Traits: ");
+        traitLabel.setText(getTranslations(APPLICATION_SECTION, "Traits"));
 
-        loadFromButton.setText("Load From...");
-        saveButton.setText("Save To...");
+        System.out.println(getTranslations(APPLICATION_SECTION, "Load From"));
+        loadFromButton.setText(getTranslations(APPLICATION_SECTION, "Load From"));
+        saveButton.setText(getTranslations(APPLICATION_SECTION, "Save To"));
 
         errorLabel.setVisible(false);
     }
@@ -177,7 +190,7 @@ public class EnemyCreatorFXMLController implements Initializable {
     public void onSaveButtonClick() {
         final String id = idTextField.getText();
         if (id == null || id.isEmpty()) {
-            errorLabel.setText("ID is null or empty!");
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"ID is null or empty!"));
             errorLabel.setVisible(true);
             return;
         }
@@ -186,20 +199,20 @@ public class EnemyCreatorFXMLController implements Initializable {
         try {
             deathRate = RoundUtils.roundNearest(Double.parseDouble(deathRateTextField.getText()) / 100);
         } catch (final Exception e) {
-            errorLabel.setText("Death Rate is not a valid double.");
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Death Rate is not a valid double."));
             errorLabel.setVisible(true);
             return;
         }
 
         if (deathRate < 0) {
-            errorLabel.setText("Death Rate is negative.");
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Death Rate is negative."));
             errorLabel.setVisible(true);
             return;
         }
 
         final FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(ENEMY_DIRECTORY_PATH));
-        fileChooser.setTitle("Save Enemy Data");
+        fileChooser.setTitle(getTranslations(APPLICATION_SECTION,"Save Enemy Data"));
         fileChooser.setInitialFileName(id + ".json");
 
         final File saveFile = fileChooser.showSaveDialog(null);
@@ -219,19 +232,19 @@ public class EnemyCreatorFXMLController implements Initializable {
                 .setDeathRate(deathRate)
                 .setUndeadNpCorrection(useUndeadCheck.isSelected())
                 .setRarity(rarityCombo.getValue())
-                .setFateClass(fateClassCombo.getValue())
-                .setGender(genderCombo.getValue())
-                .setAttribute(attributeCombo.getValue())
+                .setFateClass(FateClass.valueOf(fateClassCombo.getValue()))
+                .setGender(Gender.valueOf(genderCombo.getValue()))
+                .setAttribute(Attribute.valueOf(attributeCombo.getValue()))
                 .addAllAlignments(checkedAlignments)
                 .addAllTraits(traits)
                 .build();
 
         try {
             DataWriter.writeMessage(combatantData, saveFile.getAbsolutePath());
-            errorLabel.setText("Save success!");
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Save success!"));
             errorLabel.setVisible(true);
         } catch (final Exception e) {
-            errorLabel.setText("Error while saving enemy! " + e.getMessage());
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Error while saving enemy!"+ e.getMessage()));
             errorLabel.setVisible(true);
         }
     }
@@ -240,7 +253,7 @@ public class EnemyCreatorFXMLController implements Initializable {
     public void onLoadFromButtonClick() {
         final FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(ENEMY_DIRECTORY_PATH));
-        fileChooser.setTitle("Load Enemy Data");
+        fileChooser.setTitle(getTranslations(APPLICATION_SECTION,"Load Enemy Data"));
         final File enemyDataFile = fileChooser.showOpenDialog(null);
         if (enemyDataFile == null) {
             return;
@@ -251,48 +264,48 @@ public class EnemyCreatorFXMLController implements Initializable {
         try {
             parser.merge(new FileReader(enemyDataFile), combatantDataBuilder);
         } catch (final Exception e) {
-            errorLabel.setText("Error loading file! " + e.getMessage());
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Error loading file!" + " "  + e.getMessage()));
             errorLabel.setVisible(true);
             return;
         }
 
         final String id = combatantDataBuilder.getId();
         if (id == null || id.isEmpty()) {
-            errorLabel.setText("Loaded file has no valid ID!");
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Loaded file has no valid ID!"));
             errorLabel.setVisible(true);
             return;
         }
 
         final double deathRate = combatantDataBuilder.getDeathRate() * 100;
         if (deathRate < 0) {
-            errorLabel.setText("Loaded file has negative Death Rate: " + String.format("%.2f", deathRate));
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Loaded file has negative Death Rate:" + " "  + String.format("%.2f", deathRate)));
         }
 
 
         final Integer rarity = combatantDataBuilder.getRarity();
         if (!rarityCombo.getItems().contains(rarity)) {
-            errorLabel.setText("Unrecognized rarity from file: " + rarity);
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Unrecognized rarity from file:" + rarity));
             errorLabel.setVisible(true);
             return;
         }
 
         final FateClass fateClass = combatantDataBuilder.getFateClass();
-        if (!fateClassCombo.getItems().contains(fateClass)) {
-            errorLabel.setText("Unrecognized class from file: " + fateClass);
+        if (!fateClassCombo.getItems().contains(fateClass.name())) {
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Unrecognized class from file:" + " " + fateClass));
             errorLabel.setVisible(true);
             return;
         }
 
         final Gender gender = combatantDataBuilder.getGender();
-        if (!genderCombo.getItems().contains(gender)) {
-            errorLabel.setText("Unrecognized gender from file: " + gender);
+        if (!genderCombo.getItems().contains(gender.name())) {
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Unrecognized gender from file:" + " " + gender));
             errorLabel.setVisible(true);
             return;
         }
 
         final Attribute attribute = combatantDataBuilder.getAttribute();
-        if (!attributeCombo.getItems().contains(attribute)) {
-            errorLabel.setText("Unrecognized attribute from file: " + attribute);
+        if (!attributeCombo.getItems().contains(attribute.name())) {
+            errorLabel.setText(getTranslations(APPLICATION_SECTION,"Unrecognized attribute from file:" + " " + attribute));
             errorLabel.setVisible(true);
             return;
         }
@@ -301,9 +314,9 @@ public class EnemyCreatorFXMLController implements Initializable {
         deathRateTextField.setText(String.format("%.2f", deathRate));
         useUndeadCheck.setSelected(combatantDataBuilder.getUndeadNpCorrection());
         rarityCombo.getSelectionModel().select(rarity);
-        fateClassCombo.getSelectionModel().select(fateClass);
-        genderCombo.getSelectionModel().select(gender);
-        attributeCombo.getSelectionModel().select(attribute);
+        fateClassCombo.getSelectionModel().select(fateClass.name());
+        genderCombo.getSelectionModel().select(gender.name());
+        attributeCombo.getSelectionModel().select(attribute.name());
 
         final List<String> selectedAlignments = combatantDataBuilder.getAlignmentsList()
                 .stream()
@@ -318,7 +331,7 @@ public class EnemyCreatorFXMLController implements Initializable {
             traitText.setText(String.join(", ", combatantDataBuilder.getTraitsList()));
         }
 
-        errorLabel.setText("Load success!");
+        errorLabel.setText(getTranslations(APPLICATION_SECTION,"Load success!"));
         errorLabel.setVisible(true);
     }
 }

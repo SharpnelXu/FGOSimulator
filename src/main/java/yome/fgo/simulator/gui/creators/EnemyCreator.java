@@ -5,6 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import yome.fgo.simulator.translation.TranslationManager;
+
+import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class EnemyCreator extends Application {
 
@@ -15,7 +18,7 @@ public class EnemyCreator extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
-        stage.setTitle("EnemyCreator");
+        stage.setTitle(TranslationManager.getTranslations(APPLICATION_SECTION, "EnemyCreator"));
         stage.setScene(scene);
         stage.show();
     }

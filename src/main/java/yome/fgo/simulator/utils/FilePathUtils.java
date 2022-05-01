@@ -13,6 +13,8 @@ public class FilePathUtils {
     public static final String CRAFT_ESSENCE_DIRECTORY_PATH = USER_DIR + "\\CraftEssences";
     public static final String LEVEL_DIRECTORY_PATH = USER_DIR + "\\Levels";
 
+    public static final String TRANSLATION_DIRECTORY_PATH = USER_DIR + "\\Translations";
+
     private static String getJarName() {
         return new File(FilePathUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
     }
