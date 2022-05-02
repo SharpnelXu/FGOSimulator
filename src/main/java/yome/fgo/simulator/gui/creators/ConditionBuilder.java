@@ -24,7 +24,7 @@ public class ConditionBuilder extends Application {
         final Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
-        primaryStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "EnemyCreator"));
+        primaryStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "ConditionBuilder"));
         primaryStage.setScene(scene);
         primaryStage.show();
     }

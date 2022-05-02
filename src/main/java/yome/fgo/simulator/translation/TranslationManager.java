@@ -15,7 +15,9 @@ public class TranslationManager {
     private static final Map<String, String> TRAIT_REVERSE_MAP = new HashMap<>();
 
     public static final String APPLICATION_SECTION = "Application";
+    public static final String CONDITION_SECTION = "Condition";
     public static final String CLASS_SECTION = "Class";
+    public static final String TARGET_SECTION = "Target";
     public static final String TRAIT_SECTION = "Trait";
 
     public static void setTranslations(final String language) {

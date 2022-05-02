@@ -1,10 +1,12 @@
 package yome.fgo.simulator.models.conditions;
 
+import com.google.common.collect.ImmutableList;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
@@ -34,7 +36,8 @@ public class ConditionFactory {
 
         } else if (type.equalsIgnoreCase(BuffTypeEquals.class.getSimpleName())) {
             try {
-                return new BuffTypeEquals(Class.forName(Buff.class.getPackage().getName() + "." + conditionData.getValue()));
+                return new BuffTypeEquals(Class.forName(Buff.class.getPackage()
+                                                                .getName() + "." + conditionData.getValue()));
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -117,5 +120,34 @@ public class ConditionFactory {
         }
 
         throw new UnsupportedOperationException("Unsupported condition: " + type);
+    }
+
+    public static List<String> getAllAvailableConditionOptions() {
+        final ImmutableList.Builder<String> builder = ImmutableList.builder();
+        builder.add(Always.class.getSimpleName());
+        builder.add(And.class.getSimpleName());
+        builder.add(BuffHasTrait.class.getSimpleName());
+        builder.add(BuffRemovable.class.getSimpleName());
+        builder.add(BuffTypeEquals.class.getSimpleName());
+        builder.add(CardTypeEquals.class.getSimpleName());
+        builder.add(CritStarAtLeast.class.getSimpleName());
+        builder.add(HpAtLeast.class.getSimpleName());
+        builder.add(HpPercentAtMost.class.getSimpleName());
+        builder.add(IsCriticalStrike.class.getSimpleName());
+        builder.add(Never.class.getSimpleName());
+        builder.add(Not.class.getSimpleName());
+        builder.add(NpAtLeast.class.getSimpleName());
+        builder.add(NpCard.class.getSimpleName());
+        builder.add(Or.class.getSimpleName());
+        builder.add(RarityAtLeast.class.getSimpleName());
+        builder.add(StageHasTrait.class.getSimpleName());
+        builder.add(ServantsExplodable.class.getSimpleName());
+        builder.add(TargetsContainsSpecificServant.class.getSimpleName());
+        builder.add(TargetsHaveBuff.class.getSimpleName());
+        builder.add(TargetsHaveClass.class.getSimpleName());
+        builder.add(TargetsHaveTrait.class.getSimpleName());
+        builder.add(TargetsReceivedInstantDeath.class.getSimpleName());
+
+        return builder.build();
     }
 }
