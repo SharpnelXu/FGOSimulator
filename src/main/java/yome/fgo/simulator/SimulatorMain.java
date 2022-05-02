@@ -8,5 +8,6 @@ public class SimulatorMain {
     public static void main(String[] args) {
         TranslationManager.setTranslations("zh_CN");
         ConditionBuilder.main(args);
+//        EnemyCreator.main(args);
     }
 }

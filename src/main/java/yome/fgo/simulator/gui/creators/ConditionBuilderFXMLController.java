@@ -10,8 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.StringConverter;
 import yome.fgo.data.proto.FgoStorageData.Target;
+import yome.fgo.simulator.gui.components.TargetWrapper;
 
 import java.net.URL;
 import java.util.List;
@@ -22,7 +22,6 @@ import static yome.fgo.simulator.models.conditions.ConditionFactory.getAllAvaila
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class ConditionBuilderFXMLController implements Initializable {
@@ -48,7 +47,7 @@ public class ConditionBuilderFXMLController implements Initializable {
     private ListView<?> subConditionList;
 
     @FXML
-    private ChoiceBox<Target> targetChoices;
+    private ChoiceBox<TargetWrapper> targetChoices;
 
     @FXML
     private Label targetLabel;
@@ -86,18 +85,11 @@ public class ConditionBuilderFXMLController implements Initializable {
         final List<Target> targets = Lists.newArrayList(Target.values());
         targets.remove(Target.UNRECOGNIZED);
         targets.remove(Target.SERVANT_EXCHANGE);
-        targetChoices.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(final Target object) {
-                return getTranslation(TARGET_SECTION, object.name());
-            }
-
-            @Override
-            public Target fromString(final String string) {
-                return Target.valueOf(getKeyForTrait(string));
-            }
-        });
-        targetChoices.setItems(FXCollections.observableArrayList(targets));
+        targetChoices.setItems(FXCollections.observableArrayList(
+                targets.stream()
+                        .map(target -> new TargetWrapper(target, getTranslation(TARGET_SECTION, target.name())))
+                        .collect(Collectors.toList())
+        ));
         targetChoices.getSelectionModel().selectFirst();
 
         subConditionLabel.setText(getTranslation(APPLICATION_SECTION, "Sub-conditions"));
