@@ -40,22 +40,23 @@
                   <AnchorPane fx:id="subConditionPane" prefHeight="165.0" prefWidth="558.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label fx:id="subConditionLabel" layoutX="36.0" layoutY="41.0" text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <ListView fx:id="subConditionList" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ListView fx:id="subConditionList" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Button fx:id="addListItemButton" layoutX="562.0" layoutY="134.0" mnemonicParsing="false" onAction="#onAddListItemButtonClick" prefWidth="100.0" text="Button" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </children>
             </VBox>
          </children>
          <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </AnchorPane>
       <Separator prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="558.0" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0">
          <children>
             <Label fx:id="errorLabel" text="Label" />
-            <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Button" />
-            <Button fx:id="buildButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelButtonClick" prefHeight="25.0" prefWidth="100.0" text="Button" />
+            <Button fx:id="buildButton" mnemonicParsing="false" onAction="#onBuildButtonClick" prefWidth="100.0" text="Button" />
          </children>
       </HBox>
    </children>
