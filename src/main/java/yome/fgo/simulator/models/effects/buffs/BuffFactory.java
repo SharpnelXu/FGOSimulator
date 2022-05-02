@@ -287,8 +287,14 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(PostAttackEffect.class.getSimpleName())) {
             return setEffectActivatingBuffParams(PostAttackEffect.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(PostDefenseEffect.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(PostDefenseEffect.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(PreAttackEffect.class.getSimpleName())) {
             return setEffectActivatingBuffParams(PreAttackEffect.builder(), buffData, level);
+
+        } else if (type.equalsIgnoreCase(PreDefenseEffect.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(PreDefenseEffect.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(PreventDeathAgainstDoT.class.getSimpleName())) {
             return setCommonBuffParams(PreventDeathAgainstDoT.builder().type(buffData.getStringValue()), buffData, level);
