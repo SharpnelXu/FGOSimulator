@@ -376,7 +376,7 @@ public class BuffFactory {
         builder.forceStackable(buffData.getForceStackable());
 
         final Buff buff =  builder.build();
-        if (buffData.getCustomTraitsCount() != 0) {
+        if (buffData.getHasCustomTraits()) {
             buff.getBuffTraits().addAll(buffData.getCustomTraitsList());
         } else {
             final List<String> buffTraits = buff.getBuffTraits();

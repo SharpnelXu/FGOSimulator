@@ -256,6 +256,7 @@ message BuffData {
   string stringValue = 7;
   repeated double probabilities = 8;
 
+  bool hasCustomTraits = 12;
   repeated string customTraits = 9;
   bool irremovable = 10;
   bool forceStackable = 11;
