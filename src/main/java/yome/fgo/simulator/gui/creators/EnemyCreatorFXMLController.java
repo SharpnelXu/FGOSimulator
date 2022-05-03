@@ -12,13 +12,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import javafx.util.StringConverter;
 import yome.fgo.data.proto.FgoStorageData.Alignment;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.writer.DataWriter;
+import yome.fgo.simulator.gui.components.EnumConverter;
 import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -32,8 +32,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -142,38 +142,12 @@ public class EnemyCreatorFXMLController implements Initializable {
         rarityCombo.getSelectionModel().selectFirst();
 
         fateClassLabel.setText(getTranslation(APPLICATION_SECTION, "Class"));
-
-        final List<FateClass> fateClasses = Lists.newArrayList(FateClass.values());
-        fateClasses.remove(FateClass.NO_CLASS);
-        fateClasses.remove(FateClass.UNRECOGNIZED);
-        fateClassCombo.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(final FateClass object) {
-                return getTranslation(CLASS_SECTION, object.name());
-            }
-
-            @Override
-            public FateClass fromString(final String string) {
-                return FateClass.valueOf(getKeyForTrait(string));
-            }
-        });
-        fateClassCombo.setItems(FXCollections.observableArrayList(fateClasses));
-        fateClassCombo.getSelectionModel().selectFirst();
+        fillFateClass(fateClassCombo);
 
         genderLabel.setText(getTranslation(APPLICATION_SECTION, "Gender"));
         final List<Gender> genderClasses = Lists.newArrayList(Gender.values());
         genderClasses.remove(Gender.UNRECOGNIZED);
-        genderCombo.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(final Gender object) {
-                return getTranslation(TRAIT_SECTION, object.name());
-            }
-
-            @Override
-            public Gender fromString(final String string) {
-                return Gender.valueOf(getKeyForTrait(string));
-            }
-        });
+        genderCombo.setConverter(new EnumConverter<>(TRAIT_SECTION));
         genderCombo.setItems(FXCollections.observableArrayList(genderClasses));
         genderCombo.getSelectionModel().selectFirst();
 
@@ -182,17 +156,7 @@ public class EnemyCreatorFXMLController implements Initializable {
         final List<Attribute> attributeClasses = Lists.newArrayList(Attribute.values());
         attributeClasses.remove(Attribute.NO_ATTRIBUTE);
         attributeClasses.remove(Attribute.UNRECOGNIZED);
-        attributeCombo.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(final Attribute object) {
-                return getTranslation(TRAIT_SECTION, object.name());
-            }
-
-            @Override
-            public Attribute fromString(final String string) {
-                return Attribute.valueOf(getKeyForTrait(string));
-            }
-        });
+        attributeCombo.setConverter(new EnumConverter<>(TRAIT_SECTION));
         attributeCombo.setItems(FXCollections.observableArrayList(attributeClasses));
         attributeCombo.getSelectionModel().selectFirst();
 
@@ -274,7 +238,7 @@ public class EnemyCreatorFXMLController implements Initializable {
                 .map(checkBox -> Alignment.valueOf(getKeyForTrait(checkBox.getText())))
                 .collect(Collectors.toList());
 
-        final List<String> traits = Arrays.stream(traitText.getText().split(TRAIT_SPLIT_REGEX))
+        final List<String> traits = Arrays.stream(traitText.getText().trim().split(TRAIT_SPLIT_REGEX))
                 .filter(s -> !s.isEmpty())
                 .map(TranslationManager::getKeyForTrait)
                 .collect(Collectors.toList());

@@ -10,9 +10,9 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 
 import java.io.IOException;
 
+import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class SubConditionCellFactory implements Callback<ListView<ConditionData>, ListCell<ConditionData>> {
@@ -35,10 +35,10 @@ public class SubConditionCellFactory implements Callback<ListView<ConditionData>
                 } else {
                     setText(null);
                     final Button editButton = new Button(getTranslation(APPLICATION_SECTION, "Edit"));
-                    editButton.setPrefWidth(75);
+                    editButton.setPrefWidth(55);
                     AnchorPane.setTopAnchor(editButton, 0.0);
                     AnchorPane.setBottomAnchor(editButton, 0.0);
-                    AnchorPane.setRightAnchor(editButton, 85.0);
+                    AnchorPane.setLeftAnchor(editButton, 65.0);
 
                     editButton.setOnAction(event -> {
                         try {
@@ -57,17 +57,17 @@ public class SubConditionCellFactory implements Callback<ListView<ConditionData>
                     });
 
                     final Button removeButton = new Button(getTranslation(APPLICATION_SECTION, "Remove"));
-                    removeButton.setPrefWidth(75);
+                    removeButton.setPrefWidth(55);
                     AnchorPane.setTopAnchor(removeButton, 0.0);
                     AnchorPane.setBottomAnchor(removeButton, 0.0);
-                    AnchorPane.setRightAnchor(removeButton, 0.0);
+                    AnchorPane.setLeftAnchor(removeButton, 0.0);
 
                     removeButton.setOnAction(event -> getListView().getItems().remove(conditionData));
 
-                    final Label label = new Label(getTranslation(CONDITION_SECTION, conditionData.getType()));
+                    final Label label = new Label(printConditionData(conditionData));
                     AnchorPane.setTopAnchor(label, 0.0);
                     AnchorPane.setBottomAnchor(label, 0.0);
-                    AnchorPane.setLeftAnchor(label, 0.0);
+                    AnchorPane.setLeftAnchor(label, 130.0);
 
                     final AnchorPane anchorPane = new AnchorPane();
                     anchorPane.getChildren().addAll(label, editButton, removeButton);

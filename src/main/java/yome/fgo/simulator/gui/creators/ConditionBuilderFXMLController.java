@@ -1,39 +1,54 @@
 package yome.fgo.simulator.gui.creators;
 
 import com.google.common.collect.Lists;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
+import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
+import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Target;
+import yome.fgo.simulator.gui.components.EnumConverter;
 import yome.fgo.simulator.gui.components.SubConditionCellFactory;
-import yome.fgo.simulator.translation.TranslationManager;
+import yome.fgo.simulator.gui.components.TranslationConverter;
+import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.getAllAvailableConditionOptions;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_BUFF_TYPE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_CLASS_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_LIMITED_SUB_CONDITION;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_SERVANT;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_TARGET;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_TRAIT_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_REQUIRED_FIELD_MAP;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_FIELDS_MAP;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
 
 public class ConditionBuilderFXMLController implements Initializable {
     @FXML
@@ -76,6 +91,33 @@ public class ConditionBuilderFXMLController implements Initializable {
     private TextField valueText;
 
     @FXML
+    private ChoiceBox<String> buffChoices;
+
+    @FXML
+    private Label buffLabel;
+
+    @FXML
+    private AnchorPane buffPane;
+
+    @FXML
+    private ChoiceBox<FateClass> classChoices;
+
+    @FXML
+    private Label classLabel;
+
+    @FXML
+    private AnchorPane classPane;
+
+    @FXML
+    private ChoiceBox<CommandCardType> cardTypeChoices;
+
+    @FXML
+    private Label cardLabel;
+
+    @FXML
+    private AnchorPane cardPane;
+
+    @FXML
     private Label errorLabel;
 
     @FXML
@@ -83,13 +125,41 @@ public class ConditionBuilderFXMLController implements Initializable {
 
     private ConditionData.Builder conditionDataBuilder;
 
+    private Set<Integer> requiredFields;
+
+    private ChangeListener<String> valueTextListener;
+
     public void setParentBuilder(final ConditionData.Builder builder) {
         this.conditionDataBuilder = builder;
 
         if (!builder.getType().isEmpty()) {
+            requiredFields = CONDITION_REQUIRED_FIELD_MAP.get(builder.getType());
             conditionChoices.getSelectionModel().select(builder.getType());
+            
+            if (requiredFields.contains(CONDITION_FIELD_INT_VALUE) || requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
+                valueText.setText(Double.toString(builder.getDoubleValue()));
+            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
+                valueText.setText(builder.getValue());
+            }
 
-            // TODO: populate ConditionBuilder with this builder as default
+            if (requiredFields.contains(CONDITION_FIELD_BUFF_TYPE)) {
+                buffChoices.getSelectionModel().select(builder.getValue());
+            }
+            if (requiredFields.contains(CONDITION_FIELD_CARD_TYPE)) {
+                cardTypeChoices.getSelectionModel().select(CommandCardType.valueOf(builder.getValue()));
+            }
+            if (requiredFields.contains(CONDITION_FIELD_CLASS_VALUE)) {
+                classChoices.getSelectionModel().select(FateClass.valueOf(builder.getValue()));
+            }
+
+            if (requiredFields.contains(CONDITION_FIELD_TARGET)) {
+                targetChoices.getSelectionModel().select(Target.valueOf(builder.getValue()));
+            }
+            if (requiredFields.contains(CONDITION_FIELD_UNLIMITED_SUB_CONDITION)) {
+                subConditionList.setItems(FXCollections.observableArrayList(builder.getSubConditionDataList()));
+            } else if (requiredFields.contains(CONDITION_FIELD_LIMITED_SUB_CONDITION)) {
+                subConditionList.setItems(FXCollections.observableArrayList(builder.getSubConditionData(0)));
+            }
         }
     }
 
@@ -97,40 +167,35 @@ public class ConditionBuilderFXMLController implements Initializable {
     public void initialize(final URL location, final ResourceBundle resources) {
         conditionLabel.setText(getTranslation(APPLICATION_SECTION, "Condition Type"));
 
-        conditionChoices.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(final String object) {
-                return getTranslation(CONDITION_SECTION, object);
-            }
+        conditionChoices.setConverter(new TranslationConverter(CONDITION_SECTION));
+        conditionChoices.setItems(FXCollections.observableArrayList(CONDITION_REQUIRED_FIELD_MAP.keySet()));
 
-            @Override
-            public String fromString(final String string) {
-                return null;
-            }
-        });
-        conditionChoices.setItems(FXCollections.observableArrayList(getAllAvailableConditionOptions()));
         conditionChoices.getSelectionModel().select( "Always");
+        requiredFields = CONDITION_REQUIRED_FIELD_MAP.get("Always");
 
         conditionChoices.setOnAction(e -> onConditionChoicesChange());
 
-        valueLabel.setText(getTranslation(APPLICATION_SECTION, "Value"));
+        buffLabel.setText(getTranslation(APPLICATION_SECTION, "Buff Type"));
+        buffChoices.setConverter(new TranslationConverter(BUFF_SECTION));
+        buffChoices.setItems(FXCollections.observableArrayList(BUFF_FIELDS_MAP.keySet()));
+        buffChoices.getSelectionModel().selectFirst();
+
+        cardLabel.setText(getTranslation(APPLICATION_SECTION, "Card Type"));
+        final List<CommandCardType> cardTypes = Lists.newArrayList(CommandCardType.values());
+        cardTypes.remove(CommandCardType.UNRECOGNIZED);
+        cardTypeChoices.setConverter(new EnumConverter<>(COMMAND_CARD_TYPE_SECTION));
+        cardTypeChoices.setItems(FXCollections.observableArrayList(cardTypes));
+        cardTypeChoices.getSelectionModel().selectFirst();
+
+        classLabel.setText(getTranslation(APPLICATION_SECTION, "Class"));
+        fillFateClass(classChoices);
 
         targetLabel.setText(getTranslation(APPLICATION_SECTION, "Target"));
 
         final List<Target> targets = Lists.newArrayList(Target.values());
         targets.remove(Target.UNRECOGNIZED);
         targets.remove(Target.SERVANT_EXCHANGE);
-        targetChoices.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(final Target object) {
-                return getTranslation(TARGET_SECTION, object.name());
-            }
-
-            @Override
-            public Target fromString(final String string) {
-                return null;
-            }
-        });
+        targetChoices.setConverter(new EnumConverter<>(TARGET_SECTION));
         targetChoices.setItems(FXCollections.observableArrayList(targets));
         targetChoices.getSelectionModel().selectFirst();
 
@@ -140,14 +205,7 @@ public class ConditionBuilderFXMLController implements Initializable {
 
         buildButton.setText(getTranslation(APPLICATION_SECTION, "Build"));
 
-        valuePane.setVisible(false);
-        valuePane.setManaged(false);
-
-        targetPane.setVisible(false);
-        targetPane.setManaged(false);
-
-        subConditionPane.setVisible(false);
-        subConditionPane.setManaged(false);
+        resetPane();
 
         subConditionList.setCellFactory(new SubConditionCellFactory(errorLabel));
         subConditionList.setItems(FXCollections.observableArrayList());
@@ -156,12 +214,87 @@ public class ConditionBuilderFXMLController implements Initializable {
 
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Select a condition type to start"));
         errorLabel.setVisible(true);
+
+        valueTextListener = (observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty() && !hasKeyForTrait(newValue)) {
+                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Warning: unmapped traits:") + newValue);
+                errorLabel.setVisible(true);
+            } else {
+                errorLabel.setVisible(false);
+            }
+        };
+    }
+
+    private void resetPane() {
+        valuePane.setVisible(false);
+        valuePane.setManaged(false);
+
+        buffPane.setVisible(false);
+        buffPane.setManaged(false);
+
+        cardPane.setVisible(false);
+        cardPane.setManaged(false);
+
+        classPane.setVisible(false);
+        classPane.setManaged(false);
+
+        targetPane.setVisible(false);
+        targetPane.setManaged(false);
+
+        subConditionPane.setVisible(false);
+        subConditionPane.setManaged(false);
     }
 
     @FXML
     public void onConditionChoicesChange() {
-        // TODO show field on change
-        System.out.println(conditionChoices.getValue());
+        errorLabel.setVisible(false);
+
+        resetPane();
+
+        requiredFields = CONDITION_REQUIRED_FIELD_MAP.get(conditionChoices.getValue());
+
+        if (requiredFields.contains(CONDITION_FIELD_INT_VALUE) ||
+                requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE) ||
+                requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) ||
+                requiredFields.contains(CONDITION_FIELD_SERVANT)
+        ) {
+            valuePane.setVisible(true);
+            valuePane.setManaged(true);
+            valueText.clear();
+            if (requiredFields.contains(CONDITION_FIELD_INT_VALUE) || requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
+                valueLabel.setText(getTranslation(APPLICATION_SECTION, "Value"));
+                valueText.textProperty().removeListener(valueTextListener);
+            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
+                valueLabel.setText(getTranslation(APPLICATION_SECTION, "String Value"));
+                valueText.textProperty().addListener(valueTextListener);
+            } else {
+                valueLabel.setText(getTranslation(APPLICATION_SECTION, "Servant ID"));
+                valueText.textProperty().addListener(valueTextListener);
+                valueText.textProperty().removeListener(valueTextListener);
+            }
+        }
+
+        if (requiredFields.contains(CONDITION_FIELD_BUFF_TYPE)) {
+            buffPane.setVisible(true);
+            buffPane.setManaged(true);
+        }
+        if (requiredFields.contains(CONDITION_FIELD_CARD_TYPE)) {
+            cardPane.setVisible(true);
+            cardPane.setManaged(true);
+        }
+        if (requiredFields.contains(CONDITION_FIELD_CLASS_VALUE)) {
+            classPane.setVisible(true);
+            classPane.setManaged(true);
+        }
+
+        if (requiredFields.contains(CONDITION_FIELD_TARGET)) {
+            targetPane.setVisible(true);
+            targetPane.setManaged(true);
+        }
+        if (requiredFields.contains(CONDITION_FIELD_UNLIMITED_SUB_CONDITION) || requiredFields.contains(CONDITION_FIELD_LIMITED_SUB_CONDITION)) {
+            subConditionPane.setVisible(true);
+            subConditionPane.setManaged(true);
+        }
     }
 
     @FXML
@@ -191,9 +324,59 @@ public class ConditionBuilderFXMLController implements Initializable {
     @FXML
     public void onBuildButtonClick() {
         if (conditionDataBuilder != null) {
+            if (requiredFields.contains(CONDITION_FIELD_INT_VALUE)) {
+                try {
+                    conditionDataBuilder.setDoubleValue(Integer.parseInt(valueText.getText()));
+                } catch (final Exception e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));
+                    return;
+                }
+            } else if (requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
+                try {
+                    conditionDataBuilder.setDoubleValue(RoundUtils.roundNearest(Double.parseDouble(valueText.getText()) / 100.0));
+                } catch (final Exception e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Double"));
+                    return;
+                }
+            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) || requiredFields.contains(CONDITION_FIELD_SERVANT)) {
+                if (valueText.getText().isEmpty()) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "String is empty"));
+                    return;
+                }
+                if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
+                    conditionDataBuilder.setValue(getKeyForTrait(valueText.getText().trim()));
+                } else {
+                    conditionDataBuilder.setValue(valueText.getText().trim());
+                }
+            }
+
+            if (requiredFields.contains(CONDITION_FIELD_BUFF_TYPE)) {
+                conditionDataBuilder.setValue(buffChoices.getValue());
+            } else if (requiredFields.contains(CONDITION_FIELD_CARD_TYPE)) {
+                conditionDataBuilder.setValue(cardTypeChoices.getValue().name());
+            } else if (requiredFields.contains(CONDITION_FIELD_CLASS_VALUE)) {
+                conditionDataBuilder.setValue(classChoices.getValue().name());
+            }
+            
+            if (requiredFields.contains(CONDITION_FIELD_TARGET)) {
+                conditionDataBuilder.setTarget(targetChoices.getValue());
+            }
+            if (requiredFields.contains(CONDITION_FIELD_UNLIMITED_SUB_CONDITION) ||
+                    requiredFields.contains(CONDITION_FIELD_LIMITED_SUB_CONDITION)) {
+                if (requiredFields.contains(CONDITION_FIELD_LIMITED_SUB_CONDITION) && subConditionList.getItems().size() != 1) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Only one sub-condition allowed"));
+                    return;
+                }
+                conditionDataBuilder.addAllSubConditionData(subConditionList.getItems());
+            }
+
             conditionDataBuilder.setType(conditionChoices.getValue());
-            // TODO: build condition
         }
+
         final Stage stage = (Stage) buildButton.getScene().getWindow();
         stage.close();
     }

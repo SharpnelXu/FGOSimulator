@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="403.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.ConditionBuilderFXMLController">
+<AnchorPane prefHeight="378.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.ConditionBuilderFXMLController">
    <children>
     <AnchorPane layoutX="40.0" layoutY="40.0" minHeight="0.0" minWidth="0.0" prefHeight="37.0" prefWidth="560.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -29,6 +28,24 @@
                      <children>
                         <Label fx:id="valueLabel" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <TextField fx:id="valueText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="buffPane" layoutX="10.0" layoutY="100.0" prefHeight="23.0" prefWidth="558.0">
+                     <children>
+                        <Label fx:id="buffLabel" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ChoiceBox fx:id="buffChoices" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="cardPane" layoutX="10.0" layoutY="100.0" prefHeight="23.0" prefWidth="558.0">
+                     <children>
+                        <Label fx:id="cardLabel" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ChoiceBox fx:id="cardTypeChoices" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="classPane" layoutX="10.0" layoutY="100.0" prefHeight="23.0" prefWidth="558.0">
+                     <children>
+                        <Label fx:id="classLabel" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ChoiceBox fx:id="classChoices" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="targetPane" layoutX="30.0" layoutY="30.0" prefHeight="23.0" prefWidth="558.0">

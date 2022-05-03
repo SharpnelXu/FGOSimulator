@@ -1,5 +1,8 @@
 package yome.fgo.simulator.models.effects.buffs;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
@@ -11,6 +14,8 @@ import yome.fgo.simulator.models.effects.GrantBuff;
 import yome.fgo.simulator.models.variations.VariationFactory;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static yome.fgo.data.proto.FgoStorageData.BuffTraits.ATTACKER_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.BuffTraits.DEFENDER_BUFF;
@@ -26,6 +31,8 @@ import static yome.fgo.data.proto.FgoStorageData.Traits.VENGEANCE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
 
 public class BuffFactory {
+    public static final Map<String, Set<Integer>> BUFF_FIELDS_MAP = buildRequiredBuffFieldsMap();
+
     public static Buff buildBuff(final BuffData buffData, final int level) {
         final String type = buffData.getType();
 
@@ -438,5 +445,87 @@ public class BuffFactory {
     ) {
         builder.effects(EffectFactory.buildEffects(buffData.getSubEffectsList(), level));
         return setCommonBuffParams(builder, buffData, level);
+    }
+
+    public static Map<String, Set<Integer>> buildRequiredBuffFieldsMap() {
+        final ImmutableMap.Builder<String, Set<Integer>> builder = ImmutableSortedMap.naturalOrder();
+        builder.put(AttackBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(AttackBuffDurationExtend.class.getSimpleName(), ImmutableSet.of());
+        builder.put(BlessedByKur.class.getSimpleName(), ImmutableSet.of());
+        builder.put(BuffChanceBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(BuffRemovalResist.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Burn.class.getSimpleName(), ImmutableSet.of());
+        builder.put(BurnEffectivenessUp.class.getSimpleName(), ImmutableSet.of());
+        builder.put(BurningLove.class.getSimpleName(), ImmutableSet.of());
+        builder.put(CardTypeChange.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Charm.class.getSimpleName(), ImmutableSet.of());
+        builder.put(CharmResistDown.class.getSimpleName(), ImmutableSet.of());
+        builder.put(ClassAdvantageChangeBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(CommandCardBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(CommandCardResist.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Confusion.class.getSimpleName(), ImmutableSet.of());
+        builder.put(CriticalChanceResist.class.getSimpleName(), ImmutableSet.of());
+        builder.put(CriticalDamageBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(CriticalRateBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(CriticalStarGenerationBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(CriticalStarWeightBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Curse.class.getSimpleName(), ImmutableSet.of());
+        builder.put(CurseEffectivenessUp.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DamageAdditionBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DamageReductionBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DamageReflect.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DeathChanceBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DeathResist.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DebuffChanceBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DebuffResist.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DefenseBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DefNpGenerationBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DelayedEffect.class.getSimpleName(), ImmutableSet.of());
+        builder.put(DoNotShuffleIn.class.getSimpleName(), ImmutableSet.of());
+        builder.put(EndOfTurnEffect.class.getSimpleName(), ImmutableSet.of());
+        builder.put(EnterFieldEffect.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Evade.class.getSimpleName(), ImmutableSet.of());
+        builder.put(FacelessMoon.class.getSimpleName(), ImmutableSet.of());
+        builder.put(GrantStageTrait.class.getSimpleName(), ImmutableSet.of());
+        builder.put(GrantTrait.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Guts.class.getSimpleName(), ImmutableSet.of());
+        builder.put(HealEffectivenessBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(HitsDoubledBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(IgnoreDefenseBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(IgnoreInvincible.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Invincible.class.getSimpleName(), ImmutableSet.of());
+        builder.put(LeaveFieldEffect.class.getSimpleName(), ImmutableSet.of());
+        builder.put(MaxHpBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(NpCardTypeChange.class.getSimpleName(), ImmutableSet.of());
+        builder.put(NpDamageBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(NpDamageBuffEffectivenessUp.class.getSimpleName(), ImmutableSet.of());
+        builder.put(NpGenerationBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(NpSeal.class.getSimpleName(), ImmutableSet.of());
+        builder.put(OverchargeBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(PercentAttackBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(PercentDefenseBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(PermanentSleep.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Pigify.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Poison.class.getSimpleName(), ImmutableSet.of());
+        builder.put(PoisonEffectivenessUp.class.getSimpleName(), ImmutableSet.of());
+        builder.put(PostAttackEffect.class.getSimpleName(), ImmutableSet.of());
+        builder.put(PostDefenseEffect.class.getSimpleName(), ImmutableSet.of());
+        builder.put(PreAttackEffect.class.getSimpleName(), ImmutableSet.of());
+        builder.put(PreDefenseEffect.class.getSimpleName(), ImmutableSet.of());
+        builder.put(PreventDeathAgainstDoT.class.getSimpleName(), ImmutableSet.of());
+        builder.put(ReceivedBuffChanceBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(SkillRankUp.class.getSimpleName(), ImmutableSet.of());
+        builder.put(SkillSeal.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Sleep.class.getSimpleName(), ImmutableSet.of());
+        builder.put(SpecialInvincible.class.getSimpleName(), ImmutableSet.of());
+        builder.put(SpecificAttackBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(SpecificDefenseBuff.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Stun.class.getSimpleName(), ImmutableSet.of());
+        builder.put(SureHit.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Taunt.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Terror.class.getSimpleName(), ImmutableSet.of());
+        builder.put(TriggerOnGutsEffect.class.getSimpleName(), ImmutableSet.of());
+        builder.put(Vengeance.class.getSimpleName(), ImmutableSet.of());
+        return builder.build();
     }
 }
