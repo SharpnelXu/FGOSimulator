@@ -406,7 +406,7 @@ public class Servant extends Combatant {
             assert cardDataOfChangedType != null;
 
             final CommandCard supposedCard = commandCards.get(index);
-            return new CommandCard(cardDataOfChangedType, supposedCard.getCommandCode(), supposedCard.getCommandCardStrengthen());
+            return new CommandCard(cardDataOfChangedType, supposedCard.getCommandCodeBuffs(), supposedCard.getCommandCardStrengthen());
         } else {
             return commandCards.get(index);
         }

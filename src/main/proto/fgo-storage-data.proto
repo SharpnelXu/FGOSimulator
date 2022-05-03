@@ -183,6 +183,10 @@ message CommandCardData {
   double criticalStarGen = 4;
 }
 
+message CommandCodeData {
+  repeated BuffData buffs = 1;
+}
+
 message ActiveSkillUpgrades {
   repeated ActiveSkillData activeSkillData = 1;
 }
@@ -277,12 +281,6 @@ enum BuffTraits {
   POSITIVE_BUFF = 4;
   NEGATIVE_BUFF = 5;
   IMMOBILIZE_BUFF = 6;
-}
-
-message HpVariedBuffAdditionalParams {
-  repeated double maxHpPercent = 1;
-  repeated double minHpPercent = 2;
-  repeated double baseValue = 3;
 }
 
 message ClassAdvantageChangeAdditionalParams {
@@ -386,6 +384,7 @@ message EnemyData {
 message CommandCardOption {
   int32 strengthen = 1;
   string commandCode = 2;
+  bool hasCommandCode = 3;
 }
 
 message ServantOption {

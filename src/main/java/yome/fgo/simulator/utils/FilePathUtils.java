@@ -10,9 +10,10 @@ public class FilePathUtils {
     public static final String USER_DIR = getProgramDirectory();
     public static final String ENEMY_DIRECTORY_PATH = USER_DIR + "\\Enemies";
     public static final String SERVANT_DIRECTORY_PATH = USER_DIR + "\\Servants";
+    public static final String COMMAND_CODES_DIRECTORY_PATH = USER_DIR + "\\CommandCodes";
     public static final String CRAFT_ESSENCE_DIRECTORY_PATH = USER_DIR + "\\CraftEssences";
     public static final String LEVEL_DIRECTORY_PATH = USER_DIR + "\\Levels";
-
+    public static final String MYSTIC_CODES_DIRECTORY_PATH = USER_DIR + "\\MysticCodes";
     public static final String TRANSLATION_DIRECTORY_PATH = USER_DIR + "\\Translations";
 
     private static String getJarName() {

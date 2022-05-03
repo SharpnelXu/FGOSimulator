@@ -21,7 +21,10 @@ import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
 import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
+import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.IgnoreDefenseBuff;
+import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
+import yome.fgo.simulator.models.effects.buffs.Invincible;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.NpDamageBuffEffectivenessUp;
 import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
@@ -32,8 +35,10 @@ import yome.fgo.simulator.models.effects.buffs.PostDefenseEffect;
 import yome.fgo.simulator.models.effects.buffs.PreAttackEffect;
 import yome.fgo.simulator.models.effects.buffs.PreDefenseEffect;
 import yome.fgo.simulator.models.effects.buffs.Sleep;
+import yome.fgo.simulator.models.effects.buffs.SpecialInvincible;
 import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
 import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
+import yome.fgo.simulator.models.effects.buffs.SureHit;
 import yome.fgo.simulator.models.variations.Variation;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
@@ -45,7 +50,6 @@ import static yome.fgo.simulator.models.conditions.Never.NEVER;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCritStar;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.getHitsPercentages;
-import static yome.fgo.simulator.models.effects.CommandCardExecution.shouldSkipDamage;
 import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 import static yome.fgo.simulator.utils.AttributeUtils.getAttributeAdvantage;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.convertDamageRate;
@@ -264,6 +268,31 @@ public class NoblePhantasmDamage extends Effect {
 
         simulation.unsetCurrentCommandCard();
         simulation.unsetAttacker();
+    }
+
+    public static boolean shouldSkipDamage(
+            final Simulation simulation,
+            final Combatant attacker,
+            final Combatant defender
+    ) {
+        final boolean hasSpecialInvincible = defender.consumeBuffIfExist(simulation, SpecialInvincible.class);
+        final boolean hasIgnoreInvincible = attacker.consumeBuffIfExist(simulation, IgnoreInvincible.class);
+        if (hasSpecialInvincible) {
+            return true;
+        }
+        final boolean hasInvincible = defender.consumeBuffIfExist(simulation, Invincible.class);
+        if (hasIgnoreInvincible) {
+            return false;
+        }
+        final boolean hasSureHit = attacker.consumeBuffIfExist(simulation, SureHit.class);
+        if (hasInvincible) {
+            return true;
+        }
+        final boolean hasEvade = defender.consumeBuffIfExist(simulation, Evade.class);
+        if (hasSureHit) {
+            return false;
+        }
+        return hasEvade;
     }
 
     public static int calculateTotalNpDamage(final NpDamageParameters npDamageParams) {

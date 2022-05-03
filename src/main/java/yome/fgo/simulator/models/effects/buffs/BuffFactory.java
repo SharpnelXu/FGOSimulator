@@ -31,7 +31,7 @@ import static yome.fgo.data.proto.FgoStorageData.Traits.VENGEANCE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
 
 public class BuffFactory {
-    public static final Map<String, Set<Integer>> BUFF_FIELDS_MAP = buildRequiredBuffFieldsMap();
+    public static final Map<String, Set<Integer>> BUFF_REQUIRED_FIELDS_MAP = buildRequiredBuffFieldsMap();
 
     public static Buff buildBuff(final BuffData buffData, final int level) {
         final String type = buffData.getType();

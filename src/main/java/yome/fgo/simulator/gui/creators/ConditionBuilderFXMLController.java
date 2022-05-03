@@ -40,7 +40,7 @@ import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FI
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_REQUIRED_FIELD_MAP;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_FIELDS_MAP;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
@@ -177,7 +177,7 @@ public class ConditionBuilderFXMLController implements Initializable {
 
         buffLabel.setText(getTranslation(APPLICATION_SECTION, "Buff Type"));
         buffChoices.setConverter(new TranslationConverter(BUFF_SECTION));
-        buffChoices.setItems(FXCollections.observableArrayList(BUFF_FIELDS_MAP.keySet()));
+        buffChoices.setItems(FXCollections.observableArrayList(BUFF_REQUIRED_FIELDS_MAP.keySet()));
         buffChoices.getSelectionModel().selectFirst();
 
         cardLabel.setText(getTranslation(APPLICATION_SECTION, "Card Type"));

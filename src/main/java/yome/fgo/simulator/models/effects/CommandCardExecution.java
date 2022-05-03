@@ -91,31 +91,43 @@ public class CommandCardExecution {
         final List<Double> hitsPercentages = getHitsPercentages(simulation, attacker, currentCard.getHitPercentages());
 
         attacker.activateEffectActivatingBuff(simulation, PreAttackEffect.class);
+        currentCard.activateEffectActivatingBuff(simulation, PreAttackEffect.class);
         defender.activateEffectActivatingBuff(simulation, PreDefenseEffect.class);
 
-        final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);
+        final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class) +
+                currentCard.applyBuff(simulation, CommandCardBuff.class);
         final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
 
-        final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class);
+        final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class) +
+                currentCard.applyBuff(simulation, AttackBuff.class);
 
         final double defenseUpBuff = defender.applyDefenseUpBuff(simulation);
         final double defenseDownBuff = Math.max(defender.applyDefenseDownBuff(simulation), -1); // this is negative
-        final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class);
+        final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class) ||
+                currentCard.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class);
         final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
         final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
 
-        final double specificAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
-        final double criticalDamageBuff = isCriticalStrike ? attacker.applyBuff(simulation, CriticalDamageBuff.class) : 0;
+        final double specificAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class) +
+                currentCard.applyBuff(simulation, SpecificAttackBuff.class);
+        final double criticalDamageBuff = isCriticalStrike ?
+                attacker.applyBuff(simulation, CriticalDamageBuff.class) +
+                        currentCard.applyBuff(simulation, CriticalDamageBuff.class) :
+                0;
 
         final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
-        final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class);
+        final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class) +
+                currentCard.applyBuff(simulation, PercentAttackBuff.class);
 
-        final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class);
+        final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class) +
+                currentCard.applyBuff(simulation, DamageAdditionBuff.class);
         final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
 
-        final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class);
+        final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class) +
+                currentCard.applyBuff(simulation, NpGenerationBuff.class);
 
-        final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class);
+        final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class) +
+                currentCard.applyBuff(simulation, CriticalStarGenerationBuff.class);
 
         final DamageParameters damageParameters = DamageParameters.builder()
                 .attack(attacker.getAttack() + currentCard.getCommandCardStrengthen())
@@ -144,7 +156,7 @@ public class CommandCardExecution {
                 .build();
 
 
-        final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
+        final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
 
         final int totalDamage = calculateTotalDamage(damageParameters);
 
@@ -207,6 +219,7 @@ public class CommandCardExecution {
         simulation.gainStar(RoundUtils.roundNearest(totalCritStar));
 
         attacker.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
+        currentCard.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
         defender.activateEffectActivatingBuff(simulation, PostDefenseEffect.class);
         final List<Buff> buffs = defender.getBuffs();
         for (int j = buffs.size() - 1; j >= 0; j -= 1) {
@@ -222,9 +235,15 @@ public class CommandCardExecution {
         defender.addCumulativeTurnDamage(totalDamage - remainingDamage);
     }
 
-    public static boolean shouldSkipDamage(final Simulation simulation, final Combatant attacker, final Combatant defender) {
+    public static boolean shouldSkipDamage(
+            final Simulation simulation,
+            final Combatant attacker,
+            final Combatant defender,
+            final CommandCard currentCard
+    ) {
         final boolean hasSpecialInvincible = defender.consumeBuffIfExist(simulation, SpecialInvincible.class);
-        final boolean hasIgnoreInvincible = attacker.consumeBuffIfExist(simulation, IgnoreInvincible.class);
+        final boolean hasIgnoreInvincible = attacker.consumeBuffIfExist(simulation, IgnoreInvincible.class) ||
+                currentCard.consumeBuffIfExist(simulation, IgnoreInvincible.class);
         if (hasSpecialInvincible) {
             return true;
         }
@@ -232,7 +251,8 @@ public class CommandCardExecution {
         if (hasIgnoreInvincible) {
             return false;
         }
-        final boolean hasSureHit = attacker.consumeBuffIfExist(simulation, SureHit.class);
+        final boolean hasSureHit = attacker.consumeBuffIfExist(simulation, SureHit.class) ||
+                currentCard.consumeBuffIfExist(simulation, SureHit.class);
         if (hasInvincible) {
             return true;
         }

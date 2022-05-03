@@ -2,6 +2,7 @@ package yome.fgo.simulator;
 
 import com.google.protobuf.util.JsonFormat;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
+import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
@@ -12,6 +13,7 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import static yome.fgo.simulator.utils.FilePathUtils.COMMAND_CODES_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.LEVEL_DIRECTORY_PATH;
@@ -95,6 +97,21 @@ public class ResourceManager {
         final String directoryPath = String.format("%s/%s/%s.json", LEVEL_DIRECTORY_PATH, path, id);
         final File dataFile = new File(directoryPath);
         final LevelData.Builder builder = LevelData.newBuilder();
+        if (dataFile.exists()) {
+            final JsonFormat.Parser parser = JsonFormat.parser();
+            try {
+                parser.merge(new FileReader(dataFile), builder);
+            } catch (final Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return builder.build();
+    }
+
+    public static CommandCodeData getCommandCodeData(final String id) {
+        final String directoryPath = String.format("%s/%s/%s.json", COMMAND_CODES_DIRECTORY_PATH, id, id);
+        final File dataFile = new File(directoryPath);
+        final CommandCodeData.Builder builder = CommandCodeData.newBuilder();
         if (dataFile.exists()) {
             final JsonFormat.Parser parser = JsonFormat.parser();
             try {
