@@ -252,25 +252,27 @@ message NpDamageAdditionalParams {
 
 message BuffData {
   string type = 1;
+
   int32 numTurnsActive = 2;
   int32 numTimesActive = 3;
   ConditionData applyCondition = 4;
-  repeated EffectData subEffects = 5;
-  repeated double values = 6;
-  string stringValue = 7;
   repeated double probabilities = 8;
-
   bool hasCustomTraits = 12;
   repeated string customTraits = 9;
   bool irremovable = 10;
   bool forceStackable = 11;
 
+  repeated double values = 6;
+  VariationData variationData = 18;
+  repeated double additions = 19;
+
+  string stringValue = 7;
+
+  repeated EffectData subEffects = 5;
+
   bool isGutsPercentBased = 14;
 
   ClassAdvantageChangeAdditionalParams classAdvChangeAdditionalParams = 15;
-
-  VariationData variationData = 18;
-  repeated double additions = 19;
 }
 
 enum BuffTraits {
