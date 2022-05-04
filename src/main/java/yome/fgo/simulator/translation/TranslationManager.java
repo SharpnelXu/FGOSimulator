@@ -22,6 +22,7 @@ public class TranslationManager {
     public static final String COMMAND_CARD_TYPE_SECTION = "CommandCardType";
     public static final String BUFF_SECTION = "Buff";
     public static final String SERVANT_NAME_SECTION = "ServantName";
+    public static final String VARIATION_SECTION = "Variation";
 
     public static void setTranslations(final String language) {
         TRANSLATIONS.clear();

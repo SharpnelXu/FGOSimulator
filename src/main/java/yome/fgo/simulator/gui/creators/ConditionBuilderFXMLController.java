@@ -29,6 +29,7 @@ import java.util.Set;
 
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillTargets;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_BUFF_TYPE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_CLASS_VALUE;
@@ -45,7 +46,6 @@ import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECT
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
@@ -136,8 +136,10 @@ public class ConditionBuilderFXMLController implements Initializable {
             requiredFields = CONDITION_REQUIRED_FIELD_MAP.get(builder.getType());
             conditionChoices.getSelectionModel().select(builder.getType());
             
-            if (requiredFields.contains(CONDITION_FIELD_INT_VALUE) || requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
+            if (requiredFields.contains(CONDITION_FIELD_INT_VALUE)) {
                 valueText.setText(Double.toString(builder.getDoubleValue()));
+            } else if (requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
+                valueText.setText(Double.toString(builder.getDoubleValue() * 100));
             } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
                 valueText.setText(builder.getValue());
             }
@@ -192,12 +194,7 @@ public class ConditionBuilderFXMLController implements Initializable {
 
         targetLabel.setText(getTranslation(APPLICATION_SECTION, "Target"));
 
-        final List<Target> targets = Lists.newArrayList(Target.values());
-        targets.remove(Target.UNRECOGNIZED);
-        targets.remove(Target.SERVANT_EXCHANGE);
-        targetChoices.setConverter(new EnumConverter<>(TARGET_SECTION));
-        targetChoices.setItems(FXCollections.observableArrayList(targets));
-        targetChoices.getSelectionModel().selectFirst();
+        fillTargets(targetChoices);
 
         subConditionLabel.setText(getTranslation(APPLICATION_SECTION, "Sub-conditions"));
 
@@ -261,8 +258,11 @@ public class ConditionBuilderFXMLController implements Initializable {
             valuePane.setVisible(true);
             valuePane.setManaged(true);
             valueText.clear();
-            if (requiredFields.contains(CONDITION_FIELD_INT_VALUE) || requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
+            if (requiredFields.contains(CONDITION_FIELD_INT_VALUE)) {
                 valueLabel.setText(getTranslation(APPLICATION_SECTION, "Value"));
+                valueText.textProperty().removeListener(valueTextListener);
+            } else if (requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
+                valueLabel.setText(getTranslation(APPLICATION_SECTION, "Value (%)"));
                 valueText.textProperty().removeListener(valueTextListener);
             } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
                 valueLabel.setText(getTranslation(APPLICATION_SECTION, "String Value"));

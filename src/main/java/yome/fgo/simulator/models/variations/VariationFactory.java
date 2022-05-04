@@ -13,7 +13,12 @@ import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 import static yome.fgo.simulator.models.variations.TurnPassVariation.TURN_PASS_VARIATION;
 
 public class VariationFactory {
-    public static Map<String, Set<Integer>> VARIATION_REQUIRED_FIELDS_MAP = buildVariationRequiredFieldsMap();
+    public static final Map<String, Set<Integer>> VARIATION_REQUIRED_FIELDS_MAP = buildVariationRequiredFieldsMap();
+    public static final int VARIATION_FIELD_MAX_COUNT = 1;
+    public static final int VARIATION_FIELD_TRAIT = 2;
+    public static final int VARIATION_FIELD_BUFF = 3;
+    public static final int VARIATION_FIELD_HP = 4;
+    public static final int VARIATION_FIELD_TARGET = 5;
 
     public static Variation buildVariation(final VariationData variationData) {
         final String type = variationData.getType();
@@ -47,11 +52,24 @@ public class VariationFactory {
 
     public static Map<String, Set<Integer>> buildVariationRequiredFieldsMap() {
         final ImmutableMap.Builder<String, Set<Integer>> builder = ImmutableSortedMap.naturalOrder();
-        builder.put(BuffCountVariation.class.getSimpleName(), ImmutableSet.of());
-        builder.put(HpVariation.class.getSimpleName(), ImmutableSet.of());
+        builder.put(BuffCountVariation.class.getSimpleName(), ImmutableSet.of(
+                VARIATION_FIELD_MAX_COUNT,
+                VARIATION_FIELD_BUFF,
+                VARIATION_FIELD_TARGET
+        ));
+        builder.put(HpVariation.class.getSimpleName(), ImmutableSet.of(
+                VARIATION_FIELD_HP,
+                VARIATION_FIELD_TARGET
+        ));
         builder.put(NoVariation.class.getSimpleName(), ImmutableSet.of());
-        builder.put(NpAbsorptionVariation.class.getSimpleName(), ImmutableSet.of());
-        builder.put(TraitCountVariation.class.getSimpleName(), ImmutableSet.of());
+        builder.put(NpAbsorptionVariation.class.getSimpleName(), ImmutableSet.of(
+                VARIATION_FIELD_TARGET
+        ));
+        builder.put(TraitCountVariation.class.getSimpleName(), ImmutableSet.of(
+                VARIATION_FIELD_MAX_COUNT,
+                VARIATION_FIELD_TRAIT,
+                VARIATION_FIELD_TARGET
+        ));
         builder.put(TurnPassVariation.class.getSimpleName(), ImmutableSet.of());
 
         return builder.build();
