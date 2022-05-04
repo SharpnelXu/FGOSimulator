@@ -1,6 +1,7 @@
 package yome.fgo.simulator.gui.components;
 
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
+import yome.fgo.data.proto.FgoStorageData.VariationData;
 
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,13 @@ import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FI
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_REQUIRED_FIELD_MAP;
+import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_BUFF;
+import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_HP;
+import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_MAX_COUNT;
+import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_TARGET;
+import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_TRAIT;
+import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_REQUIRED_FIELDS_MAP;
+import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
@@ -24,6 +32,7 @@ import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTIO
 import static yome.fgo.simulator.translation.TranslationManager.SERVANT_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.VARIATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class DataPrinter {
@@ -80,6 +89,57 @@ public class DataPrinter {
                 builder.append(String.join(", ", subConditionStrings));
             }
             builder.append("]");
+        }
+
+        return builder.toString();
+    }
+
+    public static String printVariationData(final VariationData variationData) {
+        if (variationData == null || variationData.getType().isEmpty()) {
+            return "";
+        }
+
+        final String type = variationData.getType();
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append(getTranslation(VARIATION_SECTION, type));
+
+        final Set<Integer> requiredFields = VARIATION_REQUIRED_FIELDS_MAP.get(type);
+        if (requiredFields == null || requiredFields.isEmpty()) {
+            return builder.toString();
+        }
+
+        if (requiredFields.contains(VARIATION_FIELD_MAX_COUNT)) {
+            builder.append(" : ");
+            builder.append(getTranslation(APPLICATION_SECTION, "Max Count"));
+            builder.append(" ");
+            builder.append(variationData.getMaxCount());
+        }
+
+        if (requiredFields.contains(VARIATION_FIELD_TARGET)) {
+            builder.append(" : ");
+            builder.append(getTranslation(TARGET_SECTION, variationData.getTarget().name()));
+        }
+
+        if (requiredFields.contains(VARIATION_FIELD_BUFF)) {
+            builder.append(" : ");
+            builder.append(printConditionData(variationData.getConditionData()));
+        }
+
+        if (requiredFields.contains(VARIATION_FIELD_TRAIT)) {
+            builder.append(" : ");
+            builder.append(getTranslation(TRAIT_SECTION, variationData.getTrait()));
+        }
+
+        if (requiredFields.contains(VARIATION_FIELD_HP)) {
+            builder.append(" : ");
+            builder.append(getTranslation(APPLICATION_SECTION, "Max HP (%)"));
+            builder.append(" ");
+            builder.append(String.format("%.2f", variationData.getMaxHp() * 100));
+            builder.append(" ");
+            builder.append(getTranslation(APPLICATION_SECTION, "Min HP (%)"));
+            builder.append(" ");
+            builder.append(String.format("%.2f", variationData.getMinHp() * 100));
         }
 
         return builder.toString();

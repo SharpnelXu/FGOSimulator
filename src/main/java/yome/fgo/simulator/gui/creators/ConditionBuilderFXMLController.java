@@ -1,6 +1,5 @@
 package yome.fgo.simulator.gui.creators;
 
-import com.google.common.collect.Lists;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -16,18 +15,17 @@ import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Target;
-import yome.fgo.simulator.gui.components.EnumConverter;
 import yome.fgo.simulator.gui.components.SubConditionCellFactory;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillCommandCardType;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillTargets;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_BUFF_TYPE;
@@ -44,7 +42,6 @@ import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_RE
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -183,11 +180,7 @@ public class ConditionBuilderFXMLController implements Initializable {
         buffChoices.getSelectionModel().selectFirst();
 
         cardLabel.setText(getTranslation(APPLICATION_SECTION, "Card Type"));
-        final List<CommandCardType> cardTypes = Lists.newArrayList(CommandCardType.values());
-        cardTypes.remove(CommandCardType.UNRECOGNIZED);
-        cardTypeChoices.setConverter(new EnumConverter<>(COMMAND_CARD_TYPE_SECTION));
-        cardTypeChoices.setItems(FXCollections.observableArrayList(cardTypes));
-        cardTypeChoices.getSelectionModel().selectFirst();
+        fillCommandCardType(cardTypeChoices);
 
         classLabel.setText(getTranslation(APPLICATION_SECTION, "Class"));
         fillFateClass(classChoices);

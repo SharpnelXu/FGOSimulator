@@ -32,12 +32,13 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.addSplitTraitListener;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
-import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.hasTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 
@@ -129,8 +130,6 @@ public class EnemyCreatorFXMLController implements Initializable {
 
     private List<CheckBox> alignBoxes;
 
-    public static final String TRAIT_SPLIT_REGEX = "\s*[，,]\s*";
-
     @Override
     public void initialize(final URL url, final ResourceBundle rb) {
         idLabel.setText(getTranslation(APPLICATION_SECTION, "ID"));
@@ -176,22 +175,7 @@ public class EnemyCreatorFXMLController implements Initializable {
 
         traitLabel.setText(getTranslation(APPLICATION_SECTION, "Traits"));
 
-        traitText.textProperty().addListener(
-                (observable, oldValue, newValue) -> {
-
-                    final List<String> unmappedTraits = Arrays.stream(newValue.split(TRAIT_SPLIT_REGEX))
-                            .sequential()
-                            .filter(s -> !s.isEmpty() && !hasKeyForTrait(s))
-                            .collect(Collectors.toList());
-
-                    if (!unmappedTraits.isEmpty()) {
-                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Warning: unmapped traits:") + unmappedTraits);
-                        errorLabel.setVisible(true);
-                    } else {
-                        errorLabel.setVisible(false);
-                    }
-                }
-        );
+        addSplitTraitListener(traitText, errorLabel);
 
         loadFromButton.setText(getTranslation(APPLICATION_SECTION, "Load From"));
         saveButton.setText(getTranslation(APPLICATION_SECTION, "Save To"));
@@ -238,7 +222,7 @@ public class EnemyCreatorFXMLController implements Initializable {
                 .map(checkBox -> Alignment.valueOf(getKeyForTrait(checkBox.getText())))
                 .collect(Collectors.toList());
 
-        final List<String> traits = Arrays.stream(traitText.getText().trim().split(TRAIT_SPLIT_REGEX))
+        final List<String> traits = Arrays.stream(traitText.getText().trim().split(COMMA_SPLIT_REGEX))
                 .filter(s -> !s.isEmpty())
                 .map(TranslationManager::getKeyForTrait)
                 .collect(Collectors.toList());

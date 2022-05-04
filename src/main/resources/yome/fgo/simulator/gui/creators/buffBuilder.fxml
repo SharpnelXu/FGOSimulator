@@ -14,12 +14,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-
-<StackPane prefHeight="389.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.BuffBuilderFXMLController">
+<StackPane prefHeight="596.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.BuffBuilderFXMLController">
    <children>
-      <VBox spacing="10.0" StackPane.alignment="TOP_LEFT">
+      <VBox prefWidth="743.0" spacing="10.0" StackPane.alignment="TOP_LEFT">
          <children>
-            <VBox spacing="10.0">
+            <VBox prefHeight="175.0" spacing="10.0">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
@@ -132,7 +131,7 @@
                   <AnchorPane HBox.hgrow="ALWAYS">
                      <children>
                         <ListView fx:id="effectsList" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button fx:id="addEffectsButton" mnemonicParsing="false" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Button fx:id="addEffectsButton" mnemonicParsing="false" prefWidth="100.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </children>
@@ -153,9 +152,9 @@
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
                         <Label fx:id="classAdvAtkLabel" text="Label" />
-                        <ChoiceBox fx:id="classAdvChoicesAtk" />
+                        <ChoiceBox fx:id="classAdvChoicesAtk" prefHeight="25.0" prefWidth="160.0" />
                         <CheckBox fx:id="classAdvCustomAtkCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <TextField fx:id="classAdvCustomAtkText" />
+                        <TextField fx:id="classAdvCustomAtkText" prefHeight="25.0" prefWidth="74.0" />
                         <Label fx:id="classAdvAtkTargetClassLabel" text="Label" />
                         <TextField fx:id="classAdvAtkTargetClassText" HBox.hgrow="ALWAYS" />
                      </children>
@@ -163,9 +162,9 @@
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
                         <Label fx:id="classAdvDefLabel" text="Label" />
-                        <ChoiceBox fx:id="classAdvChoicesDef" />
+                        <ChoiceBox fx:id="classAdvChoicesDef" prefHeight="25.0" prefWidth="160.0" />
                         <CheckBox fx:id="classAdvCustomDefCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <TextField fx:id="classAdvCustomDefText" />
+                        <TextField fx:id="classAdvCustomDefText" prefHeight="25.0" prefWidth="74.0" />
                         <Label fx:id="classAdvDefTargetClassLabel" text="Label" />
                         <TextField fx:id="classAdvDefTargetClassText" HBox.hgrow="ALWAYS" />
                      </children>
@@ -175,11 +174,20 @@
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
             </VBox>
+            <HBox fx:id="cardTypePane" alignment="CENTER_LEFT" spacing="20.0">
+               <children>
+                  <Label fx:id="cardTypeLabel" text="Label" />
+                  <ChoiceBox fx:id="cardTypeChoices" prefHeight="25.0" prefWidth="160.0" />
+               </children>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </HBox>
             <HBox alignment="BOTTOM_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
                <children>
                   <Label fx:id="errorLabel" text="Label" />
-                  <Button fx:id="cancelButton" mnemonicParsing="false" text="Button" />
-                  <Button fx:id="buildButton" mnemonicParsing="false" text="Button" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
+                  <Button fx:id="buildButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
                </children>
                <VBox.margin>
                   <Insets bottom="20.0" right="20.0" />
@@ -187,7 +195,7 @@
             </HBox>
          </children>
       </VBox>
-      <StackPane fx:id="generateValuePane" focusTraversable="true">
+      <StackPane fx:id="generateValuePane" focusTraversable="true" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e4e4e4" height="74.0" stroke="#5e5e5e" strokeType="INSIDE" width="476.0" />
             <HBox alignment="CENTER" prefHeight="391.0" prefWidth="724.0" spacing="20.0">
