@@ -16,7 +16,7 @@ public class TranslationManager {
 
     public static final String APPLICATION_SECTION = "Application";
     public static final String CONDITION_SECTION = "Condition";
-    public static final String CLASS_SECTION = "Application";
+    public static final String CLASS_SECTION = "Trait";
     public static final String TARGET_SECTION = "Target";
     public static final String TRAIT_SECTION = "Trait";
     public static final String COMMAND_CARD_TYPE_SECTION = "CommandCardType";

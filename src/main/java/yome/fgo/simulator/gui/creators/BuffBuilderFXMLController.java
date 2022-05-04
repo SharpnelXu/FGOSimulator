@@ -15,12 +15,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
+import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.TranslationConverter;
+import yome.fgo.simulator.translation.TranslationManager;
+import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +34,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printVariationData;
@@ -49,6 +54,8 @@ import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_FIELD_STR
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
 
@@ -252,9 +259,124 @@ public class BuffBuilderFXMLController implements Initializable {
     public void setParentBuilder(final BuffData.Builder buffDataBuilder) {
         this.buffDataBuilder = buffDataBuilder;
 
-        resetPane();
+        if (!buffDataBuilder.getType().isEmpty()) {
+            requiredFields = BUFF_REQUIRED_FIELDS_MAP.get(buffDataBuilder.getType());
+            buffTypeChoices.getSelectionModel().select(buffDataBuilder.getType());
 
-        // TODO fill from parent
+            if (buffDataBuilder.getNumTurnsActive() > 0) {
+                numTurnCheckbox.setSelected(true);
+                numTurnText.setText(Integer.toString(buffDataBuilder.getNumTurnsActive()));
+            }
+            if (buffDataBuilder.getNumTimesActive() > 0) {
+                numTimesCheckbox.setSelected(true);
+                numTimesText.setText(Integer.toString(buffDataBuilder.getNumTimesActive()));
+            }
+            irremovableCheckbox.setSelected(buffDataBuilder.getIrremovable());
+            forceStackCheckbox.setSelected(buffDataBuilder.getForceStackable());
+            if (buffDataBuilder.getProbabilitiesCount() > 0) {
+                probabilityCheckbox.setSelected(true);
+                probabilityText.setText(
+                        buffDataBuilder.getProbabilitiesList().stream()
+                                .map(d -> Double.toString(d * 100))
+                                .collect(Collectors.joining(", "))
+                );
+            }
+            if (buffDataBuilder.getHasCustomTraits()) {
+                traitCheckbox.setSelected(true);
+                traitText.setText(String.join(", ", buffDataBuilder.getCustomTraitsList()));
+            }
+            if (buffDataBuilder.hasApplyCondition()) {
+                conditionCheckbox.setSelected(true);
+                applyCondition = buffDataBuilder.getApplyCondition();
+                builtConditionLabel.setText(printConditionData(applyCondition));
+            }
+
+            if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE)) {
+                valuesText.setText(
+                        buffDataBuilder.getValuesList().stream()
+                                .map(d -> Double.toString(d * 100))
+                                .collect(Collectors.joining(", "))
+                );
+                if (buffDataBuilder.hasVariationData()) {
+                    useVariationCheckbox.setSelected(true);
+                    variationData = buffDataBuilder.getVariationData();
+                    builtVariationLabel.setText(printVariationData(variationData));
+                    variationAdditionText.setText(
+                            buffDataBuilder.getAdditionsList().stream()
+                                    .map(d -> Double.toString(d * 100))
+                                    .collect(Collectors.joining(", "))
+                    );
+                }
+            }
+            if (requiredFields.contains(BUFF_FIELD_INT_VALUE)) {
+                valuesText.setText(
+                        buffDataBuilder.getValuesList().stream()
+                                .map(d -> Double.toString(d))
+                                .collect(Collectors.joining(", "))
+                );
+                if (buffDataBuilder.hasVariationData()) {
+                    useVariationCheckbox.setSelected(true);
+                    variationData = buffDataBuilder.getVariationData();
+                    builtVariationLabel.setText(printVariationData(variationData));
+                    variationAdditionText.setText(
+                            buffDataBuilder.getAdditionsList().stream()
+                                    .map(d -> Double.toString(d))
+                                    .collect(Collectors.joining(", "))
+                    );
+                }
+            }
+
+            if (requiredFields.contains(BUFF_FIELD_STRING_VALUE)) {
+                stringValueText.setText(buffDataBuilder.getStringValue());
+            }
+            if (requiredFields.contains(BUFF_FIELD_EFFECTS)) {
+                effectsList.setItems(FXCollections.observableArrayList(buffDataBuilder.getSubEffectsList()));
+            }
+            if (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION)) {
+                if (buffDataBuilder.getIsGutsPercentBased()) {
+                    gutsPercentCheckbox.setSelected(true);
+                    gutsPercentText.setText(
+                            buffDataBuilder.getAdditionsList().stream()
+                                    .map(d -> Double.toString(d * 100))
+                                    .collect(Collectors.joining(", "))
+                    );
+                } else {
+                    gutsIntText.setText(
+                            buffDataBuilder.getAdditionsList().stream()
+                                    .map(d -> Double.toString(d))
+                                    .collect(Collectors.joining(", "))
+                    );
+                }
+            }
+            if (requiredFields.contains(BUFF_FIELD_CLASS_ADV) && buffDataBuilder.hasClassAdvChangeAdditionalParams()) {
+                final ClassAdvantageChangeAdditionalParams additionalParams = buffDataBuilder.getClassAdvChangeAdditionalParams();
+                classAdvChoicesAtk.getSelectionModel().select(additionalParams.getAttackMode());
+                classAdvAtkTargetClassText.setText(
+                        additionalParams.getAttackModeAffectedClassesList()
+                                .stream()
+                                .map(cl -> getTranslation(CLASS_SECTION, cl.name()))
+                                .collect(Collectors.joining(", "))
+                );
+                if (additionalParams.getCustomizeAttackModifier()) {
+                    classAdvCustomAtkCheckbox.setSelected(true);
+                    classAdvCustomAtkText.setText(Double.toString(additionalParams.getAttackAdv()));
+                }
+                classAdvChoicesDef.getSelectionModel().select(additionalParams.getDefenseMode());
+                classAdvDefTargetClassText.setText(
+                        additionalParams.getDefenseModeAffectedClassesList()
+                                .stream()
+                                .map(cl -> getTranslation(CLASS_SECTION, cl.name()))
+                                .collect(Collectors.joining(", "))
+                );
+                if (additionalParams.getCustomizeDefenseModifier()) {
+                    classAdvCustomDefCheckbox.setSelected(true);
+                    classAdvCustomDefText.setText(Double.toString(additionalParams.getDefenseAdv()));
+                }
+            }
+            if (requiredFields.contains(BUFF_FIELD_CARD_TYPE)) {
+                cardTypeChoices.getSelectionModel().select(CommandCardType.valueOf(buffDataBuilder.getStringValue()));
+            }
+        }
     }
 
     @Override
@@ -345,6 +467,7 @@ public class BuffBuilderFXMLController implements Initializable {
 
         effectsLabel.setText(getTranslation(APPLICATION_SECTION, "Effects"));
         addEffectsButton.setText(getTranslation(APPLICATION_SECTION, "Add Effect"));
+        // TODO actually add effects when EffectBuilder is done
 
         gutsLabel.setText(getTranslation(APPLICATION_SECTION, "Value"));
         gutsPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Value (%)"));
@@ -408,12 +531,11 @@ public class BuffBuilderFXMLController implements Initializable {
                 step = Double.parseDouble(generateValueStepText.getText());
 
                 final List<Double> values = generateSkillValues(base, step);
-                final StringBuilder builder = new StringBuilder();
-                builder.append(values.get(0));
-                for (int i = 1; i < values.size(); i++) {
-                    builder.append(", ").append(values.get(i));
-                }
-                generateTargetTextField.setText(builder.toString());
+                generateTargetTextField.setText(
+                        values.stream()
+                                .map(d -> Double.toString(d))
+                                .collect(Collectors.joining(", "))
+                );
             } catch (final Exception ignored) {
             }
             generateValuePane.setVisible(false);
@@ -517,10 +639,209 @@ public class BuffBuilderFXMLController implements Initializable {
 
     public void onBuildButtonClick() {
         if (buffDataBuilder != null) {
-            // TODO build buff
+            if (numTurnCheckbox.isSelected()) {
+                try {
+                    final int numTurnsActive = Integer.parseInt(numTurnText.getText());
+                    buffDataBuilder.setNumTurnsActive(numTurnsActive);
+                } catch (final Exception e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Num turns active not Integer"));
+                    return;
+                }
+            }
+            if (numTimesCheckbox.isSelected()) {
+                try {
+                    final int numTimesActive = Integer.parseInt(numTimesText.getText());
+                    buffDataBuilder.setNumTimesActive(numTimesActive);
+                } catch (final Exception e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Num times active not Integer"));
+                    return;
+                }
+            }
+            buffDataBuilder.setIrremovable(irremovableCheckbox.isSelected());
+            buffDataBuilder.setForceStackable(forceStackCheckbox.isSelected());
+            if (probabilityCheckbox.isSelected()) {
+                try {
+                    final List<Double> probabilities = parseDoubles(probabilityText.getText());
+                    buffDataBuilder.addAllProbabilities(probabilities);
+                } catch (final Exception e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Probabilities not double"));
+                    return;
+                }
+            }
+            if (traitCheckbox.isSelected()) {
+                buffDataBuilder.setHasCustomTraits(true);
+                buffDataBuilder.addAllCustomTraits(Arrays.stream(traitText.getText().trim().split(COMMA_SPLIT_REGEX)).sequential()
+                                                           .filter(s -> !s.isEmpty())
+                                                           .map(TranslationManager::getKeyForTrait)
+                                                           .collect(Collectors.toList()));
+            }
+            if (conditionCheckbox.isSelected()) {
+                if (applyCondition == null || applyCondition.getType().isEmpty()) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Apply condition not set"));
+                    return;
+                }
+                buffDataBuilder.setApplyCondition(applyCondition);
+            }
+
+            if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE)) {
+                try {
+                    final List<Double> values = parseDoubles(valuesText.getText());
+                    buffDataBuilder.addAllValues(values);
+                } catch (final Exception e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Double"));
+                    return;
+                }
+                if (useVariationCheckbox.isSelected()) {
+                    try {
+                        final List<Double> additions = parseDoubles(variationAdditionText.getText());
+                        buffDataBuilder.addAllAdditions(additions);
+                    } catch (final Exception e) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Addition not Double"));
+                        return;
+                    }
+                    if (variationData == null || variationData.getType().isEmpty()) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Variation not set"));
+                        return;
+                    }
+                    buffDataBuilder.setVariationData(variationData);
+                }
+            }
+            if (requiredFields.contains(BUFF_FIELD_INT_VALUE)) {
+                try {
+                    final List<Double> values = parseInts(valuesText.getText());
+                    buffDataBuilder.addAllValues(values);
+                } catch (final Exception e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));
+                    return;
+                }
+                if (useVariationCheckbox.isSelected()) {
+                    try {
+                        final List<Double> additions = parseInts(variationAdditionText.getText());
+                        buffDataBuilder.addAllAdditions(additions);
+                    } catch (final Exception e) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Addition not Integer"));
+                        return;
+                    }
+                    if (variationData == null || variationData.getType().isEmpty()) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Variation not set"));
+                        return;
+                    }
+                    buffDataBuilder.setVariationData(variationData);
+                }
+            }
+            if (requiredFields.contains(BUFF_FIELD_STRING_VALUE)) {
+                buffDataBuilder.setStringValue(getKeyForTrait(stringValueText.getText()));
+            }
+            if (requiredFields.contains(BUFF_FIELD_EFFECTS)) {
+                buffDataBuilder.addAllSubEffects(effectsList.getItems());
+            }
+            if (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION)) {
+                if (gutsPercentCheckbox.isSelected()) {
+                    try {
+                        final List<Double> gutsPercents = parseDoubles(gutsPercentText.getText());
+                        buffDataBuilder.addAllValues(gutsPercents);
+                    } catch (final Exception e) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Double"));
+                        return;
+                    }
+                } else {
+                    try {
+                        final List<Double> values = parseInts(gutsIntText.getText());
+                        buffDataBuilder.addAllValues(values);
+                    } catch (final Exception e) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));
+                        return;
+                    }
+                }
+            }
+            if (requiredFields.contains(BUFF_FIELD_CLASS_ADV)) {
+                final ClassAdvantageChangeAdditionalParams.Builder additionalParams = ClassAdvantageChangeAdditionalParams.newBuilder();
+                additionalParams.setAttackMode(classAdvChoicesAtk.getValue());
+                if (classAdvChoicesAtk.getValue() != CLASS_ADV_NO_CHANGE) {
+                    if (classAdvCustomAtkCheckbox.isSelected()) {
+                        try {
+                            final double rate = Double.parseDouble(classAdvCustomAtkText.getText());
+                            additionalParams.setAttackAdv(rate);
+                        } catch (final Exception e) {
+                            errorLabel.setVisible(true);
+                            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Double"));
+                            return;
+                        }
+                    }
+
+                }
+                if (classAdvAtkTargetClassText.getText().isEmpty()) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Affected class not set"));
+                    return;
+                }
+
+                additionalParams.addAllAttackModeAffectedClasses(
+                        Arrays.stream(classAdvAtkTargetClassText.getText().trim().split(COMMA_SPLIT_REGEX)).sequential()
+                                .filter(s -> !s.isEmpty())
+                                .map(s -> FateClass.valueOf(getKeyForTrait(s)))
+                                .collect(Collectors.toList())
+                );
+                additionalParams.setDefenseMode(classAdvChoicesDef.getValue());
+                if (classAdvChoicesDef.getValue() != CLASS_ADV_NO_CHANGE) {
+                    if (classAdvCustomDefCheckbox.isSelected()) {
+                        try {
+                            final double rate = Double.parseDouble(classAdvCustomDefText.getText());
+                            additionalParams.setDefenseAdv(rate);
+                        } catch (final Exception e) {
+                            errorLabel.setVisible(true);
+                            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Double"));
+                            return;
+                        }
+                    }
+
+                }
+                if (classAdvDefTargetClassText.getText().isEmpty()) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Affected class not set"));
+                    return;
+                }
+
+                additionalParams.addAllDefenseModeAffectedClasses(
+                        Arrays.stream(classAdvDefTargetClassText.getText().trim().split(COMMA_SPLIT_REGEX)).sequential()
+                                .filter(s -> !s.isEmpty())
+                                .map(s -> FateClass.valueOf(getKeyForTrait(s)))
+                                .collect(Collectors.toList())
+                );
+            }
+
+            if (requiredFields.contains(BUFF_FIELD_CARD_TYPE)) {
+                buffDataBuilder.setStringValue(cardTypeChoices.getValue().name());
+            }
         }
 
         final Stage stage = (Stage) buildButton.getScene().getWindow();
         stage.close();
+    }
+
+    public static List<Double> parseDoubles(final String values) {
+        return Arrays.stream(values.trim().split(COMMA_SPLIT_REGEX))
+            .sequential()
+            .map(val -> RoundUtils.roundNearest(Double.parseDouble(val) / 100))
+            .collect(Collectors.toList());
+    }
+
+    public static List<Double> parseInts(final String values) {
+        return Arrays.stream(values.trim().split(COMMA_SPLIT_REGEX))
+                .sequential()
+                .map(val -> (double) Integer.parseInt(val))
+                .collect(Collectors.toList());
     }
 }
