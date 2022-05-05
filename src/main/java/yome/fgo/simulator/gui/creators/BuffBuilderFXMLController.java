@@ -182,19 +182,10 @@ public class BuffBuilderFXMLController implements Initializable {
     private Button generateVariationsButton;
 
     @FXML
-    private TextField gutsIntText;
-
-    @FXML
-    private Label gutsLabel;
-
-    @FXML
     private HBox gutsPane;
 
     @FXML
     private CheckBox gutsPercentCheckbox;
-
-    @FXML
-    private TextField gutsPercentText;
 
     @FXML
     private CheckBox irremovableCheckbox;
@@ -292,7 +283,8 @@ public class BuffBuilderFXMLController implements Initializable {
                 builtConditionLabel.setText(printConditionData(applyCondition));
             }
 
-            if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE)) {
+            if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE) ||
+                    (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && buffDataBuilder.getIsGutsPercentBased())) {
                 valuesText.setText(
                         buffDataBuilder.getValuesList().stream()
                                 .map(d -> Double.toString(d * 100))
@@ -309,7 +301,8 @@ public class BuffBuilderFXMLController implements Initializable {
                     );
                 }
             }
-            if (requiredFields.contains(BUFF_FIELD_INT_VALUE)) {
+            if (requiredFields.contains(BUFF_FIELD_INT_VALUE) ||
+                    (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && !buffDataBuilder.getIsGutsPercentBased())) {
                 valuesText.setText(
                         buffDataBuilder.getValuesList().stream()
                                 .map(d -> Double.toString(d))
@@ -332,22 +325,6 @@ public class BuffBuilderFXMLController implements Initializable {
             }
             if (requiredFields.contains(BUFF_FIELD_EFFECTS)) {
                 effectsList.setItems(FXCollections.observableArrayList(buffDataBuilder.getSubEffectsList()));
-            }
-            if (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION)) {
-                if (buffDataBuilder.getIsGutsPercentBased()) {
-                    gutsPercentCheckbox.setSelected(true);
-                    gutsPercentText.setText(
-                            buffDataBuilder.getAdditionsList().stream()
-                                    .map(d -> Double.toString(d * 100))
-                                    .collect(Collectors.joining(", "))
-                    );
-                } else {
-                    gutsIntText.setText(
-                            buffDataBuilder.getAdditionsList().stream()
-                                    .map(d -> Double.toString(d))
-                                    .collect(Collectors.joining(", "))
-                    );
-                }
             }
             if (requiredFields.contains(BUFF_FIELD_CLASS_ADV) && buffDataBuilder.hasClassAdvChangeAdditionalParams()) {
                 final ClassAdvantageChangeAdditionalParams additionalParams = buffDataBuilder.getClassAdvChangeAdditionalParams();
@@ -470,14 +447,14 @@ public class BuffBuilderFXMLController implements Initializable {
         addEffectsButton.setText(getTranslation(APPLICATION_SECTION, "Add Effect"));
         // TODO actually add effects when EffectBuilder is done
 
-        gutsLabel.setText(getTranslation(APPLICATION_SECTION, "Value"));
-        gutsPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Value (%)"));
-        gutsPercentText.setDisable(true);
-        gutsPercentCheckbox.setOnAction(e -> {
-            gutsPercentText.setDisable(!gutsPercentCheckbox.isSelected());
-            gutsIntText.setDisable(gutsPercentCheckbox.isSelected());
-            gutsLabel.setDisable(gutsPercentCheckbox.isSelected());
-        });
+        gutsPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));
+        gutsPercentCheckbox.setOnAction(e ->
+            valueLabel.setText(
+                    gutsPercentCheckbox.isSelected() ?
+                            getTranslation(APPLICATION_SECTION, "Value (%)") :
+                            getTranslation(APPLICATION_SECTION, "Value")
+                    )
+        );
 
         final ChangeListener<String> classListener = (observable, oldValue, newValue) -> {
             final List<String> unmappedTraits = Arrays.stream(newValue.split(COMMA_SPLIT_REGEX))
@@ -616,8 +593,15 @@ public class BuffBuilderFXMLController implements Initializable {
             effectsPane.setManaged(true);
         }
         if (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION)) {
+            valuePane.setVisible(true);
+            valuePane.setManaged(true);
             gutsPane.setVisible(true);
             gutsPane.setManaged(true);
+            valueLabel.setText(
+                    gutsPercentCheckbox.isSelected() ?
+                            getTranslation(APPLICATION_SECTION, "Value (%)") :
+                            getTranslation(APPLICATION_SECTION, "Value")
+            );
         }
         if (requiredFields.contains(BUFF_FIELD_CLASS_ADV)) {
             classAdvPane.setVisible(true);
@@ -687,8 +671,9 @@ public class BuffBuilderFXMLController implements Initializable {
                 }
                 buffDataBuilder.setApplyCondition(applyCondition);
             }
-
-            if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE)) {
+            
+            if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE) ||
+                    (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && gutsPercentCheckbox.isSelected())) {
                 try {
                     final List<Double> values = parseDoubles(valuesText.getText());
                     buffDataBuilder.addAllValues(values);
@@ -714,7 +699,8 @@ public class BuffBuilderFXMLController implements Initializable {
                     buffDataBuilder.setVariationData(variationData);
                 }
             }
-            if (requiredFields.contains(BUFF_FIELD_INT_VALUE)) {
+            if (requiredFields.contains(BUFF_FIELD_INT_VALUE) ||
+                    (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && !gutsPercentCheckbox.isSelected())) {
                 try {
                     final List<Double> values = parseInts(valuesText.getText());
                     buffDataBuilder.addAllValues(values);
@@ -745,27 +731,6 @@ public class BuffBuilderFXMLController implements Initializable {
             }
             if (requiredFields.contains(BUFF_FIELD_EFFECTS)) {
                 buffDataBuilder.addAllSubEffects(effectsList.getItems());
-            }
-            if (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION)) {
-                if (gutsPercentCheckbox.isSelected()) {
-                    try {
-                        final List<Double> gutsPercents = parseDoubles(gutsPercentText.getText());
-                        buffDataBuilder.addAllValues(gutsPercents);
-                    } catch (final Exception e) {
-                        errorLabel.setVisible(true);
-                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Double"));
-                        return;
-                    }
-                } else {
-                    try {
-                        final List<Double> values = parseInts(gutsIntText.getText());
-                        buffDataBuilder.addAllValues(values);
-                    } catch (final Exception e) {
-                        errorLabel.setVisible(true);
-                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));
-                        return;
-                    }
-                }
             }
             if (requiredFields.contains(BUFF_FIELD_CLASS_ADV)) {
                 final ClassAdvantageChangeAdditionalParams.Builder additionalParams = ClassAdvantageChangeAdditionalParams.newBuilder();
