@@ -7,7 +7,7 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.utils.TargetUtils;
 
 @SuperBuilder
-public class DecreaseActiveSKillCoolDown extends IntValuedEffect {
+public class DecreaseActiveSkillCoolDown extends IntValuedEffect {
     private final Target target;
 
     @Override

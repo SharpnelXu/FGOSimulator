@@ -207,28 +207,29 @@ message AppendSkillData {
 
 message EffectData {
   string type = 1;
-  Target target = 2;
-  ConditionData applyCondition = 7;
   bool isOverchargedEffect = 5; // for effects with additional params, need to specifically set which part is overcharged in respecting params
-  repeated double values = 6;
-  repeated BuffData buffData = 8; // each represents one OC for GrantBuff
-
+  ConditionData applyCondition = 7;
   bool isProbabilityOvercharged = 13;
   repeated double probabilities = 9;
 
-  NpDamageAdditionalParams npDamageAdditionalParams = 11;
+  Target target = 2;
 
-  repeated CommandCardType cardTypeSelections = 12;
-
+  repeated double values = 6;
   repeated int32 intValues = 14; // for int value effects
-
-  // for hp change
-  bool isLethal = 15;
-  bool isHpChangePercentBased = 16;
 
   VariationData variationData = 17;
   repeated double additions = 18;
   bool isAdditionOvercharged = 19;
+
+  NpDamageAdditionalParams npDamageAdditionalParams = 11;
+
+  repeated BuffData buffData = 8; // each represents one OC for GrantBuff
+
+  repeated CommandCardType cardTypeSelections = 12;
+
+  // for hp change
+  bool isLethal = 15;
+  bool isHpChangePercentBased = 16;
 
   bool removeFromStart = 20;
 

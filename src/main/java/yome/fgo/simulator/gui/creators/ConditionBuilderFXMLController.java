@@ -17,6 +17,7 @@ import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.gui.components.SubConditionCellFactory;
 import yome.fgo.simulator.gui.components.TranslationConverter;
+import yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.IOException;
@@ -28,17 +29,17 @@ import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillCommandCardType;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillTargets;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_BUFF_TYPE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_CARD_TYPE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_CLASS_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_DOUBLE_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_INT_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_LIMITED_SUB_CONDITION;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_SERVANT;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_TARGET;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_TRAIT_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_REQUIRED_FIELD_MAP;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_SERVANT;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TARGET;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
@@ -122,7 +123,7 @@ public class ConditionBuilderFXMLController implements Initializable {
 
     private ConditionData.Builder conditionDataBuilder;
 
-    private Set<Integer> requiredFields;
+    private Set<ConditionFields> requiredFields;
 
     private ChangeListener<String> valueTextListener;
 
@@ -137,7 +138,7 @@ public class ConditionBuilderFXMLController implements Initializable {
                 valueText.setText(Double.toString(builder.getDoubleValue()));
             } else if (requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
                 valueText.setText(Double.toString(builder.getDoubleValue() * 100));
-            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
+            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) || requiredFields.contains(CONDITION_FIELD_SERVANT)) {
                 valueText.setText(builder.getValue());
             }
 

@@ -13,6 +13,7 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.TranslationConverter;
+import yome.fgo.simulator.models.variations.VariationFactory.VariationFields;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.IOException;
@@ -23,12 +24,12 @@ import java.util.Set;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillTargets;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_BUFF;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_HP;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_MAX_COUNT;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_TARGET;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_TRAIT;
 import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_REQUIRED_FIELDS_MAP;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_BUFF;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_HP;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_MAX_COUNT;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TARGET;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TRAIT;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.VARIATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
@@ -116,7 +117,7 @@ public class VariationBuilderFXMLController implements Initializable {
 
     private ConditionData conditionData;
 
-    private Set<Integer> requiredFields;
+    private Set<VariationFields> requiredFields;
 
     public void setVariationBuilder(final VariationData.Builder variationBuilder) {
         this.variationBuilder = variationBuilder;

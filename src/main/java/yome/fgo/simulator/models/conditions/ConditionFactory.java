@@ -14,24 +14,35 @@ import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 import static yome.fgo.simulator.models.conditions.BuffRemovable.BUFF_REMOVABLE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_SERVANT;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TARGET;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.conditions.IsCriticalStrike.IS_CRITICAL_STRIKE;
 import static yome.fgo.simulator.models.conditions.Never.NEVER;
 import static yome.fgo.simulator.models.conditions.NpCard.NP_CARD;
 import static yome.fgo.simulator.models.conditions.ServantsExplodable.EXPLOOOOOOOOOSION;
 
 public class ConditionFactory {
-
-    public static final Map<String, Set<Integer>> CONDITION_REQUIRED_FIELD_MAP = buildRequiredConditionFieldsMap();
-    public static final int CONDITION_FIELD_INT_VALUE = 1;
-    public static final int CONDITION_FIELD_DOUBLE_VALUE = 2;
-    public static final int CONDITION_FIELD_TRAIT_VALUE = 3;
-    public static final int CONDITION_FIELD_SERVANT = 10;
-    public static final int CONDITION_FIELD_BUFF_TYPE = 4;
-    public static final int CONDITION_FIELD_CARD_TYPE = 5;
-    public static final int CONDITION_FIELD_CLASS_VALUE = 6;
-    public static final int CONDITION_FIELD_TARGET = 7;
-    public static final int CONDITION_FIELD_UNLIMITED_SUB_CONDITION = 8;
-    public static final int CONDITION_FIELD_LIMITED_SUB_CONDITION = 9;
+    public static final Map<String, Set<ConditionFields>> CONDITION_REQUIRED_FIELD_MAP = buildRequiredConditionFieldsMap();
+    public enum ConditionFields {
+        CONDITION_FIELD_INT_VALUE,
+        CONDITION_FIELD_DOUBLE_VALUE,
+        CONDITION_FIELD_TRAIT_VALUE,
+        CONDITION_FIELD_SERVANT,
+        CONDITION_FIELD_BUFF_TYPE,
+        CONDITION_FIELD_CARD_TYPE,
+        CONDITION_FIELD_CLASS_VALUE,
+        CONDITION_FIELD_TARGET,
+        CONDITION_FIELD_UNLIMITED_SUB_CONDITION,
+        CONDITION_FIELD_LIMITED_SUB_CONDITION
+    }
 
     public static Condition buildCondition(final ConditionData conditionData) {
         final String type = conditionData.getType();
@@ -138,8 +149,8 @@ public class ConditionFactory {
         throw new UnsupportedOperationException("Unsupported condition: " + type);
     }
 
-    public static Map<String, Set<Integer>> buildRequiredConditionFieldsMap() {
-        final ImmutableMap.Builder<String, Set<Integer>> builder = ImmutableSortedMap.naturalOrder();
+    public static Map<String, Set<ConditionFields>> buildRequiredConditionFieldsMap() {
+        final ImmutableMap.Builder<String, Set<ConditionFields>> builder = ImmutableSortedMap.naturalOrder();
         builder.put(Always.class.getSimpleName(), ImmutableSet.of());
 
         builder.put(And.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_UNLIMITED_SUB_CONDITION));

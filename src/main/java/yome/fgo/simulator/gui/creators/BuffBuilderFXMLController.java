@@ -23,6 +23,7 @@ import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.TranslationConverter;
+import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
 import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -44,14 +45,14 @@ import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.addSplitTraitListener;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillClassAdvMode;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillCommandCardType;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_FIELD_CARD_TYPE;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_FIELD_CLASS_ADV;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_FIELD_DOUBLE_VALUE;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_FIELD_EFFECTS;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_FIELD_INT_VALUE;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_FIELD_PERCENT_OPTION;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_FIELD_STRING_VALUE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CLASS_ADV;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_EFFECTS;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_PERCENT_OPTION;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_STRING_VALUE;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
@@ -249,7 +250,7 @@ public class BuffBuilderFXMLController implements Initializable {
     @FXML
     private TextField variationAdditionText;
 
-    private Set<Integer> requiredFields;
+    private Set<BuffFields> requiredFields;
 
     private BuffData.Builder buffDataBuilder;
     private TextField generateTargetTextField;

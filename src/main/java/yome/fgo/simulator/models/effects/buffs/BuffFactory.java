@@ -28,17 +28,25 @@ import static yome.fgo.data.proto.FgoStorageData.Traits.BLESSED_BY_KUR;
 import static yome.fgo.data.proto.FgoStorageData.Traits.BURNING_LOVE;
 import static yome.fgo.data.proto.FgoStorageData.Traits.VENGEANCE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CLASS_ADV;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_EFFECTS;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_PERCENT_OPTION;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_STRING_VALUE;
 
 public class BuffFactory {
-    public static final Map<String, Set<Integer>> BUFF_REQUIRED_FIELDS_MAP = buildRequiredBuffFieldsMap();
-    public static final int BUFF_FIELD_DOUBLE_VALUE = 1;
-    public static final int BUFF_FIELD_INT_VALUE = 2;
-    public static final int BUFF_FIELD_STRING_VALUE = 3;
-    public static final int BUFF_FIELD_EFFECTS = 4;
-    public static final int BUFF_FIELD_PERCENT_OPTION = 5;
-    public static final int BUFF_FIELD_CLASS_ADV = 6;
-    public static final int BUFF_FIELD_CARD_TYPE = 7;
-
+    public static final Map<String, Set<BuffFields>> BUFF_REQUIRED_FIELDS_MAP = buildRequiredBuffFieldsMap();
+    public enum BuffFields {
+        BUFF_FIELD_DOUBLE_VALUE,
+        BUFF_FIELD_INT_VALUE,
+        BUFF_FIELD_STRING_VALUE,
+        BUFF_FIELD_EFFECTS,
+        BUFF_FIELD_PERCENT_OPTION,
+        BUFF_FIELD_CLASS_ADV,
+        BUFF_FIELD_CARD_TYPE
+    }
 
     public static Buff buildBuff(final BuffData buffData, final int level) {
         final String type = buffData.getType();
@@ -454,8 +462,8 @@ public class BuffFactory {
         return setCommonBuffParams(builder, buffData, level);
     }
 
-    public static Map<String, Set<Integer>> buildRequiredBuffFieldsMap() {
-        final ImmutableMap.Builder<String, Set<Integer>> builder = ImmutableMap.builder();
+    public static Map<String, Set<BuffFields>> buildRequiredBuffFieldsMap() {
+        final ImmutableMap.Builder<String, Set<BuffFields>> builder = ImmutableMap.builder();
         builder.put(AttackBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(DefenseBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(CommandCardBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));

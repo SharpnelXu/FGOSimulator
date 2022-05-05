@@ -11,14 +11,21 @@ import java.util.Set;
 
 import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 import static yome.fgo.simulator.models.variations.TurnPassVariation.TURN_PASS_VARIATION;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_BUFF;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_HP;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_MAX_COUNT;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TARGET;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TRAIT;
 
 public class VariationFactory {
-    public static final Map<String, Set<Integer>> VARIATION_REQUIRED_FIELDS_MAP = buildVariationRequiredFieldsMap();
-    public static final int VARIATION_FIELD_MAX_COUNT = 1;
-    public static final int VARIATION_FIELD_TRAIT = 2;
-    public static final int VARIATION_FIELD_BUFF = 3;
-    public static final int VARIATION_FIELD_HP = 4;
-    public static final int VARIATION_FIELD_TARGET = 5;
+    public static final Map<String, Set<VariationFields>> VARIATION_REQUIRED_FIELDS_MAP = buildVariationRequiredFieldsMap();
+    public enum VariationFields {
+        VARIATION_FIELD_MAX_COUNT,
+        VARIATION_FIELD_TRAIT,
+        VARIATION_FIELD_BUFF,
+        VARIATION_FIELD_HP,
+        VARIATION_FIELD_TARGET
+    }
 
     public static Variation buildVariation(final VariationData variationData) {
         final String type = variationData.getType();
@@ -50,8 +57,8 @@ public class VariationFactory {
         throw new IllegalArgumentException("Unrecognized Variation type: " + type);
     }
 
-    public static Map<String, Set<Integer>> buildVariationRequiredFieldsMap() {
-        final ImmutableMap.Builder<String, Set<Integer>> builder = ImmutableSortedMap.naturalOrder();
+    public static Map<String, Set<VariationFields>> buildVariationRequiredFieldsMap() {
+        final ImmutableMap.Builder<String, Set<VariationFields>> builder = ImmutableSortedMap.naturalOrder();
         builder.put(BuffCountVariation.class.getSimpleName(), ImmutableSet.of(
                 VARIATION_FIELD_MAX_COUNT,
                 VARIATION_FIELD_BUFF,

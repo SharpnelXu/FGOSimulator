@@ -24,6 +24,7 @@ public class TranslationManager {
     public static final String SERVANT_NAME_SECTION = "ServantName";
     public static final String VARIATION_SECTION = "Variation";
     public static final String CLASS_ADV_SECTION = "ClassAdv";
+    public static final String EFFECT_SECTION = "Effect";
 
     public static void setTranslations(final String language) {
         TRANSLATIONS.clear();

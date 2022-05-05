@@ -214,6 +214,7 @@ public class Simulation {
     public void render() {
         // TODO: display method
     }
+
     public void activateServantSkill(final int servantIndex, final int activeSkillIndex) {
         currentServants.get(servantIndex).activateActiveSkill(this, activeSkillIndex);
     }

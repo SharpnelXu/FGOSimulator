@@ -2,28 +2,30 @@ package yome.fgo.simulator.gui.components;
 
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
+import yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields;
+import yome.fgo.simulator.models.variations.VariationFactory.VariationFields;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_BUFF_TYPE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_CARD_TYPE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_CLASS_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_DOUBLE_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_INT_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_LIMITED_SUB_CONDITION;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_SERVANT;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_TARGET;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_TRAIT_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_REQUIRED_FIELD_MAP;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_BUFF;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_HP;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_MAX_COUNT;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_TARGET;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_FIELD_TRAIT;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_SERVANT;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TARGET;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_REQUIRED_FIELDS_MAP;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_BUFF;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_HP;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_MAX_COUNT;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TARGET;
+import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TRAIT;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
@@ -46,7 +48,7 @@ public class DataPrinter {
 
         builder.append(getTranslation(CONDITION_SECTION, type));
 
-        final Set<Integer> requiredFields = CONDITION_REQUIRED_FIELD_MAP.get(type);
+        final Set<ConditionFields> requiredFields = CONDITION_REQUIRED_FIELD_MAP.get(type);
         if (requiredFields == null || requiredFields.isEmpty()) {
             return builder.toString();
         }
@@ -104,7 +106,7 @@ public class DataPrinter {
 
         builder.append(getTranslation(VARIATION_SECTION, type));
 
-        final Set<Integer> requiredFields = VARIATION_REQUIRED_FIELDS_MAP.get(type);
+        final Set<VariationFields> requiredFields = VARIATION_REQUIRED_FIELDS_MAP.get(type);
         if (requiredFields == null || requiredFields.isEmpty()) {
             return builder.toString();
         }

@@ -1,20 +1,47 @@
 package yome.fgo.simulator.models.effects;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
 import yome.fgo.simulator.models.variations.VariationFactory;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_GRANT_BUFF;
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_HP_CHANGE;
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_NP_DAMAGE;
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_RANDOM_SELECTION;
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_TARGET;
 import static yome.fgo.simulator.models.effects.MoveToLastBackup.MOVE_TO_LAST_BACKUP;
 import static yome.fgo.simulator.models.effects.OrderChange.ORDER_CHANGE;
 import static yome.fgo.simulator.models.effects.ShuffleCards.SHUFFLE_CARDS;
 
 public class EffectFactory {
+    public static final Map<String, Set<EffectFields>> EFFECT_REQUIRED_FIELDS_MAP = buildEffectsRequiredFieldsMap();
+    public enum EffectFields {
+        EFFECT_FIELD_TARGET,
+        EFFECT_FIELD_INT_VALUE,
+        EFFECT_FIELD_DOUBLE_VALUE,
+        EFFECT_FIELD_NP_DAMAGE,
+        EFFECT_FIELD_GRANT_BUFF,
+        EFFECT_FIELD_CARD_TYPE_SELECT,
+        EFFECT_FIELD_HP_CHANGE,
+        EFFECT_FIELD_REMOVE_BUFF,
+        EFFECT_FIELD_RANDOM_SELECTION
+    }
+
+
     public static List<Effect> buildEffects(final List<EffectData> effectData) {
         return buildEffects(effectData, 1);
     }
@@ -41,8 +68,8 @@ public class EffectFactory {
         } else if (type.equalsIgnoreCase(CriticalStarChange.class.getSimpleName())) {
             return setCommonIntValuedEffectValue(CriticalStarChange.builder(), effectData, level);
 
-        } else if (type.equalsIgnoreCase(DecreaseActiveSKillCoolDown.class.getSimpleName())) {
-            return setCommonIntValuedEffectValue(DecreaseActiveSKillCoolDown.builder(), effectData, level);
+        } else if (type.equalsIgnoreCase(DecreaseActiveSkillCoolDown.class.getSimpleName())) {
+            return setCommonIntValuedEffectValue(DecreaseActiveSkillCoolDown.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(GrantBuff.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(GrantBuff.builder(), effectData, level);
@@ -70,6 +97,9 @@ public class EffectFactory {
             }
 
             return setCommonEffectParams(builder, effectData, level);
+
+        } else if (type.equalsIgnoreCase(InstantDeath.class.getSimpleName())) {
+            return setCommonEffectParams(InstantDeath.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(MaxHpChange.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(MaxHpChange.builder(), effectData, level);
@@ -287,5 +317,31 @@ public class EffectFactory {
         } else {
             return ImmutableList.of();
         }
+    }
+
+    public static Map<String, Set<EffectFields>> buildEffectsRequiredFieldsMap() {
+        final ImmutableMap.Builder<String, Set<EffectFields>> builder = ImmutableMap.builder();
+
+        builder.put(CriticalStarChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE));
+        builder.put(NpChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_DOUBLE_VALUE, EFFECT_FIELD_TARGET));
+        builder.put(NpGaugeChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));
+        builder.put(HpChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_HP_CHANGE));
+        builder.put(MaxHpChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
+        builder.put(GrantBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
+        builder.put(RemoveBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_REMOVE_BUFF));
+        builder.put(NoblePhantasmDamage.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_NP_DAMAGE, EFFECT_FIELD_TARGET));
+
+        builder.put(DecreaseActiveSkillCoolDown.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));
+        builder.put(InstantDeath.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET));
+        builder.put(ForceInstantDeath.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET));
+        builder.put(AscensionChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));
+        builder.put(BuffAbsorption.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET));
+        builder.put(CardTypeChangeSelect.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET, EFFECT_FIELD_CARD_TYPE_SELECT));
+        builder.put(OrderChange.class.getSimpleName(), ImmutableSet.of());
+        builder.put(MoveToLastBackup.class.getSimpleName(), ImmutableSet.of());
+        builder.put(ShuffleCards.class.getSimpleName(), ImmutableSet.of());
+        builder.put(RandomEffects.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_RANDOM_SELECTION));
+
+        return builder.build();
     }
 }
