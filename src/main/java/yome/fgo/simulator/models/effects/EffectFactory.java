@@ -329,7 +329,7 @@ public class EffectFactory {
         builder.put(MaxHpChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
         builder.put(GrantBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
         builder.put(RemoveBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_REMOVE_BUFF));
-        builder.put(NoblePhantasmDamage.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_NP_DAMAGE, EFFECT_FIELD_TARGET));
+        builder.put(NoblePhantasmDamage.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_DOUBLE_VALUE, EFFECT_FIELD_NP_DAMAGE, EFFECT_FIELD_TARGET));
 
         builder.put(DecreaseActiveSkillCoolDown.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));
         builder.put(InstantDeath.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET));

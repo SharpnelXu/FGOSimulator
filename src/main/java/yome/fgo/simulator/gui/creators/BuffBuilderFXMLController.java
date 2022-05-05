@@ -22,6 +22,7 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
+import yome.fgo.simulator.gui.components.EffectsCellFactory;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
 import yome.fgo.simulator.translation.TranslationManager;
@@ -40,6 +41,7 @@ import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printVariationData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
+import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.creators.VariationBuilder.createVariation;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.addSplitTraitListener;
@@ -445,7 +447,9 @@ public class BuffBuilderFXMLController implements Initializable {
 
         effectsLabel.setText(getTranslation(APPLICATION_SECTION, "Effects"));
         addEffectsButton.setText(getTranslation(APPLICATION_SECTION, "Add Effect"));
-        // TODO actually add effects when EffectBuilder is done
+        addEffectsButton.setOnAction(e -> addEffect());
+        effectsList.setCellFactory(new EffectsCellFactory());
+        effectsList.setItems(FXCollections.observableArrayList());
 
         gutsPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));
         gutsPercentCheckbox.setOnAction(e ->
@@ -538,6 +542,20 @@ public class BuffBuilderFXMLController implements Initializable {
 
         cardTypePane.setVisible(false);
         cardTypePane.setManaged(false);
+    }
+
+    public void addEffect() {
+        try {
+            final EffectData.Builder builder = EffectData.newBuilder();
+            createEffect(addEffectsButton.getScene().getWindow(), builder);
+
+            if (!builder.getType().isEmpty()) {
+                effectsList.getItems().add(builder.build());
+            }
+        } catch (final IOException e) {
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
+            errorLabel.setVisible(true);
+        }
     }
 
     public void editVariation() {
