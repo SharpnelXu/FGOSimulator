@@ -25,6 +25,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
+import static yome.fgo.simulator.gui.components.DataPrinter.intToString;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillCommandCardType;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
@@ -135,9 +137,9 @@ public class ConditionBuilderFXMLController implements Initializable {
             conditionChoices.getSelectionModel().select(builder.getType());
             
             if (requiredFields.contains(CONDITION_FIELD_INT_VALUE)) {
-                valueText.setText(Double.toString(builder.getDoubleValue()));
+                valueText.setText(intToString(builder.getDoubleValue()));
             } else if (requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
-                valueText.setText(Double.toString(builder.getDoubleValue() * 100));
+                valueText.setText(doubleToString(builder.getDoubleValue()));
             } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) || requiredFields.contains(CONDITION_FIELD_SERVANT)) {
                 valueText.setText(builder.getValue());
             }
@@ -153,7 +155,7 @@ public class ConditionBuilderFXMLController implements Initializable {
             }
 
             if (requiredFields.contains(CONDITION_FIELD_TARGET)) {
-                targetChoices.getSelectionModel().select(Target.valueOf(builder.getValue()));
+                targetChoices.getSelectionModel().select(builder.getTarget());
             }
             if (requiredFields.contains(CONDITION_FIELD_UNLIMITED_SUB_CONDITION)) {
                 subConditionList.setItems(FXCollections.observableArrayList(builder.getSubConditionDataList()));

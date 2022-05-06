@@ -2,6 +2,7 @@ package yome.fgo.simulator.gui.creators;
 
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -259,66 +260,53 @@ public class BuffBuilderFXMLController implements Initializable {
 
             if (buffDataBuilder.getNumTurnsActive() > 0) {
                 numTurnCheckbox.setSelected(true);
+                numTurnCheckbox.fireEvent(new ActionEvent());
                 numTurnText.setText(Integer.toString(buffDataBuilder.getNumTurnsActive()));
             }
             if (buffDataBuilder.getNumTimesActive() > 0) {
                 numTimesCheckbox.setSelected(true);
+                numTimesCheckbox.fireEvent(new ActionEvent());
                 numTimesText.setText(Integer.toString(buffDataBuilder.getNumTimesActive()));
             }
             irremovableCheckbox.setSelected(buffDataBuilder.getIrremovable());
             forceStackCheckbox.setSelected(buffDataBuilder.getForceStackable());
             if (buffDataBuilder.getProbabilitiesCount() > 0) {
                 probabilityCheckbox.setSelected(true);
-                probabilityText.setText(
-                        buffDataBuilder.getProbabilitiesList().stream()
-                                .map(d -> Double.toString(d * 100))
-                                .collect(Collectors.joining(", "))
-                );
+                probabilityCheckbox.fireEvent(new ActionEvent());
+                probabilityText.setText(doublesToString(buffDataBuilder.getProbabilitiesList()));
             }
             if (buffDataBuilder.getHasCustomTraits()) {
                 traitCheckbox.setSelected(true);
+                traitCheckbox.fireEvent(new ActionEvent());
                 traitText.setText(String.join(", ", buffDataBuilder.getCustomTraitsList()));
             }
             if (buffDataBuilder.hasApplyCondition()) {
                 conditionCheckbox.setSelected(true);
+                conditionCheckbox.fireEvent(new ActionEvent());
                 applyCondition = buffDataBuilder.getApplyCondition();
                 builtConditionLabel.setText(printConditionData(applyCondition));
             }
 
             if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE) ||
                     (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && buffDataBuilder.getIsGutsPercentBased())) {
-                valuesText.setText(
-                        buffDataBuilder.getValuesList().stream()
-                                .map(d -> Double.toString(d * 100))
-                                .collect(Collectors.joining(", "))
-                );
+                valuesText.setText(doublesToString(buffDataBuilder.getValuesList()));
                 if (buffDataBuilder.hasVariationData()) {
                     useVariationCheckbox.setSelected(true);
+                    useVariationCheckbox.fireEvent(new ActionEvent());
                     variationData = buffDataBuilder.getVariationData();
                     builtVariationLabel.setText(printVariationData(variationData));
-                    variationAdditionText.setText(
-                            buffDataBuilder.getAdditionsList().stream()
-                                    .map(d -> Double.toString(d * 100))
-                                    .collect(Collectors.joining(", "))
-                    );
+                    variationAdditionText.setText(doublesToString(buffDataBuilder.getAdditionsList()));
                 }
             }
             if (requiredFields.contains(BUFF_FIELD_INT_VALUE) ||
                     (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && !buffDataBuilder.getIsGutsPercentBased())) {
-                valuesText.setText(
-                        buffDataBuilder.getValuesList().stream()
-                                .map(d -> Double.toString(d))
-                                .collect(Collectors.joining(", "))
-                );
+                valuesText.setText(intsToString(buffDataBuilder.getValuesList()));
                 if (buffDataBuilder.hasVariationData()) {
                     useVariationCheckbox.setSelected(true);
+                    useVariationCheckbox.fireEvent(new ActionEvent());
                     variationData = buffDataBuilder.getVariationData();
                     builtVariationLabel.setText(printVariationData(variationData));
-                    variationAdditionText.setText(
-                            buffDataBuilder.getAdditionsList().stream()
-                                    .map(d -> Double.toString(d))
-                                    .collect(Collectors.joining(", "))
-                    );
+                    variationAdditionText.setText(intsToString(buffDataBuilder.getAdditionsList()));
                 }
             }
 
@@ -339,6 +327,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 );
                 if (additionalParams.getCustomizeAttackModifier()) {
                     classAdvCustomAtkCheckbox.setSelected(true);
+                    classAdvCustomAtkCheckbox.fireEvent(new ActionEvent());
                     classAdvCustomAtkText.setText(Double.toString(additionalParams.getAttackAdv()));
                 }
                 classAdvChoicesDef.getSelectionModel().select(additionalParams.getDefenseMode());
@@ -350,6 +339,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 );
                 if (additionalParams.getCustomizeDefenseModifier()) {
                     classAdvCustomDefCheckbox.setSelected(true);
+                    classAdvCustomDefCheckbox.fireEvent(new ActionEvent());
                     classAdvCustomDefText.setText(Double.toString(additionalParams.getDefenseAdv()));
                 }
             }
@@ -448,7 +438,7 @@ public class BuffBuilderFXMLController implements Initializable {
         effectsLabel.setText(getTranslation(APPLICATION_SECTION, "Effects"));
         addEffectsButton.setText(getTranslation(APPLICATION_SECTION, "Add Effect"));
         addEffectsButton.setOnAction(e -> addEffect());
-        effectsList.setCellFactory(new EffectsCellFactory());
+        effectsList.setCellFactory(new EffectsCellFactory(errorLabel));
         effectsList.setItems(FXCollections.observableArrayList());
 
         gutsPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));
@@ -809,6 +799,8 @@ public class BuffBuilderFXMLController implements Initializable {
             if (requiredFields.contains(BUFF_FIELD_CARD_TYPE)) {
                 buffDataBuilder.setStringValue(cardTypeChoices.getValue().name());
             }
+
+            buffDataBuilder.setType(buffTypeChoices.getValue());
         }
 
         final Stage stage = (Stage) buildButton.getScene().getWindow();
@@ -822,10 +814,22 @@ public class BuffBuilderFXMLController implements Initializable {
             .collect(Collectors.toList());
     }
 
+    public static String doublesToString(final List<Double> list) {
+        return list.stream()
+                .map(d -> Double.toString(RoundUtils.roundNearest(d * 100)))
+                .collect(Collectors.joining(", "));
+    }
+
     public static List<Double> parseInts(final String values) {
         return Arrays.stream(values.trim().split(COMMA_SPLIT_REGEX))
                 .sequential()
                 .map(val -> (double) Integer.parseInt(val))
                 .collect(Collectors.toList());
+    }
+
+    public static String intsToString(final List<Double> list) {
+        return list.stream()
+                .map(d -> Double.toString(d))
+                .collect(Collectors.joining(", "));
     }
 }

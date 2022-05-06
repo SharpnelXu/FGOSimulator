@@ -2,6 +2,7 @@ package yome.fgo.simulator.gui.creators;
 
 import com.google.common.collect.ImmutableList;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,11 +16,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import yome.fgo.data.proto.FgoStorageData;
+import org.checkerframework.checker.units.qual.A;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.BuffsCellFactory;
@@ -38,11 +40,14 @@ import java.util.stream.Collectors;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
-import static yome.fgo.data.proto.FgoStorageData.CommandCardType.UNRECOGNIZED;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printVariationData;
 import static yome.fgo.simulator.gui.creators.BuffBuilder.createBuff;
+import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.doublesToString;
+import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.intsToString;
+import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.parseDoubles;
+import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.parseInts;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.creators.VariationBuilder.createVariation;
@@ -260,7 +265,99 @@ public class EffectBuilderFXMLController implements Initializable {
 
     public void setParentBuilder(final EffectData.Builder builder) {
         this.effectDataBuilder = builder;
-        // TODO populate fields based on builder
+        if (!effectDataBuilder.getType().isEmpty()) {
+            requiredFields = EFFECT_REQUIRED_FIELDS_MAP.get(effectDataBuilder.getType());
+            effectTypeChoices.getSelectionModel().select(effectDataBuilder.getType());
+
+            isOverchargedEffect.setSelected(effectDataBuilder.getIsOverchargedEffect());
+            if (effectDataBuilder.getProbabilitiesCount() > 0) {
+                isProbabilityOvercharged.setSelected(effectDataBuilder.getIsProbabilityOvercharged());
+                probabilityText.setText(doublesToString(effectDataBuilder.getProbabilitiesList()));
+            }
+            if (effectDataBuilder.hasApplyCondition()) {
+                conditionCheckbox.setSelected(true);
+                conditionCheckbox.fireEvent(new ActionEvent());
+                applyCondition = effectDataBuilder.getApplyCondition();
+                builtConditionLabel.setText(printConditionData(applyCondition));
+            }
+
+            if (requiredFields.contains(EFFECT_FIELD_TARGET)) {
+                targetChoice.getSelectionModel().select(effectDataBuilder.getTarget());
+            }
+            if (requiredFields.contains(EFFECT_FIELD_INT_VALUE) ||
+                    (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && !hpPercentCheckbox.isSelected())) {
+                valuesText.setText(intsToString(effectDataBuilder.getValuesList()));
+                if (effectDataBuilder.hasVariationData()) {
+                    useVariationCheckbox.setSelected(true);
+                    useVariationCheckbox.fireEvent(new ActionEvent());
+                    variationData = effectDataBuilder.getVariationData();
+                    builtVariationLabel.setText(printVariationData(variationData));
+                    variationAdditionText.setText(intsToString(effectDataBuilder.getAdditionsList()));
+                }
+            }
+            if (requiredFields.contains(EFFECT_FIELD_DOUBLE_VALUE) ||
+                    (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && hpPercentCheckbox.isSelected())) {
+                valuesText.setText(doublesToString(effectDataBuilder.getValuesList()));
+                if (effectDataBuilder.hasVariationData()) {
+                    useVariationCheckbox.setSelected(true);
+                    useVariationCheckbox.fireEvent(new ActionEvent());
+                    variationData = effectDataBuilder.getVariationData();
+                    builtVariationLabel.setText(printVariationData(variationData));
+                    variationAdditionText.setText(doublesToString(effectDataBuilder.getAdditionsList()));
+                }
+            }
+            if (requiredFields.contains(EFFECT_FIELD_NP_DAMAGE) && effectDataBuilder.hasNpDamageAdditionalParams()) {
+                final NpDamageAdditionalParams additionalParams = effectDataBuilder.getNpDamageAdditionalParams();
+                isNpIgnoreDefense.setSelected(additionalParams.getIsNpIgnoreDefense());
+
+                if (additionalParams.getNpOverchargeDamageRateCount() > 0) {
+                    isNpDamageOvercharged.setSelected(true);
+                    isNpDamageOvercharged.fireEvent(new ActionEvent());
+                    npOverchargedRatesText.setText(doublesToString(additionalParams.getNpOverchargeDamageRateList()));
+                }
+
+                if (additionalParams.hasNpSpecificDamageCondition()) {
+                    hasNpSPD.setSelected(true);
+                    npSpdCondition = additionalParams.getNpSpecificDamageCondition();
+                    builtNpSPDConditionLabel.setText(printConditionData(npSpdCondition));
+                    isNpSPDOvercharged.setSelected(additionalParams.getIsNpSpecificDamageOverchargedEffect());
+                    npSPDText.setText(doublesToString(additionalParams.getNpSpecificDamageRateList()));
+
+                    if (additionalParams.hasNpSpecificDamageVariation()) {
+                        npSPDVariationCheckbox.setSelected(true);
+                        npSPDVariationCheckbox.fireEvent(new ActionEvent());
+                        npSpdVariation = additionalParams.getNpSpecificDamageVariation();
+                        builtNpSPDVariationLabel.setText(printVariationData(npSpdVariation));
+                        isNpSPDVariationOvercharged.setSelected(additionalParams.getIsNpSpecificDamageAdditionOvercharged());
+                        npSPDVariationText.setText(doublesToString(additionalParams.getNpSpecificDamageAdditionsList()));
+                    }
+                }
+            }
+            if (requiredFields.contains(EFFECT_FIELD_GRANT_BUFF)) {
+                buffsList.getItems().addAll(effectDataBuilder.getBuffDataList());
+            }
+            if (requiredFields.contains(EFFECT_FIELD_CARD_TYPE_SELECT)) {
+                for (final CommandCardType cardType : effectDataBuilder.getCardTypeSelectionsList()) {
+                    if (cardType == QUICK) {
+                        cardTypeCheckboxes.get(0).setSelected(true);
+                    } else if (cardType == ARTS) {
+                        cardTypeCheckboxes.get(1).setSelected(true);
+                    } else if (cardType == BUSTER) {
+                        cardTypeCheckboxes.get(2).setSelected(true);
+                    }
+                }
+            }
+            if (requiredFields.contains(EFFECT_FIELD_HP_CHANGE)) {
+                hpPercentCheckbox.setSelected(effectDataBuilder.getIsHpChangePercentBased());
+                hpDrainLethalCheckbox.setSelected(effectDataBuilder.getIsLethal());
+            }
+            if (requiredFields.contains(EFFECT_FIELD_REMOVE_BUFF)) {
+                removeFromStartCheckbox.setSelected(effectDataBuilder.getRemoveFromStart());
+            }
+            if (requiredFields.contains(EFFECT_FIELD_RANDOM_SELECTION)) {
+                effectsList.getItems().addAll(effectDataBuilder.getRandomEffectSelectionsList());
+            }
+        }
     }
 
     public static void setPaneVisAndManaged(final List<Pane> panes, final boolean bool) {
@@ -393,13 +490,13 @@ public class EffectBuilderFXMLController implements Initializable {
         effectsLabel.setText(getTranslation(APPLICATION_SECTION, "Effects"));
         addEffectsButton.setText(getTranslation(APPLICATION_SECTION, "Add Effect"));
         addEffectsButton.setOnAction(e -> addEffect());
-        effectsList.setCellFactory(new EffectsCellFactory());
+        effectsList.setCellFactory(new EffectsCellFactory(errorLabel));
         effectsList.setItems(FXCollections.observableArrayList());
 
         buffsLabel.setText(getTranslation(APPLICATION_SECTION, "Buffs"));
         addBuffButton.setText(getTranslation(APPLICATION_SECTION, "Add Buff"));
         addBuffButton.setOnAction(e -> addBuff());
-        buffsList.setCellFactory(new BuffsCellFactory());
+        buffsList.setCellFactory(new BuffsCellFactory(errorLabel));
         buffsList.setItems(FXCollections.observableArrayList());
 
         hpPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));
@@ -518,7 +615,6 @@ public class EffectBuilderFXMLController implements Initializable {
         removeFromStartCheckbox.setVisible(false);
         removeFromStartCheckbox.setManaged(false);
 
-        // TODO show pieces
         requiredFields = EFFECT_REQUIRED_FIELDS_MAP.get(effectTypeChoices.getValue());
         if (requiredFields.contains(EFFECT_FIELD_TARGET)) {
             setPaneVisAndManaged(targetPane, true);
@@ -567,7 +663,175 @@ public class EffectBuilderFXMLController implements Initializable {
 
     public void onBuildButtonClick() {
         if (effectDataBuilder != null) {
-            // TODO build
+            effectDataBuilder.setIsOverchargedEffect(isOverchargedEffect.isSelected());
+            if (probabilityCheckbox.isSelected()) {
+                effectDataBuilder.setIsProbabilityOvercharged(isProbabilityOvercharged.isSelected());
+                try {
+                    effectDataBuilder.addAllProbabilities(parseDoubles(probabilityText.getText()));
+                } catch (final Exception e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Probabilities not double"));
+                    return;
+                }
+            }
+            if (conditionCheckbox.isSelected()) {
+                if (applyCondition == null || applyCondition.getType().isEmpty()) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Apply condition not set"));
+                    return;
+                }
+                effectDataBuilder.setApplyCondition(applyCondition);
+            }
+
+            if (requiredFields.contains(EFFECT_FIELD_TARGET)) {
+                effectDataBuilder.setTarget(targetChoice.getValue());
+            }
+            if (requiredFields.contains(EFFECT_FIELD_INT_VALUE) ||
+                    (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && !hpPercentCheckbox.isSelected())) {
+                try {
+                    final List<Double> values = parseInts(valuesText.getText());
+                    effectDataBuilder.addAllValues(values);
+                } catch (final Exception e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));
+                    return;
+                }
+                if (useVariationCheckbox.isSelected()) {
+                    try {
+                        final List<Double> additions = parseInts(variationAdditionText.getText());
+                        effectDataBuilder.addAllAdditions(additions);
+                    } catch (final Exception e) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Addition not Integer"));
+                        return;
+                    }
+                    if (variationData == null || variationData.getType().isEmpty()) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Variation not set"));
+                        return;
+                    }
+                    effectDataBuilder.setIsAdditionOvercharged(isAdditionOvercharged.isSelected());
+                    effectDataBuilder.setVariationData(variationData);
+                }
+            }
+            if (requiredFields.contains(EFFECT_FIELD_DOUBLE_VALUE) ||
+                    (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && hpPercentCheckbox.isSelected())) {
+                try {
+                    final List<Double> values = parseDoubles(valuesText.getText());
+                    effectDataBuilder.addAllValues(values);
+                } catch (final Exception e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Double"));
+                    return;
+                }
+                if (useVariationCheckbox.isSelected()) {
+                    try {
+                        final List<Double> additions = parseDoubles(variationAdditionText.getText());
+                        effectDataBuilder.addAllAdditions(additions);
+                    } catch (final Exception e) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Addition not Double"));
+                        return;
+                    }
+                    if (variationData == null || variationData.getType().isEmpty()) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Variation not set"));
+                        return;
+                    }
+                    effectDataBuilder.setIsAdditionOvercharged(isAdditionOvercharged.isSelected());
+                    effectDataBuilder.setVariationData(variationData);
+                }
+            }
+            if (requiredFields.contains(EFFECT_FIELD_NP_DAMAGE)) {
+                if (isNpIgnoreDefense.isSelected() || isNpDamageOvercharged.isSelected() || hasNpSPD.isSelected()) {
+                    final NpDamageAdditionalParams.Builder additionalParams = NpDamageAdditionalParams.newBuilder();
+
+                    additionalParams.setIsNpIgnoreDefense(isNpIgnoreDefense.isSelected());
+
+                    if (isNpDamageOvercharged.isSelected()) {
+                        additionalParams.setIsNpDamageOverchargedEffect(isNpDamageOvercharged.isSelected());
+                        try {
+                            final List<Double> additions = parseDoubles(npOverchargedRatesText.getText());
+                            additionalParams.addAllNpOverchargeDamageRate(additions);
+                        } catch (final Exception e) {
+                            errorLabel.setVisible(true);
+                            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Addition not Double"));
+                            return;
+                        }
+                    }
+
+                    if (hasNpSPD.isSelected()) {
+                        if (npSpdCondition == null || npSpdCondition.getType().isEmpty()) {
+                            errorLabel.setVisible(true);
+                            errorLabel.setText(getTranslation(APPLICATION_SECTION, "NP SPD condition not set"));
+                            return;
+                        }
+                        additionalParams.setNpSpecificDamageCondition(npSpdCondition);
+                        additionalParams.setIsNpSpecificDamageOverchargedEffect(isNpSPDOvercharged.isSelected());
+                        try {
+                            final List<Double> spdValues = parseDoubles(npSPDText.getText());
+                            additionalParams.addAllNpSpecificDamageRate(spdValues);
+                        } catch (final Exception e) {
+                            errorLabel.setVisible(true);
+                            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Addition not Double"));
+                            return;
+                        }
+
+                        if (npSPDVariationCheckbox.isSelected()) {
+                            if (npSpdVariation == null || npSpdVariation.getType().isEmpty()) {
+                                errorLabel.setVisible(true);
+                                errorLabel.setText(getTranslation(APPLICATION_SECTION, "NP SPD Variation not set"));
+                                return;
+                            }
+                            additionalParams.setNpSpecificDamageVariation(npSpdVariation);
+                            additionalParams.setIsNpSpecificDamageAdditionOvercharged(isNpSPDVariationOvercharged.isSelected());
+                            try {
+                                final List<Double> additions = parseDoubles(npSPDVariationText.getText());
+                                additionalParams.addAllNpSpecificDamageAdditions(additions);
+                            } catch (final Exception e) {
+                                errorLabel.setVisible(true);
+                                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Addition not Double"));
+                                return;
+                            }
+                        }
+                    }
+
+                    effectDataBuilder.setNpDamageAdditionalParams(additionalParams);
+                }
+            }
+            if (requiredFields.contains(EFFECT_FIELD_GRANT_BUFF)) {
+                if (buffsList.getItems().isEmpty()) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "No buffs created"));
+                    return;
+                }
+                effectDataBuilder.addAllBuffData(buffsList.getItems());
+            }
+            if (requiredFields.contains(EFFECT_FIELD_CARD_TYPE_SELECT)) {
+                final List<CommandCardType> cardTypes = ImmutableList.of(QUICK, ARTS, BUSTER);
+                for (int i = 0; i < cardTypeCheckboxes.size(); i++) {
+                    if (cardTypeCheckboxes.get(i).isSelected()) {
+                        effectDataBuilder.addCardTypeSelections(cardTypes.get(i));
+                    }
+                }
+            }
+            if (requiredFields.contains(EFFECT_FIELD_HP_CHANGE)) {
+                effectDataBuilder.setIsHpChangePercentBased(hpPercentCheckbox.isSelected());
+                effectDataBuilder.setIsLethal(hpDrainLethalCheckbox.isSelected());
+            }
+            if (requiredFields.contains(EFFECT_FIELD_REMOVE_BUFF)) {
+                effectDataBuilder.setRemoveFromStart(removeFromStartCheckbox.isSelected());
+            }
+            if (requiredFields.contains(EFFECT_FIELD_RANDOM_SELECTION)) {
+                if (effectsList.getItems().isEmpty()) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "No effects created"));
+                    return;
+                }
+                effectDataBuilder.addAllRandomEffectSelections(effectsList.getItems());
+            }
+
+            effectDataBuilder.setType(effectTypeChoices.getValue());
         }
 
         final Stage stage = (Stage) cancelButton.getScene().getWindow();

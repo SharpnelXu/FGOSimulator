@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillTargets;
@@ -137,8 +138,8 @@ public class VariationBuilderFXMLController implements Initializable {
                 builtConditionLabel.setText(printConditionData(conditionData));
             }
             if (requiredFields.contains(VARIATION_FIELD_HP)) {
-                maxHpText.setText(Double.toString(variationBuilder.getMaxHp() * 100));
-                minHpText.setText(Double.toString(variationBuilder.getMinHp() * 100));
+                maxHpText.setText(doubleToString(variationBuilder.getMaxHp()));
+                minHpText.setText(doubleToString(variationBuilder.getMinHp()));
             }
             if (requiredFields.contains(VARIATION_FIELD_TARGET)) {
                 targetChoices.getSelectionModel().select(variationBuilder.getTarget());

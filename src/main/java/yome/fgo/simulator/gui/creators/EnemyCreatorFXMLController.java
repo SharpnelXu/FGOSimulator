@@ -242,7 +242,7 @@ public class EnemyCreatorFXMLController implements Initializable {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Save success!"));
             errorLabel.setVisible(true);
         } catch (final Exception e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error while saving enemy!" + e.getMessage()));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error while saving enemy!") + e.getMessage());
             errorLabel.setVisible(true);
         }
     }
@@ -262,7 +262,7 @@ public class EnemyCreatorFXMLController implements Initializable {
         try {
             parser.merge(new FileReader(enemyDataFile), combatantDataBuilder);
         } catch (final Exception e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!" + " " + e.getMessage()));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + " " + e.getMessage());
             errorLabel.setVisible(true);
             return;
         }
@@ -274,35 +274,35 @@ public class EnemyCreatorFXMLController implements Initializable {
             return;
         }
 
-        final double deathRate = combatantDataBuilder.getDeathRate() * 100;
+        final double deathRate = RoundUtils.roundNearest(combatantDataBuilder.getDeathRate() * 100);
         if (deathRate < 0) {
             errorLabel.setText(getTranslation(
                     APPLICATION_SECTION,
-                    "Loaded file has negative Death Rate:" + " " + String.format(
+                    "Loaded file has negative Death Rate:") + " " + String.format(
                             "%.2f",
                             deathRate
                     )
-            ));
+            );
         }
 
 
         final Integer rarity = combatantDataBuilder.getRarity();
         if (!rarityCombo.getItems().contains(rarity)) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Unrecognized rarity from file:" + rarity));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Unrecognized rarity from file:") + rarity);
             errorLabel.setVisible(true);
             return;
         }
 
         final FateClass fateClass = combatantDataBuilder.getFateClass();
         if (!fateClassCombo.getItems().contains(fateClass)) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Unrecognized class from file:" + " " + fateClass));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Unrecognized class from file:") + " " + fateClass);
             errorLabel.setVisible(true);
             return;
         }
 
         final Gender gender = combatantDataBuilder.getGender();
         if (!genderCombo.getItems().contains(gender)) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Unrecognized gender from file:" + " " + gender));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Unrecognized gender from file:") + " " + gender);
             errorLabel.setVisible(true);
             return;
         }
@@ -311,8 +311,8 @@ public class EnemyCreatorFXMLController implements Initializable {
         if (!attributeCombo.getItems().contains(attribute)) {
             errorLabel.setText(getTranslation(
                     APPLICATION_SECTION,
-                    "Unrecognized attribute from file:" + " " + attribute
-            ));
+                    "Unrecognized attribute from file:") + " " + attribute
+            );
             errorLabel.setVisible(true);
             return;
         }

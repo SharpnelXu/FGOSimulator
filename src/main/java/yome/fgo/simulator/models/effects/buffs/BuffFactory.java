@@ -512,10 +512,10 @@ public class BuffFactory {
         builder.put(EndOfTurnEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(EnterFieldEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(LeaveFieldEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
-        builder.put(PostAttackEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
-        builder.put(PostDefenseEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(PreAttackEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(PreDefenseEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
+        builder.put(PostAttackEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
+        builder.put(PostDefenseEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
 
         builder.put(GrantStageTrait.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_STRING_VALUE));
         builder.put(GrantTrait.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_STRING_VALUE));
