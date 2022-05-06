@@ -298,6 +298,9 @@ public class BuffBuilderFXMLController implements Initializable {
                     variationAdditionText.setText(doublesToString(buffDataBuilder.getAdditionsList()));
                 }
             }
+            if (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION)) {
+                gutsPercentCheckbox.setSelected(buffDataBuilder.getIsGutsPercentBased());
+            }
             if (requiredFields.contains(BUFF_FIELD_INT_VALUE) ||
                     (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && !buffDataBuilder.getIsGutsPercentBased())) {
                 valuesText.setText(intsToString(buffDataBuilder.getValuesList()));
@@ -503,12 +506,23 @@ public class BuffBuilderFXMLController implements Initializable {
                 step = Double.parseDouble(generateValueStepText.getText());
 
                 final List<Double> values = generateSkillValues(base, step);
-                generateTargetTextField.setText(
-                        values.stream()
-                                .map(d -> Double.toString(d))
-                                .collect(Collectors.joining(", "))
-                );
+                if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE) ||
+                        (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && gutsPercentCheckbox.isSelected())) {
+                    generateTargetTextField.setText(
+                            values.stream()
+                                    .map(d -> Double.toString(d))
+                                    .collect(Collectors.joining(", "))
+                    );
+                } else {
+                    generateTargetTextField.setText(
+                            values.stream()
+                                    .map(d -> Integer.toString((int) d.doubleValue()))
+                                    .collect(Collectors.joining(", "))
+                    );
+                }
             } catch (final Exception ignored) {
+                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Base or Step not valid double"));
+                errorLabel.setVisible(true);
             }
             generateValuePane.setVisible(false);
         });
@@ -632,6 +646,7 @@ public class BuffBuilderFXMLController implements Initializable {
 
     public void onBuildButtonClick() {
         if (buffDataBuilder != null) {
+            buffDataBuilder.clear();
             if (numTurnCheckbox.isSelected()) {
                 try {
                     final int numTurnsActive = Integer.parseInt(numTurnText.getText());
@@ -734,6 +749,9 @@ public class BuffBuilderFXMLController implements Initializable {
                     buffDataBuilder.setVariationData(variationData);
                 }
             }
+            if (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION)) {
+                buffDataBuilder.setIsGutsPercentBased(gutsPercentCheckbox.isSelected());
+            }
             if (requiredFields.contains(BUFF_FIELD_STRING_VALUE)) {
                 buffDataBuilder.setStringValue(getKeyForTrait(stringValueText.getText()));
             }
@@ -829,7 +847,7 @@ public class BuffBuilderFXMLController implements Initializable {
 
     public static String intsToString(final List<Double> list) {
         return list.stream()
-                .map(d -> Double.toString(d))
+                .map(d -> Integer.toString((int) d.doubleValue()))
                 .collect(Collectors.joining(", "));
     }
 }

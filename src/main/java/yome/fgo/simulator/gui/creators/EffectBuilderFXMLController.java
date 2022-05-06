@@ -16,7 +16,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.checkerframework.checker.units.qual.A;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
@@ -285,7 +284,7 @@ public class EffectBuilderFXMLController implements Initializable {
                 targetChoice.getSelectionModel().select(effectDataBuilder.getTarget());
             }
             if (requiredFields.contains(EFFECT_FIELD_INT_VALUE) ||
-                    (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && !hpPercentCheckbox.isSelected())) {
+                    (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && !effectDataBuilder.getIsHpChangePercentBased())) {
                 valuesText.setText(intsToString(effectDataBuilder.getValuesList()));
                 if (effectDataBuilder.hasVariationData()) {
                     useVariationCheckbox.setSelected(true);
@@ -296,7 +295,7 @@ public class EffectBuilderFXMLController implements Initializable {
                 }
             }
             if (requiredFields.contains(EFFECT_FIELD_DOUBLE_VALUE) ||
-                    (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && hpPercentCheckbox.isSelected())) {
+                    (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && effectDataBuilder.getIsHpChangePercentBased())) {
                 valuesText.setText(doublesToString(effectDataBuilder.getValuesList()));
                 if (effectDataBuilder.hasVariationData()) {
                     useVariationCheckbox.setSelected(true);
@@ -373,7 +372,7 @@ public class EffectBuilderFXMLController implements Initializable {
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-        optionalPanes = ImmutableList.of(buffsPane, effectsPane, hpPane, npPane, targetPane, valuePane, cardTypePane, generateValuePane);
+        optionalPanes = ImmutableList.of(buffsPane, effectsPane, hpPane, npPane, targetPane, valuePane, cardTypePane);
         setPaneVisAndManaged(optionalPanes, false);
         removeFromStartCheckbox.setVisible(false);
         removeFromStartCheckbox.setManaged(false);
@@ -537,12 +536,23 @@ public class EffectBuilderFXMLController implements Initializable {
                 step = Double.parseDouble(generateValueStepText.getText());
 
                 final List<Double> values = generateSkillValues(base, step);
-                generateTargetTextField.setText(
-                        values.stream()
-                                .map(d -> Double.toString(d))
-                                .collect(Collectors.joining(", "))
-                );
+                if (requiredFields.contains(EFFECT_FIELD_DOUBLE_VALUE) ||
+                        (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && hpPercentCheckbox.isSelected())) {
+                    generateTargetTextField.setText(
+                            values.stream()
+                                    .map(d -> Double.toString(d))
+                                    .collect(Collectors.joining(", "))
+                    );
+                } else {
+                    generateTargetTextField.setText(
+                            values.stream()
+                                    .map(d -> Integer.toString((int) d.doubleValue()))
+                                    .collect(Collectors.joining(", "))
+                    );
+                }
             } catch (final Exception ignored) {
+                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Base or Step not valid double"));
+                errorLabel.setVisible(true);
             }
             generateValuePane.setVisible(false);
         });
@@ -663,6 +673,7 @@ public class EffectBuilderFXMLController implements Initializable {
 
     public void onBuildButtonClick() {
         if (effectDataBuilder != null) {
+            effectDataBuilder.clear();
             effectDataBuilder.setIsOverchargedEffect(isOverchargedEffect.isSelected());
             if (probabilityCheckbox.isSelected()) {
                 effectDataBuilder.setIsProbabilityOvercharged(isProbabilityOvercharged.isSelected());

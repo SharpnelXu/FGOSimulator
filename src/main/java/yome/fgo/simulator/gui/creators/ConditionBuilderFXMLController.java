@@ -320,6 +320,7 @@ public class ConditionBuilderFXMLController implements Initializable {
     @FXML
     public void onBuildButtonClick() {
         if (conditionDataBuilder != null) {
+            conditionDataBuilder.clear();
             if (requiredFields.contains(CONDITION_FIELD_INT_VALUE)) {
                 try {
                     conditionDataBuilder.setDoubleValue(Integer.parseInt(valueText.getText()));

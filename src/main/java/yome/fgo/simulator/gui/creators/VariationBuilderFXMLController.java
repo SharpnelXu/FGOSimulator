@@ -263,6 +263,7 @@ public class VariationBuilderFXMLController implements Initializable {
     @FXML
     void onBuildButtonClick() {
         if (variationBuilder != null) {
+            variationBuilder.clear();
             if (requiredFields.contains(VARIATION_FIELD_MAX_COUNT) && !maxCountText.getText().isEmpty()) {
                 try {
                     variationBuilder.setMaxCount(Integer.parseInt(maxCountText.getText()));
