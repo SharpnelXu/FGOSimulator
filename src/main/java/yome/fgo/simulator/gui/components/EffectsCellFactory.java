@@ -51,6 +51,7 @@ public class EffectsCellFactory implements Callback<ListView<EffectData>, ListCe
                             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
                             errorLabel.setVisible(true);
                         }
+                        getListView().requestFocus();
                     });
 
                     final Button removeButton = new Button(getTranslation(APPLICATION_SECTION, "Remove"));
@@ -59,7 +60,10 @@ public class EffectsCellFactory implements Callback<ListView<EffectData>, ListCe
                     AnchorPane.setBottomAnchor(removeButton, 0.0);
                     AnchorPane.setLeftAnchor(removeButton, 0.0);
 
-                    removeButton.setOnAction(event -> getListView().getItems().remove(effectData));
+                    removeButton.setOnAction(event -> {
+                        getListView().getItems().remove(effectData);
+                        getListView().requestFocus();
+                    });
 
                     final Label label = new Label(printEffectData(effectData));
                     AnchorPane.setTopAnchor(label, 0.0);

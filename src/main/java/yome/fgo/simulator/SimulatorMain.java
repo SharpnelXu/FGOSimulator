@@ -7,6 +7,7 @@ import yome.fgo.simulator.gui.creators.BuffBuilder;
 import yome.fgo.simulator.gui.creators.ConditionBuilder;
 import yome.fgo.simulator.gui.creators.EffectBuilder;
 import yome.fgo.simulator.gui.creators.EnemyCreator;
+import yome.fgo.simulator.gui.creators.LevelCreator;
 import yome.fgo.simulator.gui.creators.VariationBuilder;
 import yome.fgo.simulator.translation.TranslationManager;
 
@@ -16,8 +17,9 @@ public class SimulatorMain {
     public static void main(String[] args) {
         TranslationManager.setTranslations("zh_CN");
 //        BuffBuilder.main(args);
-        EffectBuilder.main(args);
+//        EffectBuilder.main(args);
 
+        LevelCreator.main(args);
 //        ConditionBuilder.main(args);
 //        EnemyCreator.main(args);
 //        VariationBuilder.main(args);

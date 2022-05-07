@@ -2,6 +2,7 @@ package yome.fgo.simulator.gui.components;
 
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
+import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
@@ -59,6 +60,7 @@ import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENEMY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.SERVANT_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
@@ -496,6 +498,61 @@ public class DataPrinter {
                     .collect(Collectors.toList());
             builder.append(effectStrings);
         }
+
+        return builder.toString();
+    }
+
+    public static String printCombatantData(final CombatantData combatantData) {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append(getTranslation(APPLICATION_SECTION, "ID"));
+        builder.append(" ");
+        builder.append(getTranslation(ENEMY_NAME_SECTION, combatantData.getId()));
+
+        builder.append(", ");
+        builder.append(getTranslation(APPLICATION_SECTION, "Death Rate (%)"));
+        builder.append(" ");
+        builder.append(doubleToString(combatantData.getDeathRate()));
+
+        if (combatantData.getUndeadNpCorrection()) {
+            builder.append(", ");
+            builder.append(getTranslation(APPLICATION_SECTION, "Use Undead Correction"));
+        }
+
+        builder.append(", ");
+        builder.append(getTranslation(APPLICATION_SECTION, "Rarity"));
+        builder.append(" ");
+        builder.append(combatantData.getRarity());
+
+        builder.append(", ");
+        builder.append(getTranslation(APPLICATION_SECTION, "Class"));
+        builder.append(" ");
+        builder.append(getTranslation(CLASS_SECTION, combatantData.getFateClass().name()));
+
+        builder.append(", ");
+        builder.append(getTranslation(APPLICATION_SECTION, "Gender"));
+        builder.append(" ");
+        builder.append(getTranslation(TRAIT_SECTION, combatantData.getGender().name()));
+
+        builder.append(", ");
+        builder.append(getTranslation(APPLICATION_SECTION, "Attribute"));
+        builder.append(" ");
+        builder.append(getTranslation(TRAIT_SECTION, combatantData.getAttribute().name()));
+
+        builder.append(", ");
+        builder.append(getTranslation(APPLICATION_SECTION, "Alignments"));
+        builder.append(" ");
+        builder.append(
+                combatantData.getAlignmentsList()
+                        .stream()
+                        .map(alignment -> getTranslation(TRAIT_SECTION, alignment.name()))
+                        .collect(Collectors.toList())
+        );
+
+        builder.append(", ");
+        builder.append(getTranslation(APPLICATION_SECTION, "Traits"));
+        builder.append(" ");
+        builder.append(printTraits(combatantData.getTraitsList()));
 
         return builder.toString();
     }
