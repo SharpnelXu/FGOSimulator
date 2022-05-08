@@ -557,7 +557,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 effectsList.getItems().add(builder.build());
             }
         } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
             errorLabel.setVisible(true);
         }
     }
@@ -572,7 +572,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 builtVariationLabel.setText(printVariationData(variationData));
             }
         } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
             errorLabel.setVisible(true);
         }
     }
@@ -587,7 +587,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 builtConditionLabel.setText(printConditionData(applyCondition));
             }
         } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
             errorLabel.setVisible(true);
         }
     }

@@ -102,6 +102,8 @@
             <Label fx:id="errorLabel" text="Label" />
             <Button fx:id="loadFromButton" mnemonicParsing="false" onAction="#onLoadFromButtonClick" prefHeight="25.0" prefWidth="150.0" text="Button" />
             <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveButtonClick" prefHeight="25.0" prefWidth="150.0" text="Button" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Button" />
+            <Button fx:id="buildButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Button" />
          </children>
          <padding>
             <Insets right="20.0" />

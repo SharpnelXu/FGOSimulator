@@ -1,10 +1,11 @@
 package yome.fgo.simulator.gui.components;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 
@@ -36,9 +37,6 @@ public class SubConditionCellFactory implements Callback<ListView<ConditionData>
                     setText(null);
                     final Button editButton = new Button(getTranslation(APPLICATION_SECTION, "Edit"));
                     editButton.setPrefWidth(55);
-                    AnchorPane.setTopAnchor(editButton, 0.0);
-                    AnchorPane.setBottomAnchor(editButton, 0.0);
-                    AnchorPane.setLeftAnchor(editButton, 65.0);
 
                     editButton.setOnAction(event -> {
                         try {
@@ -51,28 +49,27 @@ public class SubConditionCellFactory implements Callback<ListView<ConditionData>
                             }
 
                         } catch (final IOException e) {
-                            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
+                            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
                             errorLabel.setVisible(true);
                         }
                     });
 
                     final Button removeButton = new Button(getTranslation(APPLICATION_SECTION, "Remove"));
                     removeButton.setPrefWidth(55);
-                    AnchorPane.setTopAnchor(removeButton, 0.0);
-                    AnchorPane.setBottomAnchor(removeButton, 0.0);
-                    AnchorPane.setLeftAnchor(removeButton, 0.0);
 
                     removeButton.setOnAction(event -> getListView().getItems().remove(conditionData));
 
                     final Label label = new Label(printConditionData(conditionData));
-                    AnchorPane.setTopAnchor(label, 0.0);
-                    AnchorPane.setBottomAnchor(label, 0.0);
-                    AnchorPane.setLeftAnchor(label, 130.0);
+                    label.setWrapText(true);
+                    label.setMaxWidth(500);
 
-                    final AnchorPane anchorPane = new AnchorPane();
-                    anchorPane.getChildren().addAll(label, editButton, removeButton);
+                    final HBox hBox = new HBox();
+                    hBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+                    hBox.setAlignment(Pos.CENTER_LEFT);
+                    hBox.setSpacing(10);
+                    hBox.getChildren().addAll(removeButton, editButton, label);
 
-                    setGraphic(anchorPane);
+                    setGraphic(hBox);
                 }
             }
         };

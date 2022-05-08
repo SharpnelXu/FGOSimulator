@@ -20,9 +20,7 @@ import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.simulator.utils.FilePathUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
@@ -103,7 +101,7 @@ public class StageNode extends VBox {
                     stageEffectsList.getItems().add(builder.build());
                 }
             } catch (final IOException exception) {
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
+                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + exception);
                 errorLabel.setVisible(true);
             }
         });
@@ -145,8 +143,8 @@ public class StageNode extends VBox {
 
             try {
                 enemyGrid.add(new EnemyNode(enemyDataFile, false), colIndex, rowIndex);
-            } catch (final FileNotFoundException ex) {
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!" + e));
+            } catch (final Exception ex) {
+                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + ex.getMessage());
                 errorLabel.setVisible(true);
             }
         });

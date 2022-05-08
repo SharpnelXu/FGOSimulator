@@ -27,7 +27,7 @@
                <children>
                   <Label fx:id="idLabel" alignment="CENTER" text="Label">
                      <font>
-                        <Font name="Arial" size="30.0" />
+                        <Font size="24.0" />
                      </font>
                   </Label>
                   <TextField fx:id="idText">
@@ -245,8 +245,9 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" spacing="10.0">
                <children>
-                  <Button fx:id="loadLevelButton" mnemonicParsing="false" text="Button" />
-                  <Button fx:id="saveLevelButton" mnemonicParsing="false" text="Button" />
+                  <Label fx:id="errorLabel" text="Label" />
+                  <Button fx:id="loadLevelButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
+                  <Button fx:id="saveLevelButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
                </children>
             </HBox>
          </children>

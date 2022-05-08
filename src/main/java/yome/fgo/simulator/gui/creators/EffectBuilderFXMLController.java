@@ -567,7 +567,7 @@ public class EffectBuilderFXMLController implements Initializable {
                 buffsList.getItems().add(builder.build());
             }
         } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
             errorLabel.setVisible(true);
         }
     }
@@ -581,7 +581,7 @@ public class EffectBuilderFXMLController implements Initializable {
                 effectsList.getItems().add(builder.build());
             }
         } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
             errorLabel.setVisible(true);
         }
     }
@@ -597,7 +597,7 @@ public class EffectBuilderFXMLController implements Initializable {
                 return builtCondition;
             }
         } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
             errorLabel.setVisible(true);
         }
         return applyCondition;
@@ -614,7 +614,7 @@ public class EffectBuilderFXMLController implements Initializable {
                 return builtVariation;
             }
         } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
             errorLabel.setVisible(true);
         }
         return variationData;

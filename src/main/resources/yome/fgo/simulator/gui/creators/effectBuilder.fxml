@@ -51,7 +51,7 @@
                      <children>
                         <CheckBox fx:id="conditionCheckbox" mnemonicParsing="false" text="CheckBox" />
                         <Button fx:id="conditionEditButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Button" />
-                        <Label fx:id="builtConditionLabel" text="Label" />
+                        <Label fx:id="builtConditionLabel" maxWidth="500.0" text="Label" wrapText="true" />
                      </children>
                   </HBox>
                </children>
@@ -112,7 +112,7 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
                      <children>
                         <Button fx:id="editVariationButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Button" />
-                        <Label fx:id="builtVariationLabel" text="Label" />
+                        <Label fx:id="builtVariationLabel" maxWidth="600.0" text="Label" wrapText="true" />
                      </children>
                   </HBox>
                </children>
@@ -144,7 +144,7 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
                      <children>
                         <Button fx:id="editNpSPDConditionButton" mnemonicParsing="false" prefHeight="25.0" text="Button" />
-                        <Label fx:id="builtNpSPDConditionLabel" text="Label" />
+                        <Label fx:id="builtNpSPDConditionLabel" maxWidth="600.0" text="Label" wrapText="true" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
@@ -161,7 +161,7 @@
                   <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
                      <children>
                         <Button fx:id="editNpSPDVariationButton" mnemonicParsing="false" prefHeight="25.0" text="Button" />
-                        <Label fx:id="builtNpSPDVariationLabel" text="Label" />
+                        <Label fx:id="builtNpSPDVariationLabel" maxWidth="600.0" text="Label" wrapText="true" />
                      </children>
                   </HBox>
                </children>

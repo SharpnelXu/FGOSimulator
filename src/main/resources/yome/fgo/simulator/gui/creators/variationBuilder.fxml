@@ -10,68 +10,88 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="378.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.VariationBuilderFXMLController">
+<VBox prefHeight="289.0" prefWidth="637.0" spacing="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.VariationBuilderFXMLController">
    <children>
-      <AnchorPane layoutX="40.0" layoutY="40.0" minHeight="0.0" minWidth="0.0" prefHeight="37.0" prefWidth="560.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-            <Label fx:id="variationLabel" layoutX="14.0" layoutY="19.0" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <ChoiceBox fx:id="variationChoices" layoutX="85.0" layoutY="15.0" prefHeight="29.0" prefWidth="513.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
+            <Label fx:id="variationLabel" text="Label" />
+            <AnchorPane HBox.hgrow="ALWAYS">
+               <children>
+                  <ChoiceBox fx:id="variationChoices" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+      <Separator prefWidth="200.0" />
+      <AnchorPane fx:id="maxCountPane">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="maxCountLabel" text="Label" />
+                  <TextField fx:id="maxCountText" />
+                  <Label fx:id="maxCountDescLabel" text="Label" />
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
-      <Separator prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0" />
-      <AnchorPane prefHeight="679.0" prefWidth="938.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+      <AnchorPane fx:id="traitPane">
          <children>
-            <VBox alignment="TOP_RIGHT" prefHeight="377.0" prefWidth="638.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="617.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <AnchorPane fx:id="maxCountPane" layoutX="10.0" layoutY="10.0" prefHeight="23.0" prefWidth="558.0">
+                  <Label fx:id="traitLabel" text="Label" />
+                  <AnchorPane HBox.hgrow="ALWAYS">
                      <children>
-                        <Label fx:id="maxCountLabel" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <TextField fx:id="maxCountText" prefHeight="25.0" prefWidth="69.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="0.0" />
-                        <Label fx:id="maxCountDescLabel" layoutX="175.0" layoutY="4.0" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="traitPane" prefHeight="23.0" prefWidth="558.0">
-                     <children>
-                        <Label fx:id="traitLabel" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <TextField fx:id="traitText" prefHeight="25.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="hpPane" layoutX="10.0" layoutY="55.0" prefHeight="23.0" prefWidth="558.0">
-                     <children>
-                        <Label fx:id="maxHpLabel" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <TextField fx:id="maxHpText" prefHeight="25.0" prefWidth="69.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="0.0" />
-                        <Label fx:id="minHpLabel" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="0.0" />
-                        <TextField fx:id="minHpText" prefHeight="25.0" prefWidth="69.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="targetPane" layoutX="30.0" layoutY="30.0" prefHeight="23.0" prefWidth="558.0">
-                     <children>
-                        <Label fx:id="targetLabel" text="Label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <ChoiceBox fx:id="targetChoices" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="conditionPane" prefHeight="73.0" prefWidth="617.0">
-                     <children>
-                        <Label fx:id="conditionLabel" layoutX="36.0" layoutY="41.0" text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Label fx:id="builtConditionLabel" layoutX="66.0" text="Label" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="0.0" />
-                        <Button fx:id="addConditionButton" layoutX="562.0" layoutY="134.0" mnemonicParsing="false" onAction="#onAddConditionButtonClick" prefWidth="100.0" text="Button" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0" />
-                        <Button fx:id="removeConditionButton" layoutX="399.0" layoutY="43.0" mnemonicParsing="false" onAction="#onRemoveConditionButtonClick" prefWidth="100.0" text="Button" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="120.0" />
+                        <TextField fx:id="traitText" prefHeight="25.0" prefWidth="161.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </children>
-            </VBox>
+            </HBox>
          </children>
-         <padding>
-            <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
       </AnchorPane>
-      <Separator prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-      <HBox alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="558.0" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="20.0">
+      <AnchorPane fx:id="hpPane">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="617.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="maxHpLabel" text="Label" />
+                  <TextField fx:id="maxHpText" prefWidth="69.0" />
+                  <Label fx:id="minHpLabel" text="Label" />
+                  <TextField fx:id="minHpText" prefWidth="69.0" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="targetPane">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="targetLabel" text="Label" />
+                  <ChoiceBox fx:id="targetChoices" prefWidth="150.0" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="conditionPane">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label fx:id="conditionLabel" text="Label" />
+                  <Button fx:id="addConditionButton" mnemonicParsing="false" onAction="#onAddConditionButtonClick" text="Button" />
+                  <Button fx:id="removeConditionButton" mnemonicParsing="false" onAction="#onRemoveConditionButtonClick" text="Button" />
+                  <Label fx:id="builtConditionLabel" maxWidth="400.0" text="LabelLabel LabelLabel LabelLabel LabelLabel LabelLabel LabelLabel LabelLabel Label" wrapText="true" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <Separator prefWidth="200.0" />
+      <HBox alignment="CENTER_RIGHT" spacing="20.0">
          <children>
             <Label fx:id="errorLabel" text="Label" />
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelButtonClick" prefHeight="25.0" prefWidth="100.0" text="Button" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelButtonClick" prefWidth="100.0" text="Button" />
             <Button fx:id="buildButton" mnemonicParsing="false" onAction="#onBuildButtonClick" prefWidth="100.0" text="Button" />
          </children>
       </HBox>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>

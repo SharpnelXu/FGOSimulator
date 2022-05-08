@@ -1,11 +1,13 @@
 package yome.fgo.simulator.gui.components;
 
 import com.google.protobuf.util.JsonFormat;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -22,9 +24,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import static yome.fgo.simulator.gui.components.DataPrinter.printCombatantData;
+import static yome.fgo.simulator.gui.creators.EnemyCreator.editCombatantData;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
@@ -37,8 +41,11 @@ public class EnemyNode extends VBox {
     private TextField hpText;
     private CheckBox customGaugeCheckbox;
     private TextField customGaugeText;
-    private TextField servantAscensionText;
+    private ChoiceBox<Integer> servantAscensionChoiceBox;
     private String pathToBaseEnemyData;
+    private ImageView thumbnail;
+    private Label combatantDataLabel;
+    private CombatantData combatantDataOverride;
 
 
     public EnemyNode() {
@@ -66,7 +73,7 @@ public class EnemyNode extends VBox {
         final URI relativePath = path2.relativize(path1);
 
         // convert the URI to string
-        pathToBaseEnemyData = relativePath.getPath();
+        this.pathToBaseEnemyData = relativePath.getPath();
 
         final JsonFormat.Parser parser = JsonFormat.parser();
         if (isServant) {
@@ -76,8 +83,8 @@ public class EnemyNode extends VBox {
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
-            baseServantData = servantDataBuilder.build();
-            baseEnemyData = baseServantData.getServantAscensionData(0).getCombatantData();
+            this.baseServantData = servantDataBuilder.build();
+            this.baseEnemyData = this.baseServantData.getServantAscensionData(0).getCombatantData();
         } else {
             final CombatantData.Builder combatantDataBuilder = CombatantData.newBuilder();
             try {
@@ -85,7 +92,11 @@ public class EnemyNode extends VBox {
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
-            baseEnemyData = combatantDataBuilder.build();
+            this.baseEnemyData = combatantDataBuilder.build();
+        }
+
+        if (this.baseEnemyData.getId().isBlank()) {
+            throw new RuntimeException("ID is null or empty!");
         }
 
         final File thumbnailFile;
@@ -97,25 +108,39 @@ public class EnemyNode extends VBox {
 
         final HBox combatantDataHBox = new HBox();
         combatantDataHBox.setSpacing(10);
-        final ImageView thumbnail = new ImageView(new Image(new FileInputStream(thumbnailFile)));
-        thumbnail.setFitHeight(100);
-        thumbnail.setFitWidth(100);
+        this.thumbnail = new ImageView(new Image(new FileInputStream(thumbnailFile)));
+        this.thumbnail.setFitHeight(100);
+        this.thumbnail.setFitWidth(100);
         final AnchorPane imgAnchor = new AnchorPane();
-        AnchorPane.setTopAnchor(thumbnail, 0.0);
-        AnchorPane.setBottomAnchor(thumbnail, 0.0);
-        AnchorPane.setLeftAnchor(thumbnail, 0.0);
-        AnchorPane.setRightAnchor(thumbnail, 0.0);
+        AnchorPane.setTopAnchor(this.thumbnail, 0.0);
+        AnchorPane.setBottomAnchor(this.thumbnail, 0.0);
+        AnchorPane.setLeftAnchor(this.thumbnail, 0.0);
+        AnchorPane.setRightAnchor(this.thumbnail, 0.0);
         imgAnchor.setStyle("-fx-border-color: rgba(73,73,73,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2");
-        imgAnchor.getChildren().add(thumbnail);
-        final Label baseDataLabel = new Label(printCombatantData(baseEnemyData));
-        baseDataLabel.setWrapText(true);
-        combatantDataHBox.getChildren().addAll(imgAnchor, baseDataLabel);
+        imgAnchor.getChildren().add(this.thumbnail);
+        combatantDataLabel = new Label(printCombatantData(this.baseEnemyData));
+        combatantDataLabel.setWrapText(true);
+        combatantDataHBox.getChildren().addAll(imgAnchor, combatantDataLabel);
 
         nodes.add(combatantDataHBox);
 
         final Button editEnemyButton = new Button(getTranslation(APPLICATION_SECTION, "Edit"));
         editEnemyButton.setOnAction(e -> {
-            // TODO: edit baseEnemyData using enemyCreator
+            if (!isServant) {
+                final CombatantData.Builder builder = combatantDataOverride == null ?
+                        baseEnemyData.toBuilder() :
+                        combatantDataOverride.toBuilder();
+                try {
+                    editCombatantData(editEnemyButton.getScene().getWindow(), builder);
+                } catch (final Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                if (!builder.getId().isEmpty()) {
+                    combatantDataOverride = builder.build();
+                    combatantDataLabel.setText(printCombatantData(combatantDataOverride));
+                }
+            }
+            // TODO: servant edit when servant editor is completed
         });
 
         nodes.add(editEnemyButton);
@@ -127,12 +152,12 @@ public class EnemyNode extends VBox {
         final Label hpLabel = new Label(getTranslation(APPLICATION_SECTION, "HP"));
         final AnchorPane hpTextAnchorPane = new AnchorPane();
         HBox.setHgrow(hpTextAnchorPane, Priority.ALWAYS);
-        hpText = new TextField();
-        AnchorPane.setTopAnchor(hpText, 0.0);
-        AnchorPane.setBottomAnchor(hpText, 0.0);
-        AnchorPane.setLeftAnchor(hpText, 0.0);
-        AnchorPane.setRightAnchor(hpText, 0.0);
-        hpTextAnchorPane.getChildren().add(hpText);
+        this.hpText = new TextField();
+        AnchorPane.setTopAnchor(this.hpText, 0.0);
+        AnchorPane.setBottomAnchor(this.hpText, 0.0);
+        AnchorPane.setLeftAnchor(this.hpText, 0.0);
+        AnchorPane.setRightAnchor(this.hpText, 0.0);
+        hpTextAnchorPane.getChildren().add(this.hpText);
         hpBox.getChildren().addAll(hpLabel, hpTextAnchorPane);
 
         nodes.add(hpBox);
@@ -141,18 +166,41 @@ public class EnemyNode extends VBox {
         additionalParamsBox.setAlignment(Pos.CENTER_LEFT);
         additionalParamsBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         additionalParamsBox.setSpacing(10);
-        customGaugeCheckbox = new CheckBox(getTranslation(APPLICATION_SECTION, "Custom Gauge"));
-        customGaugeText = new TextField();
-        customGaugeText.setMaxWidth(50);
-        customGaugeText.setDisable(true);
-        customGaugeCheckbox.setOnAction(e -> customGaugeText.setDisable(!customGaugeCheckbox.isSelected()));
+        this.customGaugeCheckbox = new CheckBox(getTranslation(APPLICATION_SECTION, "Custom Gauge"));
+        this.customGaugeText = new TextField();
+        this.customGaugeText.setMaxWidth(50);
+        this.customGaugeText.setDisable(true);
+        this.customGaugeCheckbox.setOnAction(e -> this.customGaugeText.setDisable(!this.customGaugeCheckbox.isSelected()));
         final Label servantAscLabel = new Label(getTranslation(APPLICATION_SECTION, "Servant Asc"));
-        servantAscensionText = new TextField();
-        servantAscensionText.setText("1");
-        servantAscensionText.setMaxWidth(50);
+        this.servantAscensionChoiceBox = new ChoiceBox<>();
+        final List<Integer> ascensions = new ArrayList<>();
+        if (isServant) {
+            for (int i = 1; i <= this.baseServantData.getServantAscensionDataCount(); i++) {
+                ascensions.add(i);
+            }
+        } else {
+            ascensions.add(1);
+        }
+        this.servantAscensionChoiceBox.setItems(FXCollections.observableArrayList(ascensions));
+        this.servantAscensionChoiceBox.setMaxWidth(50);
+        this.servantAscensionChoiceBox.setOnAction(e -> {
+            final int asc = this.servantAscensionChoiceBox.getValue();
+            try {
+                this.thumbnail.setImage(new Image(new FileInputStream(getServantThumbnailPath(pathToBaseEnemyData, this.baseEnemyData.getId(), asc))));
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex); // should never be hit
+            }
+            this.baseEnemyData = this.baseServantData.getServantAscensionData(asc - 1).getCombatantData();
+            this.combatantDataLabel.setText(printCombatantData(this.baseEnemyData));
+        });
         servantAscLabel.setDisable(!isServant);
-        servantAscensionText.setDisable(!isServant);
-        additionalParamsBox.getChildren().addAll(customGaugeCheckbox, customGaugeText, servantAscLabel, servantAscensionText);
+        this.servantAscensionChoiceBox.setDisable(!isServant);
+        additionalParamsBox.getChildren().addAll(
+                this.customGaugeCheckbox,
+                this.customGaugeText,
+                servantAscLabel,
+                this.servantAscensionChoiceBox
+        );
 
         nodes.add(additionalParamsBox);
     }
