@@ -97,18 +97,7 @@ public class Combatant {
         this(enemyData.getEnemyBaseId(), enemyData.getHpBarsList());
 
         if (enemyData.hasCombatantDataOverride()) {
-            final CombatantData override = enemyData.getCombatantDataOverride();
-            final CombatantData.Builder builder = combatantData.toBuilder();
-            builder.mergeFrom(override);
-            builder.clearAlignments();
-            builder.addAllAlignments(override.getAlignmentsCount() == 0
-                                             ? combatantData.getAlignmentsList()
-                                             : override.getAlignmentsList());
-            builder.clearTraits();
-            builder.addAllTraits(override.getTraitsCount() == 0
-                                         ? combatantData.getTraitsList()
-                                         : override.getTraitsList());
-            this.combatantData = builder.build();
+            this.combatantData = mergeWithOverride(combatantData, enemyData.getCombatantDataOverride());
         } else {
             this.combatantData = combatantData;
         }
@@ -117,6 +106,24 @@ public class Combatant {
         } else {
             this.maxNpGauge = getClassMaxNpGauge(this.combatantData.getFateClass());
         }
+    }
+
+    public static CombatantData mergeWithOverride(final CombatantData base, final CombatantData override) {
+        final CombatantData.Builder builder = base.toBuilder();
+        builder.mergeFrom(override);
+        builder.clearAlignments();
+        builder.addAllAlignments(
+                override.getAlignmentsCount() == 0
+                        ? base.getAlignmentsList()
+                        : override.getAlignmentsList()
+        );
+        builder.clearTraits();
+        builder.addAllTraits(
+                override.getTraitsCount() == 0
+                        ? base.getTraitsList()
+                        : override.getTraitsList()
+        );
+        return builder.build();
     }
 
     public void initiate(final Simulation simulation) {

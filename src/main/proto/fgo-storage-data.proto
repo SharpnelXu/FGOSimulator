@@ -374,6 +374,7 @@ message StageData {
 
 message EnemyData {
   string enemyBaseId = 1;
+  string enemyCategories = 7;
   repeated int32 hpBars = 2;
   CombatantData combatantDataOverride = 3;
 
@@ -381,7 +382,7 @@ message EnemyData {
   bool hasCustomMaxNpGauge = 5;
 
   int32 servantAscension = 6;
-  string enemyCategories = 7;
+  bool isServant = 8;
 }
 
 message CommandCardOption {

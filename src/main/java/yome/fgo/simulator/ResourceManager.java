@@ -26,7 +26,7 @@ public class ResourceManager {
 
     public static CombatantData getEnemyCombatantData(final String enemyCategories, final String id) {
         if (!ENEMY_DATA_MAP.containsKey(id)) {
-            final String directoryPath = String.format("%s/%s/%s/%s.json", ENEMY_DIRECTORY_PATH, enemyCategories, id, id);
+            final String directoryPath = String.format("%s/%s/%s.json", ENEMY_DIRECTORY_PATH, enemyCategories, id);
             final File enemyDataFile = new File(directoryPath);
             if (enemyDataFile.exists()) {
                 final JsonFormat.Parser parser = JsonFormat.parser();

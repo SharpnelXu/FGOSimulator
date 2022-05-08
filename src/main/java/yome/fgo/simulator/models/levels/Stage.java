@@ -43,7 +43,7 @@ public class Stage {
         this.enemies = new LinkedList<>();
         for (final EnemyData enemyData : stageData.getEnemyDataList()) {
             final String enemyId = enemyData.getEnemyBaseId();
-            if (enemyData.getServantAscension() != 0) {
+            if (enemyData.getIsServant()) {
                 this.enemies.add(new Servant(ResourceManager.getServantData(enemyId), enemyData));
             } else {
                 this.enemies.add(new Combatant(ResourceManager.getEnemyCombatantData(enemyData.getEnemyCategories(), enemyId), enemyData));
