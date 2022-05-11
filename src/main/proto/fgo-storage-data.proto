@@ -131,23 +131,25 @@ message CombatantData {
 
 message ServantData {
   repeated ServantAscensionData servantAscensionData = 1;
+  int32 servantNum = 2;
 }
 
 message ServantAscensionData {
   CombatantData combatantData = 1;
   double defenseNpRate = 2;
   int32 criticalStarWeight = 4;
+  int32 cost = 12;
 
   repeated CommandCardData commandCardData = 5;
+  CommandCardData extraCard = 11;
+
+  NoblePhantasmUpgrades noblePhantasmUpgrades = 10;
+
   repeated ActiveSkillUpgrades activeSkillUpgrades = 6;
   repeated PassiveSkillData passiveSkillData = 7;
   repeated AppendSkillData appendSkillData = 8;
 
   repeated Status servantStatusData = 9;
-
-  NoblePhantasmUpgrades noblePhantasmUpgrades = 10;
-  CommandCardData extraCard = 11;
-  int32 cost = 12;
 }
 
 enum CommandCardType {
@@ -195,14 +197,17 @@ message ActiveSkillData {
   int32 baseCoolDown = 1;
   repeated EffectData effects = 2;
   ConditionData activationCondition = 3;
+  string iconName = 4;
 }
 
 message PassiveSkillData {
   repeated EffectData effects = 1;
+  string iconName = 2;
 }
 
 message AppendSkillData {
   repeated EffectData effects = 1;
+  string iconName = 2;
 }
 
 message EffectData {

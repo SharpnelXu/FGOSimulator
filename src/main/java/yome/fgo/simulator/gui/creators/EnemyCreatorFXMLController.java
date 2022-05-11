@@ -238,13 +238,13 @@ public class EnemyCreatorFXMLController implements Initializable {
         try {
             deathRate = RoundUtils.roundNearest(Double.parseDouble(deathRateTextField.getText()) / 100);
         } catch (final Exception e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Death Rate is not a valid double."));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Death Rate is not a valid double"));
             errorLabel.setVisible(true);
             return false;
         }
 
         if (deathRate < 0) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Death Rate is negative."));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Death Rate is negative"));
             errorLabel.setVisible(true);
             return false;
         }

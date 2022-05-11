@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData;
+import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 
 import java.io.File;
@@ -178,6 +179,11 @@ public class ActiveSkillUpgrade extends HBox {
         setFrom(source);
     }
 
+    public ActiveSkillUpgrade(final ActiveSkillData activeSkillData) {
+        this();
+        setFrom(activeSkillData);
+    }
+
     public void setFrom(final ActiveSkillUpgrade source) {
         this.iconFileNameText.setText(source.iconFileNameText.getText());
         this.coolDownText.setText(source.coolDownText.getText());
@@ -188,5 +194,28 @@ public class ActiveSkillUpgrade extends HBox {
         }
         this.conditionCheckBox.setSelected(source.conditionCheckBox.isSelected());
         this.conditionCheckBox.fireEvent(new ActionEvent());
+    }
+
+    public ActiveSkillData build() {
+        final ActiveSkillData.Builder builder = ActiveSkillData.newBuilder()
+                .setBaseCoolDown(Integer.parseInt(coolDownText.getText().trim()))
+                .addAllEffects(skillEffects.getItems())
+                .setIconName(iconFileNameText.getText());
+        if (conditionCheckBox.isSelected()) {
+            builder.setActivationCondition(activationCondition);
+        }
+        return builder.build();
+    }
+
+    public void setFrom(final ActiveSkillData activeSkillData) {
+        iconFileNameText.setText(activeSkillData.getIconName());
+        coolDownText.setText(Integer.toString(activeSkillData.getBaseCoolDown()));
+        skillEffects.getItems().addAll(activeSkillData.getEffectsList());
+        if (activeSkillData.hasActivationCondition()) {
+            conditionCheckBox.setSelected(true);
+            conditionCheckBox.fireEvent(new ActionEvent());
+            activationCondition = activeSkillData.getActivationCondition();
+            builtConditionLabel.setText(printConditionData(activationCondition));
+        }
     }
 }

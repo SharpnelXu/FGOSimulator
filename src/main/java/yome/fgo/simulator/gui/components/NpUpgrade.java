@@ -1,5 +1,6 @@
 package yome.fgo.simulator.gui.components;
 
+import com.google.common.collect.ImmutableList;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -7,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
@@ -14,6 +16,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
+import yome.fgo.data.proto.FgoStorageData.NoblePhantasmType;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,16 +26,18 @@ import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class NpUpgrade extends HBox {
     private final CommandCardBox cardBox;
+    private final ChoiceBox<NoblePhantasmType> npTypeChoices;
     private final ListView<EffectData> npEffects;
-    private final Label errorLabel;
     private final CheckBox conditionCheckBox;
     private final Label builtConditionLabel;
 
     private ConditionData activationCondition;
+    private final Label errorLabel;
 
     public NpUpgrade() {
         super();
@@ -49,6 +55,24 @@ public class NpUpgrade extends HBox {
         HBox.setHgrow(dataVBox, Priority.ALWAYS);
         dataVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         dataVBox.setSpacing(10);
+
+        final HBox npTypeChoicesHBox = new HBox();
+        npTypeChoicesHBox.setAlignment(Pos.CENTER_LEFT);
+        npTypeChoicesHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        npTypeChoicesHBox.setSpacing(10);
+        final Label npTypeLabel = new Label(getTranslation(APPLICATION_SECTION, "NP Type"));
+        npTypeChoices = new ChoiceBox<>();
+        npTypeChoices.setConverter(new EnumConverter<>(COMMAND_CARD_TYPE_SECTION));
+        final List<NoblePhantasmType> npTypes = ImmutableList.of(
+                NoblePhantasmType.SINGLE_TARGET_NP,
+                NoblePhantasmType.ALL_TARGETS_NP,
+                NoblePhantasmType.NON_DAMAGE
+        );
+        npTypeChoices.setItems(FXCollections.observableArrayList(npTypes));
+        npTypeChoices.getSelectionModel().selectFirst();
+
+        npTypeChoicesHBox.getChildren().addAll(npTypeLabel, npTypeChoices);
+        dataVBox.getChildren().add(npTypeChoicesHBox);
 
         final HBox conditionHBox = new HBox();
         conditionHBox.setAlignment(Pos.CENTER_LEFT);
@@ -133,14 +157,45 @@ public class NpUpgrade extends HBox {
         setFrom(source);
     }
 
+    public NpUpgrade(final NoblePhantasmData noblePhantasmData) {
+        this();
+        setFrom(noblePhantasmData);
+    }
+
     public void setFrom(final NpUpgrade source) {
         this.cardBox.setFrom(source.cardBox);
         this.npEffects.getItems().addAll(source.npEffects.getItems());
+        this.npTypeChoices.getSelectionModel().select(source.npTypeChoices.getValue());
         this.activationCondition = source.activationCondition;
         if (this.activationCondition != null) {
             this.builtConditionLabel.setText(printConditionData(this.activationCondition));
         }
         this.conditionCheckBox.setSelected(source.conditionCheckBox.isSelected());
         this.conditionCheckBox.fireEvent(new ActionEvent());
+    }
+
+    public NoblePhantasmData build() {
+        final NoblePhantasmData.Builder builder =  NoblePhantasmData.newBuilder()
+                .setCommandCardData(cardBox.build())
+                .setNoblePhantasmType(npTypeChoices.getValue())
+                .addAllEffects(npEffects.getItems());
+
+        if (conditionCheckBox.isSelected()) {
+            builder.setActivationCondition(activationCondition);
+        }
+
+        return builder.build();
+    }
+
+    public void setFrom(final NoblePhantasmData noblePhantasmData) {
+        cardBox.setFrom(noblePhantasmData.getCommandCardData());
+        npEffects.getItems().addAll(noblePhantasmData.getEffectsList());
+        npTypeChoices.getSelectionModel().select(noblePhantasmData.getNoblePhantasmType());
+        if (noblePhantasmData.hasActivationCondition()) {
+            conditionCheckBox.setSelected(true);
+            conditionCheckBox.fireEvent(new ActionEvent());
+            activationCondition = noblePhantasmData.getActivationCondition();
+            builtConditionLabel.setText(printConditionData(activationCondition));
+        }
     }
 }

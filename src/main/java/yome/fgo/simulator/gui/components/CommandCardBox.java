@@ -12,14 +12,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import yome.fgo.data.proto.FgoStorageData.CommandCardData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
+import yome.fgo.simulator.utils.RoundUtils;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
+import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -62,14 +68,20 @@ public class CommandCardBox extends VBox {
         AnchorPane.setLeftAnchor(cardType, 0.0);
         AnchorPane.setRightAnchor(cardType, 0.0);
         cardType.setConverter(new EnumConverter<>(COMMAND_CARD_TYPE_SECTION));
-        final List<CommandCardType> cardTypeSelections = cardId > 0 ? ImmutableList.of(QUICK, ARTS, BUSTER) : ImmutableList.of(EXTRA);
+        final List<CommandCardType> cardTypeSelections = cardId > 0
+                ? ImmutableList.of(QUICK, ARTS, BUSTER)
+                : ImmutableList.of(EXTRA);
         cardType.setItems(FXCollections.observableArrayList(cardTypeSelections));
         cardType.setOnAction(e -> {
             switch (cardType.getValue()) {
-                case BUSTER -> setStyle("-fx-border-color:red; -fx-background-color: rgba(255,0,0,0.3); -fx-border-width: 2");
-                case ARTS -> setStyle("-fx-border-color:blue; -fx-background-color: rgba(0,0,255,0.3); -fx-border-width: 2");
-                case QUICK -> setStyle("-fx-border-color:green; -fx-background-color: rgba(0,255,0,0.3); -fx-border-width: 2");
-                default -> setStyle("-fx-border-color:#bdbdbd; -fx-background-color: rgba(255,255,255,0.94); -fx-border-width: 2");
+                case BUSTER ->
+                        setStyle("-fx-border-color:red; -fx-background-color: rgba(255,0,0,0.3); -fx-border-width: 2");
+                case ARTS ->
+                        setStyle("-fx-border-color:blue; -fx-background-color: rgba(0,0,255,0.3); -fx-border-width: 2");
+                case QUICK ->
+                        setStyle("-fx-border-color:green; -fx-background-color: rgba(0,255,0,0.3); -fx-border-width: 2");
+                default -> setStyle(
+                        "-fx-border-color:#bdbdbd; -fx-background-color: rgba(255,255,255,0.94); -fx-border-width: 2");
             }
         });
         cardType.getSelectionModel().selectFirst();
@@ -116,7 +128,7 @@ public class CommandCardBox extends VBox {
         critStarRateBox.setSpacing(10);
         critStarRateBox.setAlignment(Pos.CENTER_LEFT);
         critStarRateBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        final Label critStarRateLabel = new Label(getTranslation(APPLICATION_SECTION, "出星率（%）"));
+        final Label critStarRateLabel = new Label(getTranslation(APPLICATION_SECTION, "Crit Star Rate (%)"));
         final AnchorPane critStarRateAnchor = new AnchorPane();
         HBox.setHgrow(critStarRateAnchor, Priority.ALWAYS);
         critStarRate = new TextField();
@@ -137,5 +149,34 @@ public class CommandCardBox extends VBox {
         this.hits.setText(source.hits.getText());
         this.npRate.setText(source.npRate.getText());
         this.critStarRate.setText(source.critStarRate.getText());
+    }
+
+    public CommandCardData build() {
+        final List<Integer> hitInts = Arrays.stream(hits.getText().trim().split(COMMA_SPLIT_REGEX))
+                    .sequential()
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+
+        final double npRateVal = RoundUtils.roundNearest(Double.parseDouble(npRate.getText()) / 100);
+        final double starRateVal = RoundUtils.roundNearest(Double.parseDouble(critStarRate.getText()) / 100);
+
+        return CommandCardData.newBuilder()
+                .setCommandCardType(cardType.getValue())
+                .addAllHitsData(hitInts)
+                .setNpRate(npRateVal)
+                .setCriticalStarGen(starRateVal)
+                .build();
+    }
+
+    public void setFrom(final CommandCardData commandCardData) {
+        cardType.getSelectionModel().select(commandCardData.getCommandCardType());
+        hits.setText(
+                commandCardData.getHitsDataList()
+                        .stream()
+                        .map(i -> Integer.toString(i))
+                        .collect(Collectors.joining(", "))
+        );
+        npRate.setText(doubleToString(commandCardData.getNpRate()));
+        critStarRate.setText(doubleToString(commandCardData.getCriticalStarGen()));
     }
 }

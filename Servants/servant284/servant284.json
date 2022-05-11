@@ -53,7 +53,8 @@
           "type": "NpChange",
           "target": "ALL_ALLIES",
           "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
-        }]
+        }],
+        "iconName": "attackUp"
       }]
     }, {
       "activeSkillData": [{
@@ -70,7 +71,8 @@
             "numTurnsActive": 3,
             "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
           }]
-        }]
+        }],
+        "iconName": "npGain"
       }]
     }, {
       "activeSkillData": [{
@@ -107,7 +109,8 @@
             "type": "Invincible",
             "numTurnsActive": 1
           }]
-        }]
+        }],
+        "iconName": "artsUp"
       }]
     }],
     "passiveSkillData": [{
@@ -118,7 +121,8 @@
           "type": "DebuffResist",
           "values": [0.2]
         }]
-      }]
+      }],
+      "iconName": "magicResistance"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -131,7 +135,8 @@
           },
           "values": [0.12]
         }]
-      }]
+      }],
+      "iconName": "territoryCreation"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -144,7 +149,8 @@
           },
           "values": [0.08]
         }]
-      }]
+      }],
+      "iconName": "critDamageUp"
     }],
     "appendSkillData": [{
       "effects": [{
@@ -158,13 +164,15 @@
           },
           "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
         }]
-      }]
+      }],
+      "iconName": "specialAttackUp"
     }, {
       "effects": [{
         "type": "NpChange",
         "target": "SELF",
         "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
-      }]
+      }],
+      "iconName": "npGain"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -178,7 +186,8 @@
           },
           "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
         }]
-      }]
+      }],
+      "iconName": "attackUp"
     }],
     "servantStatusData": [{
       "lv": 1,
@@ -664,7 +673,10 @@
     "noblePhantasmUpgrades": {
       "noblePhantasmData": [{
         "commandCardData": {
-          "commandCardType": "ARTS"
+          "commandCardType": "ARTS",
+          "hitsData": [100],
+          "npRate": 0.0054,
+          "criticalStarGen": 0.11
         },
         "effects": [{
           "type": "GrantBuff",
@@ -771,7 +783,8 @@
           "type": "NpChange",
           "target": "ALL_ALLIES",
           "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
-        }]
+        }],
+        "iconName": "attackUp"
       }]
     }, {
       "activeSkillData": [{
@@ -788,7 +801,8 @@
             "numTurnsActive": 3,
             "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
           }]
-        }]
+        }],
+        "iconName": "npGain"
       }]
     }, {
       "activeSkillData": [{
@@ -825,7 +839,8 @@
             "type": "Invincible",
             "numTurnsActive": 1
           }]
-        }]
+        }],
+        "iconName": "artsUp"
       }]
     }],
     "passiveSkillData": [{
@@ -836,7 +851,8 @@
           "type": "DebuffResist",
           "values": [0.2]
         }]
-      }]
+      }],
+      "iconName": "magicResistance"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -849,7 +865,8 @@
           },
           "values": [0.12]
         }]
-      }]
+      }],
+      "iconName": "territoryCreation"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -862,7 +879,8 @@
           },
           "values": [0.08]
         }]
-      }]
+      }],
+      "iconName": "critDamageUp"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -871,7 +889,8 @@
           "type": "CriticalChanceResist",
           "values": [0.2]
         }]
-      }]
+      }],
+      "iconName": "criticalChanceResistUp"
     }],
     "appendSkillData": [{
       "effects": [{
@@ -885,13 +904,15 @@
           },
           "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
         }]
-      }]
+      }],
+      "iconName": "specialAttackUp"
     }, {
       "effects": [{
         "type": "NpChange",
         "target": "SELF",
         "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
-      }]
+      }],
+      "iconName": "npGain"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -905,7 +926,8 @@
           },
           "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
         }]
-      }]
+      }],
+      "iconName": "attackUp"
     }],
     "servantStatusData": [{
       "lv": 1,
@@ -1391,7 +1413,10 @@
     "noblePhantasmUpgrades": {
       "noblePhantasmData": [{
         "commandCardData": {
-          "commandCardType": "ARTS"
+          "commandCardType": "ARTS",
+          "hitsData": [100],
+          "npRate": 0.0054,
+          "criticalStarGen": 0.11
         },
         "effects": [{
           "type": "GrantBuff",
@@ -1444,5 +1469,6 @@
       "criticalStarGen": 0.11
     },
     "cost": 16
-  }]
+  }],
+  "servantNum": 284
 }

@@ -14,7 +14,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import yome.fgo.data.proto.FgoStorageData.AppendSkillData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -135,5 +137,33 @@ public class NonActiveSkill extends HBox {
 
         this.iconFileNameText.setText(source.iconFileNameText.getText());
         this.skillEffects.getItems().addAll(source.skillEffects.getItems());
+    }
+
+    public NonActiveSkill(final PassiveSkillData passiveSkillData) {
+        this();
+
+        this.iconFileNameText.setText(passiveSkillData.getIconName());
+        this.skillEffects.getItems().addAll(passiveSkillData.getEffectsList());
+    }
+
+    public NonActiveSkill(final AppendSkillData appendSkillData) {
+        this();
+
+        this.iconFileNameText.setText(appendSkillData.getIconName());
+        this.skillEffects.getItems().addAll(appendSkillData.getEffectsList());
+    }
+
+    public PassiveSkillData buildPassive() {
+        return PassiveSkillData.newBuilder()
+                .addAllEffects(skillEffects.getItems())
+                .setIconName(iconFileNameText.getText())
+                .build();
+    }
+
+    public AppendSkillData buildAppend() {
+        return AppendSkillData.newBuilder()
+                .addAllEffects(skillEffects.getItems())
+                .setIconName(iconFileNameText.getText())
+                .build();
     }
 }

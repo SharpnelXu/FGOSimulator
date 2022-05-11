@@ -61,7 +61,8 @@
             "numTurnsActive": 3,
             "numTimesActive": 2
           }]
-        }]
+        }],
+        "iconName": "artsUp"
       }]
     }, {
       "activeSkillData": [{
@@ -82,7 +83,8 @@
             "numTurnsActive": 1
           }],
           "probabilities": [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 1.0]
-        }]
+        }],
+        "iconName": "npDamageUp"
       }]
     }, {
       "activeSkillData": [{
@@ -139,7 +141,8 @@
             },
             "additions": [0.1]
           }]
-        }]
+        }],
+        "iconName": "npGain"
       }]
     }],
     "passiveSkillData": [{
@@ -158,7 +161,8 @@
           "values": [-0.08]
         }],
         "probabilities": [5.0]
-      }]
+      }],
+      "iconName": "avenger"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -167,7 +171,8 @@
           "type": "CriticalDamageBuff",
           "values": [0.08]
         }]
-      }]
+      }],
+      "iconName": "oblivionCorrection"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -181,7 +186,8 @@
           }],
           "customTraits": ["POSITIVE_BUFF"]
         }]
-      }]
+      }],
+      "iconName": "selfRestoration"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -208,7 +214,8 @@
           },
           "values": [0.02]
         }]
-      }]
+      }],
+      "iconName": "independent"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -217,7 +224,8 @@
           "type": "DebuffResist",
           "values": [0.2]
         }]
-      }]
+      }],
+      "iconName": "magicResistance"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -230,7 +238,8 @@
           },
           "values": [0.1]
         }]
-      }]
+      }],
+      "iconName": "riding"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -250,7 +259,8 @@
           },
           "values": [5.0]
         }]
-      }]
+      }],
+      "iconName": "coreOfGod"
     }],
     "appendSkillData": [{
       "effects": [{
@@ -264,13 +274,15 @@
           },
           "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
         }]
-      }]
+      }],
+      "iconName": "specialAttackUp"
     }, {
       "effects": [{
         "type": "NpChange",
         "target": "SELF",
         "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
-      }]
+      }],
+      "iconName": "npGain"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -284,7 +296,8 @@
           },
           "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
         }]
-      }]
+      }],
+      "iconName": "attackUp"
     }],
     "servantStatusData": [{
       "lv": 1,
@@ -872,7 +885,8 @@
             "numTurnsActive": 3,
             "numTimesActive": 2
           }]
-        }]
+        }],
+        "iconName": "artsUp"
       }]
     }, {
       "activeSkillData": [{
@@ -893,7 +907,8 @@
             "numTurnsActive": 1
           }],
           "probabilities": [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 1.0]
-        }]
+        }],
+        "iconName": "npDamageUp"
       }]
     }, {
       "activeSkillData": [{
@@ -950,7 +965,8 @@
             },
             "additions": [0.1]
           }]
-        }]
+        }],
+        "iconName": "npGain"
       }]
     }],
     "passiveSkillData": [{
@@ -969,7 +985,8 @@
           "values": [-0.08]
         }],
         "probabilities": [5.0]
-      }]
+      }],
+      "iconName": "avenger"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -978,7 +995,8 @@
           "type": "CriticalDamageBuff",
           "values": [0.08]
         }]
-      }]
+      }],
+      "iconName": "oblivionCorrection"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -992,7 +1010,8 @@
           }],
           "customTraits": ["POSITIVE_BUFF"]
         }]
-      }]
+      }],
+      "iconName": "selfRestoration"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -1019,7 +1038,8 @@
           },
           "values": [0.02]
         }]
-      }]
+      }],
+      "iconName": "independent"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -1028,7 +1048,8 @@
           "type": "DebuffResist",
           "values": [0.2]
         }]
-      }]
+      }],
+      "iconName": "magicResistance"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -1041,7 +1062,8 @@
           },
           "values": [0.1]
         }]
-      }]
+      }],
+      "iconName": "riding"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -1061,7 +1083,8 @@
           },
           "values": [5.0]
         }]
-      }]
+      }],
+      "iconName": "coreOfGod"
     }],
     "appendSkillData": [{
       "effects": [{
@@ -1075,13 +1098,15 @@
           },
           "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
         }]
-      }]
+      }],
+      "iconName": "specialAttackUp"
     }, {
       "effects": [{
         "type": "NpChange",
         "target": "SELF",
         "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
-      }]
+      }],
+      "iconName": "npGain"
     }, {
       "effects": [{
         "type": "GrantBuff",
@@ -1095,7 +1120,8 @@
           },
           "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
         }]
-      }]
+      }],
+      "iconName": "attackUp"
     }],
     "servantStatusData": [{
       "lv": 1,
@@ -1621,5 +1647,6 @@
       "criticalStarGen": 0.061
     },
     "cost": 16
-  }]
+  }],
+  "servantNum": 321
 }

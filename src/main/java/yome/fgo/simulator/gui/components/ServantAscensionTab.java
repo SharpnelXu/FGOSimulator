@@ -1,6 +1,7 @@
 package yome.fgo.simulator.gui.components;
 
 import com.google.common.collect.ImmutableList;
+import com.google.protobuf.util.JsonFormat;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,24 +22,43 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
+import yome.fgo.data.proto.FgoStorageData.ActiveSkillUpgrades;
 import yome.fgo.data.proto.FgoStorageData.Alignment;
+import yome.fgo.data.proto.FgoStorageData.AppendSkillData;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
+import yome.fgo.data.proto.FgoStorageData.CombatantData;
+import yome.fgo.data.proto.FgoStorageData.CommandCardData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
+import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
+import yome.fgo.data.proto.FgoStorageData.NoblePhantasmUpgrades;
+import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
+import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
+import yome.fgo.data.proto.FgoStorageData.Status;
+import yome.fgo.simulator.translation.TranslationManager;
+import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
+import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.addSplitTraitListener;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillAttribute;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillGender;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
 
@@ -400,8 +420,8 @@ public class ServantAscensionTab extends VBox {
 
             for (int j = 1; j < sourceActiveSkillPane.getTabs().size(); j += 1) {
                 final Tab newTab = new Tab();
-                newTab.setText(getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + i);
-                newTab.setContent(new ActiveSkillUpgrade((ActiveSkillUpgrade) sourceActiveSkillPane.getTabs().get(i).getContent()));
+                newTab.setText(getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + j);
+                newTab.setContent(new ActiveSkillUpgrade((ActiveSkillUpgrade) sourceActiveSkillPane.getTabs().get(j).getContent()));
                 thisActiveSkillPane.getTabs().add(newTab);
             }
         }
@@ -416,6 +436,84 @@ public class ServantAscensionTab extends VBox {
         this.servantStatus.setText(source.servantStatus.getText());
     }
 
+    public ServantAscensionTab(final ServantAscensionData servantAscensionData, final int servantNum, final int ascension) {
+        this(servantNum, ascension);
+
+        final CombatantData combatantData = servantAscensionData.getCombatantData();
+        this.rarityChoices.getSelectionModel().select(Integer.valueOf(combatantData.getRarity()));
+        this.classChoices.getSelectionModel().select(combatantData.getFateClass());
+        this.genderChoices.getSelectionModel().select(combatantData.getGender());
+        this.attributeChoices.getSelectionModel().select(combatantData.getAttribute());
+
+        final List<String> selectedAlignments = combatantData.getAlignmentsList()
+                .stream()
+                .map(alignment -> getTranslation(TRAIT_SECTION, alignment.name()))
+                .collect(Collectors.toList());
+
+        for (final CheckBox checkBox : alignmentChecks) {
+            checkBox.setSelected(selectedAlignments.stream().anyMatch(checkBox.getText()::equalsIgnoreCase));
+        }
+
+        this.defNpText.setText(doubleToString(servantAscensionData.getDefenseNpRate()));
+        this.critStarWeightText.setText(Integer.toString(servantAscensionData.getCriticalStarWeight()));
+        this.deathRateText.setText(doubleToString(combatantData.getDeathRate()));
+        this.costText.setText(Integer.toString(servantAscensionData.getCost()));
+        this.traitsText.setText(
+                combatantData.getTraitsList()
+                        .stream()
+                        .map(s -> getTranslation(TRAIT_SECTION, s))
+                        .collect(Collectors.joining(", "))
+        );
+
+        for (int i = 0; i < this.commandCardBoxes.size(); i += 1) {
+            this.commandCardBoxes.get(i).setFrom(servantAscensionData.getCommandCardData(i));
+        }
+        this.exCommandCardBox.setFrom(servantAscensionData.getExtraCard());
+
+        final NpUpgrade baseNpUpgrade = (NpUpgrade) this.npUpgradesTabs.getTabs().get(0).getContent();
+        final NoblePhantasmUpgrades npUpgrades = servantAscensionData.getNoblePhantasmUpgrades();
+        baseNpUpgrade.setFrom(npUpgrades.getNoblePhantasmData(0));
+        for (int i = 1; i < npUpgrades.getNoblePhantasmDataCount(); i += 1) {
+            final Tab newTab = new Tab();
+            newTab.setText(getTranslation(APPLICATION_SECTION, "NP Upgrade") + " " + i);
+            newTab.setContent(new NpUpgrade(npUpgrades.getNoblePhantasmData(i)));
+            this.npUpgradesTabs.getTabs().add(newTab);
+        }
+
+        for (int i = 0; i < this.activeSkillUpgradeTabPanes.size(); i += 1) {
+            final TabPane thisActiveSkillPane = this.activeSkillUpgradeTabPanes.get(i);
+            final ActiveSkillUpgrades activeSkillUpgrades = servantAscensionData.getActiveSkillUpgrades(i);
+
+            final ActiveSkillUpgrade baseActiveSkillUpgrade = (ActiveSkillUpgrade) thisActiveSkillPane.getTabs().get(0).getContent();
+            baseActiveSkillUpgrade.setFrom(activeSkillUpgrades.getActiveSkillData(0));
+
+            for (int j = 1; j < activeSkillUpgrades.getActiveSkillDataCount(); j += 1) {
+                final Tab newTab = new Tab();
+                newTab.setText(getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + j);
+                newTab.setContent(new ActiveSkillUpgrade(activeSkillUpgrades.getActiveSkillData(j)));
+                thisActiveSkillPane.getTabs().add(newTab);
+            }
+        }
+
+        for (final PassiveSkillData passiveSkillData : servantAscensionData.getPassiveSkillDataList()) {
+            this.passiveSkillsVBox.getChildren().add(new NonActiveSkill(passiveSkillData));
+        }
+
+        for (final AppendSkillData appendSkillData : servantAscensionData.getAppendSkillDataList()) {
+            this.appendSkillsVBox.getChildren().add(new NonActiveSkill(appendSkillData));
+        }
+
+        final List<String> statusStrings = new ArrayList<>();
+        final JsonFormat.Printer printer = JsonFormat.printer();
+        try {
+            for (final Status status : servantAscensionData.getServantStatusDataList()) {
+                statusStrings.add(printer.print(status).replaceAll("[\\n\\t ]", ""));
+            }
+        } catch (final Exception ignored) {
+        }
+        this.servantStatus.setText(String.join(", ", statusStrings));
+    }
+
     public void setServantNo(final int servantNo, final int ascension) {
         final String servantId = "servant" + servantNo;
         final File thumbnailFile = getServantThumbnail(String.format("%s/%s", SERVANT_DIRECTORY_PATH, servantId), servantId, ascension);
@@ -423,5 +521,189 @@ public class ServantAscensionTab extends VBox {
             thumbnail.setImage(new Image(new FileInputStream(thumbnailFile)));
         } catch (final FileNotFoundException ignored) {
         }
+    }
+
+    public ServantAscensionData build(final int servantNo) {
+        final double deathRate;
+        try {
+            deathRate = RoundUtils.roundNearest(Double.parseDouble(deathRateText.getText()) / 100);
+        } catch (final Exception e) {
+            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Death Rate is not a valid double."));
+            baseDataErrorLabel.setVisible(true);
+            deathRateText.requestFocus();
+            return null;
+        }
+
+        if (deathRate < 0) {
+            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Death Rate is negative."));
+            baseDataErrorLabel.setVisible(true);
+            deathRateText.requestFocus();
+            return null;
+        }
+
+        final List<Alignment> checkedAlignments = alignmentChecks.stream()
+                .filter(CheckBox::isSelected)
+                .map(checkBox -> Alignment.valueOf(getKeyForTrait(checkBox.getText())))
+                .collect(Collectors.toList());
+
+        final List<String> traits = Arrays.stream(traitsText.getText().trim().split(COMMA_SPLIT_REGEX))
+                .filter(s -> !s.isEmpty())
+                .map(TranslationManager::getKeyForTrait)
+                .collect(Collectors.toList());
+
+        final CombatantData combatantData = CombatantData.newBuilder()
+                .setId("servant" + servantNo)
+                .setRarity(rarityChoices.getValue())
+                .setFateClass(classChoices.getValue())
+                .setGender(genderChoices.getValue())
+                .addAllAlignments(checkedAlignments)
+                .setAttribute(attributeChoices.getValue())
+                .addAllTraits(traits)
+                .setDeathRate(deathRate)
+                .build();
+
+        final double defNpRate;
+        try {
+            defNpRate = RoundUtils.roundNearest(Double.parseDouble(defNpText.getText()) / 100);
+        } catch (final Exception e) {
+            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Defense NP rate is not a valid double"));
+            baseDataErrorLabel.setVisible(true);
+            defNpText.requestFocus();
+            return null;
+        }
+
+        if (defNpRate < 0) {
+            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Defense NP rate is negative"));
+            defNpText.setVisible(true);
+            defNpText.requestFocus();
+            return null;
+        }
+
+        final int starWeight;
+        try {
+            starWeight = Integer.parseInt(critStarWeightText.getText());
+        } catch (final Exception e ) {
+            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Critical star weight is not a valid integer"));
+            baseDataErrorLabel.setVisible(true);
+            critStarWeightText.requestFocus();
+            return null;
+        }
+
+        final int cost;
+        try {
+            cost = Integer.parseInt(costText.getText());
+        } catch (final Exception e ) {
+            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Cost is not a valid integer"));
+            baseDataErrorLabel.setVisible(true);
+            costText.requestFocus();
+            return null;
+        }
+
+        final List<CommandCardData> commandCardData = new ArrayList<>();
+        for (int i = 1; i <= commandCardBoxes.size(); i += 1) {
+            final CommandCardBox cardBox = commandCardBoxes.get(i - 1);
+            try {
+                commandCardData.add(cardBox.build());
+            } catch (final Exception e) {
+                baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Card data not parsable:") + i);
+                baseDataErrorLabel.setVisible(true);
+                cardBox.requestFocus();
+                return null;
+            }
+        }
+        final CommandCardData exCommandCardData;
+        try {
+            exCommandCardData = exCommandCardBox.build();
+        } catch (final Exception e) {
+            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Card data not parsable:") + "EX");
+            baseDataErrorLabel.setVisible(true);
+            exCommandCardBox.requestFocus();
+            return null;
+        }
+
+        final List<NoblePhantasmData> noblePhantasmData = new ArrayList<>();
+        for (final Tab tab : npUpgradesTabs.getTabs()) {
+            final NpUpgrade npUpgrade = (NpUpgrade) tab.getContent();
+            try {
+                noblePhantasmData.add(npUpgrade.build());
+            } catch (final Exception e) {
+                baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "NP data not parsable") + tab.getText());
+                baseDataErrorLabel.setVisible(true);
+                npUpgrade.requestFocus();
+                return null;
+            }
+        }
+
+        final List<ActiveSkillUpgrades> activeSkillUpgrades = new ArrayList<>();
+        for (final TabPane tabPane : activeSkillUpgradeTabPanes) {
+            final List<ActiveSkillData> activeSkillData = new ArrayList<>();
+            for (final Tab tab : tabPane.getTabs()) {
+                final ActiveSkillUpgrade activeSkillUpgrade = (ActiveSkillUpgrade) tab.getContent();
+                try {
+                    activeSkillData.add(activeSkillUpgrade.build());
+                } catch (final Exception e) {
+                    baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Activate skill not parsable") + tab.getText());
+                    baseDataErrorLabel.setVisible(true);
+                    activeSkillUpgrade.requestFocus();
+                    return null;
+                }
+            }
+            activeSkillUpgrades.add(ActiveSkillUpgrades.newBuilder().addAllActiveSkillData(activeSkillData).build());
+        }
+
+        final List<PassiveSkillData> passiveSkillData = new ArrayList<>();
+        for (final Node node : passiveSkillsVBox.getChildren()) {
+            final NonActiveSkill nonActiveSkill = (NonActiveSkill) node;
+            try {
+                passiveSkillData.add(nonActiveSkill.buildPassive());
+            } catch (final Exception e) {
+                baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Passive skill not parsable"));
+                baseDataErrorLabel.setVisible(true);
+                nonActiveSkill.requestFocus();
+                return null;
+            }
+        }
+
+        final List<AppendSkillData> appendSkillData = new ArrayList<>();
+        for (final Node node : appendSkillsVBox.getChildren()) {
+            final NonActiveSkill nonActiveSkill = (NonActiveSkill) node;
+            try {
+                appendSkillData.add(nonActiveSkill.buildAppend());
+            } catch (final Exception e) {
+                baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Append skill not parsable"));
+                baseDataErrorLabel.setVisible(true);
+                nonActiveSkill.requestFocus();
+                return null;
+            }
+        }
+
+       final ServantAscensionData.Builder status = ServantAscensionData.newBuilder();
+        try {
+            JsonFormat.parser().merge(new StringReader("{\"servantStatusData\":[" + servantStatus.getText().trim() + "]}"), status);
+        } catch (IOException e) {
+            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Servant status not parsable"));
+            baseDataErrorLabel.setVisible(true);
+            servantStatus.requestFocus();
+            return null;
+        }
+
+        final ServantAscensionData.Builder builder = ServantAscensionData.newBuilder()
+                .setCombatantData(combatantData)
+                .setDefenseNpRate(defNpRate)
+                .setCriticalStarWeight(starWeight)
+                .setCost(cost)
+                .addAllCommandCardData(commandCardData)
+                .setExtraCard(exCommandCardData)
+                .setNoblePhantasmUpgrades(NoblePhantasmUpgrades.newBuilder().addAllNoblePhantasmData(noblePhantasmData))
+                .addAllActiveSkillUpgrades(activeSkillUpgrades)
+                .addAllPassiveSkillData(passiveSkillData)
+                .addAllAppendSkillData(appendSkillData);
+
+        builder.addAllServantStatusData(status.getServantStatusDataList());
+        return builder.build();
+    }
+
+    public void clearError() {
+        baseDataErrorLabel.setVisible(false);
     }
 }
