@@ -71,6 +71,7 @@ public class ServantCreatorFXMLController implements Initializable {
                         servantNameLabel.setVisible(true);
                     } else {
                         servantNameLabel.setVisible(false);
+                        servantNameLabel.setText(null);
                     }
                     try {
                         final int servantNo = Integer.parseInt(idText.getText().trim());
@@ -146,6 +147,12 @@ public class ServantCreatorFXMLController implements Initializable {
                     tabs.size() + 1
             );
             tabs.add(new Tab(tabName, ascensionTab));
+        }
+        errorLabel.setVisible(true);
+        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Load success!"));
+        for (final Tab tab : servantAscTabPane.getTabs()) {
+            final ServantAscensionTab servantAscensionTab = (ServantAscensionTab) tab.getContent();
+            servantAscensionTab.clearError();
         }
     }
 
