@@ -418,8 +418,8 @@ message CraftEssenceData {
   repeated EffectData effects = 2;
   int32 cost = 3;
   int32 rarity = 4;
-  repeated int32 atkStats = 5;
-  repeated int32 hpStats = 6;
+  repeated Status statusData = 7;
+  int32 ceNum = 8;
 }
 
 message CraftEssenceOption {

@@ -13,7 +13,7 @@ public class CraftEssence extends Skill {
     public CraftEssence(final CraftEssenceData craftEssenceData, final CraftEssenceOption craftEssenceOption) {
         super(craftEssenceData.getEffectsList(), craftEssenceOption.getIsLimitBreak() ? 2 : 1);
         final int ceLevel = craftEssenceOption.getCraftEssenceLevel();
-        this.hp = craftEssenceData.getHpStats(ceLevel - 1);
-        this.attack = craftEssenceData.getAtkStats(ceLevel - 1);
+        this.hp = craftEssenceData.getStatusDataList().get(ceLevel - 1).getHP();
+        this.attack = craftEssenceData.getStatusDataList().get(ceLevel - 1).getATK();
     }
 }
