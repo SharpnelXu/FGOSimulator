@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.SERVANT_NAME_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
@@ -66,8 +66,8 @@ public class ServantCreatorFXMLController implements Initializable {
         idText.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     final String servantId = "servant" + newValue;
-                    if (hasTranslation(SERVANT_NAME_SECTION, servantId)) {
-                        servantNameLabel.setText(getTranslation(SERVANT_NAME_SECTION, servantId));
+                    if (hasTranslation(ENTITY_NAME_SECTION, servantId)) {
+                        servantNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, servantId));
                         servantNameLabel.setVisible(true);
                     } else {
                         servantNameLabel.setVisible(false);

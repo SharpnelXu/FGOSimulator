@@ -20,7 +20,7 @@ import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFie
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_INT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_SERVANT;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_NAMES;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TARGET;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
@@ -35,7 +35,7 @@ public class ConditionFactory {
         CONDITION_FIELD_INT_VALUE,
         CONDITION_FIELD_DOUBLE_VALUE,
         CONDITION_FIELD_TRAIT_VALUE,
-        CONDITION_FIELD_SERVANT,
+        CONDITION_FIELD_NAMES,
         CONDITION_FIELD_BUFF_TYPE,
         CONDITION_FIELD_CARD_TYPE,
         CONDITION_FIELD_CLASS_VALUE,
@@ -114,6 +114,12 @@ public class ConditionFactory {
         } else if (type.equalsIgnoreCase(ServantsExplodable.class.getSimpleName())) {
             return EXPLOOOOOOOOOSION;
 
+        } else if (type.equalsIgnoreCase(ServantsWithCE.class.getSimpleName())) {
+            return ServantsWithCE.builder()
+                    .target(conditionData.getTarget())
+                    .ceId(conditionData.getValue())
+                    .build();
+
         } else if (type.equalsIgnoreCase(TargetsContainsSpecificServant.class.getSimpleName())) {
             return TargetsContainsSpecificServant.builder()
                     .target(conditionData.getTarget())
@@ -187,9 +193,9 @@ public class ConditionFactory {
 
         builder.put(ServantsExplodable.class.getSimpleName(), ImmutableSet.of());
 
-        builder.put(TargetsContainsSpecificServant.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET,
-                                                                                          CONDITION_FIELD_SERVANT
-        ));
+        builder.put(ServantsWithCE.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_NAMES));
+
+        builder.put(TargetsContainsSpecificServant.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_NAMES));
 
         builder.put(TargetsHaveBuff.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_LIMITED_SUB_CONDITION));
 

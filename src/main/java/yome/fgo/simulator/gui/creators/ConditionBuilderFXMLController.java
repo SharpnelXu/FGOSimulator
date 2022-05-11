@@ -38,7 +38,7 @@ import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFie
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_INT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_SERVANT;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_NAMES;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TARGET;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
@@ -140,7 +140,8 @@ public class ConditionBuilderFXMLController implements Initializable {
                 valueText.setText(intToString(builder.getDoubleValue()));
             } else if (requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
                 valueText.setText(doubleToString(builder.getDoubleValue()));
-            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) || requiredFields.contains(CONDITION_FIELD_SERVANT)) {
+            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) || requiredFields.contains(
+                    CONDITION_FIELD_NAMES)) {
                 valueText.setText(builder.getValue());
             }
 
@@ -249,7 +250,7 @@ public class ConditionBuilderFXMLController implements Initializable {
         if (requiredFields.contains(CONDITION_FIELD_INT_VALUE) ||
                 requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE) ||
                 requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) ||
-                requiredFields.contains(CONDITION_FIELD_SERVANT)
+                requiredFields.contains(CONDITION_FIELD_NAMES)
         ) {
             valuePane.setVisible(true);
             valuePane.setManaged(true);
@@ -265,7 +266,6 @@ public class ConditionBuilderFXMLController implements Initializable {
                 valueText.textProperty().addListener(valueTextListener);
             } else {
                 valueLabel.setText(getTranslation(APPLICATION_SECTION, "Servant ID"));
-                valueText.textProperty().addListener(valueTextListener);
                 valueText.textProperty().removeListener(valueTextListener);
             }
         }
@@ -337,7 +337,8 @@ public class ConditionBuilderFXMLController implements Initializable {
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Double"));
                     return;
                 }
-            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) || requiredFields.contains(CONDITION_FIELD_SERVANT)) {
+            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) || requiredFields.contains(
+                    CONDITION_FIELD_NAMES)) {
                 if (valueText.getText().isEmpty()) {
                     errorLabel.setVisible(true);
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "String is empty"));

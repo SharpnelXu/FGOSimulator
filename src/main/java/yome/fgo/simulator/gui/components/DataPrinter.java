@@ -25,7 +25,7 @@ import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFie
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_INT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_SERVANT;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_NAMES;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TARGET;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
@@ -61,7 +61,7 @@ import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYP
 import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENEMY_NAME_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.SERVANT_NAME_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.VARIATION_SECTION;
@@ -93,9 +93,9 @@ public class DataPrinter {
         if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
             builder.append(" : ");
             builder.append(getTranslation(TRAIT_SECTION, conditionData.getValue()));
-        } else if (requiredFields.contains(CONDITION_FIELD_SERVANT)) {
+        } else if (requiredFields.contains(CONDITION_FIELD_NAMES)) {
             builder.append(" : ");
-            builder.append(getTranslation(SERVANT_NAME_SECTION, conditionData.getValue()));
+            builder.append(getTranslation(ENTITY_NAME_SECTION, conditionData.getValue()));
         } else if (requiredFields.contains(CONDITION_FIELD_BUFF_TYPE)) {
             builder.append(" : ");
             builder.append(getTranslation(BUFF_SECTION, conditionData.getValue()));

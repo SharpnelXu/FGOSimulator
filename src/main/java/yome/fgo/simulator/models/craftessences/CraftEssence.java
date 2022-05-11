@@ -9,11 +9,15 @@ import yome.fgo.simulator.models.combatants.Skill;
 public class CraftEssence extends Skill {
     private final int attack;
     private final int hp;
+    private final int ceNum;
+    private final String ceId;
 
     public CraftEssence(final CraftEssenceData craftEssenceData, final CraftEssenceOption craftEssenceOption) {
         super(craftEssenceData.getEffectsList(), craftEssenceOption.getIsLimitBreak() ? 2 : 1);
         final int ceLevel = craftEssenceOption.getCraftEssenceLevel();
         this.hp = craftEssenceData.getStatusDataList().get(ceLevel - 1).getHP();
         this.attack = craftEssenceData.getStatusDataList().get(ceLevel - 1).getATK();
+        this.ceId = craftEssenceData.getId();
+        this.ceNum = craftEssenceData.getCeNum();
     }
 }

@@ -187,6 +187,8 @@ message CommandCardData {
 
 message CommandCodeData {
   repeated BuffData buffs = 1;
+  string id = 2;
+  int32 ccNum = 3;
 }
 
 message ActiveSkillUpgrades {
@@ -397,11 +399,13 @@ message CommandCardOption {
 }
 
 message ServantOption {
+  int32 ascension = 11;
   int32 servantLevel = 1;
-  int32 noblePhantasmRank = 2;
-  int32 noblePhantasmLevel = 3;
   int32 attackStatusUp = 4;
   int32 healthStatusUp = 5;
+  
+  int32 noblePhantasmRank = 2;
+  int32 noblePhantasmLevel = 3;
 
   repeated int32 activeSkillRanks = 6;
   repeated int32 activeSkillLevels = 7;
@@ -410,7 +414,6 @@ message ServantOption {
   repeated CommandCardOption commandCardOptions = 9;
 
   int32 bond = 10;
-  int32 ascension = 11;
 }
 
 message CraftEssenceData {

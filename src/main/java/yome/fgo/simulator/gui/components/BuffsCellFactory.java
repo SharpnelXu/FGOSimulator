@@ -59,7 +59,7 @@ public class BuffsCellFactory implements Callback<ListView<BuffData>, ListCell<B
 
                     final Label label = new Label(printBuffData(buffData));
                     label.setWrapText(true);
-                    label.setMaxWidth(500);
+                    label.setMaxWidth(Math.max(param.getWidth() - 140, 500));
 
                     final HBox hBox = new HBox();
                     hBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);

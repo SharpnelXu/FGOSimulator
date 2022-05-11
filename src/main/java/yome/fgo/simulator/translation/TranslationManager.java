@@ -21,7 +21,7 @@ public class TranslationManager {
     public static final String TRAIT_SECTION = "Trait";
     public static final String COMMAND_CARD_TYPE_SECTION = "CommandCardType";
     public static final String BUFF_SECTION = "Buff";
-    public static final String SERVANT_NAME_SECTION = "ServantName";
+    public static final String ENTITY_NAME_SECTION = "Name";
     public static final String VARIATION_SECTION = "Variation";
     public static final String CLASS_ADV_SECTION = "ClassAdv";
     public static final String EFFECT_SECTION = "Effect";

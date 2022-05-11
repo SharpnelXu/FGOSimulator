@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.util.Callback;
 import lombok.AllArgsConstructor;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
@@ -62,7 +63,8 @@ public class EffectsCellFactory implements Callback<ListView<EffectData>, ListCe
 
                     final Label label = new Label(printEffectData(effectData));
                     label.setWrapText(true);
-                    label.setMaxWidth(500);
+                    HBox.setHgrow(label, Priority.ALWAYS);
+                    label.setMaxWidth(Math.max(param.getWidth() - 140, 500));
 
                     final HBox hBox = new HBox();
                     hBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
