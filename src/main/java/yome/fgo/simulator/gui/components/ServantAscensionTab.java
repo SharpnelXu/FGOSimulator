@@ -1,0 +1,427 @@
+package yome.fgo.simulator.gui.components;
+
+import com.google.common.collect.ImmutableList;
+import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import yome.fgo.data.proto.FgoStorageData.Alignment;
+import yome.fgo.data.proto.FgoStorageData.Attribute;
+import yome.fgo.data.proto.FgoStorageData.FateClass;
+import yome.fgo.data.proto.FgoStorageData.Gender;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.addSplitTraitListener;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillAttribute;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillGender;
+import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
+
+public class ServantAscensionTab extends VBox {
+    private final ImageView thumbnail;
+    private final ChoiceBox<Integer> rarityChoices;
+    private final ChoiceBox<FateClass> classChoices;
+    private final ChoiceBox<Gender> genderChoices;
+    private final ChoiceBox<Attribute> attributeChoices;
+    private final List<CheckBox> alignmentChecks;
+    private final TextField defNpText;
+    private final TextField critStarWeightText;
+    private final TextField deathRateText;
+    private final TextField costText;
+    private final TextField traitsText;
+    private final Label baseDataErrorLabel;
+    private final List<CommandCardBox> commandCardBoxes;
+    private final CommandCardBox exCommandCardBox;
+    private final TabPane npUpgradesTabs;
+    private final List<TabPane> activeSkillUpgradeTabPanes;
+    private final VBox passiveSkillsVBox;
+    private final VBox appendSkillsVBox;
+    private final TextArea servantStatus;
+
+    public ServantAscensionTab(final int servantNo, final int ascension) {
+        super();
+        setPadding(new Insets(10, 10, 10, 10));
+        setSpacing(10);
+        setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+
+        final List<Node> nodes = getChildren();
+
+        final HBox baseDataBox = new HBox();
+        baseDataBox.setSpacing(10);
+        baseDataBox.setFillHeight(false);
+        baseDataBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+
+        final String servantId = "servant" + servantNo;
+        final File thumbnailFile = getServantThumbnail(String.format("%s/%s", SERVANT_DIRECTORY_PATH, servantId), servantId, ascension);
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream(thumbnailFile));
+        } catch (final FileNotFoundException ignored) {
+        }
+        thumbnail = new ImageView();
+        if (image != null) {
+            thumbnail.setImage(image);
+        }
+        thumbnail.setFitWidth(100);
+        thumbnail.setFitHeight(100);
+        final AnchorPane imgAnchor = new AnchorPane();
+        AnchorPane.setTopAnchor(thumbnail, 0.0);
+        AnchorPane.setBottomAnchor(thumbnail, 0.0);
+        AnchorPane.setLeftAnchor(thumbnail, 0.0);
+        AnchorPane.setRightAnchor(thumbnail, 0.0);
+        imgAnchor.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2");
+        imgAnchor.getChildren().add(thumbnail);
+
+        baseDataBox.getChildren().addAll(imgAnchor);
+
+        final VBox combatantDataVBox = new VBox();
+        combatantDataVBox.setSpacing(10);
+        combatantDataVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        HBox.setHgrow(combatantDataVBox, Priority.ALWAYS);
+
+        final HBox choicesHBox = new HBox();
+        choicesHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        choicesHBox.setSpacing(10);
+        choicesHBox.setAlignment(Pos.CENTER_LEFT);
+        final Label rarityLabel = new Label(getTranslation(APPLICATION_SECTION, "Rarity"));
+        rarityChoices = new ChoiceBox<>();
+        rarityChoices.setItems(FXCollections.observableArrayList(5, 4, 3, 2, 1, 0));
+        rarityChoices.getSelectionModel().selectFirst();
+        final Label classLabel = new Label(getTranslation(APPLICATION_SECTION, "Class"));
+        classChoices = new ChoiceBox<>();
+        fillFateClass(classChoices);
+        final Label genderLabel = new Label(getTranslation(APPLICATION_SECTION, "Gender"));
+        genderChoices = new ChoiceBox<>();
+        fillGender(genderChoices);
+        final Label attributeLabel = new Label(getTranslation(APPLICATION_SECTION, "Attribute"));
+        attributeChoices = new ChoiceBox<>();
+        fillAttribute(attributeChoices);
+        choicesHBox.getChildren().addAll(rarityLabel, rarityChoices, classLabel, classChoices, genderLabel, genderChoices, attributeLabel, attributeChoices);
+
+        combatantDataVBox.getChildren().add(choicesHBox);
+
+        final HBox alignmentHBox = new HBox();
+        alignmentHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        alignmentHBox.setSpacing(10);
+        final Label alignmentLabel = new Label(getTranslation(APPLICATION_SECTION, "Alignments"));
+        final VBox alignmentGroupVBox = new VBox();
+        alignmentGroupVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        alignmentGroupVBox.setSpacing(5);
+        final HBox alignmentGroup1 = new HBox();
+        alignmentGroup1.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        alignmentGroup1.setSpacing(10);
+        alignmentChecks = new ArrayList<>();
+        final List<Alignment> firstAlignmentRow = ImmutableList.of(Alignment.LAWFUL, Alignment.NEUTRAL, Alignment.CHAOTIC);
+        for (final Alignment alignment : firstAlignmentRow) {
+            final CheckBox checkBox = new CheckBox(getTranslation(TRAIT_SECTION, alignment.name()));
+            alignmentGroup1.getChildren().add(checkBox);
+            alignmentChecks.add(checkBox);
+        }
+        final HBox alignmentGroup2 = new HBox();
+        alignmentGroup2.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        alignmentGroup2.setSpacing(10);
+        final List<Alignment> secondAlignmentRow = ImmutableList.of(
+                Alignment.GOOD, Alignment.BALANCED, Alignment.EVIL, Alignment.INSANE, Alignment.SUMMER, Alignment.BRIDE
+        );
+        for (final Alignment alignment : secondAlignmentRow) {
+            final CheckBox checkBox = new CheckBox(getTranslation(TRAIT_SECTION, alignment.name()));
+            alignmentGroup2.getChildren().add(checkBox);
+            alignmentChecks.add(checkBox);
+        }
+        alignmentGroupVBox.getChildren().addAll(alignmentGroup1, alignmentGroup2);
+        alignmentHBox.getChildren().addAll(alignmentLabel, alignmentGroupVBox);
+
+        combatantDataVBox.getChildren().add(alignmentHBox);
+
+        final HBox textsHBox = new HBox();
+        textsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        textsHBox.setSpacing(10);
+        textsHBox.setAlignment(Pos.CENTER_LEFT);
+        final Label defNpRateLabel = new Label(getTranslation(APPLICATION_SECTION, "Def Np Rate (%)"));
+        defNpText = new TextField();
+        defNpText.setMaxWidth(65);
+        final Label critStarWeightLabel = new Label(getTranslation(APPLICATION_SECTION, "Crit Star Weight"));
+        critStarWeightText = new TextField();
+        critStarWeightText.setMaxWidth(65);
+        final Label deathRateLabel = new Label(getTranslation(APPLICATION_SECTION, "Death Rate (%)"));
+        deathRateText = new TextField();
+        deathRateText.setMaxWidth(65);
+        final Label servantCostLabel = new Label(getTranslation(APPLICATION_SECTION, "Servant Cost"));
+        costText = new TextField();
+        costText.setMaxWidth(65);
+        textsHBox.getChildren().addAll(defNpRateLabel, defNpText, critStarWeightLabel, critStarWeightText, deathRateLabel, deathRateText, servantCostLabel, costText);
+
+        combatantDataVBox.getChildren().add(textsHBox);
+
+        final HBox traitsHBox = new HBox();
+        traitsHBox.setAlignment(Pos.CENTER_LEFT);
+        traitsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        traitsHBox.setSpacing(10);
+        final Label traitsLabel = new Label(getTranslation(APPLICATION_SECTION, "Traits"));
+        final AnchorPane traitsAnchor = new AnchorPane();
+        HBox.setHgrow(traitsAnchor, Priority.ALWAYS);
+        traitsText = new TextField();
+        AnchorPane.setTopAnchor(traitsText, 0.0);
+        AnchorPane.setBottomAnchor(traitsText, 0.0);
+        AnchorPane.setLeftAnchor(traitsText, 0.0);
+        AnchorPane.setRightAnchor(traitsText, 0.0);
+        traitsAnchor.getChildren().add(traitsText);
+        baseDataErrorLabel = new Label();
+        baseDataErrorLabel.setVisible(false);
+        baseDataErrorLabel.setStyle("-fx-text-fill: red");
+        addSplitTraitListener(traitsText, baseDataErrorLabel);
+        traitsHBox.getChildren().addAll(traitsLabel, traitsAnchor);
+
+        combatantDataVBox.getChildren().add(traitsHBox);
+        combatantDataVBox.getChildren().add(baseDataErrorLabel);
+
+        baseDataBox.getChildren().add(combatantDataVBox);
+
+        nodes.add(baseDataBox);
+        nodes.add(new Separator());
+
+        final Label cardsLabel = new Label(getTranslation(APPLICATION_SECTION, "Command Card"));
+        cardsLabel.setFont(new Font(18));
+        nodes.add(cardsLabel);
+
+        commandCardBoxes = new ArrayList<>();
+        for (int i = 1; i <= 5; i += 1) {
+            final CommandCardBox commandCardBox = new CommandCardBox(i);
+            commandCardBoxes.add(commandCardBox);
+            HBox.setHgrow(commandCardBox, Priority.ALWAYS);
+        }
+        exCommandCardBox = new CommandCardBox(0);
+        HBox.setHgrow(exCommandCardBox, Priority.ALWAYS);
+        final HBox cardDataHBox1 = new HBox();
+        cardDataHBox1.setSpacing(5);
+        cardDataHBox1.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        cardDataHBox1.getChildren().addAll(commandCardBoxes.get(0), commandCardBoxes.get(1), commandCardBoxes.get(2));
+        final HBox cardDataHBox2 = new HBox();
+        cardDataHBox2.setSpacing(5);
+        cardDataHBox2.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        cardDataHBox2.getChildren().addAll(commandCardBoxes.get(3), commandCardBoxes.get(4), exCommandCardBox);
+
+        nodes.add(cardDataHBox1);
+        nodes.add(cardDataHBox2);
+        nodes.add(new Separator());
+
+        final Label npLabel = new Label(getTranslation(APPLICATION_SECTION, "NP Card"));
+        npLabel.setFont(new Font(18));
+        nodes.add(npLabel);
+
+        final HBox npButtonsHBox = new HBox();
+        npButtonsHBox.setSpacing(10);
+        npButtonsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        final Button removeNpUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Remove NP Upgrade"));
+        final Button addNpUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Add NP Upgrade"));
+        npButtonsHBox.getChildren().addAll(removeNpUpgradeButton, addNpUpgradeButton);
+
+        nodes.add(npButtonsHBox);
+
+        npUpgradesTabs = new TabPane(new Tab(getTranslation(APPLICATION_SECTION, "Base NP"), new NpUpgrade()));
+        npUpgradesTabs.setStyle("-fx-border-color:grey");
+        npUpgradesTabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        removeNpUpgradeButton.setOnAction(e -> {
+            final List<Tab> tabs = npUpgradesTabs.getTabs();
+            if (tabs.size() > 1) {
+                tabs.remove(tabs.size() - 1);
+            }
+        });
+        addNpUpgradeButton.setOnAction(e -> {
+            final List<Tab> tabs = npUpgradesTabs.getTabs();
+            final String tabName = getTranslation(APPLICATION_SECTION, "NP Upgrade") + " " + tabs.size();
+            final NpUpgrade base = (NpUpgrade) tabs.get(tabs.size() - 1).getContent();
+            tabs.add(new Tab(tabName, new NpUpgrade(base)));
+        });
+
+        nodes.add(npUpgradesTabs);
+        nodes.add(new Separator());
+
+        final Label activeSkillsLabel = new Label(getTranslation(APPLICATION_SECTION, "Active Skill"));
+        activeSkillsLabel.setFont(new Font(18));
+        nodes.add(activeSkillsLabel);
+
+        activeSkillUpgradeTabPanes = new ArrayList<>();
+        for (int i = 1; i <= 3; i += 1) {
+            final HBox activeSkillButtonHBox = new HBox();
+            activeSkillButtonHBox.setSpacing(10);
+            activeSkillButtonHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+            final Button removeUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Active Skill Upgrade"));
+            final Button addUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Add Active Skill Upgrade"));
+            activeSkillButtonHBox.getChildren().addAll(removeUpgradeButton, addUpgradeButton);
+            final TabPane activeSkillTabPane =
+                    new TabPane(new Tab(getTranslation(APPLICATION_SECTION, "Base Active Skill"), new ActiveSkillUpgrade()));
+            activeSkillTabPane.setStyle("-fx-border-color:grey");
+            activeSkillTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+            removeUpgradeButton.setOnAction(e -> {
+                final List<Tab> tabs = activeSkillTabPane.getTabs();
+                if (tabs.size() > 1) {
+                    tabs.remove(tabs.size() - 1);
+                }
+            });
+            addUpgradeButton.setOnAction(e -> {
+                final List<Tab> tabs = activeSkillTabPane.getTabs();
+                final String tabName = getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + tabs.size();
+                final ActiveSkillUpgrade base = (ActiveSkillUpgrade) tabs.get(tabs.size() - 1).getContent();
+                tabs.add(new Tab(tabName, new ActiveSkillUpgrade(base)));
+            });
+            activeSkillUpgradeTabPanes.add(activeSkillTabPane);
+            nodes.add(activeSkillButtonHBox);
+            nodes.add(activeSkillTabPane);
+        }
+        nodes.add(new Separator());
+
+        final Label passiveSkillLabel = new Label(getTranslation(APPLICATION_SECTION, "Passive Skill"));
+        passiveSkillLabel.setFont(new Font(18));
+        nodes.add(passiveSkillLabel);
+
+        passiveSkillsVBox = new VBox();
+        passiveSkillsVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        passiveSkillsVBox.setSpacing(10);
+
+        final HBox passiveHBox = new HBox();
+        passiveHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        passiveHBox.setSpacing(10);
+        passiveHBox.setAlignment(Pos.CENTER_RIGHT);
+        final Button removePassiveButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Passive Skill"));
+        final Button addPassiveButton = new Button(getTranslation(APPLICATION_SECTION, "Add Passive Skill"));
+        removePassiveButton.setOnAction(e -> {
+            final List<Node> passives = passiveSkillsVBox.getChildren();
+            if (!passives.isEmpty()) {
+                passives.remove(passives.size() - 1);
+            }
+        });
+        addPassiveButton.setOnAction(e -> passiveSkillsVBox.getChildren().add(new NonActiveSkill()));
+        passiveHBox.getChildren().addAll(removePassiveButton, addPassiveButton);
+
+        nodes.add(passiveSkillsVBox);
+        nodes.add(passiveHBox);
+        nodes.add(new Separator());
+
+        final Label appendSkillLabel = new Label(getTranslation(APPLICATION_SECTION, "Append Skill"));
+        appendSkillLabel.setFont(new Font(18));
+        nodes.add(appendSkillLabel);
+
+        appendSkillsVBox = new VBox();
+        appendSkillsVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        appendSkillsVBox.setSpacing(10);
+
+        final HBox appendHBox = new HBox();
+        appendHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        appendHBox.setSpacing(10);
+        appendHBox.setAlignment(Pos.CENTER_RIGHT);
+        final Button removeAppendButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Append Skill"));
+        final Button addAppendButton = new Button(getTranslation(APPLICATION_SECTION, "Add Append Skill"));
+        removeAppendButton.setOnAction(e -> {
+            final List<Node> passives = appendSkillsVBox.getChildren();
+            if (!passives.isEmpty()) {
+                passives.remove(passives.size() - 1);
+            }
+        });
+        addAppendButton.setOnAction(e -> appendSkillsVBox.getChildren().add(new NonActiveSkill()));
+        appendHBox.getChildren().addAll(removeAppendButton, addAppendButton);
+
+        nodes.add(appendSkillsVBox);
+        nodes.add(appendHBox);
+        nodes.add(new Separator());
+
+        final HBox statusHBox = new HBox();
+        statusHBox.setSpacing(10);
+        statusHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        final Label statusLabel = new Label(getTranslation(APPLICATION_SECTION, "Servant Status"));
+        servantStatus = new TextArea();
+        servantStatus.setMaxHeight(200);
+        servantStatus.setWrapText(true);
+        HBox.setHgrow(servantStatus, Priority.ALWAYS);
+        statusHBox.getChildren().addAll(statusLabel, servantStatus);
+
+        nodes.add(statusHBox);
+        nodes.add(new Separator());
+    }
+
+    public ServantAscensionTab(final ServantAscensionTab source, final int servantNo, final int ascension) {
+        this(servantNo, ascension);
+
+        this.rarityChoices.getSelectionModel().select(source.rarityChoices.getValue());
+        this.classChoices.getSelectionModel().select(source.classChoices.getValue());
+        this.genderChoices.getSelectionModel().select(source.genderChoices.getValue());
+        this.attributeChoices.getSelectionModel().select(source.attributeChoices.getValue());
+        for (int i = 0; i < this.alignmentChecks.size(); i += 1) {
+            this.alignmentChecks.get(i).setSelected(source.alignmentChecks.get(i).isSelected());
+        }
+        this.defNpText.setText(source.defNpText.getText());
+        this.critStarWeightText.setText(source.critStarWeightText.getText());
+        this.deathRateText.setText(source.deathRateText.getText());
+        this.costText.setText(source.costText.getText());
+        this.traitsText.setText(source.traitsText.getText());
+        for (int i = 0; i < this.commandCardBoxes.size(); i += 1) {
+            this.commandCardBoxes.get(i).setFrom(source.commandCardBoxes.get(i));
+        }
+        this.exCommandCardBox.setFrom(source.exCommandCardBox);
+        final NpUpgrade baseNpUpgrade = (NpUpgrade) this.npUpgradesTabs.getTabs().get(0).getContent();
+        baseNpUpgrade.setFrom((NpUpgrade) source.npUpgradesTabs.getTabs().get(0).getContent());
+        for (int i = 1; i < source.npUpgradesTabs.getTabs().size(); i += 1) {
+            final Tab newTab = new Tab();
+            newTab.setText(getTranslation(APPLICATION_SECTION, "NP Upgrade") + " " + i);
+            newTab.setContent(new NpUpgrade((NpUpgrade) source.npUpgradesTabs.getTabs().get(i).getContent()));
+            this.npUpgradesTabs.getTabs().add(newTab);
+        }
+        for (int i = 0; i < this.activeSkillUpgradeTabPanes.size(); i += 1) {
+            final TabPane thisActiveSkillPane = this.activeSkillUpgradeTabPanes.get(i);
+            final TabPane sourceActiveSkillPane = source.activeSkillUpgradeTabPanes.get(i);
+
+            final ActiveSkillUpgrade baseActiveSkillUpgrade = (ActiveSkillUpgrade) thisActiveSkillPane.getTabs().get(0).getContent();
+            baseActiveSkillUpgrade.setFrom((ActiveSkillUpgrade) sourceActiveSkillPane.getTabs().get(0).getContent());
+
+            for (int j = 1; j < sourceActiveSkillPane.getTabs().size(); j += 1) {
+                final Tab newTab = new Tab();
+                newTab.setText(getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + i);
+                newTab.setContent(new ActiveSkillUpgrade((ActiveSkillUpgrade) sourceActiveSkillPane.getTabs().get(i).getContent()));
+                thisActiveSkillPane.getTabs().add(newTab);
+            }
+        }
+
+        for (final Node node : source.passiveSkillsVBox.getChildren()) {
+            this.passiveSkillsVBox.getChildren().add(new NonActiveSkill((NonActiveSkill) node));
+        }
+
+        for (final Node node : source.appendSkillsVBox.getChildren()) {
+            this.appendSkillsVBox.getChildren().add(new NonActiveSkill((NonActiveSkill) node));
+        }
+        this.servantStatus.setText(source.servantStatus.getText());
+    }
+
+    public void setServantNo(final int servantNo, final int ascension) {
+        final String servantId = "servant" + servantNo;
+        final File thumbnailFile = getServantThumbnail(String.format("%s/%s", SERVANT_DIRECTORY_PATH, servantId), servantId, ascension);
+        try {
+            thumbnail.setImage(new Image(new FileInputStream(thumbnailFile)));
+        } catch (final FileNotFoundException ignored) {
+        }
+    }
+}

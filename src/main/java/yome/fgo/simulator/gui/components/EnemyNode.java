@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.ResourceManager.getEnemyThumbnail;
+import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.gui.components.DataPrinter.printCombatantData;
 import static yome.fgo.simulator.gui.creators.EnemyCreator.editCombatantData;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
@@ -102,9 +104,9 @@ public class EnemyNode extends VBox {
 
         final File thumbnailFile;
         if (isServant) {
-            thumbnailFile = getServantThumbnailPath(String.format("%s/%s", SERVANT_DIRECTORY_PATH, pathToBaseEnemyData), baseEnemyData.getId(), 1);
+            thumbnailFile = getServantThumbnail(String.format("%s/%s", SERVANT_DIRECTORY_PATH, pathToBaseEnemyData), baseEnemyData.getId(), 1);
         } else {
-            thumbnailFile = getEnemyThumbnailPath(String.format("%s/%s", rootDir, pathToBaseEnemyData), baseEnemyData.getId());
+            thumbnailFile = getEnemyThumbnail(String.format("%s/%s", rootDir, pathToBaseEnemyData), baseEnemyData.getId());
         }
 
         final HBox combatantDataHBox = new HBox();
@@ -208,35 +210,12 @@ public class EnemyNode extends VBox {
 
     private void changeServantAscension(final int asc) {
         try {
-            thumbnail.setImage(new Image(new FileInputStream(getServantThumbnailPath(pathToBaseEnemyData, baseEnemyData.getId(), asc))));
+            thumbnail.setImage(new Image(new FileInputStream(getServantThumbnail(pathToBaseEnemyData, baseEnemyData.getId(), asc))));
         } catch (final FileNotFoundException ex) {
             throw new RuntimeException(ex); // should never be hit
         }
         baseEnemyData = baseServantData.getServantAscensionData(asc - 1).getCombatantData();
         combatantDataLabel.setText(printCombatantData(baseEnemyData));
-    }
-
-    public static File getEnemyThumbnailPath(final String path, final String id) {
-        final File thumbImg = new File(String.format("%s/%s.png", path, id));
-        if (thumbImg.exists()) {
-            return thumbImg;
-        }
-
-        return new File(String.format("%s/defaultEnemy_thumbnail.png", ENEMY_DIRECTORY_PATH));
-    }
-
-    public static File getServantThumbnailPath(final String path, final String id, final int ascension) {
-        final File ascImg = new File(String.format("%s/%s_asc%d_thumbnail.png", path, id, ascension));
-        if (ascImg.exists()) {
-            return ascImg;
-        }
-
-        final File svrImg = new File(String.format("%s/%s_thumbnail.png", path, id));
-        if (svrImg.exists()) {
-            return svrImg;
-        }
-
-        return new File(String.format("%s/defaultServant_thumbnail.png", SERVANT_DIRECTORY_PATH));
     }
 
     public void loadEnemyData(final EnemyData enemyData) {

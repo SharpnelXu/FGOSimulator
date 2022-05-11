@@ -56,7 +56,7 @@ public class TranslationManager {
     }
 
     public static boolean hasTranslation(final String sectionName, final String key) {
-        return TRANSLATIONS.containsKey(sectionName) && TRANSLATIONS.getSection(sectionName).containsKey(key);
+        return !TRANSLATIONS.configurationAt(sectionName).isEmpty() && TRANSLATIONS.getSection(sectionName).containsKey(key);
     }
 
     public static String getKeyForTrait(final String traitTranslation) {

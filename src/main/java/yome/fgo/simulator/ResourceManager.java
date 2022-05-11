@@ -18,6 +18,7 @@ import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PAT
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.LEVEL_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
+import static yome.fgo.simulator.utils.FilePathUtils.SKILL_ICON_DIRECTORY_PATH;
 
 public class ResourceManager {
     private static final Map<String, CombatantData> ENEMY_DATA_MAP = new HashMap<>();
@@ -121,5 +122,37 @@ public class ResourceManager {
             }
         }
         return builder.build();
+    }
+
+    public static File getEnemyThumbnail(final String path, final String id) {
+        final File thumbImg = new File(String.format("%s/%s.png", path, id));
+        if (thumbImg.exists()) {
+            return thumbImg;
+        }
+
+        return new File(String.format("%s/defaultEnemy_thumbnail.png", ENEMY_DIRECTORY_PATH));
+    }
+
+    public static File getServantThumbnail(final String path, final String id, final int ascension) {
+        final File ascImg = new File(String.format("%s/%s_asc%d_thumbnail.png", path, id, ascension));
+        if (ascImg.exists()) {
+            return ascImg;
+        }
+
+        final File svrImg = new File(String.format("%s/%s_thumbnail.png", path, id));
+        if (svrImg.exists()) {
+            return svrImg;
+        }
+
+        return new File(String.format("%s/defaultServant_thumbnail.png", SERVANT_DIRECTORY_PATH));
+    }
+
+    public static File getSkillIcon(final String id) {
+        final File ascImg = new File(String.format("%s/%s.png", SKILL_ICON_DIRECTORY_PATH, id));
+        if (ascImg.exists()) {
+            return ascImg;
+        }
+
+        return new File(String.format("%s/default.png", SKILL_ICON_DIRECTORY_PATH));
     }
 }

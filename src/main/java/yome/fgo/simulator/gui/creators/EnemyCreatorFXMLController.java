@@ -1,7 +1,6 @@
 package yome.fgo.simulator.gui.creators;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.protobuf.util.JsonFormat;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -19,7 +18,6 @@ import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.writer.DataWriter;
-import yome.fgo.simulator.gui.components.EnumConverter;
 import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -35,7 +33,9 @@ import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.addSplitTraitListener;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillAttribute;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
+import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillGender;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
@@ -170,20 +170,10 @@ public class EnemyCreatorFXMLController implements Initializable {
         fillFateClass(fateClassCombo);
 
         genderLabel.setText(getTranslation(APPLICATION_SECTION, "Gender"));
-        final List<Gender> genderClasses = Lists.newArrayList(Gender.values());
-        genderClasses.remove(Gender.UNRECOGNIZED);
-        genderCombo.setConverter(new EnumConverter<>(TRAIT_SECTION));
-        genderCombo.setItems(FXCollections.observableArrayList(genderClasses));
-        genderCombo.getSelectionModel().selectFirst();
+        fillGender(genderCombo);
 
         attributeLabel.setText(getTranslation(APPLICATION_SECTION, "Attribute"));
-
-        final List<Attribute> attributeClasses = Lists.newArrayList(Attribute.values());
-        attributeClasses.remove(Attribute.NO_ATTRIBUTE);
-        attributeClasses.remove(Attribute.UNRECOGNIZED);
-        attributeCombo.setConverter(new EnumConverter<>(TRAIT_SECTION));
-        attributeCombo.setItems(FXCollections.observableArrayList(attributeClasses));
-        attributeCombo.getSelectionModel().selectFirst();
+        fillAttribute(attributeCombo);
 
         alignmentLabel.setText(getTranslation(APPLICATION_SECTION, "Alignments"));
         alignBoxes = new ArrayList<>();

@@ -5,9 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
+import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.gui.components.EnumConverter;
 
@@ -20,6 +22,7 @@ import static yome.fgo.simulator.translation.TranslationManager.CLASS_ADV_SECTIO
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
 
@@ -35,6 +38,23 @@ public class ComponentMaker {
         classChoiceBox.getSelectionModel().selectFirst();
     }
 
+    public static void fillGender(final ChoiceBox<Gender> genderChoiceBox) {
+        final List<Gender> genderClasses = Lists.newArrayList(Gender.values());
+        genderClasses.remove(Gender.UNRECOGNIZED);
+        genderChoiceBox.setConverter(new EnumConverter<>(TRAIT_SECTION));
+        genderChoiceBox.setItems(FXCollections.observableArrayList(genderClasses));
+        genderChoiceBox.getSelectionModel().selectFirst();
+    }
+
+    public static void fillAttribute(final ChoiceBox<Attribute> attributeChoiceBox) {
+        final List<Attribute> attributeClasses = Lists.newArrayList(Attribute.values());
+        attributeClasses.remove(Attribute.NO_ATTRIBUTE);
+        attributeClasses.remove(Attribute.UNRECOGNIZED);
+        attributeChoiceBox.setConverter(new EnumConverter<>(TRAIT_SECTION));
+        attributeChoiceBox.setItems(FXCollections.observableArrayList(attributeClasses));
+        attributeChoiceBox.getSelectionModel().selectFirst();
+    }
+
     public static void fillTargets(final ChoiceBox<Target> targetChoiceBox) {
         final List<Target> targets = Lists.newArrayList(Target.values());
         targets.remove(Target.UNRECOGNIZED);
@@ -44,24 +64,24 @@ public class ComponentMaker {
         targetChoiceBox.getSelectionModel().selectFirst();
     }
 
-    public static void fillCommandCardType(final ChoiceBox<CommandCardType> targetChoiceBox) {
+    public static void fillCommandCardType(final ChoiceBox<CommandCardType> commandCardTypeChoiceBox) {
         final List<CommandCardType> cardTypes = Lists.newArrayList(CommandCardType.values());
         cardTypes.remove(CommandCardType.UNRECOGNIZED);
-        targetChoiceBox.setConverter(new EnumConverter<>(COMMAND_CARD_TYPE_SECTION));
-        targetChoiceBox.setItems(FXCollections.observableArrayList(cardTypes));
-        targetChoiceBox.getSelectionModel().selectFirst();
+        commandCardTypeChoiceBox.setConverter(new EnumConverter<>(COMMAND_CARD_TYPE_SECTION));
+        commandCardTypeChoiceBox.setItems(FXCollections.observableArrayList(cardTypes));
+        commandCardTypeChoiceBox.getSelectionModel().selectFirst();
     }
 
-    public static void fillClassAdvMode(final ChoiceBox<ClassAdvantageChangeMode> targetChoiceBox) {
+    public static void fillClassAdvMode(final ChoiceBox<ClassAdvantageChangeMode> classAdvModeChoiceBox) {
         final List<ClassAdvantageChangeMode> values = Lists.newArrayList(ClassAdvantageChangeMode.values());
         values.remove(ClassAdvantageChangeMode.UNRECOGNIZED);
-        targetChoiceBox.setConverter(new EnumConverter<>(CLASS_ADV_SECTION));
-        targetChoiceBox.setItems(FXCollections.observableArrayList(values));
-        targetChoiceBox.getSelectionModel().selectFirst();
+        classAdvModeChoiceBox.setConverter(new EnumConverter<>(CLASS_ADV_SECTION));
+        classAdvModeChoiceBox.setItems(FXCollections.observableArrayList(values));
+        classAdvModeChoiceBox.getSelectionModel().selectFirst();
     }
 
-    public static void addSplitTraitListener(final TextField targetTextField, final Label errorLabel) {
-        targetTextField.textProperty().addListener(
+    public static void addSplitTraitListener(final TextField traitTextField, final Label errorLabel) {
+        traitTextField.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     final List<String> unmappedTraits = Arrays.stream(newValue.split(COMMA_SPLIT_REGEX))
                             .sequential()
