@@ -7,6 +7,7 @@ import com.google.protobuf.util.JsonFormat.Printer;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
+import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.LEVEL_DIRECTORY_PATH;
+import static yome.fgo.simulator.utils.FilePathUtils.MYSTIC_CODES_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
 
 public class DataWriter {
@@ -45,6 +47,11 @@ public class DataWriter {
     public static void writeCraftEssence(final CraftEssenceData craftEssenceData) {
         final String directoryPath = String.format("%s/%s", CRAFT_ESSENCE_DIRECTORY_PATH, craftEssenceData.getId());
         writeMessage(craftEssenceData, directoryPath, craftEssenceData.getId());
+    }
+
+    public static void writeMysticCode(final MysticCodeData mysticCodeData) {
+        final String directoryPath = String.format("%s/%s", MYSTIC_CODES_DIRECTORY_PATH, mysticCodeData.getId());
+        writeMessage(mysticCodeData, directoryPath, mysticCodeData.getId());
     }
 
     public static void writeLevel(final LevelData levelData, final String subPath) {

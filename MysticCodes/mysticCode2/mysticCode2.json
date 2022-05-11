@@ -1,0 +1,36 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "AttackBuff",
+        "numTurnsActive": 1,
+        "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "attackUp"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ENEMY",
+      "buffData": [{
+        "type": "Stun",
+        "numTurnsActive": 1
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "stun"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "OrderChange"
+    }],
+    "iconName": "orderChange"
+  }],
+  "id": "mysticCode2",
+  "mcNum": 2
+}
