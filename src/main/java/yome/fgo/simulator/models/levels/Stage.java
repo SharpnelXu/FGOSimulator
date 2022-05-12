@@ -56,6 +56,8 @@ public class Stage {
         for (final Effect effect : effects) {
             effect.apply(simulation);
         }
+
+        simulation.checkBuffStatus();
     }
 
     public boolean hasMoreEnemies() {

@@ -32,6 +32,8 @@ public class Level {
         for (final Effect effect : effects) {
             effect.apply(simulation);
         }
+
+        simulation.checkBuffStatus();
     }
 
     public boolean hasNextStage(final int currentStage) {

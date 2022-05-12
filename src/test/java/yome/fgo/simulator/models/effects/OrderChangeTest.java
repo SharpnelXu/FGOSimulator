@@ -23,7 +23,6 @@ public class OrderChangeTest {
         final OrderChange orderChange = OrderChange.builder().build();
 
         inBackup.enterField(simulation);
-        inBackup.checkBuffStatus();
 
         replay(onField, inBackup);
 

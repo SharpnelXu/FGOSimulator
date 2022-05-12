@@ -16,5 +16,7 @@ public class AppendSkill extends Skill {
                 effect.apply(simulation);
             }
         }
+
+        simulation.checkBuffStatus();
     }
 }

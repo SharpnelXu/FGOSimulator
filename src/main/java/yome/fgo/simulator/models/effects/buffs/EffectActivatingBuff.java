@@ -14,6 +14,8 @@ public abstract class EffectActivatingBuff extends Buff {
         for (final Effect effect : effects) {
             effect.apply(simulation);
         }
+
+        simulation.checkBuffStatus();
     }
 
     @Override

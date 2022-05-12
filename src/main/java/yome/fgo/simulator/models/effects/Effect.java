@@ -41,8 +41,6 @@ public abstract class Effect {
 
     public void apply(final Simulation simulation, final int level) {
         internalApply(simulation, level);
-
-        simulation.checkBuffStatus();
     }
 
     // for overcharged

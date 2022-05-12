@@ -142,6 +142,7 @@ public class RemoveBuffTest {
 
         simulation.setActivator(servant);
         removeBuff.apply(simulation);
+        simulation.checkBuffStatus();
 
         assertEquals(4, servant.getBuffs().size());
         assertTrue(servant.isImmobilized());

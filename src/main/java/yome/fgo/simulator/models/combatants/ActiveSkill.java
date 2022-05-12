@@ -62,6 +62,8 @@ public class ActiveSkill {
         for (final Effect effect: skillAtRank.effects) {
             effect.apply(simulation);
         }
+
+        simulation.checkBuffStatus();
     }
 
     public void setCurrentCoolDown(final int coolDown) {

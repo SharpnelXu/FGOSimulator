@@ -60,6 +60,8 @@ public class NoblePhantasm extends CommandCard {
                 effect.apply(simulation);
             }
         }
+
+        simulation.checkBuffStatus();
     }
 
     public boolean canActivate(final Simulation simulation) {

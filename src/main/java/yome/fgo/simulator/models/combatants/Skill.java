@@ -20,5 +20,7 @@ public class Skill {
         for (final Effect effect: effects) {
             effect.apply(simulation);
         }
+
+        simulation.checkBuffStatus();
     }
 }
