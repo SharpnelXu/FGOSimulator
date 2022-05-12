@@ -165,12 +165,24 @@ public class StageNode extends VBox {
         });
         final Button addServantButton = new Button(getTranslation(APPLICATION_SECTION, "Add Servant"));
         addServantButton.setOnAction(e -> {
-            final int size = enemyGrid.getChildren().size();
-            // TODO: add an enemyNode when clicked
-            final int rowIndex = size / 3;
-            final int colIndex = 2 - size % 3;
-            final ImageView imageView = new ImageView(FilePathUtils.SERVANT_DIRECTORY_PATH + "/servant321/servant321_asc1_thumbnail.png");
-            enemyGrid.add(imageView, colIndex, rowIndex);
+            final FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialDirectory(new File(SERVANT_DIRECTORY_PATH));
+            fileChooser.setTitle(getTranslation(APPLICATION_SECTION, "Load Enemy Data"));
+            final File enemyDataFile = fileChooser.showOpenDialog(null);
+            if (enemyDataFile == null) {
+                return;
+            }
+
+            final EnemyNode enemyNode;
+            try {
+                enemyNode = new EnemyNode(enemyDataFile, true);
+            } catch (final Exception ex) {
+                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + ex.getMessage());
+                errorLabel.setVisible(true);
+                return;
+            }
+
+            addEnemyNode(enemyNode);
         });
         final Button removeCombatantButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Combatant"));
         removeCombatantButton.setOnAction(e -> {

@@ -104,7 +104,7 @@ public class EnemyNode extends VBox {
 
         final File thumbnailFile;
         if (isServant) {
-            thumbnailFile = getServantThumbnail(String.format("%s/%s", SERVANT_DIRECTORY_PATH, pathToBaseEnemyData), baseEnemyData.getId(), 1);
+            thumbnailFile = getServantThumbnail(String.format("%s/%s", rootDir, pathToBaseEnemyData), baseEnemyData.getId(), 1);
         } else {
             thumbnailFile = getEnemyThumbnail(String.format("%s/%s", rootDir, pathToBaseEnemyData), baseEnemyData.getId());
         }
@@ -133,21 +133,18 @@ public class EnemyNode extends VBox {
         buttonHBox.setSpacing(10);
         final Button editEnemyButton = new Button(getTranslation(APPLICATION_SECTION, "Edit"));
         editEnemyButton.setOnAction(e -> {
-            if (!isServant) {
-                final CombatantData.Builder builder = combatantDataOverride == null ?
-                        baseEnemyData.toBuilder() :
-                        combatantDataOverride.toBuilder();
-                try {
-                    editCombatantData(editEnemyButton.getScene().getWindow(), builder);
-                } catch (final Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                if (!builder.getId().isEmpty()) {
-                    combatantDataOverride = builder.build();
-                    combatantDataLabel.setText(printCombatantData(combatantDataOverride));
-                }
+            final CombatantData.Builder builder = combatantDataOverride == null ?
+                    baseEnemyData.toBuilder() :
+                    combatantDataOverride.toBuilder();
+            try {
+                editCombatantData(editEnemyButton.getScene().getWindow(), builder);
+            } catch (final Exception ex) {
+                throw new RuntimeException(ex);
             }
-            // TODO: servant edit when servant editor is completed
+            if (!builder.getId().isEmpty()) {
+                combatantDataOverride = builder.build();
+                combatantDataLabel.setText(printCombatantData(combatantDataOverride));
+            }
         });
         errorLabel = new Label();
         errorLabel.setVisible(false);
@@ -210,9 +207,9 @@ public class EnemyNode extends VBox {
 
     private void changeServantAscension(final int asc) {
         try {
-            thumbnail.setImage(new Image(new FileInputStream(getServantThumbnail(pathToBaseEnemyData, baseEnemyData.getId(), asc))));
-        } catch (final FileNotFoundException ex) {
-            throw new RuntimeException(ex); // should never be hit
+            final File thumbnailFile = getServantThumbnail(String.format("%s/%s", SERVANT_DIRECTORY_PATH, pathToBaseEnemyData), baseEnemyData.getId(), asc);
+            thumbnail.setImage(new Image(new FileInputStream(thumbnailFile)));
+        } catch (final FileNotFoundException ignored) {
         }
         baseEnemyData = baseServantData.getServantAscensionData(asc - 1).getCombatantData();
         combatantDataLabel.setText(printCombatantData(baseEnemyData));
