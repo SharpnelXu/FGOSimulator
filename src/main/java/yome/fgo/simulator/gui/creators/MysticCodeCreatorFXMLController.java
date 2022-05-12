@@ -24,7 +24,7 @@ import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECT
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasTranslation;
-import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PATH;
+import static yome.fgo.simulator.utils.FilePathUtils.MYSTIC_CODES_DIRECTORY_PATH;
 
 public class MysticCodeCreatorFXMLController implements Initializable {
 
@@ -83,7 +83,7 @@ public class MysticCodeCreatorFXMLController implements Initializable {
 
     private void loadFrom() {
         final FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File(CRAFT_ESSENCE_DIRECTORY_PATH));
+        fileChooser.setInitialDirectory(new File(MYSTIC_CODES_DIRECTORY_PATH));
         fileChooser.setTitle(getTranslation(APPLICATION_SECTION, "Load Mystic Code Data"));
         final File mcDataFile = fileChooser.showOpenDialog(null);
         if (mcDataFile == null) {

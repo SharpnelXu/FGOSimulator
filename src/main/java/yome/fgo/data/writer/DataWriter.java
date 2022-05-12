@@ -5,6 +5,7 @@ import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
 import com.google.protobuf.util.JsonFormat.Printer;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
+import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.List;
 
+import static yome.fgo.simulator.utils.FilePathUtils.COMMAND_CODES_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.LEVEL_DIRECTORY_PATH;
@@ -42,6 +44,11 @@ public class DataWriter {
         final String id = servantData.getServantAscensionData(0).getCombatantData().getId();
         final String directoryPath = String.format("%s/%s", SERVANT_DIRECTORY_PATH, id);
         writeMessage(servantData, directoryPath, id);
+    }
+
+    public static void writeCommandCode(final CommandCodeData commandCodeData) {
+        final String directoryPath = String.format("%s/%s", COMMAND_CODES_DIRECTORY_PATH, commandCodeData.getId());
+        writeMessage(commandCodeData, directoryPath, commandCodeData.getId());
     }
 
     public static void writeCraftEssence(final CraftEssenceData craftEssenceData) {

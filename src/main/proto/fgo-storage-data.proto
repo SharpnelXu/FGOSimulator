@@ -189,6 +189,7 @@ message CommandCodeData {
   repeated BuffData buffs = 1;
   string id = 2;
   int32 ccNum = 3;
+  int32 rarity = 4;
 }
 
 message ActiveSkillUpgrades {

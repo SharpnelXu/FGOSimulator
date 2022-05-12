@@ -55,7 +55,10 @@ public class BuffsCellFactory implements Callback<ListView<BuffData>, ListCell<B
                     final Button removeButton = new Button(getTranslation(APPLICATION_SECTION, "Remove"));
                     removeButton.setPrefWidth(55);
 
-                    removeButton.setOnAction(event -> getListView().getItems().remove(buffData));
+                    removeButton.setOnAction(event -> {
+                        getListView().getItems().remove(buffData);
+                        getListView().requestFocus();
+                    });
 
                     final Label label = new Label(printBuffData(buffData));
                     label.setWrapText(true);

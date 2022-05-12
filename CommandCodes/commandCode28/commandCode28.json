@@ -1,0 +1,29 @@
+{
+  "buffs": [{
+    "type": "PostAttackEffect",
+    "subEffects": [{
+      "type": "RemoveBuff",
+      "target": "DEFENDER",
+      "values": [1.0],
+      "applyCondition": {
+        "type": "And",
+        "subConditionData": [{
+          "type": "BuffTypeEquals",
+          "value": "AttackBuff"
+        }, {
+          "type": "BuffHasTrait",
+          "value": "POSITIVE_BUFF"
+        }]
+      }
+    }, {
+      "type": "HpChange",
+      "target": "ATTACKER",
+      "values": [100.0]
+    }],
+    "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"],
+    "hasCustomTraits": true
+  }],
+  "id": "commandCode28",
+  "ccNum": 28,
+  "rarity": 3
+}

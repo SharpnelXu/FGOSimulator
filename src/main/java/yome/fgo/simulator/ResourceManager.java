@@ -147,6 +147,15 @@ public class ResourceManager {
         return new File(String.format("%s/defaultServant_thumbnail.png", SERVANT_DIRECTORY_PATH));
     }
 
+    public static File getCCThumbnail(final String id) {
+        final File ascImg = new File(String.format("%s/%s/%s.png", COMMAND_CODES_DIRECTORY_PATH, id, id));
+        if (ascImg.exists()) {
+            return ascImg;
+        }
+
+        return new File(String.format("%s/default.png", COMMAND_CODES_DIRECTORY_PATH));
+    }
+
     public static File getCEThumbnail(final String id) {
         final File ascImg = new File(String.format("%s/%s/%s_thumbnail.png", CRAFT_ESSENCE_DIRECTORY_PATH, id, id));
         if (ascImg.exists()) {
