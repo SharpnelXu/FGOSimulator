@@ -21,6 +21,16 @@ public class MainMenuFXMLController implements Initializable {
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
         final Button simulationButton = new Button(getTranslation(APPLICATION_SECTION, "Simulation"));
+        simulationButton.setOnAction(e -> {
+            simulationButton.setDisable(true);
+            try {
+                LevelCreator.simulationPreviewMode();
+            } catch (final IOException ex) {
+                throw new RuntimeException(ex);
+            } finally {
+                simulationButton.setDisable(false);
+            }
+        });
         final Button servantCreatorButton = new Button(getTranslation(APPLICATION_SECTION, "ServantCreator"));
         servantCreatorButton.setOnAction(e -> {
             try {

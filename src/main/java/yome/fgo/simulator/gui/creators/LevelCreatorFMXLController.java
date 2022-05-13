@@ -3,18 +3,26 @@ package yome.fgo.simulator.gui.creators;
 import com.google.protobuf.util.JsonFormat;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.StageData;
 import yome.fgo.data.writer.DataWriter;
+import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.gui.components.EffectsCellFactory;
+import yome.fgo.simulator.gui.components.FormationSelector;
+import yome.fgo.simulator.gui.components.ServantDataWrapper;
 import yome.fgo.simulator.gui.components.StageNode;
 
 import java.io.File;
@@ -23,6 +31,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
@@ -65,19 +74,21 @@ public class LevelCreatorFMXLController implements Initializable {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private HBox simulationPrepHBox;
+
+    private Map<Integer, ServantDataWrapper> servantDataMap;
+
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
         idLabel.setText(getTranslation(APPLICATION_SECTION, "Level Name"));
 
-        stagesVBox.getChildren().clear();
         stagesVBox.getChildren().add(new StageNode(1));
         addStageButton.setText(getTranslation(APPLICATION_SECTION, "Add Stage"));
-        addStageButton.setOnAction(e -> {
-            stagesVBox.getChildren().add(new StageNode(stagesVBox.getChildren().size() + 1));
-        });
+        addStageButton.setOnAction(e -> stagesVBox.getChildren().add(new StageNode(stagesVBox.getChildren().size() + 1)));
         removeStageButton.setText(getTranslation(APPLICATION_SECTION, "Remove Stage"));
         removeStageButton.setOnAction(e -> {
-            if (stagesVBox.getChildren().size() > 0) {
+            if (stagesVBox.getChildren().size() > 1) {
                 stagesVBox.getChildren().remove(stagesVBox.getChildren().size() - 1);
             }
         });
@@ -104,6 +115,9 @@ public class LevelCreatorFMXLController implements Initializable {
         saveLevelButton.setOnAction(e -> saveLevel());
 
         errorLabel.setVisible(false);
+
+        simulationPrepHBox.setVisible(false);
+        simulationPrepHBox.setManaged(false);
     }
 
     private void loadLevel() {
@@ -184,5 +198,24 @@ public class LevelCreatorFMXLController implements Initializable {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error while saving enemy!") + e.getMessage());
             errorLabel.setVisible(true);
         }
+    }
+
+    public void setPreviewMode() {
+        servantDataMap = ResourceManager.buildServantSortMap();
+        simulationPrepHBox.setVisible(true);
+        simulationPrepHBox.setManaged(true);
+        simulationPrepHBox.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        simulationPrepHBox.setSpacing(10);
+
+        final ToggleGroup supportToggle = new ToggleGroup();
+        final List<Node> nodes = simulationPrepHBox.getChildren();
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
+        nodes.add(new Separator(Orientation.VERTICAL));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
+        nodes.add(new Separator(Orientation.VERTICAL));
     }
 }

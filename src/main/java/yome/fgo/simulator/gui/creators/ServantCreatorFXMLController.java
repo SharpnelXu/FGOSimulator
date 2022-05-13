@@ -89,7 +89,6 @@ public class ServantCreatorFXMLController implements Initializable {
         removeAscButton.setText(getTranslation(APPLICATION_SECTION, "Remove Ascension"));
         duplicateAscButton.setText(getTranslation(APPLICATION_SECTION, "Add Ascension"));
 
-        servantAscTabPane.getTabs().clear();
         servantAscTabPane.getTabs().add(new Tab(getTranslation(APPLICATION_SECTION, "Servant Asc") + 1, new ServantAscensionTab(0, 1)));
         removeAscButton.setOnAction(e -> {
             final List<Tab> tabs = servantAscTabPane.getTabs();

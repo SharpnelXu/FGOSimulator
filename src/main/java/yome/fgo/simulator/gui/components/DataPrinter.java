@@ -3,10 +3,12 @@ package yome.fgo.simulator.gui.components;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
+import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
+import yome.fgo.data.proto.FgoStorageData.ServantOption;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields;
 import yome.fgo.simulator.models.effects.EffectFactory.EffectFields;
@@ -553,6 +555,92 @@ public class DataPrinter {
         builder.append(getTranslation(APPLICATION_SECTION, "Traits"));
         builder.append(" ");
         builder.append(printTraits(combatantData.getTraitsList()));
+
+        return builder.toString();
+    }
+
+    public static String printServantOption(final ServantOption servantOption) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getTranslation(APPLICATION_SECTION, "Servant Asc"));
+        builder.append(": ");
+        builder.append(servantOption.getAscension());
+
+        builder.append("\n");
+        builder.append(getTranslation(APPLICATION_SECTION, "Servant Level"));
+        builder.append(": ");
+        builder.append(servantOption.getServantLevel());
+
+        builder.append("\n");
+        builder.append(getTranslation(APPLICATION_SECTION, "Attack Status Up"));
+        builder.append(": ");
+        builder.append(servantOption.getAttackStatusUp());
+
+        builder.append("\n");
+        builder.append(getTranslation(APPLICATION_SECTION, "HP Status Up"));
+        builder.append(": ");
+        builder.append(servantOption.getHealthStatusUp());
+
+        builder.append("\n");
+        builder.append(getTranslation(APPLICATION_SECTION, "NP Rank"));
+        builder.append(": ");
+        builder.append(servantOption.getNoblePhantasmRank());
+
+        builder.append("\n");
+        builder.append(getTranslation(APPLICATION_SECTION, "NP Level"));
+        builder.append(": ");
+        builder.append(servantOption.getNoblePhantasmLevel());
+
+        builder.append("\n");
+        builder.append(getTranslation(APPLICATION_SECTION, "Active Skill Ranks"));
+        builder.append(": ");
+        builder.append(
+                servantOption.getActiveSkillRanksList()
+                        .stream()
+                        .map(i -> Integer.toString(i))
+                        .collect(Collectors.joining("/"))
+        );
+
+        builder.append("\n");
+        builder.append(getTranslation(APPLICATION_SECTION, "Active Skill Levels"));
+        builder.append(": ");
+        builder.append(
+                servantOption.getActiveSkillLevelsList()
+                        .stream()
+                        .map(i -> Integer.toString(i))
+                        .collect(Collectors.joining("/"))
+        );
+
+        builder.append("\n");
+        builder.append(getTranslation(APPLICATION_SECTION, "Append Skill Levels"));
+        builder.append(": ");
+        builder.append(
+                servantOption.getAppendSkillLevelsList()
+                        .stream()
+                        .map(i -> Integer.toString(i))
+                        .collect(Collectors.joining("/"))
+        );
+
+        if (servantOption.getCommandCardOptionsCount() != 0) {
+            builder.append("\n");
+            builder.append(getTranslation(APPLICATION_SECTION, "Command Card Options"));
+
+            for (final CommandCardOption commandCardOption : servantOption.getCommandCardOptionsList()) {
+                builder.append("\n");
+                builder.append(getTranslation(APPLICATION_SECTION, "Command Card Status Up"));
+                builder.append(": ");
+                builder.append(commandCardOption.getStrengthen());
+                if (commandCardOption.getHasCommandCode()) {
+                    builder.append("\n");
+                    builder.append(getTranslation(APPLICATION_SECTION, "Command Code"));
+                    builder.append(": ");
+                    builder.append(getTranslation(ENTITY_NAME_SECTION, commandCardOption.getCommandCode()));
+                }
+            }
+        }
+        builder.append("\n");
+        builder.append(getTranslation(APPLICATION_SECTION, "Bond"));
+        builder.append(": ");
+        builder.append(servantOption.getBond());
 
         return builder.toString();
     }

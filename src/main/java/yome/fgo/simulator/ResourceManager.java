@@ -1,17 +1,25 @@
 package yome.fgo.simulator;
 
 import com.google.protobuf.util.JsonFormat;
+import javafx.scene.image.Image;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
+import yome.fgo.simulator.gui.components.ServantDataWrapper;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
 
 import static yome.fgo.simulator.utils.FilePathUtils.COMMAND_CODES_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PATH;
@@ -94,6 +102,56 @@ public class ResourceManager {
         return CRAFT_ESSENCE_DATA_MAP.get(id);
     }
 
+    public static Map<Integer, ServantDataWrapper> buildServantSortMap() {
+        final File servantDirectory = new File(SERVANT_DIRECTORY_PATH);
+        final Map<Integer, ServantDataWrapper> results = new TreeMap<>();
+        Image defaultImage = null;
+        try {
+            defaultImage = new Image(new FileInputStream(String.format("%s/defaultServant_thumbnail.png", SERVANT_DIRECTORY_PATH)));
+        } catch (final FileNotFoundException ignored) {
+        }
+        for (final String directoryName : Objects.requireNonNull(servantDirectory.list())) {
+            final File servantDataFile = new File(String.format("%s/%s/%s.json", SERVANT_DIRECTORY_PATH, directoryName, directoryName));
+            if (servantDataFile.exists()) {
+                final JsonFormat.Parser parser = JsonFormat.parser();
+                final ServantData.Builder servantDataBuilder = ServantData.newBuilder();
+                try {
+                    parser.merge(new FileReader(servantDataFile), servantDataBuilder);
+                } catch (final Exception e) {
+                    throw new RuntimeException("Cannot parse servant " + directoryName, e);
+                }
+
+                final File defaultSvrImgFile = new File(String.format("%s/%s/%s_thumbnail.png", SERVANT_DIRECTORY_PATH, directoryName, directoryName));
+                Image servantDefaultImage;
+                try {
+                    servantDefaultImage = defaultSvrImgFile.exists() ?
+                            new Image(new FileInputStream(defaultSvrImgFile)) :
+                            defaultImage;
+                } catch (final FileNotFoundException e) {
+                    servantDefaultImage = defaultImage;
+                }
+
+                final ServantData servantData = servantDataBuilder.build();
+                final List<Image> ascensionImages = new ArrayList<>();
+                for (int i = 1; i <= servantData.getServantAscensionDataCount(); i += 1) {
+                    final File ascImgFile = new File(String.format("%s/%s/%s_asc%d_thumbnail.png", SERVANT_DIRECTORY_PATH, directoryName, directoryName, i));
+                    Image servantAscensionImage;
+                    try {
+                        servantAscensionImage = ascImgFile.exists() ?
+                                new Image(new FileInputStream(ascImgFile)) :
+                                servantDefaultImage;
+                    } catch (final FileNotFoundException e) {
+                        servantAscensionImage = servantDefaultImage;
+                    }
+                    ascensionImages.add(servantAscensionImage);
+                }
+                results.put(servantData.getServantNum(), new ServantDataWrapper(servantData, ascensionImages));
+            }
+        }
+
+        return results;
+    }
+
     public static LevelData getLevelData(final String path, final String id) {
         final String directoryPath = String.format("%s/%s/%s.json", LEVEL_DIRECTORY_PATH, path, id);
         final File dataFile = new File(directoryPath);
@@ -131,6 +189,10 @@ public class ResourceManager {
         }
 
         return new File(String.format("%s/defaultEnemy_thumbnail.png", ENEMY_DIRECTORY_PATH));
+    }
+
+    public static File getUnknownServantThumbnail() {
+        return new File(String.format("%s/unknowServant_thumbnail.png", SERVANT_DIRECTORY_PATH));
     }
 
     public static File getServantThumbnail(final String path, final String id, final int ascension) {

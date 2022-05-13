@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import yome.fgo.simulator.translation.TranslationManager;
 
+import java.io.IOException;
+
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class LevelCreator extends Application {
@@ -24,5 +26,23 @@ public class LevelCreator extends Application {
 
     public static void main(final String[] args) {
         launch();
+    }
+
+    public static void simulationPreviewMode() throws IOException {
+        final Stage newStage = new Stage();
+
+        final FXMLLoader fxmlLoader = new FXMLLoader(BuffBuilder.class.getResource("levelCreator.fxml"));
+        final Parent root = fxmlLoader.load();
+
+        final LevelCreatorFMXLController controller = fxmlLoader.getController();
+        controller.setPreviewMode();
+
+        final Scene scene = new Scene(root);
+        scene.getStylesheets().add(BuffBuilder.class.getResource("style.css").toExternalForm());
+
+        newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "LevelCreator"));
+        newStage.setScene(scene);
+
+        newStage.show();
     }
 }
