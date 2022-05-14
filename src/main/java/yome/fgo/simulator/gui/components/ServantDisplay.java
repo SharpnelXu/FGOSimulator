@@ -112,6 +112,7 @@ public class ServantDisplay extends VBox {
             cdLabel.setStyle("-fx-text-fill: white");
             cdLabel.setAlignment(Pos.CENTER);
             cdLabel.setWrapText(true);
+            cdLabel.setMaxWidth(60);
             AnchorPane.setBottomAnchor(cdLabel, 0.0);
             AnchorPane.setTopAnchor(cdLabel, 0.0);
             AnchorPane.setLeftAnchor(cdLabel, 0.0);
@@ -165,11 +166,11 @@ public class ServantDisplay extends VBox {
             skillHide.setVisible(!canActivate);
             if (!canActivate) {
                 final Label label = (Label) skillHide.getChildren().get(0);
+                final int currentCoolDown = servant.getActiveSkills().get(i).getCurrentCoolDown();
 
-                if (servant.isSkillInaccessible()) {
+                if (servant.isSkillInaccessible() || currentCoolDown == 0) {
                     label.setText(getTranslation(APPLICATION_SECTION, "Skill Inaccessible"));
                 } else {
-                    final int currentCoolDown = servant.getActiveSkills().get(i).getCurrentCoolDown();
                     label.setText(Integer.toString(currentCoolDown));
                 }
             }

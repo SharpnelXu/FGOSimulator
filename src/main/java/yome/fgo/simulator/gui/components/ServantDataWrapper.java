@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 
 import java.util.List;

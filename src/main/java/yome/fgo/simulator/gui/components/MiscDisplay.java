@@ -94,6 +94,7 @@ public class MiscDisplay extends VBox {
             cdLabel.setStyle("-fx-text-fill: white");
             cdLabel.setAlignment(Pos.CENTER);
             cdLabel.setWrapText(true);
+            cdLabel.setMaxWidth(60);
             AnchorPane.setBottomAnchor(cdLabel, 0.0);
             AnchorPane.setTopAnchor(cdLabel, 0.0);
             AnchorPane.setLeftAnchor(cdLabel, 0.0);
@@ -199,7 +200,12 @@ public class MiscDisplay extends VBox {
             if (!canActivate) {
                 final Label label = (Label) skillHide.getChildren().get(0);
                 final int currentCoolDown = mysticCode.getCurrentCoolDown(i);
-                label.setText(Integer.toString(currentCoolDown));
+
+                if (currentCoolDown == 0) {
+                    label.setText(getTranslation(APPLICATION_SECTION, "Skill Inaccessible"));
+                } else {
+                    label.setText(Integer.toString(currentCoolDown));
+                }
             }
         }
     }

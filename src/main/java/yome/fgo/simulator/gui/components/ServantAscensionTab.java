@@ -60,7 +60,6 @@ import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECT
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
-import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
 
 public class ServantAscensionTab extends VBox {
     private final ImageView thumbnail;

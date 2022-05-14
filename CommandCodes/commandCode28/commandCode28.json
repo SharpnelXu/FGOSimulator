@@ -21,7 +21,8 @@
       "values": [100.0]
     }],
     "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"],
-    "hasCustomTraits": true
+    "hasCustomTraits": true,
+    "buffIcon": "attackApplyBuff"
   }],
   "id": "commandCode28",
   "ccNum": 28,

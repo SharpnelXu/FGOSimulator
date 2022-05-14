@@ -7,7 +7,8 @@
       "buffData": [{
         "type": "AttackBuff",
         "numTurnsActive": 1,
-        "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+        "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+        "buffIcon": "attackUp"
       }],
       "probabilities": [5.0]
     }],
@@ -19,7 +20,8 @@
       "target": "TARGETED_ENEMY",
       "buffData": [{
         "type": "Stun",
-        "numTurnsActive": 1
+        "numTurnsActive": 1,
+        "buffIcon": "stun"
       }],
       "probabilities": [5.0]
     }],
@@ -29,6 +31,14 @@
     "effects": [{
       "type": "OrderChange"
     }],
+    "activationCondition": {
+      "type": "And",
+      "subConditionData": [{
+        "type": "BackupServantsExist"
+      }, {
+        "type": "ServantsExplodable"
+      }]
+    },
     "iconName": "orderChange"
   }],
   "id": "mysticCode2",
