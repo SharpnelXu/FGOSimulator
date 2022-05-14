@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 
 import java.util.List;
@@ -15,13 +16,14 @@ public class MysticCodeDataWrapper extends AnchorPane {
     private MysticCodeData mysticCodeData;
     private List<Image> images;
     private ImageView imageView;
+    private Gender gender;
 
     public MysticCodeDataWrapper(final MysticCodeData mysticCodeData, final List<Image> images) {
         super();
-        setFrom(mysticCodeData, images);
+        setFrom(mysticCodeData, images, Gender.MALE);
     }
 
-    public void setFrom(final MysticCodeData mysticCodeData, final List<Image> images) {
+    public void setFrom(final MysticCodeData mysticCodeData, final List<Image> images, final Gender gender) {
         setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         this.mysticCodeData = mysticCodeData;
         this.images = images;
@@ -33,5 +35,6 @@ public class MysticCodeDataWrapper extends AnchorPane {
         AnchorPane.setLeftAnchor(imageView, 0.0);
         AnchorPane.setRightAnchor(imageView, 0.0);
         getChildren().add(imageView);
+        this.gender = gender;
     }
 }

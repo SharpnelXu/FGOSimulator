@@ -270,6 +270,8 @@ public class EffectBuilderFXMLController implements Initializable {
 
             isOverchargedEffect.setSelected(effectDataBuilder.getIsOverchargedEffect());
             if (effectDataBuilder.getProbabilitiesCount() > 0) {
+                probabilityCheckbox.setSelected(true);
+                probabilityCheckbox.fireEvent(new ActionEvent());
                 isProbabilityOvercharged.setSelected(effectDataBuilder.getIsProbabilityOvercharged());
                 probabilityText.setText(doublesToString(effectDataBuilder.getProbabilitiesList()));
             }
@@ -317,6 +319,7 @@ public class EffectBuilderFXMLController implements Initializable {
 
                 if (additionalParams.hasNpSpecificDamageCondition()) {
                     hasNpSPD.setSelected(true);
+                    hasNpSPD.fireEvent(new ActionEvent());
                     npSpdCondition = additionalParams.getNpSpecificDamageCondition();
                     builtNpSPDConditionLabel.setText(printConditionData(npSpdCondition));
                     isNpSPDOvercharged.setSelected(additionalParams.getIsNpSpecificDamageOverchargedEffect());

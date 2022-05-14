@@ -6,6 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -17,9 +19,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
+import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
-import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
+import yome.fgo.data.proto.FgoStorageData.MysticCodeOption;
+import yome.fgo.data.proto.FgoStorageData.ServantData;
+import yome.fgo.data.proto.FgoStorageData.ServantOption;
 import yome.fgo.data.proto.FgoStorageData.StageData;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.ResourceManager;
@@ -28,7 +35,9 @@ import yome.fgo.simulator.gui.components.EffectsCellFactory;
 import yome.fgo.simulator.gui.components.FormationSelector;
 import yome.fgo.simulator.gui.components.MysticCodeDataWrapper;
 import yome.fgo.simulator.gui.components.ServantDataWrapper;
+import yome.fgo.simulator.gui.components.SimulationWindow;
 import yome.fgo.simulator.gui.components.StageNode;
+import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.File;
@@ -38,6 +47,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
@@ -86,8 +96,9 @@ public class LevelCreatorFMXLController implements Initializable {
     @FXML
     private HBox simulationPrepHBox;
 
-    private MysticCodeData mysticCodeData;
+    private MysticCodeDataWrapper mysticCodeData;
     private List<FormationSelector> formationSelectors;
+    private Label costValueLabel;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
@@ -166,12 +177,12 @@ public class LevelCreatorFMXLController implements Initializable {
         errorLabel.setVisible(true);
     }
 
-    private void saveLevel() {
+    private LevelData buildLevelData() {
         if (idText.getText().isBlank()) {
             errorLabel.setVisible(true);
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "ID is null or empty!"));
             idText.requestFocus();
-            return;
+            return null;
         }
 
         final List<StageData> stages = new ArrayList<>();
@@ -180,15 +191,23 @@ public class LevelCreatorFMXLController implements Initializable {
 
             final StageData stageData = stageNode.buildStageData();
             if (stageData == null) {
-                return;
+                return null;
             }
             stages.add(stageData);
         }
-        final LevelData levelData = LevelData.newBuilder()
+        return LevelData.newBuilder()
                 .setId(idText.getText())
                 .addAllStageData(stages)
                 .addAllEffects(levelEffectsList.getItems())
                 .build();
+    }
+
+    private void saveLevel() {
+        final LevelData levelData = buildLevelData();
+
+        if (levelData == null) {
+            return;
+        }
 
         final FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File(LEVEL_DIRECTORY_PATH));
@@ -210,6 +229,14 @@ public class LevelCreatorFMXLController implements Initializable {
         }
     }
 
+    public void calculateCost() {
+        int cost = 0;
+        for (final FormationSelector formationSelector : formationSelectors) {
+            cost += formationSelector.getCost();
+        }
+        costValueLabel.setText(Integer.toString(cost));
+    }
+
     public void setPreviewMode() {
         final Map<Integer, ServantDataWrapper> servantDataMap = ResourceManager.buildServantSortMap();
         final Map<Integer, CraftEssenceDataWrapper> ceDataMap = ResourceManager.buildCESortMap();
@@ -223,13 +250,13 @@ public class LevelCreatorFMXLController implements Initializable {
         final List<Node> nodes = simulationPrepHBox.getChildren();
         formationSelectors = new ArrayList<>();
         for (int i = 0; i < 3; i += 1) {
-            final FormationSelector formationSelector = new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap);
+            final FormationSelector formationSelector = new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap, this);
             formationSelectors.add(formationSelector);
             nodes.add(formationSelector);
         }
         nodes.add(new Separator(Orientation.VERTICAL));
         for (int i = 0; i < 3; i += 1) {
-            final FormationSelector formationSelector = new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap);
+            final FormationSelector formationSelector = new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap, this);
             formationSelectors.add(formationSelector);
             nodes.add(formationSelector);
         }
@@ -244,7 +271,7 @@ public class LevelCreatorFMXLController implements Initializable {
 
         final Button selectMCButton = new Button();
         selectMCButton.setGraphic(mcDataMap.get(2));
-        mysticCodeData = mcDataMap.get(2).getMysticCodeData();
+        mysticCodeData = mcDataMap.get(2);
 
         final Label mcNameLabel = new Label(getTranslation(ENTITY_NAME_SECTION, "mysticCode2"));
         mcNameLabel.setWrapText(true);
@@ -255,7 +282,7 @@ public class LevelCreatorFMXLController implements Initializable {
                 final MysticCodeDataWrapper wrapper = selectMysticCode(simulationPrepHBox.getScene().getWindow(), mcDataMap);
                 if (wrapper != null) {
                     selectMCButton.setGraphic(wrapper);
-                    mysticCodeData = wrapper.getMysticCodeData();
+                    mysticCodeData = wrapper;
                     mcNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, wrapper.getMysticCodeData().getId()));
                     mcNameLabel.setMaxWidth(miscVBox.getWidth());
                 }
@@ -266,7 +293,7 @@ public class LevelCreatorFMXLController implements Initializable {
         final Button viewMCButton = new Button(getTranslation(APPLICATION_SECTION, "Details"));
         viewMCButton.setOnAction(e -> {
             try {
-                MysticCodeCreator.preview(simulationPrepHBox.getScene().getWindow(), mysticCodeData);
+                MysticCodeCreator.preview(simulationPrepHBox.getScene().getWindow(), mysticCodeData.getMysticCodeData());
             } catch (IOException ignored) {
             }
         });
@@ -337,6 +364,12 @@ public class LevelCreatorFMXLController implements Initializable {
         randomSlider.setShowTickMarks(true);
         randomSlider.setValue(0.9);
 
+        final HBox costHBox = new HBox();
+        costHBox.setSpacing(10);
+        final Label costLabel = new Label(getTranslation(APPLICATION_SECTION, "COST"));
+        costValueLabel = new Label("0");
+        costHBox.getChildren().addAll(costLabel, costValueLabel);
+
         final Button startSimulationButton = new Button(getTranslation(APPLICATION_SECTION, "Start Simulation"));
         startSimulationButton.setOnAction(e -> startSimulation(
                 (int) mcLevelSlider.getValue(),
@@ -355,11 +388,62 @@ public class LevelCreatorFMXLController implements Initializable {
                 probabilityThresholdSlider,
                 randomLabelHBox,
                 randomSlider,
+                costHBox,
                 startSimulationButton
         );
     }
 
     private void startSimulation(final int mcLevel, final double probabilityThreshold, final double random) {
-        
+        final LevelData levelData = buildLevelData();
+
+        if (levelData == null) {
+            return;
+        }
+
+        final List<ServantData> servantData = new ArrayList<>();
+        final List<ServantOption> servantOptions = new ArrayList<>();
+        final List<CraftEssenceData> craftEssenceData = new ArrayList<>();
+        final List<CraftEssenceOption> craftEssenceOptions = new ArrayList<>();
+
+        for (final FormationSelector formationSelector : formationSelectors) {
+            servantData.add(formationSelector.getServantData());
+            servantOptions.add(formationSelector.getServantOption());
+            craftEssenceData.add(formationSelector.getCraftEssenceData());
+            craftEssenceOptions.add(formationSelector.getCraftEssenceOption());
+        }
+
+        if (servantData.stream().noneMatch(Objects::nonNull)) {
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "No servant selected"));
+            errorLabel.setVisible(true);
+            return;
+        }
+
+        final MysticCodeOption mysticCodeOption = MysticCodeOption.newBuilder()
+                .setMysticCodeLevel(mcLevel)
+                .setGender(mysticCodeData.getGender())
+                .build();
+
+        final SimulationWindow simulationWindow = new SimulationWindow(
+                levelData,
+                servantData,
+                servantOptions,
+                craftEssenceData,
+                craftEssenceOptions,
+                mysticCodeData.getMysticCodeData(),
+                mysticCodeOption,
+                probabilityThreshold,
+                random
+        );
+
+
+        final Stage newStage = new Stage();
+
+        final Parent root = simulationWindow.getRoot();
+        final Scene scene = new Scene(root);
+
+        newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "Simulation Window"));
+        newStage.setScene(scene);
+
+        newStage.show();
     }
 }

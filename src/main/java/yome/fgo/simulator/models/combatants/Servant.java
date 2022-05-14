@@ -105,6 +105,10 @@ public class Servant extends Combatant {
         }
     }
 
+    public Servant(final ServantData servantData, final ServantOption servantOption) {
+        this("servant" + servantData.getServantNum(), servantData, servantOption);
+    }
+
     public Servant(final String id, final ServantData servantData, final ServantOption servantOption) {
         this.id = id;
         this.servantData = servantData;
@@ -233,36 +237,46 @@ public class Servant extends Combatant {
         return attack + craftEssenceAtk + attackStatusUp;
     }
 
-    public void activateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
-        simulation.setActivator(this);
-
+    public int getCurrentSkillRank(final Simulation simulation, final int activeSkillIndex) {
         final int currentRank = servantOption.getActiveSkillRanks(activeSkillIndex);
         int increasedRank = 0;
         for (final Buff buff : buffs) {
             if (buff instanceof SkillRankUp && buff.shouldApply(simulation)) {
-                buff.setApplied();
                 increasedRank += 1;
             }
         }
+        return currentRank + increasedRank;
+    }
 
-        activeSkills.get(activeSkillIndex).activate(simulation, currentRank + increasedRank);
+    public void activateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
+        simulation.setActivator(this);
+
+        final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
+
+        activeSkills.get(activeSkillIndex).activate(simulation, currentRank);
 
         simulation.unsetActivator();
+    }
+
+    public String getActivateSkillIconPath(final Simulation simulation, final int activeSkillIndex) {
+        simulation.setActivator(this);
+
+        final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
+
+        final String iconPath = activeSkills.get(activeSkillIndex).getIconPath(currentRank);
+
+        simulation.unsetActivator();
+
+        return iconPath;
     }
 
     public boolean canActivateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
         simulation.setActivator(this);
 
-        final int currentRank = servantOption.getActiveSkillRanks(activeSkillIndex);
-        int increasedRank = 0;
-        for (final Buff buff : buffs) {
-            if (buff instanceof SkillRankUp && buff.shouldApply(simulation)) {
-                increasedRank += 1;
-            }
-        }
+        final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
 
         final boolean canActivate = !isSkillInaccessible() &&
-                activeSkills.get(activeSkillIndex).canActivate(simulation, currentRank + increasedRank);
+                activeSkills.get(activeSkillIndex).canActivate(simulation, currentRank);
 
         simulation.unsetActivator();
 

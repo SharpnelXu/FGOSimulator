@@ -51,7 +51,8 @@
               "type": "CardTypeEquals",
               "value": "ARTS"
             },
-            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+            "buffIcon": "artsUp"
           }]
         }, {
           "type": "GrantBuff",
@@ -59,7 +60,8 @@
           "buffData": [{
             "type": "Evade",
             "numTurnsActive": 3,
-            "numTimesActive": 2
+            "numTimesActive": 2,
+            "buffIcon": "evade"
           }]
         }],
         "iconName": "artsUp"
@@ -73,14 +75,16 @@
           "buffData": [{
             "type": "NpDamageBuff",
             "numTurnsActive": 3,
-            "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
+            "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+            "buffIcon": "npDamageUp"
           }]
         }, {
           "type": "GrantBuff",
           "target": "ALL_ENEMIES",
           "buffData": [{
             "type": "Charm",
-            "numTurnsActive": 1
+            "numTurnsActive": 1,
+            "buffIcon": "charm"
           }],
           "probabilities": [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 1.0]
         }],
@@ -113,7 +117,9 @@
                 "numTurnsActive": 3
               }]
             }],
-            "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"]
+            "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"],
+            "hasCustomTraits": true,
+            "buffIcon": "attackApplyDebuff"
           }]
         }, {
           "type": "GrantBuff",
@@ -139,7 +145,8 @@
               "maxCount": 10,
               "target": "DEFENDER"
             },
-            "additions": [0.1]
+            "additions": [0.1],
+            "buffIcon": "specialDamageUp"
           }]
         }],
         "iconName": "npGain"
@@ -151,14 +158,16 @@
         "target": "SELF",
         "buffData": [{
           "type": "DefNpGenerationBuff",
-          "values": [0.18]
+          "values": [0.18],
+          "buffIcon": "defNpGainUp"
         }]
       }, {
         "type": "GrantBuff",
         "target": "ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [-0.08]
+          "values": [-0.08],
+          "buffIcon": "debuffResistDown"
         }],
         "probabilities": [5.0]
       }],
@@ -169,7 +178,8 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.08]
+          "values": [0.08],
+          "buffIcon": "critDamageUp"
         }]
       }],
       "iconName": "oblivionCorrection"
@@ -184,7 +194,9 @@
             "target": "SELF",
             "values": [0.038]
           }],
-          "customTraits": ["POSITIVE_BUFF"]
+          "customTraits": ["POSITIVE_BUFF"],
+          "hasCustomTraits": true,
+          "buffIcon": "npPerTurn"
         }]
       }],
       "iconName": "selfRestoration"
@@ -194,14 +206,16 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.02]
+          "values": [0.02],
+          "buffIcon": "critDamageUp"
         }]
       }, {
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
           "type": "DeathResist",
-          "values": [0.02]
+          "values": [0.02],
+          "buffIcon": "debuffResistUp"
         }]
       }, {
         "type": "GrantBuff",
@@ -212,7 +226,8 @@
             "type": "BuffTypeEquals",
             "value": "MentalDebuff"
           },
-          "values": [0.02]
+          "values": [0.02],
+          "buffIcon": "debuffResistUp"
         }]
       }],
       "iconName": "independent"
@@ -222,7 +237,8 @@
         "target": "SELF",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [0.2]
+          "values": [0.2],
+          "buffIcon": "debuffResistUp"
         }]
       }],
       "iconName": "magicResistance"
@@ -236,7 +252,8 @@
             "type": "CardTypeEquals",
             "value": "QUICK"
           },
-          "values": [0.1]
+          "values": [0.1],
+          "buffIcon": "quickUp"
         }]
       }],
       "iconName": "riding"
@@ -246,7 +263,8 @@
         "target": "SELF",
         "buffData": [{
           "type": "DamageAdditionBuff",
-          "values": [225.0]
+          "values": [225.0],
+          "buffIcon": "specialDamageUp"
         }]
       }, {
         "type": "GrantBuff",
@@ -257,7 +275,8 @@
             "type": "BuffTypeEquals",
             "value": "Charm"
           },
-          "values": [5.0]
+          "values": [5.0],
+          "buffIcon": "immune"
         }]
       }],
       "iconName": "coreOfGod"
@@ -272,7 +291,8 @@
             "type": "CardTypeEquals",
             "value": "EXTRA"
           },
-          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+          "buffIcon": "specialDamageUp"
         }]
       }],
       "iconName": "specialAttackUp"
@@ -294,7 +314,8 @@
             "value": "LANCER",
             "target": "DEFENDER"
           },
-          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+          "buffIcon": "attackUp"
         }]
       }],
       "iconName": "attackUp"
@@ -810,7 +831,8 @@
           "buffData": [{
             "type": "DefenseBuff",
             "numTurnsActive": 3,
-            "values": [-0.2]
+            "values": [-0.2],
+            "buffIcon": "defenseDown"
           }]
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"
@@ -875,7 +897,8 @@
               "type": "CardTypeEquals",
               "value": "ARTS"
             },
-            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+            "buffIcon": "artsUp"
           }]
         }, {
           "type": "GrantBuff",
@@ -883,7 +906,8 @@
           "buffData": [{
             "type": "Evade",
             "numTurnsActive": 3,
-            "numTimesActive": 2
+            "numTimesActive": 2,
+            "buffIcon": "evade"
           }]
         }],
         "iconName": "artsUp"
@@ -897,14 +921,16 @@
           "buffData": [{
             "type": "NpDamageBuff",
             "numTurnsActive": 3,
-            "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
+            "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+            "buffIcon": "npDamageUp"
           }]
         }, {
           "type": "GrantBuff",
           "target": "ALL_ENEMIES",
           "buffData": [{
             "type": "Charm",
-            "numTurnsActive": 1
+            "numTurnsActive": 1,
+            "buffIcon": "charm"
           }],
           "probabilities": [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 1.0]
         }],
@@ -937,7 +963,9 @@
                 "numTurnsActive": 3
               }]
             }],
-            "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"]
+            "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"],
+            "hasCustomTraits": true,
+            "buffIcon": "attackApplyDebuff"
           }]
         }, {
           "type": "GrantBuff",
@@ -963,7 +991,8 @@
               "maxCount": 10,
               "target": "DEFENDER"
             },
-            "additions": [0.1]
+            "additions": [0.1],
+            "buffIcon": "specialDamageUp"
           }]
         }],
         "iconName": "npGain"
@@ -975,14 +1004,16 @@
         "target": "SELF",
         "buffData": [{
           "type": "DefNpGenerationBuff",
-          "values": [0.18]
+          "values": [0.18],
+          "buffIcon": "defNpGainUp"
         }]
       }, {
         "type": "GrantBuff",
         "target": "ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [-0.08]
+          "values": [-0.08],
+          "buffIcon": "debuffResistDown"
         }],
         "probabilities": [5.0]
       }],
@@ -993,7 +1024,8 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.08]
+          "values": [0.08],
+          "buffIcon": "critDamageUp"
         }]
       }],
       "iconName": "oblivionCorrection"
@@ -1008,7 +1040,9 @@
             "target": "SELF",
             "values": [0.038]
           }],
-          "customTraits": ["POSITIVE_BUFF"]
+          "customTraits": ["POSITIVE_BUFF"],
+          "hasCustomTraits": true,
+          "buffIcon": "npPerTurn"
         }]
       }],
       "iconName": "selfRestoration"
@@ -1018,14 +1052,16 @@
         "target": "SELF",
         "buffData": [{
           "type": "CriticalDamageBuff",
-          "values": [0.02]
+          "values": [0.02],
+          "buffIcon": "critDamageUp"
         }]
       }, {
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
           "type": "DeathResist",
-          "values": [0.02]
+          "values": [0.02],
+          "buffIcon": "debuffResistUp"
         }]
       }, {
         "type": "GrantBuff",
@@ -1036,7 +1072,8 @@
             "type": "BuffTypeEquals",
             "value": "MentalDebuff"
           },
-          "values": [0.02]
+          "values": [0.02],
+          "buffIcon": "debuffResistUp"
         }]
       }],
       "iconName": "independent"
@@ -1046,7 +1083,8 @@
         "target": "SELF",
         "buffData": [{
           "type": "DebuffResist",
-          "values": [0.2]
+          "values": [0.2],
+          "buffIcon": "debuffResistUp"
         }]
       }],
       "iconName": "magicResistance"
@@ -1060,7 +1098,8 @@
             "type": "CardTypeEquals",
             "value": "QUICK"
           },
-          "values": [0.1]
+          "values": [0.1],
+          "buffIcon": "quickUp"
         }]
       }],
       "iconName": "riding"
@@ -1070,7 +1109,8 @@
         "target": "SELF",
         "buffData": [{
           "type": "DamageAdditionBuff",
-          "values": [225.0]
+          "values": [225.0],
+          "buffIcon": "specialDamageUp"
         }]
       }, {
         "type": "GrantBuff",
@@ -1081,7 +1121,8 @@
             "type": "BuffTypeEquals",
             "value": "Charm"
           },
-          "values": [5.0]
+          "values": [5.0],
+          "buffIcon": "immune"
         }]
       }],
       "iconName": "coreOfGod"
@@ -1096,7 +1137,8 @@
             "type": "CardTypeEquals",
             "value": "EXTRA"
           },
-          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+          "buffIcon": "specialDamageUp"
         }]
       }],
       "iconName": "specialAttackUp"
@@ -1118,7 +1160,8 @@
             "value": "LANCER",
             "target": "DEFENDER"
           },
-          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+          "buffIcon": "attackUp"
         }]
       }],
       "iconName": "attackUp"
@@ -1634,7 +1677,8 @@
           "buffData": [{
             "type": "DefenseBuff",
             "numTurnsActive": 3,
-            "values": [-0.2]
+            "values": [-0.2],
+            "buffIcon": "defenseDown"
           }]
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"

@@ -11,6 +11,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -29,6 +31,9 @@ import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
 import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -39,6 +44,7 @@ import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
+import static yome.fgo.simulator.ResourceManager.getBuffIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printVariationData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
@@ -244,6 +250,15 @@ public class BuffBuilderFXMLController implements Initializable {
     @FXML
     private TextField variationAdditionText;
 
+    @FXML
+    private Label buffIconLabel;
+
+    @FXML
+    private TextField buffIconText;
+
+    @FXML
+    private ImageView buffImage;
+
     private Set<BuffFields> requiredFields;
 
     private BuffData.Builder buffDataBuilder;
@@ -270,6 +285,7 @@ public class BuffBuilderFXMLController implements Initializable {
             }
             irremovableCheckbox.setSelected(buffDataBuilder.getIrremovable());
             forceStackCheckbox.setSelected(buffDataBuilder.getForceStackable());
+            buffIconText.setText(buffDataBuilder.getBuffIcon());
             if (buffDataBuilder.getProbabilitiesCount() > 0) {
                 probabilityCheckbox.setSelected(true);
                 probabilityCheckbox.fireEvent(new ActionEvent());
@@ -526,6 +542,23 @@ public class BuffBuilderFXMLController implements Initializable {
             }
             generateValuePane.setVisible(false);
         });
+
+        buffIconLabel.setText(getTranslation(APPLICATION_SECTION, "Buff Icon"));
+        final File iconFile = getBuffIcon("default");
+        Image icon = null;
+        try {
+            icon = new Image(new FileInputStream(iconFile));
+        } catch (FileNotFoundException ignored) {
+        }
+        buffImage.setImage(icon);
+        buffIconText.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    try {
+                        buffImage.setImage(new Image(new FileInputStream(getBuffIcon(newValue))));
+                    } catch (final FileNotFoundException ignored) {
+                    }
+                }
+        );
     }
 
     public void resetPane() {
@@ -669,6 +702,7 @@ public class BuffBuilderFXMLController implements Initializable {
             }
             buffDataBuilder.setIrremovable(irremovableCheckbox.isSelected());
             buffDataBuilder.setForceStackable(forceStackCheckbox.isSelected());
+            buffDataBuilder.setBuffIcon(buffIconText.getText().trim());
             if (probabilityCheckbox.isSelected()) {
                 try {
                     final List<Double> probabilities = parseDoubles(probabilityText.getText());

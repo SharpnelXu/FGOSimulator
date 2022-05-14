@@ -40,6 +40,9 @@ public abstract class Effect {
     }
 
     public void apply(final Simulation simulation, final int level) {
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logEffect(simulation.getActivator().getId(), this.getClass());
+        }
         internalApply(simulation, level);
     }
 

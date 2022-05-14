@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
+import static yome.fgo.simulator.models.conditions.BackupServantsExist.BACKUP_SERVANTS_EXIST;
 import static yome.fgo.simulator.models.conditions.BuffRemovable.BUFF_REMOVABLE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CARD_TYPE;
@@ -54,6 +55,9 @@ public class ConditionFactory {
                                    .stream()
                                    .map(ConditionFactory::buildCondition)
                                    .collect(Collectors.toList()));
+
+        } else if (type.equalsIgnoreCase(BackupServantsExist.class.getSimpleName())) {
+            return BACKUP_SERVANTS_EXIST;
 
         } else if (type.equalsIgnoreCase(BuffHasTrait.class.getSimpleName())) {
             return new BuffHasTrait(conditionData.getValue());
@@ -160,6 +164,8 @@ public class ConditionFactory {
         builder.put(Always.class.getSimpleName(), ImmutableSet.of());
 
         builder.put(And.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_UNLIMITED_SUB_CONDITION));
+
+        builder.put(BackupServantsExist.class.getSimpleName(), ImmutableSet.of());
 
         builder.put(BuffHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TRAIT_VALUE));
 

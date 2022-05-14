@@ -16,6 +16,7 @@ public class FilePathUtils {
     public static final String MYSTIC_CODES_DIRECTORY_PATH = USER_DIR + "/MysticCodes";
     public static final String TRANSLATION_DIRECTORY_PATH = USER_DIR + "/Translations";
     public static final String SKILL_ICON_DIRECTORY_PATH = USER_DIR + "/Icons/Skills";
+    public static final String BUFF_ICON_DIRECTORY_PATH = USER_DIR + "/Icons/Buffs";
 
     private static String getJarName() {
         return new File(FilePathUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();

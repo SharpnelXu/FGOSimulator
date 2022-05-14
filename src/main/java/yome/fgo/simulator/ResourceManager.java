@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
+import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 
+import static yome.fgo.simulator.utils.FilePathUtils.BUFF_ICON_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.COMMAND_CODES_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
@@ -264,7 +266,7 @@ public class ResourceManager {
     }
 
     public static File getEnemyThumbnail(final String path, final String id) {
-        final File thumbImg = new File(String.format("%s/%s.png", path, id));
+        final File thumbImg = new File(String.format("%s/%s/%s.png", ENEMY_DIRECTORY_PATH, path, id));
         if (thumbImg.exists()) {
             return thumbImg;
         }
@@ -273,16 +275,16 @@ public class ResourceManager {
     }
 
     public static File getUnknownServantThumbnail() {
-        return new File(String.format("%s/unknowServant_thumbnail.png", SERVANT_DIRECTORY_PATH));
+        return new File(String.format("%s/unknownServant_thumbnail.png", SERVANT_DIRECTORY_PATH));
     }
 
-    public static File getServantThumbnail(final String path, final String id, final int ascension) {
-        final File ascImg = new File(String.format("%s/%s_asc%d_thumbnail.png", path, id, ascension));
+    public static File getServantThumbnail(final String id, final int ascension) {
+        final File ascImg = new File(String.format("%s/%s/%s_asc%d_thumbnail.png", SERVANT_DIRECTORY_PATH, id, id, ascension));
         if (ascImg.exists()) {
             return ascImg;
         }
 
-        final File svrImg = new File(String.format("%s/%s_thumbnail.png", path, id));
+        final File svrImg = new File(String.format("%s/%s/%s_thumbnail.png", SERVANT_DIRECTORY_PATH, id, id));
         if (svrImg.exists()) {
             return svrImg;
         }
@@ -297,6 +299,14 @@ public class ResourceManager {
         }
 
         return new File(String.format("%s/default.png", COMMAND_CODES_DIRECTORY_PATH));
+    }
+
+    public static File getMCImage(final String id, final Gender gender) {
+        if (gender == Gender.MALE) {
+            return new File(String.format("%s/%s/%s_male.png", MYSTIC_CODES_DIRECTORY_PATH, id, id));
+        } else {
+            return new File(String.format("%s/%s/%s_female.png", MYSTIC_CODES_DIRECTORY_PATH, id, id));
+        }
     }
 
     public static File getCEThumbnail(final String id) {
@@ -315,5 +325,14 @@ public class ResourceManager {
         }
 
         return new File(String.format("%s/default.png", SKILL_ICON_DIRECTORY_PATH));
+    }
+
+    public static File getBuffIcon(final String id) {
+        final File ascImg = new File(String.format("%s/%s.png", BUFF_ICON_DIRECTORY_PATH, id));
+        if (ascImg.exists()) {
+            return ascImg;
+        }
+
+        return new File(String.format("%s/default.png", BUFF_ICON_DIRECTORY_PATH));
     }
 }

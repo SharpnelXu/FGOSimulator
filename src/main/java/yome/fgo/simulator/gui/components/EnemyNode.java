@@ -104,9 +104,9 @@ public class EnemyNode extends VBox {
 
         final File thumbnailFile;
         if (isServant) {
-            thumbnailFile = getServantThumbnail(String.format("%s/%s", rootDir, pathToBaseEnemyData), baseEnemyData.getId(), 1);
+            thumbnailFile = getServantThumbnail(baseEnemyData.getId(), 1);
         } else {
-            thumbnailFile = getEnemyThumbnail(String.format("%s/%s", rootDir, pathToBaseEnemyData), baseEnemyData.getId());
+            thumbnailFile = getEnemyThumbnail(pathToBaseEnemyData, baseEnemyData.getId());
         }
 
         final HBox combatantDataHBox = new HBox();
@@ -207,7 +207,7 @@ public class EnemyNode extends VBox {
 
     private void changeServantAscension(final int asc) {
         try {
-            final File thumbnailFile = getServantThumbnail(String.format("%s/%s", SERVANT_DIRECTORY_PATH, pathToBaseEnemyData), baseEnemyData.getId(), asc);
+            final File thumbnailFile = getServantThumbnail(baseEnemyData.getId(), asc);
             thumbnail.setImage(new Image(new FileInputStream(thumbnailFile)));
         } catch (final FileNotFoundException ignored) {
         }

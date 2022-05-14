@@ -402,6 +402,7 @@ public class BuffFactory {
 
         builder.irremovable(buffData.getIrremovable());
         builder.forceStackable(buffData.getForceStackable());
+        builder.iconName(buffData.getBuffIcon());
 
         final Buff buff =  builder.build();
         if (buffData.getHasCustomTraits()) {

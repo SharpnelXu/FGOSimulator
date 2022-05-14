@@ -228,7 +228,7 @@ public class EntityFilterFXMLController implements Initializable {
 
     private void selectMysticCode(final MysticCodeDataWrapper dataWrapper) {
         if (mcReturnWrapper != null) {
-            mcReturnWrapper.setFrom(dataWrapper.getMysticCodeData(), dataWrapper.getImages());
+            mcReturnWrapper.setFrom(dataWrapper.getMysticCodeData(), dataWrapper.getImages(), genderChoiceBox.getValue());
             final int imgIndex = genderChoiceBox.getValue() == Gender.MALE ? 0 : 1;
             mcReturnWrapper.getImageView().setImage(mcReturnWrapper.getImages().get(imgIndex));
         }

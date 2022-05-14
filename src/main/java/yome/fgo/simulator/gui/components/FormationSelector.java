@@ -17,10 +17,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillUpgrades;
+import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
+import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
 import yome.fgo.simulator.gui.creators.CraftEssenceCreator;
+import yome.fgo.simulator.gui.creators.LevelCreatorFMXLController;
 import yome.fgo.simulator.gui.creators.ServantCreator;
 import yome.fgo.simulator.translation.TranslationManager;
 
@@ -53,7 +56,8 @@ public class FormationSelector extends VBox {
             final ToggleGroup toggleGroup,
             final Label errorLabel,
             final Map<Integer, ServantDataWrapper> servantDataMap,
-            final Map<Integer, CraftEssenceDataWrapper> ceDataMap
+            final Map<Integer, CraftEssenceDataWrapper> ceDataMap,
+            final LevelCreatorFMXLController controller
     ) {
         super();
 
@@ -70,6 +74,7 @@ public class FormationSelector extends VBox {
             } else {
                 support.setText(getTranslation(APPLICATION_SECTION, "In Formation"));
             }
+            controller.calculateCost();
         });
 
         final Button servantSelectButton = new Button();
@@ -112,6 +117,7 @@ public class FormationSelector extends VBox {
             editServantOptionButton.setDisable(true);
             viewServantButton.setDisable(true);
             removeServantButton.setDisable(true);
+            controller.calculateCost();
         });
 
         servantSelectButton.setGraphic(selectedServant);
@@ -137,6 +143,7 @@ public class FormationSelector extends VBox {
                     editServantOptionButton.setDisable(false);
                     viewServantButton.setDisable(false);
                     removeServantButton.setDisable(false);
+                    controller.calculateCost();
                 }
             } catch (final IOException ex) {
                 errorLabel.setVisible(true);
@@ -202,6 +209,7 @@ public class FormationSelector extends VBox {
             ceLimitBreakCheck.setDisable(true);
             viewCEButton.setDisable(true);
             removeCEButton.setDisable(true);
+            controller.calculateCost();
         });
 
         ceSelectButton.setGraphic(selectedCE);
@@ -222,6 +230,7 @@ public class FormationSelector extends VBox {
                     ceLimitBreakCheck.setDisable(false);
                     viewCEButton.setDisable(false);
                     removeCEButton.setDisable(false);
+                    controller.calculateCost();
                 }
             } catch (final IOException ex) {
                 errorLabel.setVisible(true);
@@ -317,5 +326,39 @@ public class FormationSelector extends VBox {
             case 1 -> 50;
             default -> 1;
         };
+    }
+
+    public int getCost() {
+        if (support.isSelected()) {
+            return 0;
+        }
+        int servantCost = 0;
+        if (selectedServant.getServantData() != null) {
+            servantCost = selectedServant.getServantData().getServantAscensionData(servantOption.getAscension()).getCost();
+        }
+        int ceCost = 0;
+        if (selectedCE.getCraftEssenceData() != null) {
+            ceCost = selectedCE.getCraftEssenceData().getCost();
+        }
+        return ceCost + servantCost;
+    }
+
+    public ServantData getServantData() {
+        return selectedServant.getServantData();
+    }
+
+    public ServantOption getServantOption() {
+        return servantOption;
+    }
+
+    public CraftEssenceData getCraftEssenceData() {
+        return selectedCE.getCraftEssenceData();
+    }
+
+    public CraftEssenceOption getCraftEssenceOption() {
+        return CraftEssenceOption.newBuilder()
+                .setCraftEssenceLevel((int) ceLevelSlider.getValue())
+                .setIsLimitBreak(ceLimitBreakCheck.isSelected())
+                .build();
     }
 }

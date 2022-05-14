@@ -16,8 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
+import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 
 import java.io.File;
@@ -42,7 +42,7 @@ public class ActiveSkillUpgrade extends HBox {
     private final CheckBox conditionCheckBox;
     private final Label builtConditionLabel;
 
-    private FgoStorageData.ConditionData activationCondition;
+    private ConditionData activationCondition;
 
     public ActiveSkillUpgrade() {
         setPadding(new Insets(10, 10, 10, 10));
@@ -111,7 +111,7 @@ public class ActiveSkillUpgrade extends HBox {
         builtConditionLabel.setMaxWidth(700);
         editConditionButton.setOnAction(e -> {
             try {
-                final FgoStorageData.ConditionData.Builder builder = activationCondition == null ? FgoStorageData.ConditionData.newBuilder() : activationCondition.toBuilder();
+                final ConditionData.Builder builder = activationCondition == null ? ConditionData.newBuilder() : activationCondition.toBuilder();
                 createCondition(editConditionButton.getScene().getWindow(), builder);
 
                 if (!builder.getType().isEmpty()) {

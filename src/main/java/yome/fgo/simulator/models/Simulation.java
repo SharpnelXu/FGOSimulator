@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
+import yome.fgo.simulator.gui.components.StatsLogger;
 import yome.fgo.simulator.models.combatants.CombatAction;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
@@ -77,6 +78,9 @@ public class Simulation {
 
     public double fixedRandom;
     public double probabilityThreshold;
+
+    // Logger
+    private StatsLogger statsLogger;
 
     // condition related fields
     // used when dealing damages
@@ -168,7 +172,8 @@ public class Simulation {
     private boolean activatingServantPassiveEffects; // used to denote passive & append skill buffs
     private boolean activatingCePassiveEffects; // used to denote ce skills
 
-    private Combatant nullSourceSkillActivator = new Servant(true); // on ally side
+    private Combatant nullSourceSkillActivator = new Servant("nullSource"); // on ally side
+    private Combatant mysticCodeActivator = new Servant("master"); // on ally side
 
     public void initiate() {
         currentStage = 1;
@@ -205,6 +210,11 @@ public class Simulation {
         level.applyLevelEffects(this);
         level.getStage(currentStage).applyStageEffects(this);
         unsetActivator();
+
+
+        if (getStatsLogger() != null) {
+            getStatsLogger().logTurnStart(currentTurn);
+        }
     }
 
     public boolean isSimulationCompleted() {
@@ -220,7 +230,7 @@ public class Simulation {
     }
 
     public void activateMysticCodeSkill(final int skillIndex) {
-        setActivator(nullSourceSkillActivator);
+        setActivator(mysticCodeActivator);
         mysticCode.activateSkill(this, skillIndex);
         unsetActivator();
     }
@@ -351,6 +361,9 @@ public class Simulation {
             level.getStage(currentStage).applyStageEffects(this);
         }
         currentTurn += 1;
+        if (getStatsLogger() != null) {
+            getStatsLogger().logTurnStart(currentTurn);
+        }
     }
 
     private void populateStageWithEnemies(final int currentStage) {
@@ -551,5 +564,15 @@ public class Simulation {
     public Effect selectRandomEffects(final List<Effect> selections) {
         // TODO: UI
         return selections.stream().findFirst().get();
+    }
+
+    public boolean canActivateMysticCodeSkill(final int i) {
+        setActivator(mysticCodeActivator);
+
+        final boolean result = mysticCode.canActivateSkill(this, i);
+
+        unsetActivator();
+
+        return result;
     }
 }

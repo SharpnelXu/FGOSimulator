@@ -35,6 +35,9 @@ public abstract class Buff {
 
     // used to correctly remove passive & append skills during ascension transition
     private boolean isPassive;
+
+    private String iconName;
+
     private Combatant activator;
 
     @Builder.Default

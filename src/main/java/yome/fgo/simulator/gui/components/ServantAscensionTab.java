@@ -97,7 +97,7 @@ public class ServantAscensionTab extends VBox {
         baseDataBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
         final String servantId = "servant" + servantNo;
-        final File thumbnailFile = getServantThumbnail(String.format("%s/%s", SERVANT_DIRECTORY_PATH, servantId), servantId, ascension);
+        final File thumbnailFile = getServantThumbnail(servantId, ascension);
         Image image = null;
         try {
             image = new Image(new FileInputStream(thumbnailFile));
@@ -516,7 +516,7 @@ public class ServantAscensionTab extends VBox {
 
     public void setServantNo(final int servantNo, final int ascension) {
         final String servantId = "servant" + servantNo;
-        final File thumbnailFile = getServantThumbnail(String.format("%s/%s", SERVANT_DIRECTORY_PATH, servantId), servantId, ascension);
+        final File thumbnailFile = getServantThumbnail(servantId, ascension);
         try {
             thumbnail.setImage(new Image(new FileInputStream(thumbnailFile)));
         } catch (final FileNotFoundException ignored) {

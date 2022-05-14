@@ -53,6 +53,7 @@ public class Combatant {
     private int cumulativeTurnDamage;
 
     protected CombatantData combatantData;
+    protected EnemyData enemyData;
 
     protected String id;
     protected int currentHp;
@@ -106,6 +107,7 @@ public class Combatant {
         } else {
             this.maxNpGauge = getClassMaxNpGauge(this.combatantData.getFateClass());
         }
+        this.enemyData = enemyData;
     }
 
     public static CombatantData mergeWithOverride(final CombatantData base, final CombatantData override) {
@@ -293,10 +295,17 @@ public class Combatant {
     }
 
     public void enterField(final Simulation simulation) {
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logEnterField(id);
+        }
+
         activateEffectActivatingBuff(simulation, EnterFieldEffect.class);
     }
 
     public void leaveField(final Simulation simulation) {
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logLeaveField(id);
+        }
         activateEffectActivatingBuff(simulation, LeaveFieldEffect.class);
     }
 
@@ -461,6 +470,10 @@ public class Combatant {
 
         for (final EffectActivatingBuff buff : buffsToActivate) {
             if (buff.shouldApply(simulation)) {
+                if (simulation.getStatsLogger() != null) {
+                    simulation.getStatsLogger().logEffectActivatingBuff(id, buffClass);
+                }
+
                 simulation.setActivator(this);
                 buff.activate(simulation);
 
@@ -508,6 +521,9 @@ public class Combatant {
             }
         }
         if (activated) {
+            if (simulation.getStatsLogger() != null) {
+                simulation.getStatsLogger().logEffectActivatingBuff(id, Guts.class);
+            }
             receivedInstantDeath = false;
             checkBuffStatus();
             activateEffectActivatingBuff(simulation, TriggerOnGutsEffect.class);

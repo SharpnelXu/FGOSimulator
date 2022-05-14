@@ -261,6 +261,7 @@ message NpDamageAdditionalParams {
 
 message BuffData {
   string type = 1;
+  string buffIcon = 20;
 
   int32 numTurnsActive = 2;
   int32 numTimesActive = 3;
@@ -439,4 +440,5 @@ message MysticCodeData {
 
 message MysticCodeOption {
   int32 mysticCodeLevel = 1;
+  Gender gender = 2;
 }

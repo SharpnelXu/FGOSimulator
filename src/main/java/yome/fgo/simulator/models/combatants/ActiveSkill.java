@@ -15,13 +15,16 @@ import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 
 @Getter
 public class ActiveSkill {
+    @Getter
     public static class ActiveSkillWrapper extends Skill {
         private final int maxCoolDown;
         private final Condition activationCondition;
+        private final String iconName;
 
         public ActiveSkillWrapper(final ActiveSkillData activeSkillData, final int activeSkillLevel) {
             super(activeSkillData.getEffectsList(), activeSkillLevel);
             this.maxCoolDown = activeSkillData.getBaseCoolDown() - activeSkillLevel / 5;
+            this.iconName = activeSkillData.getIconName();
 
             if (activeSkillData.hasActivationCondition()) {
                 this.activationCondition = ConditionFactory.buildCondition(activeSkillData.getActivationCondition());
@@ -42,6 +45,10 @@ public class ActiveSkill {
             activeSkillWrapperList.add(new ActiveSkillWrapper(activeSkillData, activeSkillLevel));
         }
     }
+    public ActiveSkill(final ActiveSkillData activeSkillData, final int activeSkillLevel) {
+        this.activeSkillWrapperList = new ArrayList<>();
+        activeSkillWrapperList.add(new ActiveSkillWrapper(activeSkillData, activeSkillLevel));
+    }
 
     public ActiveSkillWrapper getSkillAtRankOrHighest(final int rank) {
         if (activeSkillWrapperList.size() >= rank) {
@@ -54,6 +61,10 @@ public class ActiveSkill {
     public boolean canActivate(final Simulation simulation, final int rank) {
         final ActiveSkillWrapper skillAtRank = getSkillAtRankOrHighest(rank);
         return currentCoolDown == 0 && skillAtRank.activationCondition.evaluate(simulation);
+    }
+
+    public String getIconPath(final int rank) {
+        return getSkillAtRankOrHighest(rank).iconName;
     }
 
     public void activate(final Simulation simulation, final int rank) {

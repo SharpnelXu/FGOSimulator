@@ -8,17 +8,18 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
-<StackPane prefHeight="596.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.BuffBuilderFXMLController">
+<StackPane prefHeight="596.0" prefWidth="946.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.BuffBuilderFXMLController">
    <children>
-      <VBox prefWidth="743.0" spacing="10.0" StackPane.alignment="TOP_LEFT">
+      <VBox spacing="10.0" StackPane.alignment="TOP_LEFT">
          <children>
-            <VBox prefHeight="175.0" spacing="10.0">
+            <VBox spacing="10.0">
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
@@ -30,20 +31,23 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="856.0" spacing="20.0">
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
                         <CheckBox fx:id="numTurnCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <TextField fx:id="numTurnText" prefHeight="25.0" prefWidth="90.0" />
+                        <TextField fx:id="numTurnText" prefWidth="90.0" />
                         <CheckBox fx:id="numTimesCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <TextField fx:id="numTimesText" prefHeight="25.0" prefWidth="90.0" />
+                        <TextField fx:id="numTimesText" prefWidth="90.0" />
                         <CheckBox fx:id="irremovableCheckbox" mnemonicParsing="false" text="CheckBox" />
                         <CheckBox fx:id="forceStackCheckbox" mnemonicParsing="false" text="CheckBox" />
+                        <Label fx:id="buffIconLabel" text="Label" />
+                        <TextField fx:id="buffIconText" prefWidth="120.0" />
+                        <ImageView fx:id="buffImage" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" spacing="20.0">
                      <children>
                         <CheckBox fx:id="probabilityCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <Button fx:id="probabilityGenerateButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Button" />
+                        <Button fx:id="probabilityGenerateButton" mnemonicParsing="false" prefWidth="69.0" text="Button" />
                         <AnchorPane HBox.hgrow="ALWAYS">
                            <children>
                               <TextField fx:id="probabilityText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -61,10 +65,10 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <CheckBox fx:id="conditionCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <Button fx:id="conditionEditButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Button" />
+                        <Button fx:id="conditionEditButton" mnemonicParsing="false" prefWidth="77.0" text="Button" />
                         <Label fx:id="builtConditionLabel" maxWidth="500.0" text="Label" wrapText="true" />
                      </children>
                   </HBox>
