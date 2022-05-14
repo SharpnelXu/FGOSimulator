@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
+import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.StageData;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.ResourceManager;
@@ -84,6 +85,9 @@ public class LevelCreatorFMXLController implements Initializable {
 
     @FXML
     private HBox simulationPrepHBox;
+
+    private MysticCodeData mysticCodeData;
+    private List<FormationSelector> formationSelectors;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
@@ -217,13 +221,18 @@ public class LevelCreatorFMXLController implements Initializable {
 
         final ToggleGroup supportToggle = new ToggleGroup();
         final List<Node> nodes = simulationPrepHBox.getChildren();
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
+        formationSelectors = new ArrayList<>();
+        for (int i = 0; i < 3; i += 1) {
+            final FormationSelector formationSelector = new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap);
+            formationSelectors.add(formationSelector);
+            nodes.add(formationSelector);
+        }
         nodes.add(new Separator(Orientation.VERTICAL));
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
+        for (int i = 0; i < 3; i += 1) {
+            final FormationSelector formationSelector = new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap);
+            formationSelectors.add(formationSelector);
+            nodes.add(formationSelector);
+        }
         nodes.add(new Separator(Orientation.VERTICAL));
 
         final VBox miscVBox = new VBox();
@@ -235,6 +244,7 @@ public class LevelCreatorFMXLController implements Initializable {
 
         final Button selectMCButton = new Button();
         selectMCButton.setGraphic(mcDataMap.get(2));
+        mysticCodeData = mcDataMap.get(2).getMysticCodeData();
 
         final Label mcNameLabel = new Label(getTranslation(ENTITY_NAME_SECTION, "mysticCode2"));
         mcNameLabel.setWrapText(true);
@@ -245,10 +255,19 @@ public class LevelCreatorFMXLController implements Initializable {
                 final MysticCodeDataWrapper wrapper = selectMysticCode(simulationPrepHBox.getScene().getWindow(), mcDataMap);
                 if (wrapper != null) {
                     selectMCButton.setGraphic(wrapper);
+                    mysticCodeData = wrapper.getMysticCodeData();
                     mcNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, wrapper.getMysticCodeData().getId()));
                     mcNameLabel.setMaxWidth(miscVBox.getWidth());
                 }
             } catch (final IOException ignored) {
+            }
+        });
+
+        final Button viewMCButton = new Button(getTranslation(APPLICATION_SECTION, "Details"));
+        viewMCButton.setOnAction(e -> {
+            try {
+                MysticCodeCreator.preview(simulationPrepHBox.getScene().getWindow(), mysticCodeData);
+            } catch (IOException ignored) {
             }
         });
 
@@ -319,10 +338,16 @@ public class LevelCreatorFMXLController implements Initializable {
         randomSlider.setValue(0.9);
 
         final Button startSimulationButton = new Button(getTranslation(APPLICATION_SECTION, "Start Simulation"));
+        startSimulationButton.setOnAction(e -> startSimulation(
+                (int) mcLevelSlider.getValue(),
+                RoundUtils.roundNearest(probabilityThresholdSlider.getValue() / 10.0),
+                randomSlider.getValue())
+        );
 
         miscVBox.getChildren().addAll(
                 selectMCButton,
                 mcNameLabel,
+                viewMCButton,
                 mcLevelLabelHBox,
                 mcLevelSlider,
                 new Separator(),
@@ -332,5 +357,9 @@ public class LevelCreatorFMXLController implements Initializable {
                 randomSlider,
                 startSimulationButton
         );
+    }
+
+    private void startSimulation(final int mcLevel, final double probabilityThreshold, final double random) {
+        
     }
 }

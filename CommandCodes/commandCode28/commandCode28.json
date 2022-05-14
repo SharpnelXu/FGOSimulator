@@ -1,6 +1,6 @@
 {
   "buffs": [{
-    "type": "PostAttackEffect",
+    "type": "PreAttackEffect",
     "subEffects": [{
       "type": "RemoveBuff",
       "target": "DEFENDER",

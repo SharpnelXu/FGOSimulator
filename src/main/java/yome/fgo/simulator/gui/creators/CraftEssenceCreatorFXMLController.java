@@ -177,6 +177,10 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
             return;
         }
 
+        loadFrom(builder);
+    }
+
+    private void loadFrom(final CraftEssenceData.Builder builder) {
         idText.setText(Integer.toString(builder.getCeNum()));
         rarityChoices.getSelectionModel().select(Integer.valueOf(builder.getRarity()));
         costText.setText(Integer.toString(builder.getCost()));
@@ -235,5 +239,11 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
         DataWriter.writeCraftEssence(craftEssenceData);
         errorLabel.setVisible(true);
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Save success!"));
+    }
+
+    public void setPreviewMode(final CraftEssenceData ceData) {
+        saveButton.setDisable(true);
+        loadButton.setDisable(true);
+        loadFrom(ceData.toBuilder());
     }
 }

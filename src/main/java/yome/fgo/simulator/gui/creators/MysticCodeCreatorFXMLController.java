@@ -100,6 +100,10 @@ public class MysticCodeCreatorFXMLController implements Initializable {
             return;
         }
 
+        loadFrom(builder);
+    }
+
+    private void loadFrom(final MysticCodeData.Builder builder) {
         idText.setText(Integer.toString(builder.getMcNum()));
 
         for (int i = 0; i < 3; i += 1) {
@@ -143,5 +147,12 @@ public class MysticCodeCreatorFXMLController implements Initializable {
         DataWriter.writeMysticCode(mysticCodeData);
         errorLabel.setVisible(true);
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Save success!"));
+    }
+
+    public void setPreviewMode(final MysticCodeData mysticCodeData) {
+        saveButton.setDisable(true);
+        loadButton.setDisable(true);
+
+        loadFrom(mysticCodeData.toBuilder());
     }
 }

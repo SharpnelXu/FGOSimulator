@@ -4,8 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.simulator.translation.TranslationManager;
+
+import java.io.IOException;
 
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
@@ -24,5 +29,24 @@ public class MysticCodeCreator extends Application {
 
     public static void main(final String[] args) {
         launch();
+    }
+
+    public static void preview(final Window window, final MysticCodeData mysticCodeData) throws IOException {
+        final Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        newStage.initOwner(window);
+
+        final FXMLLoader fxmlLoader = new FXMLLoader(BuffBuilder.class.getResource("mysticCodeCreator.fxml"));
+        final Parent root = fxmlLoader.load();
+        final MysticCodeCreatorFXMLController controller = fxmlLoader.getController();
+        controller.setPreviewMode(mysticCodeData);
+
+        final Scene scene = new Scene(root);
+        scene.getStylesheets().add(BuffBuilder.class.getResource("style.css").toExternalForm());
+
+        newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "MysticCodeCreator"));
+        newStage.setScene(scene);
+
+        newStage.showAndWait();
     }
 }

@@ -134,6 +134,10 @@ public class ServantCreatorFXMLController implements Initializable {
             return;
         }
 
+        loadFrom(servantDataBuilder);
+    }
+
+    private void loadFrom(final ServantData.Builder servantDataBuilder) {
         idText.setText(Integer.toString(servantDataBuilder.getServantNum()));
 
         servantAscTabPane.getTabs().clear();
@@ -189,5 +193,11 @@ public class ServantCreatorFXMLController implements Initializable {
             final ServantAscensionTab servantAscensionTab = (ServantAscensionTab) tab.getContent();
             servantAscensionTab.clearError();
         }
+    }
+
+    public void setPreviewMode(final ServantData servantData) {
+        saveButton.setDisable(true);
+        loadButton.setDisable(true);
+        loadFrom(servantData.toBuilder());
     }
 }

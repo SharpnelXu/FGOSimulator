@@ -20,6 +20,8 @@ import yome.fgo.data.proto.FgoStorageData.ActiveSkillUpgrades;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
+import yome.fgo.simulator.gui.creators.CraftEssenceCreator;
+import yome.fgo.simulator.gui.creators.ServantCreator;
 import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.FileInputStream;
@@ -88,6 +90,30 @@ public class FormationSelector extends VBox {
         editServantOptionButton.setDisable(true);
         editServantOptionButton.setOnAction(e -> editServantOption());
 
+        final Button viewServantButton = new Button(getTranslation(APPLICATION_SECTION, "Details"));
+        viewServantButton.setDisable(true);
+        viewServantButton.setOnAction(e -> {
+            try {
+                ServantCreator.preview(this.getScene().getWindow(), selectedServant.getServantData());
+            } catch (IOException ignored) {
+            }
+        });
+
+        final Button removeServantButton = new Button(getTranslation(APPLICATION_SECTION, "Remove selection"));
+        removeServantButton.setDisable(true);
+        removeServantButton.setOnAction(e -> {
+            selectedServant = defaultServantSelection;
+            servantSelectButton.setGraphic(selectedServant);
+            servantOption = null;
+            servantNameLabel.setText(getTranslation(APPLICATION_SECTION, "No servant selected"));
+            servantNameLabel.setMaxWidth(getWidth());
+            servantOptionLabel.setText(null);
+            servantOptionLabel.setMaxWidth(getWidth());
+            editServantOptionButton.setDisable(true);
+            viewServantButton.setDisable(true);
+            removeServantButton.setDisable(true);
+        });
+
         servantSelectButton.setGraphic(selectedServant);
         servantSelectButton.setOnAction(e -> {
             try {
@@ -109,23 +135,13 @@ public class FormationSelector extends VBox {
                     servantNameLabel.setMaxWidth(getWidth());
                     servantOptionLabel.setMaxWidth(getWidth());
                     editServantOptionButton.setDisable(false);
+                    viewServantButton.setDisable(false);
+                    removeServantButton.setDisable(false);
                 }
             } catch (final IOException ex) {
                 errorLabel.setVisible(true);
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
             }
-        });
-
-        final Button removeServantButton = new Button(getTranslation(APPLICATION_SECTION, "Remove selection"));
-        removeServantButton.setOnAction(e -> {
-            selectedServant = defaultServantSelection;
-            servantSelectButton.setGraphic(selectedServant);
-            servantOption = null;
-            servantNameLabel.setText(getTranslation(APPLICATION_SECTION, "No servant selected"));
-            servantNameLabel.setMaxWidth(getWidth());
-            servantOptionLabel.setText(null);
-            servantOptionLabel.setMaxWidth(getWidth());
-            editServantOptionButton.setDisable(true);
         });
 
         final Button ceSelectButton = new Button();
@@ -165,6 +181,29 @@ public class FormationSelector extends VBox {
         ceLevelSlider.setDisable(true);
         ceLimitBreakCheck.setDisable(true);
 
+        final Button viewCEButton = new Button(getTranslation(APPLICATION_SECTION, "Details"));
+        viewCEButton.setDisable(true);
+        viewCEButton.setOnAction(e -> {
+            try {
+                CraftEssenceCreator.preview(this.getScene().getWindow(), selectedCE.getCraftEssenceData());
+            } catch (IOException ignored) {
+            }
+        });
+
+        final Button removeCEButton = new Button(getTranslation(APPLICATION_SECTION, "Remove selection"));
+        removeCEButton.setDisable(true);
+        removeCEButton.setOnAction(e -> {
+            selectedCE = defaultCESelection;
+            ceSelectButton.setGraphic(selectedCE);
+            ceNameLabel.setText(getTranslation(APPLICATION_SECTION, "No CE selected"));
+            ceNameLabel.setMaxWidth(getWidth());
+            ceLevelLabelHBox.setDisable(true);
+            ceLevelSlider.setDisable(true);
+            ceLimitBreakCheck.setDisable(true);
+            viewCEButton.setDisable(true);
+            removeCEButton.setDisable(true);
+        });
+
         ceSelectButton.setGraphic(selectedCE);
         ceSelectButton.setOnAction(e -> {
             try {
@@ -181,6 +220,8 @@ public class FormationSelector extends VBox {
                     ceLevelLabelHBox.setDisable(false);
                     ceLevelSlider.setDisable(false);
                     ceLimitBreakCheck.setDisable(false);
+                    viewCEButton.setDisable(false);
+                    removeCEButton.setDisable(false);
                 }
             } catch (final IOException ex) {
                 errorLabel.setVisible(true);
@@ -188,26 +229,17 @@ public class FormationSelector extends VBox {
             }
         });
 
-        final Button removeCEButton = new Button(getTranslation(APPLICATION_SECTION, "Remove selection"));
-        removeCEButton.setOnAction(e -> {
-            selectedCE = defaultCESelection;
-            ceSelectButton.setGraphic(selectedCE);
-            ceNameLabel.setText(getTranslation(APPLICATION_SECTION, "No CE selected"));
-            ceNameLabel.setMaxWidth(getWidth());
-            ceLevelLabelHBox.setDisable(true);
-            ceLevelSlider.setDisable(true);
-            ceLimitBreakCheck.setDisable(true);
-        });
-
         getChildren().addAll(
                 support,
                 servantSelectButton,
                 servantNameLabel,
                 removeServantButton,
+                viewServantButton,
                 editServantOptionButton,
                 ceSelectButton,
                 ceNameLabel,
                 removeCEButton,
+                viewCEButton,
                 ceLevelLabelHBox,
                 ceLevelSlider,
                 ceLimitBreakCheck,
