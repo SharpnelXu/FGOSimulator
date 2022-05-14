@@ -530,6 +530,6 @@ public class Servant321 {
                 .addServantAscensionData(secondAscension)
                 .build();
 
-        writeServant(servantData);
+//        writeServant(servantData);
     }
 }

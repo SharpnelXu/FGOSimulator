@@ -4,14 +4,17 @@ import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
 
+import java.util.List;
+
 @SuperBuilder
 public class OrderChange extends Effect {
     public static final OrderChange ORDER_CHANGE = OrderChange.builder().build();
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
-        final Servant servantOnField = simulation.getTargetedAlly();
-        final Servant servantInBackup = simulation.getTargetedBackup();
+        final List<Servant> targets = simulation.getOrderChangeTargets();
+        final Servant servantOnField = targets.get(0);
+        final Servant servantInBackup = targets.get(1);
         final int onFieldIndex = simulation.getCurrentAllyTargetIndex();
         final int backupIndex = simulation.getCurrentBackupTargetIndex();
 

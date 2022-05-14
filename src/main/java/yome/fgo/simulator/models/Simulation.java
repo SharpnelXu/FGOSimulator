@@ -575,4 +575,9 @@ public class Simulation {
 
         return result;
     }
+
+    public List<Servant> getOrderChangeTargets() {
+        // TODO UI:
+        return ImmutableList.of(currentServants.get(currentAllyTargetIndex), backupServants.get(currentBackupTargetIndex));
+    }
 }

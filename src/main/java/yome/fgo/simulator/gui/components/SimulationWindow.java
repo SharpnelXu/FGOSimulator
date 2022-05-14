@@ -5,6 +5,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleGroup;
@@ -44,6 +45,8 @@ import static yome.fgo.simulator.ResourceManager.getEnemyThumbnail;
 import static yome.fgo.simulator.ResourceManager.getMCImage;
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
+import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.BUFF_ICON_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.MYSTIC_CODES_DIRECTORY_PATH;
@@ -59,6 +62,7 @@ public class SimulationWindow {
     private final Map<String, Image> imageCache;
     private final StatsLogger statsLogger;
     private final ToggleGroup enemyToggle;
+    private final VBox orderChangeVBox;
 
     public SimulationWindow(
             final LevelData levelData,
@@ -87,6 +91,10 @@ public class SimulationWindow {
         contentVBox.setPadding(new Insets(10, 10, 10, 10));
         contentVBox.setAlignment(Pos.TOP_CENTER);
         stackPane.getChildren().addAll(contentVBox);
+
+        final Label levelName = new Label(levelData.getId());
+
+        contentVBox.getChildren().add(levelName);
 
         final Level level = new Level(levelData);
 
@@ -143,6 +151,17 @@ public class SimulationWindow {
         enemyToggle = new ToggleGroup();
 
         simulation.setStatsLogger(statsLogger);
+
+        orderChangeVBox = new VBox();
+        orderChangeVBox.setVisible(false);
+        orderChangeVBox.setSpacing(10);
+        orderChangeVBox.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 1; -fx-background-color: white");
+        orderChangeVBox.setAlignment(Pos.TOP_CENTER);
+        orderChangeVBox.setFocusTraversable(true);
+        final Label orderChangeDesc = new Label(getTranslation(APPLICATION_SECTION, "Select servants to swap"));
+        orderChangeVBox.getChildren().add(orderChangeDesc);
+        StackPane.setMargin(orderChangeVBox, new Insets(50, 50, 50, 50));
+
         simulation.initiate();
 
         imageCache = new HashMap<>();

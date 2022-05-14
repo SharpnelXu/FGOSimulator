@@ -22,6 +22,6 @@ public class CraftEssence1080 {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        writeCraftEssence(craftEssenceData.build());
+//        writeCraftEssence(craftEssenceData.build());
     }
 }
