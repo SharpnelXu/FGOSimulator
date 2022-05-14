@@ -4,6 +4,9 @@ import com.google.common.collect.ImmutableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -89,8 +92,17 @@ public class MainMenuFXMLController implements Initializable {
                 mysticCodeCreatorButton
         );
         for (final Button button : buttons) {
+            final AnchorPane wrapper = new AnchorPane();
+            wrapper.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+            AnchorPane.setBottomAnchor(button, 0.0);
+            AnchorPane.setTopAnchor(button, 0.0);
+            AnchorPane.setLeftAnchor(button, 0.0);
+            AnchorPane.setRightAnchor(button, 0.0);
+
+            VBox.setVgrow(wrapper, Priority.ALWAYS);
             button.setPrefSize(550, 50);
+            wrapper.getChildren().add(button);
+            mainMenuVBox.getChildren().addAll(wrapper);
         }
-        mainMenuVBox.getChildren().addAll(buttons);
     }
 }

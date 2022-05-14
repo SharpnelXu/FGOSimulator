@@ -6,8 +6,11 @@ import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
+import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
+import yome.fgo.simulator.gui.components.CraftEssenceDataWrapper;
+import yome.fgo.simulator.gui.components.MysticCodeDataWrapper;
 import yome.fgo.simulator.gui.components.ServantDataWrapper;
 
 import java.io.File;
@@ -25,6 +28,7 @@ import static yome.fgo.simulator.utils.FilePathUtils.COMMAND_CODES_DIRECTORY_PAT
 import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.LEVEL_DIRECTORY_PATH;
+import static yome.fgo.simulator.utils.FilePathUtils.MYSTIC_CODES_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SKILL_ICON_DIRECTORY_PATH;
 
@@ -118,7 +122,7 @@ public class ResourceManager {
                 try {
                     parser.merge(new FileReader(servantDataFile), servantDataBuilder);
                 } catch (final Exception e) {
-                    throw new RuntimeException("Cannot parse servant " + directoryName, e);
+                    continue;
                 }
 
                 final File defaultSvrImgFile = new File(String.format("%s/%s/%s_thumbnail.png", SERVANT_DIRECTORY_PATH, directoryName, directoryName));
@@ -146,6 +150,83 @@ public class ResourceManager {
                     ascensionImages.add(servantAscensionImage);
                 }
                 results.put(servantData.getServantNum(), new ServantDataWrapper(servantData, ascensionImages));
+            }
+        }
+
+        return results;
+    }
+
+    public static Map<Integer, CraftEssenceDataWrapper> buildCESortMap() {
+        final File servantDirectory = new File(CRAFT_ESSENCE_DIRECTORY_PATH);
+        final Map<Integer, CraftEssenceDataWrapper> results = new TreeMap<>();
+        Image defaultImage = null;
+        try {
+            defaultImage = new Image(new FileInputStream(String.format("%s/defaultCE_thumbnail.png", CRAFT_ESSENCE_DIRECTORY_PATH)));
+        } catch (final FileNotFoundException ignored) {
+        }
+        for (final String directoryName : Objects.requireNonNull(servantDirectory.list())) {
+            final File ceDataFile = new File(String.format("%s/%s/%s.json", CRAFT_ESSENCE_DIRECTORY_PATH, directoryName, directoryName));
+            if (ceDataFile.exists()) {
+                final JsonFormat.Parser parser = JsonFormat.parser();
+                final CraftEssenceData.Builder ceDataBuilder = CraftEssenceData.newBuilder();
+                try {
+                    parser.merge(new FileReader(ceDataFile), ceDataBuilder);
+                } catch (final Exception e) {
+                    continue;
+                }
+
+                final File ceThumbnail = new File(String.format("%s/%s/%s_thumbnail.png", CRAFT_ESSENCE_DIRECTORY_PATH, directoryName, directoryName));
+                Image ceImage;
+                try {
+                    ceImage = ceThumbnail.exists() ?
+                            new Image(new FileInputStream(ceThumbnail)) :
+                            defaultImage;
+                } catch (final FileNotFoundException e) {
+                    ceImage = defaultImage;
+                }
+
+                final CraftEssenceData ceData = ceDataBuilder.build();
+                results.put(ceData.getCeNum(), new CraftEssenceDataWrapper(ceData, ceImage));
+            }
+        }
+
+        return results;
+    }
+
+    public static Map<Integer, MysticCodeDataWrapper> buildMCSortMap() {
+        final File servantDirectory = new File(MYSTIC_CODES_DIRECTORY_PATH);
+        final Map<Integer, MysticCodeDataWrapper> results = new TreeMap<>();
+        for (final String directoryName : Objects.requireNonNull(servantDirectory.list())) {
+            final File dataFile = new File(String.format("%s/%s/%s.json", MYSTIC_CODES_DIRECTORY_PATH, directoryName, directoryName));
+            if (dataFile.exists()) {
+                final JsonFormat.Parser parser = JsonFormat.parser();
+                final MysticCodeData.Builder builder = MysticCodeData.newBuilder();
+                try {
+                    parser.merge(new FileReader(dataFile), builder);
+                } catch (final Exception e) {
+                    continue;
+                }
+
+                final List<Image> mcImages = new ArrayList<>();
+                try {
+                    final Image maleImage = new Image(new FileInputStream(
+                            String.format("%s/%s/%s_male.png", MYSTIC_CODES_DIRECTORY_PATH, directoryName, directoryName))
+                    );
+                    mcImages.add(maleImage);
+                } catch (final FileNotFoundException e) {
+                    mcImages.add(null);
+                }
+                try {
+                    final Image femaleImage = new Image(new FileInputStream(
+                            String.format("%s/%s/%s_female.png", MYSTIC_CODES_DIRECTORY_PATH, directoryName, directoryName))
+                    );
+                    mcImages.add(femaleImage);
+                } catch (final FileNotFoundException e) {
+                    mcImages.add(null);
+                }
+
+                final MysticCodeData data = builder.build();
+                results.put(data.getMcNum(), new MysticCodeDataWrapper(data, mcImages));
             }
         }
 

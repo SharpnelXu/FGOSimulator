@@ -4,15 +4,17 @@ import com.google.protobuf.util.JsonFormat;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
@@ -20,10 +22,13 @@ import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.StageData;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.ResourceManager;
+import yome.fgo.simulator.gui.components.CraftEssenceDataWrapper;
 import yome.fgo.simulator.gui.components.EffectsCellFactory;
 import yome.fgo.simulator.gui.components.FormationSelector;
+import yome.fgo.simulator.gui.components.MysticCodeDataWrapper;
 import yome.fgo.simulator.gui.components.ServantDataWrapper;
 import yome.fgo.simulator.gui.components.StageNode;
+import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.File;
 import java.io.FileReader;
@@ -34,8 +39,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
+import static yome.fgo.simulator.gui.creators.EntitySelector.selectMysticCode;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.LEVEL_DIRECTORY_PATH;
 
@@ -76,8 +84,6 @@ public class LevelCreatorFMXLController implements Initializable {
 
     @FXML
     private HBox simulationPrepHBox;
-
-    private Map<Integer, ServantDataWrapper> servantDataMap;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
@@ -201,21 +207,130 @@ public class LevelCreatorFMXLController implements Initializable {
     }
 
     public void setPreviewMode() {
-        servantDataMap = ResourceManager.buildServantSortMap();
+        final Map<Integer, ServantDataWrapper> servantDataMap = ResourceManager.buildServantSortMap();
+        final Map<Integer, CraftEssenceDataWrapper> ceDataMap = ResourceManager.buildCESortMap();
+        final Map<Integer, MysticCodeDataWrapper> mcDataMap = ResourceManager.buildMCSortMap();
         simulationPrepHBox.setVisible(true);
         simulationPrepHBox.setManaged(true);
-        simulationPrepHBox.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        simulationPrepHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         simulationPrepHBox.setSpacing(10);
 
         final ToggleGroup supportToggle = new ToggleGroup();
         final List<Node> nodes = simulationPrepHBox.getChildren();
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
         nodes.add(new Separator(Orientation.VERTICAL));
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
-        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
+        nodes.add(new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap));
         nodes.add(new Separator(Orientation.VERTICAL));
+
+        final VBox miscVBox = new VBox();
+        HBox.setHgrow(miscVBox, Priority.ALWAYS);
+        miscVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        miscVBox.setSpacing(10);
+        miscVBox.setAlignment(Pos.TOP_CENTER);
+        nodes.add(miscVBox);
+
+        final Button selectMCButton = new Button();
+        selectMCButton.setGraphic(mcDataMap.get(2));
+
+        final Label mcNameLabel = new Label(getTranslation(ENTITY_NAME_SECTION, "mysticCode2"));
+        mcNameLabel.setWrapText(true);
+        mcNameLabel.setAlignment(Pos.CENTER);
+
+        selectMCButton.setOnAction(e -> {
+            try {
+                final MysticCodeDataWrapper wrapper = selectMysticCode(simulationPrepHBox.getScene().getWindow(), mcDataMap);
+                if (wrapper != null) {
+                    selectMCButton.setGraphic(wrapper);
+                    mcNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, wrapper.getMysticCodeData().getId()));
+                    mcNameLabel.setMaxWidth(miscVBox.getWidth());
+                }
+            } catch (final IOException ignored) {
+            }
+        });
+
+        final Label mcLevelLabel = new Label(getTranslation(APPLICATION_SECTION, "MC Level"));
+        final Label mcLevelValueLabel = new Label("1");
+        final HBox mcLevelLabelHBox = new HBox();
+        mcLevelLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        mcLevelLabelHBox.setSpacing(10);
+        mcLevelLabelHBox.getChildren().addAll(mcLevelLabel, mcLevelValueLabel);
+        final Slider mcLevelSlider = new Slider();
+        mcLevelSlider.setMin(1);
+        mcLevelSlider.setMax(10);
+        mcLevelSlider.setBlockIncrement(1);
+        mcLevelSlider.setMajorTickUnit(1);
+        mcLevelSlider.setMinorTickCount(0);
+        mcLevelSlider.valueProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    final int intValue = newValue.intValue();
+                    mcLevelSlider.setValue(intValue);
+                    mcLevelValueLabel.setText(Integer.toString(intValue));
+                }
+        );
+        mcLevelSlider.setShowTickMarks(true);
+        mcLevelSlider.setValue(10);
+
+        final Label probabilityLabel = new Label(getTranslation(APPLICATION_SECTION, "Probability Threshold (%)"));
+        final Label probabilityValueLabel = new Label("100");
+        final HBox probabilityLabelHBox = new HBox();
+        probabilityLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        probabilityLabelHBox.setSpacing(10);
+        probabilityLabelHBox.getChildren().addAll(probabilityLabel, probabilityValueLabel);
+        final Slider probabilityThresholdSlider = new Slider();
+        probabilityThresholdSlider.setMin(0);
+        probabilityThresholdSlider.setMax(10);
+        probabilityThresholdSlider.setBlockIncrement(1);
+        probabilityThresholdSlider.setMajorTickUnit(1);
+        probabilityThresholdSlider.setMinorTickCount(0);
+        probabilityThresholdSlider.valueProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    final int intValue = newValue.intValue();
+                    probabilityThresholdSlider.setValue(intValue);
+                    probabilityValueLabel.setText(Integer.toString(intValue * 10));
+                }
+        );
+        probabilityThresholdSlider.setShowTickMarks(true);
+        probabilityThresholdSlider.setValue(10);
+
+        final Label randomLabel = new Label(getTranslation(APPLICATION_SECTION, "Random Value"));
+        final Label randomValueLabel = new Label(String.format("%.3f", 0.9));
+        final HBox randomLabelHBox = new HBox();
+        randomLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        randomLabelHBox.setSpacing(10);
+        randomLabelHBox.getChildren().addAll(randomLabel, randomValueLabel);
+        final Slider randomSlider = new Slider();
+        randomSlider.setMin(0.9);
+        randomSlider.setMax(1.1);
+        randomSlider.setBlockIncrement(0.001);
+        randomSlider.setMajorTickUnit(0.1);
+        randomSlider.setMinorTickCount(0);
+        randomSlider.valueProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    final double random = RoundUtils.roundNearest(newValue.doubleValue());
+                    randomSlider.setValue(random);
+                    randomValueLabel.setText(String.format("%.3f", random));
+                }
+        );
+        randomSlider.setShowTickMarks(true);
+        randomSlider.setValue(0.9);
+
+        final Button startSimulationButton = new Button(getTranslation(APPLICATION_SECTION, "Start Simulation"));
+
+        miscVBox.getChildren().addAll(
+                selectMCButton,
+                mcNameLabel,
+                mcLevelLabelHBox,
+                mcLevelSlider,
+                new Separator(),
+                probabilityLabelHBox,
+                probabilityThresholdSlider,
+                randomLabelHBox,
+                randomSlider,
+                startSimulationButton
+        );
     }
 }

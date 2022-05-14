@@ -1,11 +1,13 @@
 package yome.fgo.simulator.gui.components;
 
+import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
+import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
@@ -641,6 +643,21 @@ public class DataPrinter {
         builder.append(getTranslation(APPLICATION_SECTION, "Bond"));
         builder.append(": ");
         builder.append(servantOption.getBond());
+
+        return builder.toString();
+    }
+
+    public static String printCEOption(final CraftEssenceOption ceOption) {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append(getTranslation(APPLICATION_SECTION, "CE Level"));
+        builder.append(": ");
+        builder.append(ceOption.getCraftEssenceLevel());
+
+        if (ceOption.getIsLimitBreak()) {
+            builder.append("\n");
+            builder.append(getTranslation(APPLICATION_SECTION, "Limit Break"));
+        }
 
         return builder.toString();
     }

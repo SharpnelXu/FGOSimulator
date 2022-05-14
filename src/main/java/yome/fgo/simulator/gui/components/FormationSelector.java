@@ -5,8 +5,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
@@ -27,6 +29,7 @@ import java.util.Map;
 
 import static yome.fgo.simulator.ResourceManager.getUnknownServantThumbnail;
 import static yome.fgo.simulator.gui.components.DataPrinter.printServantOption;
+import static yome.fgo.simulator.gui.creators.EntitySelector.selectCraftEssence;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectServant;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
@@ -36,13 +39,19 @@ public class FormationSelector extends VBox {
     private final RadioButton support;
     private ServantDataWrapper selectedServant;
     private ServantOption servantOption;
-    private final ServantDataWrapper defaultSelection;
     private final Label servantOptionLabel;
+    private final ServantDataWrapper defaultServantSelection;
+
+    private CraftEssenceDataWrapper selectedCE;
+    private final Slider ceLevelSlider;
+    private final CheckBox ceLimitBreakCheck;
+    private final CraftEssenceDataWrapper defaultCESelection;
 
     public FormationSelector(
             final ToggleGroup toggleGroup,
             final Label errorLabel,
-            final Map<Integer, ServantDataWrapper> servantDataMap
+            final Map<Integer, ServantDataWrapper> servantDataMap,
+            final Map<Integer, CraftEssenceDataWrapper> ceDataMap
     ) {
         super();
 
@@ -67,8 +76,8 @@ public class FormationSelector extends VBox {
             unknown = new Image(new FileInputStream(getUnknownServantThumbnail()));
         } catch (final FileNotFoundException ignored) {
         }
-        defaultSelection = new ServantDataWrapper(null, Lists.newArrayList(unknown));
-        selectedServant = defaultSelection;
+        defaultServantSelection = new ServantDataWrapper(null, Lists.newArrayList(unknown));
+        selectedServant = defaultServantSelection;
         final Label servantNameLabel = new Label(getTranslation(APPLICATION_SECTION, "No servant selected"));
         servantNameLabel.setWrapText(true);
         servantNameLabel.setAlignment(Pos.CENTER);
@@ -109,7 +118,7 @@ public class FormationSelector extends VBox {
 
         final Button removeServantButton = new Button(getTranslation(APPLICATION_SECTION, "Remove selection"));
         removeServantButton.setOnAction(e -> {
-            selectedServant = defaultSelection;
+            selectedServant = defaultServantSelection;
             servantSelectButton.setGraphic(selectedServant);
             servantOption = null;
             servantNameLabel.setText(getTranslation(APPLICATION_SECTION, "No servant selected"));
@@ -119,10 +128,94 @@ public class FormationSelector extends VBox {
             editServantOptionButton.setDisable(true);
         });
 
-        getChildren().addAll(support, servantSelectButton, removeServantButton, servantNameLabel, editServantOptionButton, servantOptionLabel);
+        final Button ceSelectButton = new Button();
+        defaultCESelection = new CraftEssenceDataWrapper(null, unknown);
+        selectedCE = defaultCESelection;
+        final Label ceNameLabel = new Label(getTranslation(APPLICATION_SECTION, "No CE selected"));
+        ceNameLabel.setWrapText(true);
+        ceNameLabel.setAlignment(Pos.CENTER);
+
+        final Label ceLevelLabel = new Label(getTranslation(APPLICATION_SECTION, "CE Level"));
+        final Label ceLevelValueLabel = new Label("0");
+        final HBox ceLevelLabelHBox = new HBox();
+        ceLevelLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        ceLevelLabelHBox.setSpacing(10);
+        ceLevelLabelHBox.getChildren().addAll(ceLevelLabel, ceLevelValueLabel);
+        ceLevelSlider = new Slider();
+        ceLevelSlider.setMin(0);
+        ceLevelSlider.setBlockIncrement(1);
+        ceLevelSlider.setMajorTickUnit(20);
+        ceLevelSlider.setMinorTickCount(0);
+        ceLevelSlider.valueProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    int intValue = newValue.intValue();
+                    if (intValue < 1) {
+                        intValue = 1;
+                    }
+                    ceLevelSlider.setValue(intValue);
+                    ceLevelValueLabel.setText(Integer.toString(intValue));
+                }
+        );
+        ceLevelSlider.setShowTickMarks(true);
+
+        ceLimitBreakCheck = new CheckBox(getTranslation(APPLICATION_SECTION, "Limit Break"));
+        ceLimitBreakCheck.setSelected(true);
+
+        ceLevelLabelHBox.setDisable(true);
+        ceLevelSlider.setDisable(true);
+        ceLimitBreakCheck.setDisable(true);
+
+        ceSelectButton.setGraphic(selectedCE);
+        ceSelectButton.setOnAction(e -> {
+            try {
+                final CraftEssenceDataWrapper selection = selectCraftEssence(this.getScene().getWindow(), ceDataMap);
+                if (selection != null) {
+                    selectedCE = selection;
+                    ceSelectButton.setGraphic(selectedCE);
+                    ceNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, selectedCE.getCraftEssenceData().getId()));
+                    ceNameLabel.setMaxWidth(getWidth());
+                    final int maxLevel = defaultCELevel(selectedCE.getCraftEssenceData().getRarity());
+                    ceLevelSlider.setMax(maxLevel);
+                    ceLevelSlider.setValue(maxLevel);
+                    ceLimitBreakCheck.setSelected(true);
+                    ceLevelLabelHBox.setDisable(false);
+                    ceLevelSlider.setDisable(false);
+                    ceLimitBreakCheck.setDisable(false);
+                }
+            } catch (final IOException ex) {
+                errorLabel.setVisible(true);
+                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
+            }
+        });
+
+        final Button removeCEButton = new Button(getTranslation(APPLICATION_SECTION, "Remove selection"));
+        removeCEButton.setOnAction(e -> {
+            selectedCE = defaultCESelection;
+            ceSelectButton.setGraphic(selectedCE);
+            ceNameLabel.setText(getTranslation(APPLICATION_SECTION, "No CE selected"));
+            ceNameLabel.setMaxWidth(getWidth());
+            ceLevelLabelHBox.setDisable(true);
+            ceLevelSlider.setDisable(true);
+            ceLimitBreakCheck.setDisable(true);
+        });
+
+        getChildren().addAll(
+                support,
+                servantSelectButton,
+                servantNameLabel,
+                removeServantButton,
+                editServantOptionButton,
+                ceSelectButton,
+                ceNameLabel,
+                removeCEButton,
+                ceLevelLabelHBox,
+                ceLevelSlider,
+                ceLimitBreakCheck,
+                servantOptionLabel
+        );
     }
 
-    private ServantOption createDefaultServantOption(final ServantData servantData) {
+    private static ServantOption createDefaultServantOption(final ServantData servantData) {
         final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(0);
         final int rarity = servantAscensionData.getCombatantData().getRarity();
 
@@ -146,7 +239,7 @@ public class FormationSelector extends VBox {
         return builder.build();
     }
 
-    private int defaultServantLevel(final int rarity) {
+    private static int defaultServantLevel(final int rarity) {
         return switch (rarity) {
             case 5 -> 90;
             case 4 -> 80;
@@ -155,10 +248,6 @@ public class FormationSelector extends VBox {
             case 1 -> 60;
             default -> 1;
         };
-    }
-
-    public boolean isSupport() {
-        return support.isSelected();
     }
 
     private void editServantOption() {
@@ -174,7 +263,7 @@ public class FormationSelector extends VBox {
         final Parent root = editor.getRoot();
         final Scene scene = new Scene(root);
 
-        newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "ServantSelector"));
+        newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "ServantOptionEditor"));
         newStage.setScene(scene);
 
         newStage.showAndWait();
@@ -185,5 +274,16 @@ public class FormationSelector extends VBox {
             servantOptionLabel.setMaxWidth(getWidth());
             selectedServant.getImageView().setImage(selectedServant.getAscensionImages().get(servantOption.getAscension() - 1));
         }
+    }
+
+    private static int defaultCELevel(final int rarity) {
+        return switch (rarity) {
+            case 5 -> 100;
+            case 4 -> 80;
+            case 3 -> 60;
+            case 2 -> 55;
+            case 1 -> 50;
+            default -> 1;
+        };
     }
 }
