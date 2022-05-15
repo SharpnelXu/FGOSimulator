@@ -4,9 +4,11 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
-import yome.fgo.simulator.models.effects.Effect;
+import yome.fgo.simulator.models.combatants.CommandCard;
+import yome.fgo.simulator.models.combatants.NoblePhantasm;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +17,15 @@ import static yome.fgo.simulator.gui.components.StatsLogger.LogLevel.DEBUG;
 import static yome.fgo.simulator.gui.components.StatsLogger.LogLevel.EFFECT;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class StatsLogger extends VBox {
+
+    public void logDamageParameter(final String message) {
+        appendLogEntry(DEBUG, message);
+    }
 
     public enum LogLevel {
         DEBUG(0),
@@ -82,18 +88,74 @@ public class StatsLogger extends VBox {
         appendLogEntry(EFFECT, message);
     }
 
-    public void logEffect(final String id, final Class<? extends Effect> aClass) {
+    public void logEffect(final String effect) {
+        appendLogEntry(EFFECT, effect);
+    }
+
+    public void logActivatePassiveSkill(final String id) {
         final String message = String.format(
-                getTranslation(APPLICATION_SECTION, "%s activates %s"),
-                getTranslation(ENTITY_NAME_SECTION, id),
-                getTranslation(EFFECT_SECTION, aClass.getSimpleName())
+                getTranslation(APPLICATION_SECTION, "%s activates passive skill"),
+                getTranslation(ENTITY_NAME_SECTION, id)
         );
 
         appendLogEntry(EFFECT, message);
     }
 
+    public void logActivateActiveSkill(final String id, final int skillIndex) {
+        final String message = String.format(
+                getTranslation(APPLICATION_SECTION, "%s activates Skill %d"),
+                getTranslation(ENTITY_NAME_SECTION, id),
+                skillIndex + 1
+        );
+
+        appendLogEntry(ACTION, message);
+    }
+
     public void logTurnStart(final int currentTurn) {
         final String message = String.format(getTranslation(APPLICATION_SECTION, "Turn %d Start"), currentTurn);
+        appendLogEntry(ACTION, message);
+    }
+
+    public void logCommandCardAction(
+            final String attackerId,
+            final String defenderId,
+            final CommandCard currentCard,
+            final int totalDamage,
+            final double totalNp,
+            final double totalCritStar,
+            final int overkillCount,
+            final int hits
+    ) {
+        final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        String commandCardString = getTranslation(COMMAND_CARD_TYPE_SECTION, currentCard.getCommandCardType().name());
+        if (currentCard instanceof NoblePhantasm) {
+            commandCardString += getTranslation(APPLICATION_SECTION, "NP Card");
+        } else {
+            commandCardString += getTranslation(APPLICATION_SECTION, "Command Card");
+        }
+        final List<String> commandCardAdditionString = new ArrayList<>();
+        if (currentCard.getCommandCardStrengthen() > 0) {
+            commandCardAdditionString.add("+" + currentCard.getCommandCardStrengthen());
+        }
+        if (currentCard.getCommandCodeData() != null) {
+            commandCardAdditionString.add(getTranslation(ENTITY_NAME_SECTION, currentCard.getCommandCodeData().getId()));
+        }
+        if (!commandCardAdditionString.isEmpty()) {
+            commandCardString += "(" + String.join(", ", commandCardAdditionString) + ")";
+        }
+
+        final String message = String.format(
+                getTranslation(APPLICATION_SECTION, "%s executes %s on %s, total damage: %d, total NP: %s, total critical star: %s, overkill: %d/%d"),
+                getTranslation(ENTITY_NAME_SECTION, attackerId),
+                commandCardString,
+                getTranslation(ENTITY_NAME_SECTION, defenderId),
+                totalDamage,
+                numberFormat.format(totalNp),
+                numberFormat.format(totalCritStar),
+                overkillCount,
+                hits
+        );
         appendLogEntry(ACTION, message);
     }
 

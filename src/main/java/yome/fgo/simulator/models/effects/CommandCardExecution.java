@@ -1,6 +1,7 @@
 package yome.fgo.simulator.models.effects;
 
 import lombok.Builder;
+import lombok.ToString;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
@@ -155,6 +156,36 @@ public class CommandCardExecution {
                 .fixedRandom(simulation.getFixedRandom())
                 .build();
 
+        final NpParameters npParameters = NpParameters.builder()
+                .npCharge(currentCard.getNpCharge())
+                .defenderClass(defenderClass)
+                .useUndeadNpCorrection(defender.getUndeadNpCorrection())
+                .currentCardType(currentCardType)
+                .chainIndex(chainIndex)
+                .isCriticalStrike(isCriticalStrike)
+                .firstCardType(firstCardType)
+                .commandCardBuff(commandCardBuff)
+                .commandCardResist(commandCardResist)
+                .npGenerationBuff(npGenerationBuff)
+                .build();
+
+        final CriticalStarParameters critStarParams = CriticalStarParameters.builder()
+                .servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
+                .defenderClass(defenderClass)
+                .currentCardType(currentCardType)
+                .chainIndex(chainIndex)
+                .isCriticalStrike(isCriticalStrike)
+                .firstCardType(firstCardType)
+                .commandCardBuff(commandCardBuff)
+                .commandCardResist(commandCardResist)
+                .critStarGenerationBuff(critStarGenerationBuff)
+                .build();
+
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logDamageParameter(damageParameters.toString());
+            simulation.getStatsLogger().logDamageParameter(npParameters.toString());
+            simulation.getStatsLogger().logDamageParameter(critStarParams.toString());
+        }
 
         final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
 
@@ -162,7 +193,9 @@ public class CommandCardExecution {
 
         int remainingDamage = totalDamage;
 
+        double totalNp = 0;
         double totalCritStar = 0;
+        int overkillCount = 0;
         for (int i = 0; i < hitsPercentages.size(); i += 1) {
             if (!skipDamage) {
                 final double hitsPercentage = hitsPercentages.get(i);
@@ -179,37 +212,15 @@ public class CommandCardExecution {
             }
 
             final boolean isOverkill = defender.isAlreadyDead() || defender.isBuggedOverkill();
+            if (isOverkill) {
+                overkillCount += 1;
+            }
 
-            final NpParameters npParameters = NpParameters.builder()
-                    .npCharge(currentCard.getNpCharge())
-                    .defenderClass(defenderClass)
-                    .useUndeadNpCorrection(defender.getUndeadNpCorrection())
-                    .currentCardType(currentCardType)
-                    .chainIndex(chainIndex)
-                    .isCriticalStrike(isCriticalStrike)
-                    .firstCardType(firstCardType)
-                    .isOverkill(isOverkill)
-                    .commandCardBuff(commandCardBuff)
-                    .commandCardResist(commandCardResist)
-                    .npGenerationBuff(npGenerationBuff)
-                    .build();
+            final double hitNpGain = calculateNpGain(npParameters, isOverkill);
+            totalNp = RoundUtils.roundNearest(hitNpGain + totalNp);
+            attacker.changeNp(hitNpGain);
 
-            attacker.changeNp(calculateNpGain(npParameters));
-
-            final CriticalStarParameters critStarParams = CriticalStarParameters.builder()
-                    .servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
-                    .defenderClass(defenderClass)
-                    .currentCardType(currentCardType)
-                    .chainIndex(chainIndex)
-                    .isCriticalStrike(isCriticalStrike)
-                    .firstCardType(firstCardType)
-                    .isOverkill(isOverkill)
-                    .commandCardBuff(commandCardBuff)
-                    .commandCardResist(commandCardResist)
-                    .critStarGenerationBuff(critStarGenerationBuff)
-                    .build();
-
-            final double hitStars = calculateCritStar(critStarParams);
+            final double hitStars = calculateCritStar(critStarParams, isOverkill);
             if (hitStars > 3) {
                 totalCritStar += 3;
             } else {
@@ -217,6 +228,20 @@ public class CommandCardExecution {
             }
         }
         simulation.gainStar(RoundUtils.roundNearest(totalCritStar));
+
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logCommandCardAction(
+                    attacker.getId(),
+                    defender.getId(),
+                    currentCard,
+                    totalDamage - remainingDamage,
+                    totalNp,
+                    totalCritStar,
+                    overkillCount,
+                    hitsPercentages.size()
+            );
+        }
+
 
         attacker.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
         currentCard.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
@@ -304,13 +329,13 @@ public class CommandCardExecution {
         return Math.max(0, totalDamage);
     }
 
-    public static double calculateNpGain(final NpParameters npParameters) {
+    public static double calculateNpGain(final NpParameters npParameters, final boolean isOverkill) {
         final double commandCardNpCorrection = getCommandCardNpCorrection(npParameters.currentCardType, npParameters.chainIndex);
         final double artsStartNpBoost = npParameters.firstCardType == ARTS ? 1 : 0;
         final double classNpCorrection = getClassNpCorrection(npParameters.defenderClass);
         final double undeadNpCorrection = npParameters.useUndeadNpCorrection ? 1.2 : 1;
         final int criticalStrikeNpCorrection = npParameters.isCriticalStrike ? 2 : 1;
-        final double overkillNpBonus = npParameters.isOverkill ? 1.5 : 1;
+        final double overkillNpBonus = isOverkill ? 1.5 : 1;
 
         // capped buffs
         final double commandCardBuff = modifierCap(npParameters.commandCardBuff, 4, -1);
@@ -324,12 +349,12 @@ public class CommandCardExecution {
         return Math.max(0, RoundUtils.roundNearest(roundedNp2 / 10000));
     }
 
-    public static double calculateCritStar(final CriticalStarParameters critStarParams) {
+    public static double calculateCritStar(final CriticalStarParameters critStarParams, final boolean isOverkill) {
         final double commandCardCritStarCorrection = getCommandCardCritStarCorrection(critStarParams.currentCardType, critStarParams.chainIndex);
         final double quickStartCritStarBoost = critStarParams.firstCardType == QUICK ? 0.2 : 0;
         final double classCritStarCorrection = getClassCritStarCorrection(critStarParams.defenderClass);
         final double criticalStrikeCritStarCorrection = critStarParams.isCriticalStrike ? 0.2 : 0;
-        final double overkillCritStarBonus = critStarParams.isOverkill ? 0.3 : 0;
+        final double overkillCritStarBonus = isOverkill ? 0.3 : 0;
 
         // capped buffs
         final double commandCardBuff = modifierCap(critStarParams.commandCardBuff, 4, -1);
@@ -344,6 +369,7 @@ public class CommandCardExecution {
     }
 
     @Builder
+    @ToString
     public static class DamageParameters {
         private final int attack;
         private final int totalHits;
@@ -371,6 +397,7 @@ public class CommandCardExecution {
     }
 
     @Builder
+    @ToString
     public static class NpParameters {
         private final double npCharge;
         private final FateClass defenderClass;
@@ -382,10 +409,10 @@ public class CommandCardExecution {
         private final double commandCardBuff;
         private final double commandCardResist;
         private final double npGenerationBuff;
-        private boolean isOverkill;
     }
 
     @Builder
+    @ToString
     public static class CriticalStarParameters {
         private final double servantCriticalStarGeneration;
         private final FateClass defenderClass;
@@ -396,6 +423,5 @@ public class CommandCardExecution {
         private final double commandCardBuff;
         private final double commandCardResist;
         private final double critStarGenerationBuff;
-        private boolean isOverkill;
     }
 }

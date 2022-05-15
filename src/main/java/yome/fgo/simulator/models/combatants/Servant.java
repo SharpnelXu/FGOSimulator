@@ -185,6 +185,10 @@ public class Servant extends Combatant {
         ascension = newAscension;
         buildAscension(newAscension);
 
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logActivatePassiveSkill(getId());
+        }
+
         simulation.setActivator(this);
         simulation.setActivatingServantPassiveEffects(true);
 
@@ -212,6 +216,10 @@ public class Servant extends Combatant {
 
     @Override
     public void initiate(final Simulation simulation) {
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logActivatePassiveSkill(getId());
+        }
+
         simulation.setActivator(this);
         simulation.setActivatingServantPassiveEffects(true);
 
@@ -252,6 +260,9 @@ public class Servant extends Combatant {
     public void activateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
         simulation.setActivator(this);
 
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logActivateActiveSkill(getId(), activeSkillIndex);
+        }
         final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
 
         activeSkills.get(activeSkillIndex).activate(simulation, currentRank);

@@ -39,7 +39,8 @@
   "cePrefs": [{
     "craftEssenceNo": 1080,
     "option": {
-      "craftEssenceLevel": 58
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
     }
   }],
   "mcPrefs": [{

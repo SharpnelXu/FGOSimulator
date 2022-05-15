@@ -11,6 +11,7 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.conditions.Never;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.not;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -49,6 +50,7 @@ public class EffectFactoryTest extends EasyMockSupport {
         final Effect effect = buildEffect(effectData, 2);
 
         simulation.gainStar(15.0);
+        expect(simulation.getStatsLogger()).andReturn(null);
         replayAll();
 
         effect.apply(simulation);
@@ -65,6 +67,7 @@ public class EffectFactoryTest extends EasyMockSupport {
         final Effect effect = buildEffect(effectData, 2);
 
         simulation.gainStar(20.0);
+        expect(simulation.getStatsLogger()).andReturn(null);
         replayAll();
 
         effect.apply(simulation, 3);

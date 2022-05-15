@@ -2,6 +2,7 @@ package yome.fgo.simulator.models.effects;
 
 import com.google.common.collect.Lists;
 import lombok.Builder;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
@@ -186,6 +187,37 @@ public class NoblePhantasmDamage extends Effect {
                     .fixedRandom(simulation.getFixedRandom())
                     .build();
 
+            final NpParameters npParameters = NpParameters.builder()
+                    .npCharge(currentCard.getNpCharge())
+                    .defenderClass(defenderClass)
+                    .useUndeadNpCorrection(defender.getUndeadNpCorrection())
+                    .currentCardType(currentCardType)
+                    .chainIndex(0)
+                    .isCriticalStrike(false)
+                    .firstCardType(ANY) // works as long as not ARTS
+                    .commandCardBuff(commandCardBuff)
+                    .commandCardResist(commandCardResist)
+                    .npGenerationBuff(npGenerationBuff)
+                    .build();
+
+            final CriticalStarParameters critStarParams = CriticalStarParameters.builder()
+                    .servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
+                    .defenderClass(defenderClass)
+                    .currentCardType(currentCardType)
+                    .chainIndex(0)
+                    .isCriticalStrike(false)
+                    .firstCardType(ANY) // works as long as not QUICK
+                    .commandCardBuff(commandCardBuff)
+                    .commandCardResist(commandCardResist)
+                    .critStarGenerationBuff(critStarGenerationBuff)
+                    .build();
+
+            if (simulation.getStatsLogger() != null) {
+                simulation.getStatsLogger().logDamageParameter(npDamageParams.toString());
+                simulation.getStatsLogger().logDamageParameter(npParameters.toString());
+                simulation.getStatsLogger().logDamageParameter(critStarParams.toString());
+            }
+
             final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
 
             if (defender.isReceivedInstantDeath()) {
@@ -197,7 +229,9 @@ public class NoblePhantasmDamage extends Effect {
 
             int remainingDamage = totalDamage;
 
+            double totalNp = 0;
             double totalCritStar = 0;
+            int overkillCount = 0;
             for (int i = 0; i < hitsPercentages.size(); i += 1) {
                 if (!skipDamage) {
                     final double hitsPercentage = hitsPercentages.get(i);
@@ -214,37 +248,15 @@ public class NoblePhantasmDamage extends Effect {
                 }
 
                 final boolean isOverkill = defender.isAlreadyDead();
+                if (isOverkill) {
+                    overkillCount += 1;
+                }
 
-                final NpParameters npParameters = NpParameters.builder()
-                        .npCharge(currentCard.getNpCharge())
-                        .defenderClass(defenderClass)
-                        .useUndeadNpCorrection(defender.getUndeadNpCorrection())
-                        .currentCardType(currentCardType)
-                        .chainIndex(0)
-                        .isCriticalStrike(false)
-                        .firstCardType(ANY) // works as long as not ARTS
-                        .isOverkill(isOverkill)
-                        .commandCardBuff(commandCardBuff)
-                        .commandCardResist(commandCardResist)
-                        .npGenerationBuff(npGenerationBuff)
-                        .build();
+                final double hitNpGain = calculateNpGain(npParameters, isOverkill);
+                totalNp = RoundUtils.roundNearest(hitNpGain + totalNp);
+                attacker.changeNp(hitNpGain);
 
-                attacker.changeNp(calculateNpGain(npParameters));
-
-                final CriticalStarParameters critStarParams = CriticalStarParameters.builder()
-                        .servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
-                        .defenderClass(defenderClass)
-                        .currentCardType(currentCardType)
-                        .chainIndex(0)
-                        .isCriticalStrike(false)
-                        .firstCardType(ANY) // works as long as not QUICK
-                        .isOverkill(isOverkill)
-                        .commandCardBuff(commandCardBuff)
-                        .commandCardResist(commandCardResist)
-                        .critStarGenerationBuff(critStarGenerationBuff)
-                        .build();
-
-                final double hitStars = calculateCritStar(critStarParams);
+                final double hitStars = calculateCritStar(critStarParams, isOverkill);
                 if (hitStars > 3) {
                     totalCritStar += 3;
                 } else {
@@ -252,6 +264,19 @@ public class NoblePhantasmDamage extends Effect {
                 }
             }
             simulation.gainStar(totalCritStar);
+
+            if (simulation.getStatsLogger() != null) {
+                simulation.getStatsLogger().logCommandCardAction(
+                        attacker.getId(),
+                        defender.getId(),
+                        currentCard,
+                        totalDamage - remainingDamage,
+                        totalNp,
+                        totalCritStar,
+                        overkillCount,
+                        hitsPercentages.size()
+                );
+            }
 
             attacker.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
             defender.activateEffectActivatingBuff(simulation, PostDefenseEffect.class);
@@ -331,6 +356,7 @@ public class NoblePhantasmDamage extends Effect {
     }
 
     @Builder
+    @ToString
     public static class NpDamageParameters {
         private final int attack;
         private final double damageRate;

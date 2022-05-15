@@ -232,6 +232,9 @@ public class Simulation {
 
     public void activateMysticCodeSkill(final int skillIndex) {
         setActivator(mysticCodeActivator);
+        if (statsLogger != null) {
+            statsLogger.logActivateActiveSkill(mysticCodeActivator.getId(), skillIndex);
+        }
         mysticCode.activateSkill(this, skillIndex);
         unsetActivator();
     }

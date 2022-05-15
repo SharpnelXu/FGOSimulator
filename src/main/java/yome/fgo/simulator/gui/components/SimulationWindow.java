@@ -64,6 +64,8 @@ import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printEffectData;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENEMY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.BUFF_ICON_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.CARD_IMAGE_DIRECTORY_PATH;
@@ -375,6 +377,16 @@ public class SimulationWindow {
 
                     selections.add(backupIndex);
 
+                    final String servantIdOnField = simulation.getCurrentServants().get(onFieldIndex).getId();
+                    final String servantIdInBackup = simulation.getBackupServants().get(backupIndex).getId();
+                    statsLogger.logEffect(
+                            String.format(
+                                    getTranslation(APPLICATION_SECTION, "Selected %s and %s (backup) to swap"),
+                                    getTranslation(ENEMY_NAME_SECTION, servantIdOnField),
+                                    getTranslation(ENEMY_NAME_SECTION, servantIdInBackup)
+                            )
+                    );
+
                     simulation.setOrderChangeSelections(selections);
 
                     if (servantIndex < 0) {
@@ -406,6 +418,12 @@ public class SimulationWindow {
                     cardTypeSelectButton.setOnAction(e -> {
                         specialSelectionVBox.setVisible(false);
                         simulation.setSelectedCommandCardType(commandCardType);
+                        statsLogger.logEffect(
+                                String.format(
+                                        getTranslation(APPLICATION_SECTION, "Selected card type %s"),
+                                        getTranslation(COMMAND_CARD_TYPE_SECTION, commandCardType.name())
+                                )
+                        );
                         if (servantIndex < 0) {
                             simulation.activateMysticCodeSkill(skillIndex);
                             render();
@@ -433,6 +451,12 @@ public class SimulationWindow {
                     randomEffectSelectionButton.setOnAction(e -> {
                         specialSelectionVBox.setVisible(false);
                         simulation.setSelectedEffectData(effectData);
+                        statsLogger.logEffect(
+                                String.format(
+                                        getTranslation(APPLICATION_SECTION, "Selected random effect %s"),
+                                        printEffectData(effectData)
+                                )
+                        );
                         if (servantIndex < 0) {
                             simulation.activateMysticCodeSkill(skillIndex);
                             render();
@@ -501,6 +525,8 @@ public class SimulationWindow {
             buffIcon.setFitHeight(20);
             buffGrid.add(buffIcon, 0, i);
             final Label buffLabel = new Label(buff.toString());
+            buffLabel.setWrapText(true);
+            buffLabel.setMaxWidth(400);
             buffGrid.add(buffLabel, 1, i);
             final Label durationLabel = new Label(buff.durationString());
             buffGrid.add(durationLabel, 2, i);
