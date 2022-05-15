@@ -62,7 +62,6 @@ import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printEffectData;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.BUFF_ICON_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.CARD_IMAGE_DIRECTORY_PATH;
@@ -395,18 +394,12 @@ public class SimulationWindow {
                 cardTypesHBox.setSpacing(10);
                 final List<CommandCardType> selectionTypes = specialActivationParams.getCardTypeSelectionsList();
                 for (final CommandCardType commandCardType : selectionTypes) {
-                    final Button cardTypeSelectButton = new Button(getTranslation(
-                            COMMAND_CARD_TYPE_SECTION,
-                            commandCardType.name()
-                    ));
-                    switch (commandCardType) {
-                        case BUSTER -> cardTypeSelectButton.setStyle(
-                                "-fx-border-color:red; -fx-text-fill: red; -fx-border-width: 8");
-                        case ARTS -> cardTypeSelectButton.setStyle(
-                                "-fx-border-color:blue; -fx-text-fill: blue; -fx-border-width: 8");
-                        case QUICK -> cardTypeSelectButton.setStyle(
-                                "-fx-border-color:green; -fx-text-fill: green; -fx-border-width: 8");
-                    }
+                    final Button cardTypeSelectButton = new Button();
+                    final ImageView cardImage = new ImageView();
+                    cardImage.setFitHeight(80);
+                    cardImage.setFitWidth(80);
+                    cardImage.setImage(getCardImage(commandCardType));
+                    cardTypeSelectButton.setGraphic(cardImage);
 
                     cardTypeSelectButton.setOnAction(e -> {
                         specialSelectionVBox.setVisible(false);

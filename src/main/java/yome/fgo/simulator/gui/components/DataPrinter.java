@@ -410,7 +410,7 @@ public class DataPrinter {
             }
             builder.append(getTranslation(APPLICATION_SECTION, "Value"));
             builder.append(" ");
-            builder.append(intListToString(effectData.getValuesList()));
+            builder.append(intListToString(effectData.getIntValuesList().stream().map(Integer::doubleValue).collect(Collectors.toList())));
             if (effectData.hasVariationData()) {
                 builder.append(" ");
                 builder.append(printVariationData(effectData.getVariationData()));

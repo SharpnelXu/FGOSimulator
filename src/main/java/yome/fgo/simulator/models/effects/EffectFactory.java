@@ -72,7 +72,8 @@ public class EffectFactory {
 
         } else if (type.equalsIgnoreCase(HpChange.class.getSimpleName())) {
             final HpChange.HpChangeBuilder<?, ?> builder = HpChange.builder()
-                    .isLethal(effectData.getIsLethal());
+                    .isLethal(effectData.getIsLethal())
+                    .target(effectData.getTarget());
             if (effectData.getIsOverchargedEffect()) {
                 builder.isOverchargedEffect(true);
                 if (effectData.getIsHpChangePercentBased()) {

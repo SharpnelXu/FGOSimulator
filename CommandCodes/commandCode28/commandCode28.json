@@ -18,7 +18,7 @@
     }, {
       "type": "HpChange",
       "target": "ATTACKER",
-      "values": [100.0]
+      "intValues": [100]
     }],
     "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"],
     "hasCustomTraits": true,
