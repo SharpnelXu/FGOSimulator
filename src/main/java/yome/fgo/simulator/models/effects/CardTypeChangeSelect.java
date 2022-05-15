@@ -7,12 +7,8 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory;
 
-import java.util.Set;
-
 @SuperBuilder
 public class CardTypeChangeSelect extends GrantBuff {
-    private final Set<CommandCardType> selections;
-
     private CommandCardType selectedCardType;
 
     @Override
@@ -25,7 +21,7 @@ public class CardTypeChangeSelect extends GrantBuff {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
-        selectedCardType = simulation.selectCommandCardType(selections);
+        selectedCardType = simulation.selectCommandCardType();
         super.internalApply(simulation, level);
     }
 }

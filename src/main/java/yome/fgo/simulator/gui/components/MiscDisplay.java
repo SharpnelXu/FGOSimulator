@@ -13,6 +13,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.gui.components.StatsLogger.LogLevel;
 import yome.fgo.simulator.gui.creators.MysticCodeCreator;
 import yome.fgo.simulator.models.Simulation;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.NO_SPECIAL_TARGET;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -211,7 +213,13 @@ public class MiscDisplay extends VBox {
     }
 
     private void activateSkill(final int skillIndex) {
-        simulationWindow.getSimulation().activateMysticCodeSkill(skillIndex);
-        simulationWindow.render();
+        final SpecialActivationParams specialActivationParams =
+                simulationWindow.getSimulation().getMysticCode().getActiveSkillSpecialTarget(skillIndex);
+        if (specialActivationParams == null || specialActivationParams.getSpecialTarget() == NO_SPECIAL_TARGET) {
+            simulationWindow.getSimulation().activateMysticCodeSkill(skillIndex);
+            simulationWindow.render();
+        } else {
+            simulationWindow.showSpecialTargetSelectionWindow(specialActivationParams, -1, skillIndex);
+        }
     }
 }

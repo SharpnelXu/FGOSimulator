@@ -39,7 +39,10 @@
         "type": "ServantsExplodable"
       }]
     },
-    "iconName": "orderChange"
+    "iconName": "orderChange",
+    "specialActivationParams": {
+      "specialTarget": "ORDER_CHANGE"
+    }
   }],
   "id": "mysticCode2",
   "mcNum": 2

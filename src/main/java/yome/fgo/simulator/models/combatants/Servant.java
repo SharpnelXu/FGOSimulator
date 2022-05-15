@@ -14,6 +14,7 @@ import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
+import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.data.proto.FgoStorageData.Status;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
@@ -258,7 +259,7 @@ public class Servant extends Combatant {
         simulation.unsetActivator();
     }
 
-    public String getActivateSkillIconPath(final Simulation simulation, final int activeSkillIndex) {
+    public String getActiveSkillIconPath(final Simulation simulation, final int activeSkillIndex) {
         simulation.setActivator(this);
 
         final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
@@ -268,6 +269,19 @@ public class Servant extends Combatant {
         simulation.unsetActivator();
 
         return iconPath;
+    }
+
+    public SpecialActivationParams getActiveSkillSpecialTarget(final Simulation simulation, final int activeSkillIndex) {
+        simulation.setActivator(this);
+
+        final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
+
+        final SpecialActivationParams specialActivationParams =
+                activeSkills.get(activeSkillIndex).getSpecialActivationParams(currentRank);
+
+        simulation.unsetActivator();
+
+        return specialActivationParams;
     }
 
     public boolean canActivateActiveSkill(final Simulation simulation, final int activeSkillIndex) {

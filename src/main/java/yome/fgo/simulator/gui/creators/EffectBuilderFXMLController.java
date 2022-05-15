@@ -17,28 +17,22 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
-import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.BuffsCellFactory;
-import yome.fgo.simulator.gui.components.EffectsCellFactory;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.effects.EffectFactory.EffectFields;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
-import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
-import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printVariationData;
@@ -48,21 +42,17 @@ import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.intsToSt
 import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.parseDoubles;
 import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.parseInts;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
-import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.creators.VariationBuilder.createVariation;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillTargets;
 import static yome.fgo.simulator.models.effects.EffectFactory.EFFECT_REQUIRED_FIELDS_MAP;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_GRANT_BUFF;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_HP_CHANGE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_INT_VALUE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_NP_DAMAGE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_RANDOM_SELECTION;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_TARGET;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -70,9 +60,6 @@ public class EffectBuilderFXMLController implements Initializable {
 
     @FXML
     private Button addBuffButton;
-
-    @FXML
-    private Button addEffectsButton;
 
     @FXML
     private Label buffsLabel;
@@ -102,12 +89,6 @@ public class EffectBuilderFXMLController implements Initializable {
     private Button cancelButton;
 
     @FXML
-    private Label cardTypeLabel;
-
-    @FXML
-    private HBox cardTypePane;
-
-    @FXML
     private CheckBox conditionCheckbox;
 
     @FXML
@@ -127,15 +108,6 @@ public class EffectBuilderFXMLController implements Initializable {
 
     @FXML
     private Label effectTypeLabel;
-
-    @FXML
-    private Label effectsLabel;
-
-    @FXML
-    private ListView<EffectData> effectsList;
-
-    @FXML
-    private HBox effectsPane;
 
     @FXML
     private Label errorLabel;
@@ -258,7 +230,6 @@ public class EffectBuilderFXMLController implements Initializable {
     private VariationData variationData;
     private ConditionData npSpdCondition;
     private VariationData npSpdVariation;
-    private List<CheckBox> cardTypeCheckboxes;
 
     private List<Pane> optionalPanes;
 
@@ -338,26 +309,12 @@ public class EffectBuilderFXMLController implements Initializable {
             if (requiredFields.contains(EFFECT_FIELD_GRANT_BUFF)) {
                 buffsList.getItems().addAll(effectDataBuilder.getBuffDataList());
             }
-            if (requiredFields.contains(EFFECT_FIELD_CARD_TYPE_SELECT)) {
-                for (final CommandCardType cardType : effectDataBuilder.getCardTypeSelectionsList()) {
-                    if (cardType == QUICK) {
-                        cardTypeCheckboxes.get(0).setSelected(true);
-                    } else if (cardType == ARTS) {
-                        cardTypeCheckboxes.get(1).setSelected(true);
-                    } else if (cardType == BUSTER) {
-                        cardTypeCheckboxes.get(2).setSelected(true);
-                    }
-                }
-            }
             if (requiredFields.contains(EFFECT_FIELD_HP_CHANGE)) {
                 hpPercentCheckbox.setSelected(effectDataBuilder.getIsHpChangePercentBased());
                 hpDrainLethalCheckbox.setSelected(effectDataBuilder.getIsLethal());
             }
             if (requiredFields.contains(EFFECT_FIELD_REMOVE_BUFF)) {
                 removeFromStartCheckbox.setSelected(effectDataBuilder.getRemoveFromStart());
-            }
-            if (requiredFields.contains(EFFECT_FIELD_RANDOM_SELECTION)) {
-                effectsList.getItems().addAll(effectDataBuilder.getRandomEffectSelectionsList());
             }
         }
     }
@@ -375,7 +332,7 @@ public class EffectBuilderFXMLController implements Initializable {
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-        optionalPanes = ImmutableList.of(buffsPane, effectsPane, hpPane, npPane, targetPane, valuePane, cardTypePane);
+        optionalPanes = ImmutableList.of(buffsPane, hpPane, npPane, targetPane, valuePane);
         setPaneVisAndManaged(optionalPanes, false);
         removeFromStartCheckbox.setVisible(false);
         removeFromStartCheckbox.setManaged(false);
@@ -489,12 +446,6 @@ public class EffectBuilderFXMLController implements Initializable {
         editNpSPDVariationButton.setOnAction(e -> npSpdVariation = editVariation(npSpdVariation, builtNpSPDVariationLabel));
         builtNpSPDVariationLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
 
-        effectsLabel.setText(getTranslation(APPLICATION_SECTION, "Effects"));
-        addEffectsButton.setText(getTranslation(APPLICATION_SECTION, "Add Effect"));
-        addEffectsButton.setOnAction(e -> addEffect());
-        effectsList.setCellFactory(new EffectsCellFactory(errorLabel));
-        effectsList.setItems(FXCollections.observableArrayList());
-
         buffsLabel.setText(getTranslation(APPLICATION_SECTION, "Buffs"));
         addBuffButton.setText(getTranslation(APPLICATION_SECTION, "Add Buff"));
         addBuffButton.setOnAction(e -> addBuff());
@@ -507,15 +458,6 @@ public class EffectBuilderFXMLController implements Initializable {
             valueLabel.setText(getTranslation(APPLICATION_SECTION, string));
         });
         hpDrainLethalCheckbox.setText(getTranslation(APPLICATION_SECTION, "Is lethal on HP drain"));
-
-        cardTypeLabel.setText(getTranslation(APPLICATION_SECTION, "Card Types"));
-        final List<CommandCardType> cardTypes = ImmutableList.of(QUICK, ARTS, BUSTER);
-        cardTypeCheckboxes = new ArrayList<>();
-        for (final CommandCardType cardType : cardTypes) {
-            final CheckBox checkBox = new CheckBox(getTranslation(COMMAND_CARD_TYPE_SECTION, cardType.name()));
-            cardTypeCheckboxes.add(checkBox);
-            cardTypePane.getChildren().add(checkBox);
-        }
 
         removeFromStartCheckbox.setText(getTranslation(APPLICATION_SECTION, "Remove from earliest"));
 
@@ -564,24 +506,10 @@ public class EffectBuilderFXMLController implements Initializable {
     public void addBuff() {
         try {
             final BuffData.Builder builder = BuffData.newBuilder();
-            createBuff(addEffectsButton.getScene().getWindow(), builder);
+            createBuff(addBuffButton.getScene().getWindow(), builder);
 
             if (!builder.getType().isEmpty()) {
                 buffsList.getItems().add(builder.build());
-            }
-        } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
-            errorLabel.setVisible(true);
-        }
-    }
-
-    public void addEffect() {
-        try {
-            final EffectData.Builder builder = EffectData.newBuilder();
-            createEffect(addEffectsButton.getScene().getWindow(), builder);
-
-            if (!builder.getType().isEmpty()) {
-                effectsList.getItems().add(builder.build());
             }
         } catch (final IOException e) {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
@@ -646,9 +574,6 @@ public class EffectBuilderFXMLController implements Initializable {
         if (requiredFields.contains(EFFECT_FIELD_GRANT_BUFF)) {
             setPaneVisAndManaged(buffsPane, true);
         }
-        if (requiredFields.contains(EFFECT_FIELD_CARD_TYPE_SELECT)) {
-            setPaneVisAndManaged(cardTypePane, true);
-        }
         if (requiredFields.contains(EFFECT_FIELD_HP_CHANGE)) {
             final String string = hpPercentCheckbox.isSelected() ? "Value (%)" : "Value";
             valueLabel.setText(getTranslation(APPLICATION_SECTION, string));
@@ -658,9 +583,6 @@ public class EffectBuilderFXMLController implements Initializable {
         if (requiredFields.contains(EFFECT_FIELD_REMOVE_BUFF)) {
             removeFromStartCheckbox.setVisible(true);
             removeFromStartCheckbox.setManaged(true);
-        }
-        if (requiredFields.contains(EFFECT_FIELD_RANDOM_SELECTION)) {
-            setPaneVisAndManaged(effectsPane, true);
         }
     }
 
@@ -821,28 +743,13 @@ public class EffectBuilderFXMLController implements Initializable {
                 }
                 effectDataBuilder.addAllBuffData(buffsList.getItems());
             }
-            if (requiredFields.contains(EFFECT_FIELD_CARD_TYPE_SELECT)) {
-                final List<CommandCardType> cardTypes = ImmutableList.of(QUICK, ARTS, BUSTER);
-                for (int i = 0; i < cardTypeCheckboxes.size(); i++) {
-                    if (cardTypeCheckboxes.get(i).isSelected()) {
-                        effectDataBuilder.addCardTypeSelections(cardTypes.get(i));
-                    }
-                }
-            }
+
             if (requiredFields.contains(EFFECT_FIELD_HP_CHANGE)) {
                 effectDataBuilder.setIsHpChangePercentBased(hpPercentCheckbox.isSelected());
                 effectDataBuilder.setIsLethal(hpDrainLethalCheckbox.isSelected());
             }
             if (requiredFields.contains(EFFECT_FIELD_REMOVE_BUFF)) {
                 effectDataBuilder.setRemoveFromStart(removeFromStartCheckbox.isSelected());
-            }
-            if (requiredFields.contains(EFFECT_FIELD_RANDOM_SELECTION)) {
-                if (effectsList.getItems().isEmpty()) {
-                    errorLabel.setVisible(true);
-                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "No effects created"));
-                    return;
-                }
-                effectDataBuilder.addAllRandomEffectSelections(effectsList.getItems());
             }
 
             effectDataBuilder.setType(effectTypeChoices.getValue());

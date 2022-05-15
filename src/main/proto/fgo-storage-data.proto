@@ -201,6 +201,20 @@ message ActiveSkillData {
   repeated EffectData effects = 2;
   ConditionData activationCondition = 3;
   string iconName = 4;
+  SpecialActivationParams specialActivationParams = 5;
+}
+
+message SpecialActivationParams {
+  SpecialActivationTarget specialTarget = 1;
+  repeated CommandCardType cardTypeSelections = 2;
+  repeated EffectData randomEffectSelections = 3;
+}
+
+enum SpecialActivationTarget {
+  NO_SPECIAL_TARGET = 0;
+  ORDER_CHANGE = 1;
+  CARD_TYPE = 2;
+  RANDOM_EFFECT = 3;
 }
 
 message PassiveSkillData {
@@ -233,15 +247,11 @@ message EffectData {
 
   repeated BuffData buffData = 8; // each represents one OC for GrantBuff
 
-  repeated CommandCardType cardTypeSelections = 12;
-
   // for hp change
   bool isLethal = 15;
   bool isHpChangePercentBased = 16;
 
   bool removeFromStart = 20;
-
-  repeated EffectData randomEffectSelections = 21;
 }
 
 message NpDamageAdditionalParams {

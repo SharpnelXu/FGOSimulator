@@ -73,14 +73,6 @@
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
             </HBox>
-            <HBox fx:id="cardTypePane" alignment="CENTER_LEFT" spacing="20.0">
-               <children>
-                  <Label fx:id="cardTypeLabel" text="Label" />
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-            </HBox>
             <VBox fx:id="valuePane" spacing="10.0">
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
@@ -169,20 +161,6 @@
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
             </VBox>
-            <HBox fx:id="effectsPane" spacing="20.0">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-               <children>
-                  <Label fx:id="effectsLabel" text="Label" />
-                  <AnchorPane HBox.hgrow="ALWAYS">
-                     <children>
-                        <ListView fx:id="effectsList" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button fx:id="addEffectsButton" mnemonicParsing="false" prefWidth="100.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
             <HBox fx:id="buffsPane" spacing="20.0">
                <children>
                   <Label fx:id="buffsLabel" text="Label" />

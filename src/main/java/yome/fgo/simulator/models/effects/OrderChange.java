@@ -12,11 +12,11 @@ public class OrderChange extends Effect {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
-        final List<Servant> targets = simulation.getOrderChangeTargets();
-        final Servant servantOnField = targets.get(0);
-        final Servant servantInBackup = targets.get(1);
-        final int onFieldIndex = simulation.getCurrentAllyTargetIndex();
-        final int backupIndex = simulation.getCurrentBackupTargetIndex();
+        final List<Integer> targets = simulation.getOrderChangeTargets();
+        final int onFieldIndex = targets.get(0);
+        final int backupIndex = targets.get(1);
+        final Servant servantOnField = simulation.getCurrentServants().get(onFieldIndex);
+        final Servant servantInBackup = simulation.getBackupServants().get(backupIndex);
 
         simulation.getBackupServants().set(backupIndex, servantOnField);
         simulation.getCurrentServants().set(onFieldIndex, servantInBackup);

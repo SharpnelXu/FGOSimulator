@@ -26,6 +26,7 @@ public class TranslationManager {
     public static final String CLASS_ADV_SECTION = "ClassAdv";
     public static final String EFFECT_SECTION = "Effect";
     public static final String ENEMY_NAME_SECTION = "Name";
+    public static final String SPECIAL_ACTIVATION_SECTION = "SpecialActivationTarget";
 
     public static void setTranslations(final String language) {
         TRANSLATIONS.clear();

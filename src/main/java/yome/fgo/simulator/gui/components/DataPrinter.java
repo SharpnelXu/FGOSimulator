@@ -4,7 +4,6 @@ import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
-import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
@@ -33,13 +32,11 @@ import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFie
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.effects.EffectFactory.EFFECT_REQUIRED_FIELDS_MAP;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_GRANT_BUFF;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_HP_CHANGE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_INT_VALUE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_NP_DAMAGE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_RANDOM_SELECTION;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_TARGET;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
@@ -478,13 +475,6 @@ public class DataPrinter {
                     .collect(Collectors.toList());
             builder.append(buffs);
         }
-        if (requiredFields.contains(EFFECT_FIELD_CARD_TYPE_SELECT)) {
-            builder.append(" :");
-            for (final CommandCardType cardType : effectData.getCardTypeSelectionsList()) {
-                builder.append(" ");
-                builder.append(getTranslation(COMMAND_CARD_TYPE_SECTION, cardType.name()));
-            }
-        }
         if (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && effectData.getIsLethal()) {
             builder.append(" : ");
             builder.append(getTranslation(APPLICATION_SECTION, "Is lethal on HP drain"));
@@ -492,14 +482,6 @@ public class DataPrinter {
         if (requiredFields.contains(EFFECT_FIELD_REMOVE_BUFF) && effectData.getRemoveFromStart()) {
             builder.append(" : ");
             builder.append(getTranslation(APPLICATION_SECTION, "Remove from earliest"));
-        }
-        if (requiredFields.contains(EFFECT_FIELD_RANDOM_SELECTION)) {
-            builder.append(" : ");
-            final List<String> effectStrings = effectData.getRandomEffectSelectionsList()
-                    .stream()
-                    .map(DataPrinter::printEffectData)
-                    .collect(Collectors.toList());
-            builder.append(effectStrings);
         }
 
         return builder.toString();

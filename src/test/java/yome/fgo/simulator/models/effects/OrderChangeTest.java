@@ -19,6 +19,7 @@ public class OrderChangeTest {
         final Servant inBackup = mock(Servant.class);
         simulation.setCurrentServants(Lists.newArrayList(onField));
         simulation.setBackupServants(Lists.newLinkedList(ImmutableList.of(inBackup)));
+        simulation.setOrderChangeSelections(ImmutableList.of(0, 0));
 
         final OrderChange orderChange = OrderChange.builder().build();
 

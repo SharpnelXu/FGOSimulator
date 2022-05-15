@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
+import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.simulator.gui.components.StatsLogger;
 import yome.fgo.simulator.models.combatants.CombatAction;
 import yome.fgo.simulator.models.combatants.Combatant;
@@ -25,7 +26,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
-import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
@@ -73,11 +73,15 @@ public class Simulation {
 
     public double currentStars;
     public int currentAllyTargetIndex;
-    public int currentBackupTargetIndex;
     public int currentEnemyTargetIndex;
 
     public double fixedRandom;
     public double probabilityThreshold;
+
+    // specialTargetSelection
+    private List<Integer> orderChangeSelections;
+    private CommandCardType selectedCommandCardType;
+    private EffectData selectedEffectData;
 
     // Logger
     private StatsLogger statsLogger;
@@ -233,6 +237,16 @@ public class Simulation {
         setActivator(mysticCodeActivator);
         mysticCode.activateSkill(this, skillIndex);
         unsetActivator();
+    }
+
+    public boolean canActivateMysticCodeSkill(final int i) {
+        setActivator(mysticCodeActivator);
+
+        final boolean result = mysticCode.canActivateSkill(this, i);
+
+        unsetActivator();
+
+        return result;
     }
 
     public void executeCombatActions(final List<CombatAction> combatActions) {
@@ -513,10 +527,6 @@ public class Simulation {
         return currentEnemies.get(currentEnemyTargetIndex);
     }
 
-    public Servant getTargetedBackup() {
-        return backupServants.get(currentBackupTargetIndex);
-    }
-
     @VisibleForTesting
     static int getNextNonNullTargetIndex(final List<? extends Combatant> combatants, int currentTargetIndex) {
         if (combatants.get(currentTargetIndex) == null) {
@@ -556,28 +566,15 @@ public class Simulation {
         }
     }
 
-    public CommandCardType selectCommandCardType(final Set<CommandCardType> selections) {
-        // TODO: UI
-        return selections.stream().findFirst().get();
+    public CommandCardType selectCommandCardType() {
+        return selectedCommandCardType;
     }
 
-    public Effect selectRandomEffects(final List<Effect> selections) {
-        // TODO: UI
-        return selections.stream().findFirst().get();
+    public EffectData selectRandomEffects() {
+        return selectedEffectData;
     }
 
-    public boolean canActivateMysticCodeSkill(final int i) {
-        setActivator(mysticCodeActivator);
-
-        final boolean result = mysticCode.canActivateSkill(this, i);
-
-        unsetActivator();
-
-        return result;
-    }
-
-    public List<Servant> getOrderChangeTargets() {
-        // TODO UI:
-        return ImmutableList.of(currentServants.get(currentAllyTargetIndex), backupServants.get(currentBackupTargetIndex));
+    public List<Integer> getOrderChangeTargets() {
+        return orderChangeSelections;
     }
 }

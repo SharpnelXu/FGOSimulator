@@ -11,16 +11,13 @@ import yome.fgo.simulator.models.variations.VariationFactory;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_GRANT_BUFF;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_HP_CHANGE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_INT_VALUE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_NP_DAMAGE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_RANDOM_SELECTION;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_TARGET;
 import static yome.fgo.simulator.models.effects.MoveToLastBackup.MOVE_TO_LAST_BACKUP;
@@ -35,10 +32,8 @@ public class EffectFactory {
         EFFECT_FIELD_DOUBLE_VALUE,
         EFFECT_FIELD_NP_DAMAGE,
         EFFECT_FIELD_GRANT_BUFF,
-        EFFECT_FIELD_CARD_TYPE_SELECT,
         EFFECT_FIELD_HP_CHANGE,
-        EFFECT_FIELD_REMOVE_BUFF,
-        EFFECT_FIELD_RANDOM_SELECTION
+        EFFECT_FIELD_REMOVE_BUFF
     }
 
 
@@ -61,9 +56,7 @@ public class EffectFactory {
             return setCommonEffectParams(BuffAbsorption.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(CardTypeChangeSelect.class.getSimpleName())) {
-            final CardTypeChangeSelect.CardTypeChangeSelectBuilder<?, ?> builder = CardTypeChangeSelect.builder()
-                    .selections(new TreeSet<>(effectData.getCardTypeSelectionsList()));
-            return setCommonGrantBuffEffectValue(builder, effectData, level);
+            return setCommonGrantBuffEffectValue(CardTypeChangeSelect.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(CriticalStarChange.class.getSimpleName())) {
             return setCommonIntValuedEffectValue(CriticalStarChange.builder(), effectData, level);
@@ -120,11 +113,7 @@ public class EffectFactory {
             return ORDER_CHANGE;
 
         } else if (type.equalsIgnoreCase(RandomEffects.class.getSimpleName())) {
-            return setCommonEffectParams(
-                    RandomEffects.builder().effectList(buildEffects(effectData.getRandomEffectSelectionsList(), level)),
-                    effectData,
-                    level
-            );
+            return setCommonEffectParams(RandomEffects.builder().skillLevel(level), effectData, level);
 
         } else if (type.equalsIgnoreCase(RemoveBuff.class.getSimpleName())) {
             final RemoveBuff.RemoveBuffBuilder<?, ?> builder = RemoveBuff.builder()
@@ -336,11 +325,11 @@ public class EffectFactory {
         builder.put(ForceInstantDeath.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET));
         builder.put(AscensionChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));
         builder.put(BuffAbsorption.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET));
-        builder.put(CardTypeChangeSelect.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET, EFFECT_FIELD_CARD_TYPE_SELECT));
+        builder.put(CardTypeChangeSelect.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
         builder.put(OrderChange.class.getSimpleName(), ImmutableSet.of());
         builder.put(MoveToLastBackup.class.getSimpleName(), ImmutableSet.of());
         builder.put(ShuffleCards.class.getSimpleName(), ImmutableSet.of());
-        builder.put(RandomEffects.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_RANDOM_SELECTION));
+        builder.put(RandomEffects.class.getSimpleName(), ImmutableSet.of());
 
         return builder.build();
     }

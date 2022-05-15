@@ -14,6 +14,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
@@ -22,6 +23,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.NO_SPECIAL_TARGET;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -135,8 +137,15 @@ public class ServantDisplay extends VBox {
     }
 
     private void activateSkill(final int skillIndex) {
-        simulationWindow.getSimulation().activateServantSkill(servantIndex, skillIndex);
-        simulationWindow.render();
+        final Simulation simulation = simulationWindow.getSimulation();
+        final SpecialActivationParams specialActivationParams =
+                simulation.getCurrentServants().get(servantIndex).getActiveSkillSpecialTarget(simulation, skillIndex);
+        if (specialActivationParams == null || specialActivationParams.getSpecialTarget() == NO_SPECIAL_TARGET) {
+            simulationWindow.getSimulation().activateServantSkill(servantIndex, skillIndex);
+            simulationWindow.render();
+        } else {
+            simulationWindow.showSpecialTargetSelectionWindow(specialActivationParams, servantIndex, skillIndex);
+        }
     }
 
     public void renderServant() {
@@ -158,7 +167,7 @@ public class ServantDisplay extends VBox {
         servantThumbnail.setImage(simulationWindow.getServantImage(servant.getId(), servant.getAscension()));
 
         for (int i = 0; i < 3; i += 1) {
-            skillThumbnails.get(i).setImage(simulationWindow.getSkillImage(servant.getActivateSkillIconPath(simulation, i)));
+            skillThumbnails.get(i).setImage(simulationWindow.getSkillImage(servant.getActiveSkillIconPath(simulation, i)));
 
             final boolean canActivate = servant.canActivateActiveSkill(simulation, i);
             skillButtons.get(i).setDisable(!canActivate);

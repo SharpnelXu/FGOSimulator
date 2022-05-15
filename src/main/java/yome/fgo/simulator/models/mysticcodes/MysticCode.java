@@ -3,6 +3,7 @@ package yome.fgo.simulator.models.mysticcodes;
 import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeOption;
+import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.ActiveSkill;
 
@@ -33,6 +34,10 @@ public class MysticCode {
 
     public boolean canActivateSkill(final Simulation simulation, final int index) {
         return activeSkills.get(index).canActivate(simulation, 1);
+    }
+
+    public SpecialActivationParams getActiveSkillSpecialTarget(final int index) {
+        return activeSkills.get(index).getSpecialActivationParams(1);
     }
 
     public String getId() {
