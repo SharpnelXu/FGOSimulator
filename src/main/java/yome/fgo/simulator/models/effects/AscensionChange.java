@@ -7,12 +7,12 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.utils.TargetUtils;
 
-import java.util.List;
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @SuperBuilder
 public class AscensionChange extends IntValuedEffect {
     private final Target target;
-    private final List<Integer> ascensionLevels;
 
     @Override
     protected void internalApply(final  Simulation simulation, final int level) {
@@ -23,8 +23,13 @@ public class AscensionChange extends IntValuedEffect {
 
             simulation.setEffectTarget(combatant);
             final Servant servant = (Servant) combatant;
-            servant.changeAscension(simulation, ascensionLevels.get(level - 1));
+            servant.changeAscension(simulation, values.get(level - 1));
             simulation.unsetEffectTarget();
         }
+    }
+
+    @Override
+    public String toString() {
+        return getTranslation(TARGET_SECTION, target.name()) + super.toString();
     }
 }

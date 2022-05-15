@@ -22,4 +22,10 @@ public class OverchargeBuff extends Buff {
     protected boolean commonStackableCondition() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        String base = ": " + value;
+        return super.toString() + base;
+    }
 }

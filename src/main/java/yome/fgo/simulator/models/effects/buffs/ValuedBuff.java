@@ -5,6 +5,8 @@ import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.variations.Variation;
 
+import java.text.NumberFormat;
+
 import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 
 @SuperBuilder
@@ -34,5 +36,16 @@ public abstract class ValuedBuff extends Buff {
     @Override
     protected boolean commonStackableCondition() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        String base = ": " + numberFormat.format(value);
+        if (variation != NO_VARIATION) {
+            base = base + " + " + numberFormat.format(addition) + " " + variation;
+        }
+        return super.toString() + base;
     }
 }

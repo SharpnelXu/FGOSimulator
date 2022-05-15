@@ -24,7 +24,7 @@ public class AscensionChangeTest {
         simulation.setCurrentServants(Lists.newArrayList(kama1, kama2, kama3));
         final AscensionChange ascensionChange = AscensionChange.builder()
                 .target(SELF)
-                .ascensionLevels(ImmutableList.of(2))
+                .values(ImmutableList.of(2))
                 .build();
 
         kama1.initiate(simulation);

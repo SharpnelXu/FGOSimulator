@@ -7,9 +7,13 @@ import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.conditions.Condition;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
+import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @SuperBuilder
 @Getter
@@ -45,4 +49,27 @@ public abstract class Effect {
 
     // for overcharged
     protected abstract void internalApply(final Simulation simulation, final int level);
+
+    @Override
+    public String toString() {
+        final String base = getTranslation(EFFECT_SECTION, getClass().getSimpleName());
+        return base + miscString();
+    }
+
+    public String miscString() {
+        String base = "";
+        if (applyCondition != ALWAYS) {
+            base = base + " (" + applyCondition + ")";
+        }
+
+        final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        if (isProbabilityOvercharged()) {
+            base = base + " (OC) " + probabilities.stream().map(numberFormat::format).collect(Collectors.toList()) +
+                    getTranslation(EFFECT_SECTION, "Probability");
+        } else if (probabilities.get(0) != 1.0) {
+            base = base + " " + numberFormat.format(probabilities.get(0)) +
+                    getTranslation(EFFECT_SECTION, "Probability");
+        }
+        return base;
+    }
 }

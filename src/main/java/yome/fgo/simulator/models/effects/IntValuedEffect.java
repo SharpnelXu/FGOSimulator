@@ -20,4 +20,24 @@ public abstract class IntValuedEffect extends Effect {
     protected boolean isAdditionsOvercharged;
     @Builder.Default
     protected final List<Integer> additions = Lists.newArrayList(0);
+
+    @Override
+    public String toString() {
+        String base;
+        if (isValueOvercharged) {
+            base = ": (OC) " + values;
+        } else {
+            base = ": " + values.get(0);
+        }
+        if (variation != NO_VARIATION) {
+            base = base + " + ";
+            if (isAdditionsOvercharged) {
+                base = base + "(OC) " + additions;
+            } else {
+                base = base + additions.get(0);
+            }
+            base = base + " " + variation;
+        }
+        return super.toString() + base;
+    }
 }

@@ -39,7 +39,6 @@ public class HpVariation extends Variation {
     @Override
     public String toString() {
         final NumberFormat numberFormat = NumberFormat.getPercentInstance();
-        numberFormat.setMinimumFractionDigits(2);
         numberFormat.setMaximumFractionDigits(2);
         return String.format(getTranslation(VARIATION_SECTION, "Variates on %s HP"), getTranslation(TARGET_SECTION, target.name())) +
                 "(" + numberFormat.format(maxHpPercent) + "-" + numberFormat.format(minHpPercent) + ")";

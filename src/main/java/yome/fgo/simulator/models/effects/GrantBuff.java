@@ -15,6 +15,11 @@ import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @SuperBuilder
 public class GrantBuff extends Effect {
@@ -103,5 +108,24 @@ public class GrantBuff extends Effect {
 
     protected void afterBuffAdditionalChange(final Simulation simulation) {
         // for subClass to override
+    }
+
+    @Override
+    public String toString() {
+        final String buffString;
+        if (isBuffOvercharged) {
+            final List<Buff> buffs = buffData.stream()
+                    .map(data -> BuffFactory.buildBuff(data, buffLevel))
+                    .collect(Collectors.toList());
+            buffString = "(OC)" + buffs;
+        } else {
+            buffString = BuffFactory.buildBuff(buffData.get(0), buffLevel).toString();
+        }
+        return String.format(
+                getTranslation(EFFECT_SECTION, "Grant %s %s %s"),
+                getTranslation(TARGET_SECTION, target.name()),
+                miscString(),
+                buffString
+        );
     }
 }

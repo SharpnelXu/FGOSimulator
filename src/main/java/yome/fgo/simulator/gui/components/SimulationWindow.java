@@ -3,6 +3,7 @@ package yome.fgo.simulator.gui.components;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
@@ -192,7 +194,7 @@ public class SimulationWindow {
         showBuffsVBox.setAlignment(Pos.TOP_CENTER);
         showBuffsVBox.setFocusTraversable(true);
         showBuffsVBox.setFillWidth(false);
-        StackPane.setMargin(showBuffsVBox, new Insets(300, 200, 300, 200));
+        StackPane.setMargin(showBuffsVBox, new Insets(100, 300, 100, 300));
         stackPane.getChildren().add(showBuffsVBox);
 
         combatActionsHBox = new HBox();
@@ -476,17 +478,37 @@ public class SimulationWindow {
 
         final AnchorPane imgAnchor = createServantImage(image);
 
+        final ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setFitToWidth(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        final GridPane buffGrid = new GridPane();
+        buffGrid.setHgap(5);
+        buffGrid.setVgap(5);
+        for (int i = 0; i < 3; i++) {
+            final ColumnConstraints constraints = new ColumnConstraints();
+            buffGrid.getColumnConstraints().add(constraints);
+        }
+        buffGrid.getColumnConstraints().get(1).setHgrow(Priority.ALWAYS);
+        buffGrid.getColumnConstraints().get(1).setMinWidth(200);
+        scrollPane.setContent(buffGrid);
+
         showBuffsVBox.getChildren().addAll(closeButton, imgAnchor);
-        for (final Buff buff : buffs) {
-            final HBox labelHBox = new HBox(10);
-            labelHBox.setAlignment(Pos.CENTER_LEFT);
+        for (int i = 0; i < buffs.size(); i += 1) {
+            final Buff buff = buffs.get(i);
             final ImageView buffIcon = new ImageView(getBuffImage(buff.getIconName()));
             buffIcon.setFitWidth(20);
             buffIcon.setFitHeight(20);
-            final Label buffLabel = new Label(buff.getIconName()); // TODO implement buff Print
-            labelHBox.getChildren().addAll(buffIcon, buffLabel);
-            showBuffsVBox.getChildren().add(labelHBox);
+            buffGrid.add(buffIcon, 0, i);
+            final Label buffLabel = new Label(buff.toString());
+            buffGrid.add(buffLabel, 1, i);
+            final Label durationLabel = new Label(buff.durationString());
+            buffGrid.add(durationLabel, 2, i);
+            final RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setValignment(VPos.CENTER);
+            buffGrid.getRowConstraints().add(rowConstraints);
         }
+        showBuffsVBox.getChildren().add(scrollPane);
     }
 
     public static AnchorPane createServantImage(final Image image) {

@@ -3,6 +3,9 @@ package yome.fgo.simulator.models.effects.buffs;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+
 @SuperBuilder
 @Getter
 public class GrantTrait extends Buff {
@@ -21,5 +24,10 @@ public class GrantTrait extends Buff {
     @Override
     protected boolean commonStackableCondition() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ": " + getTranslation(TRAIT_SECTION, trait);
     }
 }

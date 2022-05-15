@@ -10,6 +10,10 @@ import yome.fgo.simulator.utils.TargetUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+
 @SuperBuilder
 public class BuffAbsorption extends Effect {
     private final Target target;
@@ -39,5 +43,10 @@ public class BuffAbsorption extends Effect {
         for (int j = buffsToMove.size() - 1; j >= 0; j -= 1) {
             activator.addBuff(buffsToMove.get(j));
         }
+    }
+
+    @Override
+    public String toString() {
+        return getTranslation(EFFECT_SECTION, "From") + getTranslation(TARGET_SECTION, target.name()) + super.toString();
     }
 }

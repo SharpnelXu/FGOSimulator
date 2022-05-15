@@ -26,7 +26,6 @@ public class HpPercentAtMost extends Condition {
     @Override
     public String toString() {
         final NumberFormat numberFormat = NumberFormat.getPercentInstance();
-        numberFormat.setMinimumFractionDigits(2);
         numberFormat.setMaximumFractionDigits(2);
         return super.toString() + ": " + numberFormat.format(value);
     }

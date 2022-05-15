@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.variations.Variation;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 
@@ -20,4 +22,26 @@ public abstract class ValuedEffect extends Effect {
     protected boolean isAdditionsOvercharged;
     @Builder.Default
     protected final List<Double> additions = Lists.newArrayList(0.0);
+
+    @Override
+    public String toString() {
+        String base;
+        final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        if (isValueOvercharged) {
+            base = ": (OC) " + values.stream().map(numberFormat::format).collect(Collectors.toList());
+        } else {
+            base = ": " + numberFormat.format(values.get(0));
+        }
+        if (variation != NO_VARIATION) {
+            base = base + " + ";
+            if (isAdditionsOvercharged) {
+                base = base + "(OC) " + additions.stream().map(numberFormat::format).collect(Collectors.toList());
+            } else {
+                base = base + numberFormat.format(additions.get(0));
+            }
+            base = base + " " + variation;
+        }
+        return super.toString() + base;
+    }
 }

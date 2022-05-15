@@ -5,6 +5,7 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.Effect;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SuperBuilder
 public abstract class EffectActivatingBuff extends Buff {
@@ -31,5 +32,11 @@ public abstract class EffectActivatingBuff extends Buff {
     @Override
     protected boolean commonStackableCondition() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        String base = ": " + effects.stream().map(Effect::toString).collect(Collectors.toList());
+        return super.toString() + base;
     }
 }

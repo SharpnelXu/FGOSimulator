@@ -6,6 +6,9 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+
 @SuperBuilder
 public class NpGaugeChange extends IntValuedEffect {
     private final Target target;
@@ -24,5 +27,10 @@ public class NpGaugeChange extends IntValuedEffect {
             }
             simulation.unsetEffectTarget();
         }
+    }
+
+    @Override
+    public String toString() {
+        return getTranslation(TARGET_SECTION, target.name()) + super.toString();
     }
 }

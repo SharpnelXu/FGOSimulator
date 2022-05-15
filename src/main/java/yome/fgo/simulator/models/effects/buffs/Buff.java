@@ -8,11 +8,14 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.conditions.Condition;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import static yome.fgo.data.proto.FgoStorageData.BuffTraits.NEGATIVE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.BuffTraits.POSITIVE_BUFF;
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
+import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @SuperBuilder
 @Getter
@@ -47,6 +50,53 @@ public abstract class Buff {
 
     @Builder.Default
     protected final List<String> buffTraits = Lists.newArrayList();
+
+    @Override
+    public String toString() {
+        final String base = getTranslation(BUFF_SECTION, getClass().getSimpleName());
+        return base + miscString();
+    }
+
+    public String durationString() {
+        String base = "(";
+        final boolean isPermanentTimes = isPermanentTimeEffect();
+        final boolean isPermanentTurn = isPermanentTurnEffect();
+        final String timesString = numTimesActive + getTranslation(BUFF_SECTION, "Times");
+        final String turnString = numTurnsActive + getTranslation(BUFF_SECTION, "Turns");
+        if (isPermanentTimes) {
+            if (isPermanentTurn) {
+                base = base + getTranslation(BUFF_SECTION, "Permanent");
+            } else {
+                base = base + turnString;
+            }
+        } else {
+            base = base + timesString;
+            if (!isPermanentTurn) {
+                base = base + " " + turnString;
+            }
+        }
+        base = base + ")";
+        return base;
+    }
+
+    public String miscString() {
+        String base = "";
+        if (condition != ALWAYS) {
+            base = base + " (" + condition + ")";
+        }
+
+        final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        if (probability != 1) {
+            base = base + " " + numberFormat.format(probability) + getTranslation(BUFF_SECTION, "Probability");
+        }
+        if (irremovable) {
+            base = base + " " + getTranslation(BUFF_SECTION, "Irremovable");
+        }
+        if (forceStackable) {
+            base = base + " " + getTranslation(BUFF_SECTION, "Force Stackable");
+        }
+        return base;
+    }
 
     public boolean isInactive() {
         return numTimesActive == 0 || numTurnsActive == 0;

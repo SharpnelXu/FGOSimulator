@@ -22,4 +22,10 @@ public class MaxHpBuff extends Buff {
     protected boolean commonStackableCondition() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        String base = ": " + change;
+        return super.toString() + base;
+    }
 }
