@@ -3,7 +3,7 @@ package yome.fgo.simulator.models.conditions;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 
-public class BackupServantsExist implements Condition {
+public class BackupServantsExist extends Condition {
     public static final BackupServantsExist BACKUP_SERVANTS_EXIST = new BackupServantsExist();
 
     private BackupServantsExist() {}

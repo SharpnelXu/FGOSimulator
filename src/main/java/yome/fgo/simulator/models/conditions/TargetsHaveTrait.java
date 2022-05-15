@@ -7,10 +7,14 @@ import yome.fgo.simulator.models.combatants.Combatant;
 
 import java.util.List;
 
+import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.TargetUtils.getTargets;
 
 @Builder
-public class TargetsHaveTrait implements Condition {
+public class TargetsHaveTrait extends Condition {
     private final Target target;
     private final String trait;
     public boolean evaluate(final Simulation simulation) {
@@ -21,5 +25,14 @@ public class TargetsHaveTrait implements Condition {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                getTranslation(CONDITION_SECTION, "%s Have %s"),
+                getTranslation(TARGET_SECTION, target.name()),
+                getTranslation(TRAIT_SECTION, trait)
+        );
     }
 }

@@ -6,8 +6,12 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+
 @AllArgsConstructor
-public class RarityAtLeast implements Condition {
+public class RarityAtLeast extends Condition {
     private final int rarity;
     private final Target target;
 
@@ -19,5 +23,14 @@ public class RarityAtLeast implements Condition {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                getTranslation(CONDITION_SECTION, "%s Rarity %d"),
+                getTranslation(TARGET_SECTION, target.name()),
+                rarity
+        );
     }
 }

@@ -2,7 +2,7 @@ package yome.fgo.simulator.models.conditions;
 
 import yome.fgo.simulator.models.Simulation;
 
-public class Always implements Condition {
+public class Always extends Condition {
     public static final Always ALWAYS = new Always();
 
     private Always() {}
@@ -10,5 +10,10 @@ public class Always implements Condition {
     @Override
     public boolean evaluate(final Simulation simulation) {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }

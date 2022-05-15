@@ -8,9 +8,12 @@ import yome.fgo.simulator.models.effects.buffs.GrantStageTrait;
 import yome.fgo.simulator.utils.TargetUtils;
 
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS;
+import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @AllArgsConstructor
-public class StageHasTrait implements Condition {
+public class StageHasTrait extends Condition {
     private final String trait;
 
     @Override
@@ -35,5 +38,14 @@ public class StageHasTrait implements Condition {
         }
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                getTranslation(CONDITION_SECTION, "%s Have %s"),
+                getTranslation(CONDITION_SECTION, "Stage"),
+                getTranslation(TRAIT_SECTION, trait)
+        );
     }
 }

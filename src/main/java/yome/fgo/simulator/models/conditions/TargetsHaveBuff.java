@@ -7,8 +7,12 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+
 @Builder
-public class TargetsHaveBuff implements Condition {
+public class TargetsHaveBuff extends Condition {
     private final Target target;
     private final Condition buffMatchCondition;
 
@@ -26,5 +30,14 @@ public class TargetsHaveBuff implements Condition {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                getTranslation(CONDITION_SECTION, "%s Have %s"),
+                getTranslation(TARGET_SECTION, target.name()),
+                buffMatchCondition
+        );
     }
 }

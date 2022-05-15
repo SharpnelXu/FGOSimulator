@@ -7,12 +7,16 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import java.text.NumberFormat;
 import java.util.List;
 
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.VARIATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.modifierCap;
 
 @AllArgsConstructor
-public class HpVariation implements Variation {
+public class HpVariation extends Variation {
     private final double maxHpPercent;
     private final double minHpPercent;
     private final Target target;
@@ -30,5 +34,14 @@ public class HpVariation implements Variation {
         final double additionPercent = (maxHpPercent - modifierCap(curHpPercent, maxHpPercent, minHpPercent)) / (maxHpPercent - minHpPercent);
 
         return  RoundUtils.roundNearest(appliedBase + additionValue * additionPercent);
+    }
+
+    @Override
+    public String toString() {
+        final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        numberFormat.setMinimumFractionDigits(2);
+        numberFormat.setMaximumFractionDigits(2);
+        return String.format(getTranslation(VARIATION_SECTION, "Variates on %s HP"), getTranslation(TARGET_SECTION, target.name())) +
+                "(" + numberFormat.format(maxHpPercent) + "-" + numberFormat.format(minHpPercent) + ")";
     }
 }

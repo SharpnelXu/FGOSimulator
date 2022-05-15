@@ -13,9 +13,11 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
+import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @AllArgsConstructor(access = PRIVATE)
-public class CardTypeEquals implements Condition {
+public class CardTypeEquals extends Condition {
     public static CardTypeEquals get(final CommandCardType commandCardType) {
         return CARD_TYPE_EQUALS.get(commandCardType);
     }
@@ -31,5 +33,10 @@ public class CardTypeEquals implements Condition {
     @Override
     public boolean evaluate(final Simulation simulation) {
         return commandCardType == ANY || commandCardType == simulation.getCurrentCommandCard().getCommandCardType();
+    }
+
+    @Override
+    public String toString() {
+        return getTranslation(COMMAND_CARD_TYPE_SECTION, commandCardType.name());
     }
 }

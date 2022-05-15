@@ -9,8 +9,12 @@ import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.VARIATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+
 @AllArgsConstructor
-public class BuffCountVariation implements Variation {
+public class BuffCountVariation extends Variation {
     private final int maxCount;
     private final Condition matchCondition;
     private final Target target;
@@ -44,5 +48,18 @@ public class BuffCountVariation implements Variation {
             }
         }
         return count;
+    }
+
+    @Override
+    public String toString() {
+        final String base = String.format(
+                getTranslation(VARIATION_SECTION, "%s Have %s"),
+                getTranslation(TARGET_SECTION, target.name()),
+                matchCondition
+        );
+        if (maxCount > 0) {
+            return base + " " + String.format(getTranslation(VARIATION_SECTION, "(max %d)"), maxCount);
+        }
+        return base;
     }
 }

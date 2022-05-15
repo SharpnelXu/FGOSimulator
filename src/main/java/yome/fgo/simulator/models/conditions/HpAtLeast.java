@@ -6,7 +6,7 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
 
 @AllArgsConstructor
-public class HpAtLeast implements Condition {
+public class HpAtLeast extends Condition {
     private final int value;
 
     @Override
@@ -19,5 +19,10 @@ public class HpAtLeast implements Condition {
         }
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ": " + value;
     }
 }

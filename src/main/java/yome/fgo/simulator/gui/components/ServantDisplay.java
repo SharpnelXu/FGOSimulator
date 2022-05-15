@@ -200,11 +200,14 @@ public class ServantDisplay extends VBox {
                 )
         );
 
+        final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        numberFormat.setMinimumFractionDigits(2);
+        numberFormat.setMaximumFractionDigits(2);
         npLabel.setText(
                 String.format(
                         "%s: %s",
                         getTranslation(APPLICATION_SECTION, "NP"),
-                        NumberFormat.getPercentInstance().format(servant.getCurrentNp())
+                        numberFormat.format(servant.getCurrentNp())
                 )
         );
 

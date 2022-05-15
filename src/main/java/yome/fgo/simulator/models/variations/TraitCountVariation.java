@@ -7,8 +7,13 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.VARIATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+
 @AllArgsConstructor
-public class TraitCountVariation implements Variation {
+public class TraitCountVariation extends Variation {
     private final int maxCount;
     private final String targetTrait;
     private final Target target;
@@ -37,5 +42,18 @@ public class TraitCountVariation implements Variation {
             }
         }
         return count;
+    }
+
+    @Override
+    public String toString() {
+        final String base = String.format(
+                getTranslation(VARIATION_SECTION, "%s Have %s"),
+                getTranslation(TARGET_SECTION, target.name()),
+                getTranslation(TRAIT_SECTION, targetTrait)
+        );
+        if (maxCount > 0) {
+            return base + " " + String.format(getTranslation(VARIATION_SECTION, "(max %d)"), maxCount);
+        }
+        return base;
     }
 }

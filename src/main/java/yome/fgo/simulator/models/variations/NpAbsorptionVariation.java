@@ -8,8 +8,12 @@ import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.VARIATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+
 @AllArgsConstructor
-public class NpAbsorptionVariation implements Variation {
+public class NpAbsorptionVariation extends Variation {
     private final Target target;
 
     @Override
@@ -29,5 +33,13 @@ public class NpAbsorptionVariation implements Variation {
         }
 
         return  RoundUtils.roundNearest(baseValue + additionValue * validCombatantCount);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                getTranslation(VARIATION_SECTION, "Absorb from %s"),
+                getTranslation(TARGET_SECTION, target.name())
+        );
     }
 }

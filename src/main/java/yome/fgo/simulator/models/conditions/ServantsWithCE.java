@@ -8,10 +8,14 @@ import yome.fgo.simulator.models.combatants.Servant;
 
 import java.util.List;
 
+import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.TargetUtils.getTargets;
 
 @Builder
-public class ServantsWithCE implements Condition {
+public class ServantsWithCE extends Condition {
     private final Target target;
     private final String ceId;
 
@@ -27,5 +31,14 @@ public class ServantsWithCE implements Condition {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                getTranslation(CONDITION_SECTION, "%s Have %s"),
+                getTranslation(TARGET_SECTION, target.name()),
+                getTranslation(ENTITY_NAME_SECTION, ceId)
+        );
     }
 }
