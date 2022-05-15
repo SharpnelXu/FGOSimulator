@@ -258,7 +258,14 @@ public class EffectBuilderFXMLController implements Initializable {
             }
             if (requiredFields.contains(EFFECT_FIELD_INT_VALUE) ||
                     (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && !effectDataBuilder.getIsHpChangePercentBased())) {
-                valuesText.setText(intsToString(effectDataBuilder.getValuesList()));
+                valuesText.setText(
+                        intsToString(
+                                effectDataBuilder.getIntValuesList()
+                                        .stream()
+                                        .map(Integer::doubleValue)
+                                        .collect(Collectors.toList())
+                        )
+                );
                 if (effectDataBuilder.hasVariationData()) {
                     useVariationCheckbox.setSelected(true);
                     useVariationCheckbox.fireEvent(new ActionEvent());
@@ -626,7 +633,7 @@ public class EffectBuilderFXMLController implements Initializable {
                     (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && !hpPercentCheckbox.isSelected())) {
                 try {
                     final List<Double> values = parseInts(valuesText.getText());
-                    effectDataBuilder.addAllValues(values);
+                    effectDataBuilder.addAllIntValues(values.stream().map(Double::intValue).collect(Collectors.toList()));
                 } catch (final Exception e) {
                     errorLabel.setVisible(true);
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));

@@ -118,7 +118,7 @@ public class NoblePhantasmDamage extends Effect {
         }
         final Servant attacker = (Servant) activator;
 
-        final CommandCard currentCard = attacker.getNoblePhantasm(simulation);
+        final CommandCard currentCard = attacker.getNoblePhantasm();
         simulation.setCurrentCommandCard(currentCard);
 
         final CommandCardType currentCardType = currentCard.getCommandCardType();

@@ -2,6 +2,7 @@ package yome.fgo.simulator.gui.components;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -70,12 +71,18 @@ public class EnemyDisplay extends VBox {
 
         getChildren().add(imgAnchor);
 
+        final Button viewBuffs = new Button(getTranslation(APPLICATION_SECTION, "View Buffs"));
+        viewBuffs.setOnAction(e -> this.simulationWindow.viewEnemyBuffs(enemyIndex));
+
+        final HBox viewHBox = new HBox(10);
+        viewHBox.getChildren().addAll(viewBuffs);
+
         hpLabel = new Label();
         npGaugeLabel = new Label();
         buffsPane = new FlowPane();
         buffsPane.setAlignment(Pos.TOP_CENTER);
 
-        getChildren().addAll(hpLabel, npGaugeLabel, buffsPane);
+        getChildren().addAll(viewHBox, hpLabel, npGaugeLabel, buffsPane);
     }
 
     public void renderEnemy() {

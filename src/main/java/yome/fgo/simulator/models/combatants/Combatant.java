@@ -485,20 +485,18 @@ public class Combatant {
         }
     }
 
-    public CardTypeChange hasCardTypeChangeBuff(final Simulation simulation) {
+    public CardTypeChange hasCardTypeChangeBuff() {
         for (final Buff buff : buffs) {
-            if (buff instanceof CardTypeChange && buff.shouldApply(simulation)) {
-                buff.setApplied();
+            if (buff instanceof CardTypeChange) {
                 return (CardTypeChange) buff;
             }
         }
         return null;
     }
 
-    public NpCardTypeChange hasNpCardTypeChangeBuff(final Simulation simulation) {
+    public NpCardTypeChange hasNpCardTypeChangeBuff() {
         for (final Buff buff : buffs) {
-            if (buff instanceof NpCardTypeChange && buff.shouldApply(simulation)) {
-                buff.setApplied();
+            if (buff instanceof NpCardTypeChange) {
                 return (NpCardTypeChange) buff;
             }
         }

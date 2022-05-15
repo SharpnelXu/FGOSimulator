@@ -525,11 +525,11 @@ public class BuffFactory {
         builder.put(Vengeance.class.getSimpleName(), ImmutableSet.of());
 
         builder.put(HealEffectivenessBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
-        builder.put(Burn.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
+        builder.put(Burn.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE));
         builder.put(BurnEffectivenessUp.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
-        builder.put(Curse.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
+        builder.put(Curse.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE));
         builder.put(CurseEffectivenessUp.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
-        builder.put(Poison.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
+        builder.put(Poison.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE));
         builder.put(PoisonEffectivenessUp.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(PreventDeathAgainstDoT.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_STRING_VALUE));
 

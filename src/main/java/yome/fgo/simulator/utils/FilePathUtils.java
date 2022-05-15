@@ -17,6 +17,7 @@ public class FilePathUtils {
     public static final String TRANSLATION_DIRECTORY_PATH = USER_DIR + "/Translations";
     public static final String SKILL_ICON_DIRECTORY_PATH = USER_DIR + "/Icons/Skills";
     public static final String BUFF_ICON_DIRECTORY_PATH = USER_DIR + "/Icons/Buffs";
+    public static final String CARD_IMAGE_DIRECTORY_PATH = USER_DIR + "/Icons/Cards";
 
     private static String getJarName() {
         return new File(FilePathUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();

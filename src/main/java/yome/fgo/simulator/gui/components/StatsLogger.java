@@ -54,7 +54,7 @@ public class StatsLogger extends VBox {
 
     public StatsLogger() {
         super();
-        setSpacing(10);
+        setSpacing(5);
         setStyle("-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 3; -fx-border-radius: 3");
         setPadding(new Insets(10, 10, 10, 10));
         curLogLevel = DEBUG;

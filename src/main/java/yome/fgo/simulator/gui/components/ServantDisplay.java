@@ -128,12 +128,18 @@ public class ServantDisplay extends VBox {
 
         getChildren().add(skillHBoxes);
 
+        final Button viewBuffs = new Button(getTranslation(APPLICATION_SECTION, "View Buffs"));
+        viewBuffs.setOnAction(e -> this.simulationWindow.viewServantBuffs(servantIndex));
+
+        final HBox viewHBox = new HBox(10);
+        viewHBox.getChildren().addAll(viewBuffs);
+
         hpLabel = new Label();
         npLabel = new Label();
         buffsPane = new FlowPane();
         buffsPane.setAlignment(Pos.TOP_CENTER);
 
-        getChildren().addAll(hpLabel, npLabel, buffsPane);
+        getChildren().addAll(viewHBox, hpLabel, npLabel, buffsPane);
     }
 
     private void activateSkill(final int skillIndex) {

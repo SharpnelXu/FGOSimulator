@@ -14,6 +14,7 @@ import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.CriticalStarChange;
 import yome.fgo.simulator.models.effects.Effect;
+import yome.fgo.simulator.models.effects.EffectFactory;
 import yome.fgo.simulator.models.effects.NpChange;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.levels.Level;
@@ -225,10 +226,6 @@ public class Simulation {
         return currentServants.stream().allMatch(Objects::isNull) || isAllEnemiesDead();
     }
 
-    public void render() {
-        // TODO: display method
-    }
-
     public void activateServantSkill(final int servantIndex, final int activeSkillIndex) {
         currentServants.get(servantIndex).activateActiveSkill(this, activeSkillIndex);
     }
@@ -428,9 +425,9 @@ public class Simulation {
     private CommandCardType getCommandCardType(final CombatAction combatAction) {
         final Servant currentServant = currentServants.get(combatAction.servantIndex);
         if (combatAction.isNoblePhantasm) {
-            return currentServant.getNoblePhantasmCardType(this);
+            return currentServant.getNoblePhantasmCardType();
         } else {
-            return currentServant.getCommandCardType(this, combatAction.commandCardIndex);
+            return currentServant.getCommandCardType(combatAction.commandCardIndex);
         }
     }
 
@@ -576,5 +573,13 @@ public class Simulation {
 
     public List<Integer> getOrderChangeTargets() {
         return orderChangeSelections;
+    }
+
+    public void activateCustomEffect(final EffectData effectData) {
+        setActivator(nullSourceSkillActivator);
+
+        EffectFactory.buildEffect(effectData, 1).apply(this, 1);
+
+        unsetActivator();
     }
 }

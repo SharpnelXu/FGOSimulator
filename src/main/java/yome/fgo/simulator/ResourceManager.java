@@ -26,6 +26,7 @@ import java.util.Objects;
 import java.util.TreeMap;
 
 import static yome.fgo.simulator.utils.FilePathUtils.BUFF_ICON_DIRECTORY_PATH;
+import static yome.fgo.simulator.utils.FilePathUtils.CARD_IMAGE_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.COMMAND_CODES_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
@@ -307,6 +308,10 @@ public class ResourceManager {
         } else {
             return new File(String.format("%s/%s/%s_female.png", MYSTIC_CODES_DIRECTORY_PATH, id, id));
         }
+    }
+
+    public static File getCardImageFile(final String cardString) {
+        return new File(String.format("%s/%s.png", CARD_IMAGE_DIRECTORY_PATH, cardString));
     }
 
     public static File getCEThumbnail(final String id) {

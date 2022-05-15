@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Getter
 public class CommandCard {
     private final CommandCardData commandCardData;
+    private final CommandCodeData commandCodeData;
     private final List<Buff> commandCodeBuffs;
     private final int commandCardStrengthen;
 
@@ -30,6 +31,7 @@ public class CommandCard {
             final CommandCardData commandCardData
     ) {
         this.commandCardData = commandCardData;
+        this.commandCodeData = null;
         this.commandCodeBuffs = ImmutableList.of();
         this.commandCardStrengthen = 0;
     }
@@ -42,11 +44,13 @@ public class CommandCard {
 
         if (commandCardOption.getHasCommandCode()) {
             final CommandCodeData commandCodeData = ResourceManager.getCommandCodeData(commandCardOption.getCommandCode());
+            this.commandCodeData = commandCodeData;
             this.commandCodeBuffs = commandCodeData.getBuffsList()
                     .stream()
                     .map(data -> BuffFactory.buildBuff(data, 1))
                     .collect(Collectors.toList());
         } else {
+            this.commandCodeData = null;
             this.commandCodeBuffs = ImmutableList.of();
         }
 

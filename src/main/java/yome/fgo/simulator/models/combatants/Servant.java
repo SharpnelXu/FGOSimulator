@@ -349,7 +349,7 @@ public class Servant extends Combatant {
         simulation.setActivator(this);
         simulation.setAttacker(this);
         simulation.setDefender(simulation.getTargetedEnemy());
-        simulation.setCurrentCommandCard(getCommandCard(simulation, commandCardIndex));
+        simulation.setCurrentCommandCard(getCommandCard(commandCardIndex));
         simulation.setCriticalStrike(isCriticalStrike);
 
         CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain);
@@ -380,8 +380,8 @@ public class Servant extends Combatant {
         simulation.unsetActivator();
     }
 
-    public CommandCardType getNoblePhantasmCardType(final Simulation simulation) {
-        final NpCardTypeChange cardTypeChange = hasNpCardTypeChangeBuff(simulation);
+    public CommandCardType getNoblePhantasmCardType() {
+        final NpCardTypeChange cardTypeChange = hasNpCardTypeChangeBuff();
         if (cardTypeChange != null) {
             return cardTypeChange.getCommandCardType();
         } else {
@@ -389,8 +389,8 @@ public class Servant extends Combatant {
         }
     }
 
-    public NoblePhantasm getNoblePhantasm(final Simulation simulation) {
-        final NpCardTypeChange cardTypeChange = hasNpCardTypeChangeBuff(simulation);
+    public NoblePhantasm getNoblePhantasm() {
+        final NpCardTypeChange cardTypeChange = hasNpCardTypeChangeBuff();
         if (cardTypeChange != null) {
             return new NoblePhantasm(
                     cardTypeChange.getCommandCardType(),
@@ -410,8 +410,8 @@ public class Servant extends Combatant {
         return noblePhantasm.getCommandCardType();
     }
 
-    public CommandCardType getCommandCardType(final Simulation simulation, final int commandCardIndex) {
-        final CardTypeChange cardTypeChange = hasCardTypeChangeBuff(simulation);
+    public CommandCardType getCommandCardType(final int commandCardIndex) {
+        final CardTypeChange cardTypeChange = hasCardTypeChangeBuff();
         if (cardTypeChange != null) {
             return cardTypeChange.getCommandCardType();
         } else {
@@ -419,8 +419,8 @@ public class Servant extends Combatant {
         }
     }
 
-    public CommandCard getCommandCard(final Simulation simulation, final int index) {
-        final CardTypeChange cardTypeChange = hasCardTypeChangeBuff(simulation);
+    public CommandCard getCommandCard(final int index) {
+        final CardTypeChange cardTypeChange = hasCardTypeChangeBuff();
         if (cardTypeChange != null) {
             final CommandCardType cardTypeOfChangedType = cardTypeChange.getCommandCardType();
 
@@ -434,7 +434,12 @@ public class Servant extends Combatant {
             assert cardDataOfChangedType != null;
 
             final CommandCard supposedCard = commandCards.get(index);
-            return new CommandCard(cardDataOfChangedType, supposedCard.getCommandCodeBuffs(), supposedCard.getCommandCardStrengthen());
+            return new CommandCard(
+                    cardDataOfChangedType,
+                    supposedCard.getCommandCodeData(),
+                    supposedCard.getCommandCodeBuffs(),
+                    supposedCard.getCommandCardStrengthen()
+            );
         } else {
             return commandCards.get(index);
         }
