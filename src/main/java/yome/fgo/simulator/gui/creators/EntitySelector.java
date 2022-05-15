@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.simulator.gui.components.CraftEssenceDataWrapper;
 import yome.fgo.simulator.gui.components.MysticCodeDataWrapper;
 import yome.fgo.simulator.gui.components.ServantDataWrapper;
@@ -72,7 +73,8 @@ public class EntitySelector {
 
     public static MysticCodeDataWrapper selectMysticCode(
             final Window window,
-            final Map<Integer, MysticCodeDataWrapper> mcDataMap
+            final Map<Integer, MysticCodeDataWrapper> mcDataMap,
+            final Gender gender
     ) throws IOException {
         final MysticCodeDataWrapper selection = new MysticCodeDataWrapper();
 
@@ -83,7 +85,7 @@ public class EntitySelector {
         final FXMLLoader fxmlLoader = new FXMLLoader(BuffBuilder.class.getResource("entityFilter.fxml"));
         final Parent root = fxmlLoader.load();
         final EntityFilterFXMLController controller = fxmlLoader.getController();
-        controller.fillMysticCode(mcDataMap, selection);
+        controller.fillMysticCode(mcDataMap, selection, gender);
 
         final Scene scene = new Scene(root);
         scene.getStylesheets().add(BuffBuilder.class.getResource("style.css").toExternalForm());

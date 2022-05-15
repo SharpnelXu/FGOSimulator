@@ -33,6 +33,7 @@ public class ServantDataWrapper extends AnchorPane {
         AnchorPane.setTopAnchor(imageView, 0.0);
         AnchorPane.setLeftAnchor(imageView, 0.0);
         AnchorPane.setRightAnchor(imageView, 0.0);
+        getChildren().clear();
         getChildren().add(imageView);
     }
 }

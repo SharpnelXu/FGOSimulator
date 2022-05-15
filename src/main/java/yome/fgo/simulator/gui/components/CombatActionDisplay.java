@@ -72,8 +72,10 @@ public class CombatActionDisplay extends StackPane {
                 actionIndex = -1;
             } else {
                 String text = getTranslation(APPLICATION_SECTION, "Action") + (actionIndex + 1);
+                setStyle("-fx-text-fill: black");
                 if (state == 2) {
                     text = text + getTranslation(APPLICATION_SECTION, "Crit");
+                    setStyle("-fx-text-fill: red");
                 }
                 stateLabel.setText(text);
             }

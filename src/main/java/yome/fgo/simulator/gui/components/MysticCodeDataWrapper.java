@@ -34,7 +34,17 @@ public class MysticCodeDataWrapper extends AnchorPane {
         AnchorPane.setTopAnchor(imageView, 0.0);
         AnchorPane.setLeftAnchor(imageView, 0.0);
         AnchorPane.setRightAnchor(imageView, 0.0);
+        getChildren().clear();
         getChildren().add(imageView);
         this.gender = gender;
+        setFromGender(gender);
+    }
+
+    public void setFromGender(final Gender gender) {
+        this.gender = gender;
+        final Image imageToSet = gender == Gender.MALE ?
+                images.get(0) :
+                images.get(1);
+        imageView.setImage(imageToSet);
     }
 }

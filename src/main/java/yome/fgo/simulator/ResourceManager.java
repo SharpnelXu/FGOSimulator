@@ -10,6 +10,7 @@ import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
+import yome.fgo.data.proto.FgoStorageData.UserPreference;
 import yome.fgo.simulator.gui.components.CraftEssenceDataWrapper;
 import yome.fgo.simulator.gui.components.MysticCodeDataWrapper;
 import yome.fgo.simulator.gui.components.ServantDataWrapper;
@@ -34,6 +35,7 @@ import static yome.fgo.simulator.utils.FilePathUtils.LEVEL_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.MYSTIC_CODES_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SKILL_ICON_DIRECTORY_PATH;
+import static yome.fgo.simulator.utils.FilePathUtils.USER_PREFERENCE_FILE_PATH;
 
 public class ResourceManager {
     private static final Map<String, CombatantData> ENEMY_DATA_MAP = new HashMap<>();
@@ -339,5 +341,20 @@ public class ResourceManager {
         }
 
         return new File(String.format("%s/default.png", BUFF_ICON_DIRECTORY_PATH));
+    }
+
+    public static UserPreference getUserPreference() {
+        final File userPrefsFile = new File(USER_PREFERENCE_FILE_PATH);
+
+        final UserPreference.Builder builder = UserPreference.newBuilder();
+        if (userPrefsFile.exists()) {
+            final JsonFormat.Parser parser = JsonFormat.parser();
+            try {
+                parser.merge(new FileReader(userPrefsFile), builder);
+            } catch (final Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return builder.build();
     }
 }

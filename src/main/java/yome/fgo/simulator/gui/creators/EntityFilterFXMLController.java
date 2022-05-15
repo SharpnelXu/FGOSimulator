@@ -203,12 +203,14 @@ public class EntityFilterFXMLController implements Initializable {
 
     public void fillMysticCode(
             final Map<Integer, MysticCodeDataWrapper> mcDataMap,
-            final MysticCodeDataWrapper returnWrapper
+            final MysticCodeDataWrapper returnWrapper,
+            final Gender gender
     ) {
         this.mcReturnWrapper = returnWrapper;
 
         for (final MysticCodeDataWrapper dataWrapper : mcDataMap.values()) {
             final Button servantSelectButton = new Button();
+            dataWrapper.setFromGender(gender);
             servantSelectButton.setGraphic(dataWrapper);
             servantSelectButton.setOnAction(e -> selectMysticCode(dataWrapper));
             entityFlowPane.getChildren().add(servantSelectButton);
@@ -219,7 +221,7 @@ public class EntityFilterFXMLController implements Initializable {
         genderChoiceBox = new ChoiceBox<>();
         genderChoiceBox.setConverter(new EnumConverter<>(TRAIT_SECTION));
         genderChoiceBox.getItems().addAll(Gender.MALE, Gender.FEMALE);
-        genderChoiceBox.getSelectionModel().selectFirst();
+        genderChoiceBox.getSelectionModel().select(gender);
 
         filterHBox.getChildren().addAll(genderLabel, genderChoiceBox);
 
@@ -229,8 +231,6 @@ public class EntityFilterFXMLController implements Initializable {
     private void selectMysticCode(final MysticCodeDataWrapper dataWrapper) {
         if (mcReturnWrapper != null) {
             mcReturnWrapper.setFrom(dataWrapper.getMysticCodeData(), dataWrapper.getImages(), genderChoiceBox.getValue());
-            final int imgIndex = genderChoiceBox.getValue() == Gender.MALE ? 0 : 1;
-            mcReturnWrapper.getImageView().setImage(mcReturnWrapper.getImages().get(imgIndex));
         }
         final Stage stage = (Stage) filterHBox.getScene().getWindow();
         stage.close();

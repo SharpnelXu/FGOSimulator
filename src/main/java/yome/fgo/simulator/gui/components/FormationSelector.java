@@ -56,7 +56,9 @@ public class FormationSelector extends VBox {
             final ToggleGroup toggleGroup,
             final Label errorLabel,
             final Map<Integer, ServantDataWrapper> servantDataMap,
+            final Map<Integer, ServantOption> servantOptions,
             final Map<Integer, CraftEssenceDataWrapper> ceDataMap,
+            final Map<Integer, CraftEssenceOption> ceOptions,
             final LevelCreatorFMXLController controller
     ) {
         super();
@@ -127,7 +129,11 @@ public class FormationSelector extends VBox {
                 if (selection != null) {
                     selectedServant = selection;
                     servantSelectButton.setGraphic(selectedServant);
-                    servantOption = createDefaultServantOption(selectedServant.getServantData());
+                    final int servantNo = selectedServant.getServantData().getServantNum();
+                    servantOption = servantOptions.containsKey(servantNo) ?
+                            servantOptions.get(servantNo) :
+                            createDefaultServantOption(selectedServant.getServantData());
+                    selectedServant.getImageView().setImage(selectedServant.getAscensionImages().get(servantOption.getAscension() - 1));
                     servantNameLabel.setText(
                             getTranslation(
                                     ENTITY_NAME_SECTION,
@@ -221,10 +227,22 @@ public class FormationSelector extends VBox {
                     ceSelectButton.setGraphic(selectedCE);
                     ceNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, selectedCE.getCraftEssenceData().getId()));
                     ceNameLabel.setMaxWidth(getWidth());
-                    final int maxLevel = defaultCELevel(selectedCE.getCraftEssenceData().getRarity());
+                    final int maxLevel = defaultCEMaxLevel(selectedCE.getCraftEssenceData().getRarity());
                     ceLevelSlider.setMax(maxLevel);
-                    ceLevelSlider.setValue(maxLevel);
-                    ceLimitBreakCheck.setSelected(true);
+
+                    final int ceNo = selectedCE.getCraftEssenceData().getCeNum();
+                    final int ceLevel;
+                    final boolean isLimitBreak;
+                    if (ceOptions.containsKey(ceNo)) {
+                        final CraftEssenceOption ceOption = ceOptions.get(ceNo);
+                        ceLevel = ceOption.getCraftEssenceLevel();
+                        isLimitBreak = ceOption.getIsLimitBreak();
+                    } else {
+                        ceLevel = maxLevel;
+                        isLimitBreak = true;
+                    }
+                    ceLevelSlider.setValue(ceLevel);
+                    ceLimitBreakCheck.setSelected(isLimitBreak);
                     ceLevelLabelHBox.setDisable(false);
                     ceLevelSlider.setDisable(false);
                     ceLimitBreakCheck.setDisable(false);
@@ -317,7 +335,7 @@ public class FormationSelector extends VBox {
         }
     }
 
-    private static int defaultCELevel(final int rarity) {
+    private static int defaultCEMaxLevel(final int rarity) {
         return switch (rarity) {
             case 5 -> 100;
             case 4 -> 80;
@@ -334,7 +352,7 @@ public class FormationSelector extends VBox {
         }
         int servantCost = 0;
         if (selectedServant.getServantData() != null) {
-            servantCost = selectedServant.getServantData().getServantAscensionData(servantOption.getAscension()).getCost();
+            servantCost = selectedServant.getServantData().getServantAscensionData(servantOption.getAscension() - 1).getCost();
         }
         int ceCost = 0;
         if (selectedCE.getCraftEssenceData() != null) {

@@ -604,10 +604,11 @@ public class DataPrinter {
         );
 
         if (servantOption.getCommandCardOptionsCount() != 0) {
-            builder.append("\n");
-            builder.append(getTranslation(APPLICATION_SECTION, "Command Card Options"));
 
-            for (final CommandCardOption commandCardOption : servantOption.getCommandCardOptionsList()) {
+            for (int i = 0; i < servantOption.getCommandCardOptionsCount(); i += 1) {
+                final CommandCardOption commandCardOption = servantOption.getCommandCardOptions(i);
+                builder.append("\n");
+                builder.append(getTranslation(APPLICATION_SECTION, "Command Card Options")).append(" ").append(i);
                 builder.append("\n");
                 builder.append(getTranslation(APPLICATION_SECTION, "Command Card Status Up"));
                 builder.append(": ");

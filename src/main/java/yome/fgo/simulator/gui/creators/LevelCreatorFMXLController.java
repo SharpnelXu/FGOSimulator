@@ -22,12 +22,17 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
+import yome.fgo.data.proto.FgoStorageData.CraftEssencePreference;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
+import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeOption;
+import yome.fgo.data.proto.FgoStorageData.MysticCodePreference;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
+import yome.fgo.data.proto.FgoStorageData.ServantPreference;
 import yome.fgo.data.proto.FgoStorageData.StageData;
+import yome.fgo.data.proto.FgoStorageData.UserPreference;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.gui.components.CraftEssenceDataWrapper;
@@ -45,6 +50,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -57,6 +63,7 @@ import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECT
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.LEVEL_DIRECTORY_PATH;
+import static yome.fgo.simulator.utils.FilePathUtils.USER_PREFERENCE_FILE_PATH;
 
 public class LevelCreatorFMXLController implements Initializable {
 
@@ -96,7 +103,7 @@ public class LevelCreatorFMXLController implements Initializable {
     @FXML
     private HBox simulationPrepHBox;
 
-    private MysticCodeDataWrapper mysticCodeData;
+    private MysticCodeDataWrapper mysticCodeDataWrapper;
     private List<FormationSelector> formationSelectors;
     private Label costValueLabel;
 
@@ -241,6 +248,20 @@ public class LevelCreatorFMXLController implements Initializable {
         final Map<Integer, ServantDataWrapper> servantDataMap = ResourceManager.buildServantSortMap();
         final Map<Integer, CraftEssenceDataWrapper> ceDataMap = ResourceManager.buildCESortMap();
         final Map<Integer, MysticCodeDataWrapper> mcDataMap = ResourceManager.buildMCSortMap();
+        final UserPreference userPreference = ResourceManager.getUserPreference();
+        final Map<Integer, ServantOption> servantOptions = new HashMap<>();
+        final Map<Integer, CraftEssenceOption> ceOptions = new HashMap<>();
+        final Map<Integer, MysticCodeOption> mcOptions = new HashMap<>();
+        for (final ServantPreference preference : userPreference.getServantPrefsList()) {
+            servantOptions.put(preference.getServantNo(), preference.getOption());
+        }
+        for (final CraftEssencePreference preference : userPreference.getCePrefsList()) {
+            ceOptions.put(preference.getCraftEssenceNo(), preference.getOption());
+        }
+        for (final MysticCodePreference preference : userPreference.getMcPrefsList()) {
+            mcOptions.put(preference.getMysticCodeNo(), preference.getOption());
+        }
+
         simulationPrepHBox.setVisible(true);
         simulationPrepHBox.setManaged(true);
         simulationPrepHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
@@ -250,13 +271,29 @@ public class LevelCreatorFMXLController implements Initializable {
         final List<Node> nodes = simulationPrepHBox.getChildren();
         formationSelectors = new ArrayList<>();
         for (int i = 0; i < 3; i += 1) {
-            final FormationSelector formationSelector = new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap, this);
+            final FormationSelector formationSelector = new FormationSelector(
+                    supportToggle,
+                    errorLabel,
+                    servantDataMap,
+                    servantOptions,
+                    ceDataMap,
+                    ceOptions,
+                    this
+            );
             formationSelectors.add(formationSelector);
             nodes.add(formationSelector);
         }
         nodes.add(new Separator(Orientation.VERTICAL));
         for (int i = 0; i < 3; i += 1) {
-            final FormationSelector formationSelector = new FormationSelector(supportToggle, errorLabel, servantDataMap, ceDataMap, this);
+            final FormationSelector formationSelector = new FormationSelector(
+                    supportToggle,
+                    errorLabel,
+                    servantDataMap,
+                    servantOptions,
+                    ceDataMap,
+                    ceOptions,
+                    this
+            );
             formationSelectors.add(formationSelector);
             nodes.add(formationSelector);
         }
@@ -271,7 +308,7 @@ public class LevelCreatorFMXLController implements Initializable {
 
         final Button selectMCButton = new Button();
         selectMCButton.setGraphic(mcDataMap.get(2));
-        mysticCodeData = mcDataMap.get(2);
+        mysticCodeDataWrapper = mcDataMap.get(2);
 
         final Label mcNameLabel = new Label(getTranslation(ENTITY_NAME_SECTION, "mysticCode2"));
         mcNameLabel.setWrapText(true);
@@ -279,10 +316,14 @@ public class LevelCreatorFMXLController implements Initializable {
 
         selectMCButton.setOnAction(e -> {
             try {
-                final MysticCodeDataWrapper wrapper = selectMysticCode(simulationPrepHBox.getScene().getWindow(), mcDataMap);
+                final MysticCodeDataWrapper wrapper = selectMysticCode(
+                        simulationPrepHBox.getScene().getWindow(),
+                        mcDataMap,
+                        mysticCodeDataWrapper.getGender()
+                );
                 if (wrapper != null) {
                     selectMCButton.setGraphic(wrapper);
-                    mysticCodeData = wrapper;
+                    mysticCodeDataWrapper = wrapper;
                     mcNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, wrapper.getMysticCodeData().getId()));
                     mcNameLabel.setMaxWidth(miscVBox.getWidth());
                 }
@@ -293,7 +334,7 @@ public class LevelCreatorFMXLController implements Initializable {
         final Button viewMCButton = new Button(getTranslation(APPLICATION_SECTION, "Details"));
         viewMCButton.setOnAction(e -> {
             try {
-                MysticCodeCreator.preview(simulationPrepHBox.getScene().getWindow(), mysticCodeData.getMysticCodeData());
+                MysticCodeCreator.preview(simulationPrepHBox.getScene().getWindow(), mysticCodeDataWrapper.getMysticCodeData());
             } catch (IOException ignored) {
             }
         });
@@ -319,6 +360,11 @@ public class LevelCreatorFMXLController implements Initializable {
         );
         mcLevelSlider.setShowTickMarks(true);
         mcLevelSlider.setValue(10);
+        if (mcOptions.containsKey(2)) {
+            final MysticCodeOption mysticCodeOption = mcOptions.get(2);
+            mcLevelSlider.setValue(mysticCodeOption.getMysticCodeLevel());
+            mysticCodeDataWrapper.setFromGender(mysticCodeOption.getGender());
+        }
 
         final Label probabilityLabel = new Label(getTranslation(APPLICATION_SECTION, "Probability Threshold (%)"));
         final Label probabilityValueLabel = new Label("100");
@@ -374,8 +420,11 @@ public class LevelCreatorFMXLController implements Initializable {
         startSimulationButton.setOnAction(e -> startSimulation(
                 (int) mcLevelSlider.getValue(),
                 RoundUtils.roundNearest(probabilityThresholdSlider.getValue() / 10.0),
-                randomSlider.getValue())
-        );
+                randomSlider.getValue(),
+                servantOptions,
+                ceOptions,
+                mcOptions
+        ));
 
         miscVBox.getChildren().addAll(
                 selectMCButton,
@@ -393,7 +442,14 @@ public class LevelCreatorFMXLController implements Initializable {
         );
     }
 
-    private void startSimulation(final int mcLevel, final double probabilityThreshold, final double random) {
+    private void startSimulation(
+            final int mcLevel,
+            final double probabilityThreshold,
+            final double random,
+            final Map<Integer, ServantOption> storedServantOptions,
+            final Map<Integer, CraftEssenceOption> storedCEOptions,
+            final Map<Integer, MysticCodeOption> storedMCOptions
+    ) {
         final LevelData levelData = buildLevelData();
 
         if (levelData == null) {
@@ -418,10 +474,31 @@ public class LevelCreatorFMXLController implements Initializable {
             return;
         }
 
+        final MysticCodeData mysticCodeData = mysticCodeDataWrapper.getMysticCodeData();
+
         final MysticCodeOption mysticCodeOption = MysticCodeOption.newBuilder()
                 .setMysticCodeLevel(mcLevel)
-                .setGender(mysticCodeData.getGender())
+                .setGender(mysticCodeDataWrapper.getGender())
                 .build();
+
+        for (int i = 0; i < servantData.size(); i += 1) {
+            final ServantData selectedServant = servantData.get(i);
+            if (selectedServant == null) {
+                continue;
+            }
+            storedServantOptions.put(selectedServant.getServantNum(), servantOptions.get(i));
+        }
+
+        for (int i = 0; i < craftEssenceData.size(); i += 1) {
+            final CraftEssenceData selectedCE = craftEssenceData.get(i);
+            if (selectedCE == null) {
+                continue;
+            }
+            storedCEOptions.put(selectedCE.getCeNum(), craftEssenceOptions.get(i));
+        }
+
+        storedMCOptions.put(mysticCodeData.getMcNum(), mysticCodeOption);
+        writeUserPreference(storedServantOptions, storedCEOptions, storedMCOptions);
 
         final SimulationWindow simulationWindow = new SimulationWindow(
                 levelData,
@@ -429,7 +506,7 @@ public class LevelCreatorFMXLController implements Initializable {
                 servantOptions,
                 craftEssenceData,
                 craftEssenceOptions,
-                mysticCodeData.getMysticCodeData(),
+                mysticCodeData,
                 mysticCodeOption,
                 probabilityThreshold,
                 random
@@ -445,5 +522,35 @@ public class LevelCreatorFMXLController implements Initializable {
         newStage.setScene(scene);
 
         newStage.show();
+    }
+
+    private void writeUserPreference(
+            final Map<Integer, ServantOption> storedServantOptions,
+            final Map<Integer, CraftEssenceOption> storedCEOptions,
+            final Map<Integer, MysticCodeOption> storedMCOptions
+    ) {
+        final UserPreference.Builder builder = UserPreference.newBuilder();
+        for (final int servantNumber : storedServantOptions.keySet()) {
+            builder.addServantPrefs(
+                    ServantPreference.newBuilder()
+                            .setServantNo(servantNumber)
+                            .setOption(storedServantOptions.get(servantNumber))
+            );
+        }
+        for (final int ceNumber : storedCEOptions.keySet()) {
+            builder.addCePrefs(
+                    CraftEssencePreference.newBuilder()
+                            .setCraftEssenceNo(ceNumber)
+                            .setOption(storedCEOptions.get(ceNumber))
+            );
+        }
+        for (final int mcNumber : storedMCOptions.keySet()) {
+            builder.addMcPrefs(
+                    MysticCodePreference.newBuilder()
+                            .setMysticCodeNo(mcNumber)
+                            .setOption(storedMCOptions.get(mcNumber))
+            );
+        }
+        DataWriter.writeMessage(builder.build(), USER_PREFERENCE_FILE_PATH);
     }
 }

@@ -452,3 +452,24 @@ message MysticCodeOption {
   int32 mysticCodeLevel = 1;
   Gender gender = 2;
 }
+
+message ServantPreference {
+  int32 servantNo = 1;
+  ServantOption option = 2;
+}
+
+message CraftEssencePreference {
+  int32 craftEssenceNo = 1;
+  CraftEssenceOption option = 2;
+}
+
+message MysticCodePreference {
+  int32 mysticCodeNo = 1;
+  MysticCodeOption option = 2;
+}
+
+message UserPreference {
+  repeated ServantPreference servantPrefs = 1;
+  repeated CraftEssencePreference cePrefs = 2;
+  repeated MysticCodePreference mcPrefs = 3;
+}
