@@ -373,7 +373,7 @@ public class Combatant {
     ) {
         final double baseDamage = applyBuff(simulation, doTClass);
         final double effectiveness = applyBuff(simulation, doTEffClass);
-        int totalDamage = Math.min(0, (int) RoundUtils.roundNearest(baseDamage * (1 + effectiveness)));
+        int totalDamage = Math.max(0, (int) RoundUtils.roundNearest(baseDamage * (1 + effectiveness)));
 
         if (totalDamage >= currentHp) {
             for (final Buff buff : buffs) {
@@ -403,14 +403,13 @@ public class Combatant {
         }
         clearInactiveBuff();
 
-        activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
-
         final int poisonDamage = calculateDoTDamage(simulation, Poison.class, Poison.getEffectivenessClass());
         final int burnDamage = calculateDoTDamage(simulation, Burn.class, Burn.getEffectivenessClass());
         final int curseDamage = calculateDoTDamage(simulation, Curse.class, Curse.getEffectivenessClass());
 
-
         receiveNonHpBarBreakDamage(poisonDamage + burnDamage + curseDamage);
+
+        activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
 
         if (isBuffExtended()) {
             return;
@@ -468,11 +467,11 @@ public class Combatant {
             }
         }
 
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logEffectActivatingBuff(id, buffClass);
+        }
         for (final EffectActivatingBuff buff : buffsToActivate) {
             if (buff.shouldApply(simulation)) {
-                if (simulation.getStatsLogger() != null) {
-                    simulation.getStatsLogger().logEffectActivatingBuff(id, buffClass);
-                }
 
                 simulation.setActivator(this);
                 buff.activate(simulation);

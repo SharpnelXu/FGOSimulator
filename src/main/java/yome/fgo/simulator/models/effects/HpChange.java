@@ -8,7 +8,12 @@ import yome.fgo.simulator.models.effects.buffs.HealEffectivenessBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @SuperBuilder
 public class HpChange extends Effect {
@@ -37,5 +42,27 @@ public class HpChange extends Effect {
             }
             simulation.unsetEffectTarget();
         }
+    }
+
+    @Override
+    public String toString() {
+        String base;
+        if (isPercentBased) {
+            final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+            numberFormat.setMaximumFractionDigits(2);
+
+            if (isOverchargedEffect) {
+                base = ": (OC) " + percents.stream().map(numberFormat::format).collect(Collectors.toList());
+            } else {
+                base = ": " + numberFormat.format(percents.get(0));
+            }
+        } else {
+            if (isOverchargedEffect) {
+                base = ": (OC) " + values;
+            } else {
+                base = ": " + values.get(0);
+            }
+        }
+        return getTranslation(TARGET_SECTION, target.name()) + super.toString() + ": " + base;
     }
 }
