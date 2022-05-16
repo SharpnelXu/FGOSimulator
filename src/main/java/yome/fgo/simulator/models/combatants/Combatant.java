@@ -407,6 +407,10 @@ public class Combatant {
         final int burnDamage = calculateDoTDamage(simulation, Burn.class, Burn.getEffectivenessClass());
         final int curseDamage = calculateDoTDamage(simulation, Curse.class, Curse.getEffectivenessClass());
 
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logDoT(id, poisonDamage, burnDamage, curseDamage);
+        }
+
         receiveNonHpBarBreakDamage(poisonDamage + burnDamage + curseDamage);
 
         activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
@@ -466,13 +470,11 @@ public class Combatant {
                 buffsToActivate.add((EffectActivatingBuff) buff);
             }
         }
-
-        if (simulation.getStatsLogger() != null) {
-            simulation.getStatsLogger().logEffectActivatingBuff(id, buffClass);
-        }
         for (final EffectActivatingBuff buff : buffsToActivate) {
             if (buff.shouldApply(simulation)) {
-
+                if (simulation.getStatsLogger() != null) {
+                    simulation.getStatsLogger().logEffectActivatingBuff(id, buffClass);
+                }
                 simulation.setActivator(this);
                 buff.activate(simulation);
 

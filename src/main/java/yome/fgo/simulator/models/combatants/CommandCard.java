@@ -116,6 +116,10 @@ public class CommandCard {
 
         for (final EffectActivatingBuff buff : buffsToActivate) {
             if (buff.shouldApply(simulation)) {
+
+                if (simulation.getStatsLogger() != null) {
+                    simulation.getStatsLogger().logEffectActivatingBuff(commandCodeData.getId(), buffClass);
+                }
                 buff.activate(simulation);
             }
         }

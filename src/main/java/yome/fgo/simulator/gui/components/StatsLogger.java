@@ -38,6 +38,21 @@ public class StatsLogger extends VBox {
         appendLogEntry(DEBUG, message);
     }
 
+    public void logDoT(final String id, final int poisonDamage, final int burnDamage, final int curseDamage) {
+        if (poisonDamage == 0 && burnDamage == 0 && curseDamage == 0) {
+            return;
+        }
+
+        final String message = String.format(
+                getTranslation(APPLICATION_SECTION, "%s receives DoT Damage: Burn %d, Curse %d, Poison %d"),
+                getTranslation(ENTITY_NAME_SECTION, id),
+                burnDamage,
+                curseDamage,
+                poisonDamage
+        );
+        appendLogEntry(EFFECT, message);
+    }
+
     public enum LogLevel {
         DEBUG(0),
         EFFECT(1),

@@ -62,10 +62,12 @@ import static yome.fgo.simulator.ResourceManager.getEnemyThumbnail;
 import static yome.fgo.simulator.ResourceManager.getMCImage;
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
+import static yome.fgo.simulator.gui.components.DataPrinter.printBasicCombatantData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printEffectData;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENEMY_NAME_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.BUFF_ICON_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.CARD_IMAGE_DIRECTORY_PATH;
@@ -483,7 +485,7 @@ public class SimulationWindow {
         final Image svrImg = combatant instanceof Servant ?
                 getServantImage(combatant.getId(), ((Servant) combatant).getAscension()) :
                 getEnemyImage(combatant.getEnemyData().getEnemyCategories(), combatant.getId());
-        populateShowBuffsVBox(svrImg, combatant.getBuffs());
+        populateShowBuffsVBox(svrImg, combatant);
     }
 
     public void viewServantBuffs(final int servantIndex) {
@@ -493,20 +495,43 @@ public class SimulationWindow {
 
         final Servant servant = simulation.getCurrentServants().get(servantIndex);
         final Image svrImg = getServantImage(servant.getId(), servant.getAscension());
-        populateShowBuffsVBox(svrImg, servant.getBuffs());
+        populateShowBuffsVBox(svrImg, servant);
     }
 
-    private void populateShowBuffsVBox(final Image image, final List<Buff> buffs) {
+    private void populateShowBuffsVBox(final Image image, final Combatant combatant) {
         final Button closeButton = new Button(getTranslation(APPLICATION_SECTION, "Close"));
         closeButton.setOnAction(e -> showBuffsVBox.setVisible(false));
 
         final AnchorPane imgAnchor = createServantImage(image);
+        final VBox basicDataVBox = new VBox(5);
+        final Label infoLabel = new Label(
+                printBasicCombatantData(combatant.getCombatantData()) + " " +
+                        getTranslation(APPLICATION_SECTION, "HP Bar") + combatant.getHpBars()
+        );
+
+        infoLabel.setWrapText(true);
+        infoLabel.setMaxWidth(root.getScene().getWidth() - 800);
+        final Label traitLabel = new Label(
+                getTranslation(APPLICATION_SECTION, "Traits") +
+                        combatant.getAllTraits(simulation).stream()
+                                .map(trait -> getTranslation(TRAIT_SECTION, trait))
+                                .collect(Collectors.toList())
+        );
+        traitLabel.setWrapText(true);
+        traitLabel.setMaxWidth(root.getScene().getWidth() - 800);
+        basicDataVBox.getChildren().addAll(infoLabel, traitLabel);
+
+        final HBox topHBox = new HBox(5);
+        topHBox.getChildren().addAll(imgAnchor, basicDataVBox);
+        topHBox.setFillHeight(false);
+        showBuffsVBox.getChildren().addAll(closeButton, topHBox);
 
         final ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         final GridPane buffGrid = new GridPane();
+        buffGrid.setPadding(new Insets(10));
         buffGrid.setHgap(5);
         buffGrid.setVgap(5);
         for (int i = 0; i < 3; i++) {
@@ -514,10 +539,10 @@ public class SimulationWindow {
             buffGrid.getColumnConstraints().add(constraints);
         }
         buffGrid.getColumnConstraints().get(1).setHgrow(Priority.ALWAYS);
-        buffGrid.getColumnConstraints().get(1).setMinWidth(200);
+        buffGrid.getColumnConstraints().get(1).setMinWidth(300);
         scrollPane.setContent(buffGrid);
 
-        showBuffsVBox.getChildren().addAll(closeButton, imgAnchor);
+        final List<Buff> buffs = combatant.getBuffs();
         for (int i = 0; i < buffs.size(); i += 1) {
             final Buff buff = buffs.get(i);
             final ImageView buffIcon = new ImageView(getBuffImage(buff.getIconName()));
@@ -526,7 +551,7 @@ public class SimulationWindow {
             buffGrid.add(buffIcon, 0, i);
             final Label buffLabel = new Label(buff.toString());
             buffLabel.setWrapText(true);
-            buffLabel.setMaxWidth(400);
+            buffLabel.setMaxWidth(root.getScene().getWidth() - 700);
             buffGrid.add(buffLabel, 1, i);
             final Label durationLabel = new Label(buff.durationString());
             buffGrid.add(durationLabel, 2, i);
@@ -534,6 +559,7 @@ public class SimulationWindow {
             rowConstraints.setValignment(VPos.CENTER);
             buffGrid.getRowConstraints().add(rowConstraints);
         }
+
         showBuffsVBox.getChildren().add(scrollPane);
     }
 

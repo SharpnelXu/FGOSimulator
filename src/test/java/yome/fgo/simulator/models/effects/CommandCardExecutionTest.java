@@ -89,15 +89,15 @@ public class CommandCardExecutionTest extends EasyMockSupport {
 
         expect(simulation.getAttacker()).andReturn(attacker);
         expect(simulation.getDefender()).andReturn(defender);
-        expect(attacker.getBuffs()).andReturn(ImmutableList.of());
-        expect(defender.getBuffs()).andReturn(ImmutableList.of());
-        expect(defender.getFateClass()).andReturn(CASTER);
+        expect(attacker.getBuffs()).andReturn(ImmutableList.of()).anyTimes();
+        expect(defender.getBuffs()).andReturn(ImmutableList.of()).anyTimes();
+        expect(defender.getFateClass()).andReturn(CASTER).anyTimes();
         expect(simulation.getCurrentCommandCard()).andReturn(KAMA_AVENGER_BUSTER);
 
         expect(attacker.applyBuff(simulation, DamageAdditionBuff.class)).andReturn(225.0);
 
         expect(attacker.getAttack()).andReturn(20977);
-        expect(attacker.getFateClass()).andReturn(AVENGER);
+        expect(attacker.getFateClass()).andReturn(AVENGER).anyTimes();
         expect(attacker.getAttribute()).andReturn(SKY);
         expect(defender.getAttribute()).andReturn(SKY);
         expect(simulation.getFixedRandom()).andReturn(0.9);
@@ -139,16 +139,16 @@ public class CommandCardExecutionTest extends EasyMockSupport {
 
         expect(simulation.getAttacker()).andReturn(attacker);
         expect(simulation.getDefender()).andReturn(defender);
-        expect(defender.getFateClass()).andReturn(CASTER);
+        expect(defender.getFateClass()).andReturn(CASTER).anyTimes();
         expect(simulation.getCurrentCommandCard()).andReturn(KAMA_AVENGER_EXTRA);
-        expect(attacker.getBuffs()).andReturn(ImmutableList.of());
-        expect(defender.getBuffs()).andReturn(ImmutableList.of());
+        expect(attacker.getBuffs()).andReturn(ImmutableList.of()).anyTimes();
+        expect(defender.getBuffs()).andReturn(ImmutableList.of()).anyTimes();
 
         expect(attacker.applyBuff(simulation, CommandCardBuff.class)).andReturn(0.5);
         expect(attacker.applyBuff(simulation, DamageAdditionBuff.class)).andReturn(225.0);
 
         expect(attacker.getAttack()).andReturn(20977);
-        expect(attacker.getFateClass()).andReturn(AVENGER);
+        expect(attacker.getFateClass()).andReturn(AVENGER).anyTimes();
         expect(attacker.getAttribute()).andReturn(SKY);
         expect(defender.getAttribute()).andReturn(SKY);
         expect(simulation.getFixedRandom()).andReturn(0.9);
@@ -188,16 +188,16 @@ public class CommandCardExecutionTest extends EasyMockSupport {
 
         expect(simulation.getAttacker()).andReturn(attacker);
         expect(simulation.getDefender()).andReturn(defender);
-        expect(defender.getFateClass()).andReturn(CASTER);
+        expect(defender.getFateClass()).andReturn(CASTER).anyTimes();
         expect(simulation.getCurrentCommandCard()).andReturn(KAMA_AVENGER_EXTRA);
-        expect(attacker.getBuffs()).andReturn(ImmutableList.of());
-        expect(defender.getBuffs()).andReturn(ImmutableList.of());
+        expect(attacker.getBuffs()).andReturn(ImmutableList.of()).anyTimes();
+        expect(defender.getBuffs()).andReturn(ImmutableList.of()).anyTimes();
 
         expect(attacker.applyBuff(simulation, CommandCardBuff.class)).andReturn(0.5);
         expect(attacker.applyBuff(simulation, DamageAdditionBuff.class)).andReturn(225.0);
 
         expect(attacker.getAttack()).andReturn(20977);
-        expect(attacker.getFateClass()).andReturn(AVENGER);
+        expect(attacker.getFateClass()).andReturn(AVENGER).anyTimes();
         expect(attacker.getAttribute()).andReturn(SKY);
         expect(defender.getAttribute()).andReturn(SKY);
         expect(simulation.getFixedRandom()).andReturn(0.9);
@@ -230,6 +230,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
                 .attack(20977)
                 .totalHits(100)
                 .attackerClass(AVENGER)
+                .classAdvantage(1)
                 .attackerAttribute(SKY)
                 .isCriticalStrike(false)
                 .firstCardType(BUSTER)

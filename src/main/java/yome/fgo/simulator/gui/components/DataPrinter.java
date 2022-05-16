@@ -487,7 +487,7 @@ public class DataPrinter {
         return builder.toString();
     }
 
-    public static String printCombatantData(final CombatantData combatantData) {
+    public static String printBasicCombatantData(final CombatantData combatantData) {
         final StringBuilder builder = new StringBuilder();
 
         builder.append(getTranslation(APPLICATION_SECTION, "ID"));
@@ -514,32 +514,29 @@ public class DataPrinter {
         builder.append(" ");
         builder.append(getTranslation(CLASS_SECTION, combatantData.getFateClass().name()));
 
-        builder.append(", ");
-        builder.append(getTranslation(APPLICATION_SECTION, "Gender"));
-        builder.append(" ");
-        builder.append(getTranslation(TRAIT_SECTION, combatantData.getGender().name()));
+        return builder.toString();
+    }
 
-        builder.append(", ");
-        builder.append(getTranslation(APPLICATION_SECTION, "Attribute"));
-        builder.append(" ");
-        builder.append(getTranslation(TRAIT_SECTION, combatantData.getAttribute().name()));
-
-        builder.append(", ");
-        builder.append(getTranslation(APPLICATION_SECTION, "Alignments"));
-        builder.append(" ");
-        builder.append(
+    public static String printCombatantData(final CombatantData combatantData) {
+        return printBasicCombatantData(combatantData) + ", " +
+                getTranslation(APPLICATION_SECTION, "Gender") +
+                " " +
+                getTranslation(TRAIT_SECTION, combatantData.getGender().name()) +
+                ", " +
+                getTranslation(APPLICATION_SECTION, "Attribute") +
+                " " +
+                getTranslation(TRAIT_SECTION, combatantData.getAttribute().name()) +
+                ", " +
+                getTranslation(APPLICATION_SECTION, "Alignments") +
+                " " +
                 combatantData.getAlignmentsList()
                         .stream()
                         .map(alignment -> getTranslation(TRAIT_SECTION, alignment.name()))
-                        .collect(Collectors.toList())
-        );
-
-        builder.append(", ");
-        builder.append(getTranslation(APPLICATION_SECTION, "Traits"));
-        builder.append(" ");
-        builder.append(printTraits(combatantData.getTraitsList()));
-
-        return builder.toString();
+                        .collect(Collectors.toList()) +
+                ", " +
+                getTranslation(APPLICATION_SECTION, "Traits") +
+                " " +
+                printTraits(combatantData.getTraitsList());
     }
 
     public static String printServantOption(final ServantOption servantOption) {
