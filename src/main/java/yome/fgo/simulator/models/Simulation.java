@@ -250,7 +250,7 @@ public class Simulation {
     }
 
     public void executeCombatActions(final List<CombatAction> combatActions) {
-
+        currentStars = 0;
         // calculate chain
         final boolean typeChain = isTypeChain(combatActions);
         final CommandCardType firstCardType = getCommandCardType(combatActions.get(0));
@@ -268,6 +268,9 @@ public class Simulation {
             }
 
             if (combatAction.isNoblePhantasm) {
+                if (servant.isNpInaccessible()) {
+                    continue;
+                }
                 servant.activateNoblePhantasm(this, extraOvercharge);
                 extraOvercharge += 1;
 

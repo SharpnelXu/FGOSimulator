@@ -4,11 +4,15 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import lombok.Getter;
+import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.CombatAction;
 import yome.fgo.simulator.models.combatants.CommandCard;
+import yome.fgo.simulator.models.combatants.Servant;
 
 import java.util.List;
 
@@ -51,6 +55,11 @@ public class CombatActionDisplay extends StackPane {
         cardImage.setFitWidth(80);
         cardImage.setImage(simulationWindow.getCardImage(commandCard.getCommandCardType()));
         button.setGraphic(cardImage);
+        final Simulation simulation = simulationWindow.getSimulation();
+        final Servant servant = simulation.getCurrentServants().get(servantIndex);
+        if (isNp && !servant.canActivateNoblePhantasm(simulation)) {
+            button.setDisable(true);
+        }
 
         stateLabel = new Label();
         contentVBox.getChildren().addAll(button, stateLabel);
@@ -96,6 +105,23 @@ public class CombatActionDisplay extends StackPane {
             ccThumbnail.setImage(simulationWindow.getCommandCodeImage(commandCard.getCommandCodeData().getId()));
             StackPane.setAlignment(ccThumbnail, Pos.TOP_RIGHT);
             getChildren().add(ccThumbnail);
+        }
+
+        if (servant.isImmobilized()) {
+            final AnchorPane cdAnchor = new AnchorPane();
+            cdAnchor.setStyle("-fx-background-color: rgba(0,0,0,0.78); -fx-border-radius: 3; -fx-border-width: 1");
+            final Label cdLabel = new Label("X");
+            cdLabel.setFont(new Font(30));
+            cdLabel.setStyle("-fx-text-fill: white");
+            cdLabel.setAlignment(Pos.CENTER);
+            cdLabel.setWrapText(true);
+            cdLabel.setMaxWidth(60);
+            AnchorPane.setBottomAnchor(cdLabel, 0.0);
+            AnchorPane.setTopAnchor(cdLabel, 0.0);
+            AnchorPane.setLeftAnchor(cdLabel, 0.0);
+            AnchorPane.setRightAnchor(cdLabel, 0.0);
+            cdAnchor.getChildren().add(cdLabel);
+            getChildren().add(cdAnchor);
         }
     }
 

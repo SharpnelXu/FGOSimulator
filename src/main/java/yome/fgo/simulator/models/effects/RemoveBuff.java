@@ -5,12 +5,10 @@ import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.BuffFactory;
 import yome.fgo.simulator.models.effects.buffs.BuffRemovalResist;
 import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
@@ -55,7 +53,11 @@ public class RemoveBuff extends IntValuedEffect {
 
             if (!buff.isIrremovable() && shouldApply(simulation)) {
                 final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
-                if (probability - buffRemovalResist >= simulation.getProbabilityThreshold()) {
+                final double activationProbability = probability - buffRemovalResist;
+                if (simulation.getStatsLogger() != null) {
+                    simulation.getStatsLogger().logProbability(activationProbability, simulation.getProbabilityThreshold());
+                }
+                if (activationProbability >= simulation.getProbabilityThreshold()) {
                     buffList.remove(j);
                     removeCount += 1;
                 }
@@ -84,7 +86,11 @@ public class RemoveBuff extends IntValuedEffect {
 
             if (!buff.isIrremovable() && shouldApply(simulation)) {
                 final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
-                if (probability - buffRemovalResist >= simulation.getProbabilityThreshold()) {
+                final double activationProbability = probability - buffRemovalResist;
+                if (simulation.getStatsLogger() != null) {
+                    simulation.getStatsLogger().logProbability(activationProbability, simulation.getProbabilityThreshold());
+                }
+                if (activationProbability >= simulation.getProbabilityThreshold()) {
                     buffList.remove(i);
                     i -= 1;
                     removeCount += 1;
