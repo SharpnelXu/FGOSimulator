@@ -275,7 +275,7 @@
             "type": "BuffTypeEquals",
             "value": "Charm"
           },
-          "values": [5.0],
+          "values": [10.0],
           "buffIcon": "immune"
         }]
       }],
@@ -1121,7 +1121,7 @@
             "type": "BuffTypeEquals",
             "value": "Charm"
           },
-          "values": [5.0],
+          "values": [10.0],
           "buffIcon": "immune"
         }]
       }],

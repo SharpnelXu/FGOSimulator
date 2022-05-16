@@ -123,6 +123,31 @@
       "bond": 10,
       "ascension": 1
     }
+  }, {
+    "servantNo": 239,
+    "option": {
+      "servantLevel": 120,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 2000,
+      "healthStatusUp": 2000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+        "strengthen": 500
+      }, {
+        "strengthen": 500
+      }, {
+        "strengthen": 500
+      }, {
+        "strengthen": 500
+      }, {
+        "strengthen": 500
+      }],
+      "bond": 15,
+      "ascension": 2
+    }
   }],
   "cePrefs": [{
     "craftEssenceNo": 1080,

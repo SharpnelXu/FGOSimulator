@@ -157,13 +157,13 @@ public class StatsLogger extends VBox {
         }
 
         final String message = String.format(
-                getTranslation(APPLICATION_SECTION, "%s executes %s on %s, total damage: %d, total NP: %s, total critical star: %s, overkill: %d/%d"),
+                getTranslation(APPLICATION_SECTION, "%s executes %s on %s, total damage: %d, total NP: %s, total critical star: %.2f, overkill: %d/%d"),
                 getTranslation(ENTITY_NAME_SECTION, attackerId),
                 commandCardString,
                 getTranslation(ENTITY_NAME_SECTION, defenderId),
                 totalDamage,
                 numberFormat.format(totalNp),
-                numberFormat.format(totalCritStar),
+                totalCritStar,
                 overkillCount,
                 hits
         );

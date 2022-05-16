@@ -163,6 +163,8 @@ public class NoblePhantasmDamage extends Effect {
             final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
             final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
 
+            final double classAdvantage = getClassAdvantage(attacker, defender);
+
             final NpDamageParameters npDamageParams = NpDamageParameters.builder()
                     .attack(attacker.getAttack())
                     .totalHits(currentCard.getTotalHits())
@@ -170,6 +172,7 @@ public class NoblePhantasmDamage extends Effect {
                     .npSpecificAttackRate(npSpecificDamageRate)
                     .attackerClass(attacker.getFateClass())
                     .defenderClass(defenderClass)
+                    .classAdvantage(classAdvantage)
                     .attackerAttribute(attacker.getAttribute())
                     .defenderAttribute(defender.getAttribute())
                     .currentCardType(currentCardType)
@@ -364,6 +367,7 @@ public class NoblePhantasmDamage extends Effect {
         private final double npSpecificAttackRate;
         private final FateClass attackerClass;
         private final FateClass defenderClass;
+        private final double classAdvantage;
         private final Attribute attackerAttribute;
         private final Attribute defenderAttribute;
         private final CommandCardType currentCardType;

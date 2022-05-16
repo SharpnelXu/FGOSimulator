@@ -800,6 +800,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 additionalParams.setAttackMode(classAdvChoicesAtk.getValue());
                 if (classAdvChoicesAtk.getValue() != CLASS_ADV_NO_CHANGE) {
                     if (classAdvCustomAtkCheckbox.isSelected()) {
+                        additionalParams.setCustomizeAttackModifier(true);
                         try {
                             final double rate = Double.parseDouble(classAdvCustomAtkText.getText());
                             additionalParams.setAttackAdv(rate);
@@ -811,6 +812,7 @@ public class BuffBuilderFXMLController implements Initializable {
                     }
 
                 }
+
                 if (classAdvAtkTargetClassText.getText().isEmpty()) {
                     errorLabel.setVisible(true);
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "Affected class not set"));
@@ -826,6 +828,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 additionalParams.setDefenseMode(classAdvChoicesDef.getValue());
                 if (classAdvChoicesDef.getValue() != CLASS_ADV_NO_CHANGE) {
                     if (classAdvCustomDefCheckbox.isSelected()) {
+                        additionalParams.setCustomizeDefenseModifier(true);
                         try {
                             final double rate = Double.parseDouble(classAdvCustomDefText.getText());
                             additionalParams.setDefenseAdv(rate);
@@ -849,6 +852,8 @@ public class BuffBuilderFXMLController implements Initializable {
                                 .map(s -> FateClass.valueOf(getKeyForTrait(s)))
                                 .collect(Collectors.toList())
                 );
+
+                buffDataBuilder.setClassAdvChangeAdditionalParams(additionalParams);
             }
 
             if (requiredFields.contains(BUFF_FIELD_CARD_TYPE)) {

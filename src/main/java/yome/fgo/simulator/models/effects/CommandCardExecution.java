@@ -130,11 +130,14 @@ public class CommandCardExecution {
         final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class) +
                 currentCard.applyBuff(simulation, CriticalStarGenerationBuff.class);
 
+        final double classAdvantage = getClassAdvantage(attacker, defender);
+
         final DamageParameters damageParameters = DamageParameters.builder()
                 .attack(attacker.getAttack() + currentCard.getCommandCardStrengthen())
                 .totalHits(currentCard.getTotalHits())
                 .attackerClass(attacker.getFateClass())
                 .defenderClass(defenderClass)
+                .classAdvantage(classAdvantage)
                 .attackerAttribute(attacker.getAttribute())
                 .defenderAttribute(defender.getAttribute())
                 .currentCardType(currentCardType)
@@ -288,10 +291,10 @@ public class CommandCardExecution {
         return hasEvade;
     }
 
-    public static int calculateTotalDamage(DamageParameters damageParameters) {
+    public static int calculateTotalDamage(final DamageParameters damageParameters) {
         // fixed values
         final double classAttackCorrection = getClassAttackCorrection(damageParameters.attackerClass);
-        final double classAdvantage = getClassAdvantage(damageParameters.attackerClass, damageParameters.defenderClass);
+        final double classAdvantage = damageParameters.classAdvantage;
         final double attributeAdvantage = getAttributeAdvantage(damageParameters.attackerAttribute, damageParameters.defenderAttribute);
         final double commandCardDamageCorrection = getCommandCardDamageCorrection(damageParameters.currentCardType, damageParameters.chainIndex);
         final double busterStartDamageBoost = damageParameters.firstCardType == BUSTER ? 0.5 : 0;
@@ -375,6 +378,7 @@ public class CommandCardExecution {
         private final int totalHits;
         private final FateClass attackerClass;
         private final FateClass defenderClass;
+        private final double classAdvantage;
         private final Attribute attackerAttribute;
         private final Attribute defenderAttribute;
         private final CommandCardType currentCardType;
