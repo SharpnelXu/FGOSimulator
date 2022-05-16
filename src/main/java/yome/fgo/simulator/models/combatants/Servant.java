@@ -442,7 +442,6 @@ public class Servant extends Combatant {
                     break;
                 }
             }
-            assert cardDataOfChangedType != null;
 
             final CommandCard supposedCard = commandCards.get(index);
             return new CommandCard(

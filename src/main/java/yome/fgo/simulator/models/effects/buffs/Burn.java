@@ -26,6 +26,6 @@ public class Burn extends ValuedBuff implements DamageOverTime {
         if (variation != NO_VARIATION) {
             base = base + " + " + (int) addition + " " + variation;
         }
-        return super.toString() + base;
+        return baseToString() + base;
     }
 }

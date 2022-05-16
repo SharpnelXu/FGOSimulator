@@ -469,8 +469,8 @@ public class BuffFactory {
         builder.put(DefenseBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(CommandCardBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(CommandCardResist.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
-        builder.put(DamageAdditionBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
-        builder.put(DamageReductionBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
+        builder.put(DamageAdditionBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE));
+        builder.put(DamageReductionBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE));
         builder.put(CriticalDamageBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(NpDamageBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(NpDamageBuffEffectivenessUp.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));

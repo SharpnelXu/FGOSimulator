@@ -18,14 +18,14 @@ import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECT
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @AllArgsConstructor
-public class BuffsCellFactory implements Callback<ListView<BuffData>, ListCell<BuffData>> {
+public class BuffsCellFactory implements Callback<ListView<DataWrapper<BuffData>>, ListCell<DataWrapper<BuffData>>> {
     private final Label errorLabel;
 
     @Override
-    public ListCell<BuffData> call(final ListView<BuffData> param) {
+    public ListCell<DataWrapper<BuffData>> call(final ListView<DataWrapper<BuffData>> param) {
         return new ListCell<>() {
             @Override
-            public void updateItem(final BuffData buffData, final boolean empty) {
+            public void updateItem(final DataWrapper<BuffData> buffData, final boolean empty) {
                 super.updateItem(buffData, empty);
 
                 if (empty || buffData == null) {
@@ -38,12 +38,12 @@ public class BuffsCellFactory implements Callback<ListView<BuffData>, ListCell<B
 
                     editButton.setOnAction(event -> {
                         try {
-                            final BuffData.Builder builder = buffData.toBuilder();
+                            final BuffData.Builder builder = buffData.protoData.toBuilder();
                             createBuff(getListView().getScene().getWindow(), builder);
 
                             if (!builder.getType().isEmpty()) {
                                 final int index = getListView().getItems().indexOf(buffData);
-                                getListView().getItems().set(index, builder.build());
+                                getListView().getItems().set(index, new DataWrapper<>(builder.build()));
                             }
 
                         } catch (final IOException e) {
@@ -60,7 +60,7 @@ public class BuffsCellFactory implements Callback<ListView<BuffData>, ListCell<B
                         getListView().requestFocus();
                     });
 
-                    final Label label = new Label(printBuffData(buffData));
+                    final Label label = new Label(printBuffData(buffData.protoData));
                     label.setWrapText(true);
                     label.setMaxWidth(Math.max(param.getWidth() - 140, 500));
 

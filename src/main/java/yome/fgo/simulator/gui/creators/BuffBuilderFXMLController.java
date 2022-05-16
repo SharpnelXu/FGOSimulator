@@ -25,6 +25,7 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
+import yome.fgo.simulator.gui.components.DataWrapper;
 import yome.fgo.simulator.gui.components.EffectsCellFactory;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
@@ -152,7 +153,7 @@ public class BuffBuilderFXMLController implements Initializable {
     private Label effectsLabel;
 
     @FXML
-    private ListView<EffectData> effectsList;
+    private ListView<DataWrapper<EffectData>> effectsList;
 
     @FXML
     private HBox effectsPane;
@@ -333,7 +334,9 @@ public class BuffBuilderFXMLController implements Initializable {
                 stringValueText.setText(buffDataBuilder.getStringValue());
             }
             if (requiredFields.contains(BUFF_FIELD_EFFECTS)) {
-                effectsList.setItems(FXCollections.observableArrayList(buffDataBuilder.getSubEffectsList()));
+                effectsList.setItems(FXCollections.observableArrayList(
+                        buffDataBuilder.getSubEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList())
+                ));
             }
             if (requiredFields.contains(BUFF_FIELD_CLASS_ADV) && buffDataBuilder.hasClassAdvChangeAdditionalParams()) {
                 final ClassAdvantageChangeAdditionalParams additionalParams = buffDataBuilder.getClassAdvChangeAdditionalParams();
@@ -587,7 +590,7 @@ public class BuffBuilderFXMLController implements Initializable {
             createEffect(addEffectsButton.getScene().getWindow(), builder);
 
             if (!builder.getType().isEmpty()) {
-                effectsList.getItems().add(builder.build());
+                effectsList.getItems().add(new DataWrapper<>(builder.build()));
             }
         } catch (final IOException e) {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
@@ -790,7 +793,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 buffDataBuilder.setStringValue(getKeyForTrait(stringValueText.getText()));
             }
             if (requiredFields.contains(BUFF_FIELD_EFFECTS)) {
-                buffDataBuilder.addAllSubEffects(effectsList.getItems());
+                buffDataBuilder.addAllSubEffects(effectsList.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()));
             }
             if (requiredFields.contains(BUFF_FIELD_CLASS_ADV)) {
                 final ClassAdvantageChangeAdditionalParams.Builder additionalParams = ClassAdvantageChangeAdditionalParams.newBuilder();

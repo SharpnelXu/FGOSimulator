@@ -31,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
@@ -48,7 +49,7 @@ public class ActiveSkillUpgrade extends HBox {
     private final ImageView skillIcon;
     private final TextField iconFileNameText;
     private final TextField coolDownText;
-    private final ListView<EffectData> skillEffects;
+    private final ListView<DataWrapper<EffectData>> skillEffects;
     private final Label errorLabel;
     private final CheckBox conditionCheckBox;
     private final Label builtConditionLabel;
@@ -57,7 +58,7 @@ public class ActiveSkillUpgrade extends HBox {
 
     private final CheckBox specialCheckBox;
     private final List<CheckBox> cardTypeCheckboxes;
-    private final ListView<EffectData> randomEffects;
+    private final ListView<DataWrapper<EffectData>> randomEffects;
     private final ChoiceBox<SpecialActivationTarget> specialActivationTargetChoiceBox;
 
     public ActiveSkillUpgrade() {
@@ -200,7 +201,7 @@ public class ActiveSkillUpgrade extends HBox {
                 createEffect(addRandomEffectButton.getScene().getWindow(), builder);
 
                 if (!builder.getType().isEmpty()) {
-                    randomEffects.getItems().add(builder.build());
+                    randomEffects.getItems().add(new DataWrapper<>(builder.build()));
                 }
             } catch (final IOException ex) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
@@ -260,7 +261,7 @@ public class ActiveSkillUpgrade extends HBox {
                 createEffect(addEffectsButton.getScene().getWindow(), builder);
 
                 if (!builder.getType().isEmpty()) {
-                    skillEffects.getItems().add(builder.build());
+                    skillEffects.getItems().add(new DataWrapper<>(builder.build()));
                 }
             } catch (final IOException ex) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
@@ -312,7 +313,7 @@ public class ActiveSkillUpgrade extends HBox {
     public ActiveSkillData build() {
         final ActiveSkillData.Builder builder = ActiveSkillData.newBuilder()
                 .setBaseCoolDown(Integer.parseInt(coolDownText.getText().trim()))
-                .addAllEffects(skillEffects.getItems())
+                .addAllEffects(skillEffects.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()))
                 .setIconName(iconFileNameText.getText());
         if (conditionCheckBox.isSelected()) {
             builder.setActivationCondition(activationCondition);
@@ -320,7 +321,9 @@ public class ActiveSkillUpgrade extends HBox {
         if (specialCheckBox.isSelected()) {
             final SpecialActivationParams.Builder specialTargetBuilder = SpecialActivationParams.newBuilder()
                             .setSpecialTarget(specialActivationTargetChoiceBox.getValue())
-                            .addAllRandomEffectSelections(randomEffects.getItems());
+                            .addAllRandomEffectSelections(
+                                    randomEffects.getItems().stream().map(e -> e.protoData).collect(Collectors.toList())
+                            );
             final List<CommandCardType> cardTypes = ImmutableList.of(QUICK, ARTS, BUSTER);
             for (int i = 0; i < cardTypeCheckboxes.size(); i++) {
                 if (cardTypeCheckboxes.get(i).isSelected()) {
@@ -335,7 +338,7 @@ public class ActiveSkillUpgrade extends HBox {
     public void setFrom(final ActiveSkillData activeSkillData) {
         iconFileNameText.setText(activeSkillData.getIconName());
         coolDownText.setText(Integer.toString(activeSkillData.getBaseCoolDown()));
-        skillEffects.getItems().addAll(activeSkillData.getEffectsList());
+        skillEffects.getItems().addAll(activeSkillData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
         if (activeSkillData.hasActivationCondition()) {
             conditionCheckBox.setSelected(true);
             conditionCheckBox.fireEvent(new ActionEvent());
@@ -346,7 +349,9 @@ public class ActiveSkillUpgrade extends HBox {
             specialCheckBox.setSelected(true);
             specialCheckBox.fireEvent(new ActionEvent());
             final SpecialActivationParams specialActivationParams = activeSkillData.getSpecialActivationParams();
-            randomEffects.getItems().addAll(specialActivationParams.getRandomEffectSelectionsList());
+            randomEffects.getItems().addAll(
+                    specialActivationParams.getRandomEffectSelectionsList().stream().map(DataWrapper::new).collect(Collectors.toList())
+            );
 
             for (final CommandCardType cardType : specialActivationParams.getCardTypeSelectionsList()) {
                 if (cardType == QUICK) {

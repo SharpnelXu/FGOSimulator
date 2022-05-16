@@ -50,7 +50,7 @@ public class EffectFactory {
     public static Effect buildEffect(final EffectData effectData, final int level) {
         final String type = effectData.getType();
         if (type.equalsIgnoreCase(AscensionChange.class.getSimpleName())) {
-            return setCommonIntValuedEffectValue(AscensionChange.builder(), effectData, level);
+            return setCommonIntValuedEffectValue(AscensionChange.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(BuffAbsorption.class.getSimpleName())) {
             return setCommonEffectParams(BuffAbsorption.builder().target(effectData.getTarget()), effectData, level);
@@ -62,7 +62,7 @@ public class EffectFactory {
             return setCommonIntValuedEffectValue(CriticalStarChange.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(DecreaseActiveSkillCoolDown.class.getSimpleName())) {
-            return setCommonIntValuedEffectValue(DecreaseActiveSkillCoolDown.builder(), effectData, level);
+            return setCommonIntValuedEffectValue(DecreaseActiveSkillCoolDown.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(GrantBuff.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(GrantBuff.builder(), effectData, level);
@@ -108,7 +108,7 @@ public class EffectFactory {
             return setCommonValuedEffectValue(NpChange.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(NpGaugeChange.class.getSimpleName())) {
-            return setCommonIntValuedEffectValue(NpGaugeChange.builder(), effectData, level);
+            return setCommonIntValuedEffectValue(NpGaugeChange.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(OrderChange.class.getSimpleName())) {
             return ORDER_CHANGE;
@@ -312,13 +312,13 @@ public class EffectFactory {
     public static Map<String, Set<EffectFields>> buildEffectsRequiredFieldsMap() {
         final ImmutableMap.Builder<String, Set<EffectFields>> builder = ImmutableMap.builder();
 
+        builder.put(GrantBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
+        builder.put(RemoveBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_REMOVE_BUFF));
         builder.put(CriticalStarChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE));
         builder.put(NpChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_DOUBLE_VALUE, EFFECT_FIELD_TARGET));
         builder.put(NpGaugeChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));
         builder.put(HpChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_HP_CHANGE));
         builder.put(MaxHpChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
-        builder.put(GrantBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
-        builder.put(RemoveBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_REMOVE_BUFF));
         builder.put(NoblePhantasmDamage.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_DOUBLE_VALUE, EFFECT_FIELD_NP_DAMAGE, EFFECT_FIELD_TARGET));
 
         builder.put(DecreaseActiveSkillCoolDown.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));

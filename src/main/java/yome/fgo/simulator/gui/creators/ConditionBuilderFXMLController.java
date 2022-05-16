@@ -15,6 +15,7 @@ import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Target;
+import yome.fgo.simulator.gui.components.DataWrapper;
 import yome.fgo.simulator.gui.components.SubConditionCellFactory;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
 import static yome.fgo.simulator.gui.components.DataPrinter.intToString;
@@ -70,7 +72,7 @@ public class ConditionBuilderFXMLController implements Initializable {
     private AnchorPane subConditionPane;
 
     @FXML
-    private ListView<ConditionData> subConditionList;
+    private ListView<DataWrapper<ConditionData>> subConditionList;
 
     @FXML
     private ChoiceBox<Target> targetChoices;
@@ -159,9 +161,11 @@ public class ConditionBuilderFXMLController implements Initializable {
                 targetChoices.getSelectionModel().select(builder.getTarget());
             }
             if (requiredFields.contains(CONDITION_FIELD_UNLIMITED_SUB_CONDITION)) {
-                subConditionList.setItems(FXCollections.observableArrayList(builder.getSubConditionDataList()));
+                subConditionList.getItems().addAll(
+                        builder.getSubConditionDataList().stream().map(DataWrapper::new).collect(Collectors.toList())
+                );
             } else if (requiredFields.contains(CONDITION_FIELD_LIMITED_SUB_CONDITION)) {
-                subConditionList.setItems(FXCollections.observableArrayList(builder.getSubConditionData(0)));
+                subConditionList.getItems().add(new DataWrapper<>(builder.getSubConditionData(0)));
             }
         }
     }
@@ -300,7 +304,7 @@ public class ConditionBuilderFXMLController implements Initializable {
             createCondition(addListItemButton.getScene().getWindow(), builder);
 
             if (!builder.getType().isEmpty()) {
-                subConditionList.getItems().add(builder.build());
+                subConditionList.getItems().add(new DataWrapper<>(builder.build()));
             }
         } catch (final IOException e) {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
@@ -369,7 +373,9 @@ public class ConditionBuilderFXMLController implements Initializable {
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "Only one sub-condition allowed"));
                     return;
                 }
-                conditionDataBuilder.addAllSubConditionData(subConditionList.getItems());
+                conditionDataBuilder.addAllSubConditionData(
+                        subConditionList.getItems().stream().map(wrapper -> wrapper.protoData).collect(Collectors.toList())
+                );
             }
 
             conditionDataBuilder.setType(conditionChoices.getValue());

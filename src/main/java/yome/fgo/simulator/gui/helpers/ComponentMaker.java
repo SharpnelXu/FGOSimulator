@@ -27,7 +27,7 @@ import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
 
 public class ComponentMaker {
-    public static final String COMMA_SPLIT_REGEX = "\s*[，,]\s*";
+    public static final String COMMA_SPLIT_REGEX = "\s*[，,、]\s*";
 
     public static void fillFateClass(final ChoiceBox<FateClass> classChoiceBox) {
         final List<FateClass> fateClasses = Lists.newArrayList(FateClass.values());

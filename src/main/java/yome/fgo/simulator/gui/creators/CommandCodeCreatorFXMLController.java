@@ -18,6 +18,7 @@ import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.gui.components.BuffsCellFactory;
+import yome.fgo.simulator.gui.components.DataWrapper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,6 +27,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getCCThumbnail;
 import static yome.fgo.simulator.gui.creators.BuffBuilder.createBuff;
@@ -44,7 +46,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
     private Label buffsLabel;
 
     @FXML
-    private ListView<BuffData> buffsList;
+    private ListView<DataWrapper<BuffData>> buffsList;
 
     @FXML
     private Label errorLabel;
@@ -125,7 +127,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
                 createBuff(addBuffsButton.getScene().getWindow(), builder);
 
                 if (!builder.getType().isEmpty()) {
-                    buffsList.getItems().add(builder.build());
+                    buffsList.getItems().add(new DataWrapper<>(builder.build()));
                 }
             } catch (final IOException ex) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
@@ -160,7 +162,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
 
         idText.setText(Integer.toString(builder.getCcNum()));
         rarityChoices.getSelectionModel().select(Integer.valueOf(builder.getRarity()));
-        buffsList.getItems().addAll(builder.getBuffsList());
+        buffsList.getItems().addAll(builder.getBuffsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
 
         errorLabel.setVisible(true);
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Load success!"));
@@ -180,7 +182,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
                 .setCcNum(ccNum)
                 .setRarity(rarityChoices.getValue())
                 .setId("commandCode" + ccNum)
-                .addAllBuffs(buffsList.getItems())
+                .addAllBuffs(buffsList.getItems().stream().map(wrapper -> wrapper.protoData).collect(Collectors.toList()))
                 .build();
 
         DataWriter.writeCommandCode(commandCodeData);

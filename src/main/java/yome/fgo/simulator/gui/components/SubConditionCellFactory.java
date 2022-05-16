@@ -16,7 +16,7 @@ import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
-public class SubConditionCellFactory implements Callback<ListView<ConditionData>, ListCell<ConditionData>> {
+public class SubConditionCellFactory implements Callback<ListView<DataWrapper<ConditionData>>, ListCell<DataWrapper<ConditionData>>> {
     private final Label errorLabel;
 
     public SubConditionCellFactory(final Label errorLabel) {
@@ -24,10 +24,10 @@ public class SubConditionCellFactory implements Callback<ListView<ConditionData>
     }
 
     @Override
-    public ListCell<ConditionData> call(final ListView<ConditionData> param) {
+    public ListCell<DataWrapper<ConditionData>> call(final ListView<DataWrapper<ConditionData>> param) {
         return new ListCell<>() {
             @Override
-            public void updateItem(final ConditionData conditionData, final boolean empty) {
+            public void updateItem(final DataWrapper<ConditionData> conditionData, final boolean empty) {
                 super.updateItem(conditionData, empty);
 
                 if (empty || conditionData == null) {
@@ -40,12 +40,12 @@ public class SubConditionCellFactory implements Callback<ListView<ConditionData>
 
                     editButton.setOnAction(event -> {
                         try {
-                            final ConditionData.Builder builder = conditionData.toBuilder();
+                            final ConditionData.Builder builder = conditionData.protoData.toBuilder();
                             createCondition(getListView().getScene().getWindow(), builder);
 
                             if (!builder.getType().isEmpty()) {
                                 final int index = getListView().getItems().indexOf(conditionData);
-                                getListView().getItems().set(index, builder.build());
+                                getListView().getItems().set(index, new DataWrapper<>(builder.build()));
                             }
 
                         } catch (final IOException e) {
@@ -59,7 +59,7 @@ public class SubConditionCellFactory implements Callback<ListView<ConditionData>
 
                     removeButton.setOnAction(event -> getListView().getItems().remove(conditionData));
 
-                    final Label label = new Label(printConditionData(conditionData));
+                    final Label label = new Label(printConditionData(conditionData.protoData));
                     label.setWrapText(true);
                     label.setMaxWidth(500);
 

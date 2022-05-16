@@ -21,6 +21,7 @@ import yome.fgo.data.proto.FgoStorageData.NoblePhantasmType;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
@@ -32,7 +33,7 @@ import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 public class NpUpgrade extends HBox {
     private final CommandCardBox cardBox;
     private final ChoiceBox<NoblePhantasmType> npTypeChoices;
-    private final ListView<EffectData> npEffects;
+    private final ListView<DataWrapper<EffectData>> npEffects;
     private final CheckBox conditionCheckBox;
     private final Label builtConditionLabel;
 
@@ -131,7 +132,7 @@ public class NpUpgrade extends HBox {
                 createEffect(addEffectsButton.getScene().getWindow(), builder);
 
                 if (!builder.getType().isEmpty()) {
-                    npEffects.getItems().add(builder.build());
+                    npEffects.getItems().add(new DataWrapper<>(builder.build()));
                 }
             } catch (final IOException ex) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
@@ -178,7 +179,7 @@ public class NpUpgrade extends HBox {
         final NoblePhantasmData.Builder builder =  NoblePhantasmData.newBuilder()
                 .setCommandCardData(cardBox.build())
                 .setNoblePhantasmType(npTypeChoices.getValue())
-                .addAllEffects(npEffects.getItems());
+                .addAllEffects(npEffects.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()));
 
         if (conditionCheckBox.isSelected()) {
             builder.setActivationCondition(activationCondition);
@@ -189,7 +190,7 @@ public class NpUpgrade extends HBox {
 
     public void setFrom(final NoblePhantasmData noblePhantasmData) {
         cardBox.setFrom(noblePhantasmData.getCommandCardData());
-        npEffects.getItems().addAll(noblePhantasmData.getEffectsList());
+        npEffects.getItems().addAll(noblePhantasmData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
         npTypeChoices.getSelectionModel().select(noblePhantasmData.getNoblePhantasmType());
         if (noblePhantasmData.hasActivationCondition()) {
             conditionCheckBox.setSelected(true);

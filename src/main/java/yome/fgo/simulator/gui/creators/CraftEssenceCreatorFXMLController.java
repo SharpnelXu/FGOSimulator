@@ -19,6 +19,7 @@ import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.Status;
 import yome.fgo.data.writer.DataWriter;
+import yome.fgo.simulator.gui.components.DataWrapper;
 import yome.fgo.simulator.gui.components.EffectsCellFactory;
 
 import java.io.File;
@@ -31,6 +32,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getCEThumbnail;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
@@ -55,7 +57,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
     private Label effectsLabel;
 
     @FXML
-    private ListView<EffectData> effectsList;
+    private ListView<DataWrapper<EffectData>> effectsList;
 
     @FXML
     private Label errorLabel;
@@ -143,7 +145,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
                 createEffect(addEffectsButton.getScene().getWindow(), builder);
 
                 if (!builder.getType().isEmpty()) {
-                    effectsList.getItems().add(builder.build());
+                    effectsList.getItems().add(new DataWrapper<>(builder.build()));
                 }
             } catch (final IOException ex) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
@@ -184,7 +186,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
         idText.setText(Integer.toString(builder.getCeNum()));
         rarityChoices.getSelectionModel().select(Integer.valueOf(builder.getRarity()));
         costText.setText(Integer.toString(builder.getCost()));
-        effectsList.getItems().addAll(builder.getEffectsList());
+        effectsList.getItems().addAll(builder.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
 
         final List<String> statusStrings = new ArrayList<>();
         final JsonFormat.Printer printer = JsonFormat.printer();
@@ -232,7 +234,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
                 .setCost(cost)
                 .setRarity(rarityChoices.getValue())
                 .setId("craftEssence" + ceNum)
-                .addAllEffects(effectsList.getItems())
+                .addAllEffects(effectsList.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()))
                 .addAllStatusData(status.getStatusDataList())
                 .build();
 

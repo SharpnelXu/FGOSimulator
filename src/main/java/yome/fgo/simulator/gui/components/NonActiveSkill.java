@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
@@ -32,7 +33,7 @@ import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 public class NonActiveSkill extends HBox {
     private final ImageView skillIcon;
     private final TextField iconFileNameText;
-    private final ListView<EffectData> skillEffects;
+    private final ListView<DataWrapper<EffectData>> skillEffects;
     private final Label errorLabel;
 
     public NonActiveSkill() {
@@ -112,7 +113,7 @@ public class NonActiveSkill extends HBox {
                 createEffect(addEffectsButton.getScene().getWindow(), builder);
 
                 if (!builder.getType().isEmpty()) {
-                    skillEffects.getItems().add(builder.build());
+                    skillEffects.getItems().add(new DataWrapper<>(builder.build()));
                 }
             } catch (final IOException ex) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
@@ -143,26 +144,26 @@ public class NonActiveSkill extends HBox {
         this();
 
         this.iconFileNameText.setText(passiveSkillData.getIconName());
-        this.skillEffects.getItems().addAll(passiveSkillData.getEffectsList());
+        this.skillEffects.getItems().addAll(passiveSkillData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
     }
 
     public NonActiveSkill(final AppendSkillData appendSkillData) {
         this();
 
         this.iconFileNameText.setText(appendSkillData.getIconName());
-        this.skillEffects.getItems().addAll(appendSkillData.getEffectsList());
+        this.skillEffects.getItems().addAll(appendSkillData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
     }
 
     public PassiveSkillData buildPassive() {
         return PassiveSkillData.newBuilder()
-                .addAllEffects(skillEffects.getItems())
+                .addAllEffects(skillEffects.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()))
                 .setIconName(iconFileNameText.getText())
                 .build();
     }
 
     public AppendSkillData buildAppend() {
         return AppendSkillData.newBuilder()
-                .addAllEffects(skillEffects.getItems())
+                .addAllEffects(skillEffects.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()))
                 .setIconName(iconFileNameText.getText())
                 .build();
     }

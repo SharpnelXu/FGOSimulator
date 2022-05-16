@@ -19,13 +19,13 @@ import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECT
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @AllArgsConstructor
-public class EffectsCellFactory implements Callback<ListView<EffectData>, ListCell<EffectData>> {
+public class EffectsCellFactory implements Callback<ListView<DataWrapper<EffectData>>, ListCell<DataWrapper<EffectData>>> {
     private final Label errorLabel;
     @Override
-    public ListCell<EffectData> call(final ListView<EffectData> param) {
+    public ListCell<DataWrapper<EffectData>> call(final ListView<DataWrapper<EffectData>> param) {
         return new ListCell<>() {
             @Override
-            public void updateItem(final EffectData effectData, final boolean empty) {
+            public void updateItem(final DataWrapper<EffectData> effectData, final boolean empty) {
                 super.updateItem(effectData, empty);
 
                 if (empty || effectData == null) {
@@ -38,12 +38,12 @@ public class EffectsCellFactory implements Callback<ListView<EffectData>, ListCe
 
                     editButton.setOnAction(event -> {
                         try {
-                            final EffectData.Builder builder = effectData.toBuilder();
+                            final EffectData.Builder builder = effectData.protoData.toBuilder();
                             createEffect(getListView().getScene().getWindow(), builder);
 
                             if (!builder.getType().isEmpty()) {
                                 final int index = getListView().getItems().indexOf(effectData);
-                                getListView().getItems().set(index, builder.build());
+                                getListView().getItems().set(index, new DataWrapper<>(builder.build()));
                             }
 
                         } catch (final IOException e) {
@@ -61,7 +61,7 @@ public class EffectsCellFactory implements Callback<ListView<EffectData>, ListCe
                         getListView().requestFocus();
                     });
 
-                    final Label label = new Label(printEffectData(effectData));
+                    final Label label = new Label(printEffectData(effectData.protoData));
                     label.setWrapText(true);
                     HBox.setHgrow(label, Priority.ALWAYS);
                     label.setMaxWidth(Math.max(param.getWidth() - 140, 500));

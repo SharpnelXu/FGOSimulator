@@ -36,6 +36,7 @@ import yome.fgo.data.proto.FgoStorageData.UserPreference;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.gui.components.CraftEssenceDataWrapper;
+import yome.fgo.simulator.gui.components.DataWrapper;
 import yome.fgo.simulator.gui.components.EffectsCellFactory;
 import yome.fgo.simulator.gui.components.FormationSelector;
 import yome.fgo.simulator.gui.components.MysticCodeDataWrapper;
@@ -55,6 +56,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
@@ -83,7 +85,7 @@ public class LevelCreatorFMXLController implements Initializable {
     private Label levelEffectsLabel;
 
     @FXML
-    private ListView<EffectData> levelEffectsList;
+    private ListView<DataWrapper<EffectData>> levelEffectsList;
 
     @FXML
     private Button loadLevelButton;
@@ -129,7 +131,7 @@ public class LevelCreatorFMXLController implements Initializable {
                 createEffect(addLevelEffectsButton.getScene().getWindow(), builder);
 
                 if (!builder.getType().isEmpty()) {
-                    levelEffectsList.getItems().add(builder.build());
+                    levelEffectsList.getItems().add(new DataWrapper<>(builder.build()));
                 }
             } catch (final IOException exception) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + exception);
@@ -178,7 +180,7 @@ public class LevelCreatorFMXLController implements Initializable {
         }
 
         levelEffectsList.getItems().clear();
-        levelEffectsList.getItems().addAll(levelDataBuilder.getEffectsList());
+        levelEffectsList.getItems().addAll(levelDataBuilder.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
 
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Load success!"));
         errorLabel.setVisible(true);
@@ -205,7 +207,7 @@ public class LevelCreatorFMXLController implements Initializable {
         return LevelData.newBuilder()
                 .setId(idText.getText())
                 .addAllStageData(stages)
-                .addAllEffects(levelEffectsList.getItems())
+                .addAllEffects(levelEffectsList.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()))
                 .build();
     }
 

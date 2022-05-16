@@ -53,6 +53,10 @@ public abstract class Buff {
 
     @Override
     public String toString() {
+        return baseToString();
+    }
+
+    public String baseToString() {
         final String base = getTranslation(BUFF_SECTION, getClass().getSimpleName());
         return base + miscString();
     }

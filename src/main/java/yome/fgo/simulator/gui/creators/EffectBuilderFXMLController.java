@@ -23,6 +23,7 @@ import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.BuffsCellFactory;
+import yome.fgo.simulator.gui.components.DataWrapper;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.effects.EffectFactory.EffectFields;
 
@@ -65,7 +66,7 @@ public class EffectBuilderFXMLController implements Initializable {
     private Label buffsLabel;
 
     @FXML
-    private ListView<BuffData> buffsList;
+    private ListView<DataWrapper<BuffData>> buffsList;
 
     @FXML
     private HBox buffsPane;
@@ -223,6 +224,9 @@ public class EffectBuilderFXMLController implements Initializable {
     @FXML
     private TextField variationAdditionText;
 
+    @FXML
+    private Button duplicateButton;
+
     private EffectData.Builder effectDataBuilder;
     private Set<EffectFields> requiredFields;
     private TextField generateTargetTextField;
@@ -314,7 +318,7 @@ public class EffectBuilderFXMLController implements Initializable {
                 }
             }
             if (requiredFields.contains(EFFECT_FIELD_GRANT_BUFF)) {
-                buffsList.getItems().addAll(effectDataBuilder.getBuffDataList());
+                buffsList.getItems().addAll(effectDataBuilder.getBuffDataList().stream().map(DataWrapper::new).collect(Collectors.toList()));
             }
             if (requiredFields.contains(EFFECT_FIELD_HP_CHANGE)) {
                 hpPercentCheckbox.setSelected(effectDataBuilder.getIsHpChangePercentBased());
@@ -458,6 +462,14 @@ public class EffectBuilderFXMLController implements Initializable {
         addBuffButton.setOnAction(e -> addBuff());
         buffsList.setCellFactory(new BuffsCellFactory(errorLabel));
         buffsList.setItems(FXCollections.observableArrayList());
+        duplicateButton.setText(getTranslation(APPLICATION_SECTION, "Duplicate Buff"));
+        duplicateButton.setOnAction(e -> {
+            final List<DataWrapper<BuffData>> buffData = buffsList.getItems();
+            if (buffData.isEmpty()) {
+                return;
+            }
+            buffData.add(new DataWrapper<>(buffData.get(buffData.size() - 1).protoData));
+        });
 
         hpPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));
         hpPercentCheckbox.setOnAction(e -> {
@@ -516,7 +528,7 @@ public class EffectBuilderFXMLController implements Initializable {
             createBuff(addBuffButton.getScene().getWindow(), builder);
 
             if (!builder.getType().isEmpty()) {
-                buffsList.getItems().add(builder.build());
+                buffsList.getItems().add(new DataWrapper<>(builder.build()));
             }
         } catch (final IOException e) {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
@@ -748,7 +760,7 @@ public class EffectBuilderFXMLController implements Initializable {
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "No buffs created"));
                     return;
                 }
-                effectDataBuilder.addAllBuffData(buffsList.getItems());
+                effectDataBuilder.addAllBuffData(buffsList.getItems().stream().map(wrapper -> wrapper.protoData).collect(Collectors.toList()));
             }
 
             if (requiredFields.contains(EFFECT_FIELD_HP_CHANGE)) {

@@ -38,7 +38,7 @@ import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
 public class StageNode extends VBox {
     private final TextField maximumEnemiesOnScreenText;
     private final TextField stageTraitsText;
-    private final ListView<EffectData> stageEffectsList;
+    private final ListView<DataWrapper<EffectData>> stageEffectsList;
     private final GridPane enemyGrid;
     private final Label errorLabel;
 
@@ -111,7 +111,7 @@ public class StageNode extends VBox {
                 createEffect(addEffectButton.getScene().getWindow(), builder);
 
                 if (!builder.getType().isEmpty()) {
-                    stageEffectsList.getItems().add(builder.build());
+                    stageEffectsList.getItems().add(new DataWrapper<>(builder.build()));
                 }
             } catch (final IOException exception) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + exception);
@@ -206,7 +206,7 @@ public class StageNode extends VBox {
         maximumEnemiesOnScreenText.setText(Integer.toString(stageData.getMaximumEnemiesOnScreen()));
 
         stageEffectsList.getItems().clear();
-        stageEffectsList.getItems().addAll(stageData.getEffectsList());
+        stageEffectsList.getItems().addAll(stageData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
         stageTraitsText.setText(
                 stageData.getTraitsList()
                         .stream()
@@ -270,7 +270,7 @@ public class StageNode extends VBox {
                 .collect(Collectors.toList());
 
         builder.addAllTraits(traits);
-        builder.addAllEffects(stageEffectsList.getItems());
+        builder.addAllEffects(stageEffectsList.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()));
 
         return builder.build();
     }

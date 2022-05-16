@@ -4,9 +4,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.translation.TranslationManager;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
@@ -18,6 +21,7 @@ public class MainMenu extends Application {
 
         final Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        stage.getIcons().add(new Image(new FileInputStream(ResourceManager.getCCThumbnail("default"))));
 
         stage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "FGO Simulator"));
         stage.setScene(scene);
