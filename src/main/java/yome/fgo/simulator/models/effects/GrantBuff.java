@@ -87,7 +87,7 @@ public class GrantBuff extends Effect {
         }
 
         if (simulation.getStatsLogger() != null) {
-            simulation.getStatsLogger().logProbability(activationProbability, simulation.getProbabilityThreshold());
+            simulation.getStatsLogger().logProbability(combatant.getId(), activationProbability, simulation.getProbabilityThreshold());
         }
         if (activationProbability < simulation.getProbabilityThreshold()) {
             return;

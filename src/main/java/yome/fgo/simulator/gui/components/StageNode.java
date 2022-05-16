@@ -254,7 +254,11 @@ public class StageNode extends VBox {
         for (final Node node : enemyGrid.getChildren()) {
             final EnemyNode enemyNode = (EnemyNode) node;
 
-            enemyData.add(enemyNode.buildEnemyData());
+            final EnemyData builtData = enemyNode.buildEnemyData();
+            if (builtData == null) {
+                return null;
+            }
+            enemyData.add(builtData);
         }
         if (enemyData.isEmpty()) {
             errorLabel.setVisible(true);

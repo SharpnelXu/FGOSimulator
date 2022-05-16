@@ -1,0 +1,37 @@
+{
+  "id": "test",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "doorOfUndead",
+      "hpBars": [1],
+      "combatantDataOverride": {
+        "id": "doorOfTheUndead",
+        "rarity": 1,
+        "fateClass": "ANY_CLASS",
+        "gender": "OTHER",
+        "alignments": ["LAWFUL", "NEUTRAL", "CHAOTIC", "GOOD", "BALANCED", "EVIL", "INSANE", "BRIDE", "SUMMER"],
+        "attribute": "BEAST",
+        "traits": ["ARTHUR", "ASSOCIATED_TO_THE_ARGO", "BLESSED_BY_KUR", "BRYNHILDS_BELOVED", "BURNING", "BURNING_LOVE", "CAENIS", "CHILD_SERVANT", "CITY", "DEMI_SERVANT", "DEMON", "DEMONIC", "DEMONIC_BEAST", "DIVINE", "DIVINE_SPIRIT", "DRAGON", "EXISTENCE_OUTSIDE_DOMAIN", "FAE", "FAIRY_TALE_SERVANT", "FEMININE_LOOKING_SERVANT", "FOREST", "GENJI", "GIANT", "GREEK_MYTHOLOGY_MALES", "HAS_COSTUME", "HAVING_ANIMAL_CHARACTERISTICS", "HOMINIDAE_SERVANT", "HUMAN", "HUMANOID", "ILLYA", "IMAGINARY_SPACE", "KING", "KNIGHTS_OF_THE_ROUND", "LIKE", "LIVING_HUMAN", "MASSIVE", "MECHANICAL", "MERLIN", "NOBUNAGA", "ONI", "PSEUDO_SERVANT", "RIDING", "ROMAN", "SABER_FACE", "SERVANT", "SHADOW_SERVANT", "SHORE", "SHUTEN", "SUNLIGHT", "THREAT_TO_HUMANITY", "UNDEAD", "WEAK_POINTS_REVEALED", "WEAK_TO_ENUMA_ELISH", "WILD_BEAST", "VENGEANCE"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "fundamentals/doors/"
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "doorOfUndead",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "Guts",
+        "values": [1.0],
+        "irremovable": true,
+        "buffIcon": "guts"
+      }]
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["SUNLIGHT"]
+  }]
+}

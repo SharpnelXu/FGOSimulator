@@ -27,11 +27,12 @@ public class StatsLogger extends VBox {
         appendLogEntry(DEBUG, message);
     }
 
-    public void logProbability(final double activationProbability, final double probabilityThreshold) {
+    public void logProbability(final String id, final double activationProbability, final double probabilityThreshold) {
         final NumberFormat numberFormat = NumberFormat.getPercentInstance();
         numberFormat.setMaximumFractionDigits(2);
         final String message = String.format(
-                getTranslation(APPLICATION_SECTION, "Effect probability: %s, probability threshold: %s"),
+                getTranslation(APPLICATION_SECTION, "Target: %s, effect probability: %s, probability threshold: %s"),
+                getTranslation(ENTITY_NAME_SECTION, id),
                 numberFormat.format(activationProbability),
                 numberFormat.format(probabilityThreshold)
         );
