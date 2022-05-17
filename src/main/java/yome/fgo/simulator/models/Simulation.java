@@ -328,7 +328,7 @@ public class Simulation {
             }
         }
         removeDeadAlly();
-        replenishDeadCombatantFromBackup(currentServants, backupServants);
+        removeDeadEnemies();
     }
 
     private void executeEnemyTurn() {
@@ -353,11 +353,14 @@ public class Simulation {
         }
         checkBuffStatus();
 
+        removeDeadAlly();
         removeDeadEnemies();
-        replenishDeadCombatantFromBackup(currentEnemies, backupEnemies);
     }
 
     private void proceedTurn() {
+        replenishDeadCombatantFromBackup(currentServants, backupServants);
+        replenishDeadCombatantFromBackup(currentEnemies, backupEnemies);
+
         if (isAllEnemiesDead() && level.hasNextStage(currentStage)) {
             currentStage += 1;
             populateStageWithEnemies(currentStage);
