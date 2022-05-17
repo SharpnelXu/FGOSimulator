@@ -1,0 +1,19 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "DEFENDER",
+      "buffData": [{
+        "type": "Burn",
+        "numTurnsActive": 3,
+        "values": [500.0],
+        "buffIcon": "burn"
+      }]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode50",
+  "ccNum": 50,
+  "rarity": 3
+}

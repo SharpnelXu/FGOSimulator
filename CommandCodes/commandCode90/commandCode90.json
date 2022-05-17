@@ -1,0 +1,23 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "DEFENDER",
+      "buffData": [{
+        "type": "Burn",
+        "numTurnsActive": 3,
+        "values": [500.0],
+        "buffIcon": "burn"
+      }]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }, {
+    "type": "CriticalStarWeightBuff",
+    "values": [0.5],
+    "buffIcon": "starWeightUp"
+  }],
+  "id": "commandCode90",
+  "ccNum": 90,
+  "rarity": 4
+}

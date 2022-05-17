@@ -20,8 +20,6 @@
       "target": "ATTACKER",
       "intValues": [100]
     }],
-    "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"],
-    "hasCustomTraits": true,
     "buffIcon": "attackApplyBuff"
   }],
   "id": "commandCode28",

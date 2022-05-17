@@ -1,0 +1,23 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "DEFENDER",
+      "buffData": [{
+        "type": "Burn",
+        "numTurnsActive": 3,
+        "values": [300.0],
+        "buffIcon": "burn"
+      }]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }, {
+    "type": "CriticalDamageBuff",
+    "values": [0.05],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode66",
+  "ccNum": 66,
+  "rarity": 3
+}

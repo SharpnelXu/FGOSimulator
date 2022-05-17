@@ -260,6 +260,12 @@
     }
   }],
   "cePrefs": [{
+    "craftEssenceNo": 1280,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
     "craftEssenceNo": 1080,
     "option": {
       "craftEssenceLevel": 100,
