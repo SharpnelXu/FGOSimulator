@@ -187,6 +187,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(DeathChanceBuff.class.getSimpleName())) {
             return setValuedBuffParams(DeathChanceBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(DeathEffect.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(DeathEffect.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(DeathResist.class.getSimpleName())) {
             return setValuedBuffParams(DeathResist.builder(), buffData, level);
 
@@ -517,6 +520,7 @@ public class BuffFactory {
         builder.put(EndOfTurnEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(EnterFieldEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(LeaveFieldEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
+        builder.put(DeathEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(PreAttackEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(PreDefenseEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(PostAttackEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));

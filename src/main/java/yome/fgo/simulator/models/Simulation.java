@@ -482,7 +482,7 @@ public class Simulation {
 
             if (combatant.getCurrentHp() <= 0 && !combatant.hasNextHpBar()) {
                 if (!combatant.activateGuts(this)) {
-                    combatant.leaveField(this);
+                    combatant.death(this);
                     combatants.set(i, null); // preserve order
                 }
             }

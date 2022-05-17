@@ -16,6 +16,7 @@ import yome.fgo.simulator.models.effects.buffs.Burn;
 import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.Curse;
 import yome.fgo.simulator.models.effects.buffs.DamageReflect;
+import yome.fgo.simulator.models.effects.buffs.DeathEffect;
 import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.DelayedEffect;
 import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
@@ -307,6 +308,13 @@ public class Combatant {
             simulation.getStatsLogger().logLeaveField(id);
         }
         activateEffectActivatingBuff(simulation, LeaveFieldEffect.class);
+    }
+
+    public void death(final Simulation simulation) {
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logDeath(id);
+        }
+        activateEffectActivatingBuff(simulation, DeathEffect.class);
     }
 
     public void receiveDamage(final int damage) {

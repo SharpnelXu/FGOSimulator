@@ -16,6 +16,7 @@ public class MoveToLastBackup extends Effect {
         final int servantIndex = simulation.getCurrentServants().indexOf(servant);
         if (servantIndex != -1) {
             simulation.getBackupServants().push((Servant) simulation.getActivator());
+            simulation.getActivator().leaveField(simulation);
             simulation.getCurrentServants().set(servantIndex, null);
         }
     }

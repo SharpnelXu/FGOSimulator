@@ -54,6 +54,12 @@ public class StatsLogger extends VBox {
         appendLogEntry(EFFECT, message);
     }
 
+    public void logDeath(final String id) {
+        final String message = String.format(getTranslation(APPLICATION_SECTION, "%s Exit Field"), getTranslation(ENTITY_NAME_SECTION, id));
+
+        appendLogEntry(DEBUG, message);
+    }
+
     public enum LogLevel {
         DEBUG(0),
         EFFECT(1),

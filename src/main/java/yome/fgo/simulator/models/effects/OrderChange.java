@@ -21,5 +21,6 @@ public class OrderChange extends Effect {
         simulation.getCurrentServants().set(onFieldIndex, servantInBackup);
 
         servantInBackup.enterField(simulation);
+        servantOnField.leaveField(simulation);
     }
 }

@@ -321,7 +321,7 @@ public class SimulationWindow {
                 final List<OrderChangeChoice> onFieldChoices = new ArrayList<>();
                 for (int i = 0; i < simulation.getCurrentServants().size(); i += 1) {
                     final Servant servant = simulation.getCurrentServants().get(i);
-                    if (servant == null) {
+                    if (servant == null || servant.isSelectable()) {
                         continue;
                     }
                     final OrderChangeChoice orderChangeChoice = new OrderChangeChoice(
