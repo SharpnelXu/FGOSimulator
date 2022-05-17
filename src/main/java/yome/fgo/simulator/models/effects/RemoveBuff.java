@@ -23,7 +23,7 @@ public class RemoveBuff extends IntValuedEffect {
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
         final double probability = getProbability(level);
-        final int numToRemove = isOverchargedEffect ? values.get(level - 1) : values.get(0);
+        final int numToRemove = getValue(simulation, level);
 
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);

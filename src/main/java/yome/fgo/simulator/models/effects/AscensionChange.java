@@ -16,6 +16,8 @@ public class AscensionChange extends IntValuedEffect {
 
     @Override
     protected void internalApply(final  Simulation simulation, final int level) {
+
+        final int value = getValue(simulation, level);
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             if (!(combatant instanceof Servant)) {
                 continue;
@@ -23,7 +25,7 @@ public class AscensionChange extends IntValuedEffect {
 
             simulation.setEffectTarget(combatant);
             final Servant servant = (Servant) combatant;
-            servant.changeAscension(simulation, values.get(level - 1));
+            servant.changeAscension(simulation, value);
             simulation.unsetEffectTarget();
         }
     }

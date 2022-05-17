@@ -14,11 +14,12 @@ public class DecreaseActiveSkillCoolDown extends IntValuedEffect {
     private final Target target;
 
     @Override
-    protected void internalApply(Simulation simulation, int level) {
+    protected void internalApply(final Simulation simulation, final int level) {
+        final int value = getValue(simulation, level);
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                combatant.decreaseActiveSkillsCoolDown(values.get(level - 1));
+                combatant.decreaseActiveSkillsCoolDown(value);
             }
             simulation.unsetEffectTarget();
         }

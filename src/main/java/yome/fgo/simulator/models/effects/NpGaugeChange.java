@@ -20,10 +20,11 @@ public class NpGaugeChange extends IntValuedEffect {
             return;
         }
 
+        final int value = getValue(simulation, level);
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                combatant.changeNpGauge(values.get(level - 1));
+                combatant.changeNpGauge(value);
             }
             simulation.unsetEffectTarget();
         }

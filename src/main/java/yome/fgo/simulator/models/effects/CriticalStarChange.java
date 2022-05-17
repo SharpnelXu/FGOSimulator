@@ -7,6 +7,6 @@ import yome.fgo.simulator.models.Simulation;
 public class CriticalStarChange extends IntValuedEffect {
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
-        simulation.gainStar(values.get(level - 1));
+        simulation.gainStar(getValue(simulation, level));
     }
 }

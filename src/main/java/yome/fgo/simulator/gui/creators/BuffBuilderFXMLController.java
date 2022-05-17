@@ -61,6 +61,7 @@ import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUF
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_EFFECTS;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_NO_VARIATION;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_PERCENT_OPTION;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_STRING_VALUE;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
@@ -304,10 +305,11 @@ public class BuffBuilderFXMLController implements Initializable {
                 builtConditionLabel.setText(printConditionData(applyCondition));
             }
 
+            useVariationCheckbox.setDisable(requiredFields.contains(BUFF_FIELD_NO_VARIATION));
             if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE) ||
                     (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && buffDataBuilder.getIsGutsPercentBased())) {
                 valuesText.setText(doublesToString(buffDataBuilder.getValuesList()));
-                if (buffDataBuilder.hasVariationData()) {
+                if (buffDataBuilder.hasVariationData() && !requiredFields.contains(BUFF_FIELD_NO_VARIATION)) {
                     useVariationCheckbox.setSelected(true);
                     useVariationCheckbox.fireEvent(new ActionEvent());
                     variationData = buffDataBuilder.getVariationData();
@@ -321,7 +323,7 @@ public class BuffBuilderFXMLController implements Initializable {
             if (requiredFields.contains(BUFF_FIELD_INT_VALUE) ||
                     (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && !buffDataBuilder.getIsGutsPercentBased())) {
                 valuesText.setText(intsToString(buffDataBuilder.getValuesList()));
-                if (buffDataBuilder.hasVariationData()) {
+                if (buffDataBuilder.hasVariationData() && !requiredFields.contains(BUFF_FIELD_NO_VARIATION)) {
                     useVariationCheckbox.setSelected(true);
                     useVariationCheckbox.fireEvent(new ActionEvent());
                     variationData = buffDataBuilder.getVariationData();
@@ -632,6 +634,7 @@ public class BuffBuilderFXMLController implements Initializable {
         resetPane();
         requiredFields = BUFF_REQUIRED_FIELDS_MAP.get(buffTypeChoices.getValue());
 
+        useVariationCheckbox.setDisable(requiredFields.contains(BUFF_FIELD_NO_VARIATION));
         if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE)) {
             valuePane.setVisible(true);
             valuePane.setManaged(true);
@@ -742,7 +745,7 @@ public class BuffBuilderFXMLController implements Initializable {
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Double"));
                     return;
                 }
-                if (useVariationCheckbox.isSelected()) {
+                if (useVariationCheckbox.isSelected() && !requiredFields.contains(BUFF_FIELD_NO_VARIATION)) {
                     try {
                         final List<Double> additions = parseDoubles(variationAdditionText.getText());
                         buffDataBuilder.addAllAdditions(additions);
@@ -769,7 +772,7 @@ public class BuffBuilderFXMLController implements Initializable {
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));
                     return;
                 }
-                if (useVariationCheckbox.isSelected()) {
+                if (useVariationCheckbox.isSelected() && !requiredFields.contains(BUFF_FIELD_NO_VARIATION)) {
                     try {
                         final List<Double> additions = parseInts(variationAdditionText.getText());
                         buffDataBuilder.addAllAdditions(additions);

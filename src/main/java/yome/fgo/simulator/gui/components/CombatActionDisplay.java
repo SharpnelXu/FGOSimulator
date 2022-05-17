@@ -57,7 +57,8 @@ public class CombatActionDisplay extends StackPane {
         button.setGraphic(cardImage);
         final Simulation simulation = simulationWindow.getSimulation();
         final Servant servant = simulation.getCurrentServants().get(servantIndex);
-        if (isNp && !servant.canActivateNoblePhantasm(simulation)) {
+        final boolean npCheck = isNp && !servant.canActivateNoblePhantasm(simulation);
+        if (npCheck) {
             button.setDisable(true);
         }
 
@@ -107,7 +108,7 @@ public class CombatActionDisplay extends StackPane {
             getChildren().add(ccThumbnail);
         }
 
-        if (servant.isImmobilized()) {
+        if (servant.isImmobilized() || npCheck) {
             final AnchorPane cdAnchor = new AnchorPane();
             cdAnchor.setStyle("-fx-background-color: rgba(0,0,0,0.78); -fx-border-radius: 3; -fx-border-width: 1");
             final Label cdLabel = new Label("X");

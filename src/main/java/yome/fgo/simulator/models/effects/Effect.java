@@ -45,8 +45,7 @@ public abstract class Effect {
 
     public void apply(final Simulation simulation, final int level) {
         if (simulation.getStatsLogger() != null) {
-            final String ocString = level != 1 ? "OC" + level : "";
-            simulation.getStatsLogger().logEffect(ocString + this);
+            simulation.getStatsLogger().logEffect(this.toString());
         }
 
         internalApply(simulation, level);

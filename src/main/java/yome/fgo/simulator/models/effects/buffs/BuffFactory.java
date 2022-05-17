@@ -33,6 +33,7 @@ import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUF
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_EFFECTS;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_NO_VARIATION;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_PERCENT_OPTION;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_STRING_VALUE;
 
@@ -41,6 +42,7 @@ public class BuffFactory {
     public enum BuffFields {
         BUFF_FIELD_DOUBLE_VALUE,
         BUFF_FIELD_INT_VALUE,
+        BUFF_FIELD_NO_VARIATION,
         BUFF_FIELD_STRING_VALUE,
         BUFF_FIELD_EFFECTS,
         BUFF_FIELD_PERCENT_OPTION,
@@ -495,7 +497,7 @@ public class BuffFactory {
         builder.put(CriticalStarWeightBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(NpGenerationBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(DefNpGenerationBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
-        builder.put(OverchargeBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE));
+        builder.put(OverchargeBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE, BUFF_FIELD_NO_VARIATION));
         builder.put(Taunt.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
 
         builder.put(BuffChanceBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
@@ -507,8 +509,8 @@ public class BuffFactory {
         builder.put(DeathChanceBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(DeathResist.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
 
-        builder.put(MaxHpBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE));
-        builder.put(Guts.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_PERCENT_OPTION));
+        builder.put(MaxHpBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE, BUFF_FIELD_NO_VARIATION));
+        builder.put(Guts.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_PERCENT_OPTION, BUFF_FIELD_NO_VARIATION));
         builder.put(TriggerOnGutsEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
 
         builder.put(DelayedEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
