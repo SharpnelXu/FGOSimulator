@@ -15,6 +15,12 @@
         "deathRate": 1.0
       },
       "enemyCategories": "fundamentals/doors/"
+    }, {
+      "enemyBaseId": "servant275",
+      "hpBars": [3000000],
+      "servantAscension": 1,
+      "enemyCategories": "servant275/",
+      "isServant": true
     }],
     "effects": [{
       "type": "GrantBuff",
@@ -29,6 +35,34 @@
         "values": [1.0],
         "irremovable": true,
         "buffIcon": "guts"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "buffData": [{
+        "type": "PostDefenseEffect",
+        "numTurnsActive": 3,
+        "numTimesActive": 3,
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "ATTACKER",
+          "buffData": [{
+            "type": "DefenseBuff",
+            "numTurnsActive": 3,
+            "values": [-0.1],
+            "buffIcon": "defenseDown"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ATTACKER",
+          "buffData": [{
+            "type": "Burn",
+            "numTurnsActive": 3,
+            "values": [500.0],
+            "buffIcon": "burn"
+          }]
+        }],
+        "buffIcon": "Calamitous Star"
       }]
     }],
     "maximumEnemiesOnScreen": 6,
