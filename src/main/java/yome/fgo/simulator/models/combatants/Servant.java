@@ -467,7 +467,7 @@ public class Servant extends Combatant {
     public void endOfMyTurn(final Simulation simulation) {
         super.endOfMyTurn(simulation);
 
-        if (!isSkillInaccessible()) {
+        if (!isSkillInaccessible() && isAlly) {
             for (final ActiveSkill activeSkill : activeSkills) {
                 activeSkill.decreaseCoolDown(1);
             }
