@@ -187,7 +187,7 @@ public class SimulationWindow {
         specialSelectionVBox.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 1; -fx-background-color: white");
         specialSelectionVBox.setAlignment(Pos.TOP_CENTER);
         specialSelectionVBox.setFocusTraversable(true);
-        StackPane.setMargin(specialSelectionVBox, new Insets(300, 200, 300, 200));
+        StackPane.setMargin(specialSelectionVBox, new Insets(200, 200, 200, 200));
         stackPane.getChildren().add(specialSelectionVBox);
 
         showBuffsVBox = new VBox();

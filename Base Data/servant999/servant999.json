@@ -1,0 +1,101 @@
+{
+  "servantAscensionData": [{
+    "combatantData": {
+      "id": "servant999",
+      "rarity": 4,
+      "fateClass": "RIDER",
+      "gender": "FEMALE",
+      "attribute": "EARTH",
+      "traits": ["HUMANOID", "WEAK_TO_ENUMA_ELISH"]
+    },
+    "defenseNpRate": 0.03,
+    "commandCardData": [{
+      "commandCardType": "QUICK",
+      "hitsData": [10, 20, 30, 40]
+    }, {
+      "commandCardType": "QUICK",
+      "hitsData": [10, 20, 30, 40]
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [16, 33, 51]
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [16, 33, 51]
+    }, {
+      "commandCardType": "BUSTER",
+      "hitsData": [33, 67]
+    }],
+    "activeSkillUpgrades": [{
+      "activeSkillData": [{
+        "effects": [{
+          "type": "RandomEffects"
+        }]
+      }]
+    }, {
+      "activeSkillData": [{
+        "effects": [{
+          "type": "RandomEffects"
+        }]
+      }]
+    }, {
+      "activeSkillData": [{
+        "effects": [{
+          "type": "RandomEffects"
+        }]
+      }]
+    }],
+    "appendSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "EXTRA"
+          },
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+          "buffIcon": "specialDamageUp"
+        }]
+      }],
+      "iconName": "specialAttackUp"
+    }, {
+      "effects": [{
+        "type": "NpChange",
+        "target": "SELF",
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
+      }],
+      "iconName": "npGain"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "AttackBuff",
+          "applyCondition": {
+            "type": "TargetsHaveClass",
+            "value": "BERSERKER",
+            "target": "DEFENDER"
+          },
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+          "buffIcon": "attackUp"
+        }]
+      }],
+      "iconName": "attackUp"
+    }],
+    "noblePhantasmUpgrades": {
+      "noblePhantasmData": [{
+        "commandCardData": {
+          "commandCardType": "ARTS",
+          "hitsData": [16, 33, 51]
+        },
+        "noblePhantasmType": "ALL_TARGETS_NP"
+      }]
+    },
+    "extraCard": {
+      "commandCardType": "EXTRA",
+      "hitsData": [10, 20, 30, 40]
+    }
+  }],
+  "servantNum": 999
+}
