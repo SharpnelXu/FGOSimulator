@@ -223,8 +223,8 @@
         "buffData": [{
           "type": "DebuffResist",
           "applyCondition": {
-            "type": "BuffTypeEquals",
-            "value": "MentalDebuff"
+            "type": "BuffHasTrait",
+            "value": "MENTAL_BUFF"
           },
           "values": [0.02],
           "buffIcon": "debuffResistUp"
@@ -1069,8 +1069,8 @@
         "buffData": [{
           "type": "DebuffResist",
           "applyCondition": {
-            "type": "BuffTypeEquals",
-            "value": "MentalDebuff"
+            "type": "BuffHasTrait",
+            "value": "MENTAL_BUFF"
           },
           "values": [0.02],
           "buffIcon": "debuffResistUp"

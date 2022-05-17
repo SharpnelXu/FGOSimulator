@@ -139,6 +139,8 @@
                 "buffIcon": "critDamageUp"
               }]
             }],
+            "customTraits": ["POSITIVE_BUFF"],
+            "hasCustomTraits": true,
             "buffIcon": "attackApplyBuff"
           }]
         }],
