@@ -20,9 +20,6 @@ import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFEC
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_NP_DAMAGE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_TARGET;
-import static yome.fgo.simulator.models.effects.MoveToLastBackup.MOVE_TO_LAST_BACKUP;
-import static yome.fgo.simulator.models.effects.OrderChange.ORDER_CHANGE;
-import static yome.fgo.simulator.models.effects.ShuffleCards.SHUFFLE_CARDS;
 
 public class EffectFactory {
     public static final Map<String, Set<EffectFields>> EFFECT_REQUIRED_FIELDS_MAP = buildEffectsRequiredFieldsMap();
@@ -99,7 +96,7 @@ public class EffectFactory {
             return setCommonGrantBuffEffectValue(MaxHpChange.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(MoveToLastBackup.class.getSimpleName())) {
-            return MOVE_TO_LAST_BACKUP;
+            return setCommonEffectParams(MoveToLastBackup.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(NoblePhantasmDamage.class.getSimpleName())) {
             return setCommonNpDamageParams(NoblePhantasmDamage.builder(), effectData, level);
@@ -111,7 +108,7 @@ public class EffectFactory {
             return setCommonIntValuedEffectValue(NpGaugeChange.builder().target(effectData.getTarget()), effectData, level);
 
         } else if (type.equalsIgnoreCase(OrderChange.class.getSimpleName())) {
-            return ORDER_CHANGE;
+            return setCommonEffectParams(OrderChange.builder(), effectData, level);
 
         } else if (type.equalsIgnoreCase(RandomEffects.class.getSimpleName())) {
             return setCommonEffectParams(RandomEffects.builder().skillLevel(level), effectData, level);
@@ -123,7 +120,7 @@ public class EffectFactory {
             return setCommonIntValuedEffectValue(builder, effectData, level);
 
         } else if (type.equalsIgnoreCase(ShuffleCards.class.getSimpleName())) {
-            return SHUFFLE_CARDS;
+            return setCommonEffectParams(ShuffleCards.builder(), effectData, level);
 
         }
 

@@ -6,7 +6,6 @@ import yome.fgo.simulator.models.combatants.Servant;
 
 @SuperBuilder
 public class MoveToLastBackup extends Effect {
-    public static final MoveToLastBackup MOVE_TO_LAST_BACKUP = MoveToLastBackup.builder().build();
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {

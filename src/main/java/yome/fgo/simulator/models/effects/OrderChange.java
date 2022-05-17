@@ -8,7 +8,6 @@ import java.util.List;
 
 @SuperBuilder
 public class OrderChange extends Effect {
-    public static final OrderChange ORDER_CHANGE = OrderChange.builder().build();
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
