@@ -583,6 +583,8 @@ public class Simulation {
 
         EffectFactory.buildEffect(effectData, 1).apply(this, 1);
 
+        checkBuffStatus();
+
         unsetActivator();
     }
 }

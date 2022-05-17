@@ -226,6 +226,8 @@
               },
               "intValues": [1]
             }],
+            "customTraits": ["POSITIVE_BUFF"],
+            "hasCustomTraits": true,
             "buffIcon": "attackApplyBuff"
           }]
         }, {
@@ -249,6 +251,8 @@
             "type": "CriticalStarChange",
             "intValues": [2]
           }],
+          "customTraits": ["POSITIVE_BUFF"],
+          "hasCustomTraits": true,
           "buffIcon": "starsPerTurn"
         }]
       }, {

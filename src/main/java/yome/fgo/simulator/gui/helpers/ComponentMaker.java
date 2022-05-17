@@ -59,6 +59,7 @@ public class ComponentMaker {
         final List<Target> targets = Lists.newArrayList(Target.values());
         targets.remove(Target.UNRECOGNIZED);
         targets.remove(Target.SERVANT_EXCHANGE);
+        targets.remove(Target.NONE);
         targetChoiceBox.setConverter(new EnumConverter<>(TARGET_SECTION));
         targetChoiceBox.setItems(FXCollections.observableArrayList(targets));
         targetChoiceBox.getSelectionModel().selectFirst();
