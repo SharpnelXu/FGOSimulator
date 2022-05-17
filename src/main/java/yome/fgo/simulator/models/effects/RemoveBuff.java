@@ -79,7 +79,7 @@ public class RemoveBuff extends IntValuedEffect {
     ) {
         int removeCount = 0;
         final List<Buff> buffList = combatant.getBuffs();
-        for (int i = 0; i < buffList.size() - 1; i += 1) {
+        for (int i = 0; i < buffList.size(); i += 1) {
             final Buff buff = buffList.get(i);
 
             simulation.setCurrentBuff(buff);

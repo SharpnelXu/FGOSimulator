@@ -284,7 +284,7 @@ public class EffectFactory {
                     if (additions.isEmpty()) {
                         throw new IllegalArgumentException("Variation is specified, but value is not provided.");
                     }
-                    builder.specificDamageRateVariation(VariationFactory.buildVariation(effectData.getVariationData()));
+                    builder.specificDamageRateVariation(VariationFactory.buildVariation(additionalParams.getNpSpecificDamageVariation()));
                     if (additionalParams.getIsNpSpecificDamageAdditionOvercharged()) {
                         builder.isNpSpecificDamageAdditionOvercharged(true)
                                 .isOverchargedEffect(true)

@@ -90,6 +90,7 @@ public abstract class Buff {
         }
 
         final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        numberFormat.setMaximumFractionDigits(2);
         if (probability != 1) {
             base = base + " " + numberFormat.format(probability) + getTranslation(BUFF_SECTION, "Probability");
         }

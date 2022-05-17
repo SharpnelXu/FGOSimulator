@@ -68,6 +68,7 @@ public abstract class Effect {
         }
 
         final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        numberFormat.setMaximumFractionDigits(2);
         if (isProbabilityOvercharged()) {
             base = base + " (OC) " + probabilities.stream().map(numberFormat::format).collect(Collectors.toList()) +
                     getTranslation(EFFECT_SECTION, "Probability");

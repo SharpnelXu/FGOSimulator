@@ -153,7 +153,9 @@ public class StatsLogger extends VBox {
             final int overkillCount,
             final int hits
     ) {
-        final NumberFormat numberFormat = NumberFormat.getPercentInstance();
+        final NumberFormat percentFormat = NumberFormat.getPercentInstance();
+        final NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        percentFormat.setMaximumFractionDigits(2);
         numberFormat.setMaximumFractionDigits(2);
         String commandCardString = getTranslation(COMMAND_CARD_TYPE_SECTION, currentCard.getCommandCardType().name());
         if (currentCard instanceof NoblePhantasm) {
@@ -173,13 +175,13 @@ public class StatsLogger extends VBox {
         }
 
         final String message = String.format(
-                getTranslation(APPLICATION_SECTION, "%s executes %s on %s, total damage: %d, total NP: %s, total critical star: %.2f, overkill: %d/%d"),
+                getTranslation(APPLICATION_SECTION, "%s executes %s on %s, total damage: %d, total NP: %s, total critical star: %s, overkill: %d/%d"),
                 getTranslation(ENTITY_NAME_SECTION, attackerId),
                 commandCardString,
                 getTranslation(ENTITY_NAME_SECTION, defenderId),
                 totalDamage,
-                numberFormat.format(totalNp),
-                totalCritStar,
+                percentFormat.format(totalNp),
+                numberFormat.format(totalCritStar),
                 overkillCount,
                 hits
         );

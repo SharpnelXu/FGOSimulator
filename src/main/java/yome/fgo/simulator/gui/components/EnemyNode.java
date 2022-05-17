@@ -111,6 +111,7 @@ public class EnemyNode extends VBox {
 
         final HBox combatantDataHBox = new HBox();
         combatantDataHBox.setSpacing(10);
+        combatantDataHBox.setFillHeight(false);
         thumbnail = new ImageView(new Image(new FileInputStream(thumbnailFile)));
         thumbnail.setFitHeight(100);
         thumbnail.setFitWidth(100);
