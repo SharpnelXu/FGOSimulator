@@ -5,7 +5,7 @@
       "enemyBaseId": "doorOfUndead",
       "hpBars": [1],
       "combatantDataOverride": {
-        "id": "doorOfTheUndead",
+        "id": "doorOfUndead",
         "rarity": 1,
         "fateClass": "ANY_CLASS",
         "gender": "OTHER",
