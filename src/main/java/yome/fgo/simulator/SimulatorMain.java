@@ -16,7 +16,6 @@ public class SimulatorMain {
         try {
             options.read(new FileReader(USER_DIR + "/options.ini"));
             final String langString = options.getSection("Language").getString("lang");
-            System.out.println(langString);
             TranslationManager.setTranslations(langString);
         } catch (final Exception e) {
             TranslationManager.setTranslations("zh_CN");
