@@ -18,7 +18,7 @@ public class DecreaseActiveSkillCoolDown extends IntValuedEffect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                combatant.decreaseActiveSkillsCoolDown(values.get(level));
+                combatant.decreaseActiveSkillsCoolDown(values.get(level - 1));
             }
             simulation.unsetEffectTarget();
         }
