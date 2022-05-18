@@ -111,6 +111,8 @@ public class NoblePhantasmDamage extends Effect {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
+        // Here only three targets makes sense: attacker (for Bazett's NP), targeted enemy, and all enemies
+        final List<Combatant> targets = TargetUtils.getTargets(simulation, target);
         final Combatant activator = simulation.getActivator();
         simulation.setAttacker(activator);
         if (!(activator instanceof Servant)) {
@@ -126,7 +128,7 @@ public class NoblePhantasmDamage extends Effect {
         final List<Double> hitsPercentages = getHitsPercentages(simulation, attacker, currentCard.getHitPercentages());
         final CommandCardType originalCardType = attacker.getOriginalNoblePhantasmCardType();
 
-        for (final Combatant defender : TargetUtils.getTargets(simulation, target)) {
+        for (final Combatant defender : targets) {
             simulation.setDefender(defender);
             final FateClass defenderClass = defender.getFateClass();
 

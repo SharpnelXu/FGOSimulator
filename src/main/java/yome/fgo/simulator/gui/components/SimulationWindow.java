@@ -594,6 +594,9 @@ public class SimulationWindow {
         final List<CombatActionDisplay> combatActionDisplays = new ArrayList<>();
         for (int i = 0; i < simulation.getCurrentServants().size(); i += 1) {
             final Servant servant = simulation.getCurrentServants().get(i);
+            if (servant == null) {
+                continue;
+            }
             servantVBox.getChildren().add(createServantImage(getServantImage(servant.getId(), servant.getAscension())));
             final HBox servantCardHBox = new HBox(10);
             servantCardHBox.setAlignment(Pos.TOP_CENTER);

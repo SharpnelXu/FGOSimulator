@@ -1,5 +1,6 @@
 package yome.fgo.simulator.gui.helpers;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
@@ -29,6 +30,36 @@ import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
 public class ComponentMaker {
     public static final String COMMA_SPLIT_REGEX = "\s*[，,、]\s*";
 
+    private static final List<Target> VALID_TARGETS = ImmutableList.of(
+            Target.SELF,
+
+            Target.ATTACKER,
+            Target.DEFENDER,
+            Target.EFFECT_TARGET,
+            Target.ACTIVATOR,
+
+            Target.TARGETED_ALLY,
+            Target.TARGETED_ENEMY,
+            Target.NON_TARGETED_ALLIES,
+            Target.NON_TARGETED_ENEMIES,
+
+            Target.ALL_ALLIES,
+            Target.ALL_ALLIES_INCLUDING_BACKUP,
+            Target.ALL_ENEMIES,
+            Target.ALL_ENEMIES_INCLUDING_BACKUP,
+
+            Target.ALL_ALLIES_EXCLUDING_SELF,
+            Target.ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP,
+
+            Target.FIRST_ALLY_EXCLUDING_SELF,
+            Target.FIRST_ENEMY,
+
+            Target.ALL_CHARACTERS,
+            Target.ALL_CHARACTERS_INCLUDING_BACKUP,
+            Target.ALL_CHARACTERS_EXCLUDING_SELF,
+            Target.ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP
+    );
+
     public static void fillFateClass(final ChoiceBox<FateClass> classChoiceBox) {
         final List<FateClass> fateClasses = Lists.newArrayList(FateClass.values());
         fateClasses.remove(FateClass.NO_CLASS);
@@ -56,12 +87,8 @@ public class ComponentMaker {
     }
 
     public static void fillTargets(final ChoiceBox<Target> targetChoiceBox) {
-        final List<Target> targets = Lists.newArrayList(Target.values());
-        targets.remove(Target.UNRECOGNIZED);
-        targets.remove(Target.SERVANT_EXCHANGE);
-        targets.remove(Target.NONE);
         targetChoiceBox.setConverter(new EnumConverter<>(TARGET_SECTION));
-        targetChoiceBox.setItems(FXCollections.observableArrayList(targets));
+        targetChoiceBox.setItems(FXCollections.observableArrayList(VALID_TARGETS));
         targetChoiceBox.getSelectionModel().selectFirst();
     }
 

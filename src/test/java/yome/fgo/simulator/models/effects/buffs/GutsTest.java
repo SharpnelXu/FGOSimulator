@@ -16,6 +16,7 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.CriticalStarChange;
 import yome.fgo.simulator.models.effects.GrantBuff;
+import yome.fgo.simulator.models.effects.NpGaugeChange;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 
@@ -23,7 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES;
+import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
 import static yome.fgo.simulator.models.combatants.CombatAction.createCommandCardAction;
@@ -65,8 +68,9 @@ public class GutsTest {
                                                 .setNumTimesActive(1)
                                                 .addSubEffects(
                                                         EffectData.newBuilder()
-                                                                .setType(CriticalStarChange.class.getSimpleName())
-                                                                .addIntValues(20)
+                                                                .setType(NpGaugeChange.class.getSimpleName())
+                                                                .setTarget(SELF)
+                                                                .addIntValues(1)
                                                 )
                                 )
                 )
@@ -92,7 +96,7 @@ public class GutsTest {
         assertFalse(enemy.getBuffs().isEmpty());
         simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
         assertEquals(20, enemy.getCurrentHp());
-        assertEquals(21.0828, simulation.getCurrentStars());
+        assertEquals(2, enemy.getCurrentNpGauge());
         assertTrue(enemy.getBuffs().isEmpty());
     }
 }

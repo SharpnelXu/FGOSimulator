@@ -22,7 +22,7 @@ import yome.fgo.simulator.models.mysticcodes.MysticCode;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
-import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
 import static yome.fgo.simulator.models.combatants.CombatAction.createCommandCardAction;
@@ -46,7 +46,7 @@ public class DelayedEffectTest {
                 .addEffects(
                         EffectData.newBuilder()
                                 .setType(GrantBuff.class.getSimpleName())
-                                .setTarget(ALL_ENEMIES)
+                                .setTarget(ALL_ALLIES)
                                 .addBuffData(
                                         BuffData.newBuilder()
                                                 .setType(EndOfTurnEffect.class.getSimpleName())
@@ -61,7 +61,7 @@ public class DelayedEffectTest {
                 .addEffects(
                         EffectData.newBuilder()
                                 .setType(GrantBuff.class.getSimpleName())
-                                .setTarget(ALL_ENEMIES)
+                                .setTarget(ALL_ALLIES)
                                 .addBuffData(
                                         BuffData.newBuilder()
                                                 .setType(DelayedEffect.class.getSimpleName())
@@ -90,18 +90,17 @@ public class DelayedEffectTest {
                 )
         );
         simulation.initiate();
-        final Combatant enemy = simulation.getCurrentEnemies().get(0);
 
         simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
-        assertEquals(2, enemy.getBuffs().size());
+        assertEquals(14, kama.getBuffs().size());
         assertEquals(20.483, simulation.getCurrentStars());
 
         simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
-        assertTrue(enemy.getBuffs().isEmpty());
+        assertEquals(12, kama.getBuffs().size());
         assertEquals(40.483, simulation.getCurrentStars());
 
         simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
-        assertTrue(enemy.getBuffs().isEmpty());
+        assertEquals(12, kama.getBuffs().size());
         assertEquals(0.483, simulation.getCurrentStars());
     }
 }

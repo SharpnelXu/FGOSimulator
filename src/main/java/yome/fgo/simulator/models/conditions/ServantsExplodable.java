@@ -10,8 +10,8 @@ public class ServantsExplodable extends Condition {
 
     @Override
     public boolean evaluate(final Simulation simulation) {
-        for (final Combatant combatant : simulation.currentServants) {
-            if (combatant != simulation.getActivator() && combatant.isSelectable()) {
+        for (final Combatant combatant : simulation.getCurrentServants()) {
+            if (combatant != null && combatant != simulation.getActivator() && combatant.isSelectable()) {
                 return true;
             }
         }

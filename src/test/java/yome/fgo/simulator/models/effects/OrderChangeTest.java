@@ -24,6 +24,7 @@ public class OrderChangeTest {
         final OrderChange orderChange = OrderChange.builder().build();
 
         inBackup.enterField(simulation);
+        onField.leaveField(simulation);
 
         replay(onField, inBackup);
 
