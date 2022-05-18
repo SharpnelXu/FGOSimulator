@@ -504,9 +504,14 @@ public class SimulationWindow {
 
         final AnchorPane imgAnchor = createServantImage(image);
         final VBox basicDataVBox = new VBox(5);
+
+        final String hpBarIndex = combatant.getHpBars().size() != 1 ?
+                ", Index: " + combatant.getCurrentHpBarIndex() :
+                "";
+
         final Label infoLabel = new Label(
-                printBasicCombatantData(combatant.getCombatantData()) + " " +
-                        getTranslation(APPLICATION_SECTION, "HP Bar") + combatant.getHpBars()
+                printBasicCombatantData(combatant.getCombatantData()) + ", " +
+                        getTranslation(APPLICATION_SECTION, "HP Bar") + combatant.getHpBars() + hpBarIndex
         );
 
         infoLabel.setWrapText(true);

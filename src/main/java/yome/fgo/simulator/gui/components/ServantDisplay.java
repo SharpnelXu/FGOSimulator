@@ -35,6 +35,7 @@ public class ServantDisplay extends VBox {
     private final List<Button> skillButtons;
     private final List<ImageView> skillThumbnails;
     private final List<AnchorPane> skillCoolDownHides;
+    private final Label atkLabel;
     private final Label hpLabel;
     private final Label npLabel;
     private final FlowPane buffsPane;
@@ -134,12 +135,13 @@ public class ServantDisplay extends VBox {
         final HBox viewHBox = new HBox(10);
         viewHBox.getChildren().addAll(viewBuffs);
 
+        atkLabel = new Label();
         hpLabel = new Label();
         npLabel = new Label();
         buffsPane = new FlowPane();
         buffsPane.setAlignment(Pos.TOP_CENTER);
 
-        getChildren().addAll(viewHBox, hpLabel, npLabel, buffsPane);
+        getChildren().addAll(viewHBox, atkLabel, hpLabel, npLabel, buffsPane);
     }
 
     private void activateSkill(final int skillIndex) {
@@ -190,6 +192,14 @@ public class ServantDisplay extends VBox {
                 }
             }
         }
+
+        atkLabel.setText(
+                String.format(
+                        "%s: %d",
+                        getTranslation(APPLICATION_SECTION, "ATK"),
+                        servant.getAttack()
+                )
+        );
 
         hpLabel.setText(
                 String.format(

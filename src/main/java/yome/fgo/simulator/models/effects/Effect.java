@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
+import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @SuperBuilder
@@ -45,7 +47,13 @@ public abstract class Effect {
 
     public void apply(final Simulation simulation, final int level) {
         if (simulation.getStatsLogger() != null) {
-            simulation.getStatsLogger().logEffect(this.toString());
+            simulation.getStatsLogger().logEffect(
+                    String.format(
+                            getTranslation(APPLICATION_SECTION, "%s activates %s"),
+                            getTranslation(ENTITY_NAME_SECTION, simulation.getActivator().getId()),
+                            this
+                    )
+            );
         }
 
         internalApply(simulation, level);

@@ -42,6 +42,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.BuffUtils.isImmobilizeOrSeal;
 import static yome.fgo.simulator.utils.BuffUtils.shouldDecreaseNumTurnsActiveAtMyTurn;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassMaxNpGauge;
@@ -353,13 +356,18 @@ public class Combatant {
                 final int reflectedDamage = (int) (damageReflect.getStoredDamage() * damageReflect.getValue(simulation));
                 if (simulation.getStatsLogger() != null) {
                     simulation.getStatsLogger().logEffect(
-                            damageReflect + " * " + damageReflect.getStoredDamage() + " = " + reflectedDamage
+                            String.format(
+                                    getTranslation(APPLICATION_SECTION, "%s activates %s"),
+                                    getTranslation(ENTITY_NAME_SECTION, id),
+                                    damageReflect + " * " + damageReflect.getStoredDamage() + " = " + reflectedDamage
+                            )
                     );
                 }
 
 
                 for (final Combatant combatant : simulation.getOtherTeam(this)) {
-                    if (!CommandCardExecution.shouldSkipDamage(simulation, this, combatant, new CommandCard())) {
+                    if (combatant != null &&
+                            !CommandCardExecution.shouldSkipDamage(simulation, this, combatant, new CommandCard())) {
                         combatant.receiveNonHpBarBreakDamage(reflectedDamage);
                     }
                 }
