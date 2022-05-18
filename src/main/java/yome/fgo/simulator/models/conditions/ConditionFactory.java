@@ -2,7 +2,6 @@ package yome.fgo.simulator.models.conditions;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedMap;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
@@ -160,56 +159,37 @@ public class ConditionFactory {
     }
 
     public static Map<String, Set<ConditionFields>> buildRequiredConditionFieldsMap() {
-        final ImmutableMap.Builder<String, Set<ConditionFields>> builder = ImmutableSortedMap.naturalOrder();
+        final ImmutableMap.Builder<String, Set<ConditionFields>> builder = ImmutableMap.builder();
         builder.put(Always.class.getSimpleName(), ImmutableSet.of());
-
-        builder.put(And.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_UNLIMITED_SUB_CONDITION));
-
-        builder.put(BackupServantsExist.class.getSimpleName(), ImmutableSet.of());
-
-        builder.put(BuffHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TRAIT_VALUE));
-
-        builder.put(BuffRemovable.class.getSimpleName(), ImmutableSet.of());
-
-        builder.put(BuffTypeEquals.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_BUFF_TYPE));
-
-        builder.put(CardTypeEquals.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_CARD_TYPE));
-
-        builder.put(CritStarAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_INT_VALUE));
-
-        builder.put(HpAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_INT_VALUE));
-
-        builder.put(HpPercentAtMost.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_DOUBLE_VALUE));
-
-        builder.put(IsCriticalStrike.class.getSimpleName(), ImmutableSet.of());
-
         builder.put(Never.class.getSimpleName(), ImmutableSet.of());
-
+        builder.put(And.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_UNLIMITED_SUB_CONDITION));
+        builder.put(Or.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_UNLIMITED_SUB_CONDITION));
         builder.put(Not.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_LIMITED_SUB_CONDITION));
 
+        builder.put(CardTypeEquals.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_CARD_TYPE));
         builder.put(NpCard.class.getSimpleName(), ImmutableSet.of());
+        builder.put(IsCriticalStrike.class.getSimpleName(), ImmutableSet.of());
 
-        builder.put(NpAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_DOUBLE_VALUE));
-
-        builder.put(Or.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_UNLIMITED_SUB_CONDITION));
-
-        builder.put(RarityAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_DOUBLE_VALUE, CONDITION_FIELD_TARGET));
-
-        builder.put(StageHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TRAIT_VALUE));
-
-        builder.put(ServantsExplodable.class.getSimpleName(), ImmutableSet.of());
-
-        builder.put(ServantsWithCE.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_NAMES));
-
-        builder.put(TargetsContainsSpecificServant.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_NAMES));
-
-        builder.put(TargetsHaveBuff.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_LIMITED_SUB_CONDITION));
+        builder.put(BuffTypeEquals.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_BUFF_TYPE));
+        builder.put(BuffHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TRAIT_VALUE));
+        builder.put(BuffRemovable.class.getSimpleName(), ImmutableSet.of());
 
         builder.put(TargetsHaveClass.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_CLASS_VALUE));
-
+        builder.put(TargetsHaveBuff.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_LIMITED_SUB_CONDITION));
         builder.put(TargetsHaveTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_TRAIT_VALUE));
-
+        builder.put(RarityAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_DOUBLE_VALUE, CONDITION_FIELD_TARGET));
+        builder.put(TargetsContainsSpecificServant.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_NAMES));
+        builder.put(ServantsWithCE.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_NAMES));
         builder.put(TargetsReceivedInstantDeath.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET));
+        builder.put(StageHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TRAIT_VALUE));
+
+        builder.put(CritStarAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_INT_VALUE));
+        builder.put(NpAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_DOUBLE_VALUE));
+        builder.put(HpAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_INT_VALUE));
+        builder.put(HpPercentAtMost.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_DOUBLE_VALUE));
+
+        builder.put(ServantsExplodable.class.getSimpleName(), ImmutableSet.of());
+        builder.put(BackupServantsExist.class.getSimpleName(), ImmutableSet.of());
 
         return builder.build();
     }

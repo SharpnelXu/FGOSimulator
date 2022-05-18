@@ -67,6 +67,12 @@ public class EffectFactory {
         } else if (type.equalsIgnoreCase(ForceInstantDeath.class.getSimpleName())) {
             return setCommonEffectParams(ForceInstantDeath.builder().target(effectData.getTarget()), effectData, level);
 
+        } else if (type.equalsIgnoreCase(ForceRemoveBuff.class.getSimpleName())) {
+            final ForceRemoveBuff.ForceRemoveBuffBuilder<?, ?> builder = ForceRemoveBuff.builder()
+                    .target(effectData.getTarget())
+                    .removeFromStart(effectData.getRemoveFromStart());
+            return setCommonIntValuedEffectValue(builder, effectData, level);
+
         } else if (type.equalsIgnoreCase(HpChange.class.getSimpleName())) {
             final HpChange.HpChangeBuilder<?, ?> builder = HpChange.builder()
                     .isLethal(effectData.getIsLethal())
@@ -311,6 +317,7 @@ public class EffectFactory {
 
         builder.put(GrantBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
         builder.put(RemoveBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_REMOVE_BUFF));
+        builder.put(ForceRemoveBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_REMOVE_BUFF));
         builder.put(CriticalStarChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE));
         builder.put(NpChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_DOUBLE_VALUE, EFFECT_FIELD_TARGET));
         builder.put(NpGaugeChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));

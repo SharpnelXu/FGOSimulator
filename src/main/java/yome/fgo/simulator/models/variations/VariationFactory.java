@@ -2,7 +2,6 @@ package yome.fgo.simulator.models.variations;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedMap;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
 
@@ -58,18 +57,11 @@ public class VariationFactory {
     }
 
     public static Map<String, Set<VariationFields>> buildVariationRequiredFieldsMap() {
-        final ImmutableMap.Builder<String, Set<VariationFields>> builder = ImmutableSortedMap.naturalOrder();
+        final ImmutableMap.Builder<String, Set<VariationFields>> builder = ImmutableMap.builder();
+        builder.put(NoVariation.class.getSimpleName(), ImmutableSet.of());
         builder.put(BuffCountVariation.class.getSimpleName(), ImmutableSet.of(
                 VARIATION_FIELD_MAX_COUNT,
                 VARIATION_FIELD_BUFF,
-                VARIATION_FIELD_TARGET
-        ));
-        builder.put(HpVariation.class.getSimpleName(), ImmutableSet.of(
-                VARIATION_FIELD_HP,
-                VARIATION_FIELD_TARGET
-        ));
-        builder.put(NoVariation.class.getSimpleName(), ImmutableSet.of());
-        builder.put(NpAbsorptionVariation.class.getSimpleName(), ImmutableSet.of(
                 VARIATION_FIELD_TARGET
         ));
         builder.put(TraitCountVariation.class.getSimpleName(), ImmutableSet.of(
@@ -77,7 +69,14 @@ public class VariationFactory {
                 VARIATION_FIELD_TRAIT,
                 VARIATION_FIELD_TARGET
         ));
+        builder.put(NpAbsorptionVariation.class.getSimpleName(), ImmutableSet.of(
+                VARIATION_FIELD_TARGET
+        ));
         builder.put(TurnPassVariation.class.getSimpleName(), ImmutableSet.of());
+        builder.put(HpVariation.class.getSimpleName(), ImmutableSet.of(
+                VARIATION_FIELD_HP,
+                VARIATION_FIELD_TARGET
+        ));
 
         return builder.build();
     }
