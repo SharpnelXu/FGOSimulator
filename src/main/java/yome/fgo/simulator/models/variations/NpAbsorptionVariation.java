@@ -18,21 +18,19 @@ public class NpAbsorptionVariation extends Variation {
 
     @Override
     public double evaluate(final Simulation simulation, final double baseValue, final double additionValue) {
-        int validCombatantCount = 0;
+        double totalAddition = 0;
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             if (combatant.isAlly()) {
                 final Servant servant = (Servant) combatant;
-                if (servant.getCurrentNp() >= additionValue) {
-                    validCombatantCount += 1;
-                }
+                totalAddition += Math.min(servant.getCurrentNp(), additionValue);
             } else {
                 if (combatant.getCurrentNpGauge() > 0) {
-                    validCombatantCount += 1;
+                    totalAddition += additionValue;
                 }
             }
         }
 
-        return  RoundUtils.roundNearest(baseValue + additionValue * validCombatantCount);
+        return  RoundUtils.roundNearest(baseValue + totalAddition);
     }
 
     @Override
