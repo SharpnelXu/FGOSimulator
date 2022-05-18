@@ -218,8 +218,14 @@
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
-      "ascension": 1
+      "ascension": 2
     }
   }, {
     "servantNo": 220,
@@ -335,6 +341,20 @@
       "ascension": 2
     }
   }, {
+    "servantNo": 47,
+    "option": {
+      "servantLevel": 80,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 2],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
     "servantNo": 307,
     "option": {
       "servantLevel": 90,
@@ -441,6 +461,12 @@
     "craftEssenceNo": 34,
     "option": {
       "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 197,
+    "option": {
+      "craftEssenceLevel": 1,
       "isLimitBreak": true
     }
   }, {

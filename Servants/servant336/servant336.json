@@ -793,6 +793,10 @@
               "buffData": [{
                 "type": "CommandCardResist",
                 "numTurnsActive": 3,
+                "applyCondition": {
+                  "type": "CardTypeEquals",
+                  "value": "QUICK"
+                },
                 "values": [-0.1],
                 "buffIcon": "quickResistDown"
               }]

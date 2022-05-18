@@ -227,7 +227,10 @@ public class FormationSelector extends VBox {
                     ceSelectButton.setGraphic(selectedCE);
                     ceNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, selectedCE.getCraftEssenceData().getId()));
                     ceNameLabel.setMaxWidth(getWidth());
-                    final int maxLevel = defaultCEMaxLevel(selectedCE.getCraftEssenceData().getRarity());
+                    final int maxLevel = Math.min(
+                            defaultCEMaxLevel(selectedCE.getCraftEssenceData().getRarity()),
+                            selectedCE.getCraftEssenceData().getStatusDataCount()
+                    );
                     ceLevelSlider.setMax(maxLevel);
 
                     final int ceNo = selectedCE.getCraftEssenceData().getCeNum();
@@ -242,6 +245,9 @@ public class FormationSelector extends VBox {
                         isLimitBreak = true;
                     }
                     ceLevelSlider.setValue(ceLevel);
+                    if (maxLevel == 1) {
+                        ceLevelSlider.setDisable(true);
+                    }
                     ceLimitBreakCheck.setSelected(isLimitBreak);
                     ceLevelLabelHBox.setDisable(false);
                     ceLevelSlider.setDisable(false);

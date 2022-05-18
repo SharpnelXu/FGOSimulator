@@ -1,0 +1,26 @@
+{
+  "id": "craftEssence197",
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "SELF",
+    "applyCondition": {
+      "type": "TargetsContainsSpecificServant",
+      "value": "servant47",
+      "target": "ACTIVATOR"
+    },
+    "buffData": [{
+      "type": "Guts",
+      "numTimesActive": 3,
+      "values": [500.0],
+      "buffIcon": "guts"
+    }]
+  }],
+  "cost": 9,
+  "rarity": 4,
+  "statusData": [{
+    "lv": 80,
+    "HP": 100,
+    "ATK": 100
+  }],
+  "ceNum": 197
+}
