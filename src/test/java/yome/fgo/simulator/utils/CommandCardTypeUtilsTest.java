@@ -112,10 +112,10 @@ public class CommandCardTypeUtilsTest {
 
     @Test
     public void testExtraCardBuff() {
-        assertEquals(3.5, extraCardBuff(EXTRA, true, BUSTER));
-        assertEquals(2.0, extraCardBuff(EXTRA, true, ARTS));
-        assertEquals(2.0, extraCardBuff(EXTRA, true, QUICK));
-        assertEquals(1.0, extraCardBuff(BUSTER, true, BUSTER));
+        assertEquals(3.5, extraCardBuff(EXTRA, true));
+        assertEquals(3.5, extraCardBuff(EXTRA, true));
+        assertEquals(2.0, extraCardBuff(EXTRA, false));
+        assertEquals(1.0, extraCardBuff(BUSTER, true));
     }
 
     @Test

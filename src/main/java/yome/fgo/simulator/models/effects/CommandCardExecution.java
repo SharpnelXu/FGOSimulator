@@ -299,7 +299,7 @@ public class CommandCardExecution {
         final double commandCardDamageCorrection = getCommandCardDamageCorrection(damageParameters.currentCardType, damageParameters.chainIndex);
         final double busterStartDamageBoost = damageParameters.firstCardType == BUSTER ? 0.5 : 0;
         final int criticalStrikeDamageCorrection = damageParameters.isCriticalStrike ? 1 : 0;
-        final double extraCardBuff = extraCardBuff(damageParameters.currentCardType, damageParameters.isTypeChain, damageParameters.firstCardType);
+        final double extraCardBuff = extraCardBuff(damageParameters.currentCardType, damageParameters.isTypeChain);
         final double busterChainDamageAddition = busterChainDamageAddition(
                 damageParameters.attack,
                 damageParameters.currentCardType,

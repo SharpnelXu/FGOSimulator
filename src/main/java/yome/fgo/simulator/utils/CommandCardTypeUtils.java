@@ -152,11 +152,10 @@ public class CommandCardTypeUtils {
 
     public static double extraCardBuff(
             final CommandCardType currentCardType,
-            final boolean isTypeChain,
-            final CommandCardType firstCardType
+            final boolean isTypeChain
     ) {
         if (currentCardType == EXTRA) {
-            if (isBusterChain(isTypeChain, firstCardType)) {
+            if (isTypeChain) {
                 return 3.5;
             } else {
                 return 2;
