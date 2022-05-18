@@ -369,6 +369,7 @@ public class EffectBuilderFXMLController implements Initializable {
         probabilityGenerateButton.setOnAction(e -> {
             generateTargetTextField = probabilityText;
             generateValuePane.setVisible(true);
+            generateValueBaseText.requestFocus();
         });
 
         conditionCheckbox.setText(getTranslation(APPLICATION_SECTION, "Apply Condition"));
@@ -389,6 +390,7 @@ public class EffectBuilderFXMLController implements Initializable {
         generateValuesButton.setOnAction(e -> {
             generateTargetTextField = valuesText;
             generateValuePane.setVisible(true);
+            generateValueBaseText.requestFocus();
         });
 
         useVariationCheckbox.setText(getTranslation(APPLICATION_SECTION, "Use Variation"));
@@ -409,6 +411,7 @@ public class EffectBuilderFXMLController implements Initializable {
         generateVariationsButton.setOnAction(e -> {
             generateTargetTextField = variationAdditionText;
             generateValuePane.setVisible(true);
+            generateValueBaseText.requestFocus();
         });
         editVariationButton.setText(getTranslation(APPLICATION_SECTION, "Edit"));
         builtVariationLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));

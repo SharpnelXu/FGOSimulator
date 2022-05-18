@@ -106,6 +106,7 @@ public class ServantCreatorFXMLController implements Initializable {
             } catch (final Exception ignored) {
             }
             tabs.add(new Tab(tabName, new ServantAscensionTab(base, servantNo, tabs.size() + 1)));
+            servantAscTabPane.getSelectionModel().selectLast();
         });
 
         errorLabel.setVisible(false);

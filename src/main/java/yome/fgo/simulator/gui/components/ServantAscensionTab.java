@@ -276,6 +276,7 @@ public class ServantAscensionTab extends VBox {
             final String tabName = getTranslation(APPLICATION_SECTION, "NP Upgrade") + " " + tabs.size();
             final NpUpgrade base = (NpUpgrade) tabs.get(tabs.size() - 1).getContent();
             tabs.add(new Tab(tabName, new NpUpgrade(base)));
+            npUpgradesTabs.getSelectionModel().selectLast();
         });
 
         nodes.add(npUpgradesTabs);
@@ -308,6 +309,7 @@ public class ServantAscensionTab extends VBox {
                 final String tabName = getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + tabs.size();
                 final ActiveSkillUpgrade base = (ActiveSkillUpgrade) tabs.get(tabs.size() - 1).getContent();
                 tabs.add(new Tab(tabName, new ActiveSkillUpgrade(base)));
+                activeSkillTabPane.getSelectionModel().selectLast();
             });
             activeSkillUpgradeTabPanes.add(activeSkillTabPane);
             nodes.add(activeSkillButtonHBox);
