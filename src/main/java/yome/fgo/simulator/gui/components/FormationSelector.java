@@ -277,10 +277,11 @@ public class FormationSelector extends VBox {
     private static ServantOption createDefaultServantOption(final ServantData servantData) {
         final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(0);
         final int rarity = servantAscensionData.getCombatantData().getRarity();
+        final int servantLevel = Math.min(servantAscensionData.getServantStatusDataCount(), defaultServantLevel(rarity));
 
         final ServantOption.Builder builder = ServantOption.newBuilder()
                 .setAscension(1)
-                .setServantLevel(defaultServantLevel(rarity))
+                .setServantLevel(servantLevel)
                 .setAttackStatusUp(1000)
                 .setHealthStatusUp(1000)
                 .setNoblePhantasmRank(servantAscensionData.getNoblePhantasmUpgrades().getNoblePhantasmDataCount())
@@ -298,7 +299,7 @@ public class FormationSelector extends VBox {
         return builder.build();
     }
 
-    private static int defaultServantLevel(final int rarity) {
+    public static int defaultServantLevel(final int rarity) {
         return switch (rarity) {
             case 5 -> 90;
             case 4 -> 80;

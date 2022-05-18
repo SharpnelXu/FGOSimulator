@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP;
 import static yome.fgo.data.proto.FgoStorageData.Traits.SERVANT;
+import static yome.fgo.simulator.gui.components.FormationSelector.defaultServantLevel;
 
 @Getter
 @Setter
@@ -98,12 +99,13 @@ public class Servant extends Combatant {
 
         this.ascension = enemyData.getServantAscension();
         final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(this.ascension - 1);
-
+        final int rarity = servantAscensionData.getCombatantData().getRarity();
+        final int servantLevel = Math.min(servantAscensionData.getServantStatusDataCount(), defaultServantLevel(rarity));
         // For Bazett
         final NoblePhantasmData noblePhantasmData = servantAscensionData.getNoblePhantasmUpgrades()
                 .getNoblePhantasmData(0);
         this.noblePhantasm = new NoblePhantasm(noblePhantasmData, 1);
-        this.attack = servantAscensionData.getServantStatusData(90 - 1).getATK();
+        this.attack = servantAscensionData.getServantStatusData(servantLevel - 1).getATK();
         this.commandCards = ImmutableList.of();
         this.activeSkills = ImmutableList.of();
         this.appendSkills = ImmutableList.of();
