@@ -74,26 +74,17 @@ public class EffectFactory {
             return setCommonIntValuedEffectValue(builder, effectData, level);
 
         } else if (type.equalsIgnoreCase(HpChange.class.getSimpleName())) {
-            final HpChange.HpChangeBuilder<?, ?> builder = HpChange.builder()
-                    .isLethal(effectData.getIsLethal())
-                    .target(effectData.getTarget());
-            if (effectData.getIsOverchargedEffect()) {
-                builder.isOverchargedEffect(true);
-                if (effectData.getIsHpChangePercentBased()) {
-                    builder.isPercentBased(true).percents(effectData.getValuesList());
-                } else {
-                    builder.values(effectData.getIntValuesList());
-                }
+            if (effectData.getIsHpChangePercentBased()) {
+                final PercentHpChange.PercentHpChangeBuilder<?, ?> builder = PercentHpChange.builder()
+                        .isLethal(effectData.getIsLethal())
+                        .target(effectData.getTarget());
+                return setCommonValuedEffectValue(builder, effectData, level);
             } else {
-                if (effectData.getIsHpChangePercentBased()) {
-                    builder.isPercentBased(true)
-                            .percents(getSingletonValueListForLevel(effectData.getValuesList(), level));
-                } else {
-                    builder.values(getSingletonValueListForLevel(effectData.getIntValuesList(), level));
-                }
+                final HpChange.HpChangeBuilder<?, ?> builder = HpChange.builder()
+                        .isLethal(effectData.getIsLethal())
+                        .target(effectData.getTarget());
+                return setCommonIntValuedEffectValue(builder, effectData, level);
             }
-
-            return setCommonEffectParams(builder, effectData, level);
 
         } else if (type.equalsIgnoreCase(InstantDeath.class.getSimpleName())) {
             return setCommonEffectParams(InstantDeath.builder().target(effectData.getTarget()), effectData, level);

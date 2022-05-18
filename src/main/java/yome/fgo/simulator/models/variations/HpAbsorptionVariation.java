@@ -19,7 +19,7 @@ public class HpAbsorptionVariation extends Variation {
     public double evaluate(final Simulation simulation, final double baseValue, final double additionValue) {
         double totalAddition = 0;
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
-            totalAddition += Math.min(combatant.getCurrentHp(), additionValue);
+            totalAddition += Math.min(combatant.getCurrentHp() - 1, additionValue);
         }
 
         return  RoundUtils.roundNearest(baseValue + totalAddition);

@@ -3,6 +3,7 @@ package yome.fgo.simulator.models.effects;
 import com.google.common.collect.Lists;
 import lombok.Builder;
 import lombok.experimental.SuperBuilder;
+import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.variations.Variation;
 
 import java.text.NumberFormat;
@@ -22,6 +23,12 @@ public abstract class ValuedEffect extends Effect {
     protected boolean isAdditionsOvercharged;
     @Builder.Default
     protected final List<Double> additions = Lists.newArrayList(0.0);
+
+    public double getValue(final Simulation simulation, final int level) {
+        final double baseValue = isValueOvercharged ? values.get(level - 1) : values.get(0);
+        final double additionValue = isAdditionsOvercharged ? additions.get(level - 1) : additions.get(0);
+        return variation.evaluate(simulation, baseValue, additionValue);
+    }
 
     @Override
     public String toString() {

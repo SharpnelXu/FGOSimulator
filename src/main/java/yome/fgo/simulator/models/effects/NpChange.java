@@ -20,14 +20,10 @@ public class NpChange extends ValuedEffect {
             return;
         }
 
-        final double baseValue = isValueOvercharged ? values.get(level - 1) : values.get(0);
-        final double additionValue = isAdditionsOvercharged ? additions.get(level - 1) : additions.get(0);
-        final double value = variation.evaluate(simulation, baseValue, additionValue);
-
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                combatant.changeNp(value);
+                combatant.changeNp(getValue(simulation, level));
             }
             simulation.unsetEffectTarget();
         }

@@ -4,15 +4,14 @@ import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
-import yome.fgo.simulator.models.effects.buffs.HealEffectivenessBuff;
-import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import static yome.fgo.simulator.models.effects.HpChange.heal;
 import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @SuperBuilder
-public class HpChange extends IntValuedEffect {
+public class PercentHpChange extends ValuedEffect {
     private final Target target;
     private final boolean isLethal;
 
@@ -21,20 +20,10 @@ public class HpChange extends IntValuedEffect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                final int baseChange = getValue(simulation, level);
+                final int baseChange = (int) (combatant.getMaxHp() * getValue(simulation, level));
                 heal(simulation, combatant, baseChange, isLethal);
             }
             simulation.unsetEffectTarget();
-        }
-    }
-
-    public static void heal(final Simulation simulation, final Combatant combatant, final int baseChange, final boolean isLethal) {
-        if (baseChange > 0) {
-            final double healEffectiveness = combatant.applyBuff(simulation, HealEffectivenessBuff.class);
-            final int finalHeal = Math.max(0, (int) RoundUtils.roundNearest(baseChange * (1 + healEffectiveness)));
-            combatant.changeHp(finalHeal, false); // heal cannot be lethal (勇者传除外)
-        } else {
-            combatant.changeHp(baseChange, isLethal);
         }
     }
 
