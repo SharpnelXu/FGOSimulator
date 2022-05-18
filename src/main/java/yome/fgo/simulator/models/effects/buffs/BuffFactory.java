@@ -237,6 +237,7 @@ public class BuffFactory {
 
             final Guts.GutsBuilder<?, ?> builder = Guts.builder();
             if (buffData.getIsGutsPercentBased()) {
+                builder.isPercentageGuts(true);
                 builder.percent(value);
             } else {
                 builder.gutsLeft((int) value);

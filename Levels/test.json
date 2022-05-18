@@ -7,7 +7,7 @@
       "combatantDataOverride": {
         "id": "doorOfUndead",
         "rarity": 1,
-        "fateClass": "ANY_CLASS",
+        "fateClass": "CASTER",
         "gender": "OTHER",
         "alignments": ["LAWFUL", "NEUTRAL", "CHAOTIC", "GOOD", "BALANCED", "EVIL", "INSANE", "BRIDE", "SUMMER"],
         "attribute": "BEAST",
@@ -26,6 +26,12 @@
       "hpBars": [3000000],
       "servantAscension": 1,
       "enemyCategories": "servant336/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant107",
+      "hpBars": [3000000],
+      "servantAscension": 1,
+      "enemyCategories": "servant107/",
       "isServant": true
     }],
     "effects": [{
@@ -97,6 +103,18 @@
         }],
         "irremovable": true,
         "buffIcon": "counter"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant107",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DamageReflect",
+        "values": [3.0]
       }]
     }],
     "maximumEnemiesOnScreen": 6,

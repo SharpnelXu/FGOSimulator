@@ -10,6 +10,7 @@ import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.simulator.models.Simulation;
+import yome.fgo.simulator.models.effects.CommandCardExecution;
 import yome.fgo.simulator.models.effects.buffs.AttackBuffDurationExtend;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.Burn;
@@ -349,8 +350,18 @@ public class Combatant {
             if (buff instanceof DamageReflect && buff.shouldApply(simulation)) {
                 final DamageReflect damageReflect = (DamageReflect) buff;
 
+                final int reflectedDamage = (int) (damageReflect.getStoredDamage() * damageReflect.getValue(simulation));
+                if (simulation.getStatsLogger() != null) {
+                    simulation.getStatsLogger().logEffect(
+                            damageReflect + " * " + damageReflect.getStoredDamage() + " = " + reflectedDamage
+                    );
+                }
+
+
                 for (final Combatant combatant : simulation.getOtherTeam(this)) {
-                    combatant.receiveNonHpBarBreakDamage((int) (damageReflect.getStoredDamage() * damageReflect.getValue(simulation)));
+                    if (!CommandCardExecution.shouldSkipDamage(simulation, this, combatant, new CommandCard())) {
+                        combatant.receiveNonHpBarBreakDamage(reflectedDamage);
+                    }
                 }
                 damageReflect.resetDamageStored();
 

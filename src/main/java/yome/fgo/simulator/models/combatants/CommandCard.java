@@ -27,6 +27,13 @@ public class CommandCard {
     private final List<Buff> commandCodeBuffs;
     private final int commandCardStrengthen;
 
+    public CommandCard() {
+        commandCardData = null;
+        commandCodeData = null;
+        commandCodeBuffs = ImmutableList.of();
+        commandCardStrengthen = 0;
+    }
+
     public CommandCard(
             final CommandCardData commandCardData
     ) {

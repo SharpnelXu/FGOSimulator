@@ -263,24 +263,30 @@ public class Simulation {
         for (int i = 0; i < combatActions.size(); i += 1) {
             final CombatAction combatAction = combatActions.get(i);
             final Servant servant = currentServants.get(combatAction.servantIndex);
-            if (servant == null || servant.isImmobilized() || isAllEnemiesDead()) { // servant dead in previous attack or all enemies dead
-                continue;
+            if (servant != null && !servant.isImmobilized() && !isAllEnemiesDead()) {
+                if (combatAction.isNoblePhantasm) {
+                    if (servant.isNpInaccessible()) {
+                        continue;
+                    }
+                    servant.activateNoblePhantasm(this, extraOvercharge);
+                    extraOvercharge += 1;
+
+                    for (final Combatant combatant : getAliveEnemies()) {
+                        combatant.clearCumulativeTurnDamage();
+                    }
+                } else {
+                    servant.activateCommandCard(
+                            this,
+                            combatAction.commandCardIndex,
+                            i,
+                            combatAction.isCriticalStrike,
+                            typeChain,
+                            firstCardType
+                    );
+                    extraOvercharge = 0;
+                }
             }
 
-            if (combatAction.isNoblePhantasm) {
-                if (servant.isNpInaccessible()) {
-                    continue;
-                }
-                servant.activateNoblePhantasm(this, extraOvercharge);
-                extraOvercharge += 1;
-
-                for (final Combatant combatant : getAliveEnemies()) {
-                    combatant.clearCumulativeTurnDamage();
-                }
-            } else {
-                servant.activateCommandCard(this, combatAction.commandCardIndex, i, combatAction.isCriticalStrike, typeChain, firstCardType);
-                extraOvercharge = 0;
-            }
 
             if (shouldRemoveDeadCombatants(combatActions, i)) {
                 removeDeadEnemies();
@@ -289,7 +295,10 @@ public class Simulation {
         }
 
         if (isBraveChain(combatActions) && currentEnemies.get(currentEnemyTargetIndex) != null) {
-            currentServants.get(combatActions.get(0).servantIndex).activateExtraAttack(this, typeChain, firstCardType);
+            final Servant servant = currentServants.get(combatActions.get(0).servantIndex);
+            if (servant != null && !servant.isImmobilized()) {
+                servant.activateExtraAttack(this, typeChain, firstCardType);
+            }
             removeDeadEnemies();
         }
 
