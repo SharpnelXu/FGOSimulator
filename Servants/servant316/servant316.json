@@ -1,0 +1,980 @@
+{
+  "servantAscensionData": [{
+    "combatantData": {
+      "id": "servant316",
+      "rarity": 5,
+      "fateClass": "PRETENDER",
+      "gender": "MALE",
+      "alignments": ["CHAOTIC", "EVIL"],
+      "attribute": "EARTH",
+      "traits": ["FAE", "DRAGON", "RIDING", "KING", "THREAT_TO_HUMANITY", "HUMANOID"],
+      "deathRate": 0.18
+    },
+    "defenseNpRate": 0.03,
+    "criticalStarWeight": 104,
+    "commandCardData": [{
+      "commandCardType": "QUICK",
+      "hitsData": [10, 20, 30, 40],
+      "npRate": 0.0059,
+      "criticalStarGen": 0.205
+    }, {
+      "commandCardType": "QUICK",
+      "hitsData": [10, 20, 30, 40],
+      "npRate": 0.0059,
+      "criticalStarGen": 0.205
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [10, 20, 30, 40],
+      "npRate": 0.0059,
+      "criticalStarGen": 0.205
+    }, {
+      "commandCardType": "BUSTER",
+      "hitsData": [16, 33, 51],
+      "npRate": 0.0059,
+      "criticalStarGen": 0.205
+    }, {
+      "commandCardType": "BUSTER",
+      "hitsData": [16, 33, 51],
+      "npRate": 0.0059,
+      "criticalStarGen": 0.205
+    }],
+    "activeSkillUpgrades": [{
+      "activeSkillData": [{
+        "baseCoolDown": 7,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "NpDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+            "buffIcon": "npDamageUP"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "ALL_ALLIES",
+          "values": [0.2]
+        }],
+        "iconName": "npDamageUp"
+      }]
+    }, {
+      "activeSkillData": [{
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "NpChange",
+          "target": "TARGETED_ALLY",
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "numTimesActive": 1,
+            "subEffects": [{
+              "type": "NpChange",
+              "target": "SELF",
+              "values": [-0.2]
+            }],
+            "customTraits": ["POSITIVE_BUFF"],
+            "hasCustomTraits": true,
+            "buffIcon": "delayedEffect"
+          }],
+          "probabilities": [5.0]
+        }, {
+          "type": "CriticalStarChange",
+          "intValues": [10, 11, 12, 13, 14, 15, 16, 17, 18, 20]
+        }],
+        "iconName": "npGain"
+      }]
+    }, {
+      "activeSkillData": [{
+        "baseCoolDown": 10,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
+            "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+            "buffIcon": "busterUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "NpDamageBuffEffectivenessUp",
+            "numTurnsActive": 1,
+            "values": [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 1.0],
+            "buffIcon": "npDamageEffUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "numTimesActive": 1,
+            "subEffects": [{
+              "type": "RemoveBuff",
+              "target": "SELF",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "POSITIVE_BUFF"
+              },
+              "probabilities": [10.0],
+              "intValues": [0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "PermanentSleep",
+                "irremovable": true,
+                "buffIcon": "permanentSleep"
+              }],
+              "probabilities": [5.0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "Taunt",
+                "numTurnsActive": 3,
+                "values": [3.0],
+                "buffIcon": "tauntUp"
+              }],
+              "probabilities": [5.0]
+            }],
+            "customTraits": ["POSITIVE_BUFF"],
+            "irremovable": true,
+            "hasCustomTraits": true,
+            "buffIcon": "delayedEffect"
+          }],
+          "probabilities": [5.0]
+        }],
+        "iconName": "busterUp"
+      }]
+    }],
+    "passiveSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "EnterFieldEffect",
+          "subEffects": [{
+            "type": "GrantBuff",
+            "target": "ALL_ALLIES_INCLUDING_BACKUP",
+            "applyCondition": {
+              "type": "Not",
+              "subConditionData": [{
+                "type": "TargetsHaveClass",
+                "value": "FOREIGNER",
+                "target": "EFFECT_TARGET"
+              }]
+            },
+            "buffData": [{
+              "type": "DebuffChanceBuff",
+              "applyCondition": {
+                "type": "TargetsContainsSpecificServant",
+                "value": "servant316",
+                "target": "ALL_ALLIES"
+              },
+              "values": [0.1],
+              "customTraits": ["POSITIVE_BUFF", "Oberon"],
+              "irremovable": true,
+              "hasCustomTraits": true,
+              "buffIcon": "buffChanceUp"
+            }]
+          }],
+          "buffIcon": "delayedBuff"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "LeaveFieldEffect",
+          "subEffects": [{
+            "type": "ForceRemoveBuff",
+            "target": "ALL_ALLIES_INCLUDING_BACKUP",
+            "applyCondition": {
+              "type": "And",
+              "subConditionData": [{
+                "type": "BuffTypeEquals",
+                "value": "DebuffChanceBuff"
+              }, {
+                "type": "BuffHasTrait",
+                "value": "Oberon"
+              }, {
+                "type": "Not",
+                "subConditionData": [{
+                  "type": "TargetsHaveClass",
+                  "value": "FOREIGNER",
+                  "target": "EFFECT_TARGET"
+                }]
+              }]
+            },
+            "intValues": [1]
+          }],
+          "buffIcon": "delayedBuff"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DeathEffect",
+          "subEffects": [{
+            "type": "ForceRemoveBuff",
+            "target": "ALL_ALLIES_INCLUDING_BACKUP",
+            "applyCondition": {
+              "type": "And",
+              "subConditionData": [{
+                "type": "BuffTypeEquals",
+                "value": "DebuffChanceBuff"
+              }, {
+                "type": "BuffHasTrait",
+                "value": "Oberon"
+              }, {
+                "type": "Not",
+                "subConditionData": [{
+                  "type": "TargetsHaveClass",
+                  "value": "FOREIGNER",
+                  "target": "EFFECT_TARGET"
+                }]
+              }]
+            },
+            "intValues": [1]
+          }],
+          "buffIcon": "delayedBuff"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "EnterFieldEffect",
+          "subEffects": [{
+            "type": "GrantBuff",
+            "target": "ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP",
+            "applyCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "MERLIN",
+              "target": "EFFECT_TARGET"
+            },
+            "buffData": [{
+              "type": "BuffChanceBuff",
+              "applyCondition": {
+                "type": "TargetsContainsSpecificServant",
+                "value": "servant316",
+                "target": "ALL_ALLIES"
+              },
+              "values": [-0.2],
+              "customTraits": ["Oberon", "NEGATIVE_BUFF"],
+              "irremovable": true,
+              "hasCustomTraits": true,
+              "buffIcon": "buffChanceDown"
+            }]
+          }],
+          "buffIcon": "delayedEffect"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "LeaveFieldEffect",
+          "subEffects": [{
+            "type": "ForceRemoveBuff",
+            "target": "SELF",
+            "applyCondition": {
+              "type": "And",
+              "subConditionData": [{
+                "type": "TargetsHaveTrait",
+                "value": "MERLIN",
+                "target": "EFFECT_TARGET"
+              }, {
+                "type": "BuffTypeEquals",
+                "value": "BuffChanceBuff"
+              }, {
+                "type": "BuffHasTrait",
+                "value": "Oberon"
+              }]
+            },
+            "intValues": [1]
+          }],
+          "buffIcon": "delayedEffect"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DeathEffect",
+          "subEffects": [{
+            "type": "ForceRemoveBuff",
+            "target": "SELF",
+            "applyCondition": {
+              "type": "And",
+              "subConditionData": [{
+                "type": "TargetsHaveTrait",
+                "value": "MERLIN",
+                "target": "EFFECT_TARGET"
+              }, {
+                "type": "BuffTypeEquals",
+                "value": "BuffChanceBuff"
+              }, {
+                "type": "BuffHasTrait",
+                "value": "Oberon"
+              }]
+            },
+            "intValues": [1]
+          }],
+          "buffIcon": "delayedEffect"
+        }]
+      }],
+      "iconName": "buffChanceUp"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "ARTS"
+          },
+          "values": [0.015],
+          "buffIcon": "artsUP"
+        }]
+      }],
+      "iconName": "territoryCreation"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DebuffChanceBuff",
+          "values": [0.11],
+          "buffIcon": "buffChanceUp"
+        }]
+      }],
+      "iconName": "itemConstruction"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "QUICK"
+          },
+          "values": [0.1],
+          "buffIcon": "quickUP"
+        }]
+      }],
+      "iconName": "riding"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DebuffResist",
+          "applyCondition": {
+            "type": "Or",
+            "subConditionData": [{
+              "type": "BuffTypeEquals",
+              "value": "Curse"
+            }, {
+              "type": "BuffHasTrait",
+              "value": "MENTAL_BUFF"
+            }]
+          },
+          "values": [10.0],
+          "buffIcon": "immune"
+        }]
+      }],
+      "iconName": "immune"
+    }],
+    "appendSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "EXTRA"
+          },
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+          "buffIcon": "specialDamageUp"
+        }]
+      }],
+      "iconName": "specialAttackUp"
+    }, {
+      "effects": [{
+        "type": "NpChange",
+        "target": "SELF",
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
+      }],
+      "iconName": "npGain"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "AttackBuff",
+          "applyCondition": {
+            "type": "TargetsHaveClass",
+            "value": "CASTER",
+            "target": "DEFENDER"
+          },
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+          "buffIcon": "attackUp"
+        }]
+      }],
+      "iconName": "attackUp"
+    }],
+    "servantStatusData": [{
+      "lv": 1,
+      "HP": 1945,
+      "ATK": 1825
+    }, {
+      "lv": 2,
+      "HP": 1956,
+      "ATK": 1834
+    }, {
+      "lv": 3,
+      "HP": 1967,
+      "ATK": 1844
+    }, {
+      "lv": 4,
+      "HP": 1990,
+      "ATK": 1864
+    }, {
+      "lv": 5,
+      "HP": 2024,
+      "ATK": 1894
+    }, {
+      "lv": 6,
+      "HP": 2069,
+      "ATK": 1934
+    }, {
+      "lv": 7,
+      "HP": 2114,
+      "ATK": 1974
+    }, {
+      "lv": 8,
+      "HP": 2160,
+      "ATK": 2014
+    }, {
+      "lv": 9,
+      "HP": 2228,
+      "ATK": 2074
+    }, {
+      "lv": 10,
+      "HP": 2284,
+      "ATK": 2124
+    }, {
+      "lv": 11,
+      "HP": 2363,
+      "ATK": 2194
+    }, {
+      "lv": 12,
+      "HP": 2443,
+      "ATK": 2264
+    }, {
+      "lv": 13,
+      "HP": 2522,
+      "ATK": 2334
+    }, {
+      "lv": 14,
+      "HP": 2612,
+      "ATK": 2414
+    }, {
+      "lv": 15,
+      "HP": 2714,
+      "ATK": 2503
+    }, {
+      "lv": 16,
+      "HP": 2816,
+      "ATK": 2593
+    }, {
+      "lv": 17,
+      "HP": 2929,
+      "ATK": 2693
+    }, {
+      "lv": 18,
+      "HP": 3043,
+      "ATK": 2793
+    }, {
+      "lv": 19,
+      "HP": 3167,
+      "ATK": 2903
+    }, {
+      "lv": 20,
+      "HP": 3292,
+      "ATK": 3013
+    }, {
+      "lv": 21,
+      "HP": 3428,
+      "ATK": 3133
+    }, {
+      "lv": 22,
+      "HP": 3563,
+      "ATK": 3252
+    }, {
+      "lv": 23,
+      "HP": 3699,
+      "ATK": 3372
+    }, {
+      "lv": 24,
+      "HP": 3846,
+      "ATK": 3502
+    }, {
+      "lv": 25,
+      "HP": 4005,
+      "ATK": 3642
+    }, {
+      "lv": 26,
+      "HP": 4163,
+      "ATK": 3782
+    }, {
+      "lv": 27,
+      "HP": 4322,
+      "ATK": 3921
+    }, {
+      "lv": 28,
+      "HP": 4480,
+      "ATK": 4061
+    }, {
+      "lv": 29,
+      "HP": 4650,
+      "ATK": 4211
+    }, {
+      "lv": 30,
+      "HP": 4831,
+      "ATK": 4371
+    }, {
+      "lv": 31,
+      "HP": 5001,
+      "ATK": 4520
+    }, {
+      "lv": 32,
+      "HP": 5182,
+      "ATK": 4680
+    }, {
+      "lv": 33,
+      "HP": 5363,
+      "ATK": 4840
+    }, {
+      "lv": 34,
+      "HP": 5545,
+      "ATK": 5000
+    }, {
+      "lv": 35,
+      "HP": 5737,
+      "ATK": 5169
+    }, {
+      "lv": 36,
+      "HP": 5929,
+      "ATK": 5339
+    }, {
+      "lv": 37,
+      "HP": 6122,
+      "ATK": 5509
+    }, {
+      "lv": 38,
+      "HP": 6314,
+      "ATK": 5679
+    }, {
+      "lv": 39,
+      "HP": 6507,
+      "ATK": 5848
+    }, {
+      "lv": 40,
+      "HP": 6699,
+      "ATK": 6018
+    }, {
+      "lv": 41,
+      "HP": 6903,
+      "ATK": 6198
+    }, {
+      "lv": 42,
+      "HP": 7096,
+      "ATK": 6368
+    }, {
+      "lv": 43,
+      "HP": 7299,
+      "ATK": 6547
+    }, {
+      "lv": 44,
+      "HP": 7503,
+      "ATK": 6727
+    }, {
+      "lv": 45,
+      "HP": 7696,
+      "ATK": 6897
+    }, {
+      "lv": 46,
+      "HP": 7899,
+      "ATK": 7077
+    }, {
+      "lv": 47,
+      "HP": 8103,
+      "ATK": 7256
+    }, {
+      "lv": 48,
+      "HP": 8296,
+      "ATK": 7426
+    }, {
+      "lv": 49,
+      "HP": 8499,
+      "ATK": 7606
+    }, {
+      "lv": 50,
+      "HP": 8692,
+      "ATK": 7776
+    }, {
+      "lv": 51,
+      "HP": 8884,
+      "ATK": 7945
+    }, {
+      "lv": 52,
+      "HP": 9077,
+      "ATK": 8115
+    }, {
+      "lv": 53,
+      "HP": 9269,
+      "ATK": 8285
+    }, {
+      "lv": 54,
+      "HP": 9462,
+      "ATK": 8455
+    }, {
+      "lv": 55,
+      "HP": 9654,
+      "ATK": 8624
+    }, {
+      "lv": 56,
+      "HP": 9835,
+      "ATK": 8784
+    }, {
+      "lv": 57,
+      "HP": 10016,
+      "ATK": 8944
+    }, {
+      "lv": 58,
+      "HP": 10198,
+      "ATK": 9104
+    }, {
+      "lv": 59,
+      "HP": 10367,
+      "ATK": 9253
+    }, {
+      "lv": 60,
+      "HP": 10548,
+      "ATK": 9413
+    }, {
+      "lv": 61,
+      "HP": 10718,
+      "ATK": 9563
+    }, {
+      "lv": 62,
+      "HP": 10877,
+      "ATK": 9703
+    }, {
+      "lv": 63,
+      "HP": 11035,
+      "ATK": 9842
+    }, {
+      "lv": 64,
+      "HP": 11194,
+      "ATK": 9982
+    }, {
+      "lv": 65,
+      "HP": 11352,
+      "ATK": 10122
+    }, {
+      "lv": 66,
+      "HP": 11499,
+      "ATK": 10252
+    }, {
+      "lv": 67,
+      "HP": 11635,
+      "ATK": 10372
+    }, {
+      "lv": 68,
+      "HP": 11771,
+      "ATK": 10491
+    }, {
+      "lv": 69,
+      "HP": 11907,
+      "ATK": 10611
+    }, {
+      "lv": 70,
+      "HP": 12032,
+      "ATK": 10721
+    }, {
+      "lv": 71,
+      "HP": 12156,
+      "ATK": 10831
+    }, {
+      "lv": 72,
+      "HP": 12269,
+      "ATK": 10931
+    }, {
+      "lv": 73,
+      "HP": 12382,
+      "ATK": 11031
+    }, {
+      "lv": 74,
+      "HP": 12484,
+      "ATK": 11121
+    }, {
+      "lv": 75,
+      "HP": 12586,
+      "ATK": 11210
+    }, {
+      "lv": 76,
+      "HP": 12677,
+      "ATK": 11290
+    }, {
+      "lv": 77,
+      "HP": 12756,
+      "ATK": 11360
+    }, {
+      "lv": 78,
+      "HP": 12835,
+      "ATK": 11430
+    }, {
+      "lv": 79,
+      "HP": 12915,
+      "ATK": 11500
+    }, {
+      "lv": 80,
+      "HP": 12971,
+      "ATK": 11550
+    }, {
+      "lv": 81,
+      "HP": 13039,
+      "ATK": 11610
+    }, {
+      "lv": 82,
+      "HP": 13084,
+      "ATK": 11650
+    }, {
+      "lv": 83,
+      "HP": 13107,
+      "ATK": 11670
+    }, {
+      "lv": 84,
+      "HP": 13130,
+      "ATK": 11690
+    }, {
+      "lv": 85,
+      "HP": 13152,
+      "ATK": 11710
+    }, {
+      "lv": 86,
+      "HP": 13175,
+      "ATK": 11730
+    }, {
+      "lv": 87,
+      "HP": 13198,
+      "ATK": 11750
+    }, {
+      "lv": 88,
+      "HP": 13220,
+      "ATK": 11770
+    }, {
+      "lv": 89,
+      "HP": 13243,
+      "ATK": 11790
+    }, {
+      "lv": 90,
+      "HP": 13266,
+      "ATK": 11810
+    }, {
+      "lv": 91,
+      "HP": 13390,
+      "ATK": 11919
+    }, {
+      "lv": 92,
+      "HP": 13515,
+      "ATK": 12029
+    }, {
+      "lv": 93,
+      "HP": 13639,
+      "ATK": 12139
+    }, {
+      "lv": 94,
+      "HP": 13764,
+      "ATK": 12249
+    }, {
+      "lv": 95,
+      "HP": 13899,
+      "ATK": 12369
+    }, {
+      "lv": 96,
+      "HP": 14024,
+      "ATK": 12478
+    }, {
+      "lv": 97,
+      "HP": 14149,
+      "ATK": 12588
+    }, {
+      "lv": 98,
+      "HP": 14273,
+      "ATK": 12698
+    }, {
+      "lv": 99,
+      "HP": 14409,
+      "ATK": 12818
+    }, {
+      "lv": 100,
+      "HP": 14533,
+      "ATK": 12928
+    }, {
+      "lv": 101,
+      "HP": 14658,
+      "ATK": 13038
+    }, {
+      "lv": 102,
+      "HP": 14783,
+      "ATK": 13147
+    }, {
+      "lv": 103,
+      "HP": 14918,
+      "ATK": 13267
+    }, {
+      "lv": 104,
+      "HP": 15043,
+      "ATK": 13377
+    }, {
+      "lv": 105,
+      "HP": 15167,
+      "ATK": 13487
+    }, {
+      "lv": 106,
+      "HP": 15292,
+      "ATK": 13597
+    }, {
+      "lv": 107,
+      "HP": 15428,
+      "ATK": 13717
+    }, {
+      "lv": 108,
+      "HP": 15552,
+      "ATK": 13826
+    }, {
+      "lv": 109,
+      "HP": 15677,
+      "ATK": 13936
+    }, {
+      "lv": 110,
+      "HP": 15801,
+      "ATK": 14046
+    }, {
+      "lv": 111,
+      "HP": 15926,
+      "ATK": 14156
+    }, {
+      "lv": 112,
+      "HP": 16062,
+      "ATK": 14276
+    }, {
+      "lv": 113,
+      "HP": 16186,
+      "ATK": 14386
+    }, {
+      "lv": 114,
+      "HP": 16311,
+      "ATK": 14495
+    }, {
+      "lv": 115,
+      "HP": 16435,
+      "ATK": 14605
+    }, {
+      "lv": 116,
+      "HP": 16571,
+      "ATK": 14725
+    }, {
+      "lv": 117,
+      "HP": 16696,
+      "ATK": 14835
+    }, {
+      "lv": 118,
+      "HP": 16820,
+      "ATK": 14945
+    }, {
+      "lv": 119,
+      "HP": 16945,
+      "ATK": 15055
+    }, {
+      "lv": 120,
+      "HP": 17081,
+      "ATK": 15174
+    }],
+    "noblePhantasmUpgrades": {
+      "noblePhantasmData": [{
+        "commandCardData": {
+          "commandCardType": "BUSTER",
+          "hitsData": [10, 20, 30, 40],
+          "npRate": 0.0059,
+          "criticalStarGen": 0.205
+        },
+        "effects": [{
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [3.0, 4.0, 4.5, 4.75, 5.0],
+          "npDamageAdditionalParams": {
+            "npSpecificDamageCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "LAWFUL",
+              "target": "DEFENDER"
+            },
+            "isNpSpecificDamageOverchargedEffect": true,
+            "npSpecificDamageRate": [1.5, 1.625, 1.75, 1.875, 2.0]
+          }
+        }, {
+          "type": "RemoveBuff",
+          "target": "ALL_ENEMIES",
+          "applyCondition": {
+            "type": "And",
+            "subConditionData": [{
+              "type": "BuffHasTrait",
+              "value": "ATTACKER_BUFF"
+            }, {
+              "type": "BuffHasTrait",
+              "value": "POSITIVE_BUFF"
+            }]
+          },
+          "intValues": [0]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "Sleep",
+            "numTurnsActive": 1,
+            "buffIcon": "sleep"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "Invincible",
+            "numTurnsActive": 1,
+            "buffIcon": "invincible"
+          }]
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
+      }]
+    },
+    "extraCard": {
+      "commandCardType": "EXTRA",
+      "hitsData": [4, 9, 14, 19, 23, 31],
+      "npRate": 0.0059,
+      "criticalStarGen": 0.205
+    },
+    "cost": 16
+  }],
+  "servantNum": 316
+}

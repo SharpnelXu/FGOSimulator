@@ -145,7 +145,7 @@ public class StatsLogger extends VBox {
     }
 
     public void logTurnStart(final int currentTurn) {
-        final String message = String.format(getTranslation(APPLICATION_SECTION, "Turn %d Start"), currentTurn);
+        final String message = String.format("\n\n" + getTranslation(APPLICATION_SECTION, "Turn %d Start") + "\n\n", currentTurn);
         appendLogEntry(ACTION, message);
     }
 

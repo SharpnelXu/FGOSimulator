@@ -32,7 +32,7 @@ public class TargetsContainsSpecificServant extends Condition {
     @Override
     public String toString() {
         return String.format(
-                getTranslation(CONDITION_SECTION, "%s Have %s"),
+                getTranslation(CONDITION_SECTION, "%s contains %s"),
                 getTranslation(TARGET_SECTION, target.name()),
                 getTranslation(ENTITY_NAME_SECTION, servantId)
         );
