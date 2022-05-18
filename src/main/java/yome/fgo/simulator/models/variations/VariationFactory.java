@@ -36,6 +36,9 @@ public class VariationFactory {
                     variationData.getTarget()
             );
 
+        } else if (type.equalsIgnoreCase(HpAbsorptionVariation.class.getSimpleName())) {
+            return new HpAbsorptionVariation(variationData.getTarget());
+
         } else if (type.equalsIgnoreCase(HpVariation.class.getSimpleName())) {
             return new HpVariation(variationData.getMaxHp(), variationData.getMinHp(), variationData.getTarget());
 
@@ -67,6 +70,9 @@ public class VariationFactory {
         builder.put(TraitCountVariation.class.getSimpleName(), ImmutableSet.of(
                 VARIATION_FIELD_MAX_COUNT,
                 VARIATION_FIELD_TRAIT,
+                VARIATION_FIELD_TARGET
+        ));
+        builder.put(HpAbsorptionVariation.class.getSimpleName(), ImmutableSet.of(
                 VARIATION_FIELD_TARGET
         ));
         builder.put(NpAbsorptionVariation.class.getSimpleName(), ImmutableSet.of(
