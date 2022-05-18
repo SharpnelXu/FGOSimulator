@@ -69,14 +69,14 @@ public class Servant extends Combatant {
         this.isAlly = true;
     }
 
-    public Servant(final boolean isAlly) {
-        this.isAlly = isAlly;
-    }
-
     // for testing
     public Servant(final String id) {
         super(id);
         this.isAlly = true;
+        this.commandCards = ImmutableList.of();
+        this.activeSkills = ImmutableList.of();
+        this.appendSkills = ImmutableList.of();
+        this.passiveSkills = ImmutableList.of();
     }
 
     // for testing
@@ -99,6 +99,8 @@ public class Servant extends Combatant {
         this.ascension = enemyData.getServantAscension();
         final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(this.ascension - 1);
 
+        this.commandCards = ImmutableList.of();
+        this.activeSkills = ImmutableList.of();
         this.appendSkills = ImmutableList.of();
         this.passiveSkills = new ArrayList<>();
         for (final PassiveSkillData passiveSkillData : servantAscensionData.getPassiveSkillDataList()) {
@@ -467,7 +469,7 @@ public class Servant extends Combatant {
     public void endOfMyTurn(final Simulation simulation) {
         super.endOfMyTurn(simulation);
 
-        if (!isSkillInaccessible() && isAlly) {
+        if (!isSkillInaccessible()) {
             for (final ActiveSkill activeSkill : activeSkills) {
                 activeSkill.decreaseCoolDown(1);
             }

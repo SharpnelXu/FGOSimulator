@@ -71,6 +71,9 @@ public class Combatant {
     // for testing
     public Combatant(final String id) {
         this.id = id;
+        this.hpBars = ImmutableList.of(1);
+        this.combatantData = CombatantData.getDefaultInstance();
+        this.enemyData = EnemyData.getDefaultInstance();
     }
 
     // for testing
