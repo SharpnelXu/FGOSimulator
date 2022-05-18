@@ -141,6 +141,7 @@
         }, {
           "type": "HpChange",
           "target": "SELF",
+          "probabilities": [5.0],
           "intValues": [-1000]
         }],
         "iconName": "starWeightUp"

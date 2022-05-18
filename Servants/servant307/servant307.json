@@ -80,6 +80,7 @@
         }, {
           "type": "HpChange",
           "target": "SELF",
+          "probabilities": [5.0],
           "intValues": [-2000]
         }, {
           "type": "GrantBuff",
@@ -126,6 +127,7 @@
         }, {
           "type": "HpChange",
           "target": "SELF",
+          "probabilities": [5.0],
           "intValues": [-1000]
         }],
         "iconName": "starWeightUp"
