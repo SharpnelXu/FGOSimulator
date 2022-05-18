@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
@@ -40,7 +39,6 @@ public class EnemyDisplay extends VBox {
         setFillWidth(false);
         setPadding(new Insets(10, 10, 10, 10));
         setStyle("-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 3; -fx-border-radius: 3");
-        HBox.setHgrow(this, Priority.ALWAYS);
 
         this.simulationWindow = simulationWindow;
         this.enemyIndex = enemyIndex;
@@ -103,6 +101,7 @@ public class EnemyDisplay extends VBox {
         }
 
         setVisible(true);
+        setManaged(true);
         if (combatant instanceof Servant) {
             final Servant servant = (Servant) combatant;
             enemyImage.setImage(simulationWindow.getServantImage(servant.getId(), servant.getAscension()));
