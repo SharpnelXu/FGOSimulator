@@ -162,6 +162,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
 
         idText.setText(Integer.toString(builder.getCcNum()));
         rarityChoices.getSelectionModel().select(Integer.valueOf(builder.getRarity()));
+        buffsList.getItems().clear();
         buffsList.getItems().addAll(builder.getBuffsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
 
         errorLabel.setVisible(true);

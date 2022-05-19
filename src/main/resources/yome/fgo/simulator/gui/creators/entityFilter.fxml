@@ -9,7 +9,7 @@
 <VBox prefHeight="900.0" prefWidth="1018.0" spacing="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.EntityFilterFXMLController">
    <children>
       <HBox fx:id="filterHBox" alignment="CENTER_LEFT" spacing="10.0" />
-      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
          <content>
             <FlowPane fx:id="entityFlowPane" hgap="2.0" vgap="2.0" />
          </content>

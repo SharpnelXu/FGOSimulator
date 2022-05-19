@@ -1,0 +1,11 @@
+{
+  "id": "craftEssence100",
+  "cost": 5,
+  "rarity": 4,
+  "statusData": [{
+    "lv": 80,
+    "HP": 500,
+    "ATK": 500
+  }],
+  "ceNum": 100
+}

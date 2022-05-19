@@ -186,6 +186,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
         idText.setText(Integer.toString(builder.getCeNum()));
         rarityChoices.getSelectionModel().select(Integer.valueOf(builder.getRarity()));
         costText.setText(Integer.toString(builder.getCost()));
+        effectsList.getItems().clear();
         effectsList.getItems().addAll(builder.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
 
         final List<String> statusStrings = new ArrayList<>();

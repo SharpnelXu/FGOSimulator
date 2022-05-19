@@ -596,9 +596,32 @@
       "isLimitBreak": true
     }
   }, {
+    "craftEssenceNo": 48,
+    "option": {
+      "craftEssenceLevel": 100
+    }
+  }, {
     "craftEssenceNo": 34,
     "option": {
       "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 1474,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 212,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 100,
+    "option": {
+      "craftEssenceLevel": 1,
       "isLimitBreak": true
     }
   }, {
@@ -608,7 +631,30 @@
       "isLimitBreak": true
     }
   }, {
+    "craftEssenceNo": 181,
+    "option": {
+      "craftEssenceLevel": 100
+    }
+  }, {
+    "craftEssenceNo": 261,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
     "craftEssenceNo": 1080,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 427,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 683,
     "option": {
       "craftEssenceLevel": 100,
       "isLimitBreak": true

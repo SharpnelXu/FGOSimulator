@@ -187,7 +187,7 @@ public class EntityFilterFXMLController implements Initializable {
             final Button button = (Button) node;
             final CraftEssenceDataWrapper craftEssenceDataWrapper = (CraftEssenceDataWrapper) button.getGraphic();
 
-            final boolean rarityMatch = craftEssenceDataWrapper.getCraftEssenceData().getRarity() == rarity;
+            final boolean rarityMatch = rarity == -1 || craftEssenceDataWrapper.getCraftEssenceData().getRarity() == rarity;
             button.setVisible(rarityMatch);
             button.setManaged(rarityMatch);
         }
