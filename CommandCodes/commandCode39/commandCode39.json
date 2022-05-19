@@ -1,0 +1,19 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "ATTACKER",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.15],
+        "buffIcon": "npDamageUp"
+      }]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode39",
+  "ccNum": 39,
+  "rarity": 5
+}

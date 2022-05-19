@@ -1,0 +1,19 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.08],
+        "buffIcon": "npDamageUp"
+      }]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode71",
+  "ccNum": 71,
+  "rarity": 5
+}

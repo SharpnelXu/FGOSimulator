@@ -1,0 +1,18 @@
+{
+  "buffs": [{
+    "type": "CriticalDamageBuff",
+    "applyCondition": {
+      "type": "TargetsHaveBuff",
+      "subConditionData": [{
+        "type": "BuffTypeEquals",
+        "value": "Burn"
+      }],
+      "target": "DEFENDER"
+    },
+    "values": [0.3],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode77",
+  "ccNum": 77,
+  "rarity": 5
+}

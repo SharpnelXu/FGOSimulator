@@ -271,6 +271,8 @@
         "commandCode": "commandCode90",
         "hasCommandCode": true
       }, {
+        "commandCode": "commandCode77",
+        "hasCommandCode": true
       }],
       "bond": 10,
       "ascension": 1
@@ -302,7 +304,11 @@
       "appendSkillLevels": [0, 0, 0],
       "commandCardOptions": [{
       }, {
+        "commandCode": "commandCode46",
+        "hasCommandCode": true
       }, {
+        "commandCode": "commandCode71",
+        "hasCommandCode": true
       }, {
       }, {
       }],
@@ -321,10 +327,20 @@
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [0, 0, 0],
       "commandCardOptions": [{
+        "commandCode": "commandCode54",
+        "hasCommandCode": true
       }, {
+        "commandCode": "commandCode45",
+        "hasCommandCode": true
       }, {
+        "commandCode": "commandCode84",
+        "hasCommandCode": true
       }, {
+        "commandCode": "commandCode61",
+        "hasCommandCode": true
       }, {
+        "commandCode": "commandCode52",
+        "hasCommandCode": true
       }],
       "bond": 10,
       "ascension": 1
@@ -596,11 +612,6 @@
       "isLimitBreak": true
     }
   }, {
-    "craftEssenceNo": 48,
-    "option": {
-      "craftEssenceLevel": 100
-    }
-  }, {
     "craftEssenceNo": 34,
     "option": {
       "craftEssenceLevel": 100,
@@ -608,12 +619,6 @@
     }
   }, {
     "craftEssenceNo": 1474,
-    "option": {
-      "craftEssenceLevel": 100,
-      "isLimitBreak": true
-    }
-  }, {
-    "craftEssenceNo": 212,
     "option": {
       "craftEssenceLevel": 100,
       "isLimitBreak": true
@@ -631,18 +636,7 @@
       "isLimitBreak": true
     }
   }, {
-    "craftEssenceNo": 181,
-    "option": {
-      "craftEssenceLevel": 100
-    }
-  }, {
     "craftEssenceNo": 261,
-    "option": {
-      "craftEssenceLevel": 100,
-      "isLimitBreak": true
-    }
-  }, {
-    "craftEssenceNo": 1080,
     "option": {
       "craftEssenceLevel": 100,
       "isLimitBreak": true
@@ -655,6 +649,34 @@
     }
   }, {
     "craftEssenceNo": 683,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 48,
+    "option": {
+      "craftEssenceLevel": 100
+    }
+  }, {
+    "craftEssenceNo": 212,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 181,
+    "option": {
+      "craftEssenceLevel": 100
+    }
+  }, {
+    "craftEssenceNo": 1080,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 412,
     "option": {
       "craftEssenceLevel": 100,
       "isLimitBreak": true

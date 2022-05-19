@@ -1,0 +1,14 @@
+{
+  "buffs": [{
+    "type": "PostAttackEffect",
+    "subEffects": [{
+      "type": "NpChange",
+      "target": "ATTACKER",
+      "values": [0.1]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode46",
+  "ccNum": 46,
+  "rarity": 5
+}

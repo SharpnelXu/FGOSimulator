@@ -1,0 +1,14 @@
+{
+  "buffs": [{
+    "type": "CriticalDamageBuff",
+    "applyCondition": {
+      "type": "CardTypeEquals",
+      "value": "QUICK"
+    },
+    "values": [0.2],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode54",
+  "ccNum": 54,
+  "rarity": 4
+}
