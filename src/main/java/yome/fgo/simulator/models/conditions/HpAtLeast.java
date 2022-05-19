@@ -12,7 +12,7 @@ public class HpAtLeast extends Condition {
     public boolean evaluate(final Simulation simulation) {
         final Combatant combatant = simulation.getActivator();
 
-        return value >= combatant.getCurrentHp();
+        return value <= combatant.getCurrentHp();
     }
 
     @Override
