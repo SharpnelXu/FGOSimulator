@@ -817,12 +817,11 @@ public class BuffBuilderFXMLController implements Initializable {
                         }
                     }
 
-                }
-
-                if (classAdvAtkTargetClassText.getText().isEmpty()) {
-                    errorLabel.setVisible(true);
-                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Affected class not set"));
-                    return;
+                    if (classAdvAtkTargetClassText.getText().isEmpty()) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Affected class not set"));
+                        return;
+                    }
                 }
 
                 additionalParams.addAllAttackModeAffectedClasses(
@@ -845,11 +844,11 @@ public class BuffBuilderFXMLController implements Initializable {
                         }
                     }
 
-                }
-                if (classAdvDefTargetClassText.getText().isEmpty()) {
-                    errorLabel.setVisible(true);
-                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Affected class not set"));
-                    return;
+                    if (classAdvDefTargetClassText.getText().isEmpty()) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "Affected class not set"));
+                        return;
+                    }
                 }
 
                 additionalParams.addAllDefenseModeAffectedClasses(

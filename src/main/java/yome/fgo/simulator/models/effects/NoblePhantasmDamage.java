@@ -268,7 +268,9 @@ public class NoblePhantasmDamage extends Effect {
                     totalCritStar += hitStars;
                 }
             }
-            simulation.gainStar(totalCritStar);
+            if (attacker.isAlly()) {
+                simulation.gainStar(totalCritStar);
+            }
 
             if (simulation.getStatsLogger() != null) {
                 simulation.getStatsLogger().logCommandCardAction(
