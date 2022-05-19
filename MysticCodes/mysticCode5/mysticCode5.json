@@ -1,0 +1,45 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "CommandCardBuff",
+        "numTurnsActive": 1,
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "BUSTER"
+        },
+        "values": [0.4, 0.42, 0.44, 0.46, 0.48, 0.5, 0.52, 0.54, 0.56, 0.6],
+        "buffIcon": "busterUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "busterUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "CriticalStarChange",
+      "intValues": [10, 11, 12, 13, 14, 15, 16, 17, 18, 20]
+    }],
+    "iconName": "gainStar"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "Guts",
+        "numTurnsActive": 1,
+        "numTimesActive": 1,
+        "values": [2000.0, 2200.0, 2400.0, 2600.0, 2800.0, 3000.0, 3200.0, 3400.0, 3600.0, 4000.0],
+        "buffIcon": "guts"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "guts"
+  }],
+  "id": "mysticCode5",
+  "mcNum": 5
+}

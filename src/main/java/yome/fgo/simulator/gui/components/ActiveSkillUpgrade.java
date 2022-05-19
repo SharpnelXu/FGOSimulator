@@ -338,6 +338,7 @@ public class ActiveSkillUpgrade extends HBox {
     public void setFrom(final ActiveSkillData activeSkillData) {
         iconFileNameText.setText(activeSkillData.getIconName());
         coolDownText.setText(Integer.toString(activeSkillData.getBaseCoolDown()));
+        skillEffects.getItems().clear();
         skillEffects.getItems().addAll(activeSkillData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
         if (activeSkillData.hasActivationCondition()) {
             conditionCheckBox.setSelected(true);

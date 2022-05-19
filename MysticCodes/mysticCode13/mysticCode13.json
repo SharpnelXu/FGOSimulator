@@ -1,0 +1,44 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.35],
+        "buffIcon": "npDamageUP"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "npDamageUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "NpChange",
+      "target": "TARGETED_ALLY",
+      "values": [0.1]
+    }, {
+      "type": "CriticalStarChange",
+      "intValues": [5, 6, 7, 8, 9, 10, 11, 12, 13, 15]
+    }],
+    "iconName": "npGain"
+  }, {
+    "baseCoolDown": 10,
+    "effects": [{
+      "type": "MaxHpChange",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "MaxHpBuff",
+        "numTurnsActive": 1,
+        "values": [1000.0, 1200.0, 1400.0, 1600.0, 1800.0, 2000.0, 2200.0, 2400.0, 2600.0, 3000.0],
+        "buffIcon": "maxHpUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "maxHpUp"
+  }],
+  "id": "mysticCode13",
+  "mcNum": 13
+}

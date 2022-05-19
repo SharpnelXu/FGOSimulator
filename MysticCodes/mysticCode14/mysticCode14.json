@@ -1,0 +1,66 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+        "buffIcon": "npDamageUP"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "RemoveBuff",
+      "target": "TARGETED_ALLY",
+      "applyCondition": {
+        "type": "And",
+        "subConditionData": [{
+          "type": "BuffHasTrait",
+          "value": "ATTACKER_BUFF"
+        }, {
+          "type": "BuffHasTrait",
+          "value": "NEGATIVE_BUFF"
+        }]
+      },
+      "probabilities": [5.0],
+      "intValues": [0]
+    }],
+    "iconName": "npDamageUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "CriticalDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+        "buffIcon": "critDamageUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "critDamageUp"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "Evade",
+        "numTurnsActive": 3,
+        "numTimesActive": 1,
+        "buffIcon": "evade"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "HpChange",
+      "target": "TARGETED_ALLY",
+      "intValues": [1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 3000]
+    }],
+    "iconName": "evade"
+  }],
+  "id": "mysticCode14",
+  "mcNum": 14
+}

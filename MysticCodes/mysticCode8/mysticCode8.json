@@ -1,0 +1,50 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "CommandCardBuff",
+        "numTurnsActive": 1,
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "ARTS"
+        },
+        "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+        "buffIcon": "artsUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "artsUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "CriticalStarGenerationBuff",
+        "numTurnsActive": 1,
+        "values": [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 1.0],
+        "buffIcon": "starDropRateUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "starGainUp"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ENEMY",
+      "buffData": [{
+        "type": "ReceivedBuffChanceBuff",
+        "numTimesActive": 1,
+        "values": [-10.0],
+        "buffIcon": "buffDenial"
+      }]
+    }],
+    "iconName": "buffDenial"
+  }],
+  "id": "mysticCode8",
+  "mcNum": 8
+}

@@ -1,0 +1,69 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "AttackBuff",
+        "numTurnsActive": 1,
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+        "buffIcon": "attackUp"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+        "buffIcon": "npDamageUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "attackUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "HpChange",
+      "target": "TARGETED_ALLY",
+      "intValues": [1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 3000]
+    }, {
+      "type": "RemoveBuff",
+      "target": "TARGETED_ALLY",
+      "applyCondition": {
+        "type": "And",
+        "subConditionData": [{
+          "type": "BuffHasTrait",
+          "value": "ATTACKER_BUFF"
+        }, {
+          "type": "BuffHasTrait",
+          "value": "NEGATIVE_BUFF"
+        }]
+      },
+      "probabilities": [5.0],
+      "intValues": [0]
+    }],
+    "iconName": "heal"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "OrderChange"
+    }],
+    "activationCondition": {
+      "type": "And",
+      "subConditionData": [{
+        "type": "BackupServantsExist"
+      }, {
+        "type": "ServantsExplodable"
+      }]
+    },
+    "iconName": "orderChange",
+    "specialActivationParams": {
+      "specialTarget": "ORDER_CHANGE"
+    }
+  }],
+  "id": "mysticCode18",
+  "mcNum": 18
+}

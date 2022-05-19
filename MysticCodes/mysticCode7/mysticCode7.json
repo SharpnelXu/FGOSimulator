@@ -1,0 +1,48 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "CommandCardBuff",
+        "numTurnsActive": 1,
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "QUICK"
+        },
+        "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+        "buffIcon": "quickUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "quickUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "IgnoreInvincible",
+        "numTurnsActive": 1,
+        "buffIcon": "starWeightUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "ignoreInvincible"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "HpChange",
+      "target": "TARGETED_ALLY",
+      "intValues": [1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 3000]
+    }, {
+      "type": "NpChange",
+      "target": "TARGETED_ALLY",
+      "values": [0.1]
+    }],
+    "iconName": "heal"
+  }],
+  "id": "mysticCode7",
+  "mcNum": 7
+}

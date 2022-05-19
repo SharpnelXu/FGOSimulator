@@ -1,0 +1,39 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "Invincible",
+        "numTurnsActive": 1,
+        "buffIcon": "invincible"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "invincible"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "RemoveBuff",
+      "target": "TARGETED_ALLY",
+      "applyCondition": {
+        "type": "BuffHasTrait",
+        "value": "NEGATIVE_BUFF"
+      },
+      "probabilities": [5.0],
+      "intValues": [0]
+    }],
+    "iconName": "removeDebuff"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "DecreaseActiveSkillCoolDown",
+      "target": "TARGETED_ALLY",
+      "intValues": [2]
+    }],
+    "iconName": "coolDownDecrease"
+  }],
+  "id": "mysticCode4",
+  "mcNum": 4
+}

@@ -1,0 +1,50 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "CommandCardBuff",
+        "numTurnsActive": 1,
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "QUICK"
+        },
+        "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+        "buffIcon": "quickUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "quickUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "CriticalStarWeightBuff",
+        "numTurnsActive": 1,
+        "values": [5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 10.0],
+        "buffIcon": "starWeightUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "starWeightUp"
+  }, {
+    "baseCoolDown": 10,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "SureHit",
+        "numTurnsActive": 1,
+        "buffIcon": "sureHit"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "sureHit"
+  }],
+  "id": "mysticCode6",
+  "mcNum": 6
+}

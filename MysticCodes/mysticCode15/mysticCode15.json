@@ -1,0 +1,61 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "CommandCardBuff",
+        "numTurnsActive": 1,
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "BUSTER"
+        },
+        "values": [0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.35],
+        "buffIcon": "busterUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "busterUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "EndOfTurnEffect",
+        "numTurnsActive": 3,
+        "subEffects": [{
+          "type": "HpChange",
+          "target": "SELF",
+          "intValues": [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 2000]
+        }],
+        "customTraits": ["POSITIVE_BUFF"],
+        "hasCustomTraits": true,
+        "buffIcon": "hpPerTurn"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "healPerTurn"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "NpChange",
+      "target": "TARGETED_ALLY",
+      "values": [0.1]
+    }, {
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "NpGenerationBuff",
+        "numTurnsActive": 1,
+        "values": [0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36, 0.4],
+        "buffIcon": "npGainUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "npGain"
+  }],
+  "id": "mysticCode15",
+  "mcNum": 15
+}

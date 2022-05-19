@@ -1,0 +1,73 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "CommandCardBuff",
+        "numTurnsActive": 1,
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "ARTS"
+        },
+        "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+        "buffIcon": "artsUp"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+        "buffIcon": "npDamageUP"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "artsUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "CriticalStarWeightBuff",
+        "numTurnsActive": 1,
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "ARTS"
+        },
+        "values": [50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 100.0],
+        "buffIcon": "starWeightUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "starWeightArts"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "BuffRemovalResist",
+        "numTurnsActive": 1,
+        "applyCondition": {
+          "type": "BuffHasTrait",
+          "value": "POSITIVE_BUFF"
+        },
+        "values": [0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 1.0],
+        "buffIcon": "buffRemovalResistUp"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "NpChange",
+      "target": "TARGETED_ALLY",
+      "values": [0.1]
+    }],
+    "iconName": "buffRemovalResistUp"
+  }],
+  "id": "mysticCode12",
+  "mcNum": 12
+}

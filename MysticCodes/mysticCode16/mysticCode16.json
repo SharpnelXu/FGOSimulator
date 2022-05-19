@@ -1,0 +1,73 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "CommandCardBuff",
+        "numTurnsActive": 1,
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "QUICK"
+        },
+        "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+        "buffIcon": "quickUp"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+        "buffIcon": "npDamageUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "quickUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "CriticalDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+        "buffIcon": "critDamageUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "critDamageUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "RemoveBuff",
+      "target": "TARGETED_ALLY",
+      "applyCondition": {
+        "type": "Or",
+        "subConditionData": [{
+          "type": "BuffTypeEquals",
+          "value": "Burn"
+        }, {
+          "type": "BuffTypeEquals",
+          "value": "Curse"
+        }, {
+          "type": "BuffTypeEquals",
+          "value": "Poison"
+        }]
+      },
+      "probabilities": [5.0],
+      "intValues": [0]
+    }, {
+      "type": "NpChange",
+      "target": "TARGETED_ALLY",
+      "values": [0.1]
+    }],
+    "iconName": "removeDebuff"
+  }],
+  "id": "mysticCode16",
+  "mcNum": 16
+}

@@ -1,0 +1,45 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "CommandCardBuff",
+        "numTurnsActive": 1,
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "ARTS"
+        },
+        "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+        "buffIcon": "artsUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "artsUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "DebuffResist",
+        "numTimesActive": 1,
+        "values": [10.0],
+        "buffIcon": "immune"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "immune"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "NpGaugeChange",
+      "target": "TARGETED_ENEMY",
+      "intValues": [-1]
+    }],
+    "iconName": "npGaugeDown"
+  }],
+  "id": "mysticCode9",
+  "mcNum": 9
+}

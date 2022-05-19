@@ -1,0 +1,27 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "HpChange",
+      "target": "ALL_ALLIES",
+      "intValues": [800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2800]
+    }],
+    "iconName": "heal"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "NpChange",
+      "target": "TARGETED_ALLY",
+      "values": [0.2]
+    }],
+    "iconName": "npGain"
+  }, {
+    "baseCoolDown": 15,
+    "effects": [{
+      "type": "ShuffleCards"
+    }],
+    "iconName": "shuffle"
+  }],
+  "id": "mysticCode3",
+  "mcNum": 3
+}

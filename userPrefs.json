@@ -688,5 +688,11 @@
       "mysticCodeLevel": 10,
       "gender": "FEMALE"
     }
+  }, {
+    "mysticCodeNo": 12,
+    "option": {
+      "mysticCodeLevel": 10,
+      "gender": "FEMALE"
+    }
   }]
 }
