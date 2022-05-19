@@ -539,6 +539,14 @@ public class Combatant {
         for (final Buff buff : buffs) {
             if (buff instanceof Guts && buff.shouldApply(simulation)) {
                 buff.setApplied();
+                if (simulation.getStatsLogger() != null) {
+                    final String message = String.format(
+                            getTranslation(APPLICATION_SECTION, "%s activates %s"),
+                            getTranslation(ENTITY_NAME_SECTION, id),
+                            buff
+                    );
+                    simulation.getStatsLogger().logEffect(message);
+                }
                 final Guts guts = (Guts) buff;
                 if (guts.isPercentageGuts()) {
                     currentHp = (int) (getMaxHp() * guts.getPercent());
@@ -550,9 +558,6 @@ public class Combatant {
             }
         }
         if (activated) {
-            if (simulation.getStatsLogger() != null) {
-                simulation.getStatsLogger().logEffectActivatingBuff(id, Guts.class);
-            }
             receivedInstantDeath = false;
             checkBuffStatus();
             activateEffectActivatingBuff(simulation, TriggerOnGutsEffect.class);

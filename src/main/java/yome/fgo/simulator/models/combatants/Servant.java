@@ -345,13 +345,14 @@ public class Servant extends Combatant {
         for (final Buff buff : buffs) {
             if (buff instanceof OverchargeBuff && buff.shouldApply(simulation)) {
                 overchargeBuff += ((OverchargeBuff) buff).getValue();
+                buff.setApplied();
             }
         }
 
         final int calculatedOvercharge = overchargeBuff + extraOvercharge + (int) currentNp;
         if (calculatedOvercharge > 5) {
             return 5;
-        } if (calculatedOvercharge < 1) {
+        } else if (calculatedOvercharge < 1) {
             return 1;
         } else {
             return calculatedOvercharge;
