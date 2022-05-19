@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "GOOD"],
       "attribute": "EARTH",
-      "traits": ["HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["FAIRY_TALE_SERVANT", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.465
     },
     "defenseNpRate": 0.03,
@@ -734,7 +734,7 @@
             "type": "ServantsExplodable"
           }
         }],
-        "noblePhantasmType": "ALL_TARGETS_NP",
+        "noblePhantasmType": "NON_DAMAGE",
         "activationCondition": {
           "type": "CritStarAtLeast",
           "doubleValue": 20.0

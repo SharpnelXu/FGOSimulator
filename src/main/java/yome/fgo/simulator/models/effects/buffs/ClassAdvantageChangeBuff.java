@@ -41,16 +41,12 @@ public class ClassAdvantageChangeBuff extends Buff {
             return baseRate;
         }
 
-        switch (attackMode) {
-            case CLASS_ADV_REMOVE_ADV:
-                return baseRate > 1 ? attackAdvantage : baseRate;
-            case CLASS_ADV_REMOVE_DISADV:
-                return baseRate < 1 ? attackAdvantage : baseRate;
-            case CLASS_ADV_FIXED_RATE:
-                return attackAdvantage;
-            default:
-                return baseRate;
-        }
+        return switch (attackMode) {
+            case CLASS_ADV_REMOVE_ADV -> baseRate > 1 ? attackAdvantage : baseRate;
+            case CLASS_ADV_REMOVE_DISADV -> baseRate < 1 ? attackAdvantage : baseRate;
+            case CLASS_ADV_FIXED_RATE -> attackAdvantage;
+            default -> baseRate;
+        };
     }
 
     public double asDefender(final double baseRate, final FateClass attackerClass) {
@@ -62,16 +58,12 @@ public class ClassAdvantageChangeBuff extends Buff {
             return baseRate;
         }
 
-        switch (defenseMode) {
-            case CLASS_ADV_REMOVE_ADV:
-                return baseRate < 1 ? defenseAdvantage : baseRate;
-            case CLASS_ADV_REMOVE_DISADV:
-                return baseRate > 1 ? defenseAdvantage : baseRate;
-            case CLASS_ADV_FIXED_RATE:
-                return defenseAdvantage;
-            default:
-                return baseRate;
-        }
+        return switch (defenseMode) {
+            case CLASS_ADV_REMOVE_ADV -> baseRate < 1 ? defenseAdvantage : baseRate;
+            case CLASS_ADV_REMOVE_DISADV -> baseRate > 1 ? defenseAdvantage : baseRate;
+            case CLASS_ADV_FIXED_RATE -> defenseAdvantage;
+            default -> baseRate;
+        };
     }
 
     @Override
