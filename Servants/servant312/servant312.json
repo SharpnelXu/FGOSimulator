@@ -2187,26 +2187,46 @@
           "buffData": [{
             "type": "CommandCardBuff",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
             "values": [0.2],
             "buffIcon": "busterUp"
           }, {
             "type": "CommandCardBuff",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
             "values": [0.3],
             "buffIcon": "busterUp"
           }, {
             "type": "CommandCardBuff",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
             "values": [0.4],
             "buffIcon": "busterUp"
           }, {
             "type": "CommandCardBuff",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
             "values": [0.5],
             "buffIcon": "busterUp"
           }, {
             "type": "CommandCardBuff",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
             "values": [0.6],
             "buffIcon": "busterUp"
           }]
