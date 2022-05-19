@@ -16,11 +16,11 @@ public class TargetUtils {
         final Combatant activator = simulation.hasActivator() ? simulation.getActivator() : null;
         final boolean isAlly = activator == null || activator.isAlly();
         final Collection<? extends Combatant> backupAllies = isAlly ? simulation.getBackupServants() : simulation.getBackupEnemies();
-        final Collection<? extends Combatant> aliveAllies = isAlly ? simulation.getAliveAllies() : simulation.getAliveEnemies();
+        final List<? extends Combatant> aliveAllies = isAlly ? simulation.getAliveAllies() : simulation.getAliveEnemies();
         final Combatant targetedAlly = isAlly ? simulation.getTargetedAlly() : simulation.getTargetedEnemy();
 
         final Collection<? extends Combatant> backupEnemies = isAlly ? simulation.getBackupEnemies() : simulation.getBackupServants();
-        final Collection<? extends Combatant> aliveEnemies = isAlly ? simulation.getAliveEnemies() : simulation.getAliveAllies();
+        final List<? extends Combatant> aliveEnemies = isAlly ? simulation.getAliveEnemies() : simulation.getAliveAllies();
         final Combatant targetedEnemy = isAlly ? simulation.getTargetedEnemy() : simulation.getTargetedAlly();
 
         switch (target) {
@@ -29,13 +29,30 @@ public class TargetUtils {
                 targets.add(simulation.getActivator());
                 break;
             case FIRST_ENEMY:
-                aliveEnemies.stream().findFirst().ifPresent(targets::add);
+                if (!aliveEnemies.isEmpty()) {
+                    targets.add(aliveEnemies.get(0));
+                }
+                break;
+            case LAST_ENEMY:
+                if (!aliveEnemies.isEmpty()) {
+                    targets.add(aliveEnemies.get(aliveEnemies.size() - 1));
+                }
                 break;
             case FIRST_ALLY_EXCLUDING_SELF:
-                aliveAllies.stream()
-                        .filter(ally -> ally != activator && ally.isSelectable())
-                        .findFirst()
-                        .ifPresent(targets::add);
+                final List<? extends Combatant> nonActivators = aliveAllies.stream()
+                        .filter(ally -> ally != activator)
+                        .collect(Collectors.toList());
+                if (!nonActivators.isEmpty()) {
+                    targets.add(nonActivators.get(0));
+                }
+                break;
+            case LAST_ALLY_EXCLUDING_SELF:
+                final List<? extends Combatant> nonActivators2 = aliveAllies.stream()
+                        .filter(ally -> ally != activator)
+                        .collect(Collectors.toList());
+                if (!nonActivators2.isEmpty()) {
+                    targets.add(nonActivators2.get(nonActivators2.size() - 1));
+                }
                 break;
             case TARGETED_ALLY:
                 if (targetedAlly != null) {

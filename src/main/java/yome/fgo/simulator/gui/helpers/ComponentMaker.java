@@ -52,7 +52,9 @@ public class ComponentMaker {
             Target.ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP,
 
             Target.FIRST_ALLY_EXCLUDING_SELF,
+            Target.LAST_ALLY_EXCLUDING_SELF,
             Target.FIRST_ENEMY,
+            Target.LAST_ENEMY,
 
             Target.ALL_CHARACTERS,
             Target.ALL_CHARACTERS_INCLUDING_BACKUP,
