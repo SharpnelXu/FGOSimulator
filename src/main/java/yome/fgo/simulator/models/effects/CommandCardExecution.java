@@ -103,7 +103,7 @@ public class CommandCardExecution {
                 currentCard.applyBuff(simulation, AttackBuff.class);
 
         final double defenseUpBuff = defender.applyDefenseUpBuff(simulation);
-        final double defenseDownBuff = Math.max(defender.applyDefenseDownBuff(simulation), -1); // this is negative
+        final double defenseDownBuff = Math.max(defender.applyDefenseDownBuff(simulation), -1); // this is negative, capping at -100%
         final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class) ||
                 currentCard.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class);
         final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
