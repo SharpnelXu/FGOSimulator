@@ -530,7 +530,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 step = Double.parseDouble(generateValueStepText.getText());
 
                 final List<Double> values = generateSkillValues(base, step);
-                if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE) ||
+                if (generateTargetTextField == probabilityText || requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE) ||
                         (requiredFields.contains(BUFF_FIELD_PERCENT_OPTION) && gutsPercentCheckbox.isSelected())) {
                     generateTargetTextField.setText(
                             values.stream()

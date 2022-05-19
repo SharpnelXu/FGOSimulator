@@ -331,7 +331,11 @@ public class Servant extends Combatant {
         simulation.setActivator(this);
         simulation.setCriticalStrike(false);
 
+
         final int overchargeLevel = calculateOverchargeLevel(simulation, extraOvercharge);
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logNoblePhantasm(getId(), overchargeLevel);
+        }
         currentNp = 0;
         noblePhantasm.activate(simulation, overchargeLevel);
 

@@ -60,6 +60,16 @@ public class StatsLogger extends VBox {
         appendLogEntry(DEBUG, message);
     }
 
+    public void logNoblePhantasm(final String id, final int overchargeLevel) {
+        final String message = String.format(
+                getTranslation(APPLICATION_SECTION, "%s activates NP at OC %d"),
+                getTranslation(ENTITY_NAME_SECTION, id),
+                overchargeLevel
+        );
+
+        appendLogEntry(ACTION, message);
+    }
+
     public enum LogLevel {
         DEBUG(0),
         EFFECT(1),

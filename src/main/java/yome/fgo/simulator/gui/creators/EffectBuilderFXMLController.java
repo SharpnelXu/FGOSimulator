@@ -503,7 +503,7 @@ public class EffectBuilderFXMLController implements Initializable {
                 step = Double.parseDouble(generateValueStepText.getText());
 
                 final List<Double> values = generateSkillValues(base, step);
-                if (requiredFields.contains(EFFECT_FIELD_DOUBLE_VALUE) ||
+                if (generateTargetTextField == probabilityText || requiredFields.contains(EFFECT_FIELD_DOUBLE_VALUE) ||
                         (requiredFields.contains(EFFECT_FIELD_HP_CHANGE) && hpPercentCheckbox.isSelected())) {
                     generateTargetTextField.setText(
                             values.stream()
