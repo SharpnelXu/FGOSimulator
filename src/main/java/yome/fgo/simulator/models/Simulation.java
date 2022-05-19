@@ -263,7 +263,7 @@ public class Simulation {
         for (int i = 0; i < combatActions.size(); i += 1) {
             final CombatAction combatAction = combatActions.get(i);
             final Servant servant = currentServants.get(combatAction.servantIndex);
-            if (servant != null && !servant.isImmobilized() && !isAllEnemiesDead()) {
+            if (canAttack(servant) && !isAllEnemiesDead()) {
                 if (combatAction.isNoblePhantasm) {
                     if (servant.isNpInaccessible()) {
                         continue;
@@ -296,7 +296,7 @@ public class Simulation {
 
         if (isBraveChain(combatActions) && currentEnemies.get(currentEnemyTargetIndex) != null) {
             final Servant servant = currentServants.get(combatActions.get(0).servantIndex);
-            if (servant != null && !servant.isImmobilized()) {
+            if (canAttack(servant)) {
                 servant.activateExtraAttack(this, typeChain, firstCardType);
             }
             removeDeadEnemies();
@@ -310,6 +310,10 @@ public class Simulation {
         executeEnemyTurn();
         endEnemyTurn();
         proceedTurn();
+    }
+
+    public static boolean canAttack(final Servant servant) {
+        return servant != null && !servant.isAlreadyDead() && !servant.isImmobilized();
     }
 
     public void checkBuffStatus() {
