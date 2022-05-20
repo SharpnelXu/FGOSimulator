@@ -1,0 +1,154 @@
+{
+  "servantAscensionData": [{
+    "combatantData": {
+      "id": "servant1000",
+      "rarity": 4,
+      "fateClass": "BERSERKER",
+      "gender": "MALE",
+      "attribute": "SKY",
+      "traits": ["HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "deathRate": 0.39
+    },
+    "defenseNpRate": 0.05,
+    "criticalStarWeight": 10,
+    "commandCardData": [{
+      "commandCardType": "QUICK",
+      "hitsData": [25, 75],
+      "npRate": 0.0107,
+      "criticalStarGen": 0.05
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [33, 67],
+      "npRate": 0.0107,
+      "criticalStarGen": 0.05
+    }, {
+      "commandCardType": "BUSTER",
+      "hitsData": [100],
+      "npRate": 0.0107,
+      "criticalStarGen": 0.05
+    }, {
+      "commandCardType": "BUSTER",
+      "hitsData": [100],
+      "npRate": 0.0107,
+      "criticalStarGen": 0.05
+    }, {
+      "commandCardType": "BUSTER",
+      "hitsData": [100],
+      "npRate": 0.0107,
+      "criticalStarGen": 0.05
+    }],
+    "activeSkillUpgrades": [{
+      "activeSkillData": [{
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "AttackBuff",
+            "values": [0.0]
+          }]
+        }]
+      }]
+    }, {
+      "activeSkillData": [{
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CriticalDamageBuff",
+            "values": [0.0]
+          }]
+        }]
+      }]
+    }, {
+      "activeSkillData": [{
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "AttackBuff",
+            "values": [0.0]
+          }]
+        }]
+      }]
+    }],
+    "passiveSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "BUSTER"
+          },
+          "values": [0.08],
+          "buffIcon": "busterUp"
+        }]
+      }],
+      "iconName": "insane"
+    }],
+    "appendSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "EXTRA"
+          },
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+          "buffIcon": "specialDamageUp"
+        }]
+      }],
+      "iconName": "specialAttackUp"
+    }, {
+      "effects": [{
+        "type": "NpChange",
+        "target": "SELF",
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
+      }],
+      "iconName": "npGain"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CriticalChanceResist",
+          "applyCondition": {
+            "type": "TargetsHaveClass",
+            "value": "SABER",
+            "target": "ATTACKER"
+          },
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+          "buffIcon": "critReceiveResistUp"
+        }]
+      }],
+      "iconName": "criticalChanceResistUp"
+    }],
+    "noblePhantasmUpgrades": {
+      "noblePhantasmData": [{
+        "commandCardData": {
+          "commandCardType": "BUSTER",
+          "hitsData": [100],
+          "npRate": 0.0107,
+          "criticalStarGen": 0.05
+        },
+        "effects": [{
+          "type": "NoblePhantasmDamage",
+          "target": "TARGETED_ENEMY",
+          "values": [6.0, 8.0, 9.0, 9.5, 10.0]
+        }],
+        "noblePhantasmType": "SINGLE_TARGET_NP"
+      }]
+    },
+    "extraCard": {
+      "commandCardType": "EXTRA",
+      "hitsData": [12, 25, 63],
+      "npRate": 0.0107,
+      "criticalStarGen": 0.05
+    },
+    "cost": 12
+  }],
+  "servantNum": 1000
+}

@@ -25,13 +25,13 @@
     "servantNo": 1,
     "option": {
       "servantLevel": 80,
-      "noblePhantasmRank": 1,
+      "noblePhantasmRank": 2,
       "noblePhantasmLevel": 3,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [2, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [0, 0, 10],
       "commandCardOptions": [{
       }, {
       }, {
@@ -39,7 +39,7 @@
       }, {
       }],
       "bond": 10,
-      "ascension": 2
+      "ascension": 1
     }
   }, {
     "servantNo": 2,
