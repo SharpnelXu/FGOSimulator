@@ -20,7 +20,7 @@ public class InstantDeath extends Effect {
                 final double deathSuccessChance = simulation.getActivator().applyBuff(simulation, DeathChanceBuff.class);
                 final double deathResist = combatant.applyBuff(simulation, DeathResist.class);
 
-                final double deathProbability = probabilities.get(level - 1) * combatant.getDeathRate() * (1 + deathSuccessChance - deathResist);
+                final double deathProbability = getProbability(level) * combatant.getDeathRate() * (1 + deathSuccessChance - deathResist);
 
                 if (simulation.getStatsLogger() != null) {
                     simulation.getStatsLogger().logProbability(combatant.getId(), deathProbability, simulation.getProbabilityThreshold());
