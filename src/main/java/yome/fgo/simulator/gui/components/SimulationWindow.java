@@ -233,7 +233,8 @@ public class SimulationWindow {
 
         final List<Combatant> enemies = simulation.getCurrentEnemies();
         final List<Node> nodes = enemyGrid.getChildren();
-        for (int i = 0; i < enemies.size(); i += 1) {
+        final int maxIndex = Math.max(enemies.size(), nodes.size());
+        for (int i = 0; i < maxIndex; i += 1) {
             if (nodes.size() > i) {
                 ((EnemyDisplay) nodes.get(i)).renderEnemy();
             } else {
