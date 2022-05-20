@@ -11,6 +11,9 @@ public class OrderChange extends Effect {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
+        if (!shouldApply(simulation)) {
+            return;
+        }
         final List<Integer> targets = simulation.getOrderChangeTargets();
         final int onFieldIndex = targets.get(0);
         final int backupIndex = targets.get(1);

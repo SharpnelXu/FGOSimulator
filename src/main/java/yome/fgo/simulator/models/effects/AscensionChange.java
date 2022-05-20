@@ -24,8 +24,10 @@ public class AscensionChange extends IntValuedEffect {
             }
 
             simulation.setEffectTarget(combatant);
-            final Servant servant = (Servant) combatant;
-            servant.changeAscension(simulation, value);
+            if (shouldApply(simulation)) {
+                final Servant servant = (Servant) combatant;
+                servant.changeAscension(simulation, value);
+            }
             simulation.unsetEffectTarget();
         }
     }

@@ -9,7 +9,7 @@ public class MoveToLastBackup extends Effect {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
-        if (simulation.getCurrentServants().size() == 1 || !(simulation.getActivator() instanceof Servant)) {
+        if (simulation.getCurrentServants().size() == 1 || !(simulation.getActivator() instanceof Servant) || !shouldApply(simulation)) {
             return;
         }
         final Servant servant = (Servant) simulation.getActivator();

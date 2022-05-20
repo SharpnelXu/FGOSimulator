@@ -9,6 +9,9 @@ public class RandomEffects extends Effect {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
+        if (!shouldApply(simulation)) {
+            return;
+        }
         final Effect effectToActivate = EffectFactory.buildEffect(simulation.selectRandomEffects(), skillLevel);
 
         effectToActivate.apply(simulation, level);
