@@ -388,7 +388,9 @@ public class Simulation {
                 combatant.enterField(this);
             }
 
+            setActivator(nullSourceSkillActivator);
             level.getStage(currentStage).applyStageEffects(this);
+            unsetActivator();
         }
         currentTurn += 1;
         if (getStatsLogger() != null) {
