@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
-
 <StackPane prefHeight="755.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.EffectBuilderFXMLController">
    <children>
       <VBox prefWidth="743.0" spacing="10.0" StackPane.alignment="TOP_LEFT">

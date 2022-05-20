@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
 <VBox prefHeight="900.0" prefWidth="1018.0" spacing="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.EntityFilterFXMLController">
    <children>
       <HBox fx:id="filterHBox" alignment="CENTER_LEFT" spacing="10.0" />

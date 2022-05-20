@@ -25,8 +25,6 @@ import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
 import static yome.fgo.simulator.models.combatants.CombatAction.createCommandCardAction;
-import static yome.fgo.simulator.translation.EnemyCategory.DECEASED;
-import static yome.fgo.simulator.translation.EnemyCategory.EnemySubCategory.GHOUL;
 
 public class TerrorTest {
     @Test
@@ -34,8 +32,8 @@ public class TerrorTest {
         final StageData stageData1 = StageData.newBuilder()
                 .addEnemyData(
                         EnemyData.newBuilder()
-                                .setEnemyBaseId("ghoul")
-                                .setEnemyCategories(DECEASED + "/" + GHOUL)
+                                .setEnemyBaseId("食尸鬼")
+                                .setEnemyCategories("食尸鬼")
                                 .addHpBars(1000000)
                                 .setCombatantDataOverride(
                                         CombatantData.newBuilder()

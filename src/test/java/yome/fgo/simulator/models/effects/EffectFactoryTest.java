@@ -12,7 +12,6 @@ import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.conditions.Never;
 
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.not;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;

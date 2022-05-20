@@ -12,7 +12,6 @@ import yome.fgo.data.proto.FgoStorageData.MysticCodeOption;
 import yome.fgo.data.proto.FgoStorageData.StageData;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.CriticalStarChange;
 import yome.fgo.simulator.models.effects.GrantBuff;
@@ -20,14 +19,11 @@ import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
 import static yome.fgo.simulator.models.combatants.CombatAction.createCommandCardAction;
-import static yome.fgo.simulator.translation.EnemyCategory.DECEASED;
-import static yome.fgo.simulator.translation.EnemyCategory.EnemySubCategory.GHOUL;
 
 public class DelayedEffectTest {
     @Test
@@ -35,8 +31,8 @@ public class DelayedEffectTest {
         final StageData stageData1 = StageData.newBuilder()
                 .addEnemyData(
                         EnemyData.newBuilder()
-                                .setEnemyBaseId("ghoul")
-                                .setEnemyCategories(DECEASED + "/" + GHOUL)
+                                .setEnemyBaseId("食尸鬼")
+                                .setEnemyCategories("食尸鬼")
                                 .addHpBars(1000000)
                                 .setCombatantDataOverride(
                                         CombatantData.newBuilder()

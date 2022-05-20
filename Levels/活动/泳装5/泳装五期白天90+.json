@@ -1,26 +1,22 @@
 {
-  "id": "泳装五期白天90+带稀有",
+  "id": "泳装五期白天90+",
   "stageData": [{
     "enemyData": [{
-      "enemyBaseId": "Demonic Monkey",
+      "enemyBaseId": "魔猿",
       "hpBars": [40600],
-      "enemyCategories": "beasts/monkeys/"
+      "enemyCategories": "魔猿/"
     }, {
-      "enemyBaseId": "Backpack Demonic Monkey",
+      "enemyBaseId": "背包魔猿",
       "hpBars": [73022],
-      "enemyCategories": "beasts/monkeys/"
-    }, {
-      "enemyBaseId": "Backpack Demonic Monkey",
-      "hpBars": [64431],
-      "enemyCategories": "beasts/monkeys/"
+      "enemyCategories": "魔猿/"
     }],
     "maximumEnemiesOnScreen": 3,
     "traits": ["Summer5"]
   }, {
     "enemyData": [{
-      "enemyBaseId": "Spriggan",
+      "enemyBaseId": "守护者",
       "hpBars": [221447],
-      "enemyCategories": "phantom beasts/Spriggans/"
+      "enemyCategories": "守护者/"
     }],
     "maximumEnemiesOnScreen": 3
   }, {

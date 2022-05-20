@@ -90,7 +90,7 @@ public class SimulationTest {
 
     @Test
     public void testSimpleKamaLoop() {
-        final Level level = new Level(ResourceManager.getLevelData("events/hq11", "hq11_day5_90+_2"));
+        final Level level = new Level(ResourceManager.getLevelData("活动/狩猎11", "狩猎11无花果90"));
         final List<Combatant> stage1Enemies = new ArrayList<>(level.getStage(1).getEnemies());
         final List<Combatant> stage2Enemies = new ArrayList<>(level.getStage(2).getEnemies());
         final List<Combatant> stage3Enemies = new ArrayList<>(level.getStage(3).getEnemies());
@@ -183,7 +183,7 @@ public class SimulationTest {
 
     @Test
     public void testBuggedOverkill() {
-        final Level level = new Level(ResourceManager.getLevelData("events/hq11", "hq11_day5_90+_2"));
+        final Level level = new Level(ResourceManager.getLevelData("活动/狩猎11", "狩猎11无花果90"));
         final Servant kama = new Servant(KAMA_ID, ResourceManager.getServantData(KAMA_ID), KAMA_OPTION);
         final CraftEssence ce = new CraftEssence(ResourceManager.getCraftEssenceData("craftEssence1080"), CE_OPTION);
         kama.equipCraftEssence(ce);

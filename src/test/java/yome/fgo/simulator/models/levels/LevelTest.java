@@ -15,8 +15,8 @@ import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
 public class LevelTest {
     @Test
     public void testConstructor() {
-        final String id = "hq11_day5_90+_2";
-        final String subPath = "events/hq11";
+        final String id = "狩猎11无花果90";
+        final String subPath = "活动/狩猎11";
 
         final Level level = new Level(ResourceManager.getLevelData(subPath, id));
         assertTrue(level.hasNextStage(1));
@@ -25,16 +25,16 @@ public class LevelTest {
 
 
         final Combatant enemy1 = stage3.getNextEnemy();
-        assertEquals("alraune", enemy1.getId());
+        assertEquals("爱娜温", enemy1.getId());
         assertEquals(200454, enemy1.getCurrentHp());
         assertEquals(EARTH, enemy1.getAttribute());
         assertEquals(RIDER, enemy1.getFateClass());
         final Combatant enemy2 = stage3.getNextEnemy();
-        assertEquals("ghoul", enemy2.getId());
+        assertEquals("食尸鬼", enemy2.getId());
         assertEquals(75249, enemy2.getCurrentHp());
         assertEquals(RIDER, enemy2.getFateClass());
         final Combatant enemy3 = stage3.getNextEnemy();
-        assertEquals("magicalStick", enemy3.getId());
+        assertEquals("魔法杖", enemy3.getId());
         assertEquals(75777, enemy3.getCurrentHp());
         assertEquals(SKY, enemy3.getAttribute());
         assertEquals(BERSERKER, enemy3.getFateClass());

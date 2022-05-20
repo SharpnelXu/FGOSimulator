@@ -11,8 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
-import static yome.fgo.simulator.translation.EnemyCategory.DECEASED;
-import static yome.fgo.simulator.translation.EnemyCategory.EnemySubCategory.GHOUL;
 
 public class StageTest {
     @Test
@@ -33,20 +31,20 @@ public class StageTest {
     public void testConstructor() {
         final StageData stageData = StageData.newBuilder()
                 .addEnemyData(EnemyData.newBuilder()
-                                      .setEnemyBaseId("ghoul")
-                                      .setEnemyCategories(DECEASED + "/" + GHOUL)
+                                      .setEnemyBaseId("食尸鬼")
+                                      .setEnemyCategories("食尸鬼")
                                       .addHpBars(35219)
                                       .setCombatantDataOverride(CombatantData.newBuilder()
                                                                         .setFateClass(RIDER)))
                 .addEnemyData(EnemyData.newBuilder()
-                                      .setEnemyBaseId("elderGhoul")
-                                      .setEnemyCategories(DECEASED + "/" + GHOUL)
+                                      .setEnemyBaseId("元老食尸鬼")
+                                      .setEnemyCategories("食尸鬼")
                                       .addHpBars(40150)
                                       .setCombatantDataOverride(CombatantData.newBuilder()
                                                                         .setFateClass(RIDER)))
                 .addEnemyData(EnemyData.newBuilder()
-                                      .setEnemyBaseId("ghoul")
-                                      .setEnemyCategories(DECEASED + "/" + GHOUL)
+                                      .setEnemyBaseId("食尸鬼")
+                                      .setEnemyCategories("食尸鬼")
                                       .addHpBars(35611)
                                       .setCombatantDataOverride(CombatantData.newBuilder()
                                                                         .setFateClass(RIDER)))
@@ -56,15 +54,15 @@ public class StageTest {
         assertTrue(stage.hasMoreEnemies());
 
         final Combatant ghoul1 = stage.getNextEnemy();
-        assertEquals("ghoul", ghoul1.getId());
+        assertEquals("食尸鬼", ghoul1.getId());
         assertEquals(35219, ghoul1.getCurrentHp());
         assertEquals(RIDER, ghoul1.getFateClass());
         final Combatant ghoul2 = stage.getNextEnemy();
-        assertEquals("elderGhoul", ghoul2.getId());
+        assertEquals("元老食尸鬼", ghoul2.getId());
         assertEquals(40150, ghoul2.getCurrentHp());
         assertEquals(RIDER, ghoul2.getFateClass());
         final Combatant ghoul3 = stage.getNextEnemy();
-        assertEquals("ghoul", ghoul3.getId());
+        assertEquals("食尸鬼", ghoul3.getId());
         assertEquals(35611, ghoul3.getCurrentHp());
         assertEquals(RIDER, ghoul3.getFateClass());
 

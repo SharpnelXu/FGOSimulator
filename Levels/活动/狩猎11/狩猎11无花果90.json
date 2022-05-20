@@ -2,10 +2,10 @@
   "id": "狩猎11无花果",
   "stageData": [{
     "enemyData": [{
-      "enemyBaseId": "ghoul",
+      "enemyBaseId": "食尸鬼",
       "hpBars": [35219],
       "combatantDataOverride": {
-        "id": "ghoul",
+        "id": "食尸鬼",
         "rarity": 1,
         "fateClass": "RIDER",
         "gender": "MALE",
@@ -13,24 +13,24 @@
         "traits": ["DEMONIC", "HUMAN", "HUMANOID", "UNDEAD", "ONI"],
         "deathRate": 1.0
       },
-      "enemyCategories": "deceased/ghoul/"
+      "enemyCategories": "食尸鬼/"
     }, {
-      "enemyBaseId": "elderGhoul",
+      "enemyBaseId": "元老食尸鬼",
       "hpBars": [40150],
       "combatantDataOverride": {
-        "id": "elderGhoul",
+        "id": "元老食尸鬼",
         "rarity": 4,
         "fateClass": "RIDER",
         "attribute": "EARTH",
         "traits": ["DEMONIC", "UNDEAD", "ONI"],
         "deathRate": 0.2
       },
-      "enemyCategories": "deceased/ghoul/"
+      "enemyCategories": "食尸鬼/"
     }, {
-      "enemyBaseId": "ghoul",
+      "enemyBaseId": "食尸鬼",
       "hpBars": [35611],
       "combatantDataOverride": {
-        "id": "ghoul",
+        "id": "食尸鬼",
         "rarity": 1,
         "fateClass": "RIDER",
         "gender": "MALE",
@@ -38,15 +38,15 @@
         "traits": ["DEMONIC", "HUMAN", "HUMANOID", "UNDEAD", "ONI"],
         "deathRate": 1.0
       },
-      "enemyCategories": "deceased/ghoul/"
+      "enemyCategories": "食尸鬼/"
     }],
     "maximumEnemiesOnScreen": 3
   }, {
     "enemyData": [{
-      "enemyBaseId": "ghoul",
+      "enemyBaseId": "食尸鬼",
       "hpBars": [39276],
       "combatantDataOverride": {
-        "id": "ghoul",
+        "id": "食尸鬼",
         "rarity": 1,
         "fateClass": "RIDER",
         "gender": "MALE",
@@ -54,12 +54,12 @@
         "traits": ["DEMONIC", "HUMAN", "HUMANOID", "UNDEAD", "ONI"],
         "deathRate": 1.0
       },
-      "enemyCategories": "deceased/ghoul/"
+      "enemyCategories": "食尸鬼/"
     }, {
-      "enemyBaseId": "ghoul",
+      "enemyBaseId": "食尸鬼",
       "hpBars": [39705],
       "combatantDataOverride": {
-        "id": "ghoul",
+        "id": "食尸鬼",
         "rarity": 1,
         "fateClass": "RIDER",
         "gender": "MALE",
@@ -67,27 +67,27 @@
         "traits": ["DEMONIC", "HUMAN", "HUMANOID", "UNDEAD", "ONI"],
         "deathRate": 1.0
       },
-      "enemyCategories": "deceased/ghoul/"
+      "enemyCategories": "食尸鬼/"
     }, {
-      "enemyBaseId": "elderGhoul",
+      "enemyBaseId": "元老食尸鬼",
       "hpBars": [44162],
       "combatantDataOverride": {
-        "id": "elderGhoul",
+        "id": "元老食尸鬼",
         "rarity": 4,
         "fateClass": "RIDER",
         "attribute": "EARTH",
         "traits": ["DEMONIC", "UNDEAD", "ONI"],
         "deathRate": 0.2
       },
-      "enemyCategories": "deceased/ghoul/"
+      "enemyCategories": "食尸鬼/"
     }],
     "maximumEnemiesOnScreen": 3
   }, {
     "enemyData": [{
-      "enemyBaseId": "alraune",
+      "enemyBaseId": "爱娜温",
       "hpBars": [200454],
       "combatantDataOverride": {
-        "id": "alraune",
+        "id": "爱娜温",
         "rarity": 4,
         "fateClass": "RIDER",
         "gender": "FEMALE",
@@ -95,12 +95,12 @@
         "traits": ["DEMONIC"],
         "deathRate": 0.1
       },
-      "enemyCategories": "transendent/demon/"
+      "enemyCategories": "伊夫利塔/"
     }, {
-      "enemyBaseId": "ghoul",
+      "enemyBaseId": "食尸鬼",
       "hpBars": [75249],
       "combatantDataOverride": {
-        "id": "ghoul",
+        "id": "食尸鬼",
         "rarity": 1,
         "fateClass": "RIDER",
         "gender": "MALE",
@@ -108,11 +108,11 @@
         "traits": ["DEMONIC", "HUMAN", "HUMANOID", "UNDEAD", "ONI"],
         "deathRate": 1.0
       },
-      "enemyCategories": "deceased/ghoul/"
+      "enemyCategories": "食尸鬼/"
     }, {
-      "enemyBaseId": "magicalStick",
+      "enemyBaseId": "魔法杖",
       "hpBars": [75777],
-      "enemyCategories": "other/minion/"
+      "enemyCategories": "魔法杖/"
     }],
     "maximumEnemiesOnScreen": 3
   }]
