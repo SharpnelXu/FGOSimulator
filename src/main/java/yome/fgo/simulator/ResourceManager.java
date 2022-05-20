@@ -38,10 +38,18 @@ import static yome.fgo.simulator.utils.FilePathUtils.SKILL_ICON_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.USER_PREFERENCE_FILE_PATH;
 
 public class ResourceManager {
+    /**
+     * Originally going to build a in memory system but realized it needs some sort of updates to refresh memory,
+     * so now just call `build*SortMap` to get data.
+     */
+    @Deprecated
     private static final Map<String, CombatantData> ENEMY_DATA_MAP = new HashMap<>();
+    @Deprecated
     private static final Map<String, ServantData> SERVANT_DATA_MAP = new HashMap<>();
+    @Deprecated
     private static final Map<String, CraftEssenceData> CRAFT_ESSENCE_DATA_MAP = new HashMap<>();
 
+    @Deprecated
     public static CombatantData getEnemyCombatantData(final String enemyCategories, final String id) {
         if (!ENEMY_DATA_MAP.containsKey(id)) {
             final String directoryPath = String.format("%s/%s/%s.json", ENEMY_DIRECTORY_PATH, enemyCategories, id);
@@ -64,6 +72,7 @@ public class ResourceManager {
         return ENEMY_DATA_MAP.get(id);
     }
 
+    @Deprecated
     public static ServantData getServantData(final String id) {
         if (!SERVANT_DATA_MAP.containsKey(id)) {
             final String directoryPath = String.format("%s/%s/%s.json", SERVANT_DIRECTORY_PATH, id, id);
@@ -89,6 +98,7 @@ public class ResourceManager {
         return SERVANT_DATA_MAP.get(id);
     }
 
+    @Deprecated
     public static CraftEssenceData getCraftEssenceData(final String id) {
         if (!CRAFT_ESSENCE_DATA_MAP.containsKey(id)) {
             final String directoryPath = String.format("%s/%s/%s.json", CRAFT_ESSENCE_DIRECTORY_PATH, id, id);
