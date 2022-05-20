@@ -1,0 +1,8 @@
+{
+  "id": "蝎狮",
+  "rarity": 4,
+  "fateClass": "BERSERKER",
+  "attribute": "EARTH",
+  "traits": ["WILD_BEAST"],
+  "deathRate": 0.5
+}

@@ -1,0 +1,127 @@
+{
+  "id": "泳装五期晚上90+带稀有",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "失心罪人",
+      "hpBars": [37886],
+      "enemyCategories": "失心之人/"
+    }, {
+      "enemyBaseId": "杀人魔",
+      "hpBars": [82053],
+      "enemyCategories": "失心之人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Summer5"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "失心罪人",
+      "hpBars": [47358],
+      "enemyCategories": "失心之人/"
+    }, {
+      "enemyBaseId": "蝎狮",
+      "hpBars": [163567],
+      "enemyCategories": "蝎狮·乌伽尔·冰雪加姆/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "杀人魔",
+      "hpBars": [125245],
+      "enemyCategories": "失心之人/"
+    }, {
+      "enemyBaseId": "servant52",
+      "hpBars": [302940],
+      "combatantDataOverride": {
+        "id": "servant52",
+        "rarity": 5,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "EARTH",
+        "traits": ["BRYNHILDS_BELOVED", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant52/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "杀人魔",
+      "hpBars": [125245],
+      "enemyCategories": "失心之人/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant128",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant150",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant261",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant220",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant263",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant266",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant1",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant284",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsContainsSpecificServant",
+      "value": "servant285",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

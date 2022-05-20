@@ -1,0 +1,115 @@
+{
+  "id": "泳装五期白天90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "Demonic Monkey",
+      "hpBars": [40600],
+      "enemyCategories": "beasts/monkeys/"
+    }, {
+      "enemyBaseId": "Backpack Demonic Monkey",
+      "hpBars": [73022],
+      "enemyCategories": "beasts/monkeys/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Summer5"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "Spriggan",
+      "hpBars": [221447],
+      "enemyCategories": "phantom beasts/Spriggans/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant49",
+      "hpBars": [303023],
+      "combatantDataOverride": {
+        "id": "servant49",
+        "rarity": 3,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant49/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant128",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant150",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant261",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant220",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant263",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant266",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant1",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant284",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsContainsSpecificServant",
+      "value": "servant285",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

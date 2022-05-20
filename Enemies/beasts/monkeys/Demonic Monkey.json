@@ -1,0 +1,8 @@
+{
+  "id": "Demonic Monkey",
+  "rarity": 2,
+  "fateClass": "BERSERKER",
+  "attribute": "EARTH",
+  "traits": ["WILD_BEAST", "DEMONIC"],
+  "deathRate": 0.8
+}

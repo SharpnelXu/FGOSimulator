@@ -1,0 +1,8 @@
+{
+  "id": "Spriggan",
+  "rarity": 4,
+  "fateClass": "SABER",
+  "attribute": "EARTH",
+  "traits": ["FAE", "GIANT", "MASSIVE"],
+  "deathRate": 0.002
+}

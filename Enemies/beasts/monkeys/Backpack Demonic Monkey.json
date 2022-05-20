@@ -1,0 +1,8 @@
+{
+  "id": "Backpack Demonic Monkey",
+  "rarity": 3,
+  "fateClass": "BERSERKER",
+  "attribute": "EARTH",
+  "traits": ["WILD_BEAST", "DEMONIC"],
+  "deathRate": 0.5
+}

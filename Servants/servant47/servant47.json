@@ -739,7 +739,7 @@
     "extraCard": {
       "commandCardType": "EXTRA",
       "hitsData": [12, 25, 63],
-      "npRate": 0.0108,
+      "npRate": 0.0107,
       "criticalStarGen": 0.05
     },
     "cost": 12
