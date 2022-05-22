@@ -10,7 +10,6 @@ import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.effects.CommandCardExecution;
 import yome.fgo.simulator.models.effects.buffs.AttackBuffDurationExtend;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.Burn;
@@ -354,26 +353,27 @@ public class Combatant {
                 final DamageReflect damageReflect = (DamageReflect) buff;
 
                 final int reflectedDamage = (int) (damageReflect.getStoredDamage() * damageReflect.getValue(simulation));
-                if (simulation.getStatsLogger() != null) {
-                    simulation.getStatsLogger().logEffect(
-                            String.format(
-                                    getTranslation(APPLICATION_SECTION, "%s activates %s"),
-                                    getTranslation(ENTITY_NAME_SECTION, id),
-                                    damageReflect + " * " + damageReflect.getStoredDamage() + " = " + reflectedDamage
-                            )
-                    );
-                }
-
-
-                for (final Combatant combatant : simulation.getOtherTeam(this)) {
-                    if (combatant != null &&
-                            !CommandCardExecution.shouldSkipDamage(simulation, this, combatant, new CommandCard())) {
-                        combatant.receiveNonHpBarBreakDamage(reflectedDamage);
+                if (reflectedDamage != 0) {
+                    if (simulation.getStatsLogger() != null) {
+                        simulation.getStatsLogger().logEffect(
+                                String.format(
+                                        getTranslation(APPLICATION_SECTION, "%s activates %s"),
+                                        getTranslation(ENTITY_NAME_SECTION, id),
+                                        damageReflect + " * " + damageReflect.getStoredDamage() + " = " + reflectedDamage
+                                )
+                        );
                     }
-                }
-                damageReflect.resetDamageStored();
 
-                damageReflect.setApplied();
+
+                    for (final Combatant combatant : simulation.getOtherTeam(this)) {
+                        if (combatant != null) {
+                            combatant.receiveNonHpBarBreakDamage(reflectedDamage);
+                        }
+                    }
+
+                    damageReflect.resetDamageStored();
+                    damageReflect.setApplied();
+                }
             }
         }
 
@@ -483,7 +483,7 @@ public class Combatant {
 
     public void clearPassiveBuff(final Combatant activator) {
         for (int j = buffs.size() - 1; j >= 0; j -= 1) {
-            final Buff buff  = buffs.get(j);
+            final Buff buff = buffs.get(j);
             if (buff.isPassive() && buff.getActivator() == activator) {
                 buffs.remove(j);
             }
@@ -573,7 +573,8 @@ public class Combatant {
         currentNpGauge += gaugeChange;
         if (currentNpGauge > maxNpGauge) {
             currentNpGauge = maxNpGauge;
-        } if (currentNpGauge < 0) {
+        }
+        if (currentNpGauge < 0) {
             currentNpGauge = 0;
         }
     }
