@@ -199,4 +199,8 @@ public class NpUpgrade extends HBox {
             builtConditionLabel.setText(printConditionData(activationCondition));
         }
     }
+
+    public void quickFillData(final String npRateString, final String critStarRateString) {
+        cardBox.quickFillData(npRateString, critStarRateString);
+    }
 }

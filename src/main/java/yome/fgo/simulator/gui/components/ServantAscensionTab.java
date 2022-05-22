@@ -228,6 +228,17 @@ public class ServantAscensionTab extends VBox {
         cardsLabel.setFont(new Font(18));
         nodes.add(cardsLabel);
 
+        final HBox quickCardDataHBox = new HBox();
+        quickCardDataHBox.setAlignment(Pos.CENTER_LEFT);
+        quickCardDataHBox.setSpacing(10);
+        final Label npRateLabel = new Label(getTranslation(APPLICATION_SECTION, "NP (%)"));
+        final TextField npRateText = new TextField();
+        final Label critStarRateLabel = new Label(getTranslation(APPLICATION_SECTION, "Crit Star Rate (%)"));
+        final TextField critStarRateText = new TextField();
+        final Button quickCardDataButton = new Button(getTranslation(APPLICATION_SECTION, "Autofill"));
+        quickCardDataHBox.getChildren().addAll(npRateLabel, npRateText, critStarRateLabel, critStarRateText, quickCardDataButton);
+        nodes.add(quickCardDataHBox);
+
         commandCardBoxes = new ArrayList<>();
         for (int i = 1; i <= 5; i += 1) {
             final CommandCardBox commandCardBox = new CommandCardBox(i);
@@ -280,6 +291,18 @@ public class ServantAscensionTab extends VBox {
         });
 
         nodes.add(npUpgradesTabs);
+
+
+        quickCardDataButton.setOnAction(e -> {
+            for (final CommandCardBox cardBox : commandCardBoxes) {
+                cardBox.quickFillData(npRateText.getText(), critStarRateText.getText());
+            }
+            for (final Tab tab : npUpgradesTabs.getTabs()) {
+                final NpUpgrade npUpgrade = (NpUpgrade) tab.getContent();
+                npUpgrade.quickFillData(npRateText.getText(), critStarRateText.getText());
+            }
+        });
+
         nodes.add(new Separator());
 
         final Label activeSkillsLabel = new Label(getTranslation(APPLICATION_SECTION, "Active Skill"));

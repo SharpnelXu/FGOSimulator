@@ -179,4 +179,9 @@ public class CommandCardBox extends VBox {
         npRate.setText(doubleToString(commandCardData.getNpRate()));
         critStarRate.setText(doubleToString(commandCardData.getCriticalStarGen()));
     }
+
+    public void quickFillData(final String npRateString, final String critStarRateString) {
+        npRate.setText(npRateString);
+        critStarRate.setText(critStarRateString);
+    }
 }
