@@ -1,0 +1,84 @@
+{
+  "id": "尼禄祭2022二期90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "冰雪之狼",
+      "hpBars": [67114],
+      "combatantDataOverride": {
+        "id": "冰雪之狼",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "attribute": "SKY",
+        "traits": ["WILD_BEAST"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "乌利迪姆·冰雪之狼/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY", "SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "冰雪之狼",
+      "hpBars": [68360],
+      "combatantDataOverride": {
+        "id": "冰雪之狼",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "attribute": "SKY",
+        "traits": ["WILD_BEAST"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "乌利迪姆·冰雪之狼/"
+    }, {
+      "enemyBaseId": "秽神",
+      "hpBars": [132805],
+      "combatantDataOverride": {
+        "id": "秽神",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC", "MASSIVE"],
+        "deathRate": 0.01
+      },
+      "enemyCategories": "秽神/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant248",
+      "hpBars": [180307],
+      "combatantDataOverride": {
+        "id": "servant248",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "BALANCED"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant248/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant157",
+      "hpBars": [101595],
+      "combatantDataOverride": {
+        "id": "servant157",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant157/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "SUNLIGHT"]
+  }]
+}

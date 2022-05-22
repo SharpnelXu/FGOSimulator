@@ -1,0 +1,8 @@
+{
+  "id": "冰雪之狼",
+  "rarity": 3,
+  "fateClass": "ASSASSIN",
+  "attribute": "SKY",
+  "traits": ["WILD_BEAST"],
+  "deathRate": 0.5
+}

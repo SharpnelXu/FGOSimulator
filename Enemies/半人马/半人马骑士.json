@@ -1,0 +1,9 @@
+{
+  "id": "半人马骑士",
+  "rarity": 3,
+  "fateClass": "RIDER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["HUMANOID", "GREEK_MYTHOLOGY_MALES"],
+  "deathRate": 0.5
+}

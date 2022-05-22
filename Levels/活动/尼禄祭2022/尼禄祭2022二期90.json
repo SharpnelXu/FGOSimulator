@@ -1,0 +1,84 @@
+{
+  "id": "尼禄祭2022二期90",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "半人马",
+      "hpBars": [16159],
+      "enemyCategories": "半人马/"
+    }, {
+      "enemyBaseId": "半人马",
+      "hpBars": [16450],
+      "enemyCategories": "半人马/"
+    }, {
+      "enemyBaseId": "半人马骑士",
+      "hpBars": [18760],
+      "enemyCategories": "半人马/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY", "SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "半人马骑士",
+      "hpBars": [18760],
+      "enemyCategories": "半人马/"
+    }, {
+      "enemyBaseId": "许德拉",
+      "hpBars": [73776],
+      "enemyCategories": "大蛇/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant118",
+      "hpBars": [160950],
+      "combatantDataOverride": {
+        "id": "servant118",
+        "rarity": 5,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "BALANCED"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "RIDING", "BRYNHILDS_BELOVED", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.004
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant118/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant16",
+      "hpBars": [72217],
+      "combatantDataOverride": {
+        "id": "servant16",
+        "rarity": 1,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "BALANCED"],
+        "attribute": "EARTH",
+        "traits": ["BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant16/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant120",
+      "hpBars": [79832],
+      "combatantDataOverride": {
+        "id": "servant120",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "gender": "FEMALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "EARTH",
+        "traits": ["DIVINE", "KING", "HOMINIDAE_SERVANT", "DIVINE_SPIRIT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant120/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "SUNLIGHT"]
+  }]
+}
