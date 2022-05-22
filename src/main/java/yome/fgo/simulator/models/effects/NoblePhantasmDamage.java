@@ -159,7 +159,7 @@ public class NoblePhantasmDamage extends Effect {
             final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
 
             final double defenseUpBuff = defender.applyDefenseUpBuff(simulation);
-            final double defenseDownBuff = Math.max(defender.applyDefenseDownBuff(simulation), -1); // this is negative, capping at -100%
+            final double defenseDownBuff = defender.applyDefenseDownBuff(simulation); // value is negative
             final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
             final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
             final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
@@ -341,7 +341,7 @@ public class NoblePhantasmDamage extends Effect {
         final double commandCardBuff = modifierCap(npDamageParams.commandCardBuff, 4, -1);
 
         final double attackBuff = modifierCap(npDamageParams.attackBuff, 4, -1);
-        final double defenseBuff = modifierCap(npDamageParams.defenseBuff, 4, -1);
+        final double defenseBuff = npDamageParams.defenseBuff < -1 ? -1 : npDamageParams.defenseBuff;
 
         final double specificAttackBuff = modifierCap(npDamageParams.specificAttackBuff, 10, -1);
         final double npDamageBuff = modifierCap(npDamageParams.npDamageBuff, 5, -1);
