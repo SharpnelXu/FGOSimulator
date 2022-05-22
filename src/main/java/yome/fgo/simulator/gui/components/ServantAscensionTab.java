@@ -297,6 +297,7 @@ public class ServantAscensionTab extends VBox {
             for (final CommandCardBox cardBox : commandCardBoxes) {
                 cardBox.quickFillData(npRateText.getText(), critStarRateText.getText());
             }
+            exCommandCardBox.quickFillData(npRateText.getText(), critStarRateText.getText());
             for (final Tab tab : npUpgradesTabs.getTabs()) {
                 final NpUpgrade npUpgrade = (NpUpgrade) tab.getContent();
                 npUpgrade.quickFillData(npRateText.getText(), critStarRateText.getText());
