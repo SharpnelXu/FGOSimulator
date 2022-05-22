@@ -112,9 +112,10 @@
           "target": "SELF",
           "buffData": [{
             "type": "Guts",
-            "numTurnsActive": 5,
+            "numTurnsActive": 1,
             "numTimesActive": 1,
             "values": [1000.0, 1150.0, 1300.0, 1450.0, 1600.0, 1750.0, 1900.0, 2050.0, 2200.0, 2500.0],
+            "forceStackable": true,
             "buffIcon": "guts"
           }]
         }, {
@@ -122,10 +123,9 @@
           "target": "SELF",
           "buffData": [{
             "type": "Guts",
-            "numTurnsActive": 1,
+            "numTurnsActive": 5,
             "numTimesActive": 1,
             "values": [1000.0, 1150.0, 1300.0, 1450.0, 1600.0, 1750.0, 1900.0, 2050.0, 2200.0, 2500.0],
-            "forceStackable": true,
             "buffIcon": "guts"
           }]
         }, {

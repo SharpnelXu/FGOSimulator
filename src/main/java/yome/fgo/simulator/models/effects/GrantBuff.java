@@ -96,7 +96,7 @@ public class GrantBuff extends Effect {
         boolean canActivate = true;
         if (!buff.isStackable()) {
             for (final Buff existingBuff : combatant.getBuffs()) {
-                if (existingBuff.getClass().isInstance(buff)) {
+                if (existingBuff.getClass().isInstance(buff) && !existingBuff.isStackable()) {
                     canActivate = false;
                     break;
                 }
