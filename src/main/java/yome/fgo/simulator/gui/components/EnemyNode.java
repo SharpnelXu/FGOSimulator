@@ -223,7 +223,7 @@ public class EnemyNode extends VBox {
                 .collect(Collectors.joining(", "));
         hpText.setText(hps);
         if (enemyData.getIsServant()) {
-            servantAscensionChoiceBox.getSelectionModel().select(enemyData.getServantAscension());
+            servantAscensionChoiceBox.getSelectionModel().select(Integer.valueOf(enemyData.getServantAscension()));
             changeServantAscension(enemyData.getServantAscension());
         }
 
