@@ -1,0 +1,126 @@
+{
+  "id": "尼禄祭2022一期90",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "蛇女",
+      "hpBars": [22136],
+      "combatantDataOverride": {
+        "id": "蛇女",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "gender": "FEMALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "蛇女/"
+    }, {
+      "enemyBaseId": "蛇女",
+      "hpBars": [21168],
+      "combatantDataOverride": {
+        "id": "蛇女",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "gender": "FEMALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "蛇女/"
+    }, {
+      "enemyBaseId": "那伽",
+      "hpBars": [30946],
+      "combatantDataOverride": {
+        "id": "那伽",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "FEMALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "蛇女/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "蛇女",
+      "hpBars": [22136],
+      "combatantDataOverride": {
+        "id": "蛇女",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "gender": "FEMALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "蛇女/"
+    }, {
+      "enemyBaseId": "那伽",
+      "hpBars": [31779],
+      "combatantDataOverride": {
+        "id": "那伽",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "FEMALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "蛇女/"
+    }, {
+      "enemyBaseId": "斯芬克斯",
+      "hpBars": [70748],
+      "combatantDataOverride": {
+        "id": "斯芬克斯",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["DIVINE", "MASSIVE"],
+        "deathRate": 0.01
+      },
+      "enemyCategories": "斯芬克斯/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant180",
+      "hpBars": [163943],
+      "combatantDataOverride": {
+        "id": "servant180",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant180/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant173",
+      "hpBars": [83331],
+      "combatantDataOverride": {
+        "id": "servant173",
+        "rarity": 5,
+        "fateClass": "RULER",
+        "gender": "MALE",
+        "alignments": ["NEUTRAL", "GOOD"],
+        "attribute": "STAR",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant173/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}

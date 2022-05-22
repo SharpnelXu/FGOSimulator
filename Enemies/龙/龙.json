@@ -1,0 +1,8 @@
+{
+  "id": "龙",
+  "rarity": 4,
+  "fateClass": "RIDER",
+  "attribute": "EARTH",
+  "traits": ["DRAGON", "MASSIVE"],
+  "deathRate": 0.01
+}

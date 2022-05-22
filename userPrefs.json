@@ -729,6 +729,26 @@
       "ascension": 1
     }
   }, {
+    "servantNo": 253,
+    "option": {
+      "servantLevel": 90,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 4,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
     "servantNo": 62,
     "option": {
       "servantLevel": 90,
@@ -748,11 +768,17 @@
       "servantLevel": 70,
       "noblePhantasmRank": 2,
       "noblePhantasmLevel": 5,
-      "attackStatusUp": 1000,
+      "attackStatusUp": 500,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
-      "activeSkillLevels": [10, 10, 10],
+      "activeSkillLevels": [9, 9, 9],
       "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }

@@ -1,0 +1,9 @@
+{
+  "id": "那伽",
+  "rarity": 4,
+  "fateClass": "CASTER",
+  "gender": "FEMALE",
+  "attribute": "EARTH",
+  "traits": ["HUMANOID", "DEMONIC"],
+  "deathRate": 0.2
+}

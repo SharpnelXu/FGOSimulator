@@ -1,0 +1,72 @@
+{
+  "id": "尼禄祭2022一期90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "黑武者",
+      "hpBars": [77418],
+      "combatantDataOverride": {
+        "id": "黑武者",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "traits": ["HUMANOID", "UNDEAD", "DEMONIC"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "黑武者/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "龙",
+      "hpBars": [171642],
+      "combatantDataOverride": {
+        "id": "龙",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "attribute": "EARTH",
+        "traits": ["DRAGON", "MASSIVE"],
+        "deathRate": 0.01
+      },
+      "enemyCategories": "龙/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant299",
+      "hpBars": [186194],
+      "combatantDataOverride": {
+        "id": "servant299",
+        "rarity": 5,
+        "fateClass": "SABER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "GOOD"],
+        "attribute": "SKY",
+        "traits": ["ONI", "DIVINE", "DRAGON", "RIDING", "DEMONIC", "DEMONIC_BEAST", "GIANT", "DIVINE_SPIRIT", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant299/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant282",
+      "hpBars": [102008],
+      "combatantDataOverride": {
+        "id": "servant282",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "gender": "FEMALE",
+        "alignments": ["NEUTRAL", "GOOD"],
+        "attribute": "EARTH",
+        "traits": ["DRAGON", "DEMONIC", "DEMONIC_BEAST", "ONI", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 2,
+      "enemyCategories": "servant282/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}

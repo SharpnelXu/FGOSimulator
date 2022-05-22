@@ -1,0 +1,9 @@
+{
+  "id": "斯芬克斯",
+  "rarity": 4,
+  "fateClass": "CASTER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["DIVINE", "MASSIVE"],
+  "deathRate": 0.01
+}

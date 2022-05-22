@@ -1,0 +1,9 @@
+{
+  "id": "蛇女",
+  "rarity": 3,
+  "fateClass": "CASTER",
+  "gender": "FEMALE",
+  "attribute": "EARTH",
+  "traits": ["HUMANOID", "DEMONIC"],
+  "deathRate": 0.5
+}
