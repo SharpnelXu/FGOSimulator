@@ -535,35 +535,35 @@ public class Combatant {
     }
 
     public boolean activateGuts(final Simulation simulation) {
-        boolean activated = false;
+        Guts gutsToApply = null;
         for (final Buff buff : buffs) {
             if (buff instanceof Guts && buff.shouldApply(simulation)) {
-                buff.setApplied();
-                if (simulation.getStatsLogger() != null) {
-                    final String message = String.format(
-                            getTranslation(APPLICATION_SECTION, "%s activates %s"),
-                            getTranslation(ENTITY_NAME_SECTION, id),
-                            buff
-                    );
-                    simulation.getStatsLogger().logEffect(message);
+                if (gutsToApply == null || (gutsToApply.isIrremovable() && !buff.isIrremovable())) {
+                    gutsToApply = (Guts) buff;
                 }
-                final Guts guts = (Guts) buff;
-                if (guts.isPercentageGuts()) {
-                    currentHp = (int) (getMaxHp() * guts.getPercent());
-                } else {
-                    currentHp = guts.getGutsLeft();
-                }
-                activated = true;
-                break;
             }
         }
-        if (activated) {
+        if (gutsToApply != null) {
+            gutsToApply.setApplied();
+            if (simulation.getStatsLogger() != null) {
+                final String message = String.format(
+                        getTranslation(APPLICATION_SECTION, "%s activates %s"),
+                        getTranslation(ENTITY_NAME_SECTION, id),
+                        gutsToApply
+                );
+                simulation.getStatsLogger().logEffect(message);
+            }
+            if (gutsToApply.isPercentageGuts()) {
+                currentHp = (int) (getMaxHp() * gutsToApply.getPercent());
+            } else {
+                currentHp = gutsToApply.getGutsLeft();
+            }
             receivedInstantDeath = false;
             checkBuffStatus();
             activateEffectActivatingBuff(simulation, TriggerOnGutsEffect.class);
         }
 
-        return activated;
+        return gutsToApply != null;
     }
 
     public void changeNp(final double percentNpChange) {
