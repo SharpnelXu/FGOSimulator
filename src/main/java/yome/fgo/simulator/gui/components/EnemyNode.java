@@ -213,6 +213,7 @@ public class EnemyNode extends VBox {
         } catch (final FileNotFoundException ignored) {
         }
         baseEnemyData = baseServantData.getServantAscensionData(asc - 1).getCombatantData();
+        combatantDataOverride = null;
         combatantDataLabel.setText(printCombatantData(baseEnemyData));
     }
 

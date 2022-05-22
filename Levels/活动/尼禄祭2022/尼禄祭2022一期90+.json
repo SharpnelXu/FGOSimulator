@@ -59,7 +59,7 @@
         "gender": "FEMALE",
         "alignments": ["NEUTRAL", "GOOD"],
         "attribute": "EARTH",
-        "traits": ["DRAGON", "DEMONIC", "DEMONIC_BEAST", "ONI", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "traits": ["DRAGON", "DEMONIC", "ONI", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
         "deathRate": 0.002
       },
       "servantAscension": 2,
