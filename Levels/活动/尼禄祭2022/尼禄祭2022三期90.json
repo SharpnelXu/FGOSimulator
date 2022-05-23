@@ -1,0 +1,72 @@
+{
+  "id": "尼禄祭2022三期90",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "火焰咒书",
+      "hpBars": [23301],
+      "enemyCategories": "书/"
+    }, {
+      "enemyBaseId": "疾风咒书",
+      "hpBars": [23301],
+      "enemyCategories": "书/"
+    }, {
+      "enemyBaseId": "魔导书",
+      "hpBars": [23465],
+      "enemyCategories": "书/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY", "SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "冰雪咒书",
+      "hpBars": [24319],
+      "enemyCategories": "书/"
+    }, {
+      "enemyBaseId": "魔导书",
+      "hpBars": [23465],
+      "enemyCategories": "书/"
+    }, {
+      "enemyBaseId": "恶魔",
+      "hpBars": [81857],
+      "enemyCategories": "恶魔/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant145",
+      "hpBars": [152662],
+      "combatantDataOverride": {
+        "id": "servant145",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["DIVINE", "BRYNHILDS_BELOVED", "KING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant145/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant90",
+      "hpBars": [98090],
+      "combatantDataOverride": {
+        "id": "servant90",
+        "rarity": 5,
+        "fateClass": "SABER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "BRIDE"],
+        "attribute": "MAN",
+        "traits": ["ROMAN", "SABER_FACE", "RIDING", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant90/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "SUNLIGHT"]
+  }]
+}

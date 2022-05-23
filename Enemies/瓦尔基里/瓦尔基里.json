@@ -1,0 +1,9 @@
+{
+  "id": "瓦尔基里",
+  "rarity": 4,
+  "fateClass": "RIDER",
+  "gender": "FEMALE",
+  "attribute": "SKY",
+  "traits": ["HUMANOID", "DIVINE"],
+  "deathRate": 0.2
+}

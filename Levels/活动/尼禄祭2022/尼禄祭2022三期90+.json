@@ -1,0 +1,86 @@
+{
+  "id": "尼禄祭2022三期90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "瓦尔基里",
+      "hpBars": [69013],
+      "combatantDataOverride": {
+        "id": "瓦尔基里",
+        "rarity": 4,
+        "fateClass": "ASSASSIN",
+        "gender": "FEMALE",
+        "attribute": "SKY",
+        "traits": ["HUMANOID", "DIVINE"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "瓦尔基里/"
+    }, {
+      "enemyBaseId": "瓦尔基里",
+      "hpBars": [66162],
+      "combatantDataOverride": {
+        "id": "瓦尔基里",
+        "rarity": 4,
+        "fateClass": "ASSASSIN",
+        "gender": "FEMALE",
+        "attribute": "SKY",
+        "traits": ["HUMANOID", "DIVINE"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "瓦尔基里/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY", "SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "大翁鬼",
+      "hpBars": [138905],
+      "combatantDataOverride": {
+        "id": "大翁鬼",
+        "rarity": 4,
+        "fateClass": "ASSASSIN",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC", "MASSIVE", "GIANT", "ONI"],
+        "deathRate": 0.01
+      },
+      "enemyCategories": "鬼/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant235",
+      "hpBars": [172810],
+      "combatantDataOverride": {
+        "id": "servant235",
+        "rarity": 5,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "alignments": ["NEUTRAL", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant235/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant304",
+      "hpBars": [103987],
+      "combatantDataOverride": {
+        "id": "servant304",
+        "rarity": 4,
+        "fateClass": "ASSASSIN",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "BALANCED"],
+        "attribute": "EARTH",
+        "traits": ["DEMONIC", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant304/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "SUNLIGHT"]
+  }]
+}
