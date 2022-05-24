@@ -14,6 +14,7 @@ import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static yome.fgo.simulator.utils.FilePathUtils.COMMAND_CODES_DIRECTORY_PATH;
@@ -28,7 +29,7 @@ public class DataWriter {
         final File newFile = new File(directoryPath);
 
         final Printer printer = JsonFormat.printer();
-        try (PrintStream printStream = new PrintStream(newFile)) {
+        try (final PrintStream printStream = new PrintStream(newFile, StandardCharsets.UTF_8)) {
             printStream.println(printer.print(message));
         } catch (final Exception e) {
             throw new RuntimeException(e);
@@ -74,7 +75,7 @@ public class DataWriter {
 
         final File newFile = new File(directoryPath +  "/" + id + ".json");
         final Printer printer = JsonFormat.printer();
-        try (PrintStream printStream = new PrintStream(newFile)) {
+        try (final PrintStream printStream = new PrintStream(newFile, StandardCharsets.UTF_8)) {
             printStream.println(printer.print(message));
         } catch (final Exception e) {
             throw new RuntimeException(e);

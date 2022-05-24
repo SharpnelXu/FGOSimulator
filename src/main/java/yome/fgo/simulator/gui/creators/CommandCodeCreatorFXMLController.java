@@ -23,13 +23,13 @@ import yome.fgo.simulator.gui.components.DataWrapper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getCCThumbnail;
+import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.creators.BuffBuilder.createBuff;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
@@ -153,7 +153,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
         final JsonFormat.Parser parser = JsonFormat.parser();
         final CommandCodeData.Builder builder = CommandCodeData.newBuilder();
         try {
-            parser.merge(new FileReader(ccFile), builder);
+            parser.merge(readFile(ccFile), builder);
         } catch (final Exception e) {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + " " + e.getMessage());
             errorLabel.setVisible(true);

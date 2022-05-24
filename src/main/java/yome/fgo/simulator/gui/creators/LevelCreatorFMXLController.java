@@ -47,7 +47,6 @@ import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -59,6 +58,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
+import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectMysticCode;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
@@ -162,7 +162,7 @@ public class LevelCreatorFMXLController implements Initializable {
         final JsonFormat.Parser parser = JsonFormat.parser();
         final LevelData.Builder levelDataBuilder = LevelData.newBuilder();
         try {
-            parser.merge(new FileReader(levelDataFile), levelDataBuilder);
+            parser.merge(readFile(levelDataFile), levelDataBuilder);
         } catch (final Exception e) {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + " " + e.getMessage());
             errorLabel.setVisible(true);

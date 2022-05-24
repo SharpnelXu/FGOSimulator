@@ -22,7 +22,6 @@ import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.File;
-import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +30,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.addSplitTraitListener;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillAttribute;
@@ -315,7 +315,7 @@ public class EnemyCreatorFXMLController implements Initializable {
         final JsonFormat.Parser parser = JsonFormat.parser();
         final CombatantData.Builder combatantDataBuilder = CombatantData.newBuilder();
         try {
-            parser.merge(new FileReader(enemyDataFile), combatantDataBuilder);
+            parser.merge(readFile(enemyDataFile), combatantDataBuilder);
         } catch (final Exception e) {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + " " + e.getMessage());
             errorLabel.setVisible(true);

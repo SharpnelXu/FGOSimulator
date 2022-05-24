@@ -14,12 +14,12 @@ import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.gui.components.ActiveSkillUpgrade;
 
 import java.io.File;
-import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -93,7 +93,7 @@ public class MysticCodeCreatorFXMLController implements Initializable {
         final JsonFormat.Parser parser = JsonFormat.parser();
         final MysticCodeData.Builder builder = MysticCodeData.newBuilder();
         try {
-            parser.merge(new FileReader(mcDataFile), builder);
+            parser.merge(readFile(mcDataFile), builder);
         } catch (final Exception e) {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + " " + e.getMessage());
             errorLabel.setVisible(true);

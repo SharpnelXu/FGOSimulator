@@ -25,7 +25,6 @@ import yome.fgo.simulator.gui.components.EffectsCellFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
@@ -35,6 +34,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getCEThumbnail;
+import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
@@ -172,7 +172,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
         final JsonFormat.Parser parser = JsonFormat.parser();
         final CraftEssenceData.Builder builder = CraftEssenceData.newBuilder();
         try {
-            parser.merge(new FileReader(ceDataFile), builder);
+            parser.merge(readFile(ceDataFile), builder);
         } catch (final Exception e) {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + " " + e.getMessage());
             errorLabel.setVisible(true);

@@ -3,15 +3,11 @@ package yome.fgo.simulator.translation;
 import org.apache.commons.configuration2.INIConfiguration;
 import org.apache.commons.configuration2.SubnodeConfiguration;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.utils.FilePathUtils.TRANSLATION_DIRECTORY_PATH;
 
 public class TranslationManager {
@@ -37,12 +33,8 @@ public class TranslationManager {
         TRANSLATIONS.setSeparatorUsedInInput("=");
         try {
             final String fileName = TRANSLATION_DIRECTORY_PATH + "\\" + language + ".ini";
-            final FileInputStream fileInputStream = new FileInputStream(fileName);
-            final InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
-
-            TRANSLATIONS.read(new BufferedReader(inputStreamReader));
+            TRANSLATIONS.read(readFile(fileName));
         } catch (final Exception e) {
-            System.out.println("Loading Failed...");
             throw new RuntimeException(e);
         }
 

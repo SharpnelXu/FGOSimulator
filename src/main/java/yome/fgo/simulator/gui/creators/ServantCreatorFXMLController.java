@@ -15,12 +15,12 @@ import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.gui.components.ServantAscensionTab;
 
 import java.io.File;
-import java.io.FileReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -128,7 +128,7 @@ public class ServantCreatorFXMLController implements Initializable {
         final JsonFormat.Parser parser = JsonFormat.parser();
         final ServantData.Builder servantDataBuilder = ServantData.newBuilder();
         try {
-            parser.merge(new FileReader(servantDataFile), servantDataBuilder);
+            parser.merge(readFile(servantDataFile), servantDataBuilder);
         } catch (final Exception e) {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + " " + e.getMessage());
             errorLabel.setVisible(true);

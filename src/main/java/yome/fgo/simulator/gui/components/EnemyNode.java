@@ -24,7 +24,6 @@ import yome.fgo.data.proto.FgoStorageData.ServantData;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,7 @@ import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getEnemyThumbnail;
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
+import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.components.DataPrinter.printCombatantData;
 import static yome.fgo.simulator.gui.creators.EnemyCreator.editCombatantData;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
@@ -82,7 +82,7 @@ public class EnemyNode extends VBox {
         if (isServant) {
             final ServantData.Builder servantDataBuilder = ServantData.newBuilder();
             try {
-                parser.merge(new FileReader(enemyDataFile), servantDataBuilder);
+                parser.merge(readFile(enemyDataFile), servantDataBuilder);
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
@@ -91,7 +91,7 @@ public class EnemyNode extends VBox {
         } else {
             final CombatantData.Builder combatantDataBuilder = CombatantData.newBuilder();
             try {
-                parser.merge(new FileReader(enemyDataFile), combatantDataBuilder);
+                parser.merge(readFile(enemyDataFile), combatantDataBuilder);
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }

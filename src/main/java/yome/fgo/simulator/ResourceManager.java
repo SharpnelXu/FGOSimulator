@@ -15,10 +15,12 @@ import yome.fgo.simulator.gui.components.CraftEssenceDataWrapper;
 import yome.fgo.simulator.gui.components.MysticCodeDataWrapper;
 import yome.fgo.simulator.gui.components.ServantDataWrapper;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +51,18 @@ public class ResourceManager {
     @Deprecated
     private static final Map<String, CraftEssenceData> CRAFT_ESSENCE_DATA_MAP = new HashMap<>();
 
+    public static BufferedReader readFile(final String fileName) throws FileNotFoundException {
+        final FileInputStream fileInputStream = new FileInputStream(fileName);
+        final InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
+        return new BufferedReader(inputStreamReader);
+    }
+
+    public static BufferedReader readFile(final File file) throws FileNotFoundException {
+        final FileInputStream fileInputStream = new FileInputStream(file);
+        final InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
+        return new BufferedReader(inputStreamReader);
+    }
+
     @Deprecated
     public static CombatantData getEnemyCombatantData(final String enemyCategories, final String id) {
         if (!ENEMY_DATA_MAP.containsKey(id)) {
@@ -58,7 +72,7 @@ public class ResourceManager {
                 final JsonFormat.Parser parser = JsonFormat.parser();
                 final CombatantData.Builder combatantDataBuilder = CombatantData.newBuilder();
                 try {
-                    parser.merge(new FileReader(enemyDataFile), combatantDataBuilder);
+                    parser.merge(readFile(enemyDataFile), combatantDataBuilder);
 
                     ENEMY_DATA_MAP.put(id, combatantDataBuilder.build());
                 } catch (final Exception e) {
@@ -81,7 +95,7 @@ public class ResourceManager {
                 final JsonFormat.Parser parser = JsonFormat.parser();
                 final ServantData.Builder servantDataBuilder = ServantData.newBuilder();
                 try {
-                    parser.merge(new FileReader(servantDataFile), servantDataBuilder);
+                    parser.merge(readFile(servantDataFile), servantDataBuilder);
 
                     SERVANT_DATA_MAP.put(id, servantDataBuilder.build());
                 } catch (final Exception e) {
@@ -107,7 +121,7 @@ public class ResourceManager {
                 final JsonFormat.Parser parser = JsonFormat.parser();
                 final CraftEssenceData.Builder craftEssenceDataBuilder = CraftEssenceData.newBuilder();
                 try {
-                    parser.merge(new FileReader(craftEssenceDataFile), craftEssenceDataBuilder);
+                    parser.merge(readFile(craftEssenceDataFile), craftEssenceDataBuilder);
 
                     CRAFT_ESSENCE_DATA_MAP.put(id, craftEssenceDataBuilder.build());
                 } catch (final Exception e) {
@@ -135,7 +149,7 @@ public class ResourceManager {
                 final JsonFormat.Parser parser = JsonFormat.parser();
                 final ServantData.Builder servantDataBuilder = ServantData.newBuilder();
                 try {
-                    parser.merge(new FileReader(servantDataFile), servantDataBuilder);
+                    parser.merge(readFile(servantDataFile), servantDataBuilder);
                 } catch (final Exception e) {
                     continue;
                 }
@@ -185,7 +199,7 @@ public class ResourceManager {
                 final JsonFormat.Parser parser = JsonFormat.parser();
                 final CraftEssenceData.Builder ceDataBuilder = CraftEssenceData.newBuilder();
                 try {
-                    parser.merge(new FileReader(ceDataFile), ceDataBuilder);
+                    parser.merge(readFile(ceDataFile), ceDataBuilder);
                 } catch (final Exception e) {
                     continue;
                 }
@@ -217,7 +231,7 @@ public class ResourceManager {
                 final JsonFormat.Parser parser = JsonFormat.parser();
                 final MysticCodeData.Builder builder = MysticCodeData.newBuilder();
                 try {
-                    parser.merge(new FileReader(dataFile), builder);
+                    parser.merge(readFile(dataFile), builder);
                 } catch (final Exception e) {
                     continue;
                 }
@@ -255,7 +269,7 @@ public class ResourceManager {
         if (dataFile.exists()) {
             final JsonFormat.Parser parser = JsonFormat.parser();
             try {
-                parser.merge(new FileReader(dataFile), builder);
+                parser.merge(readFile(dataFile), builder);
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
@@ -270,7 +284,7 @@ public class ResourceManager {
         if (dataFile.exists()) {
             final JsonFormat.Parser parser = JsonFormat.parser();
             try {
-                parser.merge(new FileReader(dataFile), builder);
+                parser.merge(readFile(dataFile), builder);
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
@@ -360,7 +374,7 @@ public class ResourceManager {
         if (userPrefsFile.exists()) {
             final JsonFormat.Parser parser = JsonFormat.parser();
             try {
-                parser.merge(new FileReader(userPrefsFile), builder);
+                parser.merge(readFile(userPrefsFile), builder);
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
