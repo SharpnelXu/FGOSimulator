@@ -1,6 +1,8 @@
 package yome.fgo.simulator.utils;
 
+import com.google.common.annotations.VisibleForTesting;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
+import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.ClassAdvantageChangeBuff;
@@ -45,20 +47,20 @@ public class FateClassUtils {
         };
     }
 
-    public static double getClassAdvantage(final Combatant attacker, final Combatant defender) {
+    public static double getClassAdvantage(final Simulation simulation, final Combatant attacker, final Combatant defender) {
         final FateClass attackerClass = attacker.getFateClass();
         final FateClass defenderClass = defender.getFateClass();
 
         double baseRate = getClassAdvantage(attackerClass, defenderClass);
 
         for (final Buff buff : attacker.getBuffs()) {
-            if (buff instanceof ClassAdvantageChangeBuff) {
+            if (buff instanceof ClassAdvantageChangeBuff && buff.shouldApply(simulation)) {
                 baseRate = ((ClassAdvantageChangeBuff) buff).asAttacker(baseRate, defenderClass);
             }
         }
 
         for (final Buff buff : defender.getBuffs()) {
-            if (buff instanceof ClassAdvantageChangeBuff) {
+            if (buff instanceof ClassAdvantageChangeBuff && buff.shouldApply(simulation)) {
                 baseRate = ((ClassAdvantageChangeBuff) buff).asDefender(baseRate, attackerClass);
             }
         }
@@ -66,7 +68,8 @@ public class FateClassUtils {
         return baseRate;
     }
 
-    public static double getClassAdvantage(final FateClass attackerClass, final FateClass defenderClass) {
+    @VisibleForTesting
+    static double getClassAdvantage(final FateClass attackerClass, final FateClass defenderClass) {
         switch (attackerClass) {
             case SABER:
                 return switch (defenderClass) {

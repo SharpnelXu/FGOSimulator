@@ -165,7 +165,7 @@ public class NoblePhantasmDamage extends Effect {
             final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
             final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
 
-            final double classAdvantage = getClassAdvantage(attacker, defender);
+            final double classAdvantage = getClassAdvantage(simulation, attacker, defender);
 
             final NpDamageParameters npDamageParams = NpDamageParameters.builder()
                     .attack(attacker.getAttack())
@@ -330,7 +330,6 @@ public class NoblePhantasmDamage extends Effect {
     public static int calculateTotalNpDamage(final NpDamageParameters npDamageParams) {
         // fixed values
         final double classAttackCorrection = getClassAttackCorrection(npDamageParams.attackerClass);
-        final double classAdvantage = getClassAdvantage(npDamageParams.attackerClass, npDamageParams.defenderClass);
         final double attributeAdvantage = getAttributeAdvantage(
                 npDamageParams.attackerAttribute,
                 npDamageParams.defenderAttribute
@@ -352,7 +351,7 @@ public class NoblePhantasmDamage extends Effect {
         final int totalDamage = (int) (npDamageParams.attack * NP_DAMAGE_MULTIPLIER * npDamageParams.damageRate *
                 commandCardDamageCorrection *
                 (1 + commandCardBuff - npDamageParams.commandCardResist) *
-                classAttackCorrection * classAdvantage * attributeAdvantage *
+                classAttackCorrection * npDamageParams.classAdvantage * attributeAdvantage *
                 (1 + attackBuff - defenseBuff - npDamageParams.specificDefenseBuff) *
                 (1 + specificAttackBuff + npDamageBuff) * npDamageParams.npSpecificAttackRate *
                 (1 - percentDefenseBuff) *

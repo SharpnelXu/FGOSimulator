@@ -130,7 +130,7 @@ public class CommandCardExecution {
         final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class) +
                 currentCard.applyBuff(simulation, CriticalStarGenerationBuff.class);
 
-        final double classAdvantage = getClassAdvantage(attacker, defender);
+        final double classAdvantage = getClassAdvantage(simulation, attacker, defender);
 
         final DamageParameters damageParameters = DamageParameters.builder()
                 .attack(attacker.getAttack() + currentCard.getCommandCardStrengthen())

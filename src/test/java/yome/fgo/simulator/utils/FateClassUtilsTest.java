@@ -4,7 +4,9 @@ import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
+import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
+import yome.fgo.simulator.models.conditions.TargetsHaveTrait;
 import yome.fgo.simulator.models.effects.buffs.ClassAdvantageChangeBuff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +30,8 @@ import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.RULER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.SABER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.SHIELDER;
+import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
+import static yome.fgo.data.proto.FgoStorageData.Traits.DEMONIC;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAdvantage;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAttackCorrection;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassCritStarCorrection;
@@ -94,19 +98,42 @@ public class FateClassUtilsTest {
 
     @Test
     public void testGetClassAdvantage_classAdvantageChangeBuff() {
-        final Combatant attacker = new Combatant("test", CombatantData.newBuilder().setFateClass(BERSERKER).build());
-        final Combatant defender = new Combatant("test", CombatantData.newBuilder().setFateClass(FOREIGNER).build());
+        final Combatant berserker = new Combatant("test", CombatantData.newBuilder().setFateClass(BERSERKER).build());
+        final Combatant berserkerWithTrait = new Combatant(
+                "test",
+                CombatantData.newBuilder().setFateClass(BERSERKER).addTraits(DEMONIC.name()).build()
+        );
+        final Combatant foreigner = new Combatant("test", CombatantData.newBuilder().setFateClass(FOREIGNER).build());
+        final Combatant foreignerWithTrait = new Combatant(
+                "test",
+                CombatantData.newBuilder().setFateClass(FOREIGNER).addTraits(DEMONIC.name()).build()
+        );
 
         final ClassAdvantageChangeBuff buff = ClassAdvantageChangeBuff.builder()
                 .attackMode(CLASS_ADV_REMOVE_DISADV)
                 .defenseMode(CLASS_ADV_REMOVE_DISADV)
                 .defenseModeAffectedClasses(ImmutableList.of(BERSERKER))
+                .condition(TargetsHaveTrait.builder().target(DEFENDER).trait(DEMONIC.name()).build())
                 .build();
 
-        attacker.addBuff(buff);
+        final Simulation simulation = new Simulation();
+        berserker.addBuff(buff);
+        berserkerWithTrait.addBuff(buff);
 
-        assertEquals(1.0, getClassAdvantage(attacker, defender));
-        assertEquals(2.0, getClassAdvantage(defender, attacker));
-        assertEquals(1.0, getClassAdvantage(attacker, attacker));
+        simulation.setActivator(berserker);
+        simulation.setDefender(foreigner);
+        assertEquals(0.5, getClassAdvantage(simulation, berserker, foreigner));
+
+        simulation.setActivator(berserker);
+        simulation.setDefender(foreignerWithTrait);
+        assertEquals(1.0, getClassAdvantage(simulation, berserker, foreignerWithTrait));
+
+        simulation.setActivator(foreigner);
+        simulation.setDefender(berserkerWithTrait);
+        assertEquals(2.0, getClassAdvantage(simulation, foreigner, berserkerWithTrait));
+
+        simulation.setActivator(berserker);
+        simulation.setDefender(berserkerWithTrait);
+        assertEquals(1.0, getClassAdvantage(simulation, berserker, berserkerWithTrait));
     }
 }

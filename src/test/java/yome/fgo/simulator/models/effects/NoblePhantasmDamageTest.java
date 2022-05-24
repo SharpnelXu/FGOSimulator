@@ -20,6 +20,7 @@ public class NoblePhantasmDamageTest {
                 .damageRate(7.5)
                 .attackerClass(AVENGER)
                 .attackerAttribute(SKY)
+                .classAdvantage(1.0)
                 .currentCardType(ARTS)
                 .damageAdditionBuff(225)
                 .fixedRandom(0.9);
