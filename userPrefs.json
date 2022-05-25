@@ -956,7 +956,8 @@
   }, {
     "craftEssenceNo": 48,
     "option": {
-      "craftEssenceLevel": 100
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
     }
   }, {
     "craftEssenceNo": 212,
