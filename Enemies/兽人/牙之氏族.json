@@ -1,0 +1,9 @@
+{
+  "id": "牙之氏族",
+  "rarity": 4,
+  "fateClass": "SABER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["FAE", "HUMANOID", "WILD_BEAST"],
+  "deathRate": 0.002
+}

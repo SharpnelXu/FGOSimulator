@@ -1,0 +1,41 @@
+{
+  "id": "QP本·极",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "霸者之门",
+      "hpBars": [23755],
+      "enemyCategories": "门/"
+    }, {
+      "enemyBaseId": "霸者之门",
+      "hpBars": [24483],
+      "enemyCategories": "门/"
+    }, {
+      "enemyBaseId": "霸者之门",
+      "hpBars": [23027],
+      "enemyCategories": "门/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "霸者之门",
+      "hpBars": [30252],
+      "enemyCategories": "门/"
+    }, {
+      "enemyBaseId": "霸者之门",
+      "hpBars": [31999],
+      "enemyCategories": "门/"
+    }, {
+      "enemyBaseId": "霸者之门",
+      "hpBars": [31125],
+      "enemyCategories": "门/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "珍贵的黄金像",
+      "hpBars": [132932],
+      "enemyCategories": "石像神/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }]
+}

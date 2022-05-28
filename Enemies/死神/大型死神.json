@@ -1,0 +1,8 @@
+{
+  "id": "大型死神",
+  "rarity": 4,
+  "fateClass": "AVENGER",
+  "attribute": "EARTH",
+  "traits": ["FAE", "DEMONIC", "MASSIVE"],
+  "deathRate": 0.001
+}

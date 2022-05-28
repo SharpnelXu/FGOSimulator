@@ -1,0 +1,44 @@
+{
+  "id": "种火本·极",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "黎明之炎腕",
+      "hpBars": [30000],
+      "enemyCategories": "手/"
+    }, {
+      "enemyBaseId": "黎明之炎腕",
+      "hpBars": [30000],
+      "enemyCategories": "手/"
+    }, {
+      "enemyBaseId": "黎明之炎腕",
+      "hpBars": [30000],
+      "enemyCategories": "手/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["FOREST"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "黎明之炎腕",
+      "hpBars": [40000],
+      "enemyCategories": "手/"
+    }, {
+      "enemyBaseId": "黎明之炎腕",
+      "hpBars": [45000],
+      "enemyCategories": "手/"
+    }, {
+      "enemyBaseId": "黎明之炎腕",
+      "hpBars": [40000],
+      "enemyCategories": "手/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["FOREST"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "黎明之炎腕",
+      "hpBars": [140000],
+      "enemyCategories": "手/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["FOREST"]
+  }]
+}

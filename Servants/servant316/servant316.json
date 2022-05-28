@@ -175,17 +175,13 @@
             },
             "buffData": [{
               "type": "DebuffChanceBuff",
-              "applyCondition": {
-                "type": "TargetsContainsSpecificServant",
-                "value": "servant316",
-                "target": "ALL_ALLIES"
-              },
               "values": [0.1],
-              "customTraits": ["POSITIVE_BUFF", "Oberon"],
+              "customTraits": ["POSITIVE_BUFF", "对人理"],
               "irremovable": true,
               "hasCustomTraits": true,
               "buffIcon": "buffChanceUp"
-            }]
+            }],
+            "probabilities": [50.0]
           }],
           "buffIcon": "delayedBuff"
         }]
@@ -204,7 +200,7 @@
                 "value": "DebuffChanceBuff"
               }, {
                 "type": "BuffHasTrait",
-                "value": "Oberon"
+                "value": "对人理"
               }, {
                 "type": "Not",
                 "subConditionData": [{
@@ -214,9 +210,10 @@
                 }]
               }]
             },
+            "probabilities": [50.0],
             "intValues": [1]
           }],
-          "buffIcon": "delayedBuff"
+          "buffIcon": "delayedEffect"
         }]
       }, {
         "type": "GrantBuff",
@@ -233,7 +230,7 @@
                 "value": "DebuffChanceBuff"
               }, {
                 "type": "BuffHasTrait",
-                "value": "Oberon"
+                "value": "对人理"
               }, {
                 "type": "Not",
                 "subConditionData": [{
@@ -243,9 +240,10 @@
                 }]
               }]
             },
+            "probabilities": [50.0],
             "intValues": [1]
           }],
-          "buffIcon": "delayedBuff"
+          "buffIcon": "delayedEffect"
         }]
       }, {
         "type": "GrantBuff",
@@ -262,17 +260,13 @@
             },
             "buffData": [{
               "type": "BuffChanceBuff",
-              "applyCondition": {
-                "type": "TargetsContainsSpecificServant",
-                "value": "servant316",
-                "target": "ALL_ALLIES"
-              },
               "values": [-0.2],
-              "customTraits": ["Oberon", "NEGATIVE_BUFF"],
+              "customTraits": ["对人理", "NEGATIVE_BUFF"],
               "irremovable": true,
               "hasCustomTraits": true,
               "buffIcon": "buffChanceDown"
-            }]
+            }],
+            "probabilities": [50.0]
           }],
           "buffIcon": "delayedEffect"
         }]
@@ -295,12 +289,13 @@
                 "value": "BuffChanceBuff"
               }, {
                 "type": "BuffHasTrait",
-                "value": "Oberon"
+                "value": "对人理"
               }]
             },
+            "probabilities": [50.0],
             "intValues": [1]
           }],
-          "buffIcon": "delayedEffect"
+          "buffIcon": "delayedBuff"
         }]
       }, {
         "type": "GrantBuff",
@@ -321,12 +316,13 @@
                 "value": "BuffChanceBuff"
               }, {
                 "type": "BuffHasTrait",
-                "value": "Oberon"
+                "value": "对人理"
               }]
             },
+            "probabilities": [50.0],
             "intValues": [1]
           }],
-          "buffIcon": "delayedEffect"
+          "buffIcon": "delayedBuff"
         }]
       }],
       "iconName": "buffChanceUp"

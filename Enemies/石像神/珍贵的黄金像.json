@@ -1,0 +1,8 @@
+{
+  "id": "珍贵的黄金像",
+  "rarity": 4,
+  "fateClass": "CASTER",
+  "attribute": "SKY",
+  "traits": ["DIVINE"],
+  "deathRate": 0.2
+}

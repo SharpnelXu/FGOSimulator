@@ -1,0 +1,161 @@
+{
+  "id": "牛津-餐厅街道",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "死神",
+      "hpBars": [28654],
+      "enemyCategories": "死神/"
+    }, {
+      "enemyBaseId": "死神",
+      "hpBars": [26622],
+      "enemyCategories": "死神/"
+    }, {
+      "enemyBaseId": "死神",
+      "hpBars": [27638],
+      "enemyCategories": "死神/"
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "buffData": [{
+        "type": "DebuffResist",
+        "applyCondition": {
+          "type": "BuffTypeEquals",
+          "value": "Pigify"
+        },
+        "values": [10.0],
+        "irremovable": true,
+        "buffIcon": "immune"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "buffData": [{
+        "type": "SpecificAttackBuff",
+        "applyCondition": {
+          "type": "TargetsHaveTrait",
+          "value": "FAE",
+          "target": "DEFENDER"
+        },
+        "values": [0.2],
+        "irremovable": true,
+        "buffIcon": "specialDamageUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "buffData": [{
+        "type": "PostAttackEffect",
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "DEFENDER",
+          "buffData": [{
+            "type": "Curse",
+            "numTurnsActive": 3,
+            "values": [300.0],
+            "buffIcon": "curse"
+          }]
+        }],
+        "irremovable": true,
+        "buffIcon": "attackApplyDebuff"
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "牙之氏族",
+      "hpBars": [42410],
+      "enemyCategories": "兽人/"
+    }, {
+      "enemyBaseId": "死神",
+      "hpBars": [34521],
+      "enemyCategories": "死神/"
+    }, {
+      "enemyBaseId": "死神",
+      "hpBars": [33378],
+      "enemyCategories": "死神/"
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "死神",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DebuffResist",
+        "applyCondition": {
+          "type": "BuffTypeEquals",
+          "value": "Pigify"
+        },
+        "values": [10.0],
+        "irremovable": true,
+        "buffIcon": "immune"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "死神",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "SpecificAttackBuff",
+        "applyCondition": {
+          "type": "TargetsHaveTrait",
+          "value": "FAE",
+          "target": "DEFENDER"
+        },
+        "values": [0.2],
+        "irremovable": true,
+        "buffIcon": "specialDamageUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "死神",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "PostAttackEffect",
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "DEFENDER",
+          "buffData": [{
+            "type": "Curse",
+            "numTurnsActive": 3,
+            "values": [300.0],
+            "buffIcon": "curse"
+          }]
+        }],
+        "irremovable": true,
+        "buffIcon": "attackApplyDebuff"
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "牙之氏族",
+      "hpBars": [63396],
+      "enemyCategories": "兽人/"
+    }, {
+      "enemyBaseId": "牙之氏族",
+      "hpBars": [98020],
+      "enemyCategories": "兽人/"
+    }, {
+      "enemyBaseId": "牙之氏族",
+      "hpBars": [65421],
+      "enemyCategories": "兽人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT"]
+  }]
+}
