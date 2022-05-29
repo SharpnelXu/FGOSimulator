@@ -884,7 +884,10 @@
         }, {
           "type": "NoblePhantasmDamage",
           "target": "ALL_ENEMIES",
-          "values": [4.5, 6.0, 6.75, 7.125, 7.5]
+          "values": [4.5, 6.0, 6.75, 7.125, 7.5],
+          "npDamageAdditionalParams": {
+            "isNpIgnoreDefense": true
+          }
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"
       }]
