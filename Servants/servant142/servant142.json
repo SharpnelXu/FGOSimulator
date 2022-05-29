@@ -690,6 +690,7 @@
         "effects": [{
           "type": "GrantBuff",
           "target": "SELF",
+          "isOverchargedEffect": true,
           "buffData": [{
             "type": "CommandCardBuff",
             "numTurnsActive": 1,
@@ -752,6 +753,7 @@
         "effects": [{
           "type": "GrantBuff",
           "target": "SELF",
+          "isOverchargedEffect": true,
           "buffData": [{
             "type": "CommandCardBuff",
             "numTurnsActive": 1,

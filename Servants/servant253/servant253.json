@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "GOOD"],
       "attribute": "MAN",
-      "traits": ["RIDING", "HOMINIDAE_SERVANT", "CHILD_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["RIDING", "HOMINIDAE_SERVANT", "CHILD_SERVANT", "HAS_COSTUME", "HUMANOID"],
       "deathRate": 0.3
     },
     "defenseNpRate": 0.03,

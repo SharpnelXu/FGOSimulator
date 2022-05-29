@@ -28,21 +28,48 @@
     "activeSkillUpgrades": [{
       "activeSkillData": [{
         "effects": [{
-          "type": "RandomEffects"
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "AttackBuff",
+            "values": [0.0]
+          }]
         }]
       }]
     }, {
       "activeSkillData": [{
         "effects": [{
-          "type": "RandomEffects"
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "AttackBuff",
+            "values": [0.0]
+          }]
         }]
       }]
     }, {
       "activeSkillData": [{
         "effects": [{
-          "type": "RandomEffects"
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "AttackBuff",
+            "values": [0.0]
+          }]
         }]
       }]
+    }],
+    "passiveSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DebuffResist",
+          "values": [0.15],
+          "buffIcon": "debuffResistUp"
+        }]
+      }],
+      "iconName": "magicResistance"
     }],
     "appendSkillData": [{
       "effects": [{

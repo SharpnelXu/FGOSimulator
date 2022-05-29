@@ -232,7 +232,7 @@
           }]
         }, {
           "type": "BuffAbsorption",
-          "target": "ALL_ALLIES_EXCLUDING_SELF",
+          "target": "ALL_CHARACTERS_EXCLUDING_SELF",
           "applyCondition": {
             "type": "BuffTypeEquals",
             "value": "Curse"

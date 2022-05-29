@@ -1,0 +1,788 @@
+{
+  "servantAscensionData": [{
+    "combatantData": {
+      "id": "servant169",
+      "rarity": 5,
+      "fateClass": "CASTER",
+      "gender": "FEMALE",
+      "alignments": ["LAWFUL", "BALANCED"],
+      "attribute": "MAN",
+      "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "deathRate": 0.48
+    },
+    "defenseNpRate": 0.03,
+    "criticalStarWeight": 52,
+    "commandCardData": [{
+      "commandCardType": "QUICK",
+      "hitsData": [10, 20, 30, 40],
+      "npRate": 0.0051,
+      "criticalStarGen": 0.108
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [16, 33, 51],
+      "npRate": 0.0051,
+      "criticalStarGen": 0.108
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [16, 33, 51],
+      "npRate": 0.0051,
+      "criticalStarGen": 0.108
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [16, 33, 51],
+      "npRate": 0.0051,
+      "criticalStarGen": 0.108
+    }, {
+      "commandCardType": "BUSTER",
+      "hitsData": [10, 20, 30, 40],
+      "npRate": 0.0051,
+      "criticalStarGen": 0.108
+    }],
+    "activeSkillUpgrades": [{
+      "activeSkillData": [{
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "NpGaugeChange",
+          "target": "TARGETED_ENEMY",
+          "probabilities": [0.8, 0.82, 0.84, 0.86, 0.88, 0.9, 0.92, 0.94, 0.96, 1.0],
+          "intValues": [-1]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22, 0.24, 0.26, 0.3],
+            "buffIcon": "artsUp"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "SELF",
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+        }],
+        "iconName": "npGaugeDown"
+      }]
+    }, {
+      "activeSkillData": [{
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "MALE",
+            "target": "EFFECT_TARGET"
+          },
+          "buffData": [{
+            "type": "Charm",
+            "numTurnsActive": 1,
+            "buffIcon": "charm"
+          }],
+          "probabilities": [0.3, 0.33, 0.36, 0.39, 0.42, 0.45, 0.48, 0.51, 0.54, 0.6]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DefenseBuff",
+            "numTurnsActive": 2,
+            "values": [0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36, 0.4],
+            "buffIcon": "defenseUp"
+          }]
+        }],
+        "iconName": "charm"
+      }]
+    }, {
+      "activeSkillData": [{
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "Guts",
+            "numTurnsActive": 5,
+            "numTimesActive": 1,
+            "values": [1000.0, 1200.0, 1400.0, 1600.0, 1800.0, 2000.0, 2200.0, 2400.0, 2600.0, 3000.0],
+            "buffIcon": "guts"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ENEMY",
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "KING",
+            "target": "EFFECT_TARGET"
+          },
+          "buffData": [{
+            "type": "AttackBuff",
+            "numTurnsActive": 1,
+            "values": [-0.3, -0.32, -0.34, -0.36, -0.38, -0.4, -0.42, -0.44, -0.46, -0.5],
+            "buffIcon": "attackDown"
+          }]
+        }],
+        "iconName": "guts"
+      }, {
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "Guts",
+            "numTurnsActive": 5,
+            "numTimesActive": 1,
+            "values": [1000.0, 1200.0, 1400.0, 1600.0, 1800.0, 2000.0, 2200.0, 2400.0, 2600.0, 3000.0],
+            "buffIcon": "guts"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES_EXCLUDING_SELF",
+          "buffData": [{
+            "type": "Guts",
+            "numTurnsActive": 2,
+            "numTimesActive": 1,
+            "values": [500.0],
+            "buffIcon": "guts"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ENEMY",
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "KING",
+            "target": "EFFECT_TARGET"
+          },
+          "buffData": [{
+            "type": "AttackBuff",
+            "numTurnsActive": 1,
+            "values": [-0.3, -0.32, -0.34, -0.36, -0.38, -0.4, -0.42, -0.44, -0.46, -0.5],
+            "buffIcon": "attackDown"
+          }]
+        }],
+        "iconName": "guts"
+      }]
+    }],
+    "passiveSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "ARTS"
+          },
+          "values": [0.115],
+          "buffIcon": "artsUp"
+        }]
+      }],
+      "iconName": "territoryCreation"
+    }],
+    "appendSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "EXTRA"
+          },
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+          "buffIcon": "specialDamageUp"
+        }]
+      }],
+      "iconName": "specialAttackUp"
+    }, {
+      "effects": [{
+        "type": "NpChange",
+        "target": "SELF",
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
+      }],
+      "iconName": "npGain"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "AttackBuff",
+          "applyCondition": {
+            "type": "TargetsHaveClass",
+            "value": "BERSERKER",
+            "target": "DEFENDER"
+          },
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+          "buffIcon": "attackUp"
+        }]
+      }],
+      "iconName": "attackUp"
+    }],
+    "servantStatusData": [{
+      "lv": 1,
+      "HP": 2324,
+      "ATK": 1423
+    }, {
+      "lv": 2,
+      "HP": 2391,
+      "ATK": 1461
+    }, {
+      "lv": 3,
+      "HP": 2472,
+      "ATK": 1508
+    }, {
+      "lv": 4,
+      "HP": 2567,
+      "ATK": 1563
+    }, {
+      "lv": 5,
+      "HP": 2648,
+      "ATK": 1609
+    }, {
+      "lv": 6,
+      "HP": 2743,
+      "ATK": 1664
+    }, {
+      "lv": 7,
+      "HP": 2851,
+      "ATK": 1726
+    }, {
+      "lv": 8,
+      "HP": 2946,
+      "ATK": 1781
+    }, {
+      "lv": 9,
+      "HP": 3054,
+      "ATK": 1843
+    }, {
+      "lv": 10,
+      "HP": 3175,
+      "ATK": 1913
+    }, {
+      "lv": 11,
+      "HP": 3284,
+      "ATK": 1976
+    }, {
+      "lv": 12,
+      "HP": 3405,
+      "ATK": 2046
+    }, {
+      "lv": 13,
+      "HP": 3527,
+      "ATK": 2116
+    }, {
+      "lv": 14,
+      "HP": 3649,
+      "ATK": 2186
+    }, {
+      "lv": 15,
+      "HP": 3784,
+      "ATK": 2264
+    }, {
+      "lv": 16,
+      "HP": 3919,
+      "ATK": 2342
+    }, {
+      "lv": 17,
+      "HP": 4054,
+      "ATK": 2419
+    }, {
+      "lv": 18,
+      "HP": 4203,
+      "ATK": 2505
+    }, {
+      "lv": 19,
+      "HP": 4338,
+      "ATK": 2583
+    }, {
+      "lv": 20,
+      "HP": 4487,
+      "ATK": 2669
+    }, {
+      "lv": 21,
+      "HP": 4649,
+      "ATK": 2762
+    }, {
+      "lv": 22,
+      "HP": 4798,
+      "ATK": 2848
+    }, {
+      "lv": 23,
+      "HP": 4960,
+      "ATK": 2941
+    }, {
+      "lv": 24,
+      "HP": 5123,
+      "ATK": 3035
+    }, {
+      "lv": 25,
+      "HP": 5285,
+      "ATK": 3128
+    }, {
+      "lv": 26,
+      "HP": 5447,
+      "ATK": 3222
+    }, {
+      "lv": 27,
+      "HP": 5623,
+      "ATK": 3323
+    }, {
+      "lv": 28,
+      "HP": 5785,
+      "ATK": 3416
+    }, {
+      "lv": 29,
+      "HP": 5961,
+      "ATK": 3518
+    }, {
+      "lv": 30,
+      "HP": 6137,
+      "ATK": 3619
+    }, {
+      "lv": 31,
+      "HP": 6326,
+      "ATK": 3728
+    }, {
+      "lv": 32,
+      "HP": 6502,
+      "ATK": 3829
+    }, {
+      "lv": 33,
+      "HP": 6691,
+      "ATK": 3938
+    }, {
+      "lv": 34,
+      "HP": 6867,
+      "ATK": 4040
+    }, {
+      "lv": 35,
+      "HP": 7056,
+      "ATK": 4149
+    }, {
+      "lv": 36,
+      "HP": 7246,
+      "ATK": 4258
+    }, {
+      "lv": 37,
+      "HP": 7435,
+      "ATK": 4367
+    }, {
+      "lv": 38,
+      "HP": 7624,
+      "ATK": 4476
+    }, {
+      "lv": 39,
+      "HP": 7813,
+      "ATK": 4585
+    }, {
+      "lv": 40,
+      "HP": 8003,
+      "ATK": 4694
+    }, {
+      "lv": 41,
+      "HP": 8206,
+      "ATK": 4811
+    }, {
+      "lv": 42,
+      "HP": 8395,
+      "ATK": 4920
+    }, {
+      "lv": 43,
+      "HP": 8584,
+      "ATK": 5029
+    }, {
+      "lv": 44,
+      "HP": 8787,
+      "ATK": 5146
+    }, {
+      "lv": 45,
+      "HP": 8976,
+      "ATK": 5255
+    }, {
+      "lv": 46,
+      "HP": 9179,
+      "ATK": 5372
+    }, {
+      "lv": 47,
+      "HP": 9368,
+      "ATK": 5481
+    }, {
+      "lv": 48,
+      "HP": 9571,
+      "ATK": 5597
+    }, {
+      "lv": 49,
+      "HP": 9761,
+      "ATK": 5706
+    }, {
+      "lv": 50,
+      "HP": 9950,
+      "ATK": 5815
+    }, {
+      "lv": 51,
+      "HP": 10153,
+      "ATK": 5932
+    }, {
+      "lv": 52,
+      "HP": 10342,
+      "ATK": 6041
+    }, {
+      "lv": 53,
+      "HP": 10531,
+      "ATK": 6150
+    }, {
+      "lv": 54,
+      "HP": 10721,
+      "ATK": 6259
+    }, {
+      "lv": 55,
+      "HP": 10910,
+      "ATK": 6369
+    }, {
+      "lv": 56,
+      "HP": 11099,
+      "ATK": 6478
+    }, {
+      "lv": 57,
+      "HP": 11289,
+      "ATK": 6587
+    }, {
+      "lv": 58,
+      "HP": 11464,
+      "ATK": 6688
+    }, {
+      "lv": 59,
+      "HP": 11654,
+      "ATK": 6797
+    }, {
+      "lv": 60,
+      "HP": 11829,
+      "ATK": 6898
+    }, {
+      "lv": 61,
+      "HP": 12019,
+      "ATK": 7007
+    }, {
+      "lv": 62,
+      "HP": 12195,
+      "ATK": 7108
+    }, {
+      "lv": 63,
+      "HP": 12370,
+      "ATK": 7210
+    }, {
+      "lv": 64,
+      "HP": 12533,
+      "ATK": 7303
+    }, {
+      "lv": 65,
+      "HP": 12708,
+      "ATK": 7404
+    }, {
+      "lv": 66,
+      "HP": 12871,
+      "ATK": 7498
+    }, {
+      "lv": 67,
+      "HP": 13033,
+      "ATK": 7591
+    }, {
+      "lv": 68,
+      "HP": 13195,
+      "ATK": 7685
+    }, {
+      "lv": 69,
+      "HP": 13357,
+      "ATK": 7778
+    }, {
+      "lv": 70,
+      "HP": 13506,
+      "ATK": 7864
+    }, {
+      "lv": 71,
+      "HP": 13668,
+      "ATK": 7957
+    }, {
+      "lv": 72,
+      "HP": 13817,
+      "ATK": 8043
+    }, {
+      "lv": 73,
+      "HP": 13952,
+      "ATK": 8121
+    }, {
+      "lv": 74,
+      "HP": 14101,
+      "ATK": 8207
+    }, {
+      "lv": 75,
+      "HP": 14236,
+      "ATK": 8285
+    }, {
+      "lv": 76,
+      "HP": 14372,
+      "ATK": 8362
+    }, {
+      "lv": 77,
+      "HP": 14507,
+      "ATK": 8440
+    }, {
+      "lv": 78,
+      "HP": 14629,
+      "ATK": 8510
+    }, {
+      "lv": 79,
+      "HP": 14750,
+      "ATK": 8581
+    }, {
+      "lv": 80,
+      "HP": 14872,
+      "ATK": 8651
+    }, {
+      "lv": 81,
+      "HP": 14980,
+      "ATK": 8713
+    }, {
+      "lv": 82,
+      "HP": 15102,
+      "ATK": 8783
+    }, {
+      "lv": 83,
+      "HP": 15210,
+      "ATK": 8845
+    }, {
+      "lv": 84,
+      "HP": 15305,
+      "ATK": 8900
+    }, {
+      "lv": 85,
+      "HP": 15413,
+      "ATK": 8962
+    }, {
+      "lv": 86,
+      "HP": 15507,
+      "ATK": 9017
+    }, {
+      "lv": 87,
+      "HP": 15589,
+      "ATK": 9064
+    }, {
+      "lv": 88,
+      "HP": 15683,
+      "ATK": 9118
+    }, {
+      "lv": 89,
+      "HP": 15764,
+      "ATK": 9165
+    }, {
+      "lv": 90,
+      "HP": 15846,
+      "ATK": 9212
+    }, {
+      "lv": 91,
+      "HP": 15994,
+      "ATK": 9297
+    }, {
+      "lv": 92,
+      "HP": 16143,
+      "ATK": 9383
+    }, {
+      "lv": 93,
+      "HP": 16292,
+      "ATK": 9469
+    }, {
+      "lv": 94,
+      "HP": 16440,
+      "ATK": 9554
+    }, {
+      "lv": 95,
+      "HP": 16603,
+      "ATK": 9648
+    }, {
+      "lv": 96,
+      "HP": 16751,
+      "ATK": 9733
+    }, {
+      "lv": 97,
+      "HP": 16900,
+      "ATK": 9819
+    }, {
+      "lv": 98,
+      "HP": 17049,
+      "ATK": 9905
+    }, {
+      "lv": 99,
+      "HP": 17211,
+      "ATK": 9998
+    }, {
+      "lv": 100,
+      "HP": 17360,
+      "ATK": 10084
+    }, {
+      "lv": 101,
+      "HP": 17509,
+      "ATK": 10170
+    }, {
+      "lv": 102,
+      "HP": 17657,
+      "ATK": 10255
+    }, {
+      "lv": 103,
+      "HP": 17820,
+      "ATK": 10349
+    }, {
+      "lv": 104,
+      "HP": 17968,
+      "ATK": 10434
+    }, {
+      "lv": 105,
+      "HP": 18117,
+      "ATK": 10520
+    }, {
+      "lv": 106,
+      "HP": 18266,
+      "ATK": 10606
+    }, {
+      "lv": 107,
+      "HP": 18428,
+      "ATK": 10699
+    }, {
+      "lv": 108,
+      "HP": 18577,
+      "ATK": 10785
+    }, {
+      "lv": 109,
+      "HP": 18726,
+      "ATK": 10871
+    }, {
+      "lv": 110,
+      "HP": 18874,
+      "ATK": 10956
+    }, {
+      "lv": 111,
+      "HP": 19023,
+      "ATK": 11042
+    }, {
+      "lv": 112,
+      "HP": 19185,
+      "ATK": 11135
+    }, {
+      "lv": 113,
+      "HP": 19334,
+      "ATK": 11221
+    }, {
+      "lv": 114,
+      "HP": 19483,
+      "ATK": 11307
+    }, {
+      "lv": 115,
+      "HP": 19632,
+      "ATK": 11392
+    }, {
+      "lv": 116,
+      "HP": 19794,
+      "ATK": 11486
+    }, {
+      "lv": 117,
+      "HP": 19943,
+      "ATK": 11572
+    }, {
+      "lv": 118,
+      "HP": 20091,
+      "ATK": 11657
+    }, {
+      "lv": 119,
+      "HP": 20240,
+      "ATK": 11743
+    }, {
+      "lv": 120,
+      "HP": 20402,
+      "ATK": 11836
+    }],
+    "noblePhantasmUpgrades": {
+      "noblePhantasmData": [{
+        "commandCardData": {
+          "commandCardType": "ARTS",
+          "hitsData": [6, 13, 20, 26, 35],
+          "npRate": 0.0051,
+          "criticalStarGen": 0.108
+        },
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "NpDamageBuff",
+            "numTurnsActive": 1,
+            "values": [0.2],
+            "buffIcon": "npDamageUp"
+          }]
+        }, {
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [4.5, 6.0, 6.75, 7.125, 7.5],
+          "npDamageAdditionalParams": {
+            "npSpecificDamageCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "KING",
+              "target": "DEFENDER"
+            },
+            "isNpSpecificDamageOverchargedEffect": true,
+            "npSpecificDamageRate": [2.0, 2.25, 2.5, 2.75, 3.0]
+          }
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
+      }, {
+        "commandCardData": {
+          "commandCardType": "ARTS",
+          "hitsData": [6, 13, 20, 26, 35],
+          "npRate": 0.0051,
+          "criticalStarGen": 0.108
+        },
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "NpDamageBuff",
+            "numTurnsActive": 1,
+            "values": [0.2],
+            "buffIcon": "npDamageUp"
+          }]
+        }, {
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [6.0, 7.5, 8.25, 8.625, 9.0],
+          "npDamageAdditionalParams": {
+            "npSpecificDamageCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "KING",
+              "target": "DEFENDER"
+            },
+            "isNpSpecificDamageOverchargedEffect": true,
+            "npSpecificDamageRate": [2.0, 2.25, 2.5, 2.75, 3.0]
+          }
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "DebuffResist",
+            "numTurnsActive": 3,
+            "numTimesActive": 1,
+            "values": [-0.5],
+            "buffIcon": "debuffResistDown"
+          }],
+          "probabilities": [5.0]
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
+      }]
+    },
+    "extraCard": {
+      "commandCardType": "EXTRA",
+      "hitsData": [10, 20, 30, 40],
+      "npRate": 0.0051,
+      "criticalStarGen": 0.108
+    },
+    "cost": 16
+  }],
+  "servantNum": 169
+}
