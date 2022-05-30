@@ -167,6 +167,12 @@
           "buffData": [{
             "type": "PostAttackEffect",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "Not",
+              "subConditionData": [{
+                "type": "NpCard"
+              }]
+            },
             "subEffects": [{
               "type": "NpChange",
               "target": "ATTACKER",
