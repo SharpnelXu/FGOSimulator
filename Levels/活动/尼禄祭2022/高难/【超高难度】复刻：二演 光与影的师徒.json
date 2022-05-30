@@ -1,0 +1,141 @@
+{
+  "id": "【超高难度】复刻：二演 光与影的师徒",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "狼人",
+      "hpBars": [23980],
+      "enemyCategories": "兽人/"
+    }, {
+      "enemyBaseId": "哥布林",
+      "hpBars": [24014],
+      "enemyCategories": "兽人/"
+    }, {
+      "enemyBaseId": "狼人",
+      "hpBars": [23980],
+      "enemyCategories": "兽人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY", "Nero2022"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "狼人",
+      "hpBars": [27463],
+      "enemyCategories": "兽人/"
+    }, {
+      "enemyBaseId": "哥布林",
+      "hpBars": [44567],
+      "enemyCategories": "兽人/"
+    }, {
+      "enemyBaseId": "哥布林",
+      "hpBars": [44567],
+      "enemyCategories": "兽人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant17",
+      "hpBars": [306976],
+      "combatantDataOverride": {
+        "id": "servant17",
+        "rarity": 3,
+        "fateClass": "LANCER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "BALANCED"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.32
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant17/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant70",
+      "hpBars": [518875],
+      "combatantDataOverride": {
+        "id": "servant70",
+        "rarity": 5,
+        "fateClass": "LANCER",
+        "gender": "FEMALE",
+        "alignments": ["NEUTRAL", "GOOD"],
+        "attribute": "STAR",
+        "traits": ["KING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.32
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant70/",
+      "isServant": true
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "NpSeal",
+        "numTurnsActive": 3,
+        "buffIcon": "npSeal"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "buffData": [{
+        "type": "DeathEffect",
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES_EXCLUDING_SELF",
+          "buffData": [{
+            "type": "DelayedEffect",
+            "numTurnsActive": 1,
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "AttackBuff",
+                "values": [0.5],
+                "buffIcon": "attackUp"
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "CriticalRateBuff",
+                "values": [1.0],
+                "buffIcon": "critChanceUp"
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "CriticalDamageBuff",
+                "values": [1.0],
+                "buffIcon": "critDamageUp"
+              }]
+            }, {
+              "type": "InstantDeath",
+              "target": "ALL_ENEMIES",
+              "probabilities": [50.0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "PostAttackEffect",
+                "subEffects": [{
+                  "type": "InstantDeath",
+                  "target": "DEFENDER",
+                  "probabilities": [0.8]
+                }],
+                "probabilities": [0.8],
+                "buffIcon": "attackApplyDebuff"
+              }]
+            }],
+            "buffIcon": "delayedBuff"
+          }],
+          "probabilities": [50.0]
+        }],
+        "buffIcon": "leaveField"
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }]
+}

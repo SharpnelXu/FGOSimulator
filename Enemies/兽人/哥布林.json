@@ -1,0 +1,9 @@
+{
+  "id": "哥布林",
+  "rarity": 3,
+  "fateClass": "LANCER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["HUMANOID", "FAE", "DEMONIC"],
+  "deathRate": 0.5
+}

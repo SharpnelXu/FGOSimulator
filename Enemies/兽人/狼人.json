@@ -1,0 +1,9 @@
+{
+  "id": "狼人",
+  "rarity": 2,
+  "fateClass": "LANCER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["HUMANOID", "WILD_BEAST", "DEMONIC"],
+  "deathRate": 0.8
+}

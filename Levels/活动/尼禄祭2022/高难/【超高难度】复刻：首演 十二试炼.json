@@ -1,0 +1,102 @@
+{
+  "id": "【超高难度】复刻：首演 十二试炼",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "魔偶",
+      "hpBars": [26783],
+      "enemyCategories": "魔偶/"
+    }, {
+      "enemyBaseId": "魔偶",
+      "hpBars": [26783],
+      "enemyCategories": "魔偶/"
+    }, {
+      "enemyBaseId": "金属魔偶",
+      "hpBars": [29247],
+      "enemyCategories": "魔偶/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY", "Nero2022"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "金属魔偶",
+      "hpBars": [47896],
+      "enemyCategories": "魔偶/"
+    }, {
+      "enemyBaseId": "金属魔偶",
+      "hpBars": [47896],
+      "enemyCategories": "魔偶/"
+    }, {
+      "enemyBaseId": "魔偶",
+      "hpBars": [28046],
+      "enemyCategories": "魔偶/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant47",
+      "hpBars": [242032],
+      "combatantDataOverride": {
+        "id": "servant47",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "INSANE"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "GREEK_MYTHOLOGY_MALES", "ASSOCIATED_TO_THE_ARGO", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant47/",
+      "isServant": true
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "buffData": [{
+        "type": "Guts",
+        "numTimesActive": 11,
+        "values": [0.5],
+        "irremovable": true,
+        "isGutsPercentBased": true,
+        "buffIcon": "guts"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "CommandCardBuff",
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "ARTS"
+        },
+        "values": [-1.0],
+        "buffIcon": "artsDown"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "buffData": [{
+        "type": "DebuffResist",
+        "applyCondition": {
+          "type": "BuffTypeEquals",
+          "value": "Pigify"
+        },
+        "values": [10.0],
+        "irremovable": true,
+        "buffIcon": "immune"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "buffData": [{
+        "type": "DebuffResist",
+        "values": [0.2],
+        "irremovable": true,
+        "buffIcon": "debuffResistUp"
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }]
+}
