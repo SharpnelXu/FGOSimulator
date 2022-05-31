@@ -57,7 +57,7 @@
           "buffData": [{
             "type": "DeathResist",
             "numTurnsActive": 1,
-            "values": [10.0],
+            "values": [100.0],
             "buffIcon": "deathImmune"
           }],
           "probabilities": [0.6, 0.62, 0.64, 0.66, 0.68, 0.7, 0.72, 0.74, 0.76, 0.8]
