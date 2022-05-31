@@ -1,0 +1,8 @@
+{
+  "id": "恐惧飞龙",
+  "rarity": 3,
+  "fateClass": "RIDER",
+  "attribute": "EARTH",
+  "traits": ["DRAGON"],
+  "deathRate": 0.5
+}

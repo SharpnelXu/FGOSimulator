@@ -1,0 +1,177 @@
+{
+  "id": "【超高难度】复刻：四演 魔龙再临",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "双足飞龙",
+      "hpBars": [17152],
+      "combatantDataOverride": {
+        "id": "双足飞龙",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["DRAGON"],
+        "deathRate": 0.8
+      },
+      "enemyCategories": "双足飞龙/"
+    }, {
+      "enemyBaseId": "双足飞龙",
+      "hpBars": [17152],
+      "combatantDataOverride": {
+        "id": "双足飞龙",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["DRAGON"],
+        "deathRate": 0.8
+      },
+      "enemyCategories": "双足飞龙/"
+    }, {
+      "enemyBaseId": "恐惧飞龙",
+      "hpBars": [29170],
+      "combatantDataOverride": {
+        "id": "恐惧飞龙",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["DRAGON"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "双足飞龙/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "SUNLIGHT", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "双足飞龙",
+      "hpBars": [27201],
+      "combatantDataOverride": {
+        "id": "双足飞龙",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["DRAGON"],
+        "deathRate": 0.8
+      },
+      "enemyCategories": "双足飞龙/"
+    }, {
+      "enemyBaseId": "恐惧飞龙",
+      "hpBars": [39171],
+      "combatantDataOverride": {
+        "id": "恐惧飞龙",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["DRAGON"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "双足飞龙/"
+    }, {
+      "enemyBaseId": "恐惧飞龙",
+      "hpBars": [39171],
+      "combatantDataOverride": {
+        "id": "恐惧飞龙",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["DRAGON"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "双足飞龙/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "恶魔飞龙",
+      "hpBars": [99379],
+      "combatantDataOverride": {
+        "id": "恶魔飞龙",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["DRAGON"]
+      },
+      "enemyCategories": "双足飞龙/"
+    }, {
+      "enemyBaseId": "servant6",
+      "hpBars": [50994],
+      "combatantDataOverride": {
+        "id": "servant6",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "GOOD"],
+        "attribute": "EARTH",
+        "traits": ["DRAGON", "RIDING", "BRYNHILDS_BELOVED", "KING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant6/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "恶魔飞龙",
+      "hpBars": [99379],
+      "combatantDataOverride": {
+        "id": "恶魔飞龙",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["DRAGON"]
+      },
+      "enemyCategories": "双足飞龙/"
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant6",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DefenseBuff",
+        "values": [2.0],
+        "irremovable": true,
+        "buffIcon": "defenseUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant6",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "PercentDefenseBuff",
+        "values": [0.9],
+        "irremovable": true,
+        "buffIcon": "percentDefUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant6",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DebuffResist",
+        "values": [0.2],
+        "irremovable": true,
+        "buffIcon": "debuffResistUp"
+      }]
+    }, {
+      "type": "NpGaugeChange",
+      "target": "ALL_ENEMIES",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant6",
+        "target": "EFFECT_TARGET"
+      },
+      "intValues": [4]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }]
+}

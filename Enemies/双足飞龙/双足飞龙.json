@@ -1,0 +1,8 @@
+{
+  "id": "双足飞龙",
+  "rarity": 2,
+  "fateClass": "RIDER",
+  "attribute": "EARTH",
+  "traits": ["DRAGON"],
+  "deathRate": 0.8
+}
