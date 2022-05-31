@@ -500,20 +500,20 @@ public class Combatant {
                 buffsToActivate.add((EffectActivatingBuff) buff);
             }
         }
+        simulation.setActivator(this);
         for (final EffectActivatingBuff buff : buffsToActivate) {
             if (buff.shouldApply(simulation)) {
                 if (simulation.getStatsLogger() != null) {
                     simulation.getStatsLogger().logEffectActivatingBuff(id, buffClass);
                 }
-                simulation.setActivator(this);
                 buff.activate(simulation);
 
                 // extra step since this is a buff
                 buff.setApplied();
                 checkBuffStatus();
-                simulation.unsetActivator();
             }
         }
+        simulation.unsetActivator();
     }
 
     public CardTypeChange hasCardTypeChangeBuff() {
