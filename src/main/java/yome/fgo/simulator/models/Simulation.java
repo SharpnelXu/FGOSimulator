@@ -263,6 +263,7 @@ public class Simulation {
         for (int i = 0; i < combatActions.size(); i += 1) {
             final CombatAction combatAction = combatActions.get(i);
             final Servant servant = currentServants.get(combatAction.servantIndex);
+            setAttacker(servant);
             if (canAttack(servant) && !isAllEnemiesDead()) {
                 if (combatAction.isNoblePhantasm) {
                     if (servant.isNpInaccessible()) {
@@ -287,19 +288,21 @@ public class Simulation {
                 }
             }
 
-
             if (shouldRemoveDeadCombatants(combatActions, i)) {
                 removeDeadEnemies();
                 removeDeadAlly();
             }
+            unsetAttacker();
         }
 
         if (isBraveChain(combatActions) && currentEnemies.get(currentEnemyTargetIndex) != null) {
             final Servant servant = currentServants.get(combatActions.get(0).servantIndex);
+            setAttacker(servant);
             if (canAttack(servant)) {
                 servant.activateExtraAttack(this, typeChain, firstCardType);
             }
             removeDeadEnemies();
+            unsetAttacker();
         }
 
         for (final Combatant combatant : getAliveEnemies()) {
