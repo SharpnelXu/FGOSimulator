@@ -121,7 +121,7 @@
     }],
     "effects": [{
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "applyCondition": {
         "type": "TargetsContainsSpecificServant",
         "value": "servant6",
@@ -135,7 +135,7 @@
       }]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "applyCondition": {
         "type": "TargetsContainsSpecificServant",
         "value": "servant6",
@@ -149,7 +149,7 @@
       }]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "applyCondition": {
         "type": "TargetsContainsSpecificServant",
         "value": "servant6",
@@ -163,7 +163,7 @@
       }]
     }, {
       "type": "NpGaugeChange",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "applyCondition": {
         "type": "TargetsContainsSpecificServant",
         "value": "servant6",

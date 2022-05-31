@@ -77,7 +77,7 @@
       "probabilities": [5.0]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "DeathEffect",
         "subEffects": [{

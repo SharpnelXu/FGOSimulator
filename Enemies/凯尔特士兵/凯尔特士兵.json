@@ -1,0 +1,9 @@
+{
+  "id": "凯尔特士兵",
+  "rarity": 1,
+  "fateClass": "LANCER",
+  "gender": "MALE",
+  "attribute": "MAN",
+  "traits": ["HUMAN", "HUMANOID"],
+  "deathRate": 1.0
+}

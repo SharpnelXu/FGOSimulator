@@ -51,7 +51,7 @@
     }],
     "effects": [{
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "Guts",
         "numTimesActive": 11,
@@ -62,7 +62,7 @@
       }]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ALLIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "CommandCardBuff",
         "applyCondition": {
@@ -75,7 +75,7 @@
       "probabilities": [5.0]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "DebuffResist",
         "applyCondition": {

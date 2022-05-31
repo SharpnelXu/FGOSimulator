@@ -36,7 +36,7 @@
     }],
     "effects": [{
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "Guts",
         "values": [1.0],
@@ -45,7 +45,7 @@
       }]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "PostDefenseEffect",
         "numTurnsActive": 3,
@@ -73,7 +73,7 @@
       }]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "applyCondition": {
         "type": "TargetsContainsSpecificServant",
         "value": "servant336",
@@ -110,7 +110,7 @@
       }]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "applyCondition": {
         "type": "TargetsContainsSpecificServant",
         "value": "servant107",

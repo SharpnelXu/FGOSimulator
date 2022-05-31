@@ -1,0 +1,9 @@
+{
+  "id": "德鲁伊",
+  "rarity": 1,
+  "fateClass": "CASTER",
+  "gender": "MALE",
+  "attribute": "MAN",
+  "traits": ["HUMAN", "HUMANOID"],
+  "deathRate": 1.0
+}

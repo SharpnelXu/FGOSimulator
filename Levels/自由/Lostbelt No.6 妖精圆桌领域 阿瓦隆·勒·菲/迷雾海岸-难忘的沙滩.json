@@ -16,7 +16,7 @@
     }],
     "effects": [{
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "DebuffResist",
         "applyCondition": {
@@ -30,7 +30,7 @@
       "probabilities": [5.0]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "SpecificAttackBuff",
         "applyCondition": {
@@ -44,7 +44,7 @@
       }]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "PostAttackEffect",
         "subEffects": [{
@@ -79,7 +79,7 @@
     }],
     "effects": [{
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "DebuffResist",
         "applyCondition": {
@@ -93,7 +93,7 @@
       "probabilities": [5.0]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "SpecificAttackBuff",
         "applyCondition": {
@@ -107,7 +107,7 @@
       }]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "PostAttackEffect",
         "subEffects": [{
@@ -138,7 +138,7 @@
     }],
     "effects": [{
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "DebuffResist",
         "applyCondition": {
@@ -152,7 +152,7 @@
       "probabilities": [5.0]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "SpecificAttackBuff",
         "applyCondition": {
@@ -166,7 +166,7 @@
       }]
     }, {
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
       "buffData": [{
         "type": "PostAttackEffect",
         "subEffects": [{

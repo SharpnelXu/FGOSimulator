@@ -1,0 +1,505 @@
+{
+  "id": "【超高难度】复刻：五演 战士之母",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [22308],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }, {
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [22308],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }, {
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [22308],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "Nero2022"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [31804],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }, {
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [31804],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }, {
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [31804],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [64416],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID", "凯尔特士兵A"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }, {
+      "enemyBaseId": "servant99",
+      "hpBars": [419040],
+      "combatantDataOverride": {
+        "id": "servant99",
+        "rarity": 5,
+        "fateClass": "RIDER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "EARTH",
+        "traits": ["RIDING", "KING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.4
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant99/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [64416],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID", "凯尔特士兵B"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }, {
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [64416],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID", "解防御"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }, {
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [64416],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID", "凯尔特士兵D"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }, {
+      "enemyBaseId": "凯尔特士兵",
+      "hpBars": [64416],
+      "combatantDataOverride": {
+        "id": "凯尔特士兵",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID", "解防御"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }, {
+      "enemyBaseId": "德鲁伊",
+      "hpBars": [138108],
+      "combatantDataOverride": {
+        "id": "德鲁伊",
+        "rarity": 1,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID", "德鲁伊A"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }, {
+      "enemyBaseId": "德鲁伊",
+      "hpBars": [138108],
+      "combatantDataOverride": {
+        "id": "德鲁伊",
+        "rarity": 1,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID", "解防御"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "凯尔特士兵/"
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "Not",
+        "subConditionData": [{
+          "type": "TargetsHaveTrait",
+          "value": "SERVANT",
+          "target": "EFFECT_TARGET"
+        }]
+      },
+      "buffData": [{
+        "type": "EnterFieldEffect",
+        "numTimesActive": 1,
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "AttackBuff",
+            "values": [0.3],
+            "buffIcon": "attackUp"
+          }]
+        }]
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "applyCondition": {
+        "type": "TargetsHaveTrait",
+        "value": "MALE",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "Charm",
+        "numTurnsActive": 99,
+        "buffIcon": "charm"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant99",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "Invincible",
+        "irremovable": true,
+        "buffIcon": "invincible"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant99",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "CommandCardResist",
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "QUICK"
+        },
+        "values": [0.9],
+        "customTraits": ["DEFENDER_BUFF", "POSITIVE_BUFF", "QUICK_RESIST_UP"],
+        "irremovable": true,
+        "hasCustomTraits": true,
+        "buffIcon": "quickResistUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant99",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "CommandCardResist",
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "ARTS"
+        },
+        "values": [0.9],
+        "customTraits": ["DEFENDER_BUFF", "POSITIVE_BUFF", "ARTS_RESIST_UP"],
+        "irremovable": true,
+        "hasCustomTraits": true,
+        "buffIcon": "artsResistUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant99",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "CommandCardResist",
+        "applyCondition": {
+          "type": "CardTypeEquals",
+          "value": "BUSTER"
+        },
+        "values": [0.9],
+        "customTraits": ["DEFENDER_BUFF", "POSITIVE_BUFF", "BUSTER_RESIST_UP"],
+        "irremovable": true,
+        "hasCustomTraits": true,
+        "buffIcon": "busterResistUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant99",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DefenseBuff",
+        "values": [0.3],
+        "irremovable": true,
+        "buffIcon": "defenseUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant99",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DefenseBuff",
+        "values": [0.3],
+        "irremovable": true,
+        "buffIcon": "defenseUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant99",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DefenseBuff",
+        "values": [0.3],
+        "irremovable": true,
+        "buffIcon": "defenseUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsHaveTrait",
+        "value": "解防御",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DeathEffect",
+        "subEffects": [{
+          "type": "ForceRemoveBuff",
+          "target": "ALL_ALLIES",
+          "applyCondition": {
+            "type": "And",
+            "subConditionData": [{
+              "type": "TargetsContainsSpecificServant",
+              "value": "servant99",
+              "target": "EFFECT_TARGET"
+            }, {
+              "type": "BuffTypeEquals",
+              "value": "DefenseBuff"
+            }]
+          },
+          "intValues": [1],
+          "removeFromStart": true
+        }],
+        "irremovable": true,
+        "buffIcon": "leaveField"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsHaveTrait",
+        "value": "凯尔特士兵A",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DeathEffect",
+        "subEffects": [{
+          "type": "ForceRemoveBuff",
+          "target": "ALL_ALLIES",
+          "applyCondition": {
+            "type": "And",
+            "subConditionData": [{
+              "type": "TargetsContainsSpecificServant",
+              "value": "servant99",
+              "target": "EFFECT_TARGET"
+            }, {
+              "type": "BuffTypeEquals",
+              "value": "Invincible"
+            }]
+          },
+          "intValues": [1],
+          "removeFromStart": true
+        }],
+        "irremovable": true,
+        "buffIcon": "leaveField"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsHaveTrait",
+        "value": "凯尔特士兵B",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DeathEffect",
+        "subEffects": [{
+          "type": "ForceRemoveBuff",
+          "target": "ALL_ALLIES",
+          "applyCondition": {
+            "type": "And",
+            "subConditionData": [{
+              "type": "TargetsContainsSpecificServant",
+              "value": "servant99",
+              "target": "EFFECT_TARGET"
+            }, {
+              "type": "BuffHasTrait",
+              "value": "ARTS_RESIST_UP"
+            }]
+          },
+          "intValues": [1],
+          "removeFromStart": true
+        }],
+        "irremovable": true,
+        "buffIcon": "leaveField"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsHaveTrait",
+        "value": "凯尔特士兵D",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DeathEffect",
+        "subEffects": [{
+          "type": "ForceRemoveBuff",
+          "target": "ALL_ALLIES",
+          "applyCondition": {
+            "type": "And",
+            "subConditionData": [{
+              "type": "TargetsContainsSpecificServant",
+              "value": "servant99",
+              "target": "EFFECT_TARGET"
+            }, {
+              "type": "BuffHasTrait",
+              "value": "BUSTER_RESIST_UP"
+            }]
+          },
+          "intValues": [1],
+          "removeFromStart": true
+        }],
+        "irremovable": true,
+        "buffIcon": "leaveField"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsHaveTrait",
+        "value": "德鲁伊A",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "DeathEffect",
+        "subEffects": [{
+          "type": "ForceRemoveBuff",
+          "target": "ALL_ALLIES",
+          "applyCondition": {
+            "type": "And",
+            "subConditionData": [{
+              "type": "TargetsContainsSpecificServant",
+              "value": "servant99",
+              "target": "EFFECT_TARGET"
+            }, {
+              "type": "BuffHasTrait",
+              "value": "QUICK_RESIST_UP"
+            }]
+          },
+          "intValues": [1],
+          "removeFromStart": true
+        }],
+        "irremovable": true,
+        "buffIcon": "leaveField"
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}
