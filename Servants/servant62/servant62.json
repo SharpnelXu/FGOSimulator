@@ -99,6 +99,7 @@
           "target": "TARGETED_ALLY",
           "buffData": [{
             "type": "CommandCardBuff",
+            "numTurnsActive": 3,
             "applyCondition": {
               "type": "CardTypeEquals",
               "value": "ARTS"
@@ -115,6 +116,7 @@
           "target": "TARGETED_ALLY",
           "buffData": [{
             "type": "CommandCardBuff",
+            "numTurnsActive": 3,
             "applyCondition": {
               "type": "CardTypeEquals",
               "value": "ARTS"
