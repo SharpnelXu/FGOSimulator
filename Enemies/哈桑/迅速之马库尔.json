@@ -1,0 +1,9 @@
+{
+  "id": "迅速之马库尔",
+  "rarity": 2,
+  "fateClass": "ASSASSIN",
+  "gender": "MALE",
+  "attribute": "MAN",
+  "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+  "deathRate": 0.2
+}

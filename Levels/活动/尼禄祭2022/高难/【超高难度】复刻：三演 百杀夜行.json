@@ -1,0 +1,676 @@
+{
+  "id": "【超高难度】复刻：三演 百杀夜行",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [12812],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "servant40",
+      "hpBars": [48444],
+      "combatantDataOverride": {
+        "id": "servant40",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "同归于尽准备"],
+        "deathRate": 0.44
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant40/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [12812],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [20488],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [20488],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [23334],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [23334],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [21334],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [43833],
+      "combatantDataOverride": {
+        "id": "怪腕之戈兹尔",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "servant110",
+      "hpBars": [83790],
+      "combatantDataOverride": {
+        "id": "servant110",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "FEMALE",
+        "alignments": ["LAWFUL", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "同归于尽准备"],
+        "deathRate": 0.44
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant110/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [24223],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [46140],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [22223],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [23334],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [22223],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [25112],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [46140],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [25112],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [43833],
+      "combatantDataOverride": {
+        "id": "怪腕之戈兹尔",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "servant124",
+      "hpBars": [83790],
+      "combatantDataOverride": {
+        "id": "servant124",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "FEMALE",
+        "alignments": ["LAWFUL", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "同归于尽准备"],
+        "deathRate": 0.44
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant124/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [23070],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [24223],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [23070],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [26001],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [83707],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [47832],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [78415],
+      "combatantDataOverride": {
+        "id": "怪腕之戈兹尔",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [49525],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [78415],
+      "combatantDataOverride": {
+        "id": "怪腕之戈兹尔",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [73055],
+      "combatantDataOverride": {
+        "id": "怪腕之戈兹尔",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [52002],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [75735],
+      "combatantDataOverride": {
+        "id": "怪腕之戈兹尔",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [75735],
+      "combatantDataOverride": {
+        "id": "怪腕之戈兹尔",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "基底之扎伊德",
+      "hpBars": [52002],
+      "combatantDataOverride": {
+        "id": "基底之扎伊德",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [78415],
+      "combatantDataOverride": {
+        "id": "怪腕之戈兹尔",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [78415],
+      "combatantDataOverride": {
+        "id": "怪腕之戈兹尔",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "servant40",
+      "hpBars": [121110],
+      "combatantDataOverride": {
+        "id": "servant40",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "全体同归于尽准备"],
+        "deathRate": 0.44
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant40/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "SUNLIGHT", "CITY"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsContainsSpecificServant",
+      "value": "迅速之马库尔",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "DeathEffect",
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "ATTACKER",
+        "buffData": [{
+          "type": "DefenseBuff",
+          "numTurnsActive": 3,
+          "values": [-0.2],
+          "buffIcon": "defenseDown"
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "ATTACKER",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "numTurnsActive": 3,
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "QUICK"
+          },
+          "values": [-0.2],
+          "buffIcon": "quickDown"
+        }],
+        "probabilities": [5.0]
+      }],
+      "irremovable": true,
+      "buffIcon": "leaveField"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsContainsSpecificServant",
+      "value": "基底之扎伊德",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "DeathEffect",
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "ATTACKER",
+        "buffData": [{
+          "type": "DefenseBuff",
+          "numTurnsActive": 3,
+          "values": [-0.2],
+          "buffIcon": "defenseDown"
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "ATTACKER",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "numTurnsActive": 3,
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "ARTS"
+          },
+          "values": [-0.2],
+          "buffIcon": "artsDown"
+        }],
+        "probabilities": [5.0]
+      }],
+      "irremovable": true,
+      "buffIcon": "leaveField"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsContainsSpecificServant",
+      "value": "怪腕之戈兹尔",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "DeathEffect",
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "ATTACKER",
+        "buffData": [{
+          "type": "DefenseBuff",
+          "numTurnsActive": 3,
+          "values": [-0.2],
+          "buffIcon": "defenseDown"
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "ATTACKER",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "numTurnsActive": 3,
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "BUSTER"
+          },
+          "values": [-0.2],
+          "buffIcon": "busterDown"
+        }],
+        "probabilities": [5.0]
+      }],
+      "irremovable": true,
+      "buffIcon": "leaveField"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "同归于尽准备",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "DeathEffect",
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "ATTACKER",
+        "buffData": [{
+          "type": "EndOfTurnEffect",
+          "numTurnsActive": 1,
+          "subEffects": [{
+            "type": "InstantDeath",
+            "target": "SELF",
+            "probabilities": [50.0]
+          }],
+          "customTraits": ["NEGATIVE_BUFF"],
+          "hasCustomTraits": true,
+          "buffIcon": "delayedEffect"
+        }],
+        "probabilities": [5.0]
+      }],
+      "irremovable": true,
+      "buffIcon": "leaveField"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "全体同归于尽准备",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "DeathEffect",
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "ALL_ENEMIES",
+        "buffData": [{
+          "type": "EndOfTurnEffect",
+          "numTurnsActive": 1,
+          "subEffects": [{
+            "type": "InstantDeath",
+            "target": "SELF",
+            "probabilities": [50.0]
+          }],
+          "customTraits": ["NEGATIVE_BUFF"],
+          "hasCustomTraits": true,
+          "buffIcon": "delayedEffect"
+        }],
+        "probabilities": [5.0]
+      }],
+      "irremovable": true,
+      "buffIcon": "leaveField"
+    }]
+  }]
+}
