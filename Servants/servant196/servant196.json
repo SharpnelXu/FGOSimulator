@@ -903,7 +903,7 @@
           }]
         }, {
           "type": "GrantBuff",
-          "target": "SELF",
+          "target": "ALL_ALLIES",
           "applyCondition": {
             "type": "TargetsHaveBuff",
             "subConditionData": [{
@@ -915,7 +915,7 @@
           "buffData": [{
             "type": "DeathResist",
             "numTurnsActive": 3,
-            "values": [10.0],
+            "values": [100.0],
             "buffIcon": "deathImmune"
           }]
         }],

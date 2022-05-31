@@ -115,7 +115,7 @@
           "buffData": [{
             "type": "DeathResist",
             "numTurnsActive": 3,
-            "values": [10.0],
+            "values": [100.0],
             "buffIcon": "deathImmune"
           }]
         }],
@@ -861,7 +861,7 @@
           "buffData": [{
             "type": "DeathResist",
             "numTurnsActive": 3,
-            "values": [10.0],
+            "values": [100.0],
             "buffIcon": "deathImmune"
           }]
         }],

@@ -705,7 +705,7 @@
             "type": "DeathResist",
             "numTurnsActive": 3,
             "numTimesActive": 1,
-            "values": [10.0],
+            "values": [100.0],
             "buffIcon": "deathImmune"
           }]
         }, {
@@ -782,7 +782,7 @@
             "type": "DeathResist",
             "numTurnsActive": 3,
             "numTimesActive": 1,
-            "values": [10.0],
+            "values": [100.0],
             "buffIcon": "deathImmune"
           }]
         }, {
