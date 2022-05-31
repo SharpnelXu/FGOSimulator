@@ -202,6 +202,12 @@ public class Simulation {
             combatant.initiate(this);
         }
 
+        // level effect & stage effect
+        setActivator(nullSourceSkillActivator);
+        level.applyLevelEffects(this);
+        level.getStage(currentStage).applyStageEffects(this);
+        unsetActivator();
+
         for (final Servant servant : currentServants) {
             servant.enterField(this);
         }
@@ -209,12 +215,6 @@ public class Simulation {
         for (final Combatant combatant : currentEnemies) {
             combatant.enterField(this);
         }
-
-        // level effect & stage effect
-        setActivator(nullSourceSkillActivator);
-        level.applyLevelEffects(this);
-        level.getStage(currentStage).applyStageEffects(this);
-        unsetActivator();
 
 
         if (getStatsLogger() != null) {
@@ -387,13 +387,13 @@ public class Simulation {
                 combatant.initiate(this);
             }
 
-            for (final Combatant combatant : currentEnemies) {
-                combatant.enterField(this);
-            }
-
             setActivator(nullSourceSkillActivator);
             level.getStage(currentStage).applyStageEffects(this);
             unsetActivator();
+
+            for (final Combatant combatant : currentEnemies) {
+                combatant.enterField(this);
+            }
         }
         currentTurn += 1;
         if (getStatsLogger() != null) {
