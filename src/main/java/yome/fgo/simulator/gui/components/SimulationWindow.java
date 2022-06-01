@@ -557,7 +557,7 @@ public class SimulationWindow {
             buffGrid.add(buffIcon, 0, i);
             final Label buffLabel = new Label(buff.toString());
             buffLabel.setWrapText(true);
-            buffLabel.setMaxWidth(root.getScene().getWidth() - 700);
+            buffLabel.setMaxWidth(root.getScene().getWidth() - 750);
             buffGrid.add(buffLabel, 1, i);
             final Label durationLabel = new Label(buff.durationString());
             buffGrid.add(durationLabel, 2, i);

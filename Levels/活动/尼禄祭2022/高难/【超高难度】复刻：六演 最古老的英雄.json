@@ -1,0 +1,226 @@
+{
+  "id": "【超高难度】复刻：六演 最古老的英雄",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "半人马骑士",
+      "hpBars": [28445],
+      "combatantDataOverride": {
+        "id": "半人马骑士",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "GREEK_MYTHOLOGY_MALES"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "半人马/"
+    }, {
+      "enemyBaseId": "半人马骑士",
+      "hpBars": [28445],
+      "combatantDataOverride": {
+        "id": "半人马骑士",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "GREEK_MYTHOLOGY_MALES"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "半人马/"
+    }, {
+      "enemyBaseId": "半人马圣骑",
+      "hpBars": [36680],
+      "combatantDataOverride": {
+        "id": "半人马圣骑",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "GREEK_MYTHOLOGY_MALES"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "半人马/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "Nero2022"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "半人马圣骑",
+      "hpBars": [61134],
+      "combatantDataOverride": {
+        "id": "半人马圣骑",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "GREEK_MYTHOLOGY_MALES"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "半人马/"
+    }, {
+      "enemyBaseId": "半人马骑士",
+      "hpBars": [39847],
+      "combatantDataOverride": {
+        "id": "半人马骑士",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "GREEK_MYTHOLOGY_MALES"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "半人马/"
+    }, {
+      "enemyBaseId": "半人马圣骑",
+      "hpBars": [61134],
+      "combatantDataOverride": {
+        "id": "半人马圣骑",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "GREEK_MYTHOLOGY_MALES"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "半人马/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant12",
+      "hpBars": [1506155],
+      "combatantDataOverride": {
+        "id": "servant12",
+        "rarity": 5,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "GOOD"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.315
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant12/",
+      "isServant": true
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "buffData": [{
+        "type": "DebuffResist",
+        "values": [0.4],
+        "irremovable": true,
+        "buffIcon": "debuffResistUp"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "buffData": [{
+        "type": "EnterFieldEffect",
+        "numTimesActive": 1,
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "numTurnsActive": 20,
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "AttackBuff",
+                "numTurnsActive": 20,
+                "values": [0.5],
+                "buffIcon": "attackUp"
+              }]
+            }],
+            "customTraits": ["POSITIVE_BUFF", "身为王就该坐着静待"],
+            "hasCustomTraits": true,
+            "buffIcon": "delayedPerTurn"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+          "buffData": [{
+            "type": "NpDamageBuff",
+            "numTurnsActive": 10,
+            "values": [-1.0],
+            "irremovable": true,
+            "buffIcon": "npDamageDown"
+          }],
+          "probabilities": [5.0]
+        }, {
+          "type": "NpChange",
+          "target": "ALL_ENEMIES",
+          "values": [-5.0]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "applyCondition": {
+              "type": "Not",
+              "subConditionData": [{
+                "type": "TargetsHaveBuff",
+                "subConditionData": [{
+                  "type": "BuffHasTrait",
+                  "value": "身为王就该坐着静待"
+                }],
+                "target": "SELF"
+              }]
+            },
+            "subEffects": [{
+              "type": "NpGaugeChange",
+              "target": "SELF",
+              "intValues": [-3]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 1,
+                "subEffects": [{
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "numTurnsActive": 19,
+                    "subEffects": [{
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "AttackBuff",
+                        "numTurnsActive": 20,
+                        "values": [0.5],
+                        "buffIcon": "attackUp"
+                      }]
+                    }],
+                    "customTraits": ["身为王就该坐着静待", "POSITIVE_BUFF"],
+                    "hasCustomTraits": true,
+                    "buffIcon": "delayedPerTurn"
+                  }]
+                }],
+                "irremovable": true,
+                "buffIcon": "delayedPerTurn"
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "AttackBuff",
+                "numTurnsActive": 20,
+                "values": [0.5],
+                "buffIcon": "attackUp"
+              }]
+            }],
+            "irremovable": true,
+            "buffIcon": "delayedPerTurn"
+          }]
+        }]
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}

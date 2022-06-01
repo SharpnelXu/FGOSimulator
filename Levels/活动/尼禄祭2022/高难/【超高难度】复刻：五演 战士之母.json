@@ -242,111 +242,89 @@
         "target": "EFFECT_TARGET"
       },
       "buffData": [{
-        "type": "Invincible",
-        "irremovable": true,
-        "buffIcon": "invincible"
-      }]
-    }, {
-      "type": "GrantBuff",
-      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
-      "applyCondition": {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant99",
-        "target": "EFFECT_TARGET"
-      },
-      "buffData": [{
-        "type": "CommandCardResist",
-        "applyCondition": {
-          "type": "CardTypeEquals",
-          "value": "QUICK"
-        },
-        "values": [0.9],
-        "customTraits": ["DEFENDER_BUFF", "POSITIVE_BUFF", "QUICK_RESIST_UP"],
-        "irremovable": true,
-        "hasCustomTraits": true,
-        "buffIcon": "quickResistUp"
-      }]
-    }, {
-      "type": "GrantBuff",
-      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
-      "applyCondition": {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant99",
-        "target": "EFFECT_TARGET"
-      },
-      "buffData": [{
-        "type": "CommandCardResist",
-        "applyCondition": {
-          "type": "CardTypeEquals",
-          "value": "ARTS"
-        },
-        "values": [0.9],
-        "customTraits": ["DEFENDER_BUFF", "POSITIVE_BUFF", "ARTS_RESIST_UP"],
-        "irremovable": true,
-        "hasCustomTraits": true,
-        "buffIcon": "artsResistUp"
-      }]
-    }, {
-      "type": "GrantBuff",
-      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
-      "applyCondition": {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant99",
-        "target": "EFFECT_TARGET"
-      },
-      "buffData": [{
-        "type": "CommandCardResist",
-        "applyCondition": {
-          "type": "CardTypeEquals",
-          "value": "BUSTER"
-        },
-        "values": [0.9],
-        "customTraits": ["DEFENDER_BUFF", "POSITIVE_BUFF", "BUSTER_RESIST_UP"],
-        "irremovable": true,
-        "hasCustomTraits": true,
-        "buffIcon": "busterResistUp"
-      }]
-    }, {
-      "type": "GrantBuff",
-      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
-      "applyCondition": {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant99",
-        "target": "EFFECT_TARGET"
-      },
-      "buffData": [{
-        "type": "DefenseBuff",
-        "values": [0.3],
-        "irremovable": true,
-        "buffIcon": "defenseUp"
-      }]
-    }, {
-      "type": "GrantBuff",
-      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
-      "applyCondition": {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant99",
-        "target": "EFFECT_TARGET"
-      },
-      "buffData": [{
-        "type": "DefenseBuff",
-        "values": [0.3],
-        "irremovable": true,
-        "buffIcon": "defenseUp"
-      }]
-    }, {
-      "type": "GrantBuff",
-      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
-      "applyCondition": {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant99",
-        "target": "EFFECT_TARGET"
-      },
-      "buffData": [{
-        "type": "DefenseBuff",
-        "values": [0.3],
-        "irremovable": true,
-        "buffIcon": "defenseUp"
+        "type": "EnterFieldEffect",
+        "numTimesActive": 1,
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "Invincible",
+            "irremovable": true,
+            "buffIcon": "invincible"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CommandCardResist",
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.9],
+            "customTraits": ["POSITIVE_BUFF", "DEFENDER_BUFF", "QUICK_RESIST_UP"],
+            "irremovable": true,
+            "hasCustomTraits": true,
+            "buffIcon": "quickResistUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CommandCardResist",
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [0.9],
+            "customTraits": ["POSITIVE_BUFF", "DEFENDER_BUFF", "ARTS_RESIST_UP"],
+            "irremovable": true,
+            "hasCustomTraits": true,
+            "buffIcon": "artsResistUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CommandCardResist",
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
+            "values": [0.9],
+            "customTraits": ["POSITIVE_BUFF", "DEFENDER_BUFF", "BUSTER_RESIST_UP"],
+            "irremovable": true,
+            "hasCustomTraits": true,
+            "buffIcon": "busterResistUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DefenseBuff",
+            "values": [0.3],
+            "irremovable": true,
+            "buffIcon": "defenseUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DefenseBuff",
+            "values": [0.3],
+            "irremovable": true,
+            "buffIcon": "defenseUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DefenseBuff",
+            "values": [0.3],
+            "irremovable": true,
+            "buffIcon": "defenseUp"
+          }]
+        }]
       }]
     }, {
       "type": "GrantBuff",
