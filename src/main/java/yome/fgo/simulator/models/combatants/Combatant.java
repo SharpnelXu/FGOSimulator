@@ -421,6 +421,10 @@ public class Combatant {
     }
 
     public void endOfMyTurn(final Simulation simulation) {
+        if (currentNpGauge == maxNpGauge && !isNpInaccessible()) {
+            currentNpGauge = 0;
+        }
+
         currentNpGauge += 1;
         if (currentNpGauge > maxNpGauge) {
             currentNpGauge = maxNpGauge;
