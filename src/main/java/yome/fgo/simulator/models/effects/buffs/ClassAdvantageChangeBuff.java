@@ -8,11 +8,13 @@ import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.ANY_CLASS;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_ADV_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @SuperBuilder
@@ -86,15 +88,15 @@ public class ClassAdvantageChangeBuff extends Buff {
         String base = "";
         if (attackMode != CLASS_ADV_NO_CHANGE) {
             base = base + " " + getTranslation(BUFF_SECTION, "Attack Affinity") + getTranslation(CLASS_ADV_SECTION, attackMode.name());
-            if (attackAdvantage != 1) {
-                base = base + " " + attackAdvantage;
-            }
+            base = base + " " + attackAdvantage + " " + attackModeAffectedClasses.stream()
+                    .map(fateClass -> getTranslation(CLASS_SECTION, fateClass.name()))
+                    .collect(Collectors.joining(", "));
         }
         if (defenseMode != CLASS_ADV_NO_CHANGE) {
             base = base + " " + getTranslation(BUFF_SECTION, "Defense Affinity") + getTranslation(CLASS_ADV_SECTION, defenseMode.name());
-            if (defenseAdvantage != 1) {
-                base = base + " " + defenseAdvantage;
-            }
+            base = base + " " + defenseAdvantage + " " + defenseModeAffectedClasses.stream()
+                    .map(fateClass -> getTranslation(CLASS_SECTION, fateClass.name()))
+                    .collect(Collectors.joining(", "));
         }
 
         return base;
