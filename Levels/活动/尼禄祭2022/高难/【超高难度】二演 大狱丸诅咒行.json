@@ -1,0 +1,1035 @@
+{
+  "id": "【超高难度】二演 大狱丸诅咒行",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "小鬼",
+      "hpBars": [13318],
+      "enemyCategories": "鬼/"
+    }, {
+      "enemyBaseId": "小鬼",
+      "hpBars": [10253],
+      "enemyCategories": "鬼/"
+    }, {
+      "enemyBaseId": "邪鬼",
+      "hpBars": [24181],
+      "combatantDataOverride": {
+        "id": "邪鬼",
+        "rarity": 3,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC", "ONI"],
+        "deathRate": 0.8
+      },
+      "enemyCategories": "鬼/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY", "SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant165",
+      "hpBars": [272916, 311904, 363888],
+      "combatantDataOverride": {
+        "id": "servant165",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "gender": "FEMALE",
+        "alignments": ["NEUTRAL", "EVIL"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "RIDING", "ONI", "DIVINE_SPIRIT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.21
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant165/",
+      "isServant": true
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "buffData": [{
+        "type": "EnterFieldEffect",
+        "numTimesActive": 1,
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CommandCardResist",
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [1.0],
+            "customTraits": ["变幻自在如花耐性Quick"],
+            "irremovable": true,
+            "hasCustomTraits": true,
+            "buffIcon": "artsResistUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CommandCardResist",
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
+            "values": [1.0],
+            "customTraits": ["变幻自在如花耐性Quick"],
+            "irremovable": true,
+            "hasCustomTraits": true,
+            "buffIcon": "busterResistUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "applyCondition": {
+              "type": "And",
+              "subConditionData": [{
+                "type": "TargetsHaveBuff",
+                "subConditionData": [{
+                  "type": "BuffHasTrait",
+                  "value": "变幻自在如花耐性Buster"
+                }],
+                "target": "SELF"
+              }, {
+                "type": "Not",
+                "subConditionData": [{
+                  "type": "TargetsHaveTrait",
+                  "value": "变幻自在如花",
+                  "target": "SELF"
+                }]
+              }]
+            },
+            "subEffects": [{
+              "type": "ForceRemoveBuff",
+              "target": "SELF",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "变幻自在如花耐性Buster"
+              },
+              "intValues": [0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "CommandCardResist",
+                "applyCondition": {
+                  "type": "CardTypeEquals",
+                  "value": "ARTS"
+                },
+                "values": [1.0],
+                "customTraits": ["变幻自在如花耐性Quick"],
+                "irremovable": true,
+                "hasCustomTraits": true,
+                "buffIcon": "artsResistUp"
+              }],
+              "probabilities": [5.0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "CommandCardResist",
+                "applyCondition": {
+                  "type": "CardTypeEquals",
+                  "value": "BUSTER"
+                },
+                "values": [1.0],
+                "customTraits": ["变幻自在如花耐性Quick"],
+                "irremovable": true,
+                "hasCustomTraits": true,
+                "buffIcon": "busterResistUp"
+              }],
+              "probabilities": [5.0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "GrantTrait",
+                "numTurnsActive": 1,
+                "stringValue": "变幻自在如花"
+              }]
+            }],
+            "customTraits": ["变幻自在如花"],
+            "irremovable": true,
+            "hasCustomTraits": true,
+            "buffIcon": "delayedBuff"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "applyCondition": {
+              "type": "And",
+              "subConditionData": [{
+                "type": "TargetsHaveBuff",
+                "subConditionData": [{
+                  "type": "BuffHasTrait",
+                  "value": "变幻自在如花耐性Quick"
+                }],
+                "target": "SELF"
+              }, {
+                "type": "Not",
+                "subConditionData": [{
+                  "type": "TargetsHaveTrait",
+                  "value": "变幻自在如花",
+                  "target": "SELF"
+                }]
+              }]
+            },
+            "subEffects": [{
+              "type": "ForceRemoveBuff",
+              "target": "SELF",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "变幻自在如花耐性Quick"
+              },
+              "intValues": [0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "CommandCardResist",
+                "applyCondition": {
+                  "type": "CardTypeEquals",
+                  "value": "QUICK"
+                },
+                "values": [1.0],
+                "customTraits": ["变幻自在如花耐性Arts"],
+                "irremovable": true,
+                "hasCustomTraits": true,
+                "buffIcon": "quickResistUp"
+              }],
+              "probabilities": [5.0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "CommandCardResist",
+                "applyCondition": {
+                  "type": "CardTypeEquals",
+                  "value": "BUSTER"
+                },
+                "values": [1.0],
+                "customTraits": ["变幻自在如花耐性Arts"],
+                "irremovable": true,
+                "hasCustomTraits": true,
+                "buffIcon": "busterResistUp"
+              }],
+              "probabilities": [5.0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "GrantTrait",
+                "numTurnsActive": 1,
+                "stringValue": "变幻自在如花"
+              }]
+            }],
+            "customTraits": ["变幻自在如花"],
+            "irremovable": true,
+            "hasCustomTraits": true,
+            "buffIcon": "delayedBuff"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "applyCondition": {
+              "type": "And",
+              "subConditionData": [{
+                "type": "TargetsHaveBuff",
+                "subConditionData": [{
+                  "type": "BuffHasTrait",
+                  "value": "变幻自在如花耐性Arts"
+                }],
+                "target": "SELF"
+              }, {
+                "type": "Not",
+                "subConditionData": [{
+                  "type": "TargetsHaveTrait",
+                  "value": "变幻自在如花",
+                  "target": "SELF"
+                }]
+              }]
+            },
+            "subEffects": [{
+              "type": "ForceRemoveBuff",
+              "target": "SELF",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "变幻自在如花耐性Arts"
+              },
+              "intValues": [0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "CommandCardResist",
+                "applyCondition": {
+                  "type": "CardTypeEquals",
+                  "value": "QUICK"
+                },
+                "values": [1.0],
+                "customTraits": ["变幻自在如花耐性Buster"],
+                "irremovable": true,
+                "hasCustomTraits": true,
+                "buffIcon": "quickResistUp"
+              }],
+              "probabilities": [5.0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "CommandCardResist",
+                "applyCondition": {
+                  "type": "CardTypeEquals",
+                  "value": "ARTS"
+                },
+                "values": [1.0],
+                "customTraits": ["变幻自在如花耐性Buster"],
+                "irremovable": true,
+                "hasCustomTraits": true,
+                "buffIcon": "artsResistUp"
+              }],
+              "probabilities": [5.0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "GrantTrait",
+                "numTurnsActive": 1,
+                "stringValue": "变幻自在如花"
+              }]
+            }],
+            "customTraits": ["变幻自在如花"],
+            "irremovable": true,
+            "hasCustomTraits": true,
+            "buffIcon": "delayedBuff"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostDefenseEffect",
+            "numTimesActive": 1,
+            "applyCondition": {
+              "type": "HpPercentAtMost"
+            },
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 1,
+                "subEffects": [{
+                  "type": "ForceRemoveBuff",
+                  "target": "SELF",
+                  "applyCondition": {
+                    "type": "Or",
+                    "subConditionData": [{
+                      "type": "BuffHasTrait",
+                      "value": "变幻自在如花"
+                    }, {
+                      "type": "BuffHasTrait",
+                      "value": "变幻自在如花耐性Quick"
+                    }, {
+                      "type": "BuffHasTrait",
+                      "value": "变幻自在如花耐性Arts"
+                    }, {
+                      "type": "BuffHasTrait",
+                      "value": "变幻自在如花耐性Buster"
+                    }]
+                  },
+                  "intValues": [0]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "ClassAdvantageChangeBuff",
+                    "customTraits": ["变幻自在如风耐性Caster"],
+                    "irremovable": true,
+                    "hasCustomTraits": true,
+                    "classAdvChangeAdditionalParams": {
+                      "defenseMode": "CLASS_ADV_FIXED_RATE",
+                      "defenseAdv": 2.0,
+                      "defenseModeAffectedClasses": ["SABER"],
+                      "customizeDefenseModifier": true
+                    }
+                  }],
+                  "probabilities": [5.0]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "applyCondition": {
+                      "type": "And",
+                      "subConditionData": [{
+                        "type": "TargetsHaveBuff",
+                        "subConditionData": [{
+                          "type": "BuffHasTrait",
+                          "value": "变幻自在如风耐性Caster"
+                        }],
+                        "target": "SELF"
+                      }, {
+                        "type": "Not",
+                        "subConditionData": [{
+                          "type": "TargetsHaveTrait",
+                          "value": "变幻自在如风",
+                          "target": "SELF"
+                        }]
+                      }]
+                    },
+                    "subEffects": [{
+                      "type": "ForceRemoveBuff",
+                      "target": "SELF",
+                      "applyCondition": {
+                        "type": "BuffHasTrait",
+                        "value": "变幻自在如风耐性Caster"
+                      },
+                      "intValues": [0]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Lancer"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 2.0,
+                          "defenseModeAffectedClasses": ["SABER"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Lancer"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 0.5,
+                          "defenseModeAffectedClasses": ["ARCHER"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Lancer"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 1.0,
+                          "defenseModeAffectedClasses": ["LANCER"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "GrantTrait",
+                        "numTurnsActive": 1,
+                        "stringValue": "变幻自在如风"
+                      }]
+                    }],
+                    "customTraits": ["变幻自在如风"],
+                    "irremovable": true,
+                    "hasCustomTraits": true,
+                    "buffIcon": "delayedBuff"
+                  }]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "applyCondition": {
+                      "type": "And",
+                      "subConditionData": [{
+                        "type": "TargetsHaveBuff",
+                        "subConditionData": [{
+                          "type": "BuffHasTrait",
+                          "value": "变幻自在如风耐性Lancer"
+                        }],
+                        "target": "SELF"
+                      }, {
+                        "type": "Not",
+                        "subConditionData": [{
+                          "type": "TargetsHaveTrait",
+                          "value": "变幻自在如风",
+                          "target": "SELF"
+                        }]
+                      }]
+                    },
+                    "subEffects": [{
+                      "type": "ForceRemoveBuff",
+                      "target": "SELF",
+                      "applyCondition": {
+                        "type": "BuffHasTrait",
+                        "value": "变幻自在如风耐性Lancer"
+                      },
+                      "intValues": [0]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Rider"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 2.0,
+                          "defenseModeAffectedClasses": ["ASSASSIN"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Rider"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 0.5,
+                          "defenseModeAffectedClasses": ["CASTER", "PRETENDER"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Rider"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 1.0,
+                          "defenseModeAffectedClasses": ["ARCHER", "LANCER"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Rider"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 1.5,
+                          "defenseModeAffectedClasses": ["ALTEREGO"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "GrantTrait",
+                        "numTurnsActive": 1,
+                        "stringValue": "变幻自在如风"
+                      }]
+                    }],
+                    "customTraits": ["变幻自在如风"],
+                    "irremovable": true,
+                    "hasCustomTraits": true,
+                    "buffIcon": "delayedBuff"
+                  }]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "applyCondition": {
+                      "type": "And",
+                      "subConditionData": [{
+                        "type": "TargetsHaveBuff",
+                        "subConditionData": [{
+                          "type": "BuffHasTrait",
+                          "value": "变幻自在如风耐性Rider"
+                        }],
+                        "target": "SELF"
+                      }, {
+                        "type": "Not",
+                        "subConditionData": [{
+                          "type": "TargetsHaveTrait",
+                          "value": "变幻自在如风",
+                          "target": "SELF"
+                        }]
+                      }]
+                    },
+                    "subEffects": [{
+                      "type": "ForceRemoveBuff",
+                      "target": "SELF",
+                      "applyCondition": {
+                        "type": "BuffHasTrait",
+                        "value": "变幻自在如风耐性Rider"
+                      },
+                      "intValues": [0]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Caster"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 2.0,
+                          "defenseModeAffectedClasses": ["RIDER"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Caster"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 0.5,
+                          "defenseModeAffectedClasses": ["ASSASSIN", "PRETENDER", "BEAST_IV"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Caster"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 1.0,
+                          "defenseModeAffectedClasses": ["ARCHER", "LANCER"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "ClassAdvantageChangeBuff",
+                        "customTraits": ["变幻自在如风耐性Caster"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "classAdvChangeAdditionalParams": {
+                          "defenseMode": "CLASS_ADV_FIXED_RATE",
+                          "defenseAdv": 1.5,
+                          "defenseModeAffectedClasses": ["ALTEREGO"],
+                          "customizeDefenseModifier": true
+                        }
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "GrantTrait",
+                        "numTurnsActive": 1,
+                        "stringValue": "变幻自在如风"
+                      }]
+                    }],
+                    "customTraits": ["变幻自在如风"],
+                    "irremovable": true,
+                    "hasCustomTraits": true,
+                    "buffIcon": "delayedBuff"
+                  }]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "GrantTrait",
+                    "stringValue": "第一血条击破",
+                    "irremovable": true
+                  }]
+                }],
+                "irremovable": true,
+                "buffIcon": "delayedBuff"
+              }]
+            }],
+            "irremovable": true,
+            "buffIcon": "leaveField"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostDefenseEffect",
+            "numTimesActive": 1,
+            "applyCondition": {
+              "type": "And",
+              "subConditionData": [{
+                "type": "HpPercentAtMost"
+              }, {
+                "type": "TargetsHaveTrait",
+                "value": "第一血条击破",
+                "target": "SELF"
+              }]
+            },
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 1,
+                "subEffects": [{
+                  "type": "ForceRemoveBuff",
+                  "target": "SELF",
+                  "applyCondition": {
+                    "type": "Or",
+                    "subConditionData": [{
+                      "type": "BuffHasTrait",
+                      "value": "变幻自在如风"
+                    }, {
+                      "type": "BuffHasTrait",
+                      "value": "变幻自在如风耐性Caster"
+                    }, {
+                      "type": "BuffHasTrait",
+                      "value": "变幻自在如风耐性Rider"
+                    }, {
+                      "type": "BuffHasTrait",
+                      "value": "变幻自在如风耐性Lancer"
+                    }]
+                  },
+                  "intValues": [0]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "PercentDefenseBuff",
+                    "values": [0.9],
+                    "irremovable": true,
+                    "buffIcon": "percentDefUp"
+                  }],
+                  "probabilities": [5.0]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "PostDefenseEffect",
+                    "customTraits": ["变幻自在如兽耐性恶"],
+                    "irremovable": true,
+                    "hasCustomTraits": true
+                  }]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "applyCondition": {
+                      "type": "And",
+                      "subConditionData": [{
+                        "type": "TargetsHaveBuff",
+                        "subConditionData": [{
+                          "type": "BuffHasTrait",
+                          "value": "变幻自在如兽耐性恶"
+                        }],
+                        "target": "SELF"
+                      }, {
+                        "type": "Not",
+                        "subConditionData": [{
+                          "type": "TargetsHaveTrait",
+                          "value": "变幻自在如兽",
+                          "target": "SELF"
+                        }]
+                      }]
+                    },
+                    "subEffects": [{
+                      "type": "ForceRemoveBuff",
+                      "target": "SELF",
+                      "applyCondition": {
+                        "type": "BuffHasTrait",
+                        "value": "变幻自在如兽耐性恶"
+                      },
+                      "intValues": [0]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "PostDefenseEffect",
+                        "applyCondition": {
+                          "type": "TargetsHaveTrait",
+                          "value": "BALANCED",
+                          "target": "ATTACKER"
+                        },
+                        "subEffects": [{
+                          "type": "GrantBuff",
+                          "target": "SELF",
+                          "buffData": [{
+                            "type": "PercentDefenseBuff",
+                            "numTurnsActive": 3,
+                            "values": [-0.1],
+                            "irremovable": true,
+                            "buffIcon": "percentDefDown"
+                          }],
+                          "probabilities": [5.0]
+                        }],
+                        "customTraits": ["变幻自在如兽耐性中庸善"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "buffIcon": "delayedSpDown"
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "GrantTrait",
+                        "numTurnsActive": 1,
+                        "stringValue": "变幻自在如兽"
+                      }]
+                    }],
+                    "irremovable": true,
+                    "buffIcon": "delayedBuff"
+                  }]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "applyCondition": {
+                      "type": "And",
+                      "subConditionData": [{
+                        "type": "TargetsHaveBuff",
+                        "subConditionData": [{
+                          "type": "BuffHasTrait",
+                          "value": "变幻自在如兽耐性中庸善"
+                        }],
+                        "target": "SELF"
+                      }, {
+                        "type": "Not",
+                        "subConditionData": [{
+                          "type": "TargetsHaveTrait",
+                          "value": "变幻自在如兽",
+                          "target": "SELF"
+                        }]
+                      }]
+                    },
+                    "subEffects": [{
+                      "type": "ForceRemoveBuff",
+                      "target": "SELF",
+                      "applyCondition": {
+                        "type": "BuffHasTrait",
+                        "value": "变幻自在如兽耐性中庸善"
+                      },
+                      "intValues": [0]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "PostDefenseEffect",
+                        "applyCondition": {
+                          "type": "TargetsHaveTrait",
+                          "value": "GOOD",
+                          "target": "ATTACKER"
+                        },
+                        "subEffects": [{
+                          "type": "GrantBuff",
+                          "target": "SELF",
+                          "buffData": [{
+                            "type": "PercentDefenseBuff",
+                            "numTurnsActive": 3,
+                            "values": [-0.1],
+                            "irremovable": true,
+                            "buffIcon": "percentDefDown"
+                          }],
+                          "probabilities": [5.0]
+                        }],
+                        "customTraits": ["变幻自在如兽耐性善"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "buffIcon": "delayedSpDown"
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "GrantTrait",
+                        "numTurnsActive": 1,
+                        "stringValue": "变幻自在如兽"
+                      }]
+                    }],
+                    "irremovable": true,
+                    "buffIcon": "delayedBuff"
+                  }]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "applyCondition": {
+                      "type": "And",
+                      "subConditionData": [{
+                        "type": "TargetsHaveBuff",
+                        "subConditionData": [{
+                          "type": "BuffHasTrait",
+                          "value": "变幻自在如兽耐性善"
+                        }],
+                        "target": "SELF"
+                      }, {
+                        "type": "Not",
+                        "subConditionData": [{
+                          "type": "TargetsHaveTrait",
+                          "value": "变幻自在如兽",
+                          "target": "SELF"
+                        }]
+                      }]
+                    },
+                    "subEffects": [{
+                      "type": "ForceRemoveBuff",
+                      "target": "SELF",
+                      "applyCondition": {
+                        "type": "BuffHasTrait",
+                        "value": "变幻自在如兽耐性善"
+                      },
+                      "intValues": [0]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "PostDefenseEffect",
+                        "applyCondition": {
+                          "type": "TargetsHaveTrait",
+                          "value": "BALANCED",
+                          "target": "ATTACKER"
+                        },
+                        "subEffects": [{
+                          "type": "GrantBuff",
+                          "target": "SELF",
+                          "buffData": [{
+                            "type": "PercentDefenseBuff",
+                            "numTurnsActive": 3,
+                            "values": [-0.1],
+                            "irremovable": true,
+                            "buffIcon": "percentDefDown"
+                          }],
+                          "probabilities": [5.0]
+                        }],
+                        "customTraits": ["变幻自在如兽耐性中庸恶"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "buffIcon": "delayedSpDown"
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "GrantTrait",
+                        "numTurnsActive": 1,
+                        "stringValue": "变幻自在如兽"
+                      }]
+                    }],
+                    "irremovable": true,
+                    "buffIcon": "delayedBuff"
+                  }]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "applyCondition": {
+                      "type": "And",
+                      "subConditionData": [{
+                        "type": "TargetsHaveBuff",
+                        "subConditionData": [{
+                          "type": "BuffHasTrait",
+                          "value": "变幻自在如兽耐性中庸恶"
+                        }],
+                        "target": "SELF"
+                      }, {
+                        "type": "Not",
+                        "subConditionData": [{
+                          "type": "TargetsHaveTrait",
+                          "value": "变幻自在如兽",
+                          "target": "SELF"
+                        }]
+                      }]
+                    },
+                    "subEffects": [{
+                      "type": "ForceRemoveBuff",
+                      "target": "SELF",
+                      "applyCondition": {
+                        "type": "BuffHasTrait",
+                        "value": "变幻自在如兽耐性中庸恶"
+                      },
+                      "intValues": [0]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "PostDefenseEffect",
+                        "applyCondition": {
+                          "type": "TargetsHaveTrait",
+                          "value": "EVIL",
+                          "target": "ATTACKER"
+                        },
+                        "subEffects": [{
+                          "type": "GrantBuff",
+                          "target": "SELF",
+                          "buffData": [{
+                            "type": "PercentDefenseBuff",
+                            "numTurnsActive": 3,
+                            "values": [-0.1],
+                            "irremovable": true,
+                            "buffIcon": "percentDefDown"
+                          }],
+                          "probabilities": [5.0]
+                        }],
+                        "customTraits": ["变幻自在如兽耐性恶"],
+                        "irremovable": true,
+                        "hasCustomTraits": true,
+                        "buffIcon": "delayedSpDown"
+                      }]
+                    }, {
+                      "type": "GrantBuff",
+                      "target": "SELF",
+                      "buffData": [{
+                        "type": "GrantTrait",
+                        "numTurnsActive": 1,
+                        "stringValue": "变幻自在如兽"
+                      }]
+                    }],
+                    "irremovable": true,
+                    "buffIcon": "delayedBuff"
+                  }]
+                }],
+                "irremovable": true,
+                "buffIcon": "delayedBuff"
+              }]
+            }],
+            "irremovable": true,
+            "buffIcon": "leaveField"
+          }]
+        }]
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "SUNLIGHT"]
+  }]
+}

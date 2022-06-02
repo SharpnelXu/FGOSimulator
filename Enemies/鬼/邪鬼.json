@@ -1,0 +1,9 @@
+{
+  "id": "邪鬼",
+  "rarity": 3,
+  "fateClass": "BERSERKER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["HUMANOID", "DEMONIC", "ONI"],
+  "deathRate": 0.8
+}

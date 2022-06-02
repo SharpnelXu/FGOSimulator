@@ -1,0 +1,375 @@
+{
+  "id": "【超高难度】首演 超恢复肌肉",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "失心之人",
+      "hpBars": [28149],
+      "combatantDataOverride": {
+        "id": "失心之人",
+        "rarity": 1,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "失心之人/"
+    }, {
+      "enemyBaseId": "失心之人",
+      "hpBars": [21634],
+      "combatantDataOverride": {
+        "id": "失心之人",
+        "rarity": 1,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "失心之人/"
+    }, {
+      "enemyBaseId": "失心之人",
+      "hpBars": [17310],
+      "combatantDataOverride": {
+        "id": "失心之人",
+        "rarity": 1,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "失心之人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY", "SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant50",
+      "hpBars": [401820, 499560, 574580],
+      "combatantDataOverride": {
+        "id": "servant50",
+        "rarity": 1,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "alignments": ["NEUTRAL", "BALANCED"],
+        "attribute": "MAN",
+        "traits": ["ROMAN", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.65
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant50/",
+      "isServant": true
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "buffData": [{
+        "type": "EnterFieldEffect",
+        "numTimesActive": 1,
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "NpDamageBuff",
+            "values": [0.0],
+            "irremovable": true,
+            "variationData": {
+              "type": "HpVariation",
+              "maxHp": 1.0,
+              "target": "SELF"
+            },
+            "additions": [1.8],
+            "buffIcon": "npDamageUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "subEffects": [{
+              "type": "HpChange",
+              "target": "SELF",
+              "intValues": [100000]
+            }],
+            "irremovable": true,
+            "buffIcon": "hpPerTurn"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CriticalRateBuff",
+            "applyCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "KING",
+              "target": "DEFENDER"
+            },
+            "values": [1.0],
+            "irremovable": true,
+            "buffIcon": "critChanceUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostDefenseEffect",
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "HealEffectivenessBuff",
+                "numTurnsActive": 3,
+                "values": [-0.1],
+                "buffIcon": "healDown"
+              }]
+            }],
+            "irremovable": true,
+            "buffIcon": "delayedEffect"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
+            "values": [-0.5],
+            "buffIcon": "busterDown"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DelayedEffect",
+            "numTurnsActive": 3,
+            "subEffects": [{
+              "type": "HpChange",
+              "target": "SELF",
+              "intValues": [100000]
+            }],
+            "customTraits": ["POSITIVE_BUFF", "延迟恢复"],
+            "hasCustomTraits": true,
+            "buffIcon": "delayedBuff"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DelayedEffect",
+            "numTurnsActive": 6,
+            "subEffects": [{
+              "type": "HpChange",
+              "target": "SELF",
+              "intValues": [200000]
+            }],
+            "customTraits": ["POSITIVE_BUFF", "延迟恢复"],
+            "hasCustomTraits": true,
+            "buffIcon": "delayedBuff"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DelayedEffect",
+            "numTurnsActive": 9,
+            "subEffects": [{
+              "type": "HpChange",
+              "target": "SELF",
+              "intValues": [400000]
+            }],
+            "customTraits": ["POSITIVE_BUFF", "延迟恢复"],
+            "hasCustomTraits": true,
+            "buffIcon": "delayedBuff"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DelayedEffect",
+            "numTurnsActive": 3,
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "GrantTrait",
+                "stringValue": "三回合内未被击破",
+                "customTraits": ["三回合内未被击破"],
+                "irremovable": true,
+                "hasCustomTraits": true
+              }]
+            }],
+            "customTraits": ["三回合检查"],
+            "irremovable": true,
+            "hasCustomTraits": true,
+            "buffIcon": "delayedBuff"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostDefenseEffect",
+            "numTimesActive": 2,
+            "applyCondition": {
+              "type": "And",
+              "subConditionData": [{
+                "type": "HpPercentAtMost"
+              }, {
+                "type": "Not",
+                "subConditionData": [{
+                  "type": "TargetsHaveTrait",
+                  "value": "当回合击破",
+                  "target": "SELF"
+                }]
+              }]
+            },
+            "subEffects": [{
+              "type": "RemoveBuff",
+              "target": "SELF",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "延迟恢复"
+              },
+              "intValues": [0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 3,
+                "subEffects": [{
+                  "type": "HpChange",
+                  "target": "SELF",
+                  "intValues": [100000]
+                }],
+                "customTraits": ["POSITIVE_BUFF", "延迟恢复"],
+                "hasCustomTraits": true,
+                "buffIcon": "delayedBuff"
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 6,
+                "subEffects": [{
+                  "type": "HpChange",
+                  "target": "SELF",
+                  "intValues": [200000]
+                }],
+                "customTraits": ["POSITIVE_BUFF", "延迟恢复"],
+                "hasCustomTraits": true,
+                "buffIcon": "delayedBuff"
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 9,
+                "subEffects": [{
+                  "type": "HpChange",
+                  "target": "SELF",
+                  "intValues": [400000]
+                }],
+                "customTraits": ["POSITIVE_BUFF", "延迟恢复"],
+                "hasCustomTraits": true,
+                "buffIcon": "delayedBuff"
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "applyCondition": {
+                "type": "And",
+                "subConditionData": [{
+                  "type": "Not",
+                  "subConditionData": [{
+                    "type": "TargetsHaveTrait",
+                    "value": "三回合内未被击破",
+                    "target": "SELF"
+                  }]
+                }, {
+                  "type": "Not",
+                  "subConditionData": [{
+                    "type": "TargetsHaveBuff",
+                    "subConditionData": [{
+                      "type": "BuffHasTrait",
+                      "value": "克己耐性"
+                    }],
+                    "target": "SELF"
+                  }]
+                }]
+              },
+              "buffData": [{
+                "type": "PercentDefenseBuff",
+                "numTurnsActive": 3,
+                "values": [0.5],
+                "customTraits": ["克己耐性"],
+                "irremovable": true,
+                "hasCustomTraits": true,
+                "buffIcon": "percentDefUp"
+              }]
+            }, {
+              "type": "ForceRemoveBuff",
+              "target": "SELF",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "三回合内未被击破"
+              },
+              "intValues": [1]
+            }, {
+              "type": "ForceRemoveBuff",
+              "target": "SELF",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "三回合检查"
+              },
+              "intValues": [0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 3,
+                "subEffects": [{
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "GrantTrait",
+                    "stringValue": "三回合内未被击破",
+                    "customTraits": ["三回合内未被击破"],
+                    "irremovable": true,
+                    "hasCustomTraits": true
+                  }]
+                }],
+                "customTraits": ["三回合检查"],
+                "hasCustomTraits": true,
+                "buffIcon": "delayedBuff"
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "GrantTrait",
+                "numTurnsActive": 1,
+                "stringValue": "当回合击破",
+                "irremovable": true
+              }]
+            }],
+            "irremovable": true,
+            "buffIcon": "leaveField"
+          }]
+        }]
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "SUNLIGHT"]
+  }]
+}

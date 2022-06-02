@@ -1,0 +1,9 @@
+{
+  "id": "失心之人",
+  "rarity": 1,
+  "fateClass": "SABER",
+  "gender": "MALE",
+  "attribute": "MAN",
+  "traits": ["HUMAN", "HUMANOID"],
+  "deathRate": 1.0
+}
