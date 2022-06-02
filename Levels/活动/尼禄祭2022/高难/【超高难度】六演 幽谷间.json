@@ -45,5 +45,250 @@
     }],
     "maximumEnemiesOnScreen": 3,
     "traits": ["Nero2022", "CITY"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Not",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant154",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "Guts",
+      "numTimesActive": 48,
+      "values": [1.0],
+      "irremovable": true,
+      "isGutsPercentBased": true,
+      "buffIcon": "guts"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsContainsSpecificServant",
+      "value": "servant154",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "EnterFieldEffect",
+      "numTimesActive": 1,
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PercentDefenseBuff",
+          "values": [0.05],
+          "irremovable": true,
+          "buffIcon": "percentDefUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DebuffResist",
+          "applyCondition": {
+            "type": "BuffTypeEquals",
+            "value": "Pigify"
+          },
+          "values": [10.0],
+          "irremovable": true,
+          "buffIcon": "immune"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DeathChanceBuff",
+          "values": [5.0],
+          "irremovable": true,
+          "buffIcon": "deathUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "EndOfTurnEffect",
+          "numTimesActive": 19,
+          "subEffects": [{
+            "type": "ForceRemoveBuff",
+            "target": "SELF",
+            "applyCondition": {
+              "type": "BuffTypeEquals",
+              "value": "PercentDefenseBuff"
+            },
+            "probabilities": [5.0],
+            "intValues": [1]
+          }],
+          "irremovable": true,
+          "buffIcon": "delayedPerTurnDebuff"
+        }]
+      }]
+    }]
   }]
 }

@@ -103,6 +103,7 @@ public class SimulationWindow {
     ) {
         final StackPane stackPane = new StackPane();
         stackPane.setPrefHeight(800);
+        stackPane.setPrefWidth(1600);
         stackPane.setAlignment(Pos.CENTER);
 
         final ScrollPane scrollPane = new ScrollPane();
