@@ -723,7 +723,7 @@
           "buffData": [{
             "type": "NpSeal",
             "numTurnsActive": 1,
-            "buffIcon": "skillSeal"
+            "buffIcon": "npSeal"
           }]
         }, {
           "type": "GrantBuff",
@@ -774,7 +774,7 @@
           "buffData": [{
             "type": "NpSeal",
             "numTurnsActive": 1,
-            "buffIcon": "skillSeal"
+            "buffIcon": "npSeal"
           }]
         }, {
           "type": "GrantBuff",
