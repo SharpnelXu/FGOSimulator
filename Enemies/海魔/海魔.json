@@ -1,0 +1,8 @@
+{
+  "id": "海魔",
+  "rarity": 2,
+  "fateClass": "ARCHER",
+  "attribute": "EARTH",
+  "traits": ["DEMONIC"],
+  "deathRate": 0.5
+}

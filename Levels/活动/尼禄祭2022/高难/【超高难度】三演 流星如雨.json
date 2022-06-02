@@ -1,0 +1,139 @@
+{
+  "id": "【超高难度】三演 流星如雨",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "海魔",
+      "hpBars": [10110],
+      "enemyCategories": "海魔/"
+    }, {
+      "enemyBaseId": "海魔",
+      "hpBars": [20845],
+      "enemyCategories": "海魔/"
+    }, {
+      "enemyBaseId": "海魔",
+      "hpBars": [16450],
+      "enemyCategories": "海魔/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "SUNLIGHT", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant16",
+      "hpBars": [5308480],
+      "combatantDataOverride": {
+        "id": "servant16",
+        "rarity": 1,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "BALANCED"],
+        "attribute": "EARTH",
+        "traits": ["BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant16/",
+      "isServant": true
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "buffData": [{
+        "type": "EnterFieldEffect",
+        "numTimesActive": 1,
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "IgnoreInvincible",
+            "applyCondition": {
+              "type": "NpCard"
+            },
+            "irremovable": true,
+            "buffIcon": "ignoreInvincible"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "Guts",
+            "numTimesActive": 3,
+            "values": [2100000.0],
+            "irremovable": true,
+            "buffIcon": "guts"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DebuffResist",
+            "applyCondition": {
+              "type": "BuffHasTrait",
+              "value": "IMMOBILIZE_BUFF"
+            },
+            "values": [10.0],
+            "irremovable": true,
+            "buffIcon": "immune"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "BuffRemovalResist",
+            "applyCondition": {
+              "type": "BuffHasTrait",
+              "value": "POSITIVE_BUFF"
+            },
+            "values": [5.0],
+            "irremovable": true,
+            "buffIcon": "buffRemovalResistUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "NpDamageBuff",
+            "values": [5.0],
+            "irremovable": true,
+            "buffIcon": "npDamageUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "numTimesActive": 1,
+            "applyCondition": {
+              "type": "Not",
+              "subConditionData": [{
+                "type": "TargetsHaveBuff",
+                "subConditionData": [{
+                  "type": "BuffTypeEquals",
+                  "value": "Guts"
+                }],
+                "target": "SELF"
+              }]
+            },
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "Guts",
+                "numTimesActive": 1,
+                "values": [2100000.0],
+                "irremovable": true,
+                "buffIcon": "guts"
+              }]
+            }, {
+              "type": "NpGaugeChange",
+              "target": "SELF",
+              "intValues": [-3]
+            }],
+            "irremovable": true,
+            "buffIcon": "delayedBuff"
+          }]
+        }]
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }]
+}
