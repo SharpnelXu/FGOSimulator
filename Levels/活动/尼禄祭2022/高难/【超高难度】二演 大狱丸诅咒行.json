@@ -36,8 +36,7 @@
         "gender": "FEMALE",
         "alignments": ["NEUTRAL", "EVIL"],
         "attribute": "SKY",
-        "traits": ["DIVINE", "RIDING", "ONI", "DIVINE_SPIRIT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.21
+        "traits": ["DIVINE", "RIDING", "ONI", "DIVINE_SPIRIT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
       },
       "servantAscension": 1,
       "enemyCategories": "servant165/",

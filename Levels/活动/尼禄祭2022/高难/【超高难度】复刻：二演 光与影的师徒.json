@@ -43,8 +43,7 @@
         "gender": "MALE",
         "alignments": ["LAWFUL", "BALANCED"],
         "attribute": "SKY",
-        "traits": ["DIVINE", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.32
+        "traits": ["DIVINE", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
       },
       "servantAscension": 1,
       "enemyCategories": "servant17/",
@@ -59,8 +58,7 @@
         "gender": "FEMALE",
         "alignments": ["NEUTRAL", "GOOD"],
         "attribute": "STAR",
-        "traits": ["KING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.32
+        "traits": ["KING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
       },
       "servantAscension": 1,
       "enemyCategories": "servant70/",

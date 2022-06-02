@@ -126,6 +126,7 @@ public class Combatant {
                         ? base.getAlignmentsList()
                         : override.getAlignmentsList()
         );
+        builder.setDeathRate(override.getDeathRate());
         builder.clearTraits();
         builder.addAllTraits(
                 override.getTraitsCount() == 0

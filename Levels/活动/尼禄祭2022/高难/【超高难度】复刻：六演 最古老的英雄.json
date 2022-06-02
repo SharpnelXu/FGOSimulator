@@ -97,8 +97,7 @@
         "gender": "MALE",
         "alignments": ["CHAOTIC", "GOOD"],
         "attribute": "SKY",
-        "traits": ["DIVINE", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.315
+        "traits": ["DIVINE", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
       },
       "servantAscension": 1,
       "enemyCategories": "servant12/",

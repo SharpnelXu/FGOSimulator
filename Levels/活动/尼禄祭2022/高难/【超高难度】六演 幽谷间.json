@@ -30,6 +30,15 @@
     }, {
       "enemyBaseId": "servant154",
       "hpBars": [666900, 717310],
+      "combatantDataOverride": {
+        "id": "servant154",
+        "rarity": 5,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
+      },
       "servantAscension": 1,
       "enemyCategories": "servant154/",
       "isServant": true

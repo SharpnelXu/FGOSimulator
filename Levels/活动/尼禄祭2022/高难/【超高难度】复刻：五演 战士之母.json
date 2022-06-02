@@ -96,8 +96,7 @@
         "fateClass": "RIDER",
         "gender": "MALE",
         "attribute": "MAN",
-        "traits": ["HUMAN", "HUMANOID", "凯尔特士兵A"],
-        "deathRate": 1.0
+        "traits": ["HUMAN", "HUMANOID", "凯尔特士兵A"]
       },
       "enemyCategories": "凯尔特士兵/"
     }, {
@@ -110,8 +109,7 @@
         "gender": "FEMALE",
         "alignments": ["CHAOTIC", "EVIL"],
         "attribute": "EARTH",
-        "traits": ["RIDING", "KING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.4
+        "traits": ["RIDING", "KING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
       },
       "servantAscension": 1,
       "enemyCategories": "servant99/",
@@ -125,8 +123,7 @@
         "fateClass": "RIDER",
         "gender": "MALE",
         "attribute": "MAN",
-        "traits": ["HUMAN", "HUMANOID", "凯尔特士兵B"],
-        "deathRate": 1.0
+        "traits": ["HUMAN", "HUMANOID", "凯尔特士兵B"]
       },
       "enemyCategories": "凯尔特士兵/"
     }, {
@@ -138,8 +135,7 @@
         "fateClass": "RIDER",
         "gender": "MALE",
         "attribute": "MAN",
-        "traits": ["HUMAN", "HUMANOID", "解防御"],
-        "deathRate": 1.0
+        "traits": ["HUMAN", "HUMANOID", "解防御"]
       },
       "enemyCategories": "凯尔特士兵/"
     }, {
@@ -151,8 +147,7 @@
         "fateClass": "RIDER",
         "gender": "MALE",
         "attribute": "MAN",
-        "traits": ["HUMAN", "HUMANOID", "凯尔特士兵D"],
-        "deathRate": 1.0
+        "traits": ["HUMAN", "HUMANOID", "凯尔特士兵D"]
       },
       "enemyCategories": "凯尔特士兵/"
     }, {
@@ -164,8 +159,7 @@
         "fateClass": "RIDER",
         "gender": "MALE",
         "attribute": "MAN",
-        "traits": ["HUMAN", "HUMANOID", "解防御"],
-        "deathRate": 1.0
+        "traits": ["HUMAN", "HUMANOID", "解防御"]
       },
       "enemyCategories": "凯尔特士兵/"
     }, {
@@ -177,8 +171,7 @@
         "fateClass": "CASTER",
         "gender": "MALE",
         "attribute": "MAN",
-        "traits": ["HUMAN", "HUMANOID", "德鲁伊A"],
-        "deathRate": 1.0
+        "traits": ["HUMAN", "HUMANOID", "德鲁伊A"]
       },
       "enemyCategories": "凯尔特士兵/"
     }, {
@@ -190,8 +183,7 @@
         "fateClass": "CASTER",
         "gender": "MALE",
         "attribute": "MAN",
-        "traits": ["HUMAN", "HUMANOID", "解防御"],
-        "deathRate": 1.0
+        "traits": ["HUMAN", "HUMANOID", "解防御"]
       },
       "enemyCategories": "凯尔特士兵/"
     }],

@@ -4,10 +4,14 @@
     "enemyData": [{
       "enemyBaseId": "陈旧装置",
       "hpBars": [107010],
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "自动人偶/"
     }, {
       "enemyBaseId": "混沌机械兵（大）",
       "hpBars": [113470],
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "混沌机械兵/"
     }, {
       "enemyBaseId": "servant127",
@@ -21,16 +25,22 @@
         "attribute": "STAR",
         "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
       },
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "servantAscension": 1,
       "enemyCategories": "servant127/",
       "isServant": true
     }, {
       "enemyBaseId": "白色奇美拉",
       "hpBars": [129027],
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "奇美拉/"
     }, {
       "enemyBaseId": "凝视者",
       "hpBars": [151889],
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "凝视者/"
     }, {
       "enemyBaseId": "双角兽",
@@ -43,6 +53,8 @@
         "traits": ["WILD_BEAST", "DEMONIC"],
         "deathRate": 0.05
       },
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "双角兽/"
     }, {
       "enemyBaseId": "噬魂者",
@@ -55,10 +67,14 @@
         "traits": ["WILD_BEAST", "DEMONIC"],
         "deathRate": 0.05
       },
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "噬魂者/"
     }, {
       "enemyBaseId": "女王斯芬克斯",
       "hpBars": [174767],
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "斯芬克斯/"
     }, {
       "enemyBaseId": "蝎狮",
@@ -71,18 +87,26 @@
         "traits": ["WILD_BEAST"],
         "deathRate": 0.1
       },
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "蝎狮·乌伽尔·冰雪加姆/"
     }, {
       "enemyBaseId": "赤鬼",
       "hpBars": [230759],
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "鬼/"
     }, {
       "enemyBaseId": "巨大鬼魂",
       "hpBars": [238567],
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "巨大鬼魂/"
     }, {
       "enemyBaseId": "巨大魔猪",
       "hpBars": [276865],
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "巨大魔猪/"
     }, {
       "enemyBaseId": "守护者",
@@ -95,6 +119,8 @@
         "traits": ["FAE", "GIANT", "MASSIVE"],
         "deathRate": 0.01
       },
+      "customMaxNpGauge": 5,
+      "hasCustomMaxNpGauge": true,
       "enemyCategories": "守护者/"
     }],
     "maximumEnemiesOnScreen": 3,

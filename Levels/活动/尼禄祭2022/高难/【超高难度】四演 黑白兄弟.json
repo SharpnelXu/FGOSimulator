@@ -27,8 +27,7 @@
         "gender": "MALE",
         "alignments": ["LAWFUL", "GOOD"],
         "attribute": "SKY",
-        "traits": ["DIVINE", "RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.28
+        "traits": ["DIVINE", "RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
       },
       "servantAscension": 1,
       "enemyCategories": "servant85/",
@@ -43,8 +42,7 @@
         "gender": "MALE",
         "alignments": ["LAWFUL", "BALANCED"],
         "attribute": "SKY",
-        "traits": ["DIVINE", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.315
+        "traits": ["DIVINE", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
       },
       "servantAscension": 1,
       "enemyCategories": "servant84/",
