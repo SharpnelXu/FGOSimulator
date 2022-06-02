@@ -1,0 +1,9 @@
+{
+  "id": "女王斯芬克斯",
+  "rarity": 4,
+  "fateClass": "CASTER",
+  "gender": "FEMALE",
+  "attribute": "EARTH",
+  "traits": ["DIVINE", "MASSIVE"],
+  "deathRate": 0.01
+}

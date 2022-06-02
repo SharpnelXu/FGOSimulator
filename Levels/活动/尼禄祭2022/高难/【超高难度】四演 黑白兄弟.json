@@ -1,0 +1,377 @@
+{
+  "id": "【超高难度】四演 黑白兄弟",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "人工生命体",
+      "hpBars": [12783],
+      "enemyCategories": "人工生命体/"
+    }, {
+      "enemyBaseId": "人工生命体",
+      "hpBars": [14798],
+      "enemyCategories": "人工生命体/"
+    }, {
+      "enemyBaseId": "人工生命体",
+      "hpBars": [18828],
+      "enemyCategories": "人工生命体/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "SUNLIGHT", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant85",
+      "hpBars": [190848, 245376],
+      "combatantDataOverride": {
+        "id": "servant85",
+        "rarity": 5,
+        "fateClass": "LANCER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.28
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant85/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant84",
+      "hpBars": [238140, 291060],
+      "combatantDataOverride": {
+        "id": "servant84",
+        "rarity": 5,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "BALANCED"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.315
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant84/",
+      "isServant": true
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant85",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "EnterFieldEffect",
+        "numTimesActive": 1,
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DefenseBuff",
+            "applyCondition": {
+              "type": "IsCriticalStrike"
+            },
+            "values": [0.8],
+            "irremovable": true,
+            "buffIcon": "defenseUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "SpecificAttackBuff",
+            "applyCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "DIVINE",
+              "target": "DEFENDER"
+            },
+            "values": [1.0],
+            "irremovable": true,
+            "buffIcon": "specialDamageUP"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostDefenseEffect",
+            "numTimesActive": 1,
+            "applyCondition": {
+              "type": "HpPercentAtMost"
+            },
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "GrantTrait",
+                "stringValue": "血条击破",
+                "irremovable": true
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "ALL_ALLIES_EXCLUDING_SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 1,
+                "subEffects": [{
+                  "type": "NpGaugeChange",
+                  "target": "SELF",
+                  "intValues": [-3]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "DeathChanceBuff",
+                    "values": [1.0],
+                    "irremovable": true,
+                    "buffIcon": "deathUp"
+                  }]
+                }],
+                "irremovable": true,
+                "buffIcon": "delayedBuff"
+              }]
+            }],
+            "irremovable": true,
+            "buffIcon": "leaveField"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DeathEffect",
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "ALL_ALLIES_EXCLUDING_SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 1,
+                "subEffects": [{
+                  "type": "NpChange",
+                  "target": "ALL_ENEMIES",
+                  "values": [-5.0]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "ALL_ENEMIES",
+                  "buffData": [{
+                    "type": "NpGenerationBuff",
+                    "values": [0.0],
+                    "irremovable": true,
+                    "buffIcon": "npGainDown"
+                  }]
+                }],
+                "buffIcon": "delayedBuff"
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "ALL_ALLIES_EXCLUDING_SELF",
+              "buffData": [{
+                "type": "EndOfTurnEffect",
+                "numTimesActive": 1,
+                "applyCondition": {
+                  "type": "TargetsHaveTrait",
+                  "value": "血条击破",
+                  "target": "SELF"
+                },
+                "subEffects": [{
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "AttackBuff",
+                    "values": [2.0],
+                    "irremovable": true,
+                    "buffIcon": "attackUp"
+                  }]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "subEffects": [{
+                      "type": "NpGaugeChange",
+                      "target": "SELF",
+                      "intValues": [1]
+                    }],
+                    "irremovable": true,
+                    "buffIcon": "npPerTurn"
+                  }]
+                }],
+                "irremovable": true,
+                "buffIcon": "leaveField"
+              }]
+            }],
+            "irremovable": true,
+            "buffIcon": "leaveField"
+          }]
+        }]
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "applyCondition": {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant84",
+        "target": "EFFECT_TARGET"
+      },
+      "buffData": [{
+        "type": "EnterFieldEffect",
+        "numTimesActive": 1,
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DebuffResist",
+            "values": [10.0],
+            "irremovable": true,
+            "buffIcon": "immune"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "SpecificAttackBuff",
+            "applyCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "DIVINE",
+              "target": "DEFENDER"
+            },
+            "values": [1.0],
+            "irremovable": true,
+            "buffIcon": "specialDamageUP"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostDefenseEffect",
+            "numTimesActive": 1,
+            "applyCondition": {
+              "type": "HpPercentAtMost"
+            },
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "GrantTrait",
+                "stringValue": "血条击破",
+                "irremovable": true
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "ALL_ALLIES_EXCLUDING_SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 1,
+                "subEffects": [{
+                  "type": "NpGaugeChange",
+                  "target": "SELF",
+                  "intValues": [-4]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "PercentDefenseBuff",
+                    "values": [0.8],
+                    "irremovable": true,
+                    "buffIcon": "percentDefUp"
+                  }]
+                }],
+                "irremovable": true,
+                "buffIcon": "delayedBuff"
+              }]
+            }],
+            "irremovable": true,
+            "buffIcon": "leaveField"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DeathEffect",
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "ALL_ALLIES_EXCLUDING_SELF",
+              "buffData": [{
+                "type": "DelayedEffect",
+                "numTurnsActive": 1,
+                "subEffects": [{
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "DamageAdditionBuff",
+                    "values": [2000.0],
+                    "irremovable": true,
+                    "buffIcon": "specialDamageUp"
+                  }]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "subEffects": [{
+                      "type": "NpGaugeChange",
+                      "target": "SELF",
+                      "intValues": [1]
+                    }],
+                    "irremovable": true,
+                    "buffIcon": "npPerTUrn"
+                  }]
+                }],
+                "buffIcon": "delayedBuff"
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "ALL_ALLIES_EXCLUDING_SELF",
+              "buffData": [{
+                "type": "EndOfTurnEffect",
+                "numTimesActive": 1,
+                "applyCondition": {
+                  "type": "TargetsHaveTrait",
+                  "value": "血条击破",
+                  "target": "SELF"
+                },
+                "subEffects": [{
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "AttackBuff",
+                    "values": [2.0],
+                    "irremovable": true,
+                    "buffIcon": "attackUp"
+                  }]
+                }, {
+                  "type": "GrantBuff",
+                  "target": "SELF",
+                  "buffData": [{
+                    "type": "EndOfTurnEffect",
+                    "subEffects": [{
+                      "type": "NpChange",
+                      "target": "ALL_ENEMIES",
+                      "values": [-5.0]
+                    }],
+                    "irremovable": true,
+                    "buffIcon": "npLossPerTurn"
+                  }]
+                }, {
+                  "type": "NpGaugeChange",
+                  "target": "SELF",
+                  "intValues": [-4]
+                }, {
+                  "type": "NpGaugeChange",
+                  "target": "SELF",
+                  "intValues": [1]
+                }, {
+                  "type": "NpChange",
+                  "target": "ALL_ENEMIES",
+                  "values": [-5.0]
+                }],
+                "irremovable": true,
+                "buffIcon": "leaveField"
+              }]
+            }],
+            "irremovable": true,
+            "buffIcon": "leaveField"
+          }]
+        }]
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }]
+}

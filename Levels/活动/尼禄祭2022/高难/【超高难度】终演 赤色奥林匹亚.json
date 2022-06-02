@@ -1,0 +1,50 @@
+{
+  "id": "【超高难度】终演 赤色奥林匹亚",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "servant95",
+      "hpBars": [129600],
+      "servantAscension": 1,
+      "enemyCategories": "servant95/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant30",
+      "hpBars": [158961],
+      "servantAscension": 1,
+      "enemyCategories": "servant30/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant67",
+      "hpBars": [158981],
+      "servantAscension": 1,
+      "enemyCategories": "servant67/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant98",
+      "hpBars": [135516],
+      "servantAscension": 1,
+      "enemyCategories": "servant98/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant117",
+      "hpBars": [131268],
+      "servantAscension": 1,
+      "enemyCategories": "servant117/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant88",
+      "hpBars": [163075],
+      "servantAscension": 1,
+      "enemyCategories": "servant88/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant5",
+      "hpBars": [155952],
+      "servantAscension": 1,
+      "enemyCategories": "servant5/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY", "SUNLIGHT"]
+  }]
+}

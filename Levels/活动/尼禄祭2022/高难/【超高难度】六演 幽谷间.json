@@ -1,0 +1,40 @@
+{
+  "id": "【超高难度】六演 幽谷间",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [7548],
+      "combatantDataOverride": {
+        "id": "迅速之马库尔",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [101340],
+      "combatantDataOverride": {
+        "id": "怪腕之戈兹尔",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "SERVANT", "HOMINIDAE_SERVANT"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "servant154",
+      "hpBars": [666900, 717310],
+      "servantAscension": 1,
+      "enemyCategories": "servant154/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY"]
+  }]
+}

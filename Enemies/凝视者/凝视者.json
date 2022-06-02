@@ -1,0 +1,8 @@
+{
+  "id": "凝视者",
+  "rarity": 4,
+  "fateClass": "ARCHER",
+  "attribute": "EARTH",
+  "traits": ["DEMON", "DEMONIC"],
+  "deathRate": 0.05
+}

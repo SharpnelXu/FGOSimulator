@@ -1,0 +1,103 @@
+{
+  "id": "【超高难度】五演 最后的晚餐",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "陈旧装置",
+      "hpBars": [107010],
+      "enemyCategories": "自动人偶/"
+    }, {
+      "enemyBaseId": "混沌机械兵（大）",
+      "hpBars": [113470],
+      "enemyCategories": "混沌机械兵/"
+    }, {
+      "enemyBaseId": "servant127",
+      "hpBars": [106942, 392122],
+      "combatantDataOverride": {
+        "id": "servant127",
+        "rarity": 5,
+        "fateClass": "CASTER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "GOOD"],
+        "attribute": "STAR",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant127/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "白色奇美拉",
+      "hpBars": [129027],
+      "enemyCategories": "奇美拉/"
+    }, {
+      "enemyBaseId": "凝视者",
+      "hpBars": [151889],
+      "enemyCategories": "凝视者/"
+    }, {
+      "enemyBaseId": "双角兽",
+      "hpBars": [145191],
+      "combatantDataOverride": {
+        "id": "双角兽",
+        "rarity": 4,
+        "fateClass": "LANCER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.05
+      },
+      "enemyCategories": "双角兽/"
+    }, {
+      "enemyBaseId": "噬魂者",
+      "hpBars": [154172],
+      "combatantDataOverride": {
+        "id": "噬魂者",
+        "rarity": 4,
+        "fateClass": "ASSASSIN",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.05
+      },
+      "enemyCategories": "噬魂者/"
+    }, {
+      "enemyBaseId": "女王斯芬克斯",
+      "hpBars": [174767],
+      "enemyCategories": "斯芬克斯/"
+    }, {
+      "enemyBaseId": "蝎狮",
+      "hpBars": [204643],
+      "combatantDataOverride": {
+        "id": "蝎狮",
+        "rarity": 4,
+        "fateClass": "RIDER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST"],
+        "deathRate": 0.1
+      },
+      "enemyCategories": "蝎狮·乌伽尔·冰雪加姆/"
+    }, {
+      "enemyBaseId": "赤鬼",
+      "hpBars": [230759],
+      "enemyCategories": "鬼/"
+    }, {
+      "enemyBaseId": "巨大鬼魂",
+      "hpBars": [238567],
+      "enemyCategories": "巨大鬼魂/"
+    }, {
+      "enemyBaseId": "巨大魔猪",
+      "hpBars": [276865],
+      "enemyCategories": "巨大魔猪/"
+    }, {
+      "enemyBaseId": "守护者",
+      "hpBars": [260334],
+      "combatantDataOverride": {
+        "id": "守护者",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["FAE", "GIANT", "MASSIVE"],
+        "deathRate": 0.01
+      },
+      "enemyCategories": "守护者/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["Nero2022", "CITY"]
+  }]
+}
