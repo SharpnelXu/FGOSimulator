@@ -1,9 +1,9 @@
 {
-  "id": "【超高难度】终演 赤色奥林匹亚",
+  "id": "【超绝难度】终演 赤色奥林匹亚 Encore",
   "stageData": [{
     "enemyData": [{
       "enemyBaseId": "servant95",
-      "hpBars": [129600],
+      "hpBars": [259200],
       "combatantDataOverride": {
         "id": "servant95",
         "rarity": 3,
@@ -18,7 +18,7 @@
       "isServant": true
     }, {
       "enemyBaseId": "servant30",
-      "hpBars": [158961],
+      "hpBars": [413299],
       "combatantDataOverride": {
         "id": "servant30",
         "rarity": 4,
@@ -33,7 +33,7 @@
       "isServant": true
     }, {
       "enemyBaseId": "servant67",
-      "hpBars": [158981],
+      "hpBars": [158983],
       "combatantDataOverride": {
         "id": "servant67",
         "rarity": 4,
@@ -48,7 +48,7 @@
       "isServant": true
     }, {
       "enemyBaseId": "servant98",
-      "hpBars": [135516],
+      "hpBars": [352342],
       "combatantDataOverride": {
         "id": "servant98",
         "rarity": 5,
@@ -63,7 +63,7 @@
       "isServant": true
     }, {
       "enemyBaseId": "servant117",
-      "hpBars": [131268],
+      "hpBars": [262536],
       "combatantDataOverride": {
         "id": "servant117",
         "rarity": 3,
@@ -78,7 +78,7 @@
       "isServant": true
     }, {
       "enemyBaseId": "servant88",
-      "hpBars": [163075],
+      "hpBars": [375073],
       "combatantDataOverride": {
         "id": "servant88",
         "rarity": 5,
@@ -93,7 +93,7 @@
       "isServant": true
     }, {
       "enemyBaseId": "servant5",
-      "hpBars": [155952],
+      "hpBars": [343094],
       "combatantDataOverride": {
         "id": "servant5",
         "rarity": 4,
