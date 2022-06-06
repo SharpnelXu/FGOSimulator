@@ -7,7 +7,7 @@
       "gender": "OTHER",
       "alignments": ["CHAOTIC", "BALANCED"],
       "attribute": "EARTH",
-      "traits": ["KING", "HOMINIDAE_SERVANT", "NOBUNAGA", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["KING", "HOMINIDAE_SERVANT", "NOBUNAGA", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "FEMININE_LOOKING_SERVANT"],
       "deathRate": 0.07
     },
     "defenseNpRate": 0.05,

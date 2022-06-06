@@ -1,0 +1,9 @@
+{
+  "id": "骷髅兵弓",
+  "rarity": 1,
+  "fateClass": "ARCHER",
+  "attribute": "MAN",
+  "traits": ["UNDEAD", "DEMONIC"],
+  "deathRate": 1.0,
+  "undeadNpCorrection": true
+}

@@ -1,0 +1,40 @@
+{
+  "id": "贝壳90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "大寄居蟹",
+      "hpBars": [110640],
+      "enemyCategories": "寄居蟹/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "大寄居蟹",
+      "hpBars": [83925],
+      "enemyCategories": "寄居蟹/"
+    }, {
+      "enemyBaseId": "毒寄居蟹",
+      "hpBars": [84567],
+      "enemyCategories": "寄居蟹/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "千年寄居蟹",
+      "hpBars": [203368],
+      "enemyCategories": "寄居蟹/"
+    }, {
+      "enemyBaseId": "魔法杖",
+      "hpBars": [84332],
+      "enemyCategories": "魔法杖/"
+    }, {
+      "enemyBaseId": "大寄居蟹",
+      "hpBars": [82041],
+      "enemyCategories": "寄居蟹/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }]
+}

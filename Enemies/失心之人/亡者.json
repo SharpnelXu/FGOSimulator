@@ -1,0 +1,9 @@
+{
+  "id": "亡者",
+  "rarity": 1,
+  "fateClass": "BERSERKER",
+  "gender": "MALE",
+  "attribute": "MAN",
+  "traits": ["HUMAN", "HUMANOID", "UNDEAD", "DEMONIC"],
+  "deathRate": 1.0
+}

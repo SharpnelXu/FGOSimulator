@@ -1,0 +1,8 @@
+{
+  "id": "龙牙兵",
+  "rarity": 2,
+  "fateClass": "SABER",
+  "attribute": "EARTH",
+  "deathRate": 0.8,
+  "undeadNpCorrection": true
+}

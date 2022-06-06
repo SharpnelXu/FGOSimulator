@@ -18,8 +18,16 @@
     "traits": ["Summer5"]
   }, {
     "enemyData": [{
-      "enemyBaseId": "守护者",
+      "enemyBaseId": "青铜守护者",
       "hpBars": [221447],
+      "combatantDataOverride": {
+        "id": "青铜守护者",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "attribute": "EARTH",
+        "traits": ["FAE", "GIANT", "MASSIVE"],
+        "deathRate": 0.002
+      },
       "enemyCategories": "守护者/"
     }],
     "maximumEnemiesOnScreen": 3

@@ -1,0 +1,56 @@
+{
+  "id": "无花果90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "食尸鬼",
+      "hpBars": [90992],
+      "combatantDataOverride": {
+        "id": "食尸鬼",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC", "HUMAN", "HUMANOID", "UNDEAD", "ONI"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "食尸鬼/"
+    }, {
+      "enemyBaseId": "食尸鬼",
+      "hpBars": [91971],
+      "combatantDataOverride": {
+        "id": "食尸鬼",
+        "rarity": 1,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC", "HUMAN", "HUMANOID", "UNDEAD", "ONI"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "食尸鬼/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "魔法杖",
+      "hpBars": [146013],
+      "enemyCategories": "魔法杖/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "爱娜温",
+      "hpBars": [321556],
+      "combatantDataOverride": {
+        "id": "爱娜温",
+        "rarity": 4,
+        "fateClass": "RIDER",
+        "gender": "FEMALE",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC"],
+        "deathRate": 0.1
+      },
+      "enemyCategories": "伊夫利塔/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }]
+}

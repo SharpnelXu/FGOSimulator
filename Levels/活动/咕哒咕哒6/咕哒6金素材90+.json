@@ -1,0 +1,259 @@
+{
+  "id": "咕哒6金素材90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "亡者",
+      "hpBars": [23620],
+      "combatantDataOverride": {
+        "id": "亡者",
+        "rarity": 1,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID", "UNDEAD", "DEMONIC"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "失心之人/"
+    }, {
+      "enemyBaseId": "信UFO",
+      "hpBars": [31275],
+      "combatantDataOverride": {
+        "id": "信UFO",
+        "rarity": 2,
+        "fateClass": "ARCHER",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "MECHANICAL", "NOBUNAGA"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "迷你信/"
+    }, {
+      "enemyBaseId": "亡者",
+      "hpBars": [23972],
+      "combatantDataOverride": {
+        "id": "亡者",
+        "rarity": 1,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID", "UNDEAD", "DEMONIC"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "失心之人/"
+    }, {
+      "enemyBaseId": "亡者",
+      "hpBars": [24294],
+      "combatantDataOverride": {
+        "id": "亡者",
+        "rarity": 1,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID", "UNDEAD", "DEMONIC"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "失心之人/"
+    }, {
+      "enemyBaseId": "信UFO",
+      "hpBars": [31846],
+      "combatantDataOverride": {
+        "id": "信UFO",
+        "rarity": 2,
+        "fateClass": "ARCHER",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "MECHANICAL", "NOBUNAGA"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "迷你信/"
+    }, {
+      "enemyBaseId": "信UFO",
+      "hpBars": [32416],
+      "combatantDataOverride": {
+        "id": "信UFO",
+        "rarity": 2,
+        "fateClass": "ARCHER",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "MECHANICAL", "NOBUNAGA"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "迷你信/"
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["GudaGuda6", "SUNLIGHT", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "超级机械信MKⅡ",
+      "hpBars": [120050],
+      "combatantDataOverride": {
+        "id": "超级机械信MKⅡ",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "attribute": "SKY",
+        "traits": ["GIANT", "MASSIVE", "MECHANICAL", "NOBUNAGA"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "迷你信/"
+    }, {
+      "enemyBaseId": "超级机械信MKⅡ",
+      "hpBars": [124153],
+      "combatantDataOverride": {
+        "id": "超级机械信MKⅡ",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "attribute": "SKY",
+        "traits": ["GIANT", "MASSIVE", "MECHANICAL", "NOBUNAGA"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "迷你信/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant142",
+      "hpBars": [265335],
+      "combatantDataOverride": {
+        "id": "servant142",
+        "rarity": 5,
+        "fateClass": "ARCHER",
+        "gender": "FEMALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "PSEUDO_SERVANT", "HOMINIDAE_SERVANT", "LIVING_HUMAN", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant142/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant68",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant317",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant293",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant69",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant294",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant252",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant23",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant235",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant267",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant161",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant178",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant292",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant209",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant1",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant211",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant210",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant162",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant251",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant250",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant329",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant327",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant328",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

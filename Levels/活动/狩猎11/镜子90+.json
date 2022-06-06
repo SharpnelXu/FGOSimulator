@@ -1,0 +1,46 @@
+{
+  "id": "镜子90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "彩虹双足飞龙",
+      "hpBars": [65418],
+      "enemyCategories": "双足飞龙/"
+    }, {
+      "enemyBaseId": "彩虹双足飞龙",
+      "hpBars": [66425],
+      "enemyCategories": "双足飞龙/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "彩虹双足飞龙",
+      "hpBars": [125232],
+      "enemyCategories": "双足飞龙/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "魔法杖",
+      "hpBars": [95771],
+      "enemyCategories": "魔法杖/"
+    }, {
+      "enemyBaseId": "迷你小库",
+      "hpBars": [200348],
+      "combatantDataOverride": {
+        "id": "迷你小库",
+        "rarity": 4,
+        "fateClass": "LANCER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID"],
+        "deathRate": 0.1
+      },
+      "enemyCategories": "迷你从者/"
+    }, {
+      "enemyBaseId": "彩虹双足飞龙",
+      "hpBars": [97226],
+      "enemyCategories": "双足飞龙/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }]
+}

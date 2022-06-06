@@ -1,0 +1,8 @@
+{
+  "id": "彩虹双足飞龙",
+  "rarity": 3,
+  "fateClass": "LANCER",
+  "attribute": "EARTH",
+  "traits": ["DRAGON"],
+  "deathRate": 0.5
+}

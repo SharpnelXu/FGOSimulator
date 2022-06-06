@@ -1,0 +1,8 @@
+{
+  "id": "大寄居蟹",
+  "rarity": 2,
+  "fateClass": "SABER",
+  "attribute": "EARTH",
+  "traits": ["DEMONIC"],
+  "deathRate": 0.8
+}

@@ -4,10 +4,10 @@
       "id": "servant304",
       "rarity": 4,
       "fateClass": "ASSASSIN",
-      "gender": "FEMALE",
+      "gender": "OTHER",
       "alignments": ["CHAOTIC", "BALANCED"],
       "attribute": "EARTH",
-      "traits": ["DEMONIC", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DEMONIC", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "FEMININE_LOOKING_SERVANT"],
       "deathRate": 0.275
     },
     "defenseNpRate": 0.04,

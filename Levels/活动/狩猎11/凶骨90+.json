@@ -1,0 +1,44 @@
+{
+  "id": "凶骨90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "龙牙兵",
+      "hpBars": [135573],
+      "combatantDataOverride": {
+        "id": "龙牙兵",
+        "rarity": 2,
+        "fateClass": "ARCHER",
+        "attribute": "EARTH",
+        "deathRate": 0.8,
+        "undeadNpCorrection": true
+      },
+      "enemyCategories": "龙牙兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "骷髅兵弓",
+      "hpBars": [151317],
+      "enemyCategories": "骷髅兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "魔法杖",
+      "hpBars": [91681],
+      "enemyCategories": "魔法杖/"
+    }, {
+      "enemyBaseId": "骸骨之王弓",
+      "hpBars": [1821213],
+      "enemyCategories": "骷髅兵/"
+    }, {
+      "enemyBaseId": "骷髅兵弓",
+      "hpBars": [90129],
+      "enemyCategories": "骷髅兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT"]
+  }]
+}

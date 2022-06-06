@@ -1,0 +1,8 @@
+{
+  "id": "鲨鱼海盗",
+  "rarity": 2,
+  "fateClass": "BERSERKER",
+  "attribute": "EARTH",
+  "traits": ["WILD_BEAST"],
+  "deathRate": 0.8
+}

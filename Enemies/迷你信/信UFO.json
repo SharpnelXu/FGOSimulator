@@ -1,0 +1,8 @@
+{
+  "id": "信UFO",
+  "rarity": 2,
+  "fateClass": "RIDER",
+  "attribute": "MAN",
+  "traits": ["HUMANOID", "MECHANICAL", "NOBUNAGA"],
+  "deathRate": 0.5
+}

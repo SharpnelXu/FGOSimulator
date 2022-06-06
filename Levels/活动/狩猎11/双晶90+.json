@@ -1,0 +1,36 @@
+{
+  "id": "双晶90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "饼干魔偶",
+      "hpBars": [75172],
+      "enemyCategories": "魔偶/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "饼干魔偶",
+      "hpBars": [91722],
+      "enemyCategories": "魔偶/"
+    }, {
+      "enemyBaseId": "魔法杖",
+      "hpBars": [93578],
+      "enemyCategories": "魔法杖/"
+    }, {
+      "enemyBaseId": "饼干魔偶",
+      "hpBars": [94905],
+      "enemyCategories": "魔偶/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "双子钢铁魔偶",
+      "hpBars": [296060],
+      "enemyCategories": "魔偶/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "CITY"]
+  }]
+}

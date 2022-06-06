@@ -1,0 +1,44 @@
+{
+  "id": "勾爪90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [80763],
+      "enemyCategories": "哈桑/"
+    }, {
+      "enemyBaseId": "迅速之马库尔",
+      "hpBars": [82033],
+      "enemyCategories": "哈桑/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "怪腕之戈兹尔",
+      "hpBars": [162193],
+      "enemyCategories": "哈桑/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "魔法杖",
+      "hpBars": [106388],
+      "enemyCategories": "魔法杖/"
+    }, {
+      "enemyBaseId": "白色奇美拉",
+      "hpBars": [218192],
+      "combatantDataOverride": {
+        "id": "白色奇美拉",
+        "rarity": 4,
+        "fateClass": "ASSASSIN",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST"],
+        "deathRate": 0.1
+      },
+      "enemyCategories": "奇美拉/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}

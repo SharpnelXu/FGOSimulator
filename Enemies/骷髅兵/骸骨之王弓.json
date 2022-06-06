@@ -1,0 +1,8 @@
+{
+  "id": "骸骨之王弓",
+  "rarity": 4,
+  "fateClass": "ARCHER",
+  "attribute": "MAN",
+  "traits": ["UNDEAD", "DEMONIC", "KING"],
+  "deathRate": 0.2
+}

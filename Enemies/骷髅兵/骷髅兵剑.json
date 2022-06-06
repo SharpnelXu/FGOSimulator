@@ -1,0 +1,9 @@
+{
+  "id": "骷髅兵剑",
+  "rarity": 1,
+  "fateClass": "SABER",
+  "attribute": "MAN",
+  "traits": ["UNDEAD", "DEMONIC"],
+  "deathRate": 1.0,
+  "undeadNpCorrection": true
+}

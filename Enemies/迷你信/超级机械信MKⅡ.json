@@ -1,0 +1,8 @@
+{
+  "id": "超级机械信MKⅡ",
+  "rarity": 4,
+  "fateClass": "SABER",
+  "attribute": "SKY",
+  "traits": ["GIANT", "MASSIVE", "MECHANICAL", "NOBUNAGA"],
+  "deathRate": 0.5
+}

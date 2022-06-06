@@ -24,6 +24,18 @@
     "type": "NpChange",
     "target": "SELF",
     "values": [0.3, 0.5]
+  }, {
+    "type": "GrantBuff",
+    "target": "SELF",
+    "applyCondition": {
+      "type": "StageHasTrait",
+      "value": "Summer6"
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0, 2.0],
+      "buffIcon": "specialDamageUp"
+    }]
   }],
   "cost": 12,
   "rarity": 5,
