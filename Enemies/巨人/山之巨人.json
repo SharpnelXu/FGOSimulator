@@ -1,0 +1,9 @@
+{
+  "id": "山之巨人",
+  "rarity": 4,
+  "fateClass": "BERSERKER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["HUMANOID", "MASSIVE", "GIANT"],
+  "deathRate": 0.2
+}

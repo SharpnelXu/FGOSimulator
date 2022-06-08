@@ -1,0 +1,78 @@
+{
+  "id": "craftEssence248",
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "SELF",
+    "applyCondition": {
+      "type": "TargetsContainsSpecificServant",
+      "value": "servant62",
+      "target": "ACTIVATOR"
+    },
+    "buffData": [{
+      "type": "EnterFieldEffect",
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "ALL_ALLIES_INCLUDING_BACKUP",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "ARTS"
+          },
+          "values": [0.15],
+          "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF", "玉藻俱乐部"],
+          "irremovable": true,
+          "hasCustomTraits": true,
+          "buffIcon": "artsUp"
+        }],
+        "probabilities": [50.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "LeaveFieldEffect",
+          "subEffects": [{
+            "type": "ForceRemoveBuff",
+            "target": "ALL_ALLIES_INCLUDING_BACKUP",
+            "applyCondition": {
+              "type": "BuffHasTrait",
+              "value": "玉藻俱乐部"
+            },
+            "probabilities": [50.0],
+            "intValues": [1]
+          }],
+          "irremovable": true,
+          "buffIcon": "delayedEffect"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DeathEffect",
+          "subEffects": [{
+            "type": "ForceRemoveBuff",
+            "target": "ALL_ALLIES_INCLUDING_BACKUP",
+            "applyCondition": {
+              "type": "BuffHasTrait",
+              "value": "玉藻俱乐部"
+            },
+            "probabilities": [50.0],
+            "intValues": [1]
+          }],
+          "irremovable": true,
+          "buffIcon": "leaveFieldDebuff"
+        }]
+      }],
+      "irremovable": true,
+      "buffIcon": "delayedBuff"
+    }]
+  }],
+  "cost": 9,
+  "rarity": 4,
+  "statusData": [{
+    "lv": 80,
+    "HP": 100,
+    "ATK": 100
+  }],
+  "ceNum": 248
+}

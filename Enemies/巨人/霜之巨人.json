@@ -1,0 +1,9 @@
+{
+  "id": "霜之巨人",
+  "rarity": 3,
+  "fateClass": "BERSERKER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["HUMANOID", "MASSIVE", "GIANT"],
+  "deathRate": 0.5
+}

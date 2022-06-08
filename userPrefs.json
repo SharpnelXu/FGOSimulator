@@ -411,9 +411,9 @@
       "noblePhantasmLevel": 3,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
-      "activeSkillRanks": [1, 3, 3],
-      "activeSkillLevels": [9, 10, 9],
-      "appendSkillLevels": [0, 0, 0],
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 10, 0],
       "commandCardOptions": [{
       }, {
       }, {
@@ -543,7 +543,13 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [0, 10, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -1340,6 +1346,12 @@
       "isLimitBreak": true
     }
   }, {
+    "craftEssenceNo": 1514,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
     "craftEssenceNo": 427,
     "option": {
       "craftEssenceLevel": 100,
@@ -1387,9 +1399,21 @@
       "isLimitBreak": true
     }
   }, {
+    "craftEssenceNo": 248,
+    "option": {
+      "craftEssenceLevel": 1,
+      "isLimitBreak": true
+    }
+  }, {
     "craftEssenceNo": 1498,
     "option": {
       "craftEssenceLevel": 15,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 1274,
+    "option": {
+      "craftEssenceLevel": 1,
       "isLimitBreak": true
     }
   }, {
@@ -1401,6 +1425,12 @@
   }],
   "mcPrefs": [{
     "mysticCodeNo": 16,
+    "option": {
+      "mysticCodeLevel": 10,
+      "gender": "FEMALE"
+    }
+  }, {
+    "mysticCodeNo": 17,
     "option": {
       "mysticCodeLevel": 10,
       "gender": "FEMALE"

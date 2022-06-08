@@ -1,0 +1,516 @@
+{
+  "id": "BeastIV柱子玩赏级",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "霜之巨人",
+      "hpBars": [129005],
+      "combatantDataOverride": {
+        "id": "霜之巨人",
+        "rarity": 3,
+        "fateClass": "LANCER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "MASSIVE", "GIANT", "DEMONIC", "SHADOW_SERVANT"]
+      },
+      "enemyCategories": "巨人/"
+    }, {
+      "enemyBaseId": "Lostbelt：BeastⅣ",
+      "hpBars": [1748914],
+      "enemyCategories": "Beast/"
+    }, {
+      "enemyBaseId": "死神",
+      "hpBars": [140959],
+      "combatantDataOverride": {
+        "id": "死神",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "traits": ["FAE", "DEMONIC", "SHADOW_SERVANT"]
+      },
+      "enemyCategories": "死神/"
+    }, {
+      "enemyBaseId": "山之巨人",
+      "hpBars": [158151],
+      "combatantDataOverride": {
+        "id": "山之巨人",
+        "rarity": 4,
+        "fateClass": "LANCER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "MASSIVE", "GIANT", "DEMONIC", "SHADOW_SERVANT"]
+      },
+      "enemyCategories": "巨人/"
+    }, {
+      "enemyBaseId": "死神",
+      "hpBars": [143498],
+      "combatantDataOverride": {
+        "id": "死神",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "traits": ["FAE", "DEMONIC", "SHADOW_SERVANT"]
+      },
+      "enemyCategories": "死神/"
+    }, {
+      "enemyBaseId": "火之巨人",
+      "hpBars": [172115],
+      "combatantDataOverride": {
+        "id": "火之巨人",
+        "rarity": 4,
+        "fateClass": "LANCER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "MASSIVE", "GIANT", "DEMONIC", "SHADOW_SERVANT"]
+      },
+      "enemyCategories": "巨人/"
+    }, {
+      "enemyBaseId": "大型死神",
+      "hpBars": [180097],
+      "combatantDataOverride": {
+        "id": "大型死神",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "traits": ["FAE", "MASSIVE", "DEMONIC", "SHADOW_SERVANT"]
+      },
+      "enemyCategories": "死神/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["通古斯卡", "FOREST", "BURNING"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsHaveClass",
+        "value": "BEAST_IV",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsHaveClass",
+        "value": "CASTER",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "DebuffResist",
+      "applyCondition": {
+        "type": "BuffTypeEquals",
+        "value": "Pigify"
+      },
+      "values": [10.0],
+      "irremovable": true,
+      "buffIcon": "immune"
+    }],
+    "probabilities": [5.0]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Not",
+      "subConditionData": [{
+        "type": "TargetsHaveClass",
+        "value": "BEAST_IV",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "DebuffResist",
+      "applyCondition": {
+        "type": "BuffHasTrait",
+        "value": "MENTAL_BUFF"
+      },
+      "values": [10.0],
+      "irremovable": true,
+      "buffIcon": "immune"
+    }],
+    "probabilities": [5.0]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsHaveClass",
+      "value": "BEAST_IV",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "EnterFieldEffect",
+      "numTimesActive": 1,
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "ClassAdvantageChangeBuff",
+          "applyCondition": {
+            "type": "And",
+            "subConditionData": [{
+              "type": "Not",
+              "subConditionData": [{
+                "type": "TargetsHaveClass",
+                "value": "CASTER",
+                "target": "DEFENDER"
+              }]
+            }, {
+              "type": "TargetsHaveTrait",
+              "value": "HOMINIDAE_SERVANT",
+              "target": "DEFENDER"
+            }]
+          },
+          "irremovable": true,
+          "classAdvChangeAdditionalParams": {
+            "attackMode": "CLASS_ADV_FIXED_RATE",
+            "attackAdv": 2.0,
+            "attackModeAffectedClasses": ["ANY_CLASS"],
+            "customizeAttackModifier": true
+          }
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "ClassAdvantageChangeBuff",
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "HOMINIDAE_SERVANT",
+            "target": "DEFENDER"
+          },
+          "irremovable": true,
+          "classAdvChangeAdditionalParams": {
+            "attackMode": "CLASS_ADV_FIXED_RATE",
+            "attackAdv": 1.0,
+            "attackModeAffectedClasses": ["CASTER"],
+            "customizeAttackModifier": true
+          }
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "ClassAdvantageChangeBuff",
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "DEMONIC_BEAST",
+            "target": "ATTACKER"
+          },
+          "irremovable": true,
+          "classAdvChangeAdditionalParams": {
+            "defenseMode": "CLASS_ADV_FIXED_RATE",
+            "defenseAdv": 2.0,
+            "defenseModeAffectedClasses": ["ANY_CLASS"],
+            "customizeDefenseModifier": true
+          }
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "Curse",
+          "values": [20000.0],
+          "irremovable": true,
+          "buffIcon": "curse"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DefenseBuff",
+          "values": [-0.3],
+          "irremovable": true,
+          "buffIcon": "defenseDown"
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP",
+        "buffData": [{
+          "type": "DeathEffect",
+          "numTimesActive": 1,
+          "subEffects": [{
+            "type": "MaxHpChange",
+            "target": "ALL_ALLIES",
+            "applyCondition": {
+              "type": "TargetsHaveClass",
+              "value": "BEAST_IV",
+              "target": "EFFECT_TARGET"
+            },
+            "buffData": [{
+              "type": "MaxHpBuff",
+              "numTurnsActive": 5,
+              "values": [50000.0],
+              "irremovable": true,
+              "buffIcon": "maxHpUp"
+            }],
+            "probabilities": [5.0]
+          }],
+          "irremovable": true,
+          "buffIcon": "leaveField"
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+        "buffData": [{
+          "type": "DeathEffect",
+          "numTimesActive": 1,
+          "subEffects": [{
+            "type": "GrantBuff",
+            "target": "ALL_ENEMIES",
+            "buffData": [{
+              "type": "AttackBuff",
+              "numTurnsActive": 3,
+              "values": [0.5],
+              "buffIcon": "attackUp"
+            }]
+          }, {
+            "type": "HpChange",
+            "target": "ALL_ENEMIES",
+            "intValues": [50000]
+          }],
+          "irremovable": true,
+          "buffIcon": "leaveFieldDebuff"
+        }]
+      }]
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsHaveClass",
+      "value": "CASTER",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "EnterFieldEffect",
+      "numTimesActive": 1,
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "SpecificAttackBuff",
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "FAE",
+            "target": "DEFENDER"
+          },
+          "values": [0.2],
+          "irremovable": true,
+          "buffIcon": "specialDamageUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "PostAttackEffect",
+          "subEffects": [{
+            "type": "GrantBuff",
+            "target": "DEFENDER",
+            "buffData": [{
+              "type": "Curse",
+              "numTurnsActive": 3,
+              "values": [300.0],
+              "buffIcon": "curse"
+            }]
+          }],
+          "irremovable": true,
+          "buffIcon": "attackApplyDebuff"
+        }]
+      }]
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "buffData": [{
+      "type": "EnterFieldEffect",
+      "numTimesActive": 1,
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "applyCondition": {
+          "type": "TargetsHaveTrait",
+          "value": "HOMINIDAE_SERVANT",
+          "target": "EFFECT_TARGET"
+        },
+        "buffData": [{
+          "type": "DamageReductionBuff",
+          "values": [-1000.0],
+          "irremovable": true,
+          "buffIcon": "defenseDown"
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "applyCondition": {
+          "type": "TargetsHaveTrait",
+          "value": "DEMONIC_BEAST",
+          "target": "EFFECT_TARGET"
+        },
+        "buffData": [{
+          "type": "DamageReductionBuff",
+          "values": [1000.0],
+          "irremovable": true,
+          "buffIcon": "defenseUp"
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "SpecificAttackBuff",
+          "numTurnsActive": 5,
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "DIVINE",
+            "target": "DEFENDER"
+          },
+          "values": [0.1],
+          "irremovable": true,
+          "buffIcon": "specialDamageUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "SpecificAttackBuff",
+          "numTurnsActive": 5,
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "DEMONIC",
+            "target": "DEFENDER"
+          },
+          "values": [0.1],
+          "irremovable": true,
+          "buffIcon": "specialDamageUp"
+        }]
+      }]
+    }],
+    "probabilities": [5.0]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant234",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant310",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant300",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant128",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant312",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant148",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant231",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant307",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant282",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant53",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant147",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant158",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant285",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant299",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant253",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant315",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant62",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant58",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant1",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant331",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant332",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

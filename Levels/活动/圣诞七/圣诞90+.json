@@ -1,0 +1,77 @@
+{
+  "id": "圣诞90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "圣诞之手",
+      "hpBars": [40625],
+      "combatantDataOverride": {
+        "id": "圣诞之手",
+        "rarity": 1,
+        "fateClass": "ASSASSIN",
+        "attribute": "SKY",
+        "deathRate": 1.0
+      },
+      "enemyCategories": "手/"
+    }, {
+      "enemyBaseId": "圣诞手套",
+      "hpBars": [55844],
+      "combatantDataOverride": {
+        "id": "圣诞手套",
+        "rarity": 3,
+        "fateClass": "ASSASSIN",
+        "attribute": "SKY",
+        "deathRate": 1.0
+      },
+      "enemyCategories": "手/"
+    }, {
+      "enemyBaseId": "圣诞之手",
+      "hpBars": [39655],
+      "combatantDataOverride": {
+        "id": "圣诞之手",
+        "rarity": 1,
+        "fateClass": "ASSASSIN",
+        "attribute": "SKY",
+        "deathRate": 1.0
+      },
+      "enemyCategories": "手/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "大翁鬼",
+      "hpBars": [158323],
+      "combatantDataOverride": {
+        "id": "大翁鬼",
+        "rarity": 4,
+        "fateClass": "ASSASSIN",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC", "MASSIVE", "GIANT", "ONI"],
+        "deathRate": 0.01
+      },
+      "enemyCategories": "鬼/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant199",
+      "hpBars": [212256],
+      "combatantDataOverride": {
+        "id": "servant199",
+        "rarity": 5,
+        "fateClass": "ASSASSIN",
+        "gender": "FEMALE",
+        "alignments": ["LAWFUL", "EVIL"],
+        "attribute": "EARTH",
+        "traits": ["DIVINE", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant199/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}
