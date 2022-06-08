@@ -67,6 +67,7 @@ public class Combatant {
     private boolean receivedInstantDeath;
     protected boolean isAlly;
 
+    // for testing
     public Combatant() {
         this.hpBars = ImmutableList.of(100);
     }
@@ -99,6 +100,8 @@ public class Combatant {
     public Combatant(final String id, final CombatantData combatantData) {
         this.id = id;
         this.combatantData = combatantData;
+        this.hpBars = ImmutableList.of(1);
+        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
     }
 
     public Combatant(final CombatantData combatantData, final EnemyData enemyData) {

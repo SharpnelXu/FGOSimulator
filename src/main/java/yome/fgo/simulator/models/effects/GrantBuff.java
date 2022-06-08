@@ -42,7 +42,7 @@ public class GrantBuff extends Effect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
 
-            if (shouldApply(simulation)) {
+            if (shouldApply(simulation) && combatant.getCurrentHp() > 0) {
                 final Buff buff = buildBuff(level);
 
                 if (simulation.isActivatingCePassiveEffects() || simulation.isActivatingServantPassiveEffects()) {
