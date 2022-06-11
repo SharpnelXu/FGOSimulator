@@ -106,6 +106,32 @@
           }]
         }],
         "iconName": "starWeightUp"
+      }, {
+        "baseCoolDown": 7,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CriticalStarWeightBuff",
+            "numTurnsActive": 1,
+            "values": [3.0, 3.3, 3.6, 3.9, 4.2, 4.5, 4.8, 5.1, 5.4, 6.0],
+            "buffIcon": "starWeightUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DebuffResist",
+            "numTurnsActive": 3,
+            "values": [10.0],
+            "buffIcon": "immune"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "SELF",
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
+        }],
+        "iconName": "npGain"
       }]
     }, {
       "activeSkillData": [{
