@@ -90,7 +90,8 @@
             "numTurnsActive": 3,
             "values": [3.0],
             "buffIcon": "tauntUp"
-          }]
+          }],
+          "probabilities": [5.0]
         }],
         "iconName": "npGain"
       }]

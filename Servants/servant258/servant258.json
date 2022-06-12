@@ -49,7 +49,8 @@
             "numTurnsActive": 1,
             "values": [3.0],
             "buffIcon": "tauntUp"
-          }]
+          }],
+          "probabilities": [5.0]
         }, {
           "type": "GrantBuff",
           "target": "ALL_ENEMIES",

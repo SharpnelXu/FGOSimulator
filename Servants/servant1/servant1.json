@@ -104,7 +104,8 @@
             "numTurnsActive": 1,
             "values": [1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 3.0],
             "buffIcon": "tauntUp"
-          }]
+          }],
+          "probabilities": [5.0]
         }, {
           "type": "GrantBuff",
           "target": "SELF",
@@ -831,7 +832,8 @@
             "numTurnsActive": 1,
             "values": [3.0],
             "buffIcon": "tauntUp"
-          }]
+          }],
+          "probabilities": [5.0]
         }, {
           "type": "NpChange",
           "target": "SELF",
@@ -858,7 +860,8 @@
             "numTurnsActive": 1,
             "values": [3.0],
             "buffIcon": "tauntUp"
-          }]
+          }],
+          "probabilities": [5.0]
         }, {
           "type": "HpChange",
           "target": "SELF",
