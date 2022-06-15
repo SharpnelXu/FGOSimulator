@@ -7,12 +7,12 @@ public class Vengeance extends GrantTrait {
 
     @Override
     public boolean commonBuffCondition() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean commonDebuffCondition() {
-        return true;
+        return false;
     }
 
     @Override
