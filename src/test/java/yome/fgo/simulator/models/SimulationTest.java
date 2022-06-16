@@ -252,7 +252,7 @@ public class SimulationTest {
         assertEquals(BUSTER, simulation.getFirstCardType(COMMAND_CARD_0_1_0));
 
         busterServant.addBuff(PermanentSleep.builder().build());
-        assertEquals(ARTS, simulation.getFirstCardType(COMMAND_CARD_0_1_0));
+        assertEquals(UNRECOGNIZED, simulation.getFirstCardType(COMMAND_CARD_0_1_0));
         assertEquals(UNRECOGNIZED, simulation.getFirstCardType(COMMAND_CARD_0_0));
     }
 

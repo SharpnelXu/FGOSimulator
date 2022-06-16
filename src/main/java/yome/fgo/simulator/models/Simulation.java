@@ -454,12 +454,11 @@ public class Simulation {
 
     @VisibleForTesting
     CommandCardType getFirstCardType(final List<CombatAction> combatActions) {
-        for (final CombatAction combatAction : combatActions) {
-            if (!currentServants.get(combatAction.servantIndex).isImmobilized()) {
-                return getCommandCardType(combatAction);
-            }
+        if (currentServants.get(combatActions.get(0).servantIndex).isImmobilized()) {
+            return UNRECOGNIZED;
+        } else {
+            return getCommandCardType(combatActions.get(0));
         }
-        return UNRECOGNIZED; // all servants immobilized
     }
 
     private CommandCardType getCommandCardType(final CombatAction combatAction) {
