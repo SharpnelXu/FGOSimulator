@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
+import static yome.fgo.data.proto.FgoStorageData.CommandCardType.UNRECOGNIZED;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
 
 @NoArgsConstructor
@@ -253,8 +254,8 @@ public class Simulation {
         currentStars = 0;
         // calculate chain
         final boolean typeChain = isTypeChain(combatActions);
-        final CommandCardType firstCardType = getCommandCardType(combatActions.get(0));
-        if (typeChain && firstCardType != BUSTER) {
+        final CommandCardType firstCardType = getFirstCardType(combatActions);
+        if (typeChain && firstCardType != BUSTER && firstCardType != UNRECOGNIZED) {
             applyTypeChainEffect(firstCardType);
         }
 
@@ -437,13 +438,28 @@ public class Simulation {
             return false;
         }
 
-        final CommandCardType firstCardType = getCommandCardType(combatActions.get(0));
-        for (int i = 1; i < MAXIMUM_CARDS_PER_TURN; i += 1) {
-            if (getCommandCardType(combatActions.get(i)) != firstCardType) {
+        final CommandCardType firstCardType = getFirstCardType(combatActions);
+        if (firstCardType == UNRECOGNIZED) {
+            return false;
+        }
+
+        for (final CombatAction combatAction : combatActions) {
+            if (firstCardType != getCommandCardType(combatAction) ||
+                    currentServants.get(combatAction.servantIndex).isImmobilized()) {
                 return false;
             }
         }
         return true;
+    }
+
+    @VisibleForTesting
+    CommandCardType getFirstCardType(final List<CombatAction> combatActions) {
+        for (final CombatAction combatAction : combatActions) {
+            if (!currentServants.get(combatAction.servantIndex).isImmobilized()) {
+                return getCommandCardType(combatAction);
+            }
+        }
+        return UNRECOGNIZED; // all servants immobilized
     }
 
     private CommandCardType getCommandCardType(final CombatAction combatAction) {

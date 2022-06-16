@@ -14,6 +14,8 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
+import yome.fgo.simulator.models.effects.buffs.PermanentSleep;
+import yome.fgo.simulator.models.effects.buffs.Stun;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 
@@ -25,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
+import static yome.fgo.data.proto.FgoStorageData.CommandCardType.UNRECOGNIZED;
 import static yome.fgo.simulator.models.Simulation.getNextNonNullTargetIndex;
 import static yome.fgo.simulator.models.Simulation.isBraveChain;
 import static yome.fgo.simulator.models.Simulation.shouldRemoveDeadCombatants;
@@ -180,6 +183,35 @@ public class SimulationTest {
         assertEquals(2, altria2.getActiveSkills().get(1).getCurrentCoolDown());
         assertEquals(3, altria2.getActiveSkills().get(2).getCurrentCoolDown());
     }
+    @Test
+    public void testOverchargeCarryOverInStun() {
+        final Level level = new Level(ResourceManager.getLevelData("", "test"));
+        final List<Combatant> stage1Enemies = new ArrayList<>(level.getStage(1).getEnemies());
+        final Servant kama = new Servant(KAMA_ID, ResourceManager.getServantData(KAMA_ID), KAMA_OPTION);
+        final CraftEssence ce = new CraftEssence(ResourceManager.getCraftEssenceData("craftEssence34"), CE_OPTION);
+        kama.equipCraftEssence(ce);
+        final Servant altria1 = new Servant(ALTRIA_ID, ResourceManager.getServantData(ALTRIA_ID), ALTRIA_OPTION);
+        final Servant altria2 = new Servant(ALTRIA_ID, ResourceManager.getServantData(ALTRIA_ID), ALTRIA_OPTION);
+
+        final Simulation simNp3TClear = new Simulation(
+                level,
+                ImmutableList.of(kama, altria1, altria2),
+                new MysticCode(MysticCodeData.newBuilder().build(), MysticCodeOption.newBuilder().build())
+        );
+        simNp3TClear.initiate();
+        simNp3TClear.setFixedRandom(0.9);
+
+        altria1.addBuff(Stun.builder().build());
+        simNp3TClear.activateServantSkill(0, 1);
+
+        final ImmutableList<CombatAction> npStunNp = ImmutableList.of(
+                createNoblePhantasmAction(2),
+                createCommandCardAction(1, 0, false),
+                createNoblePhantasmAction(0)
+        );
+        simNp3TClear.executeCombatActions(npStunNp);
+        assertEquals(2905470, stage1Enemies.get(1).getCurrentHp(), 5);
+    }
 
     @Test
     public void testBuggedOverkill() {
@@ -208,7 +240,7 @@ public class SimulationTest {
     }
 
     @Test
-    public void testIsTypeChain() {
+    public void testGetFirstCardType() {
         final Servant busterServant = new Servant("buster");
         busterServant.setCommandCards(ImmutableList.of(new CommandCard(BUSTER, ImmutableList.of(), 0.5, 39)));
         final Servant artsServant = new Servant("arts");
@@ -217,9 +249,37 @@ public class SimulationTest {
         final Simulation simulation = new Simulation();
         simulation.setCurrentServants(servants);
 
+        assertEquals(BUSTER, simulation.getFirstCardType(COMMAND_CARD_0_1_0));
+
+        busterServant.addBuff(PermanentSleep.builder().build());
+        assertEquals(ARTS, simulation.getFirstCardType(COMMAND_CARD_0_1_0));
+        assertEquals(UNRECOGNIZED, simulation.getFirstCardType(COMMAND_CARD_0_0));
+    }
+
+    @Test
+    public void testIsTypeChain() {
+        final Servant busterServant = new Servant("buster");
+        busterServant.setCommandCards(ImmutableList.of(new CommandCard(BUSTER, ImmutableList.of(), 0.5, 39)));
+        final Servant artsServant = new Servant("arts");
+        artsServant.setCommandCards(ImmutableList.of(new CommandCard(ARTS, ImmutableList.of(), 0.5, 39)));
+        final Servant artsServant2 = new Servant("arts2");
+        artsServant2.setCommandCards(ImmutableList.of(new CommandCard(ARTS, ImmutableList.of(), 0.5, 39)));
+        final List<Servant> servants = ImmutableList.of(busterServant, artsServant, artsServant2);
+        final Simulation simulation = new Simulation();
+        simulation.setCurrentServants(servants);
+
         assertFalse(simulation.isTypeChain(COMMAND_CARD_0_1_0));
         assertTrue(simulation.isTypeChain(COMMAND_CARD_0_0_0));
         assertFalse(simulation.isTypeChain(COMMAND_CARD_0_0));
+        final ImmutableList<CombatAction> arts = ImmutableList.of(
+                createCommandCardAction(1, 0, false),
+                createCommandCardAction(2, 0, false),
+                createCommandCardAction(1, 0, false)
+        );
+        assertTrue(simulation.isTypeChain(arts));
+
+        artsServant2.addBuff(PermanentSleep.builder().build());
+        assertFalse(simulation.isTypeChain(arts));
     }
 
     @Test
