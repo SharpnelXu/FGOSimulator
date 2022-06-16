@@ -148,6 +148,10 @@
                   "value": "DEMI_SERVANT",
                   "target": "DEFENDER"
                 }]
+              }, {
+                "type": "TargetsHaveTrait",
+                "value": "SERVANT",
+                "target": "DEFENDER"
               }]
             },
             "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],

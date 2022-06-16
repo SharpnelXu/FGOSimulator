@@ -1,0 +1,288 @@
+{
+  "servantAscensionData": [{
+    "combatantData": {
+      "id": "servant149",
+      "rarity": 5,
+      "fateClass": "BEAST_II",
+      "gender": "FEMALE",
+      "alignments": ["CHAOTIC", "EVIL"],
+      "attribute": "BEAST",
+      "traits": ["MASSIVE", "DIVINE", "DIVINE_SPIRIT", "HUMANOID"],
+      "deathRate": 0.03
+    },
+    "defenseNpRate": 0.05,
+    "criticalStarWeight": 9,
+    "commandCardData": [{
+      "commandCardType": "QUICK",
+      "hitsData": [1, 3, 5, 7, 9, 10, 12, 14, 16, 23],
+      "npRate": 0.0033,
+      "criticalStarGen": 0.105
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [1, 3, 5, 7, 9, 10, 12, 14, 16, 23],
+      "npRate": 0.0033,
+      "criticalStarGen": 0.105
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [1, 3, 5, 7, 9, 10, 12, 14, 16, 23],
+      "npRate": 0.0033,
+      "criticalStarGen": 0.105
+    }, {
+      "commandCardType": "BUSTER",
+      "hitsData": [1, 3, 5, 7, 9, 10, 12, 14, 16, 23],
+      "npRate": 0.0033,
+      "criticalStarGen": 0.105
+    }, {
+      "commandCardType": "BUSTER",
+      "hitsData": [1, 3, 5, 7, 9, 10, 12, 14, 16, 23],
+      "npRate": 0.0033,
+      "criticalStarGen": 0.105
+    }],
+    "activeSkillUpgrades": [{
+      "activeSkillData": [{
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostAttackEffect",
+            "numTurnsActive": 3,
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "ALL_ENEMIES",
+              "buffData": [{
+                "type": "Curse",
+                "numTurnsActive": 3,
+                "values": [500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0, 850.0, 900.0, 1000.0],
+                "buffIcon": "curse"
+              }]
+            }, {
+              "type": "GrantBuff",
+              "target": "ALL_ENEMIES",
+              "buffData": [{
+                "type": "CriticalDamageBuff",
+                "numTurnsActive": 3,
+                "values": [-0.1, -0.11, -0.12, -0.13, -0.14, -0.15, -0.16, -0.17, -0.18, -0.2],
+                "buffIcon": "critDamageDown"
+              }]
+            }, {
+              "type": "NpGaugeChange",
+              "target": "ALL_ENEMIES",
+              "intValues": [-1]
+            }],
+            "customTraits": ["POSITIVE_BUFF"],
+            "hasCustomTraits": true,
+            "buffIcon": "attackApplyDebuff"
+          }]
+        }],
+        "iconName": "attackApplyDebuff"
+      }]
+    }, {
+      "activeSkillData": [{
+        "baseCoolDown": 12,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "AttackBuff",
+            "numTurnsActive": 10,
+            "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+            "variationData": {
+              "type": "TurnPassVariation"
+            },
+            "additions": [0.1],
+            "buffIcon": "attackUp"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "SELF",
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
+        }],
+        "iconName": "chanceUp"
+      }]
+    }, {
+      "activeSkillData": [{
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.4, 0.42, 0.44, 0.46, 0.48, 0.5, 0.52, 0.54, 0.56, 0.6],
+            "buffIcon": "critDamageUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CriticalStarWeightBuff",
+            "numTurnsActive": 3,
+            "values": [30.0, 33.0, 36.0, 39.0, 42.0, 45.0, 48.0, 51.0, 54.0, 60.0],
+            "buffIcon": "starWeightUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "DefenseBuff",
+            "numTurnsActive": 3,
+            "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+            "buffIcon": "defenseUp"
+          }]
+        }],
+        "iconName": "critDamageUp"
+      }]
+    }],
+    "passiveSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "SpecificDefenseBuff",
+          "applyCondition": {
+            "type": "NpCard"
+          },
+          "values": [0.5],
+          "buffIcon": "percentDefUp"
+        }]
+      }],
+      "iconName": "percentDefUp"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CriticalDamageBuff",
+          "values": [0.2],
+          "buffIcon": "critDamageUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DeathResist",
+          "values": [0.2],
+          "buffIcon": "deathResistUp"
+        }]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DebuffResist",
+          "applyCondition": {
+            "type": "BuffHasTrait",
+            "value": "MENTAL_BUFF"
+          },
+          "values": [0.2],
+          "buffIcon": "debuffResistUp"
+        }]
+      }],
+      "iconName": "independent"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "SpecificAttackBuff",
+          "values": [0.1],
+          "buffIcon": "specialDamageUp"
+        }]
+      }],
+      "iconName": "specialAttackUp"
+    }],
+    "appendSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "EXTRA"
+          },
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+          "buffIcon": "specialDamageUp"
+        }]
+      }],
+      "iconName": "specialAttackUp"
+    }, {
+      "effects": [{
+        "type": "NpChange",
+        "target": "SELF",
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
+      }],
+      "iconName": "npGain"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "AttackBuff",
+          "applyCondition": {
+            "type": "TargetsHaveClass",
+            "value": "ASSASSIN",
+            "target": "DEFENDER"
+          },
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+          "buffIcon": "attackUp"
+        }]
+      }],
+      "iconName": "attackUp"
+    }],
+    "servantStatusData": [{
+      "lv": 65,
+      "HP": 11578,
+      "ATK": 13385
+    }],
+    "noblePhantasmUpgrades": {
+      "noblePhantasmData": [{
+        "commandCardData": {
+          "commandCardType": "BUSTER",
+          "hitsData": [100],
+          "npRate": 0.0033,
+          "criticalStarGen": 0.105
+        },
+        "effects": [{
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [3.0, 4.0, 4.5, 4.75, 5.0],
+          "npDamageAdditionalParams": {
+            "npSpecificDamageCondition": {
+              "type": "Or",
+              "subConditionData": [{
+                "type": "TargetsHaveTrait",
+                "value": "MAN",
+                "target": "DEFENDER"
+              }, {
+                "type": "TargetsHaveTrait",
+                "value": "STAR",
+                "target": "DEFENDER"
+              }]
+            },
+            "isNpSpecificDamageOverchargedEffect": true,
+            "npSpecificDamageRate": [2.0, 2.25, 2.5, 2.75, 3.0]
+          }
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "ReceivedBuffChanceBuff",
+            "numTimesActive": 1,
+            "values": [-10.0],
+            "buffIcon": "buffDenial"
+          }]
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
+      }]
+    },
+    "extraCard": {
+      "commandCardType": "EXTRA",
+      "hitsData": [6, 13, 20, 26, 35],
+      "npRate": 0.0033,
+      "criticalStarGen": 0.105
+    },
+    "cost": 16
+  }],
+  "servantNum": 149
+}

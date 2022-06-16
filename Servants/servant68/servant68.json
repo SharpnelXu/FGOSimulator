@@ -93,7 +93,7 @@
                 "buffIcon": "attackUp"
               }]
             }],
-            "customTraits": ["POSITIVE_BUFF"],
+            "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF"],
             "hasCustomTraits": true,
             "buffIcon": "attackApplyBuff"
           }]

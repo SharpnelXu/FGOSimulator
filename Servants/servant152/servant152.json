@@ -1,0 +1,336 @@
+{
+  "servantAscensionData": [{
+    "combatantData": {
+      "id": "servant152",
+      "rarity": 5,
+      "fateClass": "CASTER",
+      "gender": "MALE",
+      "alignments": ["NEUTRAL", "GOOD"],
+      "attribute": "SKY",
+      "traits": ["BRYNHILDS_BELOVED", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "deathRate": 0.3
+    },
+    "defenseNpRate": 0.03,
+    "criticalStarWeight": 50,
+    "commandCardData": [{
+      "commandCardType": "QUICK",
+      "hitsData": [6, 13, 20, 26, 35],
+      "npRate": 0.005,
+      "criticalStarGen": 0.104
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [6, 13, 20, 26, 35],
+      "npRate": 0.005,
+      "criticalStarGen": 0.104
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [6, 13, 20, 26, 35],
+      "npRate": 0.005,
+      "criticalStarGen": 0.104
+    }, {
+      "commandCardType": "ARTS",
+      "hitsData": [6, 13, 20, 26, 35],
+      "npRate": 0.005,
+      "criticalStarGen": 0.104
+    }, {
+      "commandCardType": "BUSTER",
+      "hitsData": [6, 13, 20, 26, 35],
+      "npRate": 0.005,
+      "criticalStarGen": 0.104
+    }],
+    "activeSkillUpgrades": [{
+      "activeSkillData": [{
+        "baseCoolDown": 12,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36, 0.4],
+            "buffIcon": "quickUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36, 0.4],
+            "buffIcon": "artsUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
+            "values": [0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36, 0.4],
+            "buffIcon": "busterUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "NpGenerationBuff",
+            "numTurnsActive": 3,
+            "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+            "buffIcon": "npGainUp"
+          }]
+        }],
+        "iconName": "quickArtsBusterUp"
+      }]
+    }, {
+      "activeSkillData": [{
+        "baseCoolDown": 12,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "IgnoreDefenseBuff",
+            "numTurnsActive": 3,
+            "buffIcon": "ignoreDefense"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "IgnoreInvincible",
+            "numTurnsActive": 3,
+            "buffIcon": "ignoreInvincible"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "SpecificAttackBuff",
+            "applyCondition": {
+              "type": "Or",
+              "subConditionData": [{
+                "type": "TargetsHaveTrait",
+                "value": "SKY",
+                "target": "DEFENDER"
+              }, {
+                "type": "TargetsHaveTrait",
+                "value": "EARTH",
+                "target": "DEFENDER"
+              }]
+            },
+            "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+            "buffIcon": "specialDamageUp"
+          }]
+        }],
+        "iconName": "bondUp"
+      }]
+    }, {
+      "activeSkillData": [{
+        "baseCoolDown": 10,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "DefenseBuff",
+            "numTurnsActive": 3,
+            "values": [-0.1, -0.11, -0.12, -0.13, -0.14, -0.15, -0.16, -0.17, -0.18, -0.2],
+            "buffIcon": "defenseDown"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "NpSeal",
+            "numTurnsActive": 3,
+            "buffIcon": "npSeal"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "SkillSeal",
+            "numTurnsActive": 3,
+            "buffIcon": "skillSeal"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "ALL_ALLIES",
+          "values": [0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 1.0]
+        }],
+        "iconName": "seal"
+      }]
+    }],
+    "passiveSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "ARTS"
+          },
+          "values": [0.12],
+          "buffIcon": "artsUp"
+        }]
+      }],
+      "iconName": "territoryCreation"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CriticalDamageBuff",
+          "values": [0.2],
+          "buffIcon": "critDamageUp"
+        }]
+      }],
+      "iconName": "independent"
+    }],
+    "appendSkillData": [{
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "EXTRA"
+          },
+          "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+          "buffIcon": "specialDamageUp"
+        }]
+      }],
+      "iconName": "specialAttackUp"
+    }, {
+      "effects": [{
+        "type": "NpChange",
+        "target": "SELF",
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
+      }],
+      "iconName": "npGain"
+    }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "AttackBuff",
+          "applyCondition": {
+            "type": "TargetsHaveClass",
+            "value": "CASTER",
+            "target": "DEFENDER"
+          },
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+          "buffIcon": "attackUp"
+        }]
+      }],
+      "iconName": "attackUp"
+    }],
+    "servantStatusData": [{
+      "lv": 65,
+      "HP": 16020,
+      "ATK": 10621
+    }],
+    "noblePhantasmUpgrades": {
+      "noblePhantasmData": [{
+        "commandCardData": {
+          "commandCardType": "ARTS",
+          "hitsData": [100],
+          "npRate": 0.005,
+          "criticalStarGen": 0.104
+        },
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "NpDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.3],
+            "buffIcon": "npDamageUp"
+          }, {
+            "type": "NpDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.4],
+            "buffIcon": "npDamageUp"
+          }, {
+            "type": "NpDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.5],
+            "buffIcon": "npDamageUp"
+          }, {
+            "type": "NpDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.6],
+            "buffIcon": "npDamageUp"
+          }, {
+            "type": "NpDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.7],
+            "buffIcon": "npDamageUp"
+          }]
+        }, {
+          "type": "RemoveBuff",
+          "target": "ALL_ALLIES",
+          "applyCondition": {
+            "type": "BuffHasTrait",
+            "value": "NEGATIVE_BUFF"
+          },
+          "intValues": [0]
+        }, {
+          "type": "HpChange",
+          "target": "ALL_ALLIES",
+          "intValues": [5000, 7500, 8750, 9375, 10000]
+        }, {
+          "type": "RemoveBuff",
+          "target": "ALL_ENEMIES",
+          "applyCondition": {
+            "type": "BuffHasTrait",
+            "value": "POSITIVE_BUFF"
+          },
+          "intValues": [0]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "AttackBuff",
+            "numTurnsActive": 3,
+            "values": [-0.5],
+            "buffIcon": "attackDown"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "DefenseBuff",
+            "values": [-0.5],
+            "buffIcon": "defenseDown"
+          }]
+        }, {
+          "type": "ForceInstantDeath",
+          "target": "SELF",
+          "probabilities": [5.0]
+        }],
+        "noblePhantasmType": "NON_DAMAGE"
+      }]
+    },
+    "extraCard": {
+      "commandCardType": "EXTRA",
+      "hitsData": [6, 13, 20, 26, 35],
+      "npRate": 0.005,
+      "criticalStarGen": 0.104
+    },
+    "cost": 16
+  }],
+  "servantNum": 152
+}

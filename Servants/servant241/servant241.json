@@ -763,6 +763,8 @@
           "buffData": [{
             "type": "ClassAdvantageChangeBuff",
             "numTurnsActive": 3,
+            "customTraits": ["POSITIVE_BUFF", "DEFENDER_BUFF"],
+            "hasCustomTraits": true,
             "classAdvChangeAdditionalParams": {
               "defenseMode": "CLASS_ADV_REMOVE_DISADV",
               "defenseModeAffectedClasses": ["ANY_CLASS"]
@@ -832,6 +834,8 @@
           "buffData": [{
             "type": "ClassAdvantageChangeBuff",
             "numTurnsActive": 3,
+            "customTraits": ["POSITIVE_BUFF", "DEFENDER_BUFF"],
+            "hasCustomTraits": true,
             "classAdvChangeAdditionalParams": {
               "defenseMode": "CLASS_ADV_REMOVE_DISADV",
               "defenseModeAffectedClasses": ["ANY_CLASS"]

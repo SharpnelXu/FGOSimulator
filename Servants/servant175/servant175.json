@@ -88,6 +88,8 @@
           "buffData": [{
             "type": "ClassAdvantageChangeBuff",
             "numTurnsActive": 3,
+            "customTraits": ["DEFENDER_BUFF"],
+            "hasCustomTraits": true,
             "classAdvChangeAdditionalParams": {
               "defenseMode": "CLASS_ADV_REMOVE_DISADV",
               "defenseModeAffectedClasses": ["ANY_CLASS"]
