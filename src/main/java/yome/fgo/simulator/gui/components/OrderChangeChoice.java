@@ -1,6 +1,7 @@
 package yome.fgo.simulator.gui.components;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
@@ -39,7 +40,11 @@ public class OrderChangeChoice extends VBox {
         AnchorPane.setRightAnchor(servantThumbnail, 0.0);
         imgAnchor.getChildren().add(servantThumbnail);
 
-        getChildren().addAll(radioButton, imgAnchor);
+        final Button servantButton = new Button();
+        servantButton.setGraphic(imgAnchor);
+        servantButton.setOnAction(e -> radioButton.fire());
+
+        getChildren().addAll(radioButton, servantButton);
     }
 
     public boolean isSelected() {
