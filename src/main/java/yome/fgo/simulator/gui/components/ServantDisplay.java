@@ -1,5 +1,6 @@
 package yome.fgo.simulator.gui.components;
 
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import org.checkerframework.checker.units.qual.A;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
@@ -56,12 +58,9 @@ public class ServantDisplay extends VBox {
         allyTarget = new RadioButton();
         allyTarget.setToggleGroup(toggleGroup);
         allyTarget.setOnAction(e -> {
-            if (allyTarget.isSelected()) {
-                this.simulationWindow.getSimulation().setCurrentAllyTargetIndex(servantIndex);
-                allyTarget.setText(getTranslation(APPLICATION_SECTION, "asTarget"));
-            } else {
-                allyTarget.setText(null);
-            }
+            this.simulationWindow.getSimulation().setCurrentAllyTargetIndex(servantIndex);
+            allyTarget.setText(getTranslation(APPLICATION_SECTION, "asTarget"));
+            this.simulationWindow.targetSync();
         });
 
         getChildren().add(allyTarget);
@@ -77,7 +76,11 @@ public class ServantDisplay extends VBox {
         AnchorPane.setRightAnchor(servantThumbnail, 0.0);
         imgAnchor.getChildren().add(servantThumbnail);
 
-        getChildren().add(imgAnchor);
+        final Button servantSelectButton = new Button();
+        servantSelectButton.setGraphic(imgAnchor);
+        servantSelectButton.setOnAction(e -> allyTarget.fire());
+
+        getChildren().add(servantSelectButton);
 
         final HBox skillHBoxes = new HBox();
         skillHBoxes.setSpacing(10);
@@ -140,6 +143,7 @@ public class ServantDisplay extends VBox {
         npLabel = new Label();
         buffsPane = new FlowPane();
         buffsPane.setAlignment(Pos.TOP_CENTER);
+        buffsPane.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
         getChildren().addAll(viewHBox, atkLabel, hpLabel, npLabel, buffsPane);
     }
@@ -235,6 +239,12 @@ public class ServantDisplay extends VBox {
     }
 
     public void setSelected() {
-        allyTarget.setSelected(true);
+        allyTarget.fire();
+    }
+
+    public void targetSync() {
+        if (!allyTarget.isSelected()) {
+            allyTarget.setText(null);
+        }
     }
 }

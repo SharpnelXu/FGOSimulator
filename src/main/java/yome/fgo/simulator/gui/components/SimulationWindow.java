@@ -250,6 +250,12 @@ public class SimulationWindow {
         ((EnemyDisplay) enemyGrid.getChildren().get(simulation.getCurrentEnemyTargetIndex())).setSelected();
     }
 
+    public void targetSync() {
+        for (final ServantDisplay servantDisplay : servantDisplays) {
+            servantDisplay.targetSync();
+        }
+    }
+
     public Simulation getSimulation() {
         return simulation;
     }
