@@ -43,12 +43,12 @@
         "baseCoolDown": 9,
         "effects": [{
           "type": "GrantBuff",
-          "target": "ALL_ALLIES",
+          "target": "SELF",
           "buffData": [{
-            "type": "HealEffectivenessBuff",
+            "type": "HealGrantEffBuff",
             "numTurnsActive": 1,
             "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
-            "buffIcon": "healUp"
+            "buffIcon": "healGrantUp"
           }]
         }],
         "iconName": "healUp"

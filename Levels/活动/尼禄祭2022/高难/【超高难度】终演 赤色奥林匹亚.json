@@ -715,12 +715,12 @@
         "applyCondition": {
           "type": "TargetsContainsSpecificServant",
           "value": "servant67",
-          "target": "ALL_ALLIES"
+          "target": "EFFECT_TARGET"
         },
         "buffData": [{
-          "type": "HealEffectivenessBuff",
+          "type": "HealGrantEffBuff",
           "values": [5.0],
-          "buffIcon": "healUp"
+          "buffIcon": "healGrantUp"
         }]
       }, {
         "type": "GrantBuff",

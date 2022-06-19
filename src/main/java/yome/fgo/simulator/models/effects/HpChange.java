@@ -5,6 +5,7 @@ import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.HealEffectivenessBuff;
+import yome.fgo.simulator.models.effects.buffs.HealGrantEffBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
@@ -31,7 +32,11 @@ public class HpChange extends IntValuedEffect {
     public static void heal(final Simulation simulation, final Combatant combatant, final int baseChange, final boolean isLethal) {
         if (baseChange > 0) {
             final double healEffectiveness = combatant.applyBuff(simulation, HealEffectivenessBuff.class);
-            final int finalHeal = Math.max(0, (int) RoundUtils.roundNearest(baseChange * (1 + healEffectiveness)));
+            final double healGrantEffectiveness = simulation.getActivator().applyBuff(simulation, HealGrantEffBuff.class);
+            final int finalHeal = Math.max(
+                    0,
+                    (int) RoundUtils.roundNearest(baseChange * (1 + healEffectiveness) * (1 + healGrantEffectiveness))
+            );
             combatant.changeHp(finalHeal, false); // heal cannot be lethal (勇者传除外)
         } else {
             combatant.changeHp(baseChange, isLethal);

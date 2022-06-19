@@ -248,6 +248,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(HealEffectivenessBuff.class.getSimpleName())) {
             return setValuedBuffParams(HealEffectivenessBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(HealGrantEffBuff.class.getSimpleName())) {
+            return setValuedBuffParams(HealGrantEffBuff.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(HitsDoubledBuff.class.getSimpleName())) {
             return setCommonBuffParams(HitsDoubledBuff.builder(), buffData, level);
 
@@ -534,6 +537,7 @@ public class BuffFactory {
         builder.put(Vengeance.class.getSimpleName(), ImmutableSet.of());
 
         builder.put(HealEffectivenessBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
+        builder.put(HealGrantEffBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(Burn.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE));
         builder.put(BurnEffectivenessUp.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(Curse.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE));
