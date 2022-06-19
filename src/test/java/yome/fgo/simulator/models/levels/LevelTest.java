@@ -13,12 +13,12 @@ import static yome.fgo.data.proto.FgoStorageData.FateClass.BERSERKER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
 
 public class LevelTest {
+    public static final String TEST_LEVEL_NAME = "【05】【90】爱娜温·狩猎 典位级";
+    public static final String TEST_LEVEL_PATH = "活动/2022/【08】狩猎关卡 第11弹";
+
     @Test
     public void testConstructor() {
-        final String id = "狩猎11无花果90";
-        final String subPath = "活动/狩猎11";
-
-        final Level level = new Level(ResourceManager.getLevelData(subPath, id));
+        final Level level = new Level(ResourceManager.getLevelData(TEST_LEVEL_PATH, TEST_LEVEL_NAME));
         assertTrue(level.hasNextStage(1));
         assertFalse(level.hasNextStage(3));
         final Stage stage3 = level.getStage(3);

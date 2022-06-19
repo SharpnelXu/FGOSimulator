@@ -1,0 +1,62 @@
+{
+  "id": "Riyo90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "失心之人",
+      "hpBars": [60526],
+      "combatantDataOverride": {
+        "id": "失心之人",
+        "rarity": 1,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "失心之人/"
+    }, {
+      "enemyBaseId": "失心罪人",
+      "hpBars": [69458],
+      "combatantDataOverride": {
+        "id": "失心罪人",
+        "rarity": 2,
+        "fateClass": "ASSASSIN",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 0.8
+      },
+      "enemyCategories": "失心之人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SHORE", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "恶魔",
+      "hpBars": [163421],
+      "enemyCategories": "恶魔/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SHORE", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant41",
+      "hpBars": [207324],
+      "combatantDataOverride": {
+        "id": "servant41",
+        "rarity": 4,
+        "fateClass": "ASSASSIN",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "GOOD"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "DIVINE_SPIRIT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant41/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SHORE", "CITY"]
+  }]
+}
