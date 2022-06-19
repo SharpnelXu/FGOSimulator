@@ -1,0 +1,90 @@
+{
+  "id": "BNY2023二期90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "人工生命体",
+      "hpBars": [41800],
+      "combatantDataOverride": {
+        "id": "人工生命体",
+        "rarity": 2,
+        "fateClass": "CASTER",
+        "attribute": "SKY",
+        "deathRate": 0.8
+      },
+      "enemyCategories": "人工生命体/"
+    }, {
+      "enemyBaseId": "人工生命体原型",
+      "hpBars": [43961],
+      "combatantDataOverride": {
+        "id": "人工生命体原型",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "attribute": "SKY",
+        "deathRate": 0.2
+      },
+      "enemyCategories": "人工生命体/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "BNY2023"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "女王斯芬克斯",
+      "hpBars": [131692],
+      "enemyCategories": "斯芬克斯/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant35",
+      "hpBars": [73728],
+      "combatantDataOverride": {
+        "id": "servant35",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "EARTH",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant35/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant32",
+      "hpBars": [78899],
+      "combatantDataOverride": {
+        "id": "servant32",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant32/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant103",
+      "hpBars": [180606],
+      "combatantDataOverride": {
+        "id": "servant103",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "BALANCED"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant103/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}

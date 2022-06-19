@@ -936,7 +936,6 @@
               "value": "CHAOTIC",
               "target": "DEFENDER"
             },
-            "isNpSpecificDamageOverchargedEffect": true,
             "npSpecificDamageRate": [1.5]
           }
         }, {

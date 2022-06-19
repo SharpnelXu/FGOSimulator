@@ -1,0 +1,88 @@
+{
+  "id": "BNY2023二期90",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "霜之巨人",
+      "hpBars": [23242],
+      "enemyCategories": "巨人/"
+    }, {
+      "enemyBaseId": "霜之巨人",
+      "hpBars": [22254],
+      "enemyCategories": "巨人/"
+    }, {
+      "enemyBaseId": "霜之巨人",
+      "hpBars": [24445],
+      "enemyCategories": "巨人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "BNY2023"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "山之巨人",
+      "hpBars": [39641],
+      "enemyCategories": "巨人/"
+    }, {
+      "enemyBaseId": "山之巨人",
+      "hpBars": [40763],
+      "enemyCategories": "巨人/"
+    }, {
+      "enemyBaseId": "大翁鬼",
+      "hpBars": [51978],
+      "enemyCategories": "鬼/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant47",
+      "hpBars": [105456],
+      "combatantDataOverride": {
+        "id": "servant47",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "INSANE"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "GREEK_MYTHOLOGY_MALES", "ASSOCIATED_TO_THE_ARGO", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant47/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant254",
+      "hpBars": [70447],
+      "combatantDataOverride": {
+        "id": "servant254",
+        "rarity": 1,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "EARTH",
+        "traits": ["RIDING", "BRYNHILDS_BELOVED", "GREEK_MYTHOLOGY_MALES", "ASSOCIATED_TO_THE_ARGO", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.004
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant254/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant14",
+      "hpBars": [74856],
+      "combatantDataOverride": {
+        "id": "servant14",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "FEMALE",
+        "alignments": ["NEUTRAL", "EVIL"],
+        "attribute": "EARTH",
+        "traits": ["ASSOCIATED_TO_THE_ARGO", "HOMINIDAE_SERVANT", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant14/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "古代鬼魂",
+  "rarity": 4,
+  "fateClass": "ASSASSIN",
+  "attribute": "SKY",
+  "traits": ["UNDEAD", "DEMONIC"],
+  "deathRate": 0.2,
+  "undeadNpCorrection": true
+}

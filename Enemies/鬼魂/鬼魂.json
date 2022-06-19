@@ -1,0 +1,9 @@
+{
+  "id": "鬼魂",
+  "rarity": 2,
+  "fateClass": "ASSASSIN",
+  "attribute": "SKY",
+  "traits": ["UNDEAD", "DEMONIC"],
+  "deathRate": 0.8,
+  "undeadNpCorrection": true
+}

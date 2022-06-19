@@ -1,0 +1,136 @@
+{
+  "id": "BNY2023一期90",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "灰狼",
+      "hpBars": [20370],
+      "combatantDataOverride": {
+        "id": "灰狼",
+        "rarity": 1,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "灰狼/"
+    }, {
+      "enemyBaseId": "灰狼",
+      "hpBars": [20712],
+      "combatantDataOverride": {
+        "id": "灰狼",
+        "rarity": 1,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "灰狼/"
+    }, {
+      "enemyBaseId": "灰狼",
+      "hpBars": [21054],
+      "combatantDataOverride": {
+        "id": "灰狼",
+        "rarity": 1,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "灰狼/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "BNY2023"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "秽猪",
+      "hpBars": [31380],
+      "combatantDataOverride": {
+        "id": "秽猪",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.8
+      },
+      "enemyCategories": "魔猪/"
+    }, {
+      "enemyBaseId": "秽猪",
+      "hpBars": [31956],
+      "combatantDataOverride": {
+        "id": "秽猪",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.8
+      },
+      "enemyCategories": "魔猪/"
+    }, {
+      "enemyBaseId": "蝎狮",
+      "hpBars": [59077],
+      "combatantDataOverride": {
+        "id": "蝎狮",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST"],
+        "deathRate": 0.1
+      },
+      "enemyCategories": "蝎狮·乌伽尔·冰雪加姆/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant80",
+      "hpBars": [76209],
+      "combatantDataOverride": {
+        "id": "servant80",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "BALANCED"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.004
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant80/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant103",
+      "hpBars": [106938],
+      "combatantDataOverride": {
+        "id": "servant103",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "BALANCED"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.004
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant103/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant100",
+      "hpBars": [85550],
+      "combatantDataOverride": {
+        "id": "servant100",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant100/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}

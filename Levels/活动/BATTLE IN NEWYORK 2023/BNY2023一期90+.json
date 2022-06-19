@@ -1,0 +1,76 @@
+{
+  "id": "BNY2023一期90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "半人马",
+      "hpBars": [40486],
+      "enemyCategories": "半人马/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "BNY2023"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "半人马",
+      "hpBars": [50338],
+      "enemyCategories": "半人马/"
+    }, {
+      "enemyBaseId": "守护者",
+      "hpBars": [121108],
+      "enemyCategories": "守护者/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant30",
+      "hpBars": [182952],
+      "combatantDataOverride": {
+        "id": "servant30",
+        "rarity": 4,
+        "fateClass": "RIDER",
+        "gender": "FEMALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["DIVINE", "RIDING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant30/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant9",
+      "hpBars": [87133],
+      "combatantDataOverride": {
+        "id": "servant9",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant9/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant24",
+      "hpBars": [73600],
+      "combatantDataOverride": {
+        "id": "servant24",
+        "rarity": 2,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant24/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}

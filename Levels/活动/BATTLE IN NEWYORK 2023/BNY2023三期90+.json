@@ -1,0 +1,99 @@
+{
+  "id": "BNY2023三期90+",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "鬼魂",
+      "hpBars": [40926],
+      "combatantDataOverride": {
+        "id": "鬼魂",
+        "rarity": 2,
+        "fateClass": "RIDER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.8,
+        "undeadNpCorrection": true
+      },
+      "enemyCategories": "鬼魂/"
+    }, {
+      "enemyBaseId": "鬼魂",
+      "hpBars": [41569],
+      "combatantDataOverride": {
+        "id": "鬼魂",
+        "rarity": 2,
+        "fateClass": "RIDER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.8,
+        "undeadNpCorrection": true
+      },
+      "enemyCategories": "鬼魂/"
+    }, {
+      "enemyBaseId": "恐怖鬼魂",
+      "hpBars": [41786],
+      "combatantDataOverride": {
+        "id": "恐怖鬼魂",
+        "rarity": 3,
+        "fateClass": "RIDER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.5,
+        "undeadNpCorrection": true
+      },
+      "enemyCategories": "鬼魂/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "BNY2023"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "许德拉",
+      "hpBars": [131591],
+      "combatantDataOverride": {
+        "id": "许德拉",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC", "MASSIVE"],
+        "deathRate": 0.01
+      },
+      "enemyCategories": "大蛇/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant65",
+      "hpBars": [113545],
+      "combatantDataOverride": {
+        "id": "servant65",
+        "rarity": 5,
+        "fateClass": "RIDER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "STAR",
+        "traits": ["RIDING", "HOMINIDAE_SERVANT", "HUMANOID"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant65/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant161",
+      "hpBars": [183670],
+      "combatantDataOverride": {
+        "id": "servant161",
+        "rarity": 5,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.004
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant161/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}

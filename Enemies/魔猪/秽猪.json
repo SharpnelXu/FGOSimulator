@@ -1,0 +1,8 @@
+{
+  "id": "秽猪",
+  "rarity": 3,
+  "fateClass": "LANCER",
+  "attribute": "EARTH",
+  "traits": ["WILD_BEAST", "DEMONIC"],
+  "deathRate": 0.8
+}

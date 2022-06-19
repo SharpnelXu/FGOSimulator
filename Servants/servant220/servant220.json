@@ -61,6 +61,53 @@
           }]
         }],
         "iconName": "critDamageUp"
+      }, {
+        "baseCoolDown": 7,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.2, 0.23, 0.26, 0.29, 0.32, 0.35, 0.38, 0.41, 0.44, 0.5],
+            "buffIcon": "critDamageUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CriticalStarWeightBuff",
+            "numTurnsActive": 3,
+            "values": [4.0, 4.4, 4.8, 5.2, 5.6, 6.0, 6.4, 6.8, 7.2, 8.0],
+            "buffIcon": "starWeightUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "AttackBuff",
+            "numTurnsActive": 3,
+            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+            "buffIcon": "attackUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostAttackEffect",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "EXTRA"
+            },
+            "subEffects": [{
+              "type": "CriticalStarChange",
+              "intValues": [20]
+            }],
+            "buffIcon": "attackApplyBuff"
+          }]
+        }],
+        "iconName": "critDamageUp"
       }]
     }, {
       "activeSkillData": [{

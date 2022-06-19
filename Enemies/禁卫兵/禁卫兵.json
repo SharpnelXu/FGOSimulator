@@ -1,0 +1,9 @@
+{
+  "id": "禁卫兵",
+  "rarity": 2,
+  "fateClass": "ASSASSIN",
+  "gender": "MALE",
+  "attribute": "MAN",
+  "traits": ["HUMANOID", "HUMAN"],
+  "deathRate": 0.5
+}

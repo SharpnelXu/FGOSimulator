@@ -1,0 +1,8 @@
+{
+  "id": "灰狼",
+  "rarity": 1,
+  "fateClass": "RIDER",
+  "attribute": "EARTH",
+  "traits": ["WILD_BEAST"],
+  "deathRate": 1.0
+}

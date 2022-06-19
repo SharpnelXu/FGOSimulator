@@ -1,0 +1,139 @@
+{
+  "id": "BNY2023三期90",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "禁卫兵",
+      "hpBars": [23988],
+      "combatantDataOverride": {
+        "id": "禁卫兵",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "HUMAN"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "禁卫兵/"
+    }, {
+      "enemyBaseId": "禁卫兵",
+      "hpBars": [24524],
+      "combatantDataOverride": {
+        "id": "禁卫兵",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "HUMAN"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "禁卫兵/"
+    }, {
+      "enemyBaseId": "禁卫兵",
+      "hpBars": [25060],
+      "combatantDataOverride": {
+        "id": "禁卫兵",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "attribute": "MAN",
+        "traits": ["HUMANOID", "HUMAN"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "禁卫兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY", "BNY2023"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "恶魔",
+      "hpBars": [50304],
+      "combatantDataOverride": {
+        "id": "恶魔",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "attribute": "SKY",
+        "traits": ["DEMON", "DEMONIC"],
+        "deathRate": 0.01
+      },
+      "enemyCategories": "恶魔/"
+    }, {
+      "enemyBaseId": "鸦天狗",
+      "hpBars": [30311],
+      "combatantDataOverride": {
+        "id": "鸦天狗",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "鸦天狗/"
+    }, {
+      "enemyBaseId": "鸦天狗",
+      "hpBars": [30946],
+      "combatantDataOverride": {
+        "id": "鸦天狗",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC"],
+        "deathRate": 0.5
+      },
+      "enemyCategories": "鸦天狗/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant223",
+      "hpBars": [80670],
+      "combatantDataOverride": {
+        "id": "servant223",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "BALANCED"],
+        "attribute": "EARTH",
+        "traits": ["RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant223/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant187",
+      "hpBars": [78501],
+      "combatantDataOverride": {
+        "id": "servant187",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "BALANCED"],
+        "attribute": "MAN",
+        "traits": ["RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "GENJI", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant187/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant302",
+      "hpBars": [108010],
+      "combatantDataOverride": {
+        "id": "servant302",
+        "rarity": 5,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "BALANCED"],
+        "attribute": "MAN",
+        "traits": ["PSEUDO_SERVANT", "HOMINIDAE_SERVANT", "LIVING_HUMAN", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.004
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant302/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["CITY"]
+  }]
+}
