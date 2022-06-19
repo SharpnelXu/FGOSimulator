@@ -271,6 +271,15 @@ public class Combatant {
         return false;
     }
 
+    public boolean isNpSealed() {
+        for (final Buff buff : buffs) {
+            if (buff instanceof NpSeal) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isNpInaccessible() {
         for (final Buff buff : buffs) {
             if (buff instanceof NpSeal || buff instanceof ImmobilizeDebuff) {
@@ -392,7 +401,7 @@ public class Combatant {
         final boolean isBuffExtended = isBuffExtended();
 
         for (final Buff buff : buffs) {
-            if (isBuffExtended || (!shouldDecreaseNumTurnsActiveAtMyTurn(buff) && !isImmobilizeOrSeal(buff))) {
+            if ((isBuffExtended || !shouldDecreaseNumTurnsActiveAtMyTurn(buff)) && !isImmobilizeOrSeal(buff)) {
                 buff.decreaseNumTurnsActive();
             }
         }
@@ -425,16 +434,17 @@ public class Combatant {
     }
 
     public void endOfMyTurn(final Simulation simulation) {
-        final boolean npAccessible = !isNpInaccessible();
-        if (currentNpGauge == maxNpGauge && npAccessible) {
+        final boolean npSealed = isNpSealed();
+        final boolean immobilized = isImmobilized();
+        if (currentNpGauge == maxNpGauge && !npSealed && !immobilized) {
             currentNpGauge = 0;
         }
 
-        if (npAccessible) {
+        if (!npSealed) {
             currentNpGauge += 1;
-        }
-        if (currentNpGauge > maxNpGauge) {
-            currentNpGauge = maxNpGauge;
+            if (currentNpGauge > maxNpGauge) {
+                currentNpGauge = maxNpGauge;
+            }
         }
 
         for (final Buff buff : buffs) {
