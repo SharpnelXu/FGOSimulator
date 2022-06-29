@@ -682,6 +682,58 @@
           "values": [9.0, 12.0, 13.5, 14.25, 15.0]
         }],
         "noblePhantasmType": "SINGLE_TARGET_NP"
+      }, {
+        "commandCardData": {
+          "commandCardType": "ARTS",
+          "hitsData": [10, 20, 30, 40],
+          "npRate": 0.0079,
+          "criticalStarGen": 0.255
+        },
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "CriticalStarGenerationBuff",
+            "numTurnsActive": 3,
+            "values": [1.0],
+            "buffIcon": "starDropRateUp"
+          }, {
+            "type": "CriticalStarGenerationBuff",
+            "numTurnsActive": 3,
+            "values": [1.25],
+            "buffIcon": "starDropRateUp"
+          }, {
+            "type": "CriticalStarGenerationBuff",
+            "numTurnsActive": 3,
+            "values": [1.5],
+            "buffIcon": "starDropRateUp"
+          }, {
+            "type": "CriticalStarGenerationBuff",
+            "numTurnsActive": 3,
+            "values": [1.75],
+            "buffIcon": "starDropRateUp"
+          }, {
+            "type": "CriticalStarGenerationBuff",
+            "numTurnsActive": 3,
+            "values": [2.0],
+            "buffIcon": "starDropRateUp"
+          }]
+        }, {
+          "type": "NoblePhantasmDamage",
+          "target": "TARGETED_ENEMY",
+          "values": [12.0, 15.0, 16.5, 17.25, 18.0],
+          "npDamageAdditionalParams": {
+            "npSpecificDamageCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "MAN",
+              "target": "DEFENDER"
+            },
+            "isNpSpecificDamageOverchargedEffect": true,
+            "npSpecificDamageRate": [1.5, 1.625, 1.75, 1.875, 2.0]
+          }
+        }],
+        "noblePhantasmType": "SINGLE_TARGET_NP"
       }]
     },
     "extraCard": {

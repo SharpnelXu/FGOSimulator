@@ -1,2 +1,4 @@
 预定制作：
-	
+	NP Gain Mod (Enemy)
+	StartOfTurnEffect
+	HP Bar breack effect
