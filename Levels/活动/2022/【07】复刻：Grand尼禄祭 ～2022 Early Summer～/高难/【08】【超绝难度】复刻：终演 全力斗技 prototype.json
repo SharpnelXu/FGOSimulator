@@ -94,7 +94,7 @@
     }],
     "effects": [{
       "type": "GrantBuff",
-      "target": "ALL_ENEMIES_INCLUDING_BACKUP",
+      "target": "ALL_ALLIES_INCLUDING_BACKUP",
       "applyCondition": {
         "type": "TargetsContainsSpecificServant",
         "value": "servant75",

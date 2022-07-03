@@ -142,7 +142,7 @@ public class ServantOptionEditor {
         attackStatusHBox.setAlignment(Pos.CENTER_LEFT);
         attackStatusHBox.getChildren().addAll(attackStatusLabel, attackStatusValueLabel, attackStatusSlider);
 
-        final Label hpStatusLabel = new Label(getTranslation(APPLICATION_SECTION, "Attack Status Up"));
+        final Label hpStatusLabel = new Label(getTranslation(APPLICATION_SECTION, "HP Status Up"));
         final Label hpStatusValueLabel = new Label(Integer.toString(source.getHealthStatusUp()));
         hpStatusValueLabel.setMinWidth(50);
         hpStatusSlider = new Slider();

@@ -65,6 +65,18 @@
       "servantAscension": 2,
       "enemyCategories": "servant282/",
       "isServant": true
+    }, {
+      "enemyBaseId": "黑武者",
+      "hpBars": [82866],
+      "combatantDataOverride": {
+        "id": "黑武者",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "traits": ["HUMANOID", "UNDEAD", "DEMONIC"],
+        "deathRate": 0.2
+      },
+      "enemyCategories": "黑武者/"
     }],
     "maximumEnemiesOnScreen": 3,
     "traits": ["CITY"]

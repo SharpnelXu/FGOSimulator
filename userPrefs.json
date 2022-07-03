@@ -667,7 +667,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 10, 0],
+      "appendSkillLevels": [0, 0, 0],
       "commandCardOptions": [{
       }, {
       }, {
@@ -1438,7 +1438,7 @@
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
-      "activeSkillLevels": [9, 10, 9],
+      "activeSkillLevels": [9, 10, 10],
       "appendSkillLevels": [0, 0, 0],
       "commandCardOptions": [{
       }, {
