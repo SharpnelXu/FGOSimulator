@@ -294,25 +294,13 @@
                     "value": "三回合内未被击破",
                     "target": "SELF"
                   }]
-                }, {
-                  "type": "Not",
-                  "subConditionData": [{
-                    "type": "TargetsHaveBuff",
-                    "subConditionData": [{
-                      "type": "BuffHasTrait",
-                      "value": "克己耐性"
-                    }],
-                    "target": "SELF"
-                  }]
                 }]
               },
               "buffData": [{
                 "type": "PercentDefenseBuff",
                 "numTurnsActive": 3,
                 "values": [0.5],
-                "customTraits": ["克己耐性"],
                 "irremovable": true,
-                "hasCustomTraits": true,
                 "buffIcon": "percentDefUp"
               }]
             }, {

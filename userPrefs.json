@@ -216,7 +216,7 @@
   }, {
     "servantNo": 268,
     "option": {
-      "servantLevel": 100,
+      "servantLevel": 90,
       "noblePhantasmRank": 1,
       "noblePhantasmLevel": 5,
       "attackStatusUp": 2000,
@@ -784,7 +784,7 @@
     "option": {
       "servantLevel": 90,
       "noblePhantasmRank": 2,
-      "noblePhantasmLevel": 3,
+      "noblePhantasmLevel": 2,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],

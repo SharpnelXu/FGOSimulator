@@ -830,7 +830,7 @@
       "npRate": 0.0105,
       "criticalStarGen": 0.256
     },
-    "cost": 9
+    "cost": 7
   }, {
     "combatantData": {
       "id": "servant81",
@@ -1527,7 +1527,7 @@
       "npRate": 0.0105,
       "criticalStarGen": 0.256
     },
-    "cost": 9
+    "cost": 7
   }],
   "servantNum": 81
 }
