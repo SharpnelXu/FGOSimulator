@@ -1,0 +1,36 @@
+{
+  "id": "【01】【90+】骷髅·狩猎 典位+级",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "骷髅兵枪",
+      "hpBars": [90720],
+      "enemyCategories": "骷髅兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "骷髅兵枪",
+      "hpBars": [105000],
+      "enemyCategories": "骷髅兵/"
+    }, {
+      "enemyBaseId": "骷髅兵枪",
+      "hpBars": [102737],
+      "enemyCategories": "骷髅兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "骷髅兵枪",
+      "hpBars": [116175],
+      "enemyCategories": "骷髅兵/"
+    }, {
+      "enemyBaseId": "骸骨之王枪",
+      "hpBars": [235414],
+      "enemyCategories": "骷髅兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }]
+}

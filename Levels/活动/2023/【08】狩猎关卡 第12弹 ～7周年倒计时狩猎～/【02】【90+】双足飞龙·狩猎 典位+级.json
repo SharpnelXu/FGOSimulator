@@ -1,0 +1,36 @@
+{
+  "id": "【02】【90+】双足飞龙·狩猎 典位+级",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "双足飞龙",
+      "hpBars": [69912],
+      "enemyCategories": "双足飞龙/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "恐惧飞龙",
+      "hpBars": [101223],
+      "enemyCategories": "双足飞龙/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "双足飞龙",
+      "hpBars": [82464],
+      "enemyCategories": "双足飞龙/"
+    }, {
+      "enemyBaseId": "风暴双足飞龙",
+      "hpBars": [266205],
+      "enemyCategories": "双足飞龙/"
+    }, {
+      "enemyBaseId": "恐惧飞龙",
+      "hpBars": [130726],
+      "enemyCategories": "双足飞龙/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }]
+}
