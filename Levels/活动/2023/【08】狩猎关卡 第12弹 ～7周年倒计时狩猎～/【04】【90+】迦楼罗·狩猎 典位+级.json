@@ -1,0 +1,75 @@
+{
+  "id": "【04】【90+】迦楼罗·狩猎 典位+级",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "翅刃虫",
+      "hpBars": [49800],
+      "combatantDataOverride": {
+        "id": "翅刃虫",
+        "rarity": 2,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "deathRate": 0.8
+      },
+      "enemyCategories": "翅刃虫/"
+    }, {
+      "enemyBaseId": "翅刃虫",
+      "hpBars": [50401],
+      "combatantDataOverride": {
+        "id": "翅刃虫",
+        "rarity": 2,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "deathRate": 0.8
+      },
+      "enemyCategories": "翅刃虫/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "翅刃群虫",
+      "hpBars": [88545],
+      "combatantDataOverride": {
+        "id": "翅刃群虫",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "deathRate": 0.2
+      },
+      "enemyCategories": "翅刃虫/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "翅刃虫",
+      "hpBars": [73518],
+      "combatantDataOverride": {
+        "id": "翅刃虫",
+        "rarity": 2,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "deathRate": 0.8
+      },
+      "enemyCategories": "翅刃虫/"
+    }, {
+      "enemyBaseId": "迦楼罗",
+      "hpBars": [238156],
+      "enemyCategories": "夏塔克鸟/"
+    }, {
+      "enemyBaseId": "翅刃群虫",
+      "hpBars": [150141],
+      "combatantDataOverride": {
+        "id": "翅刃群虫",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "attribute": "EARTH",
+        "deathRate": 0.2
+      },
+      "enemyCategories": "翅刃虫/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "CITY"]
+  }]
+}

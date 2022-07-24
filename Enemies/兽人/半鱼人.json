@@ -1,0 +1,8 @@
+{
+  "id": "半鱼人",
+  "rarity": 2,
+  "fateClass": "ASSASSIN",
+  "attribute": "EARTH",
+  "traits": ["HUMANOID", "DEMONIC"],
+  "deathRate": 0.8
+}

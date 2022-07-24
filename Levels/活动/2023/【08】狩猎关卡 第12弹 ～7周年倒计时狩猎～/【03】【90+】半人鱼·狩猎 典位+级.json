@@ -1,0 +1,36 @@
+{
+  "id": "【03】【90+】半人鱼·狩猎 典位+级",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "半鱼人",
+      "hpBars": [72847],
+      "enemyCategories": "兽人/"
+    }, {
+      "enemyBaseId": "半鱼人",
+      "hpBars": [74506],
+      "enemyCategories": "兽人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "FOREST"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "半鱼人",
+      "hpBars": [96859],
+      "enemyCategories": "兽人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "FOREST"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "半鱼人",
+      "hpBars": [125673],
+      "enemyCategories": "兽人/"
+    }, {
+      "enemyBaseId": "巨型半鱼人",
+      "hpBars": [280593],
+      "enemyCategories": "兽人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "FOREST"]
+  }]
+}
