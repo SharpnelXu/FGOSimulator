@@ -116,15 +116,16 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.isBuggedOverkill()).andReturn(false);
         expect(defender.isAlreadyDead()).andReturn(true).times(2);
         expect(defender.getUndeadNpCorrection()).andReturn(false);
-        attacker.changeNp(0);
-        expectLastCall().times(3);
-        simulation.gainStar(1.0828);
+        attacker.changeNp(0.0062);
+        attacker.changeNp(0.0093);
+        expectLastCall().times(2);
+        simulation.gainStar(1.683);
         simulation.checkBuffStatus();
         defender.addCumulativeTurnDamage(anyInt());
         expect(simulation.getStatsLogger()).andReturn(null).anyTimes();
         replayAll();
 
-        executeCommandCard(simulation, 0, false, BUSTER, false);
+        executeCommandCard(simulation, 0, false, BUSTER, false, true);
 
         verifyAll();
         final int totalDamage = captures.stream().mapToInt(Capture::getValue).sum();
@@ -165,15 +166,15 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         }
         expect(defender.isAlreadyDead()).andReturn(true).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
         expect(defender.getUndeadNpCorrection()).andReturn(false);
-        attacker.changeNp(0.0139);
+        attacker.changeNp(0.0234);
         expectLastCall().times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
-        simulation.gainStar(9.305);
+        simulation.gainStar(10.305);
         simulation.checkBuffStatus();
         defender.addCumulativeTurnDamage(anyInt());
         expect(simulation.getStatsLogger()).andReturn(null).anyTimes();
         replayAll();
 
-        executeCommandCard(simulation, 3, false, BUSTER, false);
+        executeCommandCard(simulation, 3, false, BUSTER, false, true);
 
         verifyAll();
         final int totalDamage = captures.stream().mapToInt(Capture::getValue).sum();
@@ -219,7 +220,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(simulation.getStatsLogger()).andReturn(null).anyTimes();
         replayAll();
 
-        executeCommandCard(simulation, 3, false, BUSTER, false);
+        executeCommandCard(simulation, 3, false, BUSTER, false, false);
 
         verifyAll();
     }
@@ -233,7 +234,8 @@ public class CommandCardExecutionTest extends EasyMockSupport {
                 .classAdvantage(1)
                 .attackerAttribute(SKY)
                 .isCriticalStrike(false)
-                .firstCardType(BUSTER)
+                .useFirstCardBoost(true)
+                .isBusterChain(false)
                 .isTypeChain(false)
                 .commandCardBuff(0)
                 .commandCardResist(0)
@@ -310,23 +312,26 @@ public class CommandCardExecutionTest extends EasyMockSupport {
 
         // AAB
         damageParametersBuilder.isTypeChain(false);
-        damageParametersBuilder.firstCardType(ARTS);
+        damageParametersBuilder.useFirstCardBoost(false);
         damageParametersBuilder.currentCardType(BUSTER).chainIndex(2).commandCardBuff(0);
         assertEquals(23695.0, calculateTotalDamage(damageParametersBuilder.build()), 10);
 
         // Buster Chain
         damageParametersBuilder.isTypeChain(true);
-        damageParametersBuilder.firstCardType(BUSTER);
+        damageParametersBuilder.useFirstCardBoost(true);
+        damageParametersBuilder.isBusterChain(true);
         damageParametersBuilder.currentCardType(BUSTER).chainIndex(2).commandCardBuff(0);
         assertEquals(33478.0, calculateTotalDamage(damageParametersBuilder.build()), 10);
 
         damageParametersBuilder.isTypeChain(false);
-        damageParametersBuilder.firstCardType(BUSTER);
+        damageParametersBuilder.useFirstCardBoost(true);
+        damageParametersBuilder.isBusterChain(false);
         damageParametersBuilder.percentDefenseBuff(2);
         assertEquals(225, calculateTotalDamage(damageParametersBuilder.build()), 10);
 
         damageParametersBuilder.isTypeChain(true);
-        damageParametersBuilder.firstCardType(BUSTER);
+        damageParametersBuilder.useFirstCardBoost(true);
+        damageParametersBuilder.isBusterChain(true);
         damageParametersBuilder.percentDefenseBuff(2);
         assertEquals(4420, calculateTotalDamage(damageParametersBuilder.build()), 10);
     }
@@ -338,7 +343,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         // Kama (Avenger) AQB & ARTS 30%
         npParametersBuilder.defenderClass(LANCER);
         npParametersBuilder.useUndeadNpCorrection(false);
-        npParametersBuilder.firstCardType(ARTS);
+        npParametersBuilder.useFirstCardBoost(true);
         npParametersBuilder.isCriticalStrike(false);
         npParametersBuilder.currentCardType(ARTS).chainIndex(0).commandCardBuff(0.3);
         double totalHitsNp = 0;
@@ -369,7 +374,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         assertEquals(0.0975, totalHitsNp, 0.00001);
 
         // Kama (Avenger) BQA critical strike & ARTS 30%
-        npParametersBuilder.firstCardType(BUSTER);
+        npParametersBuilder.useFirstCardBoost(false);
         npParametersBuilder.isCriticalStrike(true);
         npParametersBuilder.currentCardType(BUSTER).chainIndex(0).commandCardBuff(0);
         totalHitsNp = 0;
@@ -407,7 +412,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
 
         npParametersBuilder.defenderClass(LANCER)
                 .useUndeadNpCorrection(false)
-                .firstCardType(BUSTER)
+                .useFirstCardBoost(false)
                 .isCriticalStrike(true)
                 .npGenerationBuff(0.45)
                 .commandCardBuff(0);
@@ -439,7 +444,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
 
         npParametersBuilder.defenderClass(BEAST_III_R)
                 .useUndeadNpCorrection(false)
-                .firstCardType(ARTS)
+                .useFirstCardBoost(true)
                 .isCriticalStrike(true)
                 .npGenerationBuff(0.3)
                 .commandCardBuff(0.8);
@@ -457,7 +462,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
 
         npParametersBuilder.defenderClass(LANCER)
                 .useUndeadNpCorrection(false)
-                .firstCardType(ARTS)
+                .useFirstCardBoost(true)
                 .isCriticalStrike(true)
                 .npGenerationBuff(0.3)
                 .commandCardBuff(0.8);
@@ -477,7 +482,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
 
         // QAB & ARTS 30%
         double totalStars = 0;
-        critStarParamsBuilder.isCriticalStrike(false).firstCardType(QUICK);
+        critStarParamsBuilder.isCriticalStrike(false).useFirstCardBoost(true);
         critStarParamsBuilder.currentCardType(QUICK).chainIndex(0).commandCardBuff(0.1);
         for (int i = 0; i < 4; i += 1) {
             totalStars += calculateCritStar(critStarParamsBuilder.build(), false);
@@ -507,7 +512,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
 
         // AQB & ARTS 30% & crit & 50% critStarGen
         totalStars = 0;
-        critStarParamsBuilder.isCriticalStrike(true).firstCardType(ARTS).critStarGenerationBuff(0.5);
+        critStarParamsBuilder.isCriticalStrike(true).useFirstCardBoost(false).critStarGenerationBuff(0.5);
         critStarParamsBuilder.currentCardType(ARTS).chainIndex(0).commandCardBuff(0.3);
         for (int i = 0; i < 3; i += 1) {
             totalStars += calculateCritStar(critStarParamsBuilder.build(), false);

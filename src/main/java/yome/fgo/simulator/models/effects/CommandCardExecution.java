@@ -48,6 +48,7 @@ import static yome.fgo.simulator.utils.CommandCardTypeUtils.extraCardBuff;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.getCommandCardCritStarCorrection;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.getCommandCardDamageCorrection;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.getCommandCardNpCorrection;
+import static yome.fgo.simulator.utils.CommandCardTypeUtils.isBusterChain;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.modifierCap;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAdvantage;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAttackCorrection;
@@ -81,7 +82,8 @@ public class CommandCardExecution {
             final int chainIndex,
             final boolean isCriticalStrike,
             final CommandCardType firstCardType,
-            final boolean isTypeChain
+            final boolean isTypeChain,
+            final boolean isTriColorChain
     ) {
         final Combatant attacker = simulation.getAttacker();
         final Combatant defender = simulation.getDefender();
@@ -144,7 +146,8 @@ public class CommandCardExecution {
                 .chainIndex(chainIndex)
                 .isCriticalStrike(isCriticalStrike)
                 .isTypeChain(isTypeChain)
-                .firstCardType(firstCardType)
+                .useFirstCardBoost(firstCardType == BUSTER || isTriColorChain)
+                .isBusterChain(isBusterChain(isTypeChain, firstCardType))
                 .commandCardBuff(commandCardBuff)
                 .commandCardResist(commandCardResist)
                 .attackBuff(attackBuff)
@@ -166,7 +169,7 @@ public class CommandCardExecution {
                 .currentCardType(currentCardType)
                 .chainIndex(chainIndex)
                 .isCriticalStrike(isCriticalStrike)
-                .firstCardType(firstCardType)
+                .useFirstCardBoost(firstCardType == ARTS || isTriColorChain)
                 .commandCardBuff(commandCardBuff)
                 .commandCardResist(commandCardResist)
                 .npGenerationBuff(npGenerationBuff)
@@ -178,7 +181,7 @@ public class CommandCardExecution {
                 .currentCardType(currentCardType)
                 .chainIndex(chainIndex)
                 .isCriticalStrike(isCriticalStrike)
-                .firstCardType(firstCardType)
+                .useFirstCardBoost(firstCardType == QUICK || isTriColorChain)
                 .commandCardBuff(commandCardBuff)
                 .commandCardResist(commandCardResist)
                 .critStarGenerationBuff(critStarGenerationBuff)
@@ -297,14 +300,13 @@ public class CommandCardExecution {
         final double classAdvantage = damageParameters.classAdvantage;
         final double attributeAdvantage = getAttributeAdvantage(damageParameters.attackerAttribute, damageParameters.defenderAttribute);
         final double commandCardDamageCorrection = getCommandCardDamageCorrection(damageParameters.currentCardType, damageParameters.chainIndex);
-        final double busterStartDamageBoost = damageParameters.firstCardType == BUSTER ? 0.5 : 0;
+        final double busterStartDamageBoost = damageParameters.useFirstCardBoost ? 0.5 : 0;
         final int criticalStrikeDamageCorrection = damageParameters.isCriticalStrike ? 1 : 0;
         final double extraCardBuff = extraCardBuff(damageParameters.currentCardType, damageParameters.isTypeChain);
         final double busterChainDamageAddition = busterChainDamageAddition(
                 damageParameters.attack,
                 damageParameters.currentCardType,
-                damageParameters.isTypeChain,
-                damageParameters.firstCardType
+                damageParameters.isBusterChain
         );
 
         // capped buffs
@@ -334,7 +336,7 @@ public class CommandCardExecution {
 
     public static double calculateNpGain(final NpParameters npParameters, final boolean isOverkill) {
         final double commandCardNpCorrection = getCommandCardNpCorrection(npParameters.currentCardType, npParameters.chainIndex);
-        final double artsStartNpBoost = npParameters.firstCardType == ARTS ? 1 : 0;
+        final double artsStartNpBoost = npParameters.useFirstCardBoost ? 1 : 0;
         final double classNpCorrection = getClassNpCorrection(npParameters.defenderClass);
         final double undeadNpCorrection = npParameters.useUndeadNpCorrection ? 1.2 : 1;
         final int criticalStrikeNpCorrection = npParameters.isCriticalStrike ? 2 : 1;
@@ -354,7 +356,7 @@ public class CommandCardExecution {
 
     public static double calculateCritStar(final CriticalStarParameters critStarParams, final boolean isOverkill) {
         final double commandCardCritStarCorrection = getCommandCardCritStarCorrection(critStarParams.currentCardType, critStarParams.chainIndex);
-        final double quickStartCritStarBoost = critStarParams.firstCardType == QUICK ? 0.2 : 0;
+        final double quickStartCritStarBoost = critStarParams.useFirstCardBoost ? 0.2 : 0;
         final double classCritStarCorrection = getClassCritStarCorrection(critStarParams.defenderClass);
         final double criticalStrikeCritStarCorrection = critStarParams.isCriticalStrike ? 0.2 : 0;
         final double overkillCritStarBonus = isOverkill ? 0.3 : 0;
@@ -384,7 +386,8 @@ public class CommandCardExecution {
         private final CommandCardType currentCardType;
         private final int chainIndex;
         private final boolean isCriticalStrike;
-        private final CommandCardType firstCardType;
+        private final boolean useFirstCardBoost;
+        private final boolean isBusterChain;
         private final boolean isTypeChain;
         private final double commandCardBuff;
         private final double commandCardResist;
@@ -409,7 +412,7 @@ public class CommandCardExecution {
         private final CommandCardType currentCardType;
         private final int chainIndex;
         private final boolean isCriticalStrike;
-        private final CommandCardType firstCardType;
+        private final boolean useFirstCardBoost;
         private final double commandCardBuff;
         private final double commandCardResist;
         private final double npGenerationBuff;
@@ -423,7 +426,7 @@ public class CommandCardExecution {
         private final CommandCardType currentCardType;
         private final int chainIndex;
         private final boolean isCriticalStrike;
-        private final CommandCardType firstCardType;
+        private final boolean useFirstCardBoost;
         private final double commandCardBuff;
         private final double commandCardResist;
         private final double critStarGenerationBuff;

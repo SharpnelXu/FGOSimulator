@@ -2,6 +2,7 @@ package yome.fgo.simulator.models;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,10 +24,12 @@ import yome.fgo.simulator.models.mysticcodes.MysticCode;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
@@ -47,7 +50,7 @@ public class Simulation {
             .values(ImmutableList.of(0.2))
             .build();
     public static final Effect QUICK_CHAIN_EFFECT = CriticalStarChange.builder()
-            .values(ImmutableList.of(10))
+            .values(ImmutableList.of(20))
             .build();
 
     public Simulation(
@@ -254,6 +257,7 @@ public class Simulation {
         currentStars = 0;
         // calculate chain
         final boolean typeChain = isTypeChain(combatActions);
+        final boolean triColorChain = isTriColorChain(combatActions);
         final CommandCardType firstCardType = getFirstCardType(combatActions);
         if (typeChain && firstCardType != BUSTER && firstCardType != UNRECOGNIZED) {
             applyTypeChainEffect(firstCardType);
@@ -282,8 +286,9 @@ public class Simulation {
                             combatAction.commandCardIndex,
                             i,
                             combatAction.isCriticalStrike,
+                            firstCardType,
                             typeChain,
-                            firstCardType
+                            triColorChain
                     );
                     extraOvercharge = 0;
                 }
@@ -300,7 +305,12 @@ public class Simulation {
             final Servant servant = currentServants.get(combatActions.get(0).servantIndex);
             setAttacker(servant);
             if (canAttack(servant)) {
-                servant.activateExtraAttack(this, typeChain, firstCardType);
+                servant.activateExtraAttack(
+                        this,
+                        firstCardType,
+                        typeChain,
+                        triColorChain
+                );
             }
             removeDeadEnemies();
             unsetAttacker();
@@ -430,6 +440,25 @@ public class Simulation {
             }
         }
         return true;
+    }
+
+    @VisibleForTesting
+     boolean isTriColorChain(final List<CombatAction> combatActions) {
+        if (combatActions.size() != MAXIMUM_CARDS_PER_TURN) {
+            return false;
+        }
+        final Set<CommandCardType> triColorSet = new HashSet<>();
+        triColorSet.add(BUSTER);
+        triColorSet.add(ARTS);
+        triColorSet.add(QUICK);
+
+        for (final CombatAction combatAction : combatActions) {
+            if (!currentServants.get(combatAction.servantIndex).isImmobilized()) {
+                triColorSet.remove(getCommandCardType(combatAction));
+            }
+        }
+
+        return triColorSet.isEmpty();
     }
 
     @VisibleForTesting

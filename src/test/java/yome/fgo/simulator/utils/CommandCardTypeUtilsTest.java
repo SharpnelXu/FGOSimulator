@@ -106,8 +106,8 @@ public class CommandCardTypeUtilsTest {
 
     @Test
     public void testBusterChainDamageAddition() {
-        assertEquals(2000, busterChainDamageAddition(10000, BUSTER, true, BUSTER), 0.000001);
-        assertEquals(0, busterChainDamageAddition(10000, EXTRA, true, BUSTER));
+        assertEquals(2000, busterChainDamageAddition(10000, BUSTER, true), 0.000001);
+        assertEquals(0, busterChainDamageAddition(10000, EXTRA, true));
     }
 
     @Test

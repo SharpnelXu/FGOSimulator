@@ -368,8 +368,9 @@ public class Servant extends Combatant {
             final int commandCardIndex,
             final int chainIndex,
             final boolean isCriticalStrike,
+            final CommandCardType firstCardType,
             final boolean isTypeChain,
-            final CommandCardType firstCardType
+            final boolean isTriColorChain
     ) {
         simulation.setActivator(this);
         simulation.setAttacker(this);
@@ -377,7 +378,7 @@ public class Servant extends Combatant {
         simulation.setCurrentCommandCard(getCommandCard(commandCardIndex));
         simulation.setCriticalStrike(isCriticalStrike);
 
-        CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain);
+        CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain, isTriColorChain);
 
         simulation.setCriticalStrike(false);
         simulation.unsetCurrentCommandCard();
@@ -388,8 +389,9 @@ public class Servant extends Combatant {
 
     public void activateExtraAttack(
             final Simulation simulation,
+            final CommandCardType firstCardType,
             final boolean isTypeChain,
-            final CommandCardType firstCardType
+            final boolean isTriColorChain
     ) {
         simulation.setActivator(this);
         simulation.setAttacker(this);
@@ -397,7 +399,7 @@ public class Servant extends Combatant {
         simulation.setCurrentCommandCard(extraCommandCard);
         simulation.setCriticalStrike(false);
 
-        CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain);
+        CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain, isTriColorChain);
 
         simulation.unsetCurrentCommandCard();
         simulation.unsetDefender();

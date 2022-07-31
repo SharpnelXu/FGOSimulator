@@ -140,10 +140,9 @@ public class CommandCardTypeUtils {
     public static double busterChainDamageAddition(
             final int attack,
             final CommandCardType currentCardType,
-            final boolean isTypeChain,
-            final CommandCardType firstCardType
+            final boolean isBusterChain
     ) {
-        if (isBusterChain(isTypeChain, firstCardType) && currentCardType != EXTRA) {
+        if (isBusterChain && currentCardType != EXTRA) {
             return attack * 0.2;
         } else {
             return 0;

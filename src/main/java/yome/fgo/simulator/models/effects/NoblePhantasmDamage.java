@@ -199,7 +199,7 @@ public class NoblePhantasmDamage extends Effect {
                     .currentCardType(currentCardType)
                     .chainIndex(0)
                     .isCriticalStrike(false)
-                    .firstCardType(ANY) // works as long as not ARTS
+                    .useFirstCardBoost(false)
                     .commandCardBuff(commandCardBuff)
                     .commandCardResist(commandCardResist)
                     .npGenerationBuff(npGenerationBuff)
@@ -211,7 +211,7 @@ public class NoblePhantasmDamage extends Effect {
                     .currentCardType(currentCardType)
                     .chainIndex(0)
                     .isCriticalStrike(false)
-                    .firstCardType(ANY) // works as long as not QUICK
+                    .useFirstCardBoost(false)
                     .commandCardBuff(commandCardBuff)
                     .commandCardResist(commandCardResist)
                     .critStarGenerationBuff(critStarGenerationBuff)

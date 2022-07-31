@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
+import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.UNRECOGNIZED;
 import static yome.fgo.simulator.models.Simulation.getNextNonNullTargetIndex;
 import static yome.fgo.simulator.models.Simulation.isBraveChain;
@@ -238,7 +239,7 @@ public class SimulationTest {
         final CombatAction kamaBuster = createCommandCardAction(0, 4, true);
         simNp3TClear.executeCombatActions(ImmutableList.of(kamaBuster, kamaArts, kamaQuick));
 
-        assertEquals(0.6832, kama.getCurrentNp());
+        assertEquals(0.8817, kama.getCurrentNp());
     }
 
     @Test
@@ -282,6 +283,31 @@ public class SimulationTest {
 
         artsServant2.addBuff(PermanentSleep.builder().build());
         assertFalse(simulation.isTypeChain(arts));
+    }
+
+    @Test
+    public void testIsTriColorChain() {
+        final Servant busterServant = new Servant("buster");
+        busterServant.setCommandCards(ImmutableList.of(new CommandCard(BUSTER, ImmutableList.of(), 0.5, 39)));
+        final Servant artsServant = new Servant("arts");
+        artsServant.setCommandCards(ImmutableList.of(new CommandCard(ARTS, ImmutableList.of(), 0.5, 39)));
+        final Servant quickServant = new Servant("quick");
+        quickServant.setCommandCards(ImmutableList.of(new CommandCard(QUICK, ImmutableList.of(), 0.5, 39)));
+        final List<Servant> servants = ImmutableList.of(busterServant, artsServant, quickServant);
+        final Simulation simulation = new Simulation();
+        simulation.setCurrentServants(servants);
+
+        assertFalse(simulation.isTriColorChain(COMMAND_CARD_0_1_0));
+
+        final ImmutableList<CombatAction> qab = ImmutableList.of(
+                createCommandCardAction(0, 0, false),
+                createCommandCardAction(2, 0, false),
+                createCommandCardAction(1, 0, false)
+        );
+        assertTrue(simulation.isTriColorChain(qab));
+
+        quickServant.addBuff(PermanentSleep.builder().build());
+        assertFalse(simulation.isTriColorChain(qab));
     }
 
     @Test
