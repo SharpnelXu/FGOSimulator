@@ -1,0 +1,61 @@
+{
+  "id": "【07】【90+】刻耳柏洛斯·狩猎 典位+级",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "冰雪咒书",
+      "hpBars": [80871],
+      "combatantDataOverride": {
+        "id": "冰雪咒书",
+        "rarity": 3,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "deathRate": 0.5
+      },
+      "enemyCategories": "书/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "疾风咒书",
+      "hpBars": [99633],
+      "combatantDataOverride": {
+        "id": "疾风咒书",
+        "rarity": 3,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "deathRate": 0.5
+      },
+      "enemyCategories": "书/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "冰雪咒书",
+      "hpBars": [159780],
+      "combatantDataOverride": {
+        "id": "冰雪咒书",
+        "rarity": 3,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "deathRate": 0.5
+      },
+      "enemyCategories": "书/"
+    }, {
+      "enemyBaseId": "刻耳柏洛斯",
+      "hpBars": [309813],
+      "combatantDataOverride": {
+        "id": "刻耳柏洛斯",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC", "WILD_BEAST", "MASSIVE"],
+        "deathRate": 0.01
+      },
+      "enemyCategories": "刻耳柏洛斯/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE"]
+  }]
+}

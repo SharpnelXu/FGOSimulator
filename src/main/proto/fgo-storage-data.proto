@@ -59,6 +59,8 @@ enum Traits {
   WEAK_TO_ENUMA_ELISH = 21;
   WILD_BEAST = 22;
   VENGEANCE = 55;
+
+  YUMEIREN = 57;
 }
 
 enum FateClass {

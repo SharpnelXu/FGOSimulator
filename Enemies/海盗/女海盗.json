@@ -1,0 +1,9 @@
+{
+  "id": "女海盗",
+  "rarity": 1,
+  "fateClass": "RIDER",
+  "gender": "FEMALE",
+  "attribute": "MAN",
+  "traits": ["HUMAN", "HUMANOID"],
+  "deathRate": 1.0
+}

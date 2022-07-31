@@ -1,0 +1,85 @@
+{
+  "id": "【05】【90+】凯尔派·狩猎 典位+级",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "女海盗",
+      "hpBars": [37137],
+      "combatantDataOverride": {
+        "id": "女海盗",
+        "rarity": 1,
+        "fateClass": "SABER",
+        "gender": "FEMALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "海盗/"
+    }, {
+      "enemyBaseId": "女海盗",
+      "hpBars": [51088],
+      "combatantDataOverride": {
+        "id": "女海盗",
+        "rarity": 1,
+        "fateClass": "SABER",
+        "gender": "FEMALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "海盗/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "FOREST"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "女海盗",
+      "hpBars": [60788],
+      "combatantDataOverride": {
+        "id": "女海盗",
+        "rarity": 1,
+        "fateClass": "SABER",
+        "gender": "FEMALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "海盗/"
+    }, {
+      "enemyBaseId": "女海盗",
+      "hpBars": [135189],
+      "combatantDataOverride": {
+        "id": "女海盗",
+        "rarity": 1,
+        "fateClass": "SABER",
+        "gender": "FEMALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "海盗/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "FOREST"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "女海盗",
+      "hpBars": [109970],
+      "combatantDataOverride": {
+        "id": "女海盗",
+        "rarity": 1,
+        "fateClass": "SABER",
+        "gender": "FEMALE",
+        "attribute": "MAN",
+        "traits": ["HUMAN", "HUMANOID"],
+        "deathRate": 1.0
+      },
+      "enemyCategories": "海盗/"
+    }, {
+      "enemyBaseId": "凯尔派",
+      "hpBars": [256581],
+      "enemyCategories": "双角兽/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "FOREST"]
+  }]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "【06】【90+】噬魂者·狩猎 典位+级",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "机械化步兵（中）",
+      "hpBars": [55809],
+      "enemyCategories": "机械化步兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "机械化步兵（中）",
+      "hpBars": [67888],
+      "enemyCategories": "机械化步兵/"
+    }, {
+      "enemyBaseId": "机械化步兵（小）",
+      "hpBars": [54899],
+      "enemyCategories": "机械化步兵/"
+    }, {
+      "enemyBaseId": "机械化步兵（中）",
+      "hpBars": [69722],
+      "enemyCategories": "机械化步兵/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "机械化步兵（小）",
+      "hpBars": [106631],
+      "enemyCategories": "机械化步兵/"
+    }, {
+      "enemyBaseId": "星之兽",
+      "hpBars": [296107],
+      "combatantDataOverride": {
+        "id": "星之兽",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.1
+      },
+      "enemyCategories": "噬魂者/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "SHORE", "CITY"]
+  }]
+}

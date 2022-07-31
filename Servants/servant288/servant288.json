@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["DEMONIC", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DEMONIC", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "YUMEIREN"],
       "deathRate": 0.24
     },
     "defenseNpRate": 0.04,

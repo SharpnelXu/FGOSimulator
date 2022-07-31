@@ -1,0 +1,9 @@
+{
+  "id": "机械化步兵（小）",
+  "rarity": 2,
+  "fateClass": "ARCHER",
+  "gender": "MALE",
+  "attribute": "MAN",
+  "traits": ["HUMAN", "HUMANOID", "MECHANICAL"],
+  "deathRate": 0.8
+}
