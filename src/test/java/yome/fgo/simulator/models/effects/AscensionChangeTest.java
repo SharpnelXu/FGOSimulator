@@ -41,7 +41,7 @@ public class AscensionChangeTest {
         assertEquals(16, kama2.getBuffs().size());
         assertEquals(14, kama3.getBuffs().size());
 
-        kama2.addBuff(SureHit.builder().activator(kama2).isPassive(true).build());
+        kama2.addBuff(SureHit.builder().activatorHash(kama2.hashCode()).isPassive(true).build());
         assertEquals(17, kama2.getBuffs().size());
 
         simulation.setActivator(kama2);

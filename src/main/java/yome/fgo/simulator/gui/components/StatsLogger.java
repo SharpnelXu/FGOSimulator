@@ -204,6 +204,10 @@ public class StatsLogger extends VBox {
         appendLogEntry(ACTION, message);
     }
 
+    public void logRevertAction() {
+        appendLogEntry(ACTION, getTranslation(APPLICATION_SECTION, "Reverting previous action"));
+    }
+
     private void appendLogEntry(final LogLevel logLevel, final String message) {
         final LogEntry logEntry = new LogEntry(logLevel, message);
         logEntries.add(logEntry);

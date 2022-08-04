@@ -99,4 +99,14 @@ public class ActiveSkill {
             currentCoolDown = 0;
         }
     }
+
+    private ActiveSkill(final ActiveSkill other) {
+        this.activeSkillWrapperList = new ArrayList<>();
+        this.activeSkillWrapperList.addAll(other.activeSkillWrapperList);
+        this.currentCoolDown = other.currentCoolDown;
+    }
+
+    public ActiveSkill makeCopy() {
+        return new ActiveSkill(this);
+    }
 }

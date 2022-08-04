@@ -67,4 +67,18 @@ public class Stage {
     public Combatant getNextEnemy() {
         return enemies.poll();
     }
+
+    private Stage(final Stage other) {
+        this.enemies = new LinkedList<>();
+        for (final Combatant combatant : other.enemies) {
+            this.enemies.add(combatant.makeCopy());
+        }
+        this.maximumEnemiesOnScreen = other.maximumEnemiesOnScreen;
+        this.effects = new ArrayList<>(other.effects);
+        this.traits = new ArrayList<>(other.traits);
+    }
+
+    public Stage makeCopy() {
+        return new Stage(this);
+    }
 }

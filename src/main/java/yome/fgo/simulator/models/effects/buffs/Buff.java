@@ -4,8 +4,8 @@ import com.google.common.collect.Lists;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
+import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.conditions.Condition;
 
 import java.text.NumberFormat;
@@ -26,30 +26,45 @@ public abstract class Buff {
     protected int numTurnsActive = -1;
     @Builder.Default
     protected int numTimesActive = -1;
+
+    private boolean isApplied; // for correcting decreasing numTimesActive
     @Builder.Default
     protected int turnPassed = 0;
+
+    private final BuffData buffData;
+    private final int buffLevel;
 
     @Builder.Default
     private final Condition condition = ALWAYS;
 
     protected final boolean forceStackable;
 
-    private boolean irremovable;
-
-    // used to correctly remove passive & append skills during ascension transition
-    private boolean isPassive;
-
-    private String iconName;
-
-    private Combatant activator;
+    private final String iconName;
 
     @Builder.Default
     private final double probability = 1;
 
-    private boolean isApplied; // for correcting decreasing numTimesActive
+    // these should be final, but I'm too lazy to change the logic to include them in BuffFactory
+    private boolean irremovable;
+    private boolean isPassive; // used to correctly remove passive & append skills during ascension transition
+    private int activatorHash;
 
     @Builder.Default
     protected final List<String> buffTraits = Lists.newArrayList();
+
+    public Buff makeCopy() {
+        final Buff copy = BuffFactory.buildBuff(this.buffData, this.buffLevel);
+
+        copy.numTurnsActive = this.numTurnsActive;
+        copy.numTimesActive = this.numTimesActive;
+        copy.isApplied = this.isApplied;
+        copy.turnPassed = this.turnPassed;
+        copy.irremovable = this.irremovable;
+        copy.isPassive = this.isPassive;
+        copy.activatorHash = this.activatorHash;
+        copy.buffTraits.addAll(this.buffTraits);
+        return copy;
+    }
 
     @Override
     public String toString() {
@@ -167,7 +182,7 @@ public abstract class Buff {
         this.isPassive = isPassive;
     }
 
-    public void setActivator(final Combatant activator) {
-        this.activator = activator;
+    public void setActivatorHash(final int activatorHash) {
+        this.activatorHash = activatorHash;
     }
 }

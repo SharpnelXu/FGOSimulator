@@ -414,6 +414,8 @@ public class BuffFactory {
         builder.irremovable(buffData.getIrremovable());
         builder.forceStackable(buffData.getForceStackable());
         builder.iconName(buffData.getBuffIcon());
+        builder.buffData(buffData);
+        builder.buffLevel(level);
 
         final Buff buff =  builder.build();
         if (buffData.getHasCustomTraits()) {

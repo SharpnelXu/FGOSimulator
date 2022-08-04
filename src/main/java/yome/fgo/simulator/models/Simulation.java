@@ -2,7 +2,6 @@ package yome.fgo.simulator.models;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -231,10 +230,14 @@ public class Simulation {
     }
 
     public void activateServantSkill(final int servantIndex, final int activeSkillIndex) {
+        takeSnapshot();
+
         currentServants.get(servantIndex).activateActiveSkill(this, activeSkillIndex);
     }
 
     public void activateMysticCodeSkill(final int skillIndex) {
+        takeSnapshot();
+
         setActivator(mysticCodeActivator);
         if (statsLogger != null) {
             statsLogger.logActivateActiveSkill(mysticCodeActivator.getId(), skillIndex);
@@ -254,6 +257,8 @@ public class Simulation {
     }
 
     public void executeCombatActions(final List<CombatAction> combatActions) {
+        takeSnapshot();
+
         currentStars = 0;
         // calculate chain
         final boolean typeChain = isTypeChain(combatActions);
@@ -644,6 +649,8 @@ public class Simulation {
     }
 
     public void activateCustomEffect(final EffectData effectData) {
+        takeSnapshot();
+
         setActivator(nullSourceSkillActivator);
 
         EffectFactory.buildEffect(effectData, 1).apply(this, 1);
@@ -651,5 +658,47 @@ public class Simulation {
         checkBuffStatus();
 
         unsetActivator();
+    }
+
+    private Stack<Snapshot> snapshots = new Stack<>();
+
+    public void takeSnapshot() {
+        snapshots.push(new Snapshot(this));
+    }
+
+    /**
+     * @return whether there's more snapshots
+     */
+    public boolean fromSnapshot() {
+        if (snapshots.isEmpty()) {
+            return false;
+        }
+
+        if (getStatsLogger() != null) {
+            getStatsLogger().logRevertAction();
+        }
+
+        final Snapshot snapshot = snapshots.pop();
+        this.level = snapshot.getLevel();
+
+        this.currentStage = snapshot.getCurrentStage();
+        this.currentTurn = snapshot.getCurrentTurn();
+
+        this.currentEnemies = snapshot.getCurrentEnemies();
+        this.backupEnemies = snapshot.getBackupEnemies();
+
+        this.currentServants = snapshot.getCurrentServants();
+        this.backupServants = snapshot.getBackupServants();
+
+        this.mysticCode = snapshot.getMysticCode();
+
+        this.currentStars = snapshot.getCurrentStars();
+        this.currentAllyTargetIndex = snapshot.getCurrentAllyTargetIndex();
+        this.currentEnemyTargetIndex = snapshot.getCurrentEnemyTargetIndex();
+
+        this.fixedRandom = snapshot.getFixedRandom();
+        this.probabilityThreshold = snapshot.getProbabilityThreshold();
+
+        return !snapshots.isEmpty();
     }
 }

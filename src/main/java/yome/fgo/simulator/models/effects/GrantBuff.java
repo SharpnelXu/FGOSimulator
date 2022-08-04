@@ -50,7 +50,7 @@ public class GrantBuff extends Effect {
                     buff.setIsPassive(true);
 
                     if (simulation.isActivatingServantPassiveEffects()) {
-                        buff.setActivator(simulation.getActivator());
+                        buff.setActivatorHash(simulation.getActivator().hashCode());
                     }
                 }
 

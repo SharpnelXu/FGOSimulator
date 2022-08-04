@@ -2,6 +2,7 @@ package yome.fgo.simulator.models.combatants;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import yome.fgo.data.proto.FgoStorageData.Alignment;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
@@ -37,7 +38,6 @@ import yome.fgo.simulator.models.effects.buffs.TriggerOnGutsEffect;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,7 +62,7 @@ public class Combatant {
     protected String id;
     protected int currentHp;
     protected List<Integer> hpBars;
-    protected List<Buff> buffs = new ArrayList<>();
+    protected List<Buff> buffs = Lists.newArrayList();
 
     private boolean receivedInstantDeath;
     protected boolean isAlly;
@@ -92,7 +92,7 @@ public class Combatant {
         }
 
         this.id = id;
-        this.hpBars = new ArrayList<>(hpBars);
+        this.hpBars = Lists.newArrayList(hpBars);
         this.currentHp = this.hpBars.get(this.currentHpBarIndex);
     }
 
@@ -505,7 +505,7 @@ public class Combatant {
     public void clearPassiveBuff(final Combatant activator) {
         for (int j = buffs.size() - 1; j >= 0; j -= 1) {
             final Buff buff = buffs.get(j);
-            if (buff.isPassive() && buff.getActivator() == activator) {
+            if (buff.isPassive() && buff.getActivatorHash() == activator.hashCode()) {
                 buffs.remove(j);
             }
         }
@@ -515,7 +515,7 @@ public class Combatant {
             final Simulation simulation,
             final Class<? extends EffectActivatingBuff> buffClass
     ) {
-        final List<EffectActivatingBuff> buffsToActivate = new ArrayList<>();
+        final List<EffectActivatingBuff> buffsToActivate = Lists.newArrayList();
         for (final Buff buff : buffs) {
             if (buffClass.isInstance(buff)) {
                 buffsToActivate.add((EffectActivatingBuff) buff);
@@ -643,5 +643,27 @@ public class Combatant {
 
     public int getRarity() {
         return combatantData.getRarity();
+    }
+
+    protected Combatant(final Combatant other) {
+        this.maxNpGauge = other.maxNpGauge;
+        this.currentNpGauge = other.currentNpGauge;
+        this.currentHpBarIndex = other.currentHpBarIndex;
+        this.cumulativeTurnDamage = other.cumulativeTurnDamage;
+        this.combatantData = other.combatantData;
+        this.enemyData = other.enemyData;
+        this.id = other.id;
+        this.currentHp = other.currentHp;
+        this.hpBars = Lists.newArrayList(other.hpBars);
+        for (final Buff buff : other.buffs) {
+            this.buffs.add(buff.makeCopy());
+        }
+        this.receivedInstantDeath = other.receivedInstantDeath;
+        this.isAlly = other.isAlly;
+
+    }
+
+    public Combatant makeCopy() {
+        return new Combatant(this);
     }
 }

@@ -43,4 +43,17 @@ public class Level {
     public Stage getStage(final int currentStage) {
         return stages.get(currentStage - 1);
     }
+
+    private Level(final Level other) {
+        this.name = other.name;
+        this.stages = new ArrayList<>();
+        for (final Stage stage : other.stages) {
+            this.stages.add(stage.makeCopy());
+        }
+        this.effects = new ArrayList<>(other.effects);
+    }
+
+    public Level makeCopy() {
+        return new Level(this);
+    }
 }

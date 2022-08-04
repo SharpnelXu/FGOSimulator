@@ -40,6 +40,8 @@ public class MiscDisplay extends VBox {
     private final Label currentTurnCountLabel;
     private final Label currentStageCountLabel;
     private final Label enemyCountLabel;
+    private final Slider probabilityThresholdSlider;
+    private final Slider randomSlider;
 
     public MiscDisplay(final SimulationWindow simulationWindow) {
         super();
@@ -126,7 +128,7 @@ public class MiscDisplay extends VBox {
         probabilityLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         probabilityLabelHBox.setSpacing(10);
         probabilityLabelHBox.getChildren().addAll(probabilityLabel, probabilityValueLabel);
-        final Slider probabilityThresholdSlider = new Slider();
+        probabilityThresholdSlider = new Slider();
         probabilityThresholdSlider.setMin(0);
         probabilityThresholdSlider.setMax(10);
         probabilityThresholdSlider.setBlockIncrement(1);
@@ -152,7 +154,7 @@ public class MiscDisplay extends VBox {
         randomLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         randomLabelHBox.setSpacing(10);
         randomLabelHBox.getChildren().addAll(randomLabel, randomValueLabel);
-        final Slider randomSlider = new Slider();
+        randomSlider = new Slider();
         randomSlider.setMin(0.9);
         randomSlider.setMax(1.1);
         randomSlider.setBlockIncrement(0.001);
@@ -199,6 +201,12 @@ public class MiscDisplay extends VBox {
             }
         });
 
+        final Button revertActionButton = new Button("Revert");
+        revertActionButton.setOnAction(e -> {
+            this.simulationWindow.getSimulation().fromSnapshot();
+            this.simulationWindow.render();
+        });
+
         final Label logLevelChangeLabel = new Label(getTranslation(APPLICATION_SECTION, "Log Level"));
         final ChoiceBox<LogLevel> logLevelChoiceBox = new ChoiceBox<>();
         logLevelChoiceBox.getItems().addAll(LogLevel.DEBUG, LogLevel.EFFECT, LogLevel.ACTION);
@@ -221,6 +229,7 @@ public class MiscDisplay extends VBox {
                 randomSlider,
                 executeButton,
                 activateEffectButton,
+                revertActionButton,
                 logLevelHBox
         );
     }
@@ -260,6 +269,8 @@ public class MiscDisplay extends VBox {
         currentTurnCountLabel.setText(Integer.toString(simulation.getCurrentTurn()));
         currentStageCountLabel.setText(String.format("%d/%d", simulation.getCurrentStage(), simulation.getLevel().getStages().size()));
         enemyCountLabel.setText(Integer.toString(simulation.getBackupEnemies().size()));
+        probabilityThresholdSlider.setValue(simulation.getProbabilityThreshold() * 10);
+        randomSlider.setValue(simulation.getFixedRandom());
     }
 
     private void activateSkill(final int skillIndex) {

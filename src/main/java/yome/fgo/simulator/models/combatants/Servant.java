@@ -2,6 +2,7 @@ package yome.fgo.simulator.models.combatants;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import yome.fgo.data.proto.FgoStorageData.AppendSkillData;
@@ -53,19 +54,18 @@ public class Servant extends Combatant {
     private int noblePhantasmLevel;
     private int bond;
 
-    private List<CommandCard> commandCards;
+    private List<CommandCard> commandCards = new ArrayList<>();
     private CommandCard extraCommandCard;
 
     private NoblePhantasm noblePhantasm;
-    private List<ActiveSkill> activeSkills;
-    private List<PassiveSkill> passiveSkills;
-    private List<AppendSkill> appendSkills;
+    private List<ActiveSkill> activeSkills = new ArrayList<>();
+    private List<PassiveSkill> passiveSkills = new ArrayList<>();
+    private List<AppendSkill> appendSkills = new ArrayList<>();
 
     private CraftEssence craftEssence;
 
     private double currentNp;
 
-    // for testing
     public Servant() {
         this.isAlly = true;
     }
@@ -74,10 +74,6 @@ public class Servant extends Combatant {
     public Servant(final String id) {
         super(id);
         this.isAlly = true;
-        this.commandCards = ImmutableList.of();
-        this.activeSkills = ImmutableList.of();
-        this.appendSkills = ImmutableList.of();
-        this.passiveSkills = ImmutableList.of();
     }
 
     // for testing
@@ -524,5 +520,35 @@ public class Servant extends Combatant {
         for (final ActiveSkill activeSkill : activeSkills) {
             activeSkill.decreaseCoolDown(decrease);
         }
+    }
+
+    private Servant(final Servant other) {
+        super(other);
+
+        this.servantData = other.servantData;
+        this.servantOption = other.servantOption;
+        this.attack = other.attack;
+        this.attackStatusUp = other.attackStatusUp;
+        this.hpStatusUp = other.hpStatusUp;
+        this.ascension = other.ascension;
+        this.servantLevel = other.servantLevel;
+        this.noblePhantasmLevel = other.noblePhantasmLevel;
+        this.bond = other.bond;
+        this.commandCards = Lists.newArrayList(other.commandCards);
+        this.extraCommandCard = other.extraCommandCard;
+        this.noblePhantasm = other.noblePhantasm;
+        this.activeSkills = Lists.newArrayList();
+        for (final ActiveSkill activeSkill : other.activeSkills) {
+            this.activeSkills.add(activeSkill.makeCopy());
+        }
+        this.passiveSkills = Lists.newArrayList(other.passiveSkills);
+        this.appendSkills = Lists.newArrayList(other.appendSkills);
+        this.craftEssence = other.craftEssence;
+        this.currentNp = other.currentNp;
+    }
+
+    @Override
+    public Servant makeCopy() {
+        return new Servant(this);
     }
 }
