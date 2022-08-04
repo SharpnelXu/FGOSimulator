@@ -201,7 +201,7 @@ public class MiscDisplay extends VBox {
             }
         });
 
-        final Button revertActionButton = new Button("Revert");
+        final Button revertActionButton = new Button(getTranslation(APPLICATION_SECTION, "Revert"));
         revertActionButton.setOnAction(e -> {
             this.simulationWindow.getSimulation().fromSnapshot();
             this.simulationWindow.render();
