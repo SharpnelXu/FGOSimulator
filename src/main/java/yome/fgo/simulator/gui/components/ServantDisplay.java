@@ -227,9 +227,7 @@ public class ServantDisplay extends VBox {
 
         buffsPane.getChildren().clear();
         final List<Buff> buffs = servant.getBuffs();
-        final int maxDisplay = Math.min(buffs.size(), 30);
-        for (int i = 0; i < maxDisplay; i += 1) {
-            final Buff buff = buffs.get(i);
+        for (final Buff buff : buffs) {
             final ImageView buffImage = new ImageView();
             buffImage.setFitHeight(20);
             buffImage.setFitWidth(20);

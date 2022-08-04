@@ -46,12 +46,9 @@ public class EnemyDisplay extends VBox {
         enemyTarget = new RadioButton();
         enemyTarget.setToggleGroup(toggleGroup);
         enemyTarget.setOnAction(e -> {
-            if (enemyTarget.isSelected()) {
-                this.simulationWindow.getSimulation().setCurrentEnemyTargetIndex(enemyIndex);
-                enemyTarget.setText(getTranslation(APPLICATION_SECTION, "asTarget"));
-            } else {
-                enemyTarget.setText(null);
-            }
+            this.simulationWindow.getSimulation().setCurrentAllyTargetIndex(enemyIndex);
+            enemyTarget.setText(getTranslation(APPLICATION_SECTION, "asTarget"));
+            this.simulationWindow.targetSync();
         });
 
         getChildren().add(enemyTarget);
@@ -67,7 +64,11 @@ public class EnemyDisplay extends VBox {
         AnchorPane.setRightAnchor(enemyImage, 0.0);
         imgAnchor.getChildren().add(enemyImage);
 
-        getChildren().add(imgAnchor);
+        final Button enemySelectButton = new Button();
+        enemySelectButton.setGraphic(imgAnchor);
+        enemySelectButton.setOnAction(e -> enemyTarget.fire());
+
+        getChildren().add(enemySelectButton);
 
         final Button viewBuffs = new Button(getTranslation(APPLICATION_SECTION, "View Buffs"));
         viewBuffs.setOnAction(e -> this.simulationWindow.viewEnemyBuffs(enemyIndex));
@@ -141,6 +142,12 @@ public class EnemyDisplay extends VBox {
     }
 
     public void setSelected() {
-        enemyTarget.setSelected(true);
+        enemyTarget.fire();
+    }
+
+    public void targetSync() {
+        if (!enemyTarget.isSelected()) {
+            enemyTarget.setText(null);
+        }
     }
 }

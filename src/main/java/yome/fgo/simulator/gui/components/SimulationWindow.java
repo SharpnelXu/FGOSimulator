@@ -254,6 +254,10 @@ public class SimulationWindow {
         for (final ServantDisplay servantDisplay : servantDisplays) {
             servantDisplay.targetSync();
         }
+
+        for (final Node node : enemyGrid.getChildren()) {
+            ((EnemyDisplay) node).targetSync();
+        }
     }
 
     public Simulation getSimulation() {
