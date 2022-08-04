@@ -50,20 +50,6 @@
             "values": [0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.15],
             "buffIcon": "attackUp"
           }]
-        }, {
-          "type": "GrantBuff",
-          "target": "SELF",
-          "applyCondition": {
-            "type": "TargetsHaveClass",
-            "value": "BERSERKER",
-            "target": "SELF"
-          },
-          "buffData": [{
-            "type": "AttackBuff",
-            "numTurnsActive": 3,
-            "values": [0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.35],
-            "buffIcon": "attackUp"
-          }]
         }],
         "iconName": "attackUp"
       }]
@@ -81,20 +67,6 @@
               "value": "Stun"
             },
             "values": [0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.15],
-            "buffIcon": "buffChanceUp"
-          }]
-        }, {
-          "type": "GrantBuff",
-          "target": "SELF",
-          "applyCondition": {
-            "type": "TargetsHaveClass",
-            "value": "BERSERKER",
-            "target": "SELF"
-          },
-          "buffData": [{
-            "type": "DebuffChanceBuff",
-            "numTimesActive": 1,
-            "values": [0.85, 0.9, 0.95, 1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.35],
             "buffIcon": "buffChanceUp"
           }]
         }, {
@@ -121,20 +93,23 @@
             "values": [0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.15],
             "buffIcon": "critDamageUp"
           }]
-        }, {
+        }],
+        "iconName": "critDamageUp"
+      }, {
+        "baseCoolDown": 7,
+        "effects": [{
           "type": "GrantBuff",
           "target": "SELF",
-          "applyCondition": {
-            "type": "TargetsHaveClass",
-            "value": "BERSERKER",
-            "target": "SELF"
-          },
           "buffData": [{
             "type": "CriticalDamageBuff",
             "numTurnsActive": 3,
-            "values": [0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.35],
+            "values": [0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.15],
             "buffIcon": "critDamageUp"
           }]
+        }, {
+          "type": "NpChange",
+          "target": "SELF",
+          "values": [0.5, 0.53, 0.56, 0.59, 0.62, 0.65, 0.68, 0.71, 0.74, 0.8]
         }],
         "iconName": "critDamageUp"
       }]
@@ -885,11 +860,6 @@
         }, {
           "type": "GrantBuff",
           "target": "SELF",
-          "applyCondition": {
-            "type": "TargetsHaveClass",
-            "value": "BERSERKER",
-            "target": "SELF"
-          },
           "buffData": [{
             "type": "AttackBuff",
             "numTurnsActive": 3,
@@ -918,11 +888,6 @@
         }, {
           "type": "GrantBuff",
           "target": "SELF",
-          "applyCondition": {
-            "type": "TargetsHaveClass",
-            "value": "BERSERKER",
-            "target": "SELF"
-          },
           "buffData": [{
             "type": "DebuffChanceBuff",
             "numTimesActive": 1,
@@ -956,11 +921,28 @@
         }, {
           "type": "GrantBuff",
           "target": "SELF",
-          "applyCondition": {
-            "type": "TargetsHaveClass",
-            "value": "BERSERKER",
-            "target": "SELF"
-          },
+          "buffData": [{
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.25, 0.26, 0.27, 0.28, 0.29, 0.3, 0.31, 0.32, 0.33, 0.35],
+            "buffIcon": "critDamageUp"
+          }]
+        }],
+        "iconName": "critDamageUp"
+      }, {
+        "baseCoolDown": 7,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.11, 0.12, 0.13, 0.15],
+            "buffIcon": "critDamageUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
           "buffData": [{
             "type": "CriticalDamageBuff",
             "numTurnsActive": 3,
