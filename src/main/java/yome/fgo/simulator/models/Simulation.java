@@ -281,10 +281,6 @@ public class Simulation {
                     }
                     servant.activateNoblePhantasm(this, extraOvercharge);
                     extraOvercharge += 1;
-
-                    for (final Combatant combatant : getAliveEnemies()) {
-                        combatant.clearCumulativeTurnDamage();
-                    }
                 } else {
                     servant.activateCommandCard(
                             this,

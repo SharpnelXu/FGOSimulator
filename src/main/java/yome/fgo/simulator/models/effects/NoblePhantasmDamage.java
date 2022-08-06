@@ -295,6 +295,9 @@ public class NoblePhantasmDamage extends Effect {
                 }
             }
 
+            // overkill bug
+            defender.addCumulativeTurnDamage(totalDamage - remainingDamage);
+
             simulation.unsetDefender();
         }
 

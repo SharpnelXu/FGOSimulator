@@ -303,7 +303,7 @@ public class Combatant {
     }
 
     public boolean isBuggedOverkill() {
-        return getCumulativeTurnDamage() > getCurrentHp() && !hasNextHpBar();
+        return getCumulativeTurnDamage() > getCurrentHp();
     }
 
     public void addCumulativeTurnDamage(final int damage) {

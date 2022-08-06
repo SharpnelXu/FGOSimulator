@@ -1,29 +1,17 @@
 {
-  "id": "craftEssence1095",
+  "id": "craftEssence309",
   "effects": [{
     "type": "GrantBuff",
     "target": "SELF",
     "buffData": [{
-      "type": "NpDamageBuff",
-      "values": [0.1, 0.15],
-      "buffIcon": "npDamageUp"
+      "type": "NpGenerationBuff",
+      "values": [0.25, 0.3],
+      "buffIcon": "npGainUp"
     }]
   }, {
     "type": "NpChange",
     "target": "SELF",
-    "values": [0.3, 0.5]
-  }, {
-    "type": "GrantBuff",
-    "target": "SELF",
-    "buffData": [{
-      "type": "CriticalDamageBuff",
-      "applyCondition": {
-        "type": "CardTypeEquals",
-        "value": "ARTS"
-      },
-      "values": [0.15, 0.2],
-      "buffIcon": "critDamageUp"
-    }]
+    "values": [0.4, 0.5]
   }],
   "cost": 12,
   "rarity": 5,
@@ -328,5 +316,5 @@
     "lv": 100,
     "ATK": 2000
   }],
-  "ceNum": 1095
+  "ceNum": 309
 }

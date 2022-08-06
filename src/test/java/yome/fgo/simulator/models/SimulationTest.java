@@ -3,11 +3,17 @@ package yome.fgo.simulator.models;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
+import yome.fgo.data.proto.FgoStorageData;
+import yome.fgo.data.proto.FgoStorageData.BuffData;
+import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
+import yome.fgo.data.proto.FgoStorageData.EnemyData;
+import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeOption;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
+import yome.fgo.data.proto.FgoStorageData.StageData;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.combatants.CombatAction;
 import yome.fgo.simulator.models.combatants.Combatant;
@@ -29,6 +35,9 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.UNRECOGNIZED;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.CASTER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
+import static yome.fgo.data.proto.FgoStorageData.Traits.DIVINE;
 import static yome.fgo.simulator.models.Simulation.getNextNonNullTargetIndex;
 import static yome.fgo.simulator.models.Simulation.isBraveChain;
 import static yome.fgo.simulator.models.Simulation.shouldRemoveDeadCombatants;
@@ -73,6 +82,7 @@ public class SimulationTest {
 
     public static final CraftEssenceOption CE_OPTION = CraftEssenceOption.newBuilder()
             .setCraftEssenceLevel(100)
+            .setIsLimitBreak(true)
             .build();
 
     public static final String ALTRIA_ID = "servant284";
@@ -204,7 +214,7 @@ public class SimulationTest {
         simNp3TClear.initiate();
         simNp3TClear.setFixedRandom(0.9);
 
-        altria1.addBuff(Stun.builder().build());
+        altria1.addBuff(Stun.builder().buffData(BuffData.newBuilder().setType("Stun").build()).buffLevel(1).build());
         simNp3TClear.activateServantSkill(0, 1);
 
         final ImmutableList<CombatAction> npStunNp = ImmutableList.of(
@@ -240,6 +250,87 @@ public class SimulationTest {
         simNp3TClear.executeCombatActions(ImmutableList.of(kamaBuster, kamaArts, kamaQuick));
 
         assertEquals(0.8817, kama.getCurrentNp());
+    }
+
+    @Test
+    public void testBuggedOverkill_scathach() {
+        final Level level = new Level(
+                LevelData.newBuilder()
+                        .addStageData(
+                                StageData.newBuilder()
+                                        .setMaximumEnemiesOnScreen(3)
+                                        .addEnemyData(
+                                                EnemyData.newBuilder()
+                                                        .setEnemyBaseId("冰雪咒书")
+                                                        .setEnemyCategories("书")
+                                                        .addAllHpBars(ImmutableList.of(154248, 270540, 321433))
+                                                        .setCombatantDataOverride(
+                                                                CombatantData.newBuilder()
+                                                                        .setFateClass(CASTER)
+                                                                        .addTraits(DIVINE.name())
+                                                        )
+                                        )
+                        )
+                        .build());
+        final Servant scathach = new Servant("servant70", ResourceManager.getServantData("servant70"), ServantOption.newBuilder()
+                .setServantLevel(90)
+                .setNoblePhantasmRank(2)
+                .setNoblePhantasmLevel(2)
+                .setAttackStatusUp(1000)
+                .setHealthStatusUp(1000)
+                .addAllActiveSkillRanks(ImmutableList.of(1, 2, 1))
+                .addAllActiveSkillLevels(ImmutableList.of(10, 10, 10))
+                .addAllAppendSkillLevels(ImmutableList.of(0, 0, 0))
+                .addCommandCardOptions(CommandCardOption.newBuilder())
+                .addCommandCardOptions(CommandCardOption.newBuilder())
+                .addCommandCardOptions(CommandCardOption.newBuilder())
+                .addCommandCardOptions(CommandCardOption.newBuilder())
+                .addCommandCardOptions(CommandCardOption.newBuilder())
+                .setBond(15)
+                .setAscension(2)
+                .build());
+        final CraftEssence ce = new CraftEssence(ResourceManager.getCraftEssenceData("craftEssence309"), CE_OPTION);
+        scathach.equipCraftEssence(ce);
+
+        final Simulation simulation = new Simulation(
+                level,
+                ImmutableList.of(scathach),
+                new MysticCode(MysticCodeData.newBuilder().build(), MysticCodeOption.newBuilder().build())
+        );
+        simulation.initiate();
+        simulation.setFixedRandom(0.92);
+        simulation.setProbabilityThreshold(1);
+        simulation.setCurrentAllyTargetIndex(0);
+
+        final CombatAction np = createNoblePhantasmAction(0);
+        final CombatAction buster = createCommandCardAction(0, 4, false);
+        final CombatAction busterCrit = createCommandCardAction(0, 4, true);
+        final CombatAction artsCrit = createCommandCardAction(0, 2, true);
+
+        simulation.activateServantSkill(0, 1);
+        simulation.executeCombatActions(ImmutableList.of(np, busterCrit, artsCrit));
+        assertEquals(1.1449, scathach.getCurrentNp(), 0.005);
+
+        simulation.executeCombatActions(ImmutableList.of(np, busterCrit, artsCrit));
+        assertEquals(1.1449, scathach.getCurrentNp(), 0.005);
+
+        simulation.setFixedRandom(0.95);
+        simulation.activateServantSkill(0, 2);
+        simulation.executeCombatActions(ImmutableList.of(np, busterCrit, artsCrit));
+        assertEquals(1.0749, scathach.getCurrentNp(), 0.005);
+
+        simulation.setFixedRandom(1.1);
+        simulation.executeCombatActions(ImmutableList.of(np, buster, artsCrit));
+        assertEquals(1.0349, scathach.getCurrentNp(), 0.005);
+
+        simulation.setFixedRandom(1.0);
+        simulation.executeCombatActions(ImmutableList.of(np, buster, artsCrit));
+        assertEquals(0.6949, scathach.getCurrentNp(), 0.005);
+
+        simulation.activateServantSkill(0, 1);
+        simulation.activateServantSkill(0, 2);
+        simulation.executeCombatActions(ImmutableList.of(np, busterCrit, artsCrit));
+        assertEquals(1.1449, scathach.getCurrentNp(), 0.005);
     }
 
     @Test
