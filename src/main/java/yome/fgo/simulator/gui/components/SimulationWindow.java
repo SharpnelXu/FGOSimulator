@@ -22,6 +22,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
@@ -57,9 +58,7 @@ import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getBuffIcon;
 import static yome.fgo.simulator.ResourceManager.getCCThumbnail;
-import static yome.fgo.simulator.ResourceManager.getCardImageFile;
 import static yome.fgo.simulator.ResourceManager.getEnemyThumbnail;
-import static yome.fgo.simulator.ResourceManager.getMCImage;
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printBasicCombatantData;
@@ -75,6 +74,7 @@ import static yome.fgo.simulator.utils.FilePathUtils.COMMAND_CODES_DIRECTORY_PAT
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.MYSTIC_CODES_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
+import static yome.fgo.simulator.utils.FilePathUtils.SIMULATION_ICON_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SKILL_ICON_DIRECTORY_PATH;
 
 public class SimulationWindow {
@@ -267,45 +267,77 @@ public class SimulationWindow {
     public Image getCardImage(final CommandCardType cardType) {
         final String cardString = cardType.name().toLowerCase();
         final String path = String.format("%s/%s.png", CARD_IMAGE_DIRECTORY_PATH, cardString);
-        return getImage(path, getCardImageFile(cardString));
+        if (imageCache.containsKey(path)) {
+            return imageCache.get(path);
+        }
+
+        return getImage(path, new File(path));
     }
 
     public Image getBuffImage(final String iconName) {
         final String path = String.format("%s/%s.png", BUFF_ICON_DIRECTORY_PATH, iconName);
+        if (imageCache.containsKey(path)) {
+            return imageCache.get(path);
+        }
+
         return getImage(path, getBuffIcon(iconName));
     }
 
     public Image getSkillImage(final String iconName) {
         final String path = String.format("%s/%s.png", SKILL_ICON_DIRECTORY_PATH, iconName);
+        if (imageCache.containsKey(path)) {
+            return imageCache.get(path);
+        }
+
         return getImage(path, getSkillIcon(iconName));
     }
 
-    public Image getMysticCodeImage(final String id, final Gender gender) {
-        final String genderString = gender == Gender.MALE ? "male" : "female";
-        final String path = String.format("%s/%s_%s.png", MYSTIC_CODES_DIRECTORY_PATH, id, genderString);
-        return getImage(path, getMCImage(id, gender));
+    public Image getSimulationImage(final String iconName) {
+        final String path = String.format("%s/%s.png", SIMULATION_ICON_DIRECTORY_PATH, iconName);
+        if (imageCache.containsKey(path)) {
+            return imageCache.get(path);
+        }
+
+        return getImage(path, new File(path));
+    }
+
+    public Image getMysticCodeImage(final String id, final String genderString) {
+        final String path = String.format("%s/%s/%s_%s.png", MYSTIC_CODES_DIRECTORY_PATH, id, id, genderString);
+        if (imageCache.containsKey(path)) {
+            return imageCache.get(path);
+        }
+
+        return getImage(path, new File(path));
     }
 
     public Image getCommandCodeImage(final String id) {
         final String path = String.format("%s/%s/%s.png", COMMAND_CODES_DIRECTORY_PATH, id, id);
+        if (imageCache.containsKey(path)) {
+            return imageCache.get(path);
+        }
+
         return getImage(path, getCCThumbnail(id));
     }
 
     public Image getEnemyImage(final String pathToData, final String enemyId) {
         final String path = String.format("%s/%s/%s.png", ENEMY_DIRECTORY_PATH, pathToData, enemyId);
+        if (imageCache.containsKey(path)) {
+            return imageCache.get(path);
+        }
+
         return getImage(path, getEnemyThumbnail(pathToData, enemyId));
     }
 
     public Image getServantImage(final String servantId, final int ascension) {
         final String path = String.format("%s/%s/%s_asc%d_thumbnail.png", SERVANT_DIRECTORY_PATH, servantId, servantId, ascension);
-        return getImage(path, getServantThumbnail(servantId, ascension));
-    }
-
-    private Image getImage(final String path, final File file) {
         if (imageCache.containsKey(path)) {
             return imageCache.get(path);
         }
 
+        return getImage(path, getServantThumbnail(servantId, ascension));
+    }
+
+    private Image getImage(final String path, final File file) {
         Image image = null;
         try {
             image = new Image(new FileInputStream(file));

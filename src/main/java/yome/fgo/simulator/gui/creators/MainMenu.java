@@ -33,6 +33,10 @@ public class MainMenu extends Application {
     }
 
     public static void launch(final String appName, final String fileName) throws IOException {
+        launch(appName, fileName, false);
+    }
+
+    public static void launch(final String appName, final String fileName, final boolean setMaximized) throws IOException {
         final Stage newStage = new Stage();
 
         final FXMLLoader fxmlLoader = new FXMLLoader(BuffBuilder.class.getResource(fileName + ".fxml"));
@@ -45,5 +49,6 @@ public class MainMenu extends Application {
         newStage.setScene(scene);
 
         newStage.show();
+        newStage.setMaximized(setMaximized);
     }
 }

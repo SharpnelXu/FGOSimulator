@@ -514,7 +514,6 @@ public class LevelCreatorFMXLController implements Initializable {
                 random
         );
 
-
         final Stage newStage = new Stage();
 
         final Parent root = simulationWindow.getRoot();
@@ -524,6 +523,7 @@ public class LevelCreatorFMXLController implements Initializable {
         newStage.setScene(scene);
 
         newStage.show();
+        newStage.setMaximized(true);
     }
 
     private void writeUserPreference(

@@ -53,7 +53,7 @@ public class MainMenuFXMLController implements Initializable {
         final Button levelCreatorButton = new Button(getTranslation(APPLICATION_SECTION, "LevelCreator"));
         levelCreatorButton.setOnAction(e -> {
             try {
-                MainMenu.launch("LevelCreator", "levelCreator");
+                MainMenu.launch("LevelCreator", "levelCreator", true);
             } catch (final IOException ex) {
                 throw new RuntimeException(ex);
             }

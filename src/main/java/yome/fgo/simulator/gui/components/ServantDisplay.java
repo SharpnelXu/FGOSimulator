@@ -1,6 +1,5 @@
 package yome.fgo.simulator.gui.components;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,17 +14,19 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import org.checkerframework.checker.units.qual.A;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
-import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.NO_SPECIAL_TARGET;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SKILL_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.renderBuffPane;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -68,13 +69,8 @@ public class ServantDisplay extends VBox {
         servantThumbnail = new ImageView();
         servantThumbnail.setFitHeight(100);
         servantThumbnail.setFitWidth(100);
-        final AnchorPane imgAnchor = new AnchorPane();
+        final AnchorPane imgAnchor = wrapInAnchor(servantThumbnail);
         imgAnchor.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2");
-        AnchorPane.setBottomAnchor(servantThumbnail, 0.0);
-        AnchorPane.setTopAnchor(servantThumbnail, 0.0);
-        AnchorPane.setLeftAnchor(servantThumbnail, 0.0);
-        AnchorPane.setRightAnchor(servantThumbnail, 0.0);
-        imgAnchor.getChildren().add(servantThumbnail);
 
         final Button servantSelectButton = new Button();
         servantSelectButton.setGraphic(imgAnchor);
@@ -97,33 +93,14 @@ public class ServantDisplay extends VBox {
             skillButtons.add(skillButton);
 
             final ImageView skillImgView = new ImageView();
-            skillImgView.setFitWidth(60);
-            skillImgView.setFitHeight(60);
+            skillImgView.setFitWidth(SKILL_THUMBNAIL_SIZE);
+            skillImgView.setFitHeight(SKILL_THUMBNAIL_SIZE);
             skillThumbnails.add(skillImgView);
-            final AnchorPane skillImgAnchor = new AnchorPane();
-            skillImgView.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 1");
-            AnchorPane.setBottomAnchor(skillImgView, 0.0);
-            AnchorPane.setTopAnchor(skillImgView, 0.0);
-            AnchorPane.setLeftAnchor(skillImgView, 0.0);
-            AnchorPane.setRightAnchor(skillImgView, 0.0);
-            skillImgAnchor.getChildren().add(skillImgView);
             final int iI = i;
             skillButton.setOnAction(e -> activateSkill(iI));
             skillButton.setGraphic(skillImgView);
 
-            final AnchorPane cdAnchor = new AnchorPane();
-            cdAnchor.setStyle("-fx-background-color: rgba(0,0,0,0.78); -fx-border-radius: 3; -fx-border-width: 1");
-            final Label cdLabel = new Label();
-            cdLabel.setFont(new Font(30));
-            cdLabel.setStyle("-fx-text-fill: white");
-            cdLabel.setAlignment(Pos.CENTER);
-            cdLabel.setWrapText(true);
-            cdLabel.setMaxWidth(60);
-            AnchorPane.setBottomAnchor(cdLabel, 0.0);
-            AnchorPane.setTopAnchor(cdLabel, 0.0);
-            AnchorPane.setLeftAnchor(cdLabel, 0.0);
-            AnchorPane.setRightAnchor(cdLabel, 0.0);
-            cdAnchor.getChildren().add(cdLabel);
+            final AnchorPane cdAnchor = createSkillCdAnchor();
             skillCoolDownHides.add(cdAnchor);
 
             stackPane.getChildren().addAll(skillButton, cdAnchor);
@@ -225,15 +202,7 @@ public class ServantDisplay extends VBox {
                 )
         );
 
-        buffsPane.getChildren().clear();
-        final List<Buff> buffs = servant.getBuffs();
-        for (final Buff buff : buffs) {
-            final ImageView buffImage = new ImageView();
-            buffImage.setFitHeight(20);
-            buffImage.setFitWidth(20);
-            buffImage.setImage(simulationWindow.getBuffImage(buff.getIconName()));
-            buffsPane.getChildren().add(buffImage);
-        }
+        renderBuffPane(buffsPane, servant, simulationWindow);
     }
 
     public void setSelected() {

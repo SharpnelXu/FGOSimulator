@@ -328,18 +328,6 @@ public class ResourceManager {
         return new File(String.format("%s/default.png", COMMAND_CODES_DIRECTORY_PATH));
     }
 
-    public static File getMCImage(final String id, final Gender gender) {
-        if (gender == Gender.MALE) {
-            return new File(String.format("%s/%s/%s_male.png", MYSTIC_CODES_DIRECTORY_PATH, id, id));
-        } else {
-            return new File(String.format("%s/%s/%s_female.png", MYSTIC_CODES_DIRECTORY_PATH, id, id));
-        }
-    }
-
-    public static File getCardImageFile(final String cardString) {
-        return new File(String.format("%s/%s.png", CARD_IMAGE_DIRECTORY_PATH, cardString));
-    }
-
     public static File getCEThumbnail(final String id) {
         final File ascImg = new File(String.format("%s/%s/%s_thumbnail.png", CRAFT_ESSENCE_DIRECTORY_PATH, id, id));
         if (ascImg.exists()) {

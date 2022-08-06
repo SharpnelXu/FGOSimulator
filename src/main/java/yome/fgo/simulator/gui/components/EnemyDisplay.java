@@ -14,10 +14,10 @@ import javafx.scene.layout.VBox;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
-import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import java.util.List;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.renderBuffPane;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -128,17 +128,7 @@ public class EnemyDisplay extends VBox {
                 )
         );
 
-        buffsPane.getChildren().clear();
-        final List<Buff> buffs = combatant.getBuffs();
-        final int maxDisplay = Math.min(buffs.size(), 30);
-        for (int i = 0; i < maxDisplay; i += 1) {
-            final Buff buff = buffs.get(i);
-            final ImageView buffImage = new ImageView();
-            buffImage.setFitHeight(20);
-            buffImage.setFitWidth(20);
-            buffImage.setImage(simulationWindow.getBuffImage(buff.getIconName()));
-            buffsPane.getChildren().add(buffImage);
-        }
+        renderBuffPane(buffsPane, combatant, simulationWindow);
     }
 
     public void setSelected() {

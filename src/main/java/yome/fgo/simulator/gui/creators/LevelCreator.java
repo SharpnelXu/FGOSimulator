@@ -44,5 +44,6 @@ public class LevelCreator extends Application {
         newStage.setScene(scene);
 
         newStage.show();
+        newStage.setMaximized(true);
     }
 }

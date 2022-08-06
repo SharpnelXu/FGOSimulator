@@ -316,7 +316,7 @@ public class Servant extends Combatant {
     public boolean canActivateNoblePhantasm(final Simulation simulation) {
         simulation.setActivator(this);
 
-        final boolean canActivate = !isNpInaccessible() && noblePhantasm.canActivate(simulation);
+        final boolean canActivate = currentNp >= 1 && !isNpInaccessible() && noblePhantasm.canActivate(simulation);
 
         simulation.unsetActivator();
 

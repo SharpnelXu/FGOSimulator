@@ -1,11 +1,13 @@
 package yome.fgo.simulator.gui.components;
 
+import com.google.common.collect.ImmutableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -14,10 +16,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.gui.components.StatsLogger.LogLevel;
 import yome.fgo.simulator.models.Simulation;
+import yome.fgo.simulator.models.effects.NpChange;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -25,8 +29,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static yome.fgo.data.proto.FgoStorageData.Gender.MALE;
 import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.NO_SPECIAL_TARGET;
+import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.forNumber;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.CD_NUMBER_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SKILL_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -42,6 +53,7 @@ public class MiscDisplay extends VBox {
     private final Label enemyCountLabel;
     private final Slider probabilityThresholdSlider;
     private final Slider randomSlider;
+    private final ImageView customEffectImage;
 
     public MiscDisplay(final SimulationWindow simulationWindow) {
         super();
@@ -72,55 +84,43 @@ public class MiscDisplay extends VBox {
             skillButtons.add(skillButton);
 
             final ImageView skillImgView = new ImageView();
-            skillImgView.setFitWidth(60);
-            skillImgView.setFitHeight(60);
+            skillImgView.setFitWidth(SKILL_THUMBNAIL_SIZE);
+            skillImgView.setFitHeight(SKILL_THUMBNAIL_SIZE);
             skillThumbnails.add(skillImgView);
-            final AnchorPane skillImgAnchor = new AnchorPane();
-            skillImgView.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 1");
-            AnchorPane.setBottomAnchor(skillImgView, 0.0);
-            AnchorPane.setTopAnchor(skillImgView, 0.0);
-            AnchorPane.setLeftAnchor(skillImgView, 0.0);
-            AnchorPane.setRightAnchor(skillImgView, 0.0);
-            skillImgAnchor.getChildren().add(skillImgView);
             final int iI = i;
             skillButton.setOnAction(e -> activateSkill(iI));
             skillButton.setGraphic(skillImgView);
 
-            final AnchorPane cdAnchor = new AnchorPane();
-            cdAnchor.setStyle("-fx-background-color: rgba(0,0,0,0.78); -fx-border-radius: 3; -fx-border-width: 1");
-            final Label cdLabel = new Label();
-            cdLabel.setFont(new Font(30));
-            cdLabel.setStyle("-fx-text-fill: white");
-            cdLabel.setAlignment(Pos.CENTER);
-            cdLabel.setWrapText(true);
-            cdLabel.setMaxWidth(60);
-            AnchorPane.setBottomAnchor(cdLabel, 0.0);
-            AnchorPane.setTopAnchor(cdLabel, 0.0);
-            AnchorPane.setLeftAnchor(cdLabel, 0.0);
-            AnchorPane.setRightAnchor(cdLabel, 0.0);
-            cdAnchor.getChildren().add(cdLabel);
+            final AnchorPane cdAnchor = createSkillCdAnchor();
             skillCoolDownHides.add(cdAnchor);
 
             stackPane.getChildren().addAll(skillButton, cdAnchor);
             skillHBoxes.getChildren().add(stackPane);
         }
 
+        final HBox mysticCodeHBox = new HBox();
+        mysticCodeHBox.setSpacing(10);
+        mysticCodeHBox.setAlignment(Pos.CENTER_LEFT);
+        mysticCodeHBox.getChildren().addAll(skillHBoxes, mysticCodeImage);
+        mysticCodeHBox.setFillHeight(false);
+
         final Label starLabel = new Label(getTranslation(APPLICATION_SECTION, "critStar"));
         critStarValueLabel = new Label();
-        final HBox enemyCountHBox = new HBox();
-        enemyCountHBox.setSpacing(10);
+        final HBox generalInfoHBox = new HBox();
+        generalInfoHBox.setSpacing(10);
         final Label enemyLabel = new Label(getTranslation(APPLICATION_SECTION, "Enemy remaining"));
         enemyCountLabel = new Label();
-        enemyCountHBox.getChildren().addAll(starLabel, critStarValueLabel, enemyLabel, enemyCountLabel);
-
         final Label currentTurnLabel = new Label(getTranslation(APPLICATION_SECTION, "Current Turn"));
         currentTurnCountLabel = new Label();
-        final HBox currentStageHBox = new HBox();
-        currentStageHBox.setSpacing(10);
         final Label currentStageLabel = new Label(getTranslation(APPLICATION_SECTION, "Stage"));
         currentStageCountLabel = new Label();
-        currentStageHBox.getChildren().addAll(currentTurnLabel, currentTurnCountLabel, currentStageLabel, currentStageCountLabel);
-
+        generalInfoHBox.getChildren()
+                .addAll(
+                        starLabel, critStarValueLabel,
+                        currentStageLabel, currentStageCountLabel,
+                        enemyLabel, enemyCountLabel,
+                        currentTurnLabel, currentTurnCountLabel
+                );
 
         final Label probabilityLabel = new Label(getTranslation(APPLICATION_SECTION, "Probability Threshold (%)"));
         final Label probabilityValueLabel = new Label("100");
@@ -171,23 +171,39 @@ public class MiscDisplay extends VBox {
         randomSlider.setShowTickMarks(true);
         randomSlider.setValue(0.9);
 
-        final Button executeButton = new Button(getTranslation(APPLICATION_SECTION, "Attack"));
+        final HBox buttonsHBox = new HBox();
+        buttonsHBox.setSpacing(10);
+
+        final Button executeButton = new Button();
         executeButton.setOnAction(e -> this.simulationWindow.executeCombatActions());
+        executeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Attack")));
+        final ImageView executeImg = new ImageView(this.simulationWindow.getSimulationImage("attack"));
+        executeImg.setFitHeight(SKILL_THUMBNAIL_SIZE);
+        executeImg.setFitWidth(SKILL_THUMBNAIL_SIZE);
+        executeButton.setGraphic(executeImg);
+
+        final Button chargeNpButton = new Button();
+        chargeNpButton.setOnAction(e -> {
+            final EffectData charge100Np = EffectData.newBuilder()
+                    .setType(NpChange.class.getSimpleName())
+                    .setTarget(ALL_ALLIES)
+                    .addValues(1)
+                    .build();
+            this.simulationWindow.getSimulation().activateCustomEffect(charge100Np);
+            this.simulationWindow.render();
+        });
+        chargeNpButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Charge 100% NP for all allies")));
+        final ImageView chargeNpImg = new ImageView(this.simulationWindow.getSimulationImage("npCharge"));
+        chargeNpImg.setFitHeight(SKILL_THUMBNAIL_SIZE);
+        chargeNpImg.setFitWidth(SKILL_THUMBNAIL_SIZE);
+        chargeNpButton.setGraphic(chargeNpImg);
 
         final Button activateEffectButton = new Button();
-        final Image commandSealImage = this.simulationWindow.getSkillImage("like");
-        final ImageView activateEffectImgView = new ImageView(commandSealImage);
-        activateEffectImgView.setFitHeight(40);
-        activateEffectImgView.setFitWidth(40);
-        activateEffectImgView.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2");
-        AnchorPane.setBottomAnchor(activateEffectImgView, 0.0);
-        AnchorPane.setTopAnchor(activateEffectImgView, 0.0);
-        AnchorPane.setLeftAnchor(activateEffectImgView, 0.0);
-        AnchorPane.setRightAnchor(activateEffectImgView, 0.0);
-        final AnchorPane commandSealAnchor = new AnchorPane();
-        commandSealAnchor.getChildren().add(activateEffectImgView);
-
-        activateEffectButton.setGraphic(commandSealAnchor);
+        activateEffectButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Activate custom effect")));
+        customEffectImage = new ImageView();
+        customEffectImage.setFitHeight(SKILL_THUMBNAIL_SIZE);
+        customEffectImage.setFitWidth(SKILL_THUMBNAIL_SIZE);
+        activateEffectButton.setGraphic(customEffectImage);
         activateEffectButton.setOnAction(e -> {
             try {
                 final EffectData.Builder builder = EffectData.newBuilder();
@@ -201,11 +217,18 @@ public class MiscDisplay extends VBox {
             }
         });
 
-        final Button revertActionButton = new Button(getTranslation(APPLICATION_SECTION, "Revert"));
+        final Button revertActionButton = new Button();
+        revertActionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Revert")));
+        final ImageView revertImg = new ImageView(this.simulationWindow.getSimulationImage("revert"));
+        revertImg.setFitHeight(SKILL_THUMBNAIL_SIZE);
+        revertImg.setFitWidth(SKILL_THUMBNAIL_SIZE);
+        revertActionButton.setGraphic(revertImg);
         revertActionButton.setOnAction(e -> {
             this.simulationWindow.getSimulation().fromSnapshot();
             this.simulationWindow.render();
         });
+
+        buttonsHBox.getChildren().addAll(executeButton, chargeNpButton, activateEffectButton, revertActionButton);
 
         final Label logLevelChangeLabel = new Label(getTranslation(APPLICATION_SECTION, "Log Level"));
         final ChoiceBox<LogLevel> logLevelChoiceBox = new ChoiceBox<>();
@@ -218,18 +241,15 @@ public class MiscDisplay extends VBox {
         logLevelHBox.getChildren().addAll(logLevelChangeLabel, logLevelChoiceBox);
 
         getChildren().addAll(
-                mysticCodeImage,
-                skillHBoxes,
-                enemyCountHBox,
-                currentStageHBox,
+                mysticCodeHBox,
+                new Separator(),
+                generalInfoHBox,
                 new Separator(),
                 probabilityLabelHBox,
                 probabilityThresholdSlider,
                 randomLabelHBox,
                 randomSlider,
-                executeButton,
-                activateEffectButton,
-                revertActionButton,
+                buttonsHBox,
                 logLevelHBox
         );
     }
@@ -244,16 +264,19 @@ public class MiscDisplay extends VBox {
         }
 
         setVisible(true);
-        mysticCodeImage.setImage(simulationWindow.getMysticCodeImage(mysticCode.getId(), mysticCode.gender));
+
+        final String genderString = mysticCode.gender == MALE ? "male" : "female";
+        mysticCodeImage.setImage(simulationWindow.getMysticCodeImage(mysticCode.getId(), genderString));
+        customEffectImage.setImage(simulationWindow.getSimulationImage(String.format("commandSeal_%s", genderString)));
 
         for (int i = 0; i < 3; i += 1) {
             skillThumbnails.get(i).setImage(simulationWindow.getSkillImage(mysticCode.getSkillIconName(i)));
 
-            final boolean canActivate = simulation.canActivateMysticCodeSkill(i);
-            skillButtons.get(i).setDisable(!canActivate);
+            final boolean cannotActivate = !simulation.canActivateMysticCodeSkill(i);
+            skillButtons.get(i).setDisable(cannotActivate);
             final AnchorPane skillHide = skillCoolDownHides.get(i);
-            skillHide.setVisible(!canActivate);
-            if (!canActivate) {
+            skillHide.setVisible(cannotActivate);
+            if (cannotActivate) {
                 final Label label = (Label) skillHide.getChildren().get(0);
                 final int currentCoolDown = mysticCode.getCurrentCoolDown(i);
 
@@ -268,7 +291,7 @@ public class MiscDisplay extends VBox {
         critStarValueLabel.setText(String.format("%.2f", simulation.getCurrentStars()));
         currentTurnCountLabel.setText(Integer.toString(simulation.getCurrentTurn()));
         currentStageCountLabel.setText(String.format("%d/%d", simulation.getCurrentStage(), simulation.getLevel().getStages().size()));
-        enemyCountLabel.setText(Integer.toString(simulation.getBackupEnemies().size()));
+        enemyCountLabel.setText(Integer.toString(simulation.getBackupEnemies().size() + simulation.getAliveEnemies().size()));
         probabilityThresholdSlider.setValue(simulation.getProbabilityThreshold() * 10);
         randomSlider.setValue(simulation.getFixedRandom());
     }
