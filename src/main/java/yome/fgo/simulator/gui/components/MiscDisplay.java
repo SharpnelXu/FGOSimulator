@@ -1,22 +1,19 @@
 package yome.fgo.simulator.gui.components;
 
-import com.google.common.collect.ImmutableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import yome.fgo.data.proto.FgoStorageData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.gui.components.StatsLogger.LogLevel;
@@ -31,13 +28,10 @@ import java.util.List;
 
 import static yome.fgo.data.proto.FgoStorageData.Gender.MALE;
 import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.NO_SPECIAL_TARGET;
-import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.forNumber;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.CD_NUMBER_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SKILL_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -104,16 +98,21 @@ public class MiscDisplay extends VBox {
         mysticCodeHBox.getChildren().addAll(skillHBoxes, mysticCodeImage);
         mysticCodeHBox.setFillHeight(false);
 
-        final Label starLabel = new Label(getTranslation(APPLICATION_SECTION, "critStar"));
+        final Label starLabel = new Label(getTranslation(APPLICATION_SECTION, "critStar:"));
+        starLabel.setStyle("-fx-font-weight: bold");
         critStarValueLabel = new Label();
+        final Label enemyLabel = new Label(getTranslation(APPLICATION_SECTION, "Enemy remaining:"));
+        enemyLabel.setStyle("-fx-font-weight: bold");
+        enemyCountLabel = new Label();
+        final Label currentTurnLabel = new Label(getTranslation(APPLICATION_SECTION, "Current Turn:"));
+        currentTurnLabel.setStyle("-fx-font-weight: bold");
+        currentTurnCountLabel = new Label();
+        final Label currentStageLabel = new Label(getTranslation(APPLICATION_SECTION, "Stage:"));
+        currentStageLabel.setStyle("-fx-font-weight: bold");
+        currentStageCountLabel = new Label();
+
         final HBox generalInfoHBox = new HBox();
         generalInfoHBox.setSpacing(10);
-        final Label enemyLabel = new Label(getTranslation(APPLICATION_SECTION, "Enemy remaining"));
-        enemyCountLabel = new Label();
-        final Label currentTurnLabel = new Label(getTranslation(APPLICATION_SECTION, "Current Turn"));
-        currentTurnCountLabel = new Label();
-        final Label currentStageLabel = new Label(getTranslation(APPLICATION_SECTION, "Stage"));
-        currentStageCountLabel = new Label();
         generalInfoHBox.getChildren()
                 .addAll(
                         starLabel, critStarValueLabel,
@@ -122,7 +121,8 @@ public class MiscDisplay extends VBox {
                         currentTurnLabel, currentTurnCountLabel
                 );
 
-        final Label probabilityLabel = new Label(getTranslation(APPLICATION_SECTION, "Probability Threshold (%)"));
+        final Label probabilityLabel = new Label(getTranslation(APPLICATION_SECTION, "Probability Threshold (%):"));
+        probabilityLabel.setStyle("-fx-font-weight: bold");
         final Label probabilityValueLabel = new Label("100");
         final HBox probabilityLabelHBox = new HBox();
         probabilityLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
@@ -148,7 +148,8 @@ public class MiscDisplay extends VBox {
         probabilityThresholdSlider.setShowTickMarks(true);
         probabilityThresholdSlider.setValue(10);
 
-        final Label randomLabel = new Label(getTranslation(APPLICATION_SECTION, "Random Value"));
+        final Label randomLabel = new Label(getTranslation(APPLICATION_SECTION, "Random Value:"));
+        randomLabel.setStyle("-fx-font-weight: bold");
         final Label randomValueLabel = new Label(String.format("%.3f", 0.9));
         final HBox randomLabelHBox = new HBox();
         randomLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
@@ -230,15 +231,19 @@ public class MiscDisplay extends VBox {
 
         buttonsHBox.getChildren().addAll(executeButton, chargeNpButton, activateEffectButton, revertActionButton);
 
-        final Label logLevelChangeLabel = new Label(getTranslation(APPLICATION_SECTION, "Log Level"));
-        final ChoiceBox<LogLevel> logLevelChoiceBox = new ChoiceBox<>();
-        logLevelChoiceBox.getItems().addAll(LogLevel.DEBUG, LogLevel.EFFECT, LogLevel.ACTION);
-        logLevelChoiceBox.getSelectionModel().selectFirst();
-        logLevelChoiceBox.setOnAction(e -> this.simulationWindow.setLogLevel(logLevelChoiceBox.getValue()));
         final HBox logLevelHBox = new HBox();
         logLevelHBox.setSpacing(10);
         logLevelHBox.setAlignment(Pos.CENTER_LEFT);
-        logLevelHBox.getChildren().addAll(logLevelChangeLabel, logLevelChoiceBox);
+        final Label logLevelChangeLabel = new Label(getTranslation(APPLICATION_SECTION, "Log Level:"));
+        logLevelChangeLabel.setStyle("-fx-font-weight: bold");
+        logLevelHBox.getChildren().add(logLevelChangeLabel);
+        final ToggleGroup logLevelToggleGroup = new ToggleGroup();
+        for (final LogLevel logLevel : LogLevel.values()) {
+            final RadioButton logRadio = new RadioButton(logLevel.name());
+            logRadio.setToggleGroup(logLevelToggleGroup);
+            logRadio.setOnAction(e -> this.simulationWindow.setLogLevel(logLevel));
+            logLevelHBox.getChildren().add(logRadio);
+        }
 
         getChildren().addAll(
                 mysticCodeHBox,
