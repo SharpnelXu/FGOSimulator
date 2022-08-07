@@ -61,6 +61,7 @@ enum Traits {
   VENGEANCE = 55;
 
   YUMEIREN = 57;
+  MILLENNIUM_CASTLE = 58;
 }
 
 enum FateClass {

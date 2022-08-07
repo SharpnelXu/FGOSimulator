@@ -1,5 +1,6 @@
 package yome.fgo.simulator.gui.helpers;
 
+import com.google.common.collect.ImmutableMap;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -7,17 +8,31 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
+import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.gui.components.SimulationWindow;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import java.util.List;
+import java.util.Map;
 
 public class ComponentUtils {
     public static final String PERMANENT_BUFF_STYLE = "-fx-border-color: grey; -fx-border-style: solid; -fx-border-width: 1; -fx-border-radius: 3px";
     public static final String CD_NUMBER_STYLE = "-fx-background-color: rgba(0,0,0,0.78); -fx-border-radius: 3; -fx-border-width: 1";
 
     public static final int SKILL_THUMBNAIL_SIZE = 50;
+    public static final int INFO_THUMBNAIL_SIZE = 30;
+    public static final int BUFF_SIZE = 20;
+
+    public static final Map<String, String> FIELD_ICON_MAP = ImmutableMap.of(
+            Traits.CITY.name(), "fieldCity",
+            Traits.MILLENNIUM_CASTLE.name(), "fieldMillenniumCastle",
+            Traits.BURNING.name(), "fieldBurn",
+            Traits.FOREST.name(), "fieldForest",
+            Traits.SHORE.name(), "fieldShoreline",
+            Traits.SUNLIGHT.name(), "fieldSunlight",
+            Traits.IMAGINARY_SPACE.name(), "fieldImaginary"
+    );
 
     public static AnchorPane wrapInAnchor(final Node node) {
         final AnchorPane imgAnchor = new AnchorPane();

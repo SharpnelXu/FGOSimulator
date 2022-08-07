@@ -125,7 +125,7 @@
           "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
           "applyCondition": {
             "type": "StageHasTrait",
-            "value": "千年城"
+            "value": "MILLENNIUM_CASTLE"
           }
         }],
         "iconName": "invincible"
@@ -192,7 +192,7 @@
               "value": "QUICK"
             }, {
               "type": "StageHasTrait",
-              "value": "千年城"
+              "value": "MILLENNIUM_CASTLE"
             }]
           },
           "values": [0.3],
@@ -210,7 +210,7 @@
               "value": "ARTS"
             }, {
               "type": "StageHasTrait",
-              "value": "千年城"
+              "value": "MILLENNIUM_CASTLE"
             }]
           },
           "values": [0.3],
@@ -228,7 +228,7 @@
               "value": "BUSTER"
             }, {
               "type": "StageHasTrait",
-              "value": "千年城"
+              "value": "MILLENNIUM_CASTLE"
             }]
           },
           "values": [0.3],
@@ -771,9 +771,9 @@
           "buffData": [{
             "type": "GrantStageTrait",
             "numTurnsActive": 3,
-            "stringValue": "千年城",
+            "stringValue": "MILLENNIUM_CASTLE",
             "irremovable": true,
-            "buffIcon": "fieldMilleniumCastle"
+            "buffIcon": "fieldMillenniumCastle"
           }],
           "probabilities": [5.0]
         }, {
@@ -935,7 +935,7 @@
           "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
           "applyCondition": {
             "type": "StageHasTrait",
-            "value": "千年城"
+            "value": "MILLENNIUM_CASTLE"
           }
         }],
         "iconName": "invincible"
@@ -1002,7 +1002,7 @@
               "value": "QUICK"
             }, {
               "type": "StageHasTrait",
-              "value": "千年城"
+              "value": "MILLENNIUM_CASTLE"
             }]
           },
           "values": [0.3],
@@ -1020,7 +1020,7 @@
               "value": "ARTS"
             }, {
               "type": "StageHasTrait",
-              "value": "千年城"
+              "value": "MILLENNIUM_CASTLE"
             }]
           },
           "values": [0.3],
@@ -1038,7 +1038,7 @@
               "value": "BUSTER"
             }, {
               "type": "StageHasTrait",
-              "value": "千年城"
+              "value": "MILLENNIUM_CASTLE"
             }]
           },
           "values": [0.3],
@@ -1581,7 +1581,7 @@
           "buffData": [{
             "type": "GrantStageTrait",
             "numTurnsActive": 3,
-            "stringValue": "千年城",
+            "stringValue": "MILLENNIUM_CASTLE",
             "irremovable": true,
             "buffIcon": "fieldMilleniumCastle"
           }],

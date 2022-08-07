@@ -1,6 +1,7 @@
 package yome.fgo.simulator.gui.components;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -16,23 +17,36 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
+import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.gui.components.StatsLogger.LogLevel;
+import yome.fgo.simulator.gui.creators.MysticCodeCreator;
 import yome.fgo.simulator.models.Simulation;
+import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.NpChange;
+import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.GrantStageTrait;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 import yome.fgo.simulator.utils.RoundUtils;
+import yome.fgo.simulator.utils.TargetUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static yome.fgo.data.proto.FgoStorageData.Gender.MALE;
 import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.NO_SPECIAL_TARGET;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.BUFF_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.FIELD_ICON_MAP;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.INFO_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SKILL_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class MiscDisplay extends VBox {
@@ -45,6 +59,8 @@ public class MiscDisplay extends VBox {
     private final Label currentTurnCountLabel;
     private final Label currentStageCountLabel;
     private final Label enemyCountLabel;
+    private final HBox fieldTraitsHBox;
+    private final Label fieldTraitsLabel;
     private final Slider probabilityThresholdSlider;
     private final Slider randomSlider;
     private final ImageView customEffectImage;
@@ -92,10 +108,23 @@ public class MiscDisplay extends VBox {
             skillHBoxes.getChildren().add(stackPane);
         }
 
+        final Button mysticCodeInfoButton = new Button();
+        mysticCodeInfoButton.setOnAction(e -> {
+            try {
+                MysticCodeCreator.preview(getScene().getWindow(), this.simulationWindow.getSimulation().getMysticCode().mysticCodeData);
+            } catch (IOException ignored) {
+            }
+        });
+        mysticCodeInfoButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Details")));
+        final ImageView infoImg = new ImageView(this.simulationWindow.getSimulationImage("info"));
+        infoImg.setFitHeight(INFO_THUMBNAIL_SIZE);
+        infoImg.setFitWidth(INFO_THUMBNAIL_SIZE);
+        mysticCodeInfoButton.setGraphic(infoImg);
+
         final HBox mysticCodeHBox = new HBox();
         mysticCodeHBox.setSpacing(10);
         mysticCodeHBox.setAlignment(Pos.CENTER_LEFT);
-        mysticCodeHBox.getChildren().addAll(skillHBoxes, mysticCodeImage);
+        mysticCodeHBox.getChildren().addAll(skillHBoxes, mysticCodeImage, mysticCodeInfoButton);
         mysticCodeHBox.setFillHeight(false);
 
         final Label starLabel = new Label(getTranslation(APPLICATION_SECTION, "critStar:"));
@@ -120,6 +149,12 @@ public class MiscDisplay extends VBox {
                         enemyLabel, enemyCountLabel,
                         currentTurnLabel, currentTurnCountLabel
                 );
+
+        fieldTraitsHBox = new HBox(5);
+        fieldTraitsHBox.setAlignment(Pos.CENTER_LEFT);
+        fieldTraitsLabel = new Label(getTranslation(APPLICATION_SECTION, "Field traits:"));
+        fieldTraitsLabel.setStyle("-fx-font-weight: bold");
+        fieldTraitsHBox.getChildren().add(fieldTraitsLabel);
 
         final Label probabilityLabel = new Label(getTranslation(APPLICATION_SECTION, "Probability Threshold (%):"));
         probabilityLabel.setStyle("-fx-font-weight: bold");
@@ -249,6 +284,7 @@ public class MiscDisplay extends VBox {
                 mysticCodeHBox,
                 new Separator(),
                 generalInfoHBox,
+                fieldTraitsHBox,
                 new Separator(),
                 probabilityLabelHBox,
                 probabilityThresholdSlider,
@@ -297,8 +333,38 @@ public class MiscDisplay extends VBox {
         currentTurnCountLabel.setText(Integer.toString(simulation.getCurrentTurn()));
         currentStageCountLabel.setText(String.format("%d/%d", simulation.getCurrentStage(), simulation.getLevel().getStages().size()));
         enemyCountLabel.setText(Integer.toString(simulation.getBackupEnemies().size() + simulation.getAliveEnemies().size()));
+
+        final Set<String> fieldTraits = new TreeSet<>(simulation.getLevel().getStage(simulation.getCurrentStage()).getTraits());
+        for (final Combatant combatant : TargetUtils.getTargets(simulation, ALL_CHARACTERS)) {
+            for (final Buff buff : combatant.getBuffs()) {
+                if (buff instanceof GrantStageTrait && buff.shouldApply(simulation)) {
+                    fieldTraits.add(((GrantStageTrait) buff).getTrait());
+                }
+            }
+        }
+        final List<Node> fieldChildren = fieldTraitsHBox.getChildren();
+        fieldChildren.clear();
+        fieldChildren.add(fieldTraitsLabel);
+        for (final String fieldTrait : fieldTraits) {
+            final ImageView fieldImage = new ImageView();
+            fieldImage.setFitHeight(BUFF_SIZE);
+            fieldImage.setFitWidth(BUFF_SIZE);
+            fieldImage.setImage(simulationWindow.getBuffImage(getFieldIcon(fieldTrait)));
+            final Tooltip tooltip = new Tooltip(getTranslation(TRAIT_SECTION, fieldTrait));
+            Tooltip.install(fieldImage, tooltip);
+            fieldChildren.add(fieldImage);
+        }
+
         probabilityThresholdSlider.setValue(simulation.getProbabilityThreshold() * 10);
         randomSlider.setValue(simulation.getFixedRandom());
+    }
+
+    private static String getFieldIcon(final String fieldTrait) {
+        if (FIELD_ICON_MAP.containsKey(fieldTrait)) {
+            return FIELD_ICON_MAP.get(fieldTrait);
+        }
+
+        return "default";
     }
 
     private void activateSkill(final int skillIndex) {

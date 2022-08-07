@@ -117,11 +117,14 @@ public class ServantDisplay extends VBox {
         atkLabel = new Label();
         hpLabel = new Label();
         npLabel = new Label();
+
+        final HBox generalInfoHBox = new HBox(10);
+        generalInfoHBox.getChildren().addAll(atkLabel, hpLabel, npLabel);
         buffsPane = new FlowPane();
         buffsPane.setAlignment(Pos.TOP_CENTER);
         buffsPane.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
-        getChildren().addAll(viewHBox, atkLabel, hpLabel, npLabel, buffsPane);
+        getChildren().addAll(generalInfoHBox, viewHBox, buffsPane);
     }
 
     private void activateSkill(final int skillIndex) {
