@@ -6,19 +6,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
 
 import java.util.List;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.INFO_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.getClassIcon;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.renderBuffPane;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class EnemyDisplay extends VBox {
@@ -30,6 +36,8 @@ public class EnemyDisplay extends VBox {
     private final Label npGaugeLabel;
     private final FlowPane buffsPane;
     private final RadioButton enemyTarget;
+    private final ImageView classImage;
+    private final Tooltip classButtonTooltip;
 
     public EnemyDisplay(final SimulationWindow simulationWindow, final int enemyIndex, final ToggleGroup toggleGroup) {
         super();
@@ -45,11 +53,7 @@ public class EnemyDisplay extends VBox {
 
         enemyTarget = new RadioButton();
         enemyTarget.setToggleGroup(toggleGroup);
-        enemyTarget.setOnAction(e -> {
-            this.simulationWindow.getSimulation().setCurrentAllyTargetIndex(enemyIndex);
-            enemyTarget.setText(getTranslation(APPLICATION_SECTION, "asTarget"));
-            this.simulationWindow.targetSync();
-        });
+        enemyTarget.setOnAction(e -> this.simulationWindow.getSimulation().setCurrentAllyTargetIndex(enemyIndex));
 
         getChildren().add(enemyTarget);
 
@@ -70,18 +74,38 @@ public class EnemyDisplay extends VBox {
 
         getChildren().add(enemySelectButton);
 
-        final Button viewBuffs = new Button(getTranslation(APPLICATION_SECTION, "View Buffs"));
-        viewBuffs.setOnAction(e -> this.simulationWindow.viewEnemyBuffs(enemyIndex));
-
-        final HBox viewHBox = new HBox(10);
-        viewHBox.getChildren().addAll(viewBuffs);
-
         hpLabel = new Label();
         npGaugeLabel = new Label();
+
+        final HBox generalInfoHBox = new HBox(10);
+        generalInfoHBox.setAlignment(Pos.CENTER);
+        generalInfoHBox.getChildren().addAll(hpLabel, npGaugeLabel);
+
+        classImage = new ImageView();
+        classImage.setFitWidth(INFO_THUMBNAIL_SIZE);
+        classImage.setFitHeight(INFO_THUMBNAIL_SIZE);
+        final Button classButton = new Button();
+        classButton.setGraphic(classImage);
+        classButtonTooltip = new Tooltip();
+        classButton.setTooltip(classButtonTooltip);
+
+        final ImageView checkBuffImage = new ImageView();
+        checkBuffImage.setFitHeight(INFO_THUMBNAIL_SIZE);
+        checkBuffImage.setFitWidth(INFO_THUMBNAIL_SIZE);
+        checkBuffImage.setImage(this.simulationWindow.getSimulationImage("checkBuff"));
+        final Button viewBuffs = new Button();
+        viewBuffs.setOnAction(e -> this.simulationWindow.viewEnemyBuffs(enemyIndex));
+        viewBuffs.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "View Buffs")));
+        viewBuffs.setGraphic(checkBuffImage);
+
+        final HBox buttonsHBox = new HBox(5);
+        buttonsHBox.setAlignment(Pos.CENTER);
+        buttonsHBox.getChildren().addAll(classButton, viewBuffs);
+
         buffsPane = new FlowPane();
         buffsPane.setAlignment(Pos.TOP_CENTER);
 
-        getChildren().addAll(viewHBox, hpLabel, npGaugeLabel, buffsPane);
+        getChildren().addAll(generalInfoHBox, buttonsHBox, buffsPane);
     }
 
     public void renderEnemy() {
@@ -103,6 +127,7 @@ public class EnemyDisplay extends VBox {
 
         setVisible(true);
         setManaged(true);
+        enemyTarget.setText(getTranslation(ENTITY_NAME_SECTION, combatant.getId()));
         if (combatant instanceof Servant) {
             final Servant servant = (Servant) combatant;
             enemyImage.setImage(simulationWindow.getServantImage(servant.getId(), servant.getAscension()));
@@ -128,16 +153,14 @@ public class EnemyDisplay extends VBox {
                 )
         );
 
+        final FateClass enemyClass = combatant.getFateClass();
+        classImage.setImage(simulationWindow.getClassImage(getClassIcon(enemyClass)));
+        classButtonTooltip.setText(getTranslation(CLASS_SECTION, enemyClass.name()));
+
         renderBuffPane(buffsPane, combatant, simulationWindow);
     }
 
     public void setSelected() {
         enemyTarget.fire();
-    }
-
-    public void targetSync() {
-        if (!enemyTarget.isSelected()) {
-            enemyTarget.setText(null);
-        }
     }
 }
