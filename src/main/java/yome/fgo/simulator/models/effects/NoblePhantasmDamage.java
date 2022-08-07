@@ -46,7 +46,6 @@ import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.List;
 
-import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ANY;
 import static yome.fgo.simulator.models.conditions.Never.NEVER;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCritStar;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;

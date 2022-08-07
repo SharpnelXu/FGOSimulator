@@ -12,12 +12,10 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
-import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.gui.components.StatsLogger.LogLevel;
 import yome.fgo.simulator.gui.creators.MysticCodeCreator;
 import yome.fgo.simulator.models.Simulation;
@@ -41,15 +39,21 @@ import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.BUFF_SIZE;
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.FIELD_ICON_MAP;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.INFO_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SKILL_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.getFieldIcon;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class MiscDisplay extends VBox {
+    private static final EffectData CHARGE_100_NP_FOR_ALL_ALLIES = EffectData.newBuilder()
+            .setType(NpChange.class.getSimpleName())
+            .setTarget(ALL_ALLIES)
+            .addValues(1)
+            .build();
+
     private final SimulationWindow simulationWindow;
     private final ImageView mysticCodeImage;
     private final List<Button> skillButtons;
@@ -70,7 +74,6 @@ public class MiscDisplay extends VBox {
 
         this.simulationWindow = simulationWindow;
 
-        HBox.setHgrow(this, Priority.ALWAYS);
         setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         setSpacing(10);
         setAlignment(Pos.TOP_CENTER);
@@ -209,6 +212,7 @@ public class MiscDisplay extends VBox {
 
         final HBox buttonsHBox = new HBox();
         buttonsHBox.setSpacing(10);
+        buttonsHBox.setAlignment(Pos.CENTER);
 
         final Button executeButton = new Button();
         executeButton.setOnAction(e -> this.simulationWindow.executeCombatActions());
@@ -220,12 +224,7 @@ public class MiscDisplay extends VBox {
 
         final Button chargeNpButton = new Button();
         chargeNpButton.setOnAction(e -> {
-            final EffectData charge100Np = EffectData.newBuilder()
-                    .setType(NpChange.class.getSimpleName())
-                    .setTarget(ALL_ALLIES)
-                    .addValues(1)
-                    .build();
-            this.simulationWindow.getSimulation().activateCustomEffect(charge100Np);
+            this.simulationWindow.getSimulation().activateCustomEffect(CHARGE_100_NP_FOR_ALL_ALLIES);
             this.simulationWindow.render();
         });
         chargeNpButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Charge 100% NP for all allies")));
@@ -268,7 +267,7 @@ public class MiscDisplay extends VBox {
 
         final HBox logLevelHBox = new HBox();
         logLevelHBox.setSpacing(10);
-        logLevelHBox.setAlignment(Pos.CENTER_LEFT);
+        logLevelHBox.setAlignment(Pos.CENTER);
         final Label logLevelChangeLabel = new Label(getTranslation(APPLICATION_SECTION, "Log Level:"));
         logLevelChangeLabel.setStyle("-fx-font-weight: bold");
         logLevelHBox.getChildren().add(logLevelChangeLabel);
@@ -359,13 +358,6 @@ public class MiscDisplay extends VBox {
         randomSlider.setValue(simulation.getFixedRandom());
     }
 
-    private static String getFieldIcon(final String fieldTrait) {
-        if (FIELD_ICON_MAP.containsKey(fieldTrait)) {
-            return FIELD_ICON_MAP.get(fieldTrait);
-        }
-
-        return "default";
-    }
 
     private void activateSkill(final int skillIndex) {
         final SpecialActivationParams specialActivationParams =

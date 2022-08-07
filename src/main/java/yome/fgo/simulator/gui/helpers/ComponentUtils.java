@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
+import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.gui.components.SimulationWindow;
 import yome.fgo.simulator.models.combatants.Combatant;
@@ -33,6 +34,48 @@ public class ComponentUtils {
             Traits.SUNLIGHT.name(), "fieldSunlight",
             Traits.IMAGINARY_SPACE.name(), "fieldImaginary"
     );
+
+    public static String getFieldIcon(final String fieldTrait) {
+        if (FIELD_ICON_MAP.containsKey(fieldTrait)) {
+            return FIELD_ICON_MAP.get(fieldTrait);
+        }
+
+        return "default";
+    }
+
+    public static final Map<FateClass, String> CLASS_ICON_MAP = buildClassIconMap();
+
+    private static Map<FateClass, String> buildClassIconMap() {
+        final ImmutableMap.Builder<FateClass, String> builder = ImmutableMap.builder();
+        builder.put(FateClass.SABER, "saber");
+        builder.put(FateClass.ARCHER, "archer");
+        builder.put(FateClass.LANCER, "lancer");
+        builder.put(FateClass.RIDER, "rider");
+        builder.put(FateClass.CASTER, "caster");
+        builder.put(FateClass.ASSASSIN, "assassin");
+        builder.put(FateClass.BERSERKER, "berserker");
+        builder.put(FateClass.SHIELDER, "shielder");
+        builder.put(FateClass.RULER, "ruler");
+        builder.put(FateClass.AVENGER, "avenger");
+        builder.put(FateClass.MOONCANCER, "mooncancer");
+        builder.put(FateClass.ALTEREGO, "alterego");
+        builder.put(FateClass.FOREIGNER, "foreigner");
+        builder.put(FateClass.PRETENDER, "pretender");
+        builder.put(FateClass.BEAST_I, "Beast_I");
+        builder.put(FateClass.BEAST_II, "Beast_II");
+        builder.put(FateClass.BEAST_III_L, "Beast_III");
+        builder.put(FateClass.BEAST_III_R, "Beast_III");
+        builder.put(FateClass.BEAST_IV, "Beast_IV");
+
+        return builder.build();
+    }
+
+    public static String getClassIcon(final FateClass fateClass) {
+        if (CLASS_ICON_MAP.containsKey(fateClass)) {
+            return CLASS_ICON_MAP.get(fateClass);
+        }
+        return "unknown";
+    }
 
     public static AnchorPane wrapInAnchor(final Node node) {
         final AnchorPane imgAnchor = new AnchorPane();

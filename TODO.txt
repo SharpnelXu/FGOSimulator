@@ -2,10 +2,3 @@
 	NP Gain Mod (Enemy)
 	StartOfTurnEffect
 	HP Bar breack effect
-
-	
-ServantDisplay Buttons:
-Show current buffs
-Show servant info
-Charge 100NP
-Clear CD

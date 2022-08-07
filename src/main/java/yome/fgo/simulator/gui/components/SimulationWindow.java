@@ -68,6 +68,7 @@ import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.BUFF_ICON_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.CARD_IMAGE_DIRECTORY_PATH;
+import static yome.fgo.simulator.utils.FilePathUtils.CLASS_ICON_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.COMMAND_CODES_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.MYSTIC_CODES_DIRECTORY_PATH;
@@ -250,10 +251,6 @@ public class SimulationWindow {
     }
 
     public void targetSync() {
-        for (final ServantDisplay servantDisplay : servantDisplays) {
-            servantDisplay.targetSync();
-        }
-
         for (final Node node : enemyGrid.getChildren()) {
             ((EnemyDisplay) node).targetSync();
         }
@@ -289,6 +286,15 @@ public class SimulationWindow {
         }
 
         return getImage(path, getSkillIcon(iconName));
+    }
+
+    public Image getClassImage(final String iconName) {
+        final String path = String.format("%s/%s.png", CLASS_ICON_DIRECTORY_PATH, iconName);
+        if (imageCache.containsKey(path)) {
+            return imageCache.get(path);
+        }
+
+        return getImage(path, new File(path));
     }
 
     public Image getSimulationImage(final String iconName) {

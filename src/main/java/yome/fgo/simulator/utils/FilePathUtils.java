@@ -19,6 +19,7 @@ public class FilePathUtils {
     public static final String BUFF_ICON_DIRECTORY_PATH = USER_DIR + "/Icons/Buffs";
     public static final String CARD_IMAGE_DIRECTORY_PATH = USER_DIR + "/Icons/Cards";
     public static final String SIMULATION_ICON_DIRECTORY_PATH = USER_DIR + "/Icons/Simulation";
+    public static final String CLASS_ICON_DIRECTORY_PATH = USER_DIR + "/Icons/Class";
 
     public static final String USER_PREFERENCE_FILE_PATH = USER_DIR + "/userPrefs.json";
 

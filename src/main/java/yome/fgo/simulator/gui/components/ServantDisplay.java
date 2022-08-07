@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -13,23 +14,59 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import yome.fgo.data.proto.FgoStorageData.BuffData;
+import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
+import yome.fgo.simulator.gui.creators.ServantCreator;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
+import yome.fgo.simulator.models.effects.DecreaseActiveSkillCoolDown;
+import yome.fgo.simulator.models.effects.ForceInstantDeath;
+import yome.fgo.simulator.models.effects.GrantBuff;
+import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.NO_SPECIAL_TARGET;
+import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
+import static yome.fgo.data.proto.FgoStorageData.Target.TARGETED_ALLY;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.INFO_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SKILL_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.getClassIcon;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.renderBuffPane;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class ServantDisplay extends VBox {
+    private static final EffectData FORCE_INSTANT_DEATH_ON_TARGETED_ALLY = EffectData.newBuilder()
+            .setType(GrantBuff.class.getSimpleName())
+            .setTarget(TARGETED_ALLY)
+            .addBuffData(
+                    BuffData.newBuilder()
+                            .setType(EndOfTurnEffect.class.getSimpleName())
+                            .setNumTurnsActive(1)
+                            .setBuffIcon("leaveField")
+                            .addSubEffects(
+                                    EffectData.newBuilder()
+                                            .setType(ForceInstantDeath.class.getSimpleName())
+                                            .setTarget(SELF)
+                            )
+            )
+            .build();
+    private static final EffectData DECREASE_COOL_DOWN_FOR_TARGETED_ALLY = EffectData.newBuilder()
+            .setType(DecreaseActiveSkillCoolDown.class.getSimpleName())
+            .setTarget(TARGETED_ALLY)
+            .addIntValues(99)
+            .build();
+
     private final SimulationWindow simulationWindow;
     private final int servantIndex;
 
@@ -42,12 +79,13 @@ public class ServantDisplay extends VBox {
     private final Label npLabel;
     private final FlowPane buffsPane;
     private final RadioButton allyTarget;
+    private final ImageView classImage;
+    private final Tooltip classButtonTooltip;
 
     public ServantDisplay(final SimulationWindow simulationWindow, final int servantIndex, final ToggleGroup toggleGroup) {
         super();
         setSpacing(10);
         setAlignment(Pos.TOP_CENTER);
-        setFillWidth(false);
         setPadding(new Insets(10, 10, 10, 10));
         setStyle("-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 3; -fx-border-radius: 3");
         HBox.setHgrow(this, Priority.ALWAYS);
@@ -57,11 +95,7 @@ public class ServantDisplay extends VBox {
 
         allyTarget = new RadioButton();
         allyTarget.setToggleGroup(toggleGroup);
-        allyTarget.setOnAction(e -> {
-            this.simulationWindow.getSimulation().setCurrentAllyTargetIndex(servantIndex);
-            allyTarget.setText(getTranslation(APPLICATION_SECTION, "asTarget"));
-            this.simulationWindow.targetSync();
-        });
+        allyTarget.setOnAction(e -> this.simulationWindow.getSimulation().setCurrentAllyTargetIndex(servantIndex));
 
         getChildren().add(allyTarget);
 
@@ -108,23 +142,76 @@ public class ServantDisplay extends VBox {
 
         getChildren().add(skillHBoxes);
 
-        final Button viewBuffs = new Button(getTranslation(APPLICATION_SECTION, "View Buffs"));
-        viewBuffs.setOnAction(e -> this.simulationWindow.viewServantBuffs(servantIndex));
-
-        final HBox viewHBox = new HBox(10);
-        viewHBox.getChildren().addAll(viewBuffs);
-
         atkLabel = new Label();
         hpLabel = new Label();
         npLabel = new Label();
 
         final HBox generalInfoHBox = new HBox(10);
+        generalInfoHBox.setAlignment(Pos.CENTER);
         generalInfoHBox.getChildren().addAll(atkLabel, hpLabel, npLabel);
+
+        classImage = new ImageView();
+        classImage.setFitWidth(INFO_THUMBNAIL_SIZE);
+        classImage.setFitHeight(INFO_THUMBNAIL_SIZE);
+        final Button classButton = new Button();
+        classButton.setGraphic(classImage);
+        classButtonTooltip = new Tooltip();
+        classButton.setTooltip(classButtonTooltip);
+
+        final ImageView checkBuffImage = new ImageView();
+        checkBuffImage.setFitHeight(INFO_THUMBNAIL_SIZE);
+        checkBuffImage.setFitWidth(INFO_THUMBNAIL_SIZE);
+        checkBuffImage.setImage(this.simulationWindow.getSimulationImage("checkBuff"));
+        final Button viewBuffs = new Button();
+        viewBuffs.setOnAction(e -> this.simulationWindow.viewServantBuffs(servantIndex));
+        viewBuffs.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "View Buffs")));
+        viewBuffs.setGraphic(checkBuffImage);
+
+        final ImageView servantInfoImage = new ImageView();
+        servantInfoImage.setFitHeight(INFO_THUMBNAIL_SIZE);
+        servantInfoImage.setFitWidth(INFO_THUMBNAIL_SIZE);
+        servantInfoImage.setImage(this.simulationWindow.getSimulationImage("info"));
+        final Button servantInfo = new Button();
+        servantInfo.setOnAction(e -> {
+            try {
+                final List<Servant> currentServants = this.simulationWindow.getSimulation().getCurrentServants();
+                if (currentServants.size() > this.servantIndex) {
+                    final Servant servant = currentServants.get(this.servantIndex);
+                    if (servant != null) {
+                        ServantCreator.preview(this.getScene().getWindow(), servant.getServantData());
+                    }
+                }
+            } catch (final IOException ignored) {
+            }
+        });
+        servantInfo.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Servant details")));
+        servantInfo.setGraphic(servantInfoImage);
+
+        final ImageView decreaseCDImage = new ImageView(this.simulationWindow.getSimulationImage("skillCharge"));
+        decreaseCDImage.setFitHeight(INFO_THUMBNAIL_SIZE);
+        decreaseCDImage.setFitWidth(INFO_THUMBNAIL_SIZE);
+        final Button chargeSkillButton = new Button();
+        chargeSkillButton.setOnAction(e -> activateTargetedEffect(DECREASE_COOL_DOWN_FOR_TARGETED_ALLY));
+        chargeSkillButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Charge skill for this servant")));
+        chargeSkillButton.setGraphic(decreaseCDImage);
+
+        final ImageView forceInstantDeathImg = new ImageView(this.simulationWindow.getSimulationImage("forceInstantDeath"));
+        forceInstantDeathImg.setFitHeight(INFO_THUMBNAIL_SIZE);
+        forceInstantDeathImg.setFitWidth(INFO_THUMBNAIL_SIZE);
+        final Button forceInstantDeathButton = new Button();
+        forceInstantDeathButton.setOnAction(e -> activateTargetedEffect(FORCE_INSTANT_DEATH_ON_TARGETED_ALLY));
+        forceInstantDeathButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Force instant death on turn end")));
+        forceInstantDeathButton.setGraphic(forceInstantDeathImg);
+
+        final HBox buttonHBox = new HBox(5);
+        buttonHBox.setAlignment(Pos.CENTER);
+        buttonHBox.getChildren().addAll(classButton, viewBuffs, servantInfo, chargeSkillButton, forceInstantDeathButton);
+
         buffsPane = new FlowPane();
         buffsPane.setAlignment(Pos.TOP_CENTER);
         buffsPane.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
-        getChildren().addAll(generalInfoHBox, viewHBox, buffsPane);
+        getChildren().addAll(generalInfoHBox, buttonHBox, buffsPane);
     }
 
     private void activateSkill(final int skillIndex) {
@@ -155,6 +242,7 @@ public class ServantDisplay extends VBox {
         }
 
         setVisible(true);
+        allyTarget.setText(getTranslation(ENTITY_NAME_SECTION, servant.getId()));
         servantThumbnail.setImage(simulationWindow.getServantImage(servant.getId(), servant.getAscension()));
 
         for (int i = 0; i < 3; i += 1) {
@@ -204,6 +292,10 @@ public class ServantDisplay extends VBox {
                 )
         );
 
+        final FateClass servantClass = servant.getFateClass();
+        classImage.setImage(simulationWindow.getClassImage(getClassIcon(servantClass)));
+        classButtonTooltip.setText(getTranslation(CLASS_SECTION, servantClass.name()));
+
         renderBuffPane(buffsPane, servant, simulationWindow);
     }
 
@@ -211,9 +303,15 @@ public class ServantDisplay extends VBox {
         allyTarget.fire();
     }
 
-    public void targetSync() {
-        if (!allyTarget.isSelected()) {
-            allyTarget.setText(null);
+    private void activateTargetedEffect(final EffectData effectData) {
+        try {
+            final Simulation simulation = this.simulationWindow.getSimulation();
+            final int currentAllyIndex = simulation.getCurrentAllyTargetIndex();
+            simulation.setCurrentAllyTargetIndex(this.servantIndex);
+            simulation.activateCustomEffect(effectData);
+            simulation.setCurrentAllyTargetIndex(currentAllyIndex);
+            this.simulationWindow.render();
+        } catch (final Exception ignored) {
         }
     }
 }
