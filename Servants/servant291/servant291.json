@@ -729,6 +729,82 @@
           }]
         }],
         "noblePhantasmType": "SINGLE_TARGET_NP"
+      }, {
+        "commandCardData": {
+          "commandCardType": "ARTS",
+          "hitsData": [16, 33, 51],
+          "npRate": 0.0053,
+          "criticalStarGen": 0.088
+        },
+        "effects": [{
+          "type": "NoblePhantasmDamage",
+          "target": "TARGETED_ENEMY",
+          "values": [12.0, 15.0, 16.5, 17.25, 18.0],
+          "npDamageAdditionalParams": {
+            "npSpecificDamageCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "EARTH",
+              "target": "DEFENDER"
+            },
+            "npSpecificDamageRate": [1.5]
+          }
+        }, {
+          "type": "NpGaugeChange",
+          "target": "TARGETED_ENEMY",
+          "probabilities": [0.6],
+          "intValues": [-1]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ENEMY",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "CommandCardResist",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [-0.2],
+            "buffIcon": "artsResistDown"
+          }, {
+            "type": "CommandCardResist",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [-0.25],
+            "buffIcon": "artsResistDown"
+          }, {
+            "type": "CommandCardResist",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [-0.3],
+            "buffIcon": "artsResistDown"
+          }, {
+            "type": "CommandCardResist",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [-0.35],
+            "buffIcon": "artsResistDown"
+          }, {
+            "type": "CommandCardResist",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [-0.4],
+            "buffIcon": "artsResistDown"
+          }]
+        }],
+        "noblePhantasmType": "SINGLE_TARGET_NP"
       }]
     },
     "extraCard": {

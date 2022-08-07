@@ -726,6 +726,88 @@
           }]
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"
+      }, {
+        "commandCardData": {
+          "commandCardType": "BUSTER",
+          "hitsData": [16, 33, 51],
+          "npRate": 0.0158,
+          "criticalStarGen": 0.108
+        },
+        "effects": [{
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [4.0, 5.0, 5.5, 5.75, 6.0]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "AttackBuff",
+            "numTurnsActive": 3,
+            "values": [-0.2],
+            "buffIcon": "attackDown"
+          }, {
+            "type": "AttackBuff",
+            "numTurnsActive": 3,
+            "values": [-0.25],
+            "buffIcon": "attackDown"
+          }, {
+            "type": "AttackBuff",
+            "numTurnsActive": 3,
+            "values": [-0.3],
+            "buffIcon": "attackDown"
+          }, {
+            "type": "AttackBuff",
+            "numTurnsActive": 3,
+            "values": [-0.35],
+            "buffIcon": "attackDown"
+          }, {
+            "type": "AttackBuff",
+            "numTurnsActive": 3,
+            "values": [-0.4],
+            "buffIcon": "attackDown"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "DefenseBuff",
+            "numTurnsActive": 3,
+            "values": [-0.2],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 3,
+            "values": [-0.25],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 3,
+            "values": [-0.3],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 3,
+            "values": [-0.35],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 3,
+            "values": [-0.4],
+            "buffIcon": "defenseDown"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "ALL_ALLIES",
+          "values": [0.3],
+          "applyCondition": {
+            "type": "TargetsHaveClass",
+            "value": "FOREIGNER",
+            "target": "EFFECT_TARGET"
+          }
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
       }]
     },
     "extraCard": {

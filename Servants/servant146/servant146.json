@@ -127,6 +127,32 @@
           }]
         }],
         "iconName": "guts"
+      }, {
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "Guts",
+            "numTurnsActive": 3,
+            "numTimesActive": 1,
+            "values": [1000.0, 1200.0, 1400.0, 1600.0, 1800.0, 2000.0, 2200.0, 2400.0, 2600.0, 3000.0],
+            "buffIcon": "guts"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "Invincible",
+            "numTimesActive": 1,
+            "buffIcon": "invincible"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "SELF",
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+        }],
+        "iconName": "guts"
       }]
     }],
     "passiveSkillData": [{

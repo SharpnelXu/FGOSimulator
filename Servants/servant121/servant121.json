@@ -667,22 +667,15 @@
         }, {
           "type": "NoblePhantasmDamage",
           "target": "TARGETED_ENEMY",
-          "values": [9.0, 12.0, 13.5, 14.25, 15.0]
+          "values": [12.0, 15.0, 16.5, 17.25, 18.0],
+          "npDamageAdditionalParams": {
+            "isNpIgnoreDefense": true
+          }
         }, {
           "type": "GrantBuff",
           "target": "TARGETED_ENEMY",
           "isOverchargedEffect": true,
           "buffData": [{
-            "type": "DamageReductionBuff",
-            "numTurnsActive": 5,
-            "values": [-1000.0],
-            "buffIcon": "defenseDown"
-          }, {
-            "type": "DamageReductionBuff",
-            "numTurnsActive": 5,
-            "values": [-1500.0],
-            "buffIcon": "defenseDown"
-          }, {
             "type": "DamageReductionBuff",
             "numTurnsActive": 5,
             "values": [-2000.0],
@@ -696,6 +689,16 @@
             "type": "DamageReductionBuff",
             "numTurnsActive": 5,
             "values": [-3000.0],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DamageReductionBuff",
+            "numTurnsActive": 5,
+            "values": [-3500.0],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DamageReductionBuff",
+            "numTurnsActive": 5,
+            "values": [-4000.0],
             "buffIcon": "defenseDown"
           }]
         }],

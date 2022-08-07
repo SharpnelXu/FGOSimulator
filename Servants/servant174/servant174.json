@@ -681,6 +681,49 @@
           }]
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"
+      }, {
+        "commandCardData": {
+          "commandCardType": "BUSTER",
+          "hitsData": [33, 67],
+          "npRate": 0.0067,
+          "criticalStarGen": 0.049
+        },
+        "effects": [{
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [4.0, 5.0, 5.5, 5.75, 6.0]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "DefenseBuff",
+            "numTurnsActive": 5,
+            "values": [-0.2],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 5,
+            "values": [-0.25],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 5,
+            "values": [-0.3],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 5,
+            "values": [-0.35],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 5,
+            "values": [-0.4],
+            "buffIcon": "defenseDown"
+          }]
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
       }]
     },
     "extraCard": {
@@ -698,7 +741,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "BALANCED"],
       "attribute": "EARTH",
-      "traits": ["HOMINIDAE_SERVANT", "GIANT", "CHILD_SERVANT", "FAIRY_TALE_SERVANT", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["HOMINIDAE_SERVANT", "GIANT", "CHILD_SERVANT", "FAIRY_TALE_SERVANT", "HAS_COSTUME", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.65
     },
     "defenseNpRate": 0.05,
@@ -1368,6 +1411,49 @@
             "type": "DefenseBuff",
             "numTurnsActive": 5,
             "values": [-0.3],
+            "buffIcon": "defenseDown"
+          }]
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
+      }, {
+        "commandCardData": {
+          "commandCardType": "BUSTER",
+          "hitsData": [33, 67],
+          "npRate": 0.0067,
+          "criticalStarGen": 0.049
+        },
+        "effects": [{
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [4.0, 5.0, 5.5, 5.75, 6.0]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "DefenseBuff",
+            "numTurnsActive": 5,
+            "values": [-0.2],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 5,
+            "values": [-0.25],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 5,
+            "values": [-0.3],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 5,
+            "values": [-0.35],
+            "buffIcon": "defenseDown"
+          }, {
+            "type": "DefenseBuff",
+            "numTurnsActive": 5,
+            "values": [-0.4],
             "buffIcon": "defenseDown"
           }]
         }],

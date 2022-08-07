@@ -132,6 +132,50 @@
           }]
         }],
         "iconName": "starWeightUp"
+      }, {
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "CriticalStarWeightBuff",
+            "numTurnsActive": 1,
+            "values": [3.0, 3.3, 3.6, 3.9, 4.2, 4.5, 4.8, 5.1, 5.4, 6.0],
+            "buffIcon": "starWeightUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+            "buffIcon": "quickUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+            "buffIcon": "critDamageUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "CriticalChanceResist",
+            "numTurnsActive": 3,
+            "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+            "buffIcon": "critReceiveResistUp"
+          }]
+        }],
+        "iconName": "starWeightUp"
       }]
     }],
     "passiveSkillData": [{

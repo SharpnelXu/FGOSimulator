@@ -98,6 +98,36 @@
           }]
         }],
         "iconName": "maxHpUp"
+      }, {
+        "baseCoolDown": 7,
+        "effects": [{
+          "type": "MaxHpChange",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "MaxHpBuff",
+            "numTurnsActive": 3,
+            "values": [1000.0, 1100.0, 1200.0, 1300.0, 1400.0, 1500.0, 1600.0, 1700.0, 1800.0, 2000.0],
+            "buffIcon": "maxHpUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
+            "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+            "buffIcon": "busterUp"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "ALL_ALLIES",
+          "values": [0.1]
+        }],
+        "iconName": "maxHpUp"
       }]
     }],
     "passiveSkillData": [{

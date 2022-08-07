@@ -762,6 +762,91 @@
           }]
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"
+      }, {
+        "commandCardData": {
+          "commandCardType": "QUICK",
+          "hitsData": [6, 13, 20, 26, 35],
+          "npRate": 0.0054,
+          "criticalStarGen": 0.253
+        },
+        "effects": [{
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [8.0, 10.0, 11.0, 11.5, 12.0],
+          "npDamageAdditionalParams": {
+            "npSpecificDamageCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "LAWFUL",
+              "target": "DEFENDER"
+            },
+            "npSpecificDamageRate": [1.5]
+          }
+        }, {
+          "type": "RemoveBuff",
+          "target": "ALL_ENEMIES",
+          "applyCondition": {
+            "type": "And",
+            "subConditionData": [{
+              "type": "BuffHasTrait",
+              "value": "ATTACKER_BUFF"
+            }, {
+              "type": "BuffHasTrait",
+              "value": "POSITIVE_BUFF"
+            }]
+          },
+          "intValues": [0]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "CommandCardResist",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [-0.2],
+            "buffIcon": "quickResistDown"
+          }, {
+            "type": "CommandCardResist",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [-0.25],
+            "buffIcon": "quickResistDown"
+          }, {
+            "type": "CommandCardResist",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [-0.3],
+            "buffIcon": "quickResistDown"
+          }, {
+            "type": "CommandCardResist",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [-0.35],
+            "buffIcon": "quickResistDown"
+          }, {
+            "type": "CommandCardResist",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [-0.4],
+            "buffIcon": "quickResistDown"
+          }]
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
       }]
     },
     "extraCard": {

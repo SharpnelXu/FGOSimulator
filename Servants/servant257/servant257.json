@@ -87,6 +87,34 @@
           }]
         }],
         "iconName": "starWeightDown"
+      }, {
+        "baseCoolDown": 7,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "CriticalStarWeightBuff",
+            "numTurnsActive": 3,
+            "values": [-1.0],
+            "customTraits": ["POSITIVE_BUFF"],
+            "hasCustomTraits": true,
+            "buffIcon": "starWeightDownBuff"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ALLIES",
+          "buffData": [{
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+            "buffIcon": "critDamageUp"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "ALL_ALLIES",
+          "values": [0.1]
+        }],
+        "iconName": "starWeightDown"
       }]
     }, {
       "activeSkillData": [{
