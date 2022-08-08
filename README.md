@@ -1,3 +1,10 @@
+<style>
+.icon {
+    width: 40px;
+    vertical-align: middle;
+}
+</style>
+
 # FGO模拟器
 
 制作自定义单位时，请主要依照FGO的逻辑来写。
@@ -26,15 +33,17 @@
 另外是支持多语言的，在`Translations`文件夹下加就好。首选的语言可以在`options.ini`里设置。
 
 ## 更新相关
-- v0.62.beta:
+- v0.70.beta:
   - 系统：
     - 修复了从者设置界面HP强化显示为ATK强化的Bug
     - 七周年战斗更新（Quick Chain20星，三色Chain）
-    - 添加特性虞美人
-    - 添加战斗步骤中的撤回功能
-    - 修复了敌方目标选择文字的Bug
-    - 现在可以点击敌方头像选择目标
+    - 添加特性虞美人、千年城
     - 修正鞭尸Bug的触发
+  - 战斗界面
+    - 添加战斗步骤中的撤回功能
+    - 添加各项优化功能
+    - 现在可以点击敌方头像选择目标
+    - 优化了界面显示（详情见[战斗界面](#战斗界面)）
 - v0.61.beta:
   - 系统：
     - 修复了目标选择文字的Bug
@@ -114,20 +123,60 @@
 
 ### 战斗界面
 
-![战斗界面](./ReadmePic/BattleSimulation/battle.png)
+战斗界面由从者显示、礼装及功能显示、敌方单位显示和战斗记录组成。
 
-只要发动了攻击就会进行回合，目前系统没有写撤回所以请慎重操作。
-敌方单位不会行动，但是仍会发动正常发动回合结束效果等类似操作。
+#### 从者显示
+![从者显示](./ReadmePic/BattleSimulation/servantDisplay.png)
+
+- 最上方的按钮代表该从者当前是否为选中状态。若为选中状态，则所有指向性的技能（目标友方）会自动以该从者为目标。
+点击该按钮或是从者头像都会将该从者设置为选中状态。
+- 从者技能使用后会显示CD。无法行动状态下则会显示X。
+- ATK为补正前的数值，即游戏内显示的数值。为了节省空间，HP只会显示当前HP槽的血量，详细可以点击下方的放大镜图标查看。
+- <img src="./Icons/Class/avenger.png" alt="职阶信息" class="icon"/>：显示该职阶的基础数值，例如ATK补正、职阶克制等。
+- <img src="./Icons/Simulation/checkBuff.png" alt="状态明细" class="icon"/>：显示该从者当前的详细状态，例如从者所持特性、各个状态的具体效果、持续时间等。
+- <img src="./Icons/Simulation/info.png" alt="详细数据" class="icon"/>：通过从者编辑器查看该从者的基础数据。
+- <img src="./Icons/Simulation/skillCharge.png" alt="刷新技能" class="icon"/>：立刻刷新技能。
+- <img src="./Icons/Simulation/forceInstantDeath.png" alt="回合结束即死" class="icon"/>：为该从者添加一个回合结束时强制即死的状态，用于模拟敌方攻击。
+- 最下方为当前该从者被赋予的所有状态。带框为不可解除的状态，通常是该从者的被动技能和礼装赋予的。
+
+#### 礼装及功能显示
+![礼装及功能显示](./ReadmePic/BattleSimulation/miscDisplay.png)
+
+- <img src="./Icons/Simulation/info.png" alt="详细数据" class="icon"/>：通过魔术礼装编辑器查看魔术礼装的基础数据。
+- 由于模拟器暴击不依赖暴击星，所以暴击星显示为计算得出的期望值，仅作参考。
+- 场地特性列出的图标所代表的特性为：
+  - <img src="./Icons/Buffs/fieldBurn.png" alt="燃烧" class="icon"/>：燃烧
+  - <img src="./Icons/Buffs/fieldCity.png" alt="都市" class="icon"/>：都市
+  - <img src="./Icons/Buffs/fieldForest.png" alt="森林" class="icon"/>：森林
+  - <img src="./Icons/Buffs/fieldImaginary.png" alt="虚数空间" class="icon"/>：虚数空间
+  - <img src="./Icons/Buffs/fieldMillenniumCastle.png" alt="千年城" class="icon"/>：千年城
+  - <img src="./Icons/Buffs/fieldShoreline.png" alt="水边" class="icon"/>：水边
+  - <img src="./Icons/Buffs/fieldSunlight.png" alt="阳光照射" class="icon"/>：阳光照射
+  - <img src="./Icons/Buffs/default.png" alt="其他" class="icon"/>：其他，具体特性可以将鼠标移到场地特性图标上查看。
+- 概率阈值和随机数可以随时调整，同时设置的数值会被撤销功能保存。
+- <img src="./Icons/Simulation/attack.png" alt="攻击" class="icon"/>：显示指令卡选择界面。
+  指令卡选择界面中点一下为选择，点两下则为暴击，另外会显示指令纹章和指令卡强化的数值。
+
+![指令卡选择](./ReadmePic/BattleSimulation/combatActionSelect.png)
+- <img src="./Icons/Simulation/npCharge.png" alt="立即充能" class="icon"/>：全体友方从者NP增加100%。方便宝具释放。
+- <img src="./Icons/Simulation/commandSeal_male.png" alt="自定义效果" class="icon"/>：发动自定义效果。
+这些效果和御主礼装一样没有明确的发动来源，所以使用时请将目标选择为“目标友方/敌方”、“全体友方/敌方”等合理目标。详细解说参见[机制讲解](#机制讲解)。
+- <img src="./Icons/Simulation/revert.png" alt="撤销" class="icon"/>：撤销上个操作，包括技能使用、攻击和自定义效果。
+选中的我方、敌方单位、概率阈值和随机数都会回退到上次操作前的选择。另外注意：由于<img src="./Icons/Simulation/skillCharge.png" alt="刷新技能" class="icon"/>
+和<img src="./Icons/Simulation/forceInstantDeath.png" alt="回合结束即死" class="icon"/>会将所作用的从者为效果目标，所以会改变选中的我方单位。
+- 战斗记录等级分为三档，ACTION只会显示操作相关的记录，EFFECT会显示操作和效果记录，而DEBUG会显示全部记录。默认为EFFECT。
+
+#### 敌方单位显示
+基本与从者显示一致，值得一提的就是查看状态时拥有多管HP槽敌人的显示：
+![状态明细](./ReadmePic/BattleSimulation/checkBuff.png)
+
+图中当前HP槽为1，也就是目前该单位显示的是第一管HP，即1000。
+
+#### 战斗机制
+- 敌方单位不会行动，但是仍会发动正常发动回合结束效果等类似操作。
 敌方从者默认为一宝并拥有稀有度不喂圣杯所允许的最大等级的ATK，这点主要是为了正确执行敌方的巴姐反击buff。
-另外虽然敌方从者会发动回合结束时获得暴击星的技能，但并不会真正获得暴击星。
-
-指令卡选择界面中点一下为选择，点两下则为暴击，另外会显示指令纹章和指令卡强化。若符合条件，Arts/Quick Chain由无来源发动。
-宝具可以在100NP以下时发动，这时OC实际是0，但由于OC最小为1，所以连着发动不满的宝具OC判断会是1，1，2而不是正常的1，2，3。
-
-支持在战斗中发动任意效果，这些效果和御主礼装一样没有发动来源，所以使用时请将目标选择为“目标友方/敌方”、“全体友方/敌方”等合理目标。
-若目标设置为不合理目标（自身、效果目标、攻击者等），程序具体会做什么是我也不知道的（Undefined）。效果制作参见[机制讲解](#机制讲解)。
-
-另外目前没有设置任何关卡结束的检查，所以即使敌方或我方全灭了仍可发动技能，当然此时具体会做什么也是不明确的。
+- 虽然敌方从者会发动回合结束时获得暴击星的技能，但并不会真正获得暴击星。 
+- 目前没有设置任何关卡结束的检查，所以即使敌方或我方全灭了仍可发动技能。这种情况下可能会报错。
 
 ## 机制讲解
 为了能够制作合乎逻辑的从者，首先得介绍一下模拟器的工作原理。对理解能力有自信的可以直接看做完的从者当参考。
