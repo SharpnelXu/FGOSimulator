@@ -1,10 +1,3 @@
-<style>
-.icon {
-    width: 40px;
-    vertical-align: middle;
-}
-</style>
-
 # FGO模拟器
 
 制作自定义单位时，请主要依照FGO的逻辑来写。
@@ -132,38 +125,38 @@
 点击该按钮或是从者头像都会将该从者设置为选中状态。
 - 从者技能使用后会显示CD。无法行动状态下则会显示X。
 - ATK为补正前的数值，即游戏内显示的数值。为了节省空间，HP只会显示当前HP槽的血量，详细可以点击下方的放大镜图标查看。
-- <img src="./Icons/Class/avenger.png" alt="职阶信息" class="icon"/>：显示该职阶的基础数值，例如ATK补正、职阶克制等。
-- <img src="./Icons/Simulation/checkBuff.png" alt="状态明细" class="icon"/>：显示该从者当前的详细状态，例如从者所持特性、各个状态的具体效果、持续时间等。
-- <img src="./Icons/Simulation/info.png" alt="详细数据" class="icon"/>：通过从者编辑器查看该从者的基础数据。
-- <img src="./Icons/Simulation/skillCharge.png" alt="刷新技能" class="icon"/>：立刻刷新技能。
-- <img src="./Icons/Simulation/forceInstantDeath.png" alt="回合结束即死" class="icon"/>：为该从者添加一个回合结束时强制即死的状态，用于模拟敌方攻击。
+- <img src="./Icons/Class/avenger.png" alt="职阶信息" width="40" align="center"/>：显示该职阶的基础数值，例如ATK补正、职阶克制等。
+- <img src="./Icons/Simulation/checkBuff.png" alt="状态明细" width="40" align="center"/>：显示该从者当前的详细状态，例如从者所持特性、各个状态的具体效果、持续时间等。
+- <img src="./Icons/Simulation/info.png" alt="详细数据" width="40" align="center"/>：通过从者编辑器查看该从者的基础数据。
+- <img src="./Icons/Simulation/skillCharge.png" alt="刷新技能" width="40" align="center"/>：立刻刷新技能。
+- <img src="./Icons/Simulation/forceInstantDeath.png" alt="回合结束即死" width="40" align="center"/>：为该从者添加一个回合结束时强制即死的状态，用于模拟敌方攻击。
 - 最下方为当前该从者被赋予的所有状态。带框为不可解除的状态，通常是该从者的被动技能和礼装赋予的。
 
 #### 礼装及功能显示
 ![礼装及功能显示](./ReadmePic/BattleSimulation/miscDisplay.png)
 
-- <img src="./Icons/Simulation/info.png" alt="详细数据" class="icon"/>：通过魔术礼装编辑器查看魔术礼装的基础数据。
+- <img src="./Icons/Simulation/info.png" alt="详细数据" width="40" align="center"/>：通过魔术礼装编辑器查看魔术礼装的基础数据。
 - 由于模拟器暴击不依赖暴击星，所以暴击星显示为计算得出的期望值，仅作参考。
 - 场地特性列出的图标所代表的特性为：
-  - <img src="./Icons/Buffs/fieldBurn.png" alt="燃烧" class="icon"/>：燃烧
-  - <img src="./Icons/Buffs/fieldCity.png" alt="都市" class="icon"/>：都市
-  - <img src="./Icons/Buffs/fieldForest.png" alt="森林" class="icon"/>：森林
-  - <img src="./Icons/Buffs/fieldImaginary.png" alt="虚数空间" class="icon"/>：虚数空间
-  - <img src="./Icons/Buffs/fieldMillenniumCastle.png" alt="千年城" class="icon"/>：千年城
-  - <img src="./Icons/Buffs/fieldShoreline.png" alt="水边" class="icon"/>：水边
-  - <img src="./Icons/Buffs/fieldSunlight.png" alt="阳光照射" class="icon"/>：阳光照射
-  - <img src="./Icons/Buffs/default.png" alt="其他" class="icon"/>：其他，具体特性可以将鼠标移到场地特性图标上查看。
+  - <img src="./Icons/Buffs/fieldBurn.png" alt="燃烧" width="40" align="center"/>：燃烧
+  - <img src="./Icons/Buffs/fieldCity.png" alt="都市" width="40" align="center"/>：都市
+  - <img src="./Icons/Buffs/fieldForest.png" alt="森林" width="40" align="center"/>：森林
+  - <img src="./Icons/Buffs/fieldImaginary.png" alt="虚数空间" width="40" align="center"/>：虚数空间
+  - <img src="./Icons/Buffs/fieldMillenniumCastle.png" alt="千年城" width="40" align="center"/>：千年城
+  - <img src="./Icons/Buffs/fieldShoreline.png" alt="水边" width="40" align="center"/>：水边
+  - <img src="./Icons/Buffs/fieldSunlight.png" alt="阳光照射" width="40" align="center"/>：阳光照射
+  - <img src="./Icons/Buffs/default.png" alt="其他" width="40" align="center"/>：其他，具体特性可以将鼠标移到场地特性图标上查看。
 - 概率阈值和随机数可以随时调整，同时设置的数值会被撤销功能保存。
-- <img src="./Icons/Simulation/attack.png" alt="攻击" class="icon"/>：显示指令卡选择界面。
+- <img src="./Icons/Simulation/attack.png" alt="攻击" width="40" align="center"/>：显示指令卡选择界面。
   指令卡选择界面中点一下为选择，点两下则为暴击，另外会显示指令纹章和指令卡强化的数值。
 
 ![指令卡选择](./ReadmePic/BattleSimulation/combatActionSelect.png)
-- <img src="./Icons/Simulation/npCharge.png" alt="立即充能" class="icon"/>：全体友方从者NP增加100%。方便宝具释放。
-- <img src="./Icons/Simulation/commandSeal_male.png" alt="自定义效果" class="icon"/>：发动自定义效果。
+- <img src="./Icons/Simulation/npCharge.png" alt="立即充能" width="40" align="center"/>：全体友方从者NP增加100%。方便宝具释放。
+- <img src="./Icons/Simulation/commandSeal_male.png" alt="自定义效果" width="40" align="center"/>：发动自定义效果。
 这些效果和御主礼装一样没有明确的发动来源，所以使用时请将目标选择为“目标友方/敌方”、“全体友方/敌方”等合理目标。详细解说参见[机制讲解](#机制讲解)。
-- <img src="./Icons/Simulation/revert.png" alt="撤销" class="icon"/>：撤销上个操作，包括技能使用、攻击和自定义效果。
-选中的我方、敌方单位、概率阈值和随机数都会回退到上次操作前的选择。另外注意：由于<img src="./Icons/Simulation/skillCharge.png" alt="刷新技能" class="icon"/>
-和<img src="./Icons/Simulation/forceInstantDeath.png" alt="回合结束即死" class="icon"/>会将所作用的从者为效果目标，所以会改变选中的我方单位。
+- <img src="./Icons/Simulation/revert.png" alt="撤销" width="40" align="center"/>：撤销上个操作，包括技能使用、攻击和自定义效果。
+选中的我方、敌方单位、概率阈值和随机数都会回退到上次操作前的选择。另外注意：由于<img src="./Icons/Simulation/skillCharge.png" alt="刷新技能" width="40" align="center"/>
+和<img src="./Icons/Simulation/forceInstantDeath.png" alt="回合结束即死" width="40" align="center"/>会将所作用的从者为效果目标，所以会改变选中的我方单位。
 - 战斗记录等级分为三档，ACTION只会显示操作相关的记录，EFFECT会显示操作和效果记录，而DEBUG会显示全部记录。默认为EFFECT。
 
 #### 敌方单位显示
