@@ -36,7 +36,10 @@ import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.NO_SPEC
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.data.proto.FgoStorageData.Target.TARGETED_ALLY;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.INFO_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SKILL_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_DISPLAY_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.getClassIcon;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.renderBuffPane;
@@ -87,8 +90,8 @@ public class ServantDisplay extends VBox {
         super();
         setSpacing(10);
         setAlignment(Pos.TOP_CENTER);
-        setPadding(new Insets(10, 10, 10, 10));
-        setStyle("-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 3; -fx-border-radius: 3");
+        setPadding(new Insets(10));
+        setStyle(UNIT_DISPLAY_STYLE);
         HBox.setHgrow(this, Priority.ALWAYS);
 
         this.simulationWindow = simulationWindow;
@@ -101,10 +104,10 @@ public class ServantDisplay extends VBox {
         getChildren().add(allyTarget);
 
         servantThumbnail = new ImageView();
-        servantThumbnail.setFitHeight(100);
-        servantThumbnail.setFitWidth(100);
+        servantThumbnail.setFitHeight(SERVANT_THUMBNAIL_SIZE);
+        servantThumbnail.setFitWidth(SERVANT_THUMBNAIL_SIZE);
         final AnchorPane imgAnchor = wrapInAnchor(servantThumbnail);
-        imgAnchor.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2");
+        imgAnchor.setStyle(UNIT_THUMBNAIL_STYLE);
 
         final Button servantSelectButton = new Button();
         servantSelectButton.setGraphic(imgAnchor);

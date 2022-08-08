@@ -65,8 +65,11 @@ import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printBasicCombatantData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printEffectData;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.BUFF_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.PERMANENT_BUFF_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
@@ -635,8 +638,8 @@ public class SimulationWindow {
         for (int i = 0; i < buffs.size(); i += 1) {
             final Buff buff = buffs.get(i);
             final ImageView buffIcon = new ImageView(getBuffImage(buff.getIconName()));
-            buffIcon.setFitWidth(20);
-            buffIcon.setFitHeight(20);
+            buffIcon.setFitWidth(BUFF_SIZE);
+            buffIcon.setFitHeight(BUFF_SIZE);
             final AnchorPane buffImgAnchor = wrapInAnchor(buffIcon);
             if (buff.isIrremovable()) {
                 buffImgAnchor.setStyle(PERMANENT_BUFF_STYLE);
@@ -659,11 +662,11 @@ public class SimulationWindow {
 
     public static AnchorPane createServantImage(final Image image) {
         final ImageView servantThumbnail = new ImageView();
-        servantThumbnail.setFitHeight(100);
-        servantThumbnail.setFitWidth(100);
+        servantThumbnail.setFitHeight(SERVANT_THUMBNAIL_SIZE);
+        servantThumbnail.setFitWidth(SERVANT_THUMBNAIL_SIZE);
         servantThumbnail.setImage(image);
         final AnchorPane imgAnchor = wrapInAnchor(servantThumbnail);
-        imgAnchor.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2");
+        imgAnchor.setStyle(UNIT_THUMBNAIL_STYLE);
         return imgAnchor;
     }
 

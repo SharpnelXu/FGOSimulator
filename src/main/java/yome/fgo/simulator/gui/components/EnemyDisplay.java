@@ -20,8 +20,12 @@ import yome.fgo.simulator.models.combatants.Servant;
 import java.util.List;
 
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.INFO_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_DISPLAY_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.getClassIcon;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.renderBuffPane;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
@@ -45,8 +49,8 @@ public class EnemyDisplay extends VBox {
         setSpacing(10);
         setAlignment(Pos.TOP_CENTER);
         setFillWidth(false);
-        setPadding(new Insets(10, 10, 10, 10));
-        setStyle("-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 3; -fx-border-radius: 3");
+        setPadding(new Insets(10));
+        setStyle(UNIT_DISPLAY_STYLE);
 
         this.simulationWindow = simulationWindow;
         this.enemyIndex = enemyIndex;
@@ -58,15 +62,10 @@ public class EnemyDisplay extends VBox {
         getChildren().add(enemyTarget);
 
         enemyImage = new ImageView();
-        enemyImage.setFitHeight(100);
-        enemyImage.setFitWidth(100);
-        final AnchorPane imgAnchor = new AnchorPane();
-        imgAnchor.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2");
-        AnchorPane.setBottomAnchor(enemyImage, 0.0);
-        AnchorPane.setTopAnchor(enemyImage, 0.0);
-        AnchorPane.setLeftAnchor(enemyImage, 0.0);
-        AnchorPane.setRightAnchor(enemyImage, 0.0);
-        imgAnchor.getChildren().add(enemyImage);
+        enemyImage.setFitHeight(SERVANT_THUMBNAIL_SIZE);
+        enemyImage.setFitWidth(SERVANT_THUMBNAIL_SIZE);
+        final AnchorPane imgAnchor = wrapInAnchor(enemyImage);
+        imgAnchor.setStyle(UNIT_THUMBNAIL_STYLE);
 
         final Button enemySelectButton = new Button();
         enemySelectButton.setGraphic(imgAnchor);
