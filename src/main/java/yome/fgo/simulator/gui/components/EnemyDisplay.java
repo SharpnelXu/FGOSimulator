@@ -88,6 +88,10 @@ public class EnemyDisplay extends VBox {
         classButton.setGraphic(classImage);
         classButtonTooltip = new Tooltip();
         classButton.setTooltip(classButtonTooltip);
+        classButton.setOnAction(e -> {
+            final Combatant combatant = this.simulationWindow.getSimulation().getCurrentEnemies().get(this.enemyIndex);
+            this.simulationWindow.showClassInfo(combatant.getFateClass());
+        });
 
         final ImageView checkBuffImage = new ImageView();
         checkBuffImage.setFitHeight(INFO_THUMBNAIL_SIZE);

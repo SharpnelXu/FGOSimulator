@@ -1,9 +1,11 @@
 package yome.fgo.simulator.gui.components;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -11,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -26,6 +29,7 @@ import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeOption;
@@ -61,6 +65,8 @@ import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printBasicCombatantData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printEffectData;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENEMY_NAME_SECTION;
@@ -85,9 +91,11 @@ public class SimulationWindow {
     private final GridPane enemyGrid;
     private final StatsLogger statsLogger;
     private final ToggleGroup enemyToggle;
+    private final VBox contentVBox;
     private final VBox specialSelectionVBox;
     private final VBox showBuffsVBox;
-    private final HBox combatActionsHBox;
+    private final VBox combatActionsVBox;
+    private final FateClassInfoVBox fateClassInfoVBox;
 
     public SimulationWindow(
             final LevelData levelData,
@@ -114,7 +122,7 @@ public class SimulationWindow {
 
         root = stackPane;
 
-        final VBox contentVBox = new VBox();
+        contentVBox = new VBox();
         contentVBox.setSpacing(10);
         contentVBox.setPadding(new Insets(10, 10, 10, 10));
         contentVBox.setAlignment(Pos.TOP_CENTER);
@@ -184,37 +192,59 @@ public class SimulationWindow {
         specialSelectionVBox = new VBox();
         specialSelectionVBox.setVisible(false);
         specialSelectionVBox.setSpacing(10);
-        specialSelectionVBox.setPadding(new Insets(10));
-        specialSelectionVBox.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 1; -fx-background-color: white");
+        specialSelectionVBox.setPadding(new Insets(30));
+        specialSelectionVBox.setStyle(SPECIAL_INFO_BOX_STYLE);
         specialSelectionVBox.setAlignment(Pos.TOP_CENTER);
-        specialSelectionVBox.setFocusTraversable(true);
-        StackPane.setMargin(specialSelectionVBox, new Insets(200, 200, 200, 200));
-        stackPane.getChildren().add(specialSelectionVBox);
+        specialSelectionVBox.setEffect(new DropShadow());
+        stackPane.getChildren().add(new Group(specialSelectionVBox));
 
         showBuffsVBox = new VBox();
         showBuffsVBox.setVisible(false);
-        showBuffsVBox.setSpacing(5);
-        showBuffsVBox.setPadding(new Insets(10));
-        showBuffsVBox.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 1; -fx-background-color: white");
+        showBuffsVBox.setSpacing(10);
+        showBuffsVBox.setPadding(new Insets(30));
+        showBuffsVBox.setStyle(SPECIAL_INFO_BOX_STYLE);
         showBuffsVBox.setAlignment(Pos.TOP_CENTER);
-        showBuffsVBox.setFocusTraversable(true);
         showBuffsVBox.setFillWidth(false);
-        StackPane.setMargin(showBuffsVBox, new Insets(100, 300, 100, 300));
-        stackPane.getChildren().add(showBuffsVBox);
+        showBuffsVBox.setEffect(new DropShadow());
 
-        combatActionsHBox = new HBox();
-        combatActionsHBox.setVisible(false);
-        combatActionsHBox.setSpacing(5);
-        combatActionsHBox.setPadding(new Insets(10));
-        combatActionsHBox.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 1; -fx-background-color: white");
-        combatActionsHBox.setAlignment(Pos.TOP_CENTER);
-        combatActionsHBox.setFocusTraversable(true);
-        StackPane.setMargin(combatActionsHBox, new Insets(300, 200, 300, 200));
-        stackPane.getChildren().add(combatActionsHBox);
+        stackPane.getChildren().add(new Group(showBuffsVBox));
+
+        combatActionsVBox = new VBox();
+        combatActionsVBox.setVisible(false);
+        combatActionsVBox.setSpacing(10);
+        combatActionsVBox.setPadding(new Insets(30));
+        combatActionsVBox.setStyle(SPECIAL_INFO_BOX_STYLE);
+        combatActionsVBox.setAlignment(Pos.TOP_CENTER);
+        combatActionsVBox.setEffect(new DropShadow());
+        stackPane.getChildren().add(new Group(combatActionsVBox));
+
+        fateClassInfoVBox = new FateClassInfoVBox(contentVBox);
+        fateClassInfoVBox.setVisible(false);
+        stackPane.getChildren().add(new Group(fateClassInfoVBox));
 
         simulation.initiate();
 
         render();
+    }
+
+    /**
+     * Callback function to set scene related properties because I didn't put Scene in this class
+     */
+    public void init() {
+        root.getScene().heightProperty().addListener(e -> {
+            final double height = root.getScene().getHeight();
+            combatActionsVBox.setMaxHeight(height);
+            showBuffsVBox.setMaxHeight(height);
+            specialSelectionVBox.setMaxHeight(height);
+            fateClassInfoVBox.setMaxHeight(height);
+        });
+        root.getScene().widthProperty().addListener(e -> {
+            final double width = root.getScene().getWidth();
+            combatActionsVBox.setMaxWidth(width);
+            showBuffsVBox.setMaxWidth(width);
+            specialSelectionVBox.setMaxWidth(width);
+            fateClassInfoVBox.setMaxWidth(width);
+        });
     }
 
     public void setLogLevel(final LogLevel logLevel) {
@@ -395,7 +425,10 @@ public class SimulationWindow {
                 buttonHBox.setAlignment(Pos.CENTER);
                 buttonHBox.setSpacing(10);
                 final Button cancelButton = new Button(getTranslation(APPLICATION_SECTION, "Cancel"));
-                cancelButton.setOnAction(e -> specialSelectionVBox.setVisible(false));
+                cancelButton.setOnAction(e -> {
+                    specialSelectionVBox.setVisible(false);
+                    contentVBox.setDisable(false);
+                });
                 final Button selectButton = new Button(getTranslation(APPLICATION_SECTION, "Select"));
                 selectButton.setOnAction(e -> {
                     if (onFieldChoices.stream().noneMatch(OrderChangeChoice::isSelected) ||
@@ -404,6 +437,7 @@ public class SimulationWindow {
                     }
 
                     specialSelectionVBox.setVisible(false);
+                    contentVBox.setDisable(false);
 
                     final List<Integer> selections = new ArrayList<>();
                     final int onFieldIndex = onFieldChoices.stream()
@@ -462,6 +496,7 @@ public class SimulationWindow {
 
                     cardTypeSelectButton.setOnAction(e -> {
                         specialSelectionVBox.setVisible(false);
+                        contentVBox.setDisable(false);
                         simulation.setSelectedCommandCardType(commandCardType);
                         statsLogger.logEffect(
                                 String.format(
@@ -481,7 +516,10 @@ public class SimulationWindow {
                 }
                 specialSelectionVBox.getChildren().add(cardTypesHBox);
                 final Button cardTypeCancelButton = new Button(getTranslation(APPLICATION_SECTION, "Cancel"));
-                cardTypeCancelButton.setOnAction(e -> specialSelectionVBox.setVisible(false));
+                cardTypeCancelButton.setOnAction(e ->{
+                    specialSelectionVBox.setVisible(false);
+                    contentVBox.setDisable(false);
+                });
                 specialSelectionVBox.getChildren().add(cardTypeCancelButton);
             }
             case RANDOM_EFFECT -> {
@@ -495,6 +533,7 @@ public class SimulationWindow {
 
                     randomEffectSelectionButton.setOnAction(e -> {
                         specialSelectionVBox.setVisible(false);
+                        contentVBox.setDisable(false);
                         simulation.setSelectedEffectData(effectData);
                         statsLogger.logEffect(
                                 String.format(
@@ -513,14 +552,18 @@ public class SimulationWindow {
                     specialSelectionVBox.getChildren().add(randomEffectSelectionButton);
                 }
                 final Button randomEffectCancelButton = new Button(getTranslation(APPLICATION_SECTION, "Cancel"));
-                randomEffectCancelButton.setOnAction(e -> specialSelectionVBox.setVisible(false));
+                randomEffectCancelButton.setOnAction(e -> {
+                    specialSelectionVBox.setVisible(false);
+                    contentVBox.setDisable(false);
+                });
                 specialSelectionVBox.getChildren().add(randomEffectCancelButton);
             }
         }
+
+        contentVBox.setDisable(true);
     }
 
     public void viewEnemyBuffs(final int enemyIndex) {
-        showBuffsVBox.setMaxHeight(root.getScene().getHeight() - 100);
         showBuffsVBox.setVisible(true);
         showBuffsVBox.getChildren().clear();
 
@@ -532,7 +575,6 @@ public class SimulationWindow {
     }
 
     public void viewServantBuffs(final int servantIndex) {
-        showBuffsVBox.setMaxHeight(root.getScene().getHeight() - 100);
         showBuffsVBox.setVisible(true);
         showBuffsVBox.getChildren().clear();
 
@@ -543,36 +585,33 @@ public class SimulationWindow {
 
     private void populateShowBuffsVBox(final Image image, final Combatant combatant) {
         final Button closeButton = new Button(getTranslation(APPLICATION_SECTION, "Close"));
-        closeButton.setOnAction(e -> showBuffsVBox.setVisible(false));
+        closeButton.setOnAction(e -> {
+            showBuffsVBox.setVisible(false);
+            contentVBox.setDisable(false);
+        });
 
         final AnchorPane imgAnchor = createServantImage(image);
-        final VBox basicDataVBox = new VBox(5);
 
         final String hpBarIndex = combatant.getHpBars().size() != 1 ?
-                ", Index: " + combatant.getCurrentHpBarIndex() :
+                ", " + getTranslation(APPLICATION_SECTION, "HP Bar Index") + ": " + (combatant.getCurrentHpBarIndex() + 1) :
                 "";
 
         final Label infoLabel = new Label(
                 printBasicCombatantData(combatant.getCombatantData()) + ", " +
-                        getTranslation(APPLICATION_SECTION, "HP Bar") + combatant.getHpBars() + hpBarIndex
+                        getTranslation(APPLICATION_SECTION, "HP Bar") + ": " + combatant.getHpBars() + hpBarIndex
         );
 
         infoLabel.setWrapText(true);
-        infoLabel.setMaxWidth(root.getScene().getWidth() - 800);
+        infoLabel.setMaxWidth(600);
         final Label traitLabel = new Label(
-                getTranslation(APPLICATION_SECTION, "Traits") +
+                getTranslation(APPLICATION_SECTION, "Traits") + ": " +
                         combatant.getAllTraits(simulation).stream()
                                 .map(trait -> getTranslation(TRAIT_SECTION, trait))
                                 .collect(Collectors.toList())
         );
         traitLabel.setWrapText(true);
-        traitLabel.setMaxWidth(root.getScene().getWidth() - 800);
-        basicDataVBox.getChildren().addAll(infoLabel, traitLabel);
-
-        final HBox topHBox = new HBox(5);
-        topHBox.getChildren().addAll(imgAnchor, basicDataVBox);
-        topHBox.setFillHeight(false);
-        showBuffsVBox.getChildren().addAll(closeButton, topHBox);
+        traitLabel.setMaxWidth(600);
+        showBuffsVBox.getChildren().addAll(closeButton, imgAnchor, infoLabel, traitLabel);
 
         final ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
@@ -588,6 +627,7 @@ public class SimulationWindow {
         }
         buffGrid.getColumnConstraints().get(1).setHgrow(Priority.ALWAYS);
         buffGrid.getColumnConstraints().get(1).setMinWidth(300);
+        buffGrid.getColumnConstraints().get(2).setHalignment(HPos.RIGHT);
         scrollPane.setContent(buffGrid);
 
         final List<Buff> buffs = combatant.getBuffs();
@@ -609,6 +649,7 @@ public class SimulationWindow {
         }
 
         showBuffsVBox.getChildren().add(scrollPane);
+        contentVBox.setDisable(true);
     }
 
     public static AnchorPane createServantImage(final Image image) {
@@ -616,19 +657,14 @@ public class SimulationWindow {
         servantThumbnail.setFitHeight(100);
         servantThumbnail.setFitWidth(100);
         servantThumbnail.setImage(image);
-        final AnchorPane imgAnchor = new AnchorPane();
+        final AnchorPane imgAnchor = wrapInAnchor(servantThumbnail);
         imgAnchor.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2");
-        AnchorPane.setBottomAnchor(servantThumbnail, 0.0);
-        AnchorPane.setTopAnchor(servantThumbnail, 0.0);
-        AnchorPane.setLeftAnchor(servantThumbnail, 0.0);
-        AnchorPane.setRightAnchor(servantThumbnail, 0.0);
-        imgAnchor.getChildren().add(servantThumbnail);
         return imgAnchor;
     }
 
     public void executeCombatActions() {
-        combatActionsHBox.setVisible(true);
-        combatActionsHBox.getChildren().clear();
+        combatActionsVBox.setVisible(true);
+        combatActionsVBox.getChildren().clear();
         final VBox servantVBox = new VBox(10);
         servantVBox.setAlignment(Pos.TOP_CENTER);
         servantVBox.getChildren().add(new Label(getTranslation(APPLICATION_SECTION, "Servants")));
@@ -675,7 +711,10 @@ public class SimulationWindow {
         }
 
         final Button cancelButton = new Button(getTranslation(APPLICATION_SECTION, "Cancel"));
-        cancelButton.setOnAction(e -> combatActionsHBox.setVisible(false));
+        cancelButton.setOnAction(e -> {
+            combatActionsVBox.setVisible(false);
+            contentVBox.setDisable(false);
+        });
         final Button executeButton = new Button(getTranslation(APPLICATION_SECTION, "Execute"));
         executeButton.setOnAction(e -> {
             if (combatActionDisplays.stream().noneMatch(Objects::nonNull)) {
@@ -687,21 +726,31 @@ public class SimulationWindow {
                     .map(CombatActionDisplay::buildAction)
                     .collect(Collectors.toList());
 
-            combatActionsHBox.setVisible(false);
+            combatActionsVBox.setVisible(false);
+            contentVBox.setDisable(false);
             simulation.executeCombatActions(combatActions);
             render();
         });
 
-        final HBox buttonHBox = new HBox(10);
-        buttonHBox.getChildren().addAll(cancelButton, executeButton);
-        commandCardsVBox.getChildren().add(buttonHBox);
-
-        combatActionsHBox.getChildren().addAll(
+        final HBox cardsHBox = new HBox(15);
+        cardsHBox.setAlignment(Pos.CENTER);
+        cardsHBox.getChildren().addAll(
                 servantVBox,
-                new Separator(Orientation.VERTICAL),
                 commandCardsVBox,
-                new Separator(Orientation.VERTICAL),
                 npCardsVBox
         );
+
+        final HBox buttonHBox = new HBox(10);
+        buttonHBox.setAlignment(Pos.CENTER);
+        buttonHBox.getChildren().addAll(cancelButton, executeButton);
+
+        combatActionsVBox.getChildren().addAll(cardsHBox, buttonHBox);
+        contentVBox.setDisable(true);
+    }
+
+    public void showClassInfo(final FateClass fateClass) {
+        fateClassInfoVBox.renderClass(fateClass, this);
+        fateClassInfoVBox.setVisible(true);
+        contentVBox.setDisable(true);
     }
 }

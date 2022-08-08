@@ -32,6 +32,7 @@ import static yome.fgo.data.proto.FgoStorageData.FateClass.SABER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.SHIELDER;
 import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
 import static yome.fgo.data.proto.FgoStorageData.Traits.DEMONIC;
+import static yome.fgo.simulator.utils.FateClassUtils.ALL_CLASSES;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAdvantage;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAttackCorrection;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassCritStarCorrection;
@@ -39,7 +40,6 @@ import static yome.fgo.simulator.utils.FateClassUtils.getClassNpCorrection;
 
 public class FateClassUtilsTest {
     public static final FateClass[] ALL_SERVANT_CLASSES = {SABER, ARCHER, LANCER, RIDER, CASTER, ASSASSIN, BERSERKER, RULER, AVENGER, ALTEREGO, MOONCANCER, FOREIGNER, PRETENDER, SHIELDER};
-    public static final FateClass[] ALL_CLASSES = {SABER, ARCHER, LANCER, RIDER, CASTER, ASSASSIN, BERSERKER, RULER, AVENGER, ALTEREGO, MOONCANCER, FOREIGNER, PRETENDER, SHIELDER, BEAST_I, BEAST_II, BEAST_III_R, BEAST_III_L, BEAST_IV};
     public static final double[] CLASS_ATTACK_CORRECTION = {1.0, 0.95, 1.05, 1.0, 0.9, 0.9, 1.1, 1.1, 1.1, 1.0, 1.0, 1.0, 1.0, 1.0};
     public static final double[] CLASS_NP_CORRECTION = {1.0, 1.0, 1.0, 1.1, 1.2, 0.9, 0.8, 1.0, 1.0, 1.0, 1.2, 1.0, 1.0, 1.0};
     public static final double[] CLASS_CRIT_CORRECTION = {0, 0.05, -0.05, 0.1, 0, -0.1, 0, 0, -0.1, 0.05, 0, 0.2, -0.1, 0};

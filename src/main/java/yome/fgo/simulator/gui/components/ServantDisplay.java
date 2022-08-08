@@ -20,6 +20,7 @@ import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.gui.creators.ServantCreator;
 import yome.fgo.simulator.models.Simulation;
+import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.DecreaseActiveSkillCoolDown;
 import yome.fgo.simulator.models.effects.ForceInstantDeath;
@@ -157,6 +158,10 @@ public class ServantDisplay extends VBox {
         classButton.setGraphic(classImage);
         classButtonTooltip = new Tooltip();
         classButton.setTooltip(classButtonTooltip);
+        classButton.setOnAction(e -> {
+            final Combatant combatant = this.simulationWindow.getSimulation().getCurrentServants().get(this.servantIndex);
+            this.simulationWindow.showClassInfo(combatant.getFateClass());
+        });
 
         final ImageView checkBuffImage = new ImageView();
         checkBuffImage.setFitHeight(INFO_THUMBNAIL_SIZE);

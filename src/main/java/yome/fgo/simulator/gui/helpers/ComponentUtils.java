@@ -20,6 +20,7 @@ import java.util.Map;
 public class ComponentUtils {
     public static final String PERMANENT_BUFF_STYLE = "-fx-border-color: grey; -fx-border-style: solid; -fx-border-width: 1; -fx-border-radius: 3px";
     public static final String CD_NUMBER_STYLE = "-fx-background-color: rgba(0,0,0,0.78); -fx-border-radius: 3; -fx-border-width: 1";
+    public static final String SPECIAL_INFO_BOX_STYLE = "-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-width: 5; -fx-background-color: white";
 
     public static final int SKILL_THUMBNAIL_SIZE = 50;
     public static final int INFO_THUMBNAIL_SIZE = 30;
@@ -88,7 +89,7 @@ public class ComponentUtils {
     }
 
     public static AnchorPane createSkillCdAnchor() {
-        final Label cdLabel = new Label();
+        final Label cdLabel = new Label("X");
         cdLabel.setFont(new Font(30));
         cdLabel.setStyle("-fx-text-fill: white");
         cdLabel.setAlignment(Pos.CENTER);
@@ -114,5 +115,11 @@ public class ComponentUtils {
             }
             buffsPane.getChildren().add(buffImgAnchor);
         }
+    }
+
+    public static Label createBoldLabel(final String text) {
+        final Label newLabel = new Label(text);
+        newLabel.setStyle("-fx-font-weight: bold");
+        return newLabel;
     }
 }

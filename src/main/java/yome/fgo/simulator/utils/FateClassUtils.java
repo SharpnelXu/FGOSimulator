@@ -1,15 +1,34 @@
 package yome.fgo.simulator.utils;
 
-import com.google.common.annotations.VisibleForTesting;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.ClassAdvantageChangeBuff;
 
+import static yome.fgo.data.proto.FgoStorageData.FateClass.ALTEREGO;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.ARCHER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.ASSASSIN;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.AVENGER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_I;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_II;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_III_L;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_III_R;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_IV;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.BERSERKER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.CASTER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.FOREIGNER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.LANCER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.MOONCANCER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.PRETENDER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.RULER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.SABER;
+import static yome.fgo.data.proto.FgoStorageData.FateClass.SHIELDER;
 
 public class FateClassUtils {
+    public static final FateClass[] ALL_CLASSES = {SABER, ARCHER, LANCER, RIDER, CASTER, ASSASSIN, BERSERKER, RULER, AVENGER, ALTEREGO, MOONCANCER, FOREIGNER, PRETENDER, SHIELDER, BEAST_I, BEAST_II, BEAST_III_R, BEAST_III_L, BEAST_IV};
+
     public static int getClassMaxNpGauge(final FateClass fateClass) {
         return switch (fateClass) {
             case ARCHER, ASSASSIN, ALTEREGO, MOONCANCER -> 3;
@@ -68,8 +87,7 @@ public class FateClassUtils {
         return baseRate;
     }
 
-    @VisibleForTesting
-    static double getClassAdvantage(final FateClass attackerClass, final FateClass defenderClass) {
+    public static double getClassAdvantage(final FateClass attackerClass, final FateClass defenderClass) {
         switch (attackerClass) {
             case SABER:
                 return switch (defenderClass) {
@@ -168,5 +186,68 @@ public class FateClassUtils {
             default:
                 return 1.0;
         }
+    }
+
+    public static int getBaseDeathRate(final FateClass fateClass) {
+        return switch (fateClass) {
+            case SABER, RULER, SHIELDER -> 35;
+            case ARCHER -> 45;
+            case LANCER -> 40;
+            case RIDER, ALTEREGO -> 50;
+            case CASTER -> 60;
+            case ASSASSIN -> 55;
+            case BERSERKER -> 65;
+            case AVENGER, FOREIGNER -> 10;
+            case MOONCANCER -> 1;
+            default -> 0;
+        };
+    }
+
+    public static int getBaseStarWeight(final FateClass fateClass) {
+        return switch (fateClass) {
+            case SABER, ASSASSIN, RULER, ALTEREGO, PRETENDER, SHIELDER -> 100;
+            case ARCHER, FOREIGNER -> 150;
+            case LANCER -> 90;
+            case RIDER -> 200;
+            case CASTER, MOONCANCER -> 50;
+            case BERSERKER -> 10;
+            case AVENGER -> 30;
+            default -> 0;
+        };
+    }
+
+    public static int getBaseStarGen(final FateClass fateClass) {
+        return switch (fateClass) {
+            case SABER, RULER, ALTEREGO, SHIELDER -> 10;
+            case ARCHER -> 8;
+            case LANCER -> 12;
+            case RIDER -> 9;
+            case CASTER -> 11;
+            case ASSASSIN -> 25;
+            case BERSERKER -> 5;
+            case AVENGER -> 6;
+            case MOONCANCER, FOREIGNER -> 15;
+            case PRETENDER -> 20;
+            default -> 0;
+        };
+    }
+
+    public static int getActionCount(final FateClass fateClass) {
+        return switch (fateClass) {
+            case CASTER, BERSERKER -> 2;
+            default -> 3;
+        };
+    }
+
+    public static int getActionPriority(final FateClass fateClass) {
+        return switch (fateClass) {
+            case SABER, ARCHER, RIDER, BERSERKER, RULER, SHIELDER -> 50;
+            case LANCER -> 150;
+            case CASTER, FOREIGNER -> 25;
+            case ASSASSIN, ALTEREGO -> 100;
+            case AVENGER -> 200;
+            case MOONCANCER -> 20;
+            default -> 0;
+        };
     }
 }

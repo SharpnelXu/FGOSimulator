@@ -7,7 +7,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import lombok.Getter;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.CombatAction;
@@ -16,11 +15,12 @@ import yome.fgo.simulator.models.combatants.Servant;
 
 import java.util.List;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 @Getter
-public class CombatActionDisplay extends StackPane {
+public class CombatActionDisplay extends VBox {
     private final int servantIndex;
     private final int cardIndex;
     private final boolean isNp;
@@ -36,7 +36,7 @@ public class CombatActionDisplay extends StackPane {
             final List<CombatActionDisplay> combatActionDisplays,
             final SimulationWindow simulationWindow
     ) {
-        super();
+        super(5);
 
         setMaxHeight(100);
         setMaxWidth(100);
@@ -46,8 +46,10 @@ public class CombatActionDisplay extends StackPane {
         this.isNp = isNp;
         actionIndex = -1;
 
-        final VBox contentVBox = new VBox(5);
-        contentVBox.setAlignment(Pos.TOP_CENTER);
+        setAlignment(Pos.TOP_CENTER);
+
+        stateLabel = new Label();
+        final StackPane stackPane = new StackPane();
 
         final Button button = new Button();
         final ImageView cardImage = new ImageView();
@@ -62,8 +64,6 @@ public class CombatActionDisplay extends StackPane {
             button.setDisable(true);
         }
 
-        stateLabel = new Label();
-        contentVBox.getChildren().addAll(button, stateLabel);
         button.setOnAction(e -> {
             final int maxState = isNp ? 2 : 3;
 
@@ -90,13 +90,12 @@ public class CombatActionDisplay extends StackPane {
                 stateLabel.setText(text);
             }
         });
-
-        getChildren().addAll(contentVBox);
+        stackPane.getChildren().add(button);
 
         if (commandCard.getCommandCardStrengthen() > 0) {
             final Label strengthenLabel = new Label(Integer.toString(commandCard.getCommandCardStrengthen()));
             StackPane.setAlignment(strengthenLabel, Pos.TOP_LEFT);
-            getChildren().add(strengthenLabel);
+            stackPane.getChildren().add(strengthenLabel);
         }
 
         if (commandCard.getCommandCodeData() != null) {
@@ -105,25 +104,15 @@ public class CombatActionDisplay extends StackPane {
             ccThumbnail.setFitWidth(30);
             ccThumbnail.setImage(simulationWindow.getCommandCodeImage(commandCard.getCommandCodeData().getId()));
             StackPane.setAlignment(ccThumbnail, Pos.TOP_RIGHT);
-            getChildren().add(ccThumbnail);
+            stackPane.getChildren().add(ccThumbnail);
         }
 
         if (servant.isImmobilized() || npCheck) {
-            final AnchorPane cdAnchor = new AnchorPane();
-            cdAnchor.setStyle("-fx-background-color: rgba(0,0,0,0.78); -fx-border-radius: 3; -fx-border-width: 1");
-            final Label cdLabel = new Label("X");
-            cdLabel.setFont(new Font(30));
-            cdLabel.setStyle("-fx-text-fill: white");
-            cdLabel.setAlignment(Pos.CENTER);
-            cdLabel.setWrapText(true);
-            cdLabel.setMaxWidth(60);
-            AnchorPane.setBottomAnchor(cdLabel, 0.0);
-            AnchorPane.setTopAnchor(cdLabel, 0.0);
-            AnchorPane.setLeftAnchor(cdLabel, 0.0);
-            AnchorPane.setRightAnchor(cdLabel, 0.0);
-            cdAnchor.getChildren().add(cdLabel);
-            getChildren().add(cdAnchor);
+            final AnchorPane cdAnchor = createSkillCdAnchor();
+            stackPane.getChildren().add(cdAnchor);
         }
+
+        getChildren().addAll(stackPane, stateLabel);
     }
 
     public CombatAction buildAction() {

@@ -491,12 +491,12 @@ public class DataPrinter {
         final StringBuilder builder = new StringBuilder();
 
         builder.append(getTranslation(APPLICATION_SECTION, "ID"));
-        builder.append(" ");
+        builder.append(": ");
         builder.append(getTranslation(ENEMY_NAME_SECTION, combatantData.getId()));
 
         builder.append(", ");
         builder.append(getTranslation(APPLICATION_SECTION, "Death Rate (%)"));
-        builder.append(" ");
+        builder.append(": ");
         builder.append(doubleToString(combatantData.getDeathRate()));
 
         if (combatantData.getUndeadNpCorrection()) {
@@ -506,12 +506,12 @@ public class DataPrinter {
 
         builder.append(", ");
         builder.append(getTranslation(APPLICATION_SECTION, "Rarity"));
-        builder.append(" ");
+        builder.append(": ");
         builder.append(combatantData.getRarity());
 
         builder.append(", ");
         builder.append(getTranslation(APPLICATION_SECTION, "Class"));
-        builder.append(" ");
+        builder.append(": ");
         builder.append(getTranslation(CLASS_SECTION, combatantData.getFateClass().name()));
 
         return builder.toString();
@@ -520,22 +520,22 @@ public class DataPrinter {
     public static String printCombatantData(final CombatantData combatantData) {
         return printBasicCombatantData(combatantData) + ", " +
                 getTranslation(APPLICATION_SECTION, "Gender") +
-                " " +
+                ": " +
                 getTranslation(TRAIT_SECTION, combatantData.getGender().name()) +
                 ", " +
                 getTranslation(APPLICATION_SECTION, "Attribute") +
-                " " +
+                ": " +
                 getTranslation(TRAIT_SECTION, combatantData.getAttribute().name()) +
                 ", " +
                 getTranslation(APPLICATION_SECTION, "Alignments") +
-                " " +
+                ": " +
                 combatantData.getAlignmentsList()
                         .stream()
                         .map(alignment -> getTranslation(TRAIT_SECTION, alignment.name()))
                         .collect(Collectors.toList()) +
                 ", " +
                 getTranslation(APPLICATION_SECTION, "Traits") +
-                " " +
+                ": " +
                 printTraits(combatantData.getTraitsList());
     }
 

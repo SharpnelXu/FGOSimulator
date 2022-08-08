@@ -524,6 +524,7 @@ public class LevelCreatorFMXLController implements Initializable {
 
         newStage.show();
         newStage.setMaximized(true);
+        simulationWindow.init();
     }
 
     private void writeUserPreference(
