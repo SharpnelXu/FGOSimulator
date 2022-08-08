@@ -65,6 +65,7 @@ import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printBasicCombatantData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printEffectData;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.PERMANENT_BUFF_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
@@ -636,10 +637,14 @@ public class SimulationWindow {
             final ImageView buffIcon = new ImageView(getBuffImage(buff.getIconName()));
             buffIcon.setFitWidth(20);
             buffIcon.setFitHeight(20);
-            buffGrid.add(buffIcon, 0, i);
+            final AnchorPane buffImgAnchor = wrapInAnchor(buffIcon);
+            if (buff.isIrremovable()) {
+                buffImgAnchor.setStyle(PERMANENT_BUFF_STYLE);
+            }
+            buffGrid.add(buffImgAnchor, 0, i);
             final Label buffLabel = new Label(buff.toString());
             buffLabel.setWrapText(true);
-            buffLabel.setMaxWidth(root.getScene().getWidth() - 750);
+            buffLabel.setMaxWidth(550);
             buffGrid.add(buffLabel, 1, i);
             final Label durationLabel = new Label(buff.durationString());
             buffGrid.add(durationLabel, 2, i);
