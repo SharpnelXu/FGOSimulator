@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
@@ -12,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.LevelCreatorFMXLController">
+<AnchorPane prefHeight="1080.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.LevelCreatorFMXLController">
    <children>
       <HBox alignment="CENTER_RIGHT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -54,17 +53,7 @@
                         <Button fx:id="addStageButton" mnemonicParsing="false" text="Button" />
                      </children>
                   </HBox>
-                  <HBox spacing="10.0">
-                     <children>
-                        <Label fx:id="levelEffectsLabel" text="Label" />
-                        <VBox alignment="TOP_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <ListView fx:id="levelEffectsList" maxHeight="200.0" />
-                              <Button fx:id="addLevelEffectsButton" mnemonicParsing="false" text="Button" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
+                  <VBox fx:id="levelEffectVBox" />
                   <HBox fx:id="simulationPrepHBox" spacing="10.0" />
                </children>
                <padding>

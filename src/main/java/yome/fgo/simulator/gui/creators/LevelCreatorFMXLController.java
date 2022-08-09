@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -23,7 +22,6 @@ import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
 import yome.fgo.data.proto.FgoStorageData.CraftEssencePreference;
-import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.MysticCodeOption;
@@ -36,9 +34,8 @@ import yome.fgo.data.proto.FgoStorageData.UserPreference;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.gui.components.CraftEssenceDataWrapper;
-import yome.fgo.simulator.gui.components.DataWrapper;
-import yome.fgo.simulator.gui.components.EffectsCellFactory;
 import yome.fgo.simulator.gui.components.FormationSelector;
+import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.gui.components.MysticCodeDataWrapper;
 import yome.fgo.simulator.gui.components.ServantDataWrapper;
 import yome.fgo.simulator.gui.components.SimulationWindow;
@@ -55,11 +52,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static yome.fgo.simulator.ResourceManager.readFile;
-import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectMysticCode;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
@@ -70,9 +65,6 @@ import static yome.fgo.simulator.utils.FilePathUtils.USER_PREFERENCE_FILE_PATH;
 public class LevelCreatorFMXLController implements Initializable {
 
     @FXML
-    private Button addLevelEffectsButton;
-
-    @FXML
     private Button addStageButton;
 
     @FXML
@@ -80,12 +72,6 @@ public class LevelCreatorFMXLController implements Initializable {
 
     @FXML
     private TextField idText;
-
-    @FXML
-    private Label levelEffectsLabel;
-
-    @FXML
-    private ListView<DataWrapper<EffectData>> levelEffectsList;
 
     @FXML
     private Button loadLevelButton;
@@ -108,39 +94,29 @@ public class LevelCreatorFMXLController implements Initializable {
     @FXML
     private Button startSimulationButton;
 
+    @FXML
+    private VBox levelEffectVBox;
+
     private MysticCodeDataWrapper mysticCodeDataWrapper;
     private List<FormationSelector> formationSelectors;
     private Label costValueLabel;
+    private ListContainerVBox levelEffects;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
         idLabel.setText(getTranslation(APPLICATION_SECTION, "Level Name"));
 
-        stagesVBox.getChildren().add(new StageNode(1));
+        stagesVBox.getChildren().add(new StageNode(1, errorLabel));
         addStageButton.setText(getTranslation(APPLICATION_SECTION, "Add Stage"));
-        addStageButton.setOnAction(e -> stagesVBox.getChildren().add(new StageNode(stagesVBox.getChildren().size() + 1)));
+        addStageButton.setOnAction(e -> stagesVBox.getChildren().add(new StageNode(stagesVBox.getChildren().size() + 1, errorLabel)));
         removeStageButton.setText(getTranslation(APPLICATION_SECTION, "Remove Stage"));
         removeStageButton.setOnAction(e -> {
             if (stagesVBox.getChildren().size() > 1) {
                 stagesVBox.getChildren().remove(stagesVBox.getChildren().size() - 1);
             }
         });
-        levelEffectsLabel.setText(getTranslation(APPLICATION_SECTION, "Level Effects"));
-        levelEffectsList.setCellFactory(new EffectsCellFactory(errorLabel));
-        addLevelEffectsButton.setText(getTranslation(APPLICATION_SECTION, "Add Effect"));
-        addLevelEffectsButton.setOnAction(e -> {
-            try {
-                final EffectData.Builder builder = EffectData.newBuilder();
-                createEffect(addLevelEffectsButton.getScene().getWindow(), builder);
-
-                if (!builder.getType().isEmpty()) {
-                    levelEffectsList.getItems().add(new DataWrapper<>(builder.build()));
-                }
-            } catch (final IOException exception) {
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + exception);
-                errorLabel.setVisible(true);
-            }
-        });
+        levelEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Level Effects"), errorLabel);
+        levelEffectVBox.getChildren().add(levelEffects);
 
         loadLevelButton.setText(getTranslation(APPLICATION_SECTION, "Load From"));
         loadLevelButton.setOnAction(e -> loadLevel());
@@ -179,13 +155,13 @@ public class LevelCreatorFMXLController implements Initializable {
         stagesVBox.getChildren().clear();
         for (int i = 1; i <= levelDataBuilder.getStageDataCount(); i += 1) {
             final StageData stageData = levelDataBuilder.getStageData(i - 1);
-            final StageNode stageNode = new StageNode(i);
+            final StageNode stageNode = new StageNode(i, errorLabel);
             stageNode.loadStageData(stageData);
             stagesVBox.getChildren().add(stageNode);
         }
 
-        levelEffectsList.getItems().clear();
-        levelEffectsList.getItems().addAll(levelDataBuilder.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
+        levelEffects.clear();
+        levelEffects.load(levelDataBuilder.getEffectsList());
 
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Load success!"));
         errorLabel.setVisible(true);
@@ -212,7 +188,7 @@ public class LevelCreatorFMXLController implements Initializable {
         return LevelData.newBuilder()
                 .setId(idText.getText())
                 .addAllStageData(stages)
-                .addAllEffects(levelEffectsList.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()))
+                .addAllEffects(levelEffects.build())
                 .build();
     }
 
@@ -238,7 +214,7 @@ public class LevelCreatorFMXLController implements Initializable {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Save success!"));
             errorLabel.setVisible(true);
         } catch (final Exception e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error while saving enemy!") + e.getMessage());
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error while saving!") + e.getMessage());
             errorLabel.setVisible(true);
         }
     }

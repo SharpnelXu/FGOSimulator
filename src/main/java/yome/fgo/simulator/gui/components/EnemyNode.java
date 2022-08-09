@@ -2,6 +2,7 @@ package yome.fgo.simulator.gui.components;
 
 import com.google.protobuf.util.JsonFormat;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,9 +12,11 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -26,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +37,13 @@ import static yome.fgo.simulator.ResourceManager.getEnemyThumbnail;
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.components.DataPrinter.printCombatantData;
+import static yome.fgo.simulator.gui.components.StageNode.addEnemyNode;
 import static yome.fgo.simulator.gui.creators.EnemyCreator.editCombatantData;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.models.combatants.Combatant.mergeWithOverride;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -54,14 +63,24 @@ public class EnemyNode extends VBox {
     private final ImageView thumbnail;
     private final Label combatantDataLabel;
     private final Label errorLabel;
+    private int enemyIndex;
+    private int stageNum;
 
-    public EnemyNode(final File enemyDataFile, final boolean isServant) throws FileNotFoundException {
-        super();
-        setSpacing(10);
-        setPadding(new Insets(5, 5, 5, 5));
+    public EnemyNode(
+            final File enemyDataFile,
+            final boolean isServant,
+            final Label errorLabel,
+            final GridPane enemyGrid,
+            final int stageNum
+    ) throws FileNotFoundException {
+        super(10);
+        setPadding(new Insets(5));
         setAlignment(Pos.TOP_RIGHT);
         setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         setStyle("-fx-background-color: #ffffffdd; -fx-border-color: #727272; -fx-border-style: solid; -fx-border-radius: 6");
+
+        this.errorLabel = errorLabel;
+        this.stageNum = stageNum;
 
         final List<Node> nodes = getChildren();
 
@@ -109,30 +128,66 @@ public class EnemyNode extends VBox {
             thumbnailFile = getEnemyThumbnail(pathToBaseEnemyData, baseEnemyData.getId());
         }
 
-        final HBox combatantDataHBox = new HBox();
-        combatantDataHBox.setSpacing(10);
+        final HBox combatantDataHBox = new HBox(10);
         combatantDataHBox.setFillHeight(false);
         thumbnail = new ImageView(new Image(new FileInputStream(thumbnailFile)));
-        thumbnail.setFitHeight(100);
-        thumbnail.setFitWidth(100);
-        final AnchorPane imgAnchor = new AnchorPane();
-        AnchorPane.setTopAnchor(thumbnail, 0.0);
-        AnchorPane.setBottomAnchor(thumbnail, 0.0);
-        AnchorPane.setLeftAnchor(thumbnail, 0.0);
-        AnchorPane.setRightAnchor(thumbnail, 0.0);
-        imgAnchor.setStyle("-fx-border-color: rgba(73,73,73,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2");
-        imgAnchor.getChildren().add(thumbnail);
+        thumbnail.setFitHeight(SERVANT_THUMBNAIL_SIZE);
+        thumbnail.setFitWidth(SERVANT_THUMBNAIL_SIZE);
+        final AnchorPane imgAnchor = wrapInAnchor(thumbnail);
+        imgAnchor.setStyle(UNIT_THUMBNAIL_STYLE);
         combatantDataLabel = new Label(printCombatantData(baseEnemyData));
         combatantDataLabel.setWrapText(true);
         combatantDataHBox.getChildren().addAll(imgAnchor, combatantDataLabel);
 
         nodes.add(combatantDataHBox);
 
-        final HBox buttonHBox = new HBox();
-        buttonHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        buttonHBox.setAlignment(Pos.CENTER_RIGHT);
-        buttonHBox.setSpacing(10);
-        final Button editEnemyButton = new Button(getTranslation(APPLICATION_SECTION, "Edit"));
+        final HBox hpBox = new HBox(10);
+        hpBox.setAlignment(Pos.CENTER_LEFT);
+        hpBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+
+        final Button leftButton = new Button();
+        leftButton.setGraphic(createInfoImageView("left"));
+        leftButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move enemy left")));
+        leftButton.setOnAction(e -> {
+            final ObservableList<Node> items = enemyGrid.getChildren();
+            if (items.isEmpty() || items.size() == 1) {
+                return;
+            }
+
+            final int index = items.indexOf(this);
+            if (index < items.size() - 1 && index >= 0 ) {
+                final ObservableList<Node> workingCollection = FXCollections.observableArrayList(items);
+                Collections.swap(workingCollection, index + 1, index);
+                items.clear();
+                for (final Node node : workingCollection) {
+                    addEnemyNode(enemyGrid, (EnemyNode) node);
+                }
+            }
+        });
+
+        final Button rightButton = new Button();
+        rightButton.setGraphic(createInfoImageView("right"));
+        rightButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move enemy right")));
+        rightButton.setOnAction(e -> {
+            final ObservableList<Node> items = enemyGrid.getChildren();
+            if (items.isEmpty() || items.size() == 1) {
+                return;
+            }
+
+            final int index = items.indexOf(this);
+            if (index > 0) {
+                final ObservableList<Node> workingCollection = FXCollections.observableArrayList(items);
+                Collections.swap(workingCollection, index - 1, index);
+                items.clear();
+                for (final Node node : workingCollection) {
+                    addEnemyNode(enemyGrid, (EnemyNode) node);
+                }
+            }
+        });
+
+        final Button editEnemyButton = new Button();
+        editEnemyButton.setGraphic(createInfoImageView("edit"));
+        editEnemyButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit enemy data")));
         editEnemyButton.setOnAction(e -> {
             final CombatantData.Builder builder = combatantDataOverride == null ?
                     baseEnemyData.toBuilder() :
@@ -147,34 +202,31 @@ public class EnemyNode extends VBox {
                 combatantDataLabel.setText(printCombatantData(combatantDataOverride));
             }
         });
-        errorLabel = new Label();
-        errorLabel.setVisible(false);
-        errorLabel.setStyle("-fx-text-fill: red");
-        buttonHBox.getChildren().addAll(errorLabel, editEnemyButton);
 
-        nodes.add(buttonHBox);
+        final Button removeButton = new Button();
+        removeButton.setGraphic(createInfoImageView("remove"));
+        removeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove enemy")));
+        removeButton.setOnAction(e -> {
+            final ObservableList<Node> items = enemyGrid.getChildren();
+            final List<Node> remainingNodes = new ArrayList<>(items);
+            remainingNodes.remove(this);
+            items.clear();
+            for (final Node node : remainingNodes) {
+                addEnemyNode(enemyGrid, (EnemyNode) node);
+            }
+        });
 
-        final HBox hpBox = new HBox();
-        hpBox.setAlignment(Pos.CENTER_LEFT);
-        hpBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        hpBox.setSpacing(10);
         final Label hpLabel = new Label(getTranslation(APPLICATION_SECTION, "HP"));
-        final AnchorPane hpTextAnchorPane = new AnchorPane();
-        HBox.setHgrow(hpTextAnchorPane, Priority.ALWAYS);
         hpText = new TextField();
-        AnchorPane.setTopAnchor(hpText, 0.0);
-        AnchorPane.setBottomAnchor(hpText, 0.0);
-        AnchorPane.setLeftAnchor(hpText, 0.0);
-        AnchorPane.setRightAnchor(hpText, 0.0);
-        hpTextAnchorPane.getChildren().add(hpText);
-        hpBox.getChildren().addAll(hpLabel, hpTextAnchorPane);
+        final AnchorPane hpTextAnchorPane = wrapInAnchor(hpText);
+        HBox.setHgrow(hpTextAnchorPane, Priority.ALWAYS);
 
+        hpBox.getChildren().addAll(leftButton, rightButton, editEnemyButton, removeButton, hpLabel, hpTextAnchorPane);
         nodes.add(hpBox);
 
-        final HBox additionalParamsBox = new HBox();
+        final HBox additionalParamsBox = new HBox(10);
         additionalParamsBox.setAlignment(Pos.CENTER_LEFT);
         additionalParamsBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        additionalParamsBox.setSpacing(10);
         customGaugeCheckbox = new CheckBox(getTranslation(APPLICATION_SECTION, "Custom Gauge"));
         customGaugeText = new TextField();
         customGaugeText.setMaxWidth(50);
@@ -196,6 +248,7 @@ public class EnemyNode extends VBox {
         servantAscensionChoiceBox.setOnAction(e -> changeServantAscension(servantAscensionChoiceBox.getValue()));
         servantAscLabel.setDisable(!isServant);
         servantAscensionChoiceBox.setDisable(!isServant);
+
         additionalParamsBox.getChildren().addAll(
                 customGaugeCheckbox,
                 customGaugeText,
@@ -248,8 +301,11 @@ public class EnemyNode extends VBox {
 
         if (hpText.getText().isBlank()) {
             errorLabel.setVisible(true);
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "HP is empty"));
-            hpText.requestFocus();
+            errorLabel.setText(
+                    getTranslation(APPLICATION_SECTION, "HP is empty") + ": "
+                            + getTranslation(APPLICATION_SECTION, "Stage") + " " + stageNum + " "
+                            + getTranslation(APPLICATION_SECTION, "Enemy") + " " + (enemyIndex + 1)
+            );
             return null;
         }
 
@@ -258,8 +314,11 @@ public class EnemyNode extends VBox {
                 builder.addHpBars(Integer.parseInt(hpString));
             } catch (final Exception e) {
                 errorLabel.setVisible(true);
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));
-                hpText.requestFocus();
+                errorLabel.setText(
+                        getTranslation(APPLICATION_SECTION, "HP is not integer") + ": "
+                                + getTranslation(APPLICATION_SECTION, "Stage") + " " + stageNum + " "
+                                + getTranslation(APPLICATION_SECTION, "Enemy") + " " + (enemyIndex + 1)
+                );
                 return null;
             }
         }
@@ -274,8 +333,11 @@ public class EnemyNode extends VBox {
                 builder.setCustomMaxNpGauge(Integer.parseInt(customGaugeText.getText()));
             } catch (final Exception e) {
                 errorLabel.setVisible(true);
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));
-                customGaugeText.requestFocus();
+                errorLabel.setText(
+                        getTranslation(APPLICATION_SECTION, "Custom gauge not integer") + ": "
+                                + getTranslation(APPLICATION_SECTION, "Stage") + " " + stageNum + " "
+                                + getTranslation(APPLICATION_SECTION, "Enemy") + " " + (enemyIndex + 1)
+                );
                 return null;
             }
         }
@@ -286,5 +348,9 @@ public class EnemyNode extends VBox {
         }
 
         return builder.build();
+    }
+
+    public void setEnemyIndex(final int size) {
+        enemyIndex = size;
     }
 }

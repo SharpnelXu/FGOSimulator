@@ -12,14 +12,10 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -27,10 +23,10 @@ import java.util.List;
 import static yome.fgo.simulator.gui.components.DataPrinter.printEffectData;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.LIST_ITEM_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
-import static yome.fgo.simulator.utils.FilePathUtils.SIMULATION_ICON_DIRECTORY_PATH;
 
 public class ListContainerVBox extends VBox {
     private final VBox itemListVBox;
@@ -125,22 +121,8 @@ public class ListContainerVBox extends VBox {
         }
     }
 
-    private ImageView createInfoImageView(final String iconName) {
-        final ImageView imageView = new ImageView();
-        imageView.setFitHeight(20);
-        imageView.setFitWidth(20);
-        final String path = String.format("%s/%s.png", SIMULATION_ICON_DIRECTORY_PATH, iconName);
-        imageView.setImage(getImage(path));
-        return imageView;
-    }
-
-    private Image getImage(final String path) {
-        Image image = null;
-        try {
-            image = new Image(new FileInputStream(path));
-        } catch (final FileNotFoundException ignored) {
-        }
-        return image;
+    public void clear() {
+        itemListVBox.getChildren().clear();
     }
 
     private void addNewEffect() {

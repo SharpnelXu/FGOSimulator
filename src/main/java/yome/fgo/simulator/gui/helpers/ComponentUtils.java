@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -14,15 +15,19 @@ import yome.fgo.simulator.gui.components.SimulationWindow;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
+
+import static yome.fgo.simulator.utils.FilePathUtils.SIMULATION_ICON_DIRECTORY_PATH;
 
 public class ComponentUtils {
     public static final String PERMANENT_BUFF_STYLE = "-fx-border-color: grey; -fx-border-style: solid; -fx-border-width: 1; -fx-border-radius: 3px";
     public static final String CD_NUMBER_STYLE = "-fx-background-color: rgba(0,0,0,0.78); -fx-border-radius: 3; -fx-border-width: 1";
     public static final String SPECIAL_INFO_BOX_STYLE = "-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-width: 5; -fx-background-color: white";
     public static final String UNIT_DISPLAY_STYLE = "-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 3; -fx-border-radius: 3";
-    public static final String UNIT_THUMBNAIL_STYLE = "-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2; -fx-background-color: white";
+    public static final String UNIT_THUMBNAIL_STYLE = "-fx-border-color: rgba(73,73,73,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2; -fx-background-color: white";
     public static final String LIST_ITEM_STYLE = "-fx-border-color: grey; -fx-border-style: solid; -fx-border-width: 2; -fx-border-radius: 3px; -fx-background-color: white";
 
     public static final int SERVANT_THUMBNAIL_SIZE = 100;
@@ -125,5 +130,23 @@ public class ComponentUtils {
         final Label newLabel = new Label(text);
         newLabel.setStyle("-fx-font-weight: bold");
         return newLabel;
+    }
+
+    public static ImageView createInfoImageView(final String iconName) {
+        final ImageView imageView = new ImageView();
+        imageView.setFitHeight(20);
+        imageView.setFitWidth(20);
+        final String path = String.format("%s/%s.png", SIMULATION_ICON_DIRECTORY_PATH, iconName);
+        imageView.setImage(getImage(path));
+        return imageView;
+    }
+
+    public static Image getImage(final String path) {
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream(path));
+        } catch (final FileNotFoundException ignored) {
+        }
+        return image;
     }
 }

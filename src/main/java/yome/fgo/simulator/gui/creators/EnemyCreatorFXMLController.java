@@ -312,7 +312,7 @@ public class EnemyCreatorFXMLController implements Initializable {
             errorLabel.setText(getTranslation(APPLICATION_SECTION, "Save success!"));
             errorLabel.setVisible(true);
         } catch (final Exception e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error while saving enemy!") + e.getMessage());
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error while saving!") + e.getMessage());
             errorLabel.setVisible(true);
         }
     }

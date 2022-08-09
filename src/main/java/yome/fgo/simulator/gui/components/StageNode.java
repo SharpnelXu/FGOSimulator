@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -15,20 +14,19 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.StageData;
 import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -38,91 +36,49 @@ import static yome.fgo.simulator.utils.FilePathUtils.SERVANT_DIRECTORY_PATH;
 public class StageNode extends VBox {
     private final TextField maximumEnemiesOnScreenText;
     private final TextField stageTraitsText;
-    private final ListView<DataWrapper<EffectData>> stageEffectsList;
     private final GridPane enemyGrid;
     private final Label errorLabel;
+    private final ListContainerVBox stageEffects;
+    private int stageNum;
 
-    public StageNode(final int stageNum) {
-        super();
-        setSpacing(10);
+    public StageNode(final int stageNum, final Label errorLabel) {
+        super(10);
         setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        setPadding(new Insets(10));
+        setStyle(SPECIAL_INFO_BOX_STYLE);
+
+        this.stageNum = stageNum;
+        this.errorLabel = errorLabel;
 
         final List<Node> nodes = getChildren();
 
-        final HBox stageLabelHBox = new HBox();
+        final HBox stageLabelHBox = new HBox(10);
         stageLabelHBox.setAlignment(Pos.CENTER);
         stageLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        stageLabelHBox.setPadding(new Insets(10, 10, 10, 10));
-        stageLabelHBox.setStyle("-fx-border-color: grey");
         final Label stageLabel = new Label(getTranslation(APPLICATION_SECTION, "Stage") + " " + stageNum);
         stageLabelHBox.getChildren().add(stageLabel);
 
-        nodes.add(stageLabelHBox);
-
-        final HBox stagePropertyHBox = new HBox();
-        stagePropertyHBox.setAlignment(Pos.CENTER_LEFT);
-        stagePropertyHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        stagePropertyHBox.setSpacing(10);
         final Label maximumEnemyOnScreenLabel = new Label(getTranslation(
                 APPLICATION_SECTION,
                 "Maximum enemy on screen"
         ));
         maximumEnemiesOnScreenText = new TextField();
         final Label stageTraitLabel = new Label(getTranslation(APPLICATION_SECTION, "Stage Trait"));
-        final AnchorPane stageTraitTextAnchorPane = new AnchorPane();
-        HBox.setHgrow(stageTraitTextAnchorPane, Priority.ALWAYS);
         stageTraitsText = new TextField();
-        AnchorPane.setTopAnchor(stageTraitsText, 0.0);
-        AnchorPane.setBottomAnchor(stageTraitsText, 0.0);
-        AnchorPane.setLeftAnchor(stageTraitsText, 0.0);
-        AnchorPane.setRightAnchor(stageTraitsText, 0.0);
-        stageTraitTextAnchorPane.getChildren().add(stageTraitsText);
-        stagePropertyHBox.getChildren()
+        final AnchorPane stageTraitTextAnchorPane = wrapInAnchor(stageTraitsText);
+        HBox.setHgrow(stageTraitTextAnchorPane, Priority.ALWAYS);
+        stageLabelHBox.getChildren()
                 .addAll(maximumEnemyOnScreenLabel,
                         maximumEnemiesOnScreenText,
                         stageTraitLabel,
                         stageTraitTextAnchorPane
                 );
 
-        nodes.add(stagePropertyHBox);
+        nodes.add(stageLabelHBox);
 
-        final HBox stageEffectsHBox = new HBox();
-        stageEffectsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        stageEffectsHBox.setSpacing(10);
-        final Label stageEffectsLabel = new Label(getTranslation(APPLICATION_SECTION, "Stage Effects"));
-        final VBox stageEffectListVBox = new VBox();
-        HBox.setHgrow(stageEffectListVBox, Priority.ALWAYS);
-        stageEffectListVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        stageEffectListVBox.setSpacing(10);
-        errorLabel = new Label();
-        errorLabel.setVisible(false);
-        errorLabel.setStyle("-fx-text-fill: red");
-        stageEffectsList = new ListView<>();
-        stageEffectsList.setMaxHeight(75);
-        stageEffectsList.setCellFactory(new EffectsCellFactory(errorLabel));
-        final HBox stageEffectAddHBox = new HBox();
-        stageEffectAddHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        stageEffectAddHBox.setAlignment(Pos.CENTER_RIGHT);
-        stageEffectAddHBox.setSpacing(10);
-        final Button addEffectButton = new Button(getTranslation(APPLICATION_SECTION, "Add Effect"));
-        addEffectButton.setOnAction(e -> {
-            try {
-                final EffectData.Builder builder = EffectData.newBuilder();
-                createEffect(addEffectButton.getScene().getWindow(), builder);
+        stageEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Stage Effects"), errorLabel);
 
-                if (!builder.getType().isEmpty()) {
-                    stageEffectsList.getItems().add(new DataWrapper<>(builder.build()));
-                }
-            } catch (final IOException exception) {
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + exception);
-                errorLabel.setVisible(true);
-            }
-        });
-        stageEffectAddHBox.getChildren().addAll(errorLabel, addEffectButton);
-        stageEffectListVBox.getChildren().addAll(stageEffectsList, stageEffectAddHBox);
-        stageEffectsHBox.getChildren().addAll(stageEffectsLabel, stageEffectListVBox);
-
-        nodes.add(stageEffectsHBox);
+        nodes.add(stageEffects);
 
         enemyGrid = new GridPane();
         enemyGrid.setHgap(5);
@@ -152,14 +108,14 @@ public class StageNode extends VBox {
 
             final EnemyNode enemyNode;
             try {
-                enemyNode = new EnemyNode(enemyDataFile, false);
+                enemyNode = new EnemyNode(enemyDataFile, false, errorLabel, enemyGrid, stageNum);
             } catch (final Exception ex) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + ex.getMessage());
                 errorLabel.setVisible(true);
                 return;
             }
 
-            addEnemyNode(enemyNode);
+            addEnemyNode(enemyGrid, enemyNode);
         });
         final Button addServantButton = new Button(getTranslation(APPLICATION_SECTION, "Add Servant"));
         addServantButton.setOnAction(e -> {
@@ -173,14 +129,14 @@ public class StageNode extends VBox {
 
             final EnemyNode enemyNode;
             try {
-                enemyNode = new EnemyNode(enemyDataFile, true);
+                enemyNode = new EnemyNode(enemyDataFile, true, errorLabel, enemyGrid, stageNum);
             } catch (final Exception ex) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + ex.getMessage());
                 errorLabel.setVisible(true);
                 return;
             }
 
-            addEnemyNode(enemyNode);
+            addEnemyNode(enemyGrid, enemyNode);
         });
         final Button removeCombatantButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Combatant"));
         removeCombatantButton.setOnAction(e -> {
@@ -195,18 +151,20 @@ public class StageNode extends VBox {
         nodes.add(gridButtonsHBox);
     }
 
-    private void addEnemyNode(final EnemyNode node) {
+    public static void addEnemyNode(final GridPane enemyGrid, final EnemyNode node) {
         final int size = enemyGrid.getChildren().size();
         final int rowIndex = size / 3;
         final int colIndex = 2 - size % 3;
         enemyGrid.add(node, colIndex, rowIndex);
+        node.setEnemyIndex(size);
     }
 
     public void loadStageData(final StageData stageData) {
         maximumEnemiesOnScreenText.setText(Integer.toString(stageData.getMaximumEnemiesOnScreen()));
 
-        stageEffectsList.getItems().clear();
-        stageEffectsList.getItems().addAll(stageData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
+        stageEffects.clear();
+        stageEffects.load(stageData.getEffectsList());
+
         stageTraitsText.setText(
                 stageData.getTraitsList()
                         .stream()
@@ -226,7 +184,7 @@ public class StageNode extends VBox {
 
             final EnemyNode enemyNode;
             try {
-                enemyNode = new EnemyNode(enemyDataFile, enemyData.getIsServant());
+                enemyNode = new EnemyNode(enemyDataFile, enemyData.getIsServant(), errorLabel, enemyGrid, stageNum);
             } catch (final Exception ex) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Error loading file!") + ex.getMessage());
                 errorLabel.setVisible(true);
@@ -234,7 +192,7 @@ public class StageNode extends VBox {
             }
             enemyNode.loadEnemyData(enemyData);
 
-            addEnemyNode(enemyNode);
+            addEnemyNode(enemyGrid, enemyNode);
         }
     }
 
@@ -245,8 +203,11 @@ public class StageNode extends VBox {
             builder.setMaximumEnemiesOnScreen(Integer.parseInt(maximumEnemiesOnScreenText.getText()));
         } catch (final Exception e) {
             errorLabel.setVisible(true);
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));
-            maximumEnemiesOnScreenText.requestFocus();
+            errorLabel.setText(
+                    getTranslation(APPLICATION_SECTION, "Value not Integer") + ": "
+                            + getTranslation(APPLICATION_SECTION, "Stage") + " " + stageNum + " "
+                            + getTranslation(APPLICATION_SECTION, "Maximum enemy on screen")
+            );
             return null;
         }
 
@@ -261,9 +222,6 @@ public class StageNode extends VBox {
             enemyData.add(builtData);
         }
         if (enemyData.isEmpty()) {
-            errorLabel.setVisible(true);
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Value not Integer"));
-            enemyGrid.requestFocus();
             return null;
         }
         builder.addAllEnemyData(enemyData);
@@ -274,7 +232,7 @@ public class StageNode extends VBox {
                 .collect(Collectors.toList());
 
         builder.addAllTraits(traits);
-        builder.addAllEffects(stageEffectsList.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()));
+        builder.addAllEffects(stageEffects.build());
 
         return builder.build();
     }
