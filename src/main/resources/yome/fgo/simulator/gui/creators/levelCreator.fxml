@@ -53,6 +53,7 @@
                   </HBox>
                   <Separator prefWidth="200.0" />
                   <VBox fx:id="levelEffectVBox" />
+                  <Separator prefWidth="200.0" />
                   <HBox fx:id="simulationPrepHBox" spacing="10.0" />
                </children>
                <padding>
