@@ -52,10 +52,13 @@ import java.util.stream.Collectors;
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListener;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillAttribute;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillFateClass;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillGender;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
@@ -83,15 +86,13 @@ public class ServantAscensionTab extends VBox {
     private final TextArea servantStatus;
 
     public ServantAscensionTab(final int servantNo, final int ascension) {
-        super();
-        setPadding(new Insets(10, 10, 10, 10));
-        setSpacing(10);
+        super(10);
+        setPadding(new Insets(10));
         setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
         final List<Node> nodes = getChildren();
 
-        final HBox baseDataBox = new HBox();
-        baseDataBox.setSpacing(10);
+        final HBox baseDataBox = new HBox(10);
         baseDataBox.setFillHeight(false);
         baseDataBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
@@ -106,26 +107,19 @@ public class ServantAscensionTab extends VBox {
         if (image != null) {
             thumbnail.setImage(image);
         }
-        thumbnail.setFitWidth(100);
-        thumbnail.setFitHeight(100);
-        final AnchorPane imgAnchor = new AnchorPane();
-        AnchorPane.setTopAnchor(thumbnail, 0.0);
-        AnchorPane.setBottomAnchor(thumbnail, 0.0);
-        AnchorPane.setLeftAnchor(thumbnail, 0.0);
-        AnchorPane.setRightAnchor(thumbnail, 0.0);
-        imgAnchor.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2");
-        imgAnchor.getChildren().add(thumbnail);
+        thumbnail.setFitWidth(SERVANT_THUMBNAIL_SIZE);
+        thumbnail.setFitHeight(SERVANT_THUMBNAIL_SIZE);
+        final AnchorPane imgAnchor = wrapInAnchor(thumbnail);
+        imgAnchor.setStyle(UNIT_THUMBNAIL_STYLE);
 
         baseDataBox.getChildren().addAll(imgAnchor);
 
-        final VBox combatantDataVBox = new VBox();
-        combatantDataVBox.setSpacing(10);
+        final VBox combatantDataVBox = new VBox(10);
         combatantDataVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         HBox.setHgrow(combatantDataVBox, Priority.ALWAYS);
 
-        final HBox choicesHBox = new HBox();
+        final HBox choicesHBox = new HBox(10);
         choicesHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        choicesHBox.setSpacing(10);
         choicesHBox.setAlignment(Pos.CENTER_LEFT);
         final Label rarityLabel = new Label(getTranslation(APPLICATION_SECTION, "Rarity"));
         rarityChoices = new ChoiceBox<>();
@@ -144,16 +138,13 @@ public class ServantAscensionTab extends VBox {
 
         combatantDataVBox.getChildren().add(choicesHBox);
 
-        final HBox alignmentHBox = new HBox();
+        final HBox alignmentHBox = new HBox(10);
         alignmentHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        alignmentHBox.setSpacing(10);
         final Label alignmentLabel = new Label(getTranslation(APPLICATION_SECTION, "Alignments"));
-        final VBox alignmentGroupVBox = new VBox();
+        final VBox alignmentGroupVBox = new VBox(5);
         alignmentGroupVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        alignmentGroupVBox.setSpacing(5);
-        final HBox alignmentGroup1 = new HBox();
+        final HBox alignmentGroup1 = new HBox(10);
         alignmentGroup1.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        alignmentGroup1.setSpacing(10);
         alignmentChecks = new ArrayList<>();
         final List<Alignment> firstAlignmentRow = ImmutableList.of(Alignment.LAWFUL, Alignment.NEUTRAL, Alignment.CHAOTIC);
         for (final Alignment alignment : firstAlignmentRow) {
@@ -161,9 +152,8 @@ public class ServantAscensionTab extends VBox {
             alignmentGroup1.getChildren().add(checkBox);
             alignmentChecks.add(checkBox);
         }
-        final HBox alignmentGroup2 = new HBox();
+        final HBox alignmentGroup2 = new HBox(10);
         alignmentGroup2.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        alignmentGroup2.setSpacing(10);
         final List<Alignment> secondAlignmentRow = ImmutableList.of(
                 Alignment.GOOD, Alignment.BALANCED, Alignment.EVIL, Alignment.INSANE, Alignment.SUMMER, Alignment.BRIDE
         );
@@ -177,9 +167,8 @@ public class ServantAscensionTab extends VBox {
 
         combatantDataVBox.getChildren().add(alignmentHBox);
 
-        final HBox textsHBox = new HBox();
+        final HBox textsHBox = new HBox(10);
         textsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        textsHBox.setSpacing(10);
         textsHBox.setAlignment(Pos.CENTER_LEFT);
         final Label defNpRateLabel = new Label(getTranslation(APPLICATION_SECTION, "Def Np Rate (%)"));
         defNpText = new TextField();
@@ -197,19 +186,13 @@ public class ServantAscensionTab extends VBox {
 
         combatantDataVBox.getChildren().add(textsHBox);
 
-        final HBox traitsHBox = new HBox();
+        final HBox traitsHBox = new HBox(10);
         traitsHBox.setAlignment(Pos.CENTER_LEFT);
         traitsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        traitsHBox.setSpacing(10);
         final Label traitsLabel = new Label(getTranslation(APPLICATION_SECTION, "Traits"));
-        final AnchorPane traitsAnchor = new AnchorPane();
-        HBox.setHgrow(traitsAnchor, Priority.ALWAYS);
         traitsText = new TextField();
-        AnchorPane.setTopAnchor(traitsText, 0.0);
-        AnchorPane.setBottomAnchor(traitsText, 0.0);
-        AnchorPane.setLeftAnchor(traitsText, 0.0);
-        AnchorPane.setRightAnchor(traitsText, 0.0);
-        traitsAnchor.getChildren().add(traitsText);
+        final AnchorPane traitsAnchor = wrapInAnchor(traitsText);
+        HBox.setHgrow(traitsAnchor, Priority.ALWAYS);
         baseDataErrorLabel = new Label();
         baseDataErrorLabel.setVisible(false);
         baseDataErrorLabel.setStyle("-fx-text-fill: red");
@@ -228,9 +211,8 @@ public class ServantAscensionTab extends VBox {
         cardsLabel.setFont(new Font(18));
         nodes.add(cardsLabel);
 
-        final HBox quickCardDataHBox = new HBox();
+        final HBox quickCardDataHBox = new HBox(10);
         quickCardDataHBox.setAlignment(Pos.CENTER_LEFT);
-        quickCardDataHBox.setSpacing(10);
         final Label npRateLabel = new Label(getTranslation(APPLICATION_SECTION, "NP (%)"));
         final TextField npRateText = new TextField();
         final Label critStarRateLabel = new Label(getTranslation(APPLICATION_SECTION, "Crit Star Rate (%)"));
@@ -247,12 +229,10 @@ public class ServantAscensionTab extends VBox {
         }
         exCommandCardBox = new CommandCardBox(0);
         HBox.setHgrow(exCommandCardBox, Priority.ALWAYS);
-        final HBox cardDataHBox1 = new HBox();
-        cardDataHBox1.setSpacing(5);
+        final HBox cardDataHBox1 = new HBox(5);
         cardDataHBox1.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         cardDataHBox1.getChildren().addAll(commandCardBoxes.get(0), commandCardBoxes.get(1), commandCardBoxes.get(2));
-        final HBox cardDataHBox2 = new HBox();
-        cardDataHBox2.setSpacing(5);
+        final HBox cardDataHBox2 = new HBox(5);
         cardDataHBox2.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         cardDataHBox2.getChildren().addAll(commandCardBoxes.get(3), commandCardBoxes.get(4), exCommandCardBox);
 
@@ -264,8 +244,7 @@ public class ServantAscensionTab extends VBox {
         npLabel.setFont(new Font(18));
         nodes.add(npLabel);
 
-        final HBox npButtonsHBox = new HBox();
-        npButtonsHBox.setSpacing(10);
+        final HBox npButtonsHBox = new HBox(10);
         npButtonsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         final Button removeNpUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Remove NP Upgrade"));
         final Button addNpUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Add NP Upgrade"));
@@ -312,8 +291,7 @@ public class ServantAscensionTab extends VBox {
 
         activeSkillUpgradeTabPanes = new ArrayList<>();
         for (int i = 1; i <= 3; i += 1) {
-            final HBox activeSkillButtonHBox = new HBox();
-            activeSkillButtonHBox.setSpacing(10);
+            final HBox activeSkillButtonHBox = new HBox(10);
             activeSkillButtonHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
             final Button removeUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Active Skill Upgrade"));
             final Button addUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Add Active Skill Upgrade"));
@@ -345,13 +323,11 @@ public class ServantAscensionTab extends VBox {
         passiveSkillLabel.setFont(new Font(18));
         nodes.add(passiveSkillLabel);
 
-        passiveSkillsVBox = new VBox();
+        passiveSkillsVBox = new VBox(10);
         passiveSkillsVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        passiveSkillsVBox.setSpacing(10);
 
-        final HBox passiveHBox = new HBox();
+        final HBox passiveHBox = new HBox(10);
         passiveHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        passiveHBox.setSpacing(10);
         passiveHBox.setAlignment(Pos.CENTER_RIGHT);
         final Button removePassiveButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Passive Skill"));
         final Button addPassiveButton = new Button(getTranslation(APPLICATION_SECTION, "Add Passive Skill"));
@@ -372,13 +348,11 @@ public class ServantAscensionTab extends VBox {
         appendSkillLabel.setFont(new Font(18));
         nodes.add(appendSkillLabel);
 
-        appendSkillsVBox = new VBox();
+        appendSkillsVBox = new VBox(10);
         appendSkillsVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        appendSkillsVBox.setSpacing(10);
 
-        final HBox appendHBox = new HBox();
+        final HBox appendHBox = new HBox(10);
         appendHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        appendHBox.setSpacing(10);
         appendHBox.setAlignment(Pos.CENTER_RIGHT);
         final Button removeAppendButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Append Skill"));
         final Button addAppendButton = new Button(getTranslation(APPLICATION_SECTION, "Add Append Skill"));
@@ -395,8 +369,7 @@ public class ServantAscensionTab extends VBox {
         nodes.add(appendHBox);
         nodes.add(new Separator());
 
-        final HBox statusHBox = new HBox();
-        statusHBox.setSpacing(10);
+        final HBox statusHBox = new HBox(10);
         statusHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         final Label statusLabel = new Label(getTranslation(APPLICATION_SECTION, "Servant Status"));
         servantStatus = new TextArea();

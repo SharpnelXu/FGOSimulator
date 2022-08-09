@@ -6,7 +6,7 @@
       "fateClass": "MOONCANCER",
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "GOOD"],
-      "attribute": "BEAST",
+      "attribute": "STAR",
       "traits": ["HUMANOID"],
       "deathRate": 0.006
     },
@@ -816,7 +816,7 @@
       "fateClass": "MOONCANCER",
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "GOOD"],
-      "attribute": "BEAST",
+      "attribute": "STAR",
       "traits": ["HUMANOID"],
       "deathRate": 0.006
     },

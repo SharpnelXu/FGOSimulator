@@ -6,7 +6,7 @@
       "fateClass": "ARCHER",
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "GOOD"],
-      "attribute": "BEAST",
+      "attribute": "STAR",
       "traits": ["DIVINE", "RIDING", "KING", "HOMINIDAE_SERVANT", "HUMANOID"],
       "deathRate": 0.27
     },

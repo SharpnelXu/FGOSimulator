@@ -6,60 +6,50 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.ServantCreatorFXMLController">
-   <content>
-      <VBox alignment="TOP_CENTER" spacing="20.0">
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.ServantCreatorFXMLController">
+   <children>
+      <HBox alignment="CENTER" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets bottom="10.0" left="20.0" right="20.0" top="15.0" />
+         </padding>
          <children>
-            <HBox alignment="CENTER" spacing="10.0">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-               </padding>
-               <children>
-                  <Label fx:id="idLabel" text="Label">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="idText" prefHeight="50.0" prefWidth="128.0">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </TextField>
-                  <Label fx:id="servantNameLabel" text="Label">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" spacing="10.0">
-               <children>
-                  <Button fx:id="removeAscButton" minWidth="100.0" mnemonicParsing="false" text="Button" />
-                  <Button fx:id="duplicateAscButton" minWidth="100.0" mnemonicParsing="false" text="Button" />
-                  <Label fx:id="servantIdErrorLabel" style="-fx-text-fill: red;" text="Label" />
-               </children>
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </HBox>
-            <TabPane fx:id="servantAscTabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS" />
-            <HBox alignment="CENTER_RIGHT" spacing="10.0">
-               <children>
-                  <Label fx:id="errorLabel" text="Label" />
-                  <Button fx:id="loadButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
-                  <Button fx:id="saveButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
-               </children>
-               <padding>
-                  <Insets right="10.0" />
-               </padding>
-            </HBox>
+            <Label fx:id="idLabel" text="Label">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="idText" prefHeight="50.0" prefWidth="128.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <Label fx:id="servantNameLabel" text="Label">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
          </children>
-      </VBox>
-   </content>
-</ScrollPane>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label fx:id="errorLabel" text="Label" />
+            <HBox fx:id="actionHBox" spacing="5.0" />
+            <Button fx:id="loadButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
+            <Button fx:id="saveButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+         <content>
+            <TabPane fx:id="servantAscTabPane" tabClosingPolicy="UNAVAILABLE" />
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
