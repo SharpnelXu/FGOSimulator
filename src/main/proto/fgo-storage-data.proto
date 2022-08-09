@@ -130,6 +130,8 @@ message CombatantData {
   double deathRate = 8;
 
   bool undeadNpCorrection = 9;
+
+  repeated PassiveSkillData enemyPassiveSkillData = 10;
 }
 
 message ServantData {

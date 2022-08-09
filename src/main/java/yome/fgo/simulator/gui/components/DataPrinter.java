@@ -8,6 +8,7 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
+import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields;
@@ -518,25 +519,37 @@ public class DataPrinter {
     }
 
     public static String printCombatantData(final CombatantData combatantData) {
-        return printBasicCombatantData(combatantData) + ", " +
-                getTranslation(APPLICATION_SECTION, "Gender") +
-                ": " +
-                getTranslation(TRAIT_SECTION, combatantData.getGender().name()) +
-                ", " +
-                getTranslation(APPLICATION_SECTION, "Attribute") +
-                ": " +
-                getTranslation(TRAIT_SECTION, combatantData.getAttribute().name()) +
-                ", " +
-                getTranslation(APPLICATION_SECTION, "Alignments") +
-                ": " +
-                combatantData.getAlignmentsList()
-                        .stream()
-                        .map(alignment -> getTranslation(TRAIT_SECTION, alignment.name()))
-                        .collect(Collectors.toList()) +
-                ", " +
-                getTranslation(APPLICATION_SECTION, "Traits") +
-                ": " +
-                printTraits(combatantData.getTraitsList());
+        final StringBuilder builder = new StringBuilder();
+        builder.append(printBasicCombatantData(combatantData))
+                .append(", ")
+                .append(getTranslation(APPLICATION_SECTION, "Gender"))
+                .append(": ")
+                .append(getTranslation(TRAIT_SECTION, combatantData.getGender().name()))
+                .append(", ")
+                .append(getTranslation(APPLICATION_SECTION, "Attribute"))
+                .append(": ")
+                .append(getTranslation(TRAIT_SECTION, combatantData.getAttribute().name()))
+                .append(", ")
+                .append(getTranslation(APPLICATION_SECTION, "Alignments"))
+                .append(": ")
+                .append(combatantData.getAlignmentsList()
+                                .stream()
+                                .map(alignment -> getTranslation(TRAIT_SECTION, alignment.name()))
+                                .collect(Collectors.toList()))
+                .append(", ")
+                .append(getTranslation(APPLICATION_SECTION, "Traits"))
+                .append(": ")
+                .append(printTraits(combatantData.getTraitsList()));
+
+        for (final PassiveSkillData passiveSkillData : combatantData.getEnemyPassiveSkillDataList()) {
+            for (final EffectData effectData : passiveSkillData.getEffectsList()) {
+                builder.append(", ")
+                        .append(getTranslation(APPLICATION_SECTION, "Passive Skill"))
+                        .append(": ")
+                        .append(printEffectData(effectData));
+            }
+        }
+        return builder.toString();
     }
 
     public static String printServantOption(final ServantOption servantOption) {

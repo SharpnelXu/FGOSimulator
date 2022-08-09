@@ -4,5 +4,53 @@
   "fateClass": "AVENGER",
   "attribute": "EARTH",
   "traits": ["FAE", "DEMONIC", "MASSIVE"],
-  "deathRate": 0.001
+  "deathRate": 0.001,
+  "enemyPassiveSkillData": [{
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "DebuffResist",
+        "applyCondition": {
+          "type": "BuffTypeEquals",
+          "value": "Pigify"
+        },
+        "values": [10.0],
+        "buffIcon": "immune"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "SpecificAttackBuff",
+        "applyCondition": {
+          "type": "TargetsHaveTrait",
+          "value": "FAE",
+          "target": "DEFENDER"
+        },
+        "values": [0.2],
+        "buffIcon": "specialDamageUp"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "PostAttackEffect",
+        "subEffects": [{
+          "type": "GrantBuff",
+          "target": "DEFENDER",
+          "buffData": [{
+            "type": "Curse",
+            "numTurnsActive": 3,
+            "values": [300.0],
+            "buffIcon": "curse"
+          }]
+        }],
+        "buffIcon": "attackApplyDebuff"
+      }],
+      "probabilities": [5.0]
+    }]
+  }]
 }

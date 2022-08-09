@@ -35,14 +35,15 @@ public class EnemyCreator extends Application {
 
         final FXMLLoader fxmlLoader = new FXMLLoader(ConditionBuilder.class.getResource("enemyCreator.fxml"));
         final Parent root = fxmlLoader.load();
-        final EnemyCreatorFXMLController controller = fxmlLoader.getController();
-        controller.setParentBuilder(builder);
 
         final Scene scene = new Scene(root);
         scene.getStylesheets().add(ConditionBuilder.class.getResource("style.css").toExternalForm());
 
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "EnemyCreator"));
         newStage.setScene(scene);
+
+        final EnemyCreatorFXMLController controller = fxmlLoader.getController();
+        controller.setParentBuilder(builder);
 
         newStage.showAndWait();
     }

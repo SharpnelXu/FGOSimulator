@@ -221,6 +221,8 @@ public class Servant extends Combatant {
 
     @Override
     public void initiate(final Simulation simulation) {
+        super.initiate(simulation);
+
         if (simulation.getStatsLogger() != null) {
             simulation.getStatsLogger().logActivatePassiveSkill(getId());
         }

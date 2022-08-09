@@ -5,5 +5,7 @@
   "gender": "MALE",
   "attribute": "EARTH",
   "traits": ["HUMANOID", "GREEK_MYTHOLOGY_MALES"],
-  "deathRate": 0.8
+  "deathRate": 0.8,
+  "enemyPassiveSkillData": [{
+  }]
 }

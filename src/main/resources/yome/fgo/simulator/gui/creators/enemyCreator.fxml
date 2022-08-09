@@ -5,17 +5,94 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="784.0" spacing="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.EnemyCreatorFXMLController">
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.EnemyCreatorFXMLController">
    <children>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin>
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="400.0" prefWidth="800.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+         <content>
+            <VBox maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label fx:id="deathRateLabel" text="Label" />
+                        <TextField fx:id="deathRateTextField" prefHeight="25.0" prefWidth="65.0" />
+                        <CheckBox fx:id="useUndeadCheck" mnemonicParsing="false" text="CheckBox" />
+                     </children>
+                  </HBox>
+                  <Separator prefWidth="200.0" />
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label fx:id="rarityLabel" text="Label" />
+                        <ChoiceBox fx:id="rarityCombo" prefHeight="25.0" prefWidth="52.0" />
+                        <Label fx:id="fateClassLabel" text="A very Long text" />
+                        <ChoiceBox fx:id="fateClassCombo" prefHeight="25.0" prefWidth="161.0" />
+                        <Label fx:id="genderLabel" text="Label" />
+                        <ChoiceBox fx:id="genderCombo" prefHeight="25.0" prefWidth="77.0" />
+                        <Label fx:id="attributeLabel" text="Label" />
+                        <ChoiceBox fx:id="attributeCombo" prefHeight="25.0" prefWidth="84.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <Separator prefWidth="200.0" />
+                  <HBox spacing="10.0">
+                     <children>
+                        <Label fx:id="alignmentLabel" text="Label" />
+                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <CheckBox fx:id="align1" mnemonicParsing="false" text="CheckBox" />
+                                    <CheckBox fx:id="align2" mnemonicParsing="false" text="CheckBox" />
+                                    <CheckBox fx:id="align3" mnemonicParsing="false" text="CheckBox" />
+                                 </children>
+                              </HBox>
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <CheckBox fx:id="align4" mnemonicParsing="false" text="CheckBox" />
+                                    <CheckBox fx:id="align5" mnemonicParsing="false" text="CheckBox" />
+                                    <CheckBox fx:id="align6" mnemonicParsing="false" text="CheckBox" />
+                                    <CheckBox fx:id="align7" mnemonicParsing="false" text="CheckBox" />
+                                    <CheckBox fx:id="align8" mnemonicParsing="false" text="CheckBox" />
+                                    <CheckBox fx:id="align9" mnemonicParsing="false" text="CheckBox" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Separator prefWidth="200.0" />
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <children>
+                        <Label fx:id="traitLabel" text="Label" />
+                        <AnchorPane HBox.hgrow="ALWAYS">
+                           <children>
+                              <TextField fx:id="traitText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <Separator prefWidth="200.0" />
+                  <VBox fx:id="passiveEffectVBox" />
+               </children>
+            </VBox>
+         </content>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </ScrollPane>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="idLabel" text="Label" />
             <AnchorPane HBox.hgrow="ALWAYS">
@@ -24,79 +101,11 @@
                </children>
             </AnchorPane>
          </children>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <children>
-            <Label fx:id="deathRateLabel" text="Label" />
-            <TextField fx:id="deathRateTextField" prefHeight="25.0" prefWidth="65.0" />
-            <CheckBox fx:id="useUndeadCheck" mnemonicParsing="false" text="CheckBox" />
-         </children>
          <padding>
-            <Insets left="20.0" />
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </HBox>
-      <Separator prefWidth="200.0" />
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <children>
-            <Label fx:id="rarityLabel" text="Label" />
-            <ChoiceBox fx:id="rarityCombo" prefHeight="25.0" prefWidth="52.0" />
-            <Label fx:id="fateClassLabel" text="A very Long text" />
-            <ChoiceBox fx:id="fateClassCombo" prefHeight="25.0" prefWidth="161.0" />
-            <Label fx:id="genderLabel" text="Label" />
-            <ChoiceBox fx:id="genderCombo" prefHeight="25.0" prefWidth="77.0" />
-            <Label fx:id="attributeLabel" text="Label" />
-            <ChoiceBox fx:id="attributeCombo" prefHeight="25.0" prefWidth="84.0" />
-         </children>
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin>
-      </HBox>
-      <Separator prefWidth="200.0" />
-      <HBox spacing="10.0">
-         <children>
-            <Label fx:id="alignmentLabel" text="Label" />
-            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <HBox spacing="10.0">
-                     <children>
-                        <CheckBox fx:id="align1" mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox fx:id="align2" mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox fx:id="align3" mnemonicParsing="false" text="CheckBox" />
-                     </children>
-                  </HBox>
-                  <HBox spacing="10.0">
-                     <children>
-                        <CheckBox fx:id="align4" mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox fx:id="align5" mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox fx:id="align6" mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox fx:id="align7" mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox fx:id="align8" mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox fx:id="align9" mnemonicParsing="false" text="CheckBox" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-         <padding>
-            <Insets left="20.0" />
-         </padding>
-      </HBox>
-      <Separator prefWidth="200.0" />
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <VBox.margin>
-            <Insets left="20.0" right="20.0" />
-         </VBox.margin>
-         <children>
-            <Label fx:id="traitLabel" text="Label" />
-            <AnchorPane HBox.hgrow="ALWAYS">
-               <children>
-                  <TextField fx:id="traitText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
-            </AnchorPane>
-         </children>
-      </HBox>
-      <Separator prefWidth="200.0" />
-      <HBox alignment="CENTER_RIGHT" spacing="30.0">
+      <HBox alignment="CENTER_RIGHT" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Label fx:id="errorLabel" text="Label" />
             <Button fx:id="loadFromButton" mnemonicParsing="false" onAction="#onLoadFromButtonClick" prefHeight="25.0" prefWidth="150.0" text="Button" />
@@ -105,10 +114,8 @@
             <Button fx:id="buildButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Button" />
          </children>
          <padding>
-            <Insets right="20.0" />
-         </padding></HBox>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </HBox>
    </children>
-   <padding>
-      <Insets bottom="20.0" top="20.0" />
-   </padding>
-</VBox>
+</AnchorPane>

@@ -10,6 +10,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.Alignment;
@@ -17,7 +18,9 @@ import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
+import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.writer.DataWriter;
+import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -139,6 +142,10 @@ public class EnemyCreatorFXMLController implements Initializable {
     @FXML
     private Button buildButton;
 
+    @FXML
+    private VBox passiveEffectVBox;
+    private ListContainerVBox passiveList;
+
     public void setParentBuilder(final CombatantData.Builder combatantDataBuilder) {
         this.combatantDataBuilder = combatantDataBuilder;
         loadCombatantData(combatantDataBuilder);
@@ -177,6 +184,7 @@ public class EnemyCreatorFXMLController implements Initializable {
 
         alignmentLabel.setText(getTranslation(APPLICATION_SECTION, "Alignments"));
         alignBoxes = new ArrayList<>();
+        // This was my first JavaFX controller so that's why I didn't manually create these here
         align1.setText(getTranslation(TRAIT_SECTION, Alignment.LAWFUL.name()));
         align2.setText(getTranslation(TRAIT_SECTION, Alignment.NEUTRAL.name()));
         align3.setText(getTranslation(TRAIT_SECTION, Alignment.CHAOTIC.name()));
@@ -223,6 +231,9 @@ public class EnemyCreatorFXMLController implements Initializable {
         buildButton.setVisible(false);
 
         errorLabel.setVisible(false);
+
+        passiveList = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Enemy passive effects"), errorLabel);
+        passiveEffectVBox.getChildren().add(passiveList);
     }
 
     private boolean buildCombatantData(final CombatantData.Builder combatantDataBuilder) {
@@ -258,6 +269,9 @@ public class EnemyCreatorFXMLController implements Initializable {
                 .filter(s -> !s.isEmpty())
                 .map(TranslationManager::getKeyForTrait)
                 .collect(Collectors.toList());
+
+        final PassiveSkillData.Builder builder = PassiveSkillData.newBuilder();
+        builder.addAllEffects(passiveList.build());
         combatantDataBuilder.setId(id)
                 .setDeathRate(deathRate)
                 .setUndeadNpCorrection(useUndeadCheck.isSelected())
@@ -267,6 +281,7 @@ public class EnemyCreatorFXMLController implements Initializable {
                 .setAttribute(attributeCombo.getValue())
                 .addAllAlignments(checkedAlignments)
                 .addAllTraits(traits)
+                .addAllEnemyPassiveSkillData(ImmutableList.of(builder.build()))
                 .build();
         return true;
     }
@@ -383,6 +398,10 @@ public class EnemyCreatorFXMLController implements Initializable {
 
         for (final CheckBox checkBox : alignBoxes) {
             checkBox.setSelected(selectedAlignments.stream().anyMatch(checkBox.getText()::equalsIgnoreCase));
+        }
+
+        for (final PassiveSkillData passiveSkillData : combatantData.getEnemyPassiveSkillDataList()) {
+            passiveList.load(passiveSkillData.getEffectsList());
         }
 
         final AtomicBoolean allTraitsFound = new AtomicBoolean(true);

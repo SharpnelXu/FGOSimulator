@@ -23,6 +23,7 @@ public class ComponentUtils {
     public static final String SPECIAL_INFO_BOX_STYLE = "-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-width: 5; -fx-background-color: white";
     public static final String UNIT_DISPLAY_STYLE = "-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 3; -fx-border-radius: 3";
     public static final String UNIT_THUMBNAIL_STYLE = "-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2; -fx-background-color: white";
+    public static final String LIST_ITEM_STYLE = "-fx-border-color: grey; -fx-border-style: solid; -fx-border-width: 2; -fx-border-radius: 3px; -fx-background-color: white";
 
     public static final int SERVANT_THUMBNAIL_SIZE = 100;
     public static final int SKILL_THUMBNAIL_SIZE = 50;

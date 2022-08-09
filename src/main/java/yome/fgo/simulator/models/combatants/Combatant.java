@@ -10,6 +10,7 @@ import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
+import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.AttackBuffDurationExtend;
 import yome.fgo.simulator.models.effects.buffs.Buff;
@@ -38,6 +39,7 @@ import yome.fgo.simulator.models.effects.buffs.TriggerOnGutsEffect;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,6 +65,8 @@ public class Combatant {
     protected int currentHp;
     protected List<Integer> hpBars;
     protected List<Buff> buffs = Lists.newArrayList();
+
+    private List<PassiveSkill> enemyPassiveSkills = Lists.newArrayList();
 
     private boolean receivedInstantDeath;
     protected boolean isAlly;
@@ -118,6 +122,10 @@ public class Combatant {
             this.maxNpGauge = getClassMaxNpGauge(this.combatantData.getFateClass());
         }
         this.enemyData = enemyData;
+        this.enemyPassiveSkills = new ArrayList<>();
+        for (final PassiveSkillData passiveSkillData : this.combatantData.getEnemyPassiveSkillDataList()) {
+            this.enemyPassiveSkills.add(new PassiveSkill(passiveSkillData));
+        }
     }
 
     public static CombatantData mergeWithOverride(final CombatantData base, final CombatantData override) {
@@ -136,10 +144,23 @@ public class Combatant {
                         ? base.getTraitsList()
                         : override.getTraitsList()
         );
+        builder.clearEnemyPassiveSkillData();
+        builder.addAllEnemyPassiveSkillData(
+                override.getEnemyPassiveSkillDataCount() == 0
+                        ? base.getEnemyPassiveSkillDataList()
+                        : override.getEnemyPassiveSkillDataList()
+        );
         return builder.build();
     }
 
     public void initiate(final Simulation simulation) {
+        simulation.setActivator(this);
+        simulation.setActivatingServantPassiveEffects(true);
+        for (final PassiveSkill passiveSkill : enemyPassiveSkills) {
+            passiveSkill.activate(simulation);
+        }
+        simulation.setActivatingServantPassiveEffects(false);
+        simulation.unsetActivator();
     }
 
     public int getAttack() {
@@ -660,7 +681,7 @@ public class Combatant {
         }
         this.receivedInstantDeath = other.receivedInstantDeath;
         this.isAlly = other.isAlly;
-
+        this.enemyPassiveSkills = Lists.newArrayList(other.enemyPassiveSkills);
     }
 
     public Combatant makeCopy() {
