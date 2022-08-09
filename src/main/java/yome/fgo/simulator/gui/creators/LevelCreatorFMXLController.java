@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -251,12 +250,10 @@ public class LevelCreatorFMXLController implements Initializable {
         simulationPrepHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         simulationPrepHBox.setSpacing(10);
 
-        final ToggleGroup supportToggle = new ToggleGroup();
         final List<Node> nodes = simulationPrepHBox.getChildren();
         formationSelectors = new ArrayList<>();
         for (int i = 0; i < 3; i += 1) {
             final FormationSelector formationSelector = new FormationSelector(
-                    supportToggle,
                     errorLabel,
                     servantDataMap,
                     servantOptions,
@@ -270,7 +267,6 @@ public class LevelCreatorFMXLController implements Initializable {
         nodes.add(new Separator(Orientation.VERTICAL));
         for (int i = 0; i < 3; i += 1) {
             final FormationSelector formationSelector = new FormationSelector(
-                    supportToggle,
                     errorLabel,
                     servantDataMap,
                     servantOptions,

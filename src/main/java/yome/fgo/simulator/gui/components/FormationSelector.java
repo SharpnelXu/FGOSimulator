@@ -7,9 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -41,7 +39,7 @@ import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECT
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class FormationSelector extends VBox {
-    private final RadioButton support;
+    private final CheckBox support;
     private ServantDataWrapper selectedServant;
     private ServantOption servantOption;
     private final Label servantOptionLabel;
@@ -53,7 +51,6 @@ public class FormationSelector extends VBox {
     private final CraftEssenceDataWrapper defaultCESelection;
 
     public FormationSelector(
-            final ToggleGroup toggleGroup,
             final Label errorLabel,
             final Map<Integer, ServantDataWrapper> servantDataMap,
             final Map<Integer, ServantOption> servantOptions,
@@ -68,8 +65,7 @@ public class FormationSelector extends VBox {
         setAlignment(Pos.TOP_CENTER);
         HBox.setHgrow(this, Priority.ALWAYS);
 
-        support = new RadioButton(getTranslation(APPLICATION_SECTION, "In Formation"));
-        support.setToggleGroup(toggleGroup);
+        support = new CheckBox(getTranslation(APPLICATION_SECTION, "In Formation"));
         support.setOnAction(e -> {
             if (support.isSelected()) {
                 support.setText(getTranslation(APPLICATION_SECTION, "Support"));
