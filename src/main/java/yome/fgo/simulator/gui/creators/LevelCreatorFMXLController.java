@@ -105,6 +105,9 @@ public class LevelCreatorFMXLController implements Initializable {
     @FXML
     private HBox simulationPrepHBox;
 
+    @FXML
+    private Button startSimulationButton;
+
     private MysticCodeDataWrapper mysticCodeDataWrapper;
     private List<FormationSelector> formationSelectors;
     private Label costValueLabel;
@@ -148,6 +151,8 @@ public class LevelCreatorFMXLController implements Initializable {
 
         simulationPrepHBox.setVisible(false);
         simulationPrepHBox.setManaged(false);
+        startSimulationButton.setVisible(false);
+        startSimulationButton.setManaged(false);
     }
 
     private void loadLevel() {
@@ -418,7 +423,9 @@ public class LevelCreatorFMXLController implements Initializable {
         costValueLabel = new Label("0");
         costHBox.getChildren().addAll(costLabel, costValueLabel);
 
-        final Button startSimulationButton = new Button(getTranslation(APPLICATION_SECTION, "Start Simulation"));
+        startSimulationButton.setVisible(true);
+        startSimulationButton.setManaged(true);
+        startSimulationButton.setText(getTranslation(APPLICATION_SECTION, "Start Simulation"));
         startSimulationButton.setOnAction(e -> startSimulation(
                 (int) mcLevelSlider.getValue(),
                 RoundUtils.roundNearest(probabilityThresholdSlider.getValue() / 10.0),
@@ -439,8 +446,7 @@ public class LevelCreatorFMXLController implements Initializable {
                 probabilityThresholdSlider,
                 randomLabelHBox,
                 randomSlider,
-                costHBox,
-                startSimulationButton
+                costHBox
         );
     }
 

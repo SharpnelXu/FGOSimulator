@@ -7,59 +7,71 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.LevelCreatorFMXLController">
-   <content>
-      <VBox alignment="TOP_CENTER" spacing="20.0">
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.LevelCreatorFMXLController">
+   <children>
+      <HBox alignment="CENTER_RIGHT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" spacing="10.0">
-               <children>
-                  <Label fx:id="idLabel" alignment="CENTER" text="Label">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="idText">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </TextField>
-               </children>
-            </HBox>
-            <VBox fx:id="stagesVBox" spacing="10.0" />
-            <Separator prefWidth="200.0" />
-            <HBox alignment="CENTER_RIGHT" spacing="10.0">
-               <children>
-                  <Button fx:id="removeStageButton" mnemonicParsing="false" text="Button" />
-                  <Button fx:id="addStageButton" mnemonicParsing="false" text="Button" />
-               </children>
-            </HBox>
-            <HBox spacing="10.0">
-               <children>
-                  <Label fx:id="levelEffectsLabel" text="Label" />
-                  <VBox alignment="TOP_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <ListView fx:id="levelEffectsList" maxHeight="200.0" />
-                        <Button fx:id="addLevelEffectsButton" mnemonicParsing="false" text="Button" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_RIGHT" spacing="10.0">
-               <children>
-                  <Label fx:id="errorLabel" text="Label" />
-                  <Button fx:id="loadLevelButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
-                  <Button fx:id="saveLevelButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
-               </children>
-            </HBox>
-            <HBox fx:id="simulationPrepHBox" spacing="10.0" />
+            <Label fx:id="errorLabel" text="Label" />
+            <Button fx:id="loadLevelButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
+            <Button fx:id="saveLevelButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
+            <Button fx:id="startSimulationButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
-      </VBox>
-   </content>
-</ScrollPane>
+      </HBox>
+      <HBox alignment="CENTER" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="idLabel" alignment="CENTER" text="Label">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="idText" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </HBox>
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+         <content>
+            <VBox alignment="TOP_CENTER" spacing="20.0">
+               <children>
+                  <VBox fx:id="stagesVBox" spacing="10.0" />
+                  <Separator prefWidth="200.0" />
+                  <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                     <children>
+                        <Button fx:id="removeStageButton" mnemonicParsing="false" text="Button" />
+                        <Button fx:id="addStageButton" mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="10.0">
+                     <children>
+                        <Label fx:id="levelEffectsLabel" text="Label" />
+                        <VBox alignment="TOP_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <ListView fx:id="levelEffectsList" maxHeight="200.0" />
+                              <Button fx:id="addLevelEffectsButton" mnemonicParsing="false" text="Button" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="simulationPrepHBox" spacing="10.0" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
