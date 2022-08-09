@@ -14,6 +14,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -56,6 +57,7 @@ import java.util.ResourceBundle;
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectMysticCode;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -75,9 +77,6 @@ public class LevelCreatorFMXLController implements Initializable {
 
     @FXML
     private Button loadLevelButton;
-
-    @FXML
-    private Button removeStageButton;
 
     @FXML
     private Button saveLevelButton;
@@ -106,15 +105,13 @@ public class LevelCreatorFMXLController implements Initializable {
     public void initialize(final URL location, final ResourceBundle resources) {
         idLabel.setText(getTranslation(APPLICATION_SECTION, "Level Name"));
 
-        stagesVBox.getChildren().add(new StageNode(1, errorLabel));
-        addStageButton.setText(getTranslation(APPLICATION_SECTION, "Add Stage"));
-        addStageButton.setOnAction(e -> stagesVBox.getChildren().add(new StageNode(stagesVBox.getChildren().size() + 1, errorLabel)));
-        removeStageButton.setText(getTranslation(APPLICATION_SECTION, "Remove Stage"));
-        removeStageButton.setOnAction(e -> {
-            if (stagesVBox.getChildren().size() > 1) {
-                stagesVBox.getChildren().remove(stagesVBox.getChildren().size() - 1);
-            }
-        });
+        stagesVBox.getChildren().add(new StageNode(1, errorLabel, stagesVBox));
+        addStageButton.setText(null);
+
+        addStageButton.setGraphic(createInfoImageView("add"));
+        addStageButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add Stage")));
+        addStageButton.setOnAction(e -> stagesVBox.getChildren().add(new StageNode(stagesVBox.getChildren().size() + 1, errorLabel, stagesVBox)));
+
         levelEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Level Effects"), errorLabel);
         levelEffectVBox.getChildren().add(levelEffects);
 
@@ -155,7 +152,7 @@ public class LevelCreatorFMXLController implements Initializable {
         stagesVBox.getChildren().clear();
         for (int i = 1; i <= levelDataBuilder.getStageDataCount(); i += 1) {
             final StageData stageData = levelDataBuilder.getStageData(i - 1);
-            final StageNode stageNode = new StageNode(i, errorLabel);
+            final StageNode stageNode = new StageNode(i, errorLabel, stagesVBox);
             stageNode.loadStageData(stageData);
             stagesVBox.getChildren().add(stageNode);
         }
@@ -170,8 +167,7 @@ public class LevelCreatorFMXLController implements Initializable {
     private LevelData buildLevelData() {
         if (idText.getText().isBlank()) {
             errorLabel.setVisible(true);
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "ID is null or empty!"));
-            idText.requestFocus();
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Level ID is null or empty!"));
             return null;
         }
 
@@ -184,6 +180,11 @@ public class LevelCreatorFMXLController implements Initializable {
                 return null;
             }
             stages.add(stageData);
+        }
+        if (stages.isEmpty()) {
+            errorLabel.setVisible(true);
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "No added stages"));
+            return null;
         }
         return LevelData.newBuilder()
                 .setId(idText.getText())

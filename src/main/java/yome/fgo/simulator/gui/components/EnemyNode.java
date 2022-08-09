@@ -39,7 +39,7 @@ import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.components.DataPrinter.printCombatantData;
 import static yome.fgo.simulator.gui.components.StageNode.addEnemyNode;
 import static yome.fgo.simulator.gui.creators.EnemyCreator.editCombatantData;
-import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
@@ -141,7 +141,7 @@ public class EnemyNode extends VBox {
 
         nodes.add(combatantDataHBox);
 
-        final HBox hpBox = new HBox(10);
+        final HBox hpBox = new HBox(5);
         hpBox.setAlignment(Pos.CENTER_LEFT);
         hpBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
@@ -352,5 +352,9 @@ public class EnemyNode extends VBox {
 
     public void setEnemyIndex(final int size) {
         enemyIndex = size;
+    }
+
+    public void setStageNum(final int stageNum) {
+        this.stageNum = stageNum;
     }
 }

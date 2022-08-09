@@ -44,7 +44,7 @@ import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.parseDou
 import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.parseInts;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.creators.VariationBuilder.createVariation;
-import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillTargets;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;
 import static yome.fgo.simulator.models.effects.EffectFactory.EFFECT_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_GRANT_BUFF;

@@ -24,7 +24,7 @@ import java.util.Set;
 import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
-import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillTargets;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;
 import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_BUFF;
 import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_HP;

@@ -51,11 +51,11 @@ import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
-import static yome.fgo.simulator.gui.helpers.ComponentMaker.COMMA_SPLIT_REGEX;
-import static yome.fgo.simulator.gui.helpers.ComponentMaker.addSplitTraitListener;
-import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillAttribute;
-import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillFateClass;
-import static yome.fgo.simulator.gui.helpers.ComponentMaker.fillGender;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListener;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillAttribute;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillFateClass;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillGender;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;

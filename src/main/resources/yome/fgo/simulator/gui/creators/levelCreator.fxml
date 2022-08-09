@@ -46,13 +46,12 @@
             <VBox alignment="TOP_CENTER" spacing="20.0">
                <children>
                   <VBox fx:id="stagesVBox" spacing="10.0" />
-                  <Separator prefWidth="200.0" />
-                  <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                  <HBox alignment="CENTER" spacing="10.0">
                      <children>
-                        <Button fx:id="removeStageButton" mnemonicParsing="false" text="Button" />
                         <Button fx:id="addStageButton" mnemonicParsing="false" text="Button" />
                      </children>
                   </HBox>
+                  <Separator prefWidth="200.0" />
                   <VBox fx:id="levelEffectVBox" />
                   <HBox fx:id="simulationPrepHBox" spacing="10.0" />
                </children>
