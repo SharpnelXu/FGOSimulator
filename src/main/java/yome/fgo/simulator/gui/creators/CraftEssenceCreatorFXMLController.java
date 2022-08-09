@@ -8,19 +8,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
-import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.Status;
 import yome.fgo.data.writer.DataWriter;
-import yome.fgo.simulator.gui.components.DataWrapper;
-import yome.fgo.simulator.gui.components.EffectsCellFactory;
+import yome.fgo.simulator.gui.components.ListContainerVBox;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,11 +29,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getCEThumbnail;
 import static yome.fgo.simulator.ResourceManager.readFile;
-import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -45,19 +41,10 @@ import static yome.fgo.simulator.utils.FilePathUtils.CRAFT_ESSENCE_DIRECTORY_PAT
 public class CraftEssenceCreatorFXMLController implements Initializable {
 
     @FXML
-    private Button addEffectsButton;
-
-    @FXML
     private Label costLabel;
 
     @FXML
     private TextField costText;
-
-    @FXML
-    private Label effectsLabel;
-
-    @FXML
-    private ListView<DataWrapper<EffectData>> effectsList;
 
     @FXML
     private Label errorLabel;
@@ -94,6 +81,10 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
 
     @FXML
     private TextArea statusText;
+
+    @FXML
+    private HBox effectHBox;
+    private ListContainerVBox effects;
 
 
     @Override
@@ -135,23 +126,10 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
         rarityChoices.setItems(FXCollections.observableArrayList(ImmutableList.of(5, 4, 3, 2, 1)));
         rarityChoices.getSelectionModel().selectFirst();
         costLabel.setText(getTranslation(APPLICATION_SECTION, "Craft Essence Cost"));
-        effectsLabel.setText(getTranslation(APPLICATION_SECTION, "Effects"));
-        effectsList.setCellFactory(new EffectsCellFactory(errorLabel));
-        effectsList.setItems(FXCollections.observableArrayList());
-        addEffectsButton.setText(getTranslation(APPLICATION_SECTION, "Add Effect"));
-        addEffectsButton.setOnAction(e -> {
-            try {
-                final EffectData.Builder builder = EffectData.newBuilder();
-                createEffect(addEffectsButton.getScene().getWindow(), builder);
 
-                if (!builder.getType().isEmpty()) {
-                    effectsList.getItems().add(new DataWrapper<>(builder.build()));
-                }
-            } catch (final IOException ex) {
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
-                errorLabel.setVisible(true);
-            }
-        });
+        effects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
+        effectHBox.getChildren().add(effects);
+
         statusLabel.setText(getTranslation(APPLICATION_SECTION, "Craft Essence Status"));
         loadButton.setText(getTranslation(APPLICATION_SECTION, "Load From"));
         loadButton.setOnAction(e -> loadFrom());
@@ -186,8 +164,8 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
         idText.setText(Integer.toString(builder.getCeNum()));
         rarityChoices.getSelectionModel().select(Integer.valueOf(builder.getRarity()));
         costText.setText(Integer.toString(builder.getCost()));
-        effectsList.getItems().clear();
-        effectsList.getItems().addAll(builder.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
+        effects.clear();
+        effects.load(builder.getEffectsList());
 
         final List<String> statusStrings = new ArrayList<>();
         final JsonFormat.Printer printer = JsonFormat.printer();
@@ -235,7 +213,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
                 .setCost(cost)
                 .setRarity(rarityChoices.getValue())
                 .setId("craftEssence" + ceNum)
-                .addAllEffects(effectsList.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()))
+                .addAllEffects(effects.build())
                 .addAllStatusData(status.getStatusDataList())
                 .build();
 
