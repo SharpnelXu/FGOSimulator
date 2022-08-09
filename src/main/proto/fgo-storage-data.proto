@@ -88,6 +88,7 @@ enum FateClass {
   BEAST_IV = 34;
 
   ANY_CLASS = 50;
+  ANY_BEAST = 51;
 }
 
 enum Gender {

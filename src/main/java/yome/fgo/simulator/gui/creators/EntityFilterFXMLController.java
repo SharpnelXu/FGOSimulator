@@ -3,12 +3,16 @@ package yome.fgo.simulator.gui.creators;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
@@ -23,16 +27,19 @@ import yome.fgo.simulator.gui.components.MysticCodeDataAnchorPane;
 import yome.fgo.simulator.gui.components.ServantDataAnchorPane;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createClassImageView;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+import static yome.fgo.simulator.utils.FateClassUtils.ALL_CLASSES;
 
 public class EntityFilterFXMLController implements Initializable {
     @FXML
@@ -63,13 +70,38 @@ public class EntityFilterFXMLController implements Initializable {
         final Label npCardTypeLabel = new Label(getTranslation(APPLICATION_SECTION, "NP Card Type"));
         final Label npTypeLabel = new Label(getTranslation(APPLICATION_SECTION, "NP Type"));
 
-        final ChoiceBox<FateClass> fateClassChoiceBox = new ChoiceBox<>();
-        fateClassChoiceBox.setConverter(new EnumConverter<>(CLASS_SECTION));
-        final List<FateClass> fateClasses = new ArrayList<>(List.of(FateClass.values()));
-        fateClasses.remove(FateClass.UNRECOGNIZED);
-        fateClasses.remove(FateClass.NO_CLASS);
-        fateClassChoiceBox.setItems(FXCollections.observableArrayList(fateClasses));
-        fateClassChoiceBox.getSelectionModel().select(FateClass.ANY_CLASS);
+        final Map<CheckBox, FateClass> allowedClasses = new HashMap<>();
+        final CheckBox allClasses = new CheckBox();
+        allowedClasses.put(allClasses, FateClass.ANY_CLASS);
+
+        final HBox classFilterHBox = new HBox(5);
+        classFilterHBox.setAlignment(Pos.CENTER_LEFT);
+
+        final VBox classFilterRowVBox = new VBox(5);
+        classFilterHBox.getChildren().addAll(classLabel, classFilterRowVBox);
+
+        final HBox classFilterRow1 = new HBox(5);
+        classFilterRow1.setAlignment(Pos.CENTER_LEFT);
+        final HBox classFilterRow2 = new HBox(5);
+        classFilterRow2.setAlignment(Pos.CENTER_LEFT);
+        classFilterRowVBox.getChildren().addAll(classFilterRow1, classFilterRow2);
+
+        classFilterRow1.getChildren().add(allClasses);
+
+        for (int i = 0; i < 14; i += 1) {
+            final FateClass fateClass = ALL_CLASSES[i];
+            final CheckBox classCheck = new CheckBox();
+            allowedClasses.put(classCheck, fateClass);
+            if (i < 7) {
+                classFilterRow1.getChildren().add(classCheck);
+            } else {
+                classFilterRow2.getChildren().add(classCheck);
+            }
+        }
+
+        final CheckBox beast = new CheckBox();
+        allowedClasses.put(beast, FateClass.ANY_BEAST);
+        classFilterRow2.getChildren().add(beast);
 
         final ChoiceBox<CommandCardType> npCardTypeChoiceBox = new ChoiceBox<>();
         npCardTypeChoiceBox.setConverter(new EnumConverter<>(COMMAND_CARD_TYPE_SECTION));
@@ -91,14 +123,66 @@ public class EntityFilterFXMLController implements Initializable {
         ));
         npTypeChoiceBox.getSelectionModel().select(NoblePhantasmType.ANY_NP_TYPE);
 
-        filterHBox.getChildren().addAll(classLabel, fateClassChoiceBox, npCardTypeLabel, npCardTypeChoiceBox, npTypeLabel, npTypeChoiceBox);
+        final HBox otherFilterHBox = new HBox(10);
+        otherFilterHBox.setAlignment(Pos.CENTER_LEFT);
+        otherFilterHBox.getChildren().addAll(npCardTypeLabel, npCardTypeChoiceBox, npTypeLabel, npTypeChoiceBox);
 
-        fateClassChoiceBox.setOnAction(e -> filterServant(fateClassChoiceBox.getValue(), npCardTypeChoiceBox.getValue(), npTypeChoiceBox.getValue()));
-        npCardTypeChoiceBox.setOnAction(e -> filterServant(fateClassChoiceBox.getValue(), npCardTypeChoiceBox.getValue(), npTypeChoiceBox.getValue()));
-        npTypeChoiceBox.setOnAction(e -> filterServant(fateClassChoiceBox.getValue(), npCardTypeChoiceBox.getValue(), npTypeChoiceBox.getValue()));
+        final VBox wrapperVBox = new VBox(10);
+        wrapperVBox.getChildren().addAll(classFilterHBox, otherFilterHBox);
+
+        filterHBox.getChildren().add(wrapperVBox);
+
+        for (final CheckBox checkBox : allowedClasses.keySet()) {
+            final FateClass fateClass = allowedClasses.get(checkBox);
+            checkBox.setGraphic(createClassImageView(fateClass));
+            checkBox.setTooltip(new Tooltip(getTranslation(CLASS_SECTION, fateClass.name())));
+            checkBox.setText(" ");
+
+            checkBox.setOnAction(e -> filterServant(
+                    getSelectedClasses(allowedClasses, allClasses, beast),
+                    npCardTypeChoiceBox.getValue(),
+                    npTypeChoiceBox.getValue()
+            ));
+        }
+        npCardTypeChoiceBox.setOnAction(e -> filterServant(
+                getSelectedClasses(allowedClasses, allClasses, beast),
+                npCardTypeChoiceBox.getValue(),
+                npTypeChoiceBox.getValue()
+        ));
+        npTypeChoiceBox.setOnAction(e -> filterServant(
+                getSelectedClasses(allowedClasses, allClasses, beast),
+                npCardTypeChoiceBox.getValue(),
+                npTypeChoiceBox.getValue()
+        ));
     }
 
-    private void filterServant(final FateClass filterClass, final CommandCardType filterCardType, final NoblePhantasmType filterNpType) {
+    private Set<FateClass> getSelectedClasses(
+            final Map<CheckBox, FateClass> allowedClasses,
+            final CheckBox allClasses,
+            final CheckBox beast
+    ) {
+        final Set<FateClass> selectedClasses = new HashSet<>();
+        if (allClasses.isSelected()) {
+            selectedClasses.add(FateClass.ANY_CLASS);
+        } else {
+            if (beast.isSelected()) {
+                selectedClasses.add(FateClass.BEAST_I);
+                selectedClasses.add(FateClass.BEAST_II);
+                selectedClasses.add(FateClass.BEAST_III_R);
+                selectedClasses.add(FateClass.BEAST_III_L);
+                selectedClasses.add(FateClass.BEAST_IV);
+            }
+            for (final CheckBox other : allowedClasses.keySet()) {
+                if (other.isSelected()) {
+                    selectedClasses.add(allowedClasses.get(other));
+                }
+            }
+        }
+        return selectedClasses;
+    }
+
+    private void filterServant(final Set<FateClass> selectedClasses, final CommandCardType filterCardType, final NoblePhantasmType filterNpType) {
+        final boolean selectAllClass = selectedClasses.contains(FateClass.ANY_CLASS) || selectedClasses.isEmpty();
         for (final Node node : entityFlowPane.getChildren()) {
             final Button button = (Button) node;
             final ServantDataAnchorPane servantDataAnchorPane = (ServantDataAnchorPane) button.getGraphic();
@@ -109,8 +193,7 @@ public class EntityFilterFXMLController implements Initializable {
             for (final ServantAscensionData servantAscensionData :
                     servantDataAnchorPane.getServantData().getServantAscensionDataList()) {
 
-                classMatch = filterClass == FateClass.ANY_CLASS ||
-                        servantAscensionData.getCombatantData().getFateClass() == filterClass;
+                classMatch = selectAllClass || selectedClasses.contains(servantAscensionData.getCombatantData().getFateClass());
 
                 for (final NoblePhantasmData noblePhantasmData :
                         servantAscensionData.getNoblePhantasmUpgrades().getNoblePhantasmDataList()) {

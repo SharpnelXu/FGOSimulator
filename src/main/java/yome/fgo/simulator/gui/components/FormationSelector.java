@@ -60,9 +60,8 @@ public class FormationSelector extends VBox {
             final Map<Integer, CraftEssenceOption> ceOptions,
             final LevelCreatorFMXLController controller
     ) {
-        super();
+        super(10);
 
-        setSpacing(10);
         setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         setAlignment(Pos.TOP_CENTER);
         HBox.setHgrow(this, Priority.ALWAYS);
@@ -170,9 +169,8 @@ public class FormationSelector extends VBox {
 
         final Label ceLevelLabel = new Label(getTranslation(APPLICATION_SECTION, "CE Level"));
         final Label ceLevelValueLabel = new Label("0");
-        final HBox ceLevelLabelHBox = new HBox();
+        final HBox ceLevelLabelHBox = new HBox(10);
         ceLevelLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        ceLevelLabelHBox.setSpacing(10);
         ceLevelLabelHBox.getChildren().addAll(ceLevelLabel, ceLevelValueLabel);
         ceLevelSlider = new Slider();
         ceLevelSlider.setMin(0);

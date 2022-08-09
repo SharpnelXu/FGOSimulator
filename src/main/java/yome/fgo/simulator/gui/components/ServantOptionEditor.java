@@ -134,8 +134,7 @@ public class ServantOptionEditor {
         attackStatusSlider.setShowTickMarks(true);
         attackStatusSlider.setValue(source.getAttackStatusUp() / 10);
         HBox.setHgrow(attackStatusSlider, Priority.ALWAYS);
-        final HBox attackStatusHBox = new HBox();
-        attackStatusHBox.setSpacing(10);
+        final HBox attackStatusHBox = new HBox(10);
         attackStatusHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         attackStatusHBox.setAlignment(Pos.CENTER_LEFT);
         attackStatusHBox.getChildren().addAll(attackStatusLabel, attackStatusValueLabel, attackStatusSlider);
@@ -162,8 +161,7 @@ public class ServantOptionEditor {
         hpStatusSlider.setValue(source.getHealthStatusUp() / 10);
         hpStatusSlider.setShowTickMarks(true);
         HBox.setHgrow(hpStatusSlider, Priority.ALWAYS);
-        final HBox hpStatusHBox = new HBox();
-        hpStatusHBox.setSpacing(10);
+        final HBox hpStatusHBox = new HBox(10);
         hpStatusHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         hpStatusHBox.setAlignment(Pos.CENTER_LEFT);
         hpStatusHBox.getChildren().addAll(hpStatusLabel, hpStatusValueLabel, hpStatusSlider);
@@ -190,8 +188,7 @@ public class ServantOptionEditor {
         );
         servantLevelSlider.setShowTickMarks(true);
         HBox.setHgrow(servantLevelSlider, Priority.ALWAYS);
-        final HBox servantLevelHBox = new HBox();
-        servantLevelHBox.setSpacing(10);
+        final HBox servantLevelHBox = new HBox(10);
         servantLevelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         servantLevelHBox.setAlignment(Pos.CENTER_LEFT);
         servantLevelHBox.getChildren().addAll(servantLevelLabel, servantLevelValueLabel, servantLevelSlider);
@@ -200,8 +197,7 @@ public class ServantOptionEditor {
 
         final Label npRankLabel = new Label(getTranslation(APPLICATION_SECTION, "NP Rank"));
         npRanks = new ChoiceBox<>();
-        final HBox npRankHBox = new HBox();
-        npRankHBox.setSpacing(10);
+        final HBox npRankHBox = new HBox(10);
         npRankHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         npRankHBox.setAlignment(Pos.CENTER_LEFT);
         npRankHBox.getChildren().addAll(npRankLabel, npRanks);
@@ -226,8 +222,7 @@ public class ServantOptionEditor {
         npLevelSlider.setValue(source.getNoblePhantasmLevel());
         npLevelSlider.setShowTickMarks(true);
         HBox.setHgrow(npLevelSlider, Priority.ALWAYS);
-        final HBox npLevelHBox = new HBox();
-        npLevelHBox.setSpacing(10);
+        final HBox npLevelHBox = new HBox(10);
         npLevelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         npLevelHBox.setAlignment(Pos.CENTER_LEFT);
         npLevelHBox.getChildren().addAll(npLevelLabel, npLevelValueLabel, npLevelSlider);

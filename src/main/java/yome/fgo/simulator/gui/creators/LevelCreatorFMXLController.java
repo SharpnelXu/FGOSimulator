@@ -279,16 +279,16 @@ public class LevelCreatorFMXLController implements Initializable {
         }
         nodes.add(new Separator(Orientation.VERTICAL));
 
-        final VBox miscVBox = new VBox();
+        final VBox miscVBox = new VBox(10);
         HBox.setHgrow(miscVBox, Priority.ALWAYS);
         miscVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        miscVBox.setSpacing(10);
         miscVBox.setAlignment(Pos.TOP_CENTER);
         nodes.add(miscVBox);
 
         final Button selectMCButton = new Button();
-        selectMCButton.setGraphic(mcDataMap.get(2));
-        mysticCodeDataAnchorPane = mcDataMap.get(2);
+        final MysticCodeDataAnchorPane defaultMC = mcDataMap.get(2);
+        mysticCodeDataAnchorPane = new MysticCodeDataAnchorPane(defaultMC.getMysticCodeData(), defaultMC.getImages());
+        selectMCButton.setGraphic(mysticCodeDataAnchorPane);
 
         final Label mcNameLabel = new Label(getTranslation(ENTITY_NAME_SECTION, "mysticCode2"));
         mcNameLabel.setWrapText(true);
@@ -323,9 +323,8 @@ public class LevelCreatorFMXLController implements Initializable {
 
         final Label mcLevelLabel = new Label(getTranslation(APPLICATION_SECTION, "MC Level"));
         final Label mcLevelValueLabel = new Label("1");
-        final HBox mcLevelLabelHBox = new HBox();
+        final HBox mcLevelLabelHBox = new HBox(10);
         mcLevelLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        mcLevelLabelHBox.setSpacing(10);
         mcLevelLabelHBox.getChildren().addAll(mcLevelLabel, mcLevelValueLabel);
         final Slider mcLevelSlider = new Slider();
         mcLevelSlider.setMin(1);
@@ -350,9 +349,8 @@ public class LevelCreatorFMXLController implements Initializable {
 
         final Label probabilityLabel = new Label(getTranslation(APPLICATION_SECTION, "Probability Threshold (%)"));
         final Label probabilityValueLabel = new Label("100");
-        final HBox probabilityLabelHBox = new HBox();
+        final HBox probabilityLabelHBox = new HBox(10);
         probabilityLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        probabilityLabelHBox.setSpacing(10);
         probabilityLabelHBox.getChildren().addAll(probabilityLabel, probabilityValueLabel);
         final Slider probabilityThresholdSlider = new Slider();
         probabilityThresholdSlider.setMin(0);
@@ -372,9 +370,8 @@ public class LevelCreatorFMXLController implements Initializable {
 
         final Label randomLabel = new Label(getTranslation(APPLICATION_SECTION, "Random Value"));
         final Label randomValueLabel = new Label(String.format("%.3f", 0.9));
-        final HBox randomLabelHBox = new HBox();
+        final HBox randomLabelHBox = new HBox(10);
         randomLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        randomLabelHBox.setSpacing(10);
         randomLabelHBox.getChildren().addAll(randomLabel, randomValueLabel);
         final Slider randomSlider = new Slider();
         randomSlider.setMin(0.9);
@@ -392,8 +389,7 @@ public class LevelCreatorFMXLController implements Initializable {
         randomSlider.setShowTickMarks(true);
         randomSlider.setValue(0.9);
 
-        final HBox costHBox = new HBox();
-        costHBox.setSpacing(10);
+        final HBox costHBox = new HBox(10);
         final Label costLabel = new Label(getTranslation(APPLICATION_SECTION, "COST"));
         costValueLabel = new Label("0");
         costHBox.getChildren().addAll(costLabel, costValueLabel);

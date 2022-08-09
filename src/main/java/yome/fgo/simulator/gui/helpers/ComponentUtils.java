@@ -41,6 +41,7 @@ import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
+import static yome.fgo.simulator.utils.FilePathUtils.CLASS_ICON_DIRECTORY_PATH;
 import static yome.fgo.simulator.utils.FilePathUtils.SIMULATION_ICON_DIRECTORY_PATH;
 
 public class ComponentUtils {
@@ -97,6 +98,8 @@ public class ComponentUtils {
         builder.put(FateClass.BEAST_III_L, "Beast_III");
         builder.put(FateClass.BEAST_III_R, "Beast_III");
         builder.put(FateClass.BEAST_IV, "Beast_IV");
+        builder.put(FateClass.ANY_CLASS, "all");
+        builder.put(FateClass.ANY_BEAST, "Beast");
 
         return builder.build();
     }
@@ -261,6 +264,15 @@ public class ComponentUtils {
         imageView.setFitHeight(20);
         imageView.setFitWidth(20);
         final String path = String.format("%s/%s.png", SIMULATION_ICON_DIRECTORY_PATH, iconName);
+        imageView.setImage(getImage(path));
+        return imageView;
+    }
+
+    public static ImageView createClassImageView(final FateClass fateClass) {
+        final ImageView imageView = new ImageView();
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
+        final String path = String.format("%s/%s.png", CLASS_ICON_DIRECTORY_PATH, getClassIcon(fateClass));
         imageView.setImage(getImage(path));
         return imageView;
     }
