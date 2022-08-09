@@ -271,7 +271,7 @@ public class EnemyCreatorFXMLController implements Initializable {
                 .collect(Collectors.toList());
 
         final PassiveSkillData.Builder builder = PassiveSkillData.newBuilder();
-        builder.addAllEffects(passiveList.build());
+        builder.addAllEffects(passiveList.buildEffect());
         combatantDataBuilder.setId(id)
                 .setDeathRate(deathRate)
                 .setUndeadNpCorrection(useUndeadCheck.isSelected())
@@ -401,7 +401,7 @@ public class EnemyCreatorFXMLController implements Initializable {
         }
 
         for (final PassiveSkillData passiveSkillData : combatantData.getEnemyPassiveSkillDataList()) {
-            passiveList.load(passiveSkillData.getEffectsList());
+            passiveList.loadEffect(passiveSkillData.getEffectsList());
         }
 
         final AtomicBoolean allTraitsFound = new AtomicBoolean(true);

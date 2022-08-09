@@ -165,7 +165,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
         rarityChoices.getSelectionModel().select(Integer.valueOf(builder.getRarity()));
         costText.setText(Integer.toString(builder.getCost()));
         effects.clear();
-        effects.load(builder.getEffectsList());
+        effects.loadEffect(builder.getEffectsList());
 
         final List<String> statusStrings = new ArrayList<>();
         final JsonFormat.Printer printer = JsonFormat.printer();
@@ -213,7 +213,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
                 .setCost(cost)
                 .setRarity(rarityChoices.getValue())
                 .setId("craftEssence" + ceNum)
-                .addAllEffects(effects.build())
+                .addAllEffects(effects.buildEffect())
                 .addAllStatusData(status.getStatusDataList())
                 .build();
 

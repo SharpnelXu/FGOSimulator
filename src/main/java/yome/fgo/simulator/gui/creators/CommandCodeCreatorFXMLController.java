@@ -8,29 +8,24 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
-import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 import yome.fgo.data.writer.DataWriter;
-import yome.fgo.simulator.gui.components.BuffsCellFactory;
-import yome.fgo.simulator.gui.components.DataWrapper;
+import yome.fgo.simulator.gui.components.ListContainerVBox;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getCCThumbnail;
 import static yome.fgo.simulator.ResourceManager.readFile;
-import static yome.fgo.simulator.gui.creators.BuffBuilder.createBuff;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -38,16 +33,6 @@ import static yome.fgo.simulator.translation.TranslationManager.hasTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.COMMAND_CODES_DIRECTORY_PATH;
 
 public class CommandCodeCreatorFXMLController implements Initializable {
-
-    @FXML
-    private Button addBuffsButton;
-
-    @FXML
-    private Label buffsLabel;
-
-    @FXML
-    private ListView<DataWrapper<BuffData>> buffsList;
-
     @FXML
     private Label errorLabel;
 
@@ -77,6 +62,10 @@ public class CommandCodeCreatorFXMLController implements Initializable {
 
     @FXML
     private Button saveButton;
+
+    @FXML
+    private HBox buffHBox;
+    private ListContainerVBox buffs;
 
 
     @Override
@@ -117,23 +106,10 @@ public class CommandCodeCreatorFXMLController implements Initializable {
         rarityLabel.setText(getTranslation(APPLICATION_SECTION, "Rarity"));
         rarityChoices.setItems(FXCollections.observableArrayList(ImmutableList.of(5, 4, 3, 2, 1)));
         rarityChoices.getSelectionModel().selectFirst();
-        buffsLabel.setText(getTranslation(APPLICATION_SECTION, "Buffs"));
-        buffsList.setCellFactory(new BuffsCellFactory(errorLabel));
-        buffsList.setItems(FXCollections.observableArrayList());
-        addBuffsButton.setText(getTranslation(APPLICATION_SECTION, "Add Buff"));
-        addBuffsButton.setOnAction(e -> {
-            try {
-                final BuffData.Builder builder = BuffData.newBuilder();
-                createBuff(addBuffsButton.getScene().getWindow(), builder);
 
-                if (!builder.getType().isEmpty()) {
-                    buffsList.getItems().add(new DataWrapper<>(builder.build()));
-                }
-            } catch (final IOException ex) {
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
-                errorLabel.setVisible(true);
-            }
-        });
+        buffs = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Buffs"), errorLabel, true);
+        buffHBox.getChildren().add(buffs);
+
         loadButton.setText(getTranslation(APPLICATION_SECTION, "Load From"));
         loadButton.setOnAction(e -> loadFrom());
         saveButton.setText(getTranslation(APPLICATION_SECTION, "Save To"));
@@ -162,8 +138,8 @@ public class CommandCodeCreatorFXMLController implements Initializable {
 
         idText.setText(Integer.toString(builder.getCcNum()));
         rarityChoices.getSelectionModel().select(Integer.valueOf(builder.getRarity()));
-        buffsList.getItems().clear();
-        buffsList.getItems().addAll(builder.getBuffsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
+        buffs.clear();
+        buffs.loadBuff(builder.getBuffsList());
 
         errorLabel.setVisible(true);
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Load success!"));
@@ -183,7 +159,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
                 .setCcNum(ccNum)
                 .setRarity(rarityChoices.getValue())
                 .setId("commandCode" + ccNum)
-                .addAllBuffs(buffsList.getItems().stream().map(wrapper -> wrapper.protoData).collect(Collectors.toList()))
+                .addAllBuffs(buffs.buildBuff())
                 .build();
 
         DataWriter.writeCommandCode(commandCodeData);

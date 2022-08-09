@@ -157,7 +157,7 @@ public class LevelCreatorFMXLController implements Initializable {
         }
 
         levelEffects.clear();
-        levelEffects.load(levelDataBuilder.getEffectsList());
+        levelEffects.loadEffect(levelDataBuilder.getEffectsList());
 
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Load success!"));
         errorLabel.setVisible(true);
@@ -188,7 +188,7 @@ public class LevelCreatorFMXLController implements Initializable {
         return LevelData.newBuilder()
                 .setId(idText.getText())
                 .addAllStageData(stages)
-                .addAllEffects(levelEffects.build())
+                .addAllEffects(levelEffects.buildEffect())
                 .build();
     }
 

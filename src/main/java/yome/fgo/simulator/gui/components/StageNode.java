@@ -228,7 +228,7 @@ public class StageNode extends VBox {
         maximumEnemiesOnScreenText.setText(Integer.toString(stageData.getMaximumEnemiesOnScreen()));
 
         stageEffects.clear();
-        stageEffects.load(stageData.getEffectsList());
+        stageEffects.loadEffect(stageData.getEffectsList());
 
         stageTraitsText.setText(
                 stageData.getTraitsList()
@@ -303,7 +303,7 @@ public class StageNode extends VBox {
                 .collect(Collectors.toList());
 
         builder.addAllTraits(traits);
-        builder.addAllEffects(stageEffects.build());
+        builder.addAllEffects(stageEffects.buildEffect());
 
         return builder.build();
     }
