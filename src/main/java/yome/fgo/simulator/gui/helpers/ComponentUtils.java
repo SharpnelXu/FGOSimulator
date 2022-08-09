@@ -14,8 +14,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
-import yome.fgo.data.proto.FgoStorageData;
+import yome.fgo.data.proto.FgoStorageData.Attribute;
+import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode;
+import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
+import yome.fgo.data.proto.FgoStorageData.Gender;
+import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.gui.components.EnumConverter;
 import yome.fgo.simulator.gui.components.SimulationWindow;
@@ -98,36 +102,36 @@ public class ComponentUtils {
     }
     public static final String COMMA_SPLIT_REGEX = "\s*[，,、]\s*";
 
-    private static final List<FgoStorageData.Target> VALID_TARGETS = ImmutableList.of(
-            FgoStorageData.Target.SELF,
+    private static final List<Target> VALID_TARGETS = ImmutableList.of(
+            Target.SELF,
 
-            FgoStorageData.Target.ATTACKER,
-            FgoStorageData.Target.DEFENDER,
-            FgoStorageData.Target.EFFECT_TARGET,
-            FgoStorageData.Target.ACTIVATOR,
+            Target.ATTACKER,
+            Target.DEFENDER,
+            Target.EFFECT_TARGET,
+            Target.ACTIVATOR,
 
-            FgoStorageData.Target.TARGETED_ALLY,
-            FgoStorageData.Target.TARGETED_ENEMY,
-            FgoStorageData.Target.NON_TARGETED_ALLIES,
-            FgoStorageData.Target.NON_TARGETED_ENEMIES,
+            Target.TARGETED_ALLY,
+            Target.TARGETED_ENEMY,
+            Target.NON_TARGETED_ALLIES,
+            Target.NON_TARGETED_ENEMIES,
 
-            FgoStorageData.Target.ALL_ALLIES,
-            FgoStorageData.Target.ALL_ALLIES_INCLUDING_BACKUP,
-            FgoStorageData.Target.ALL_ENEMIES,
-            FgoStorageData.Target.ALL_ENEMIES_INCLUDING_BACKUP,
+            Target.ALL_ALLIES,
+            Target.ALL_ALLIES_INCLUDING_BACKUP,
+            Target.ALL_ENEMIES,
+            Target.ALL_ENEMIES_INCLUDING_BACKUP,
 
-            FgoStorageData.Target.ALL_ALLIES_EXCLUDING_SELF,
-            FgoStorageData.Target.ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP,
+            Target.ALL_ALLIES_EXCLUDING_SELF,
+            Target.ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP,
 
-            FgoStorageData.Target.FIRST_ALLY_EXCLUDING_SELF,
-            FgoStorageData.Target.LAST_ALLY_EXCLUDING_SELF,
-            FgoStorageData.Target.FIRST_ENEMY,
-            FgoStorageData.Target.LAST_ENEMY,
+            Target.FIRST_ALLY_EXCLUDING_SELF,
+            Target.LAST_ALLY_EXCLUDING_SELF,
+            Target.FIRST_ENEMY,
+            Target.LAST_ENEMY,
 
-            FgoStorageData.Target.ALL_CHARACTERS,
-            FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP,
-            FgoStorageData.Target.ALL_CHARACTERS_EXCLUDING_SELF,
-            FgoStorageData.Target.ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP
+            Target.ALL_CHARACTERS,
+            Target.ALL_CHARACTERS_INCLUDING_BACKUP,
+            Target.ALL_CHARACTERS_EXCLUDING_SELF,
+            Target.ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP
     );
 
     public static void fillFateClass(final ChoiceBox<FateClass> classChoiceBox) {
@@ -139,40 +143,40 @@ public class ComponentUtils {
         classChoiceBox.getSelectionModel().selectFirst();
     }
 
-    public static void fillGender(final ChoiceBox<FgoStorageData.Gender> genderChoiceBox) {
-        final List<FgoStorageData.Gender> genderClasses = Lists.newArrayList(FgoStorageData.Gender.values());
-        genderClasses.remove(FgoStorageData.Gender.UNRECOGNIZED);
+    public static void fillGender(final ChoiceBox<Gender> genderChoiceBox) {
+        final List<Gender> genderClasses = Lists.newArrayList(Gender.values());
+        genderClasses.remove(Gender.UNRECOGNIZED);
         genderChoiceBox.setConverter(new EnumConverter<>(TRAIT_SECTION));
         genderChoiceBox.setItems(FXCollections.observableArrayList(genderClasses));
         genderChoiceBox.getSelectionModel().selectFirst();
     }
 
-    public static void fillAttribute(final ChoiceBox<FgoStorageData.Attribute> attributeChoiceBox) {
-        final List<FgoStorageData.Attribute> attributeClasses = Lists.newArrayList(FgoStorageData.Attribute.values());
-        attributeClasses.remove(FgoStorageData.Attribute.NO_ATTRIBUTE);
-        attributeClasses.remove(FgoStorageData.Attribute.UNRECOGNIZED);
+    public static void fillAttribute(final ChoiceBox<Attribute> attributeChoiceBox) {
+        final List<Attribute> attributeClasses = Lists.newArrayList(Attribute.values());
+        attributeClasses.remove(Attribute.NO_ATTRIBUTE);
+        attributeClasses.remove(Attribute.UNRECOGNIZED);
         attributeChoiceBox.setConverter(new EnumConverter<>(TRAIT_SECTION));
         attributeChoiceBox.setItems(FXCollections.observableArrayList(attributeClasses));
         attributeChoiceBox.getSelectionModel().selectFirst();
     }
 
-    public static void fillTargets(final ChoiceBox<FgoStorageData.Target> targetChoiceBox) {
+    public static void fillTargets(final ChoiceBox<Target> targetChoiceBox) {
         targetChoiceBox.setConverter(new EnumConverter<>(TARGET_SECTION));
         targetChoiceBox.setItems(FXCollections.observableArrayList(VALID_TARGETS));
         targetChoiceBox.getSelectionModel().selectFirst();
     }
 
-    public static void fillCommandCardType(final ChoiceBox<FgoStorageData.CommandCardType> commandCardTypeChoiceBox) {
-        final List<FgoStorageData.CommandCardType> cardTypes = Lists.newArrayList(FgoStorageData.CommandCardType.values());
-        cardTypes.remove(FgoStorageData.CommandCardType.UNRECOGNIZED);
+    public static void fillCommandCardType(final ChoiceBox<CommandCardType> commandCardTypeChoiceBox) {
+        final List<CommandCardType> cardTypes = Lists.newArrayList(CommandCardType.values());
+        cardTypes.remove(CommandCardType.UNRECOGNIZED);
         commandCardTypeChoiceBox.setConverter(new EnumConverter<>(COMMAND_CARD_TYPE_SECTION));
         commandCardTypeChoiceBox.setItems(FXCollections.observableArrayList(cardTypes));
         commandCardTypeChoiceBox.getSelectionModel().selectFirst();
     }
 
-    public static void fillClassAdvMode(final ChoiceBox<FgoStorageData.ClassAdvantageChangeMode> classAdvModeChoiceBox) {
-        final List<FgoStorageData.ClassAdvantageChangeMode> values = Lists.newArrayList(FgoStorageData.ClassAdvantageChangeMode.values());
-        values.remove(FgoStorageData.ClassAdvantageChangeMode.UNRECOGNIZED);
+    public static void fillClassAdvMode(final ChoiceBox<ClassAdvantageChangeMode> classAdvModeChoiceBox) {
+        final List<ClassAdvantageChangeMode> values = Lists.newArrayList(ClassAdvantageChangeMode.values());
+        values.remove(ClassAdvantageChangeMode.UNRECOGNIZED);
         classAdvModeChoiceBox.setConverter(new EnumConverter<>(CLASS_ADV_SECTION));
         classAdvModeChoiceBox.setItems(FXCollections.observableArrayList(values));
         classAdvModeChoiceBox.getSelectionModel().selectFirst();
@@ -203,14 +207,18 @@ public class ComponentUtils {
         return "unknown";
     }
 
-    public static AnchorPane wrapInAnchor(final Node node) {
-        final AnchorPane imgAnchor = new AnchorPane();
+    public static void wrapInAnchor(final AnchorPane anchorPane, final Node node) {
         AnchorPane.setBottomAnchor(node, 0.0);
         AnchorPane.setTopAnchor(node, 0.0);
         AnchorPane.setLeftAnchor(node, 0.0);
         AnchorPane.setRightAnchor(node, 0.0);
-        imgAnchor.getChildren().add(node);
-        return imgAnchor;
+        anchorPane.getChildren().add(node);
+    }
+
+    public static AnchorPane wrapInAnchor(final Node node) {
+        final AnchorPane anchorPane = new AnchorPane();
+        wrapInAnchor(anchorPane, node);
+        return anchorPane;
     }
 
     public static AnchorPane createSkillCdAnchor() {

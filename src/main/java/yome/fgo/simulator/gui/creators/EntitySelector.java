@@ -7,9 +7,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import yome.fgo.data.proto.FgoStorageData.Gender;
-import yome.fgo.simulator.gui.components.CraftEssenceDataWrapper;
-import yome.fgo.simulator.gui.components.MysticCodeDataWrapper;
-import yome.fgo.simulator.gui.components.ServantDataWrapper;
+import yome.fgo.simulator.gui.components.CraftEssenceDataAnchorPane;
+import yome.fgo.simulator.gui.components.MysticCodeDataAnchorPane;
+import yome.fgo.simulator.gui.components.ServantDataAnchorPane;
 import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.IOException;
@@ -19,11 +19,11 @@ import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECT
 
 public class EntitySelector {
 
-    public static ServantDataWrapper selectServant(
+    public static ServantDataAnchorPane selectServant(
             final Window window,
-            final Map<Integer, ServantDataWrapper> servantDataMap
+            final Map<Integer, ServantDataAnchorPane> servantDataMap
     ) throws IOException {
-        final ServantDataWrapper selection = new ServantDataWrapper();
+        final ServantDataAnchorPane selection = new ServantDataAnchorPane();
 
         final Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
@@ -45,11 +45,11 @@ public class EntitySelector {
         return selection.getServantData() == null ? null : selection;
     }
 
-    public static CraftEssenceDataWrapper selectCraftEssence(
+    public static CraftEssenceDataAnchorPane selectCraftEssence(
             final Window window,
-            final Map<Integer, CraftEssenceDataWrapper> ceDataMap
+            final Map<Integer, CraftEssenceDataAnchorPane> ceDataMap
     ) throws IOException {
-        final CraftEssenceDataWrapper selection = new CraftEssenceDataWrapper();
+        final CraftEssenceDataAnchorPane selection = new CraftEssenceDataAnchorPane();
 
         final Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);
@@ -71,12 +71,12 @@ public class EntitySelector {
         return selection.getCraftEssenceData() == null ? null : selection;
     }
 
-    public static MysticCodeDataWrapper selectMysticCode(
+    public static MysticCodeDataAnchorPane selectMysticCode(
             final Window window,
-            final Map<Integer, MysticCodeDataWrapper> mcDataMap,
+            final Map<Integer, MysticCodeDataAnchorPane> mcDataMap,
             final Gender gender
     ) throws IOException {
-        final MysticCodeDataWrapper selection = new MysticCodeDataWrapper();
+        final MysticCodeDataAnchorPane selection = new MysticCodeDataAnchorPane();
 
         final Stage newStage = new Stage();
         newStage.initModality(Modality.APPLICATION_MODAL);

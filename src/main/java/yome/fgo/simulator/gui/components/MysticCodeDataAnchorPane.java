@@ -10,15 +10,18 @@ import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 
 import java.util.List;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
+
 @NoArgsConstructor
 @Getter
-public class MysticCodeDataWrapper extends AnchorPane {
+public class MysticCodeDataAnchorPane extends AnchorPane {
     private MysticCodeData mysticCodeData;
     private List<Image> images;
     private ImageView imageView;
     private Gender gender;
 
-    public MysticCodeDataWrapper(final MysticCodeData mysticCodeData, final List<Image> images) {
+    public MysticCodeDataAnchorPane(final MysticCodeData mysticCodeData, final List<Image> images) {
         super();
         setFrom(mysticCodeData, images, Gender.MALE);
     }
@@ -27,16 +30,12 @@ public class MysticCodeDataWrapper extends AnchorPane {
         setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         this.mysticCodeData = mysticCodeData;
         this.images = images;
-        this.imageView = new ImageView(images.get(0));
-        this.imageView.setFitHeight(100);
-        this.imageView.setFitWidth(100);
-        AnchorPane.setBottomAnchor(imageView, 0.0);
-        AnchorPane.setTopAnchor(imageView, 0.0);
-        AnchorPane.setLeftAnchor(imageView, 0.0);
-        AnchorPane.setRightAnchor(imageView, 0.0);
-        getChildren().clear();
-        getChildren().add(imageView);
         this.gender = gender;
+        imageView = new ImageView(images.get(0));
+        imageView.setFitHeight(SERVANT_THUMBNAIL_SIZE);
+        imageView.setFitWidth(SERVANT_THUMBNAIL_SIZE);
+        getChildren().clear();
+        wrapInAnchor(this, imageView);
         setFromGender(gender);
     }
 

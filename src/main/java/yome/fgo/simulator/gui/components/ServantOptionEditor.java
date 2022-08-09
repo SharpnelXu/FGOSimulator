@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
@@ -39,31 +40,28 @@ public class ServantOptionEditor {
     private final List<Slider> activeSkillLevels;
     private final List<Slider> appendSkillLevels;
     private final List<CommandCardOptionBox> commandCardOptionBoxes;
+    private final VBox appendSkillVBox;
 
     public Parent getRoot() {
         return root;
     }
 
-    public ServantOptionEditor(final ServantDataWrapper selectedServant, final ServantOption.Builder source) {
-        final VBox rootVBox = new VBox();
-        rootVBox.setSpacing(10);
+    public ServantOptionEditor(final ServantDataAnchorPane selectedServant, final ServantOption.Builder source) {
+        final VBox rootVBox = new VBox(10);
         rootVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        rootVBox.setPadding(new Insets(10, 10, 10, 10));
         this.root = rootVBox;
         this.parentOption = source;
 
-        final HBox topHBox = new HBox();
-        topHBox.setSpacing(10);
+        final HBox topHBox = new HBox(10);
         topHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        topHBox.setPadding(new Insets(10));
         topHBox.setFillHeight(false);
 
-        final VBox topRightVBox = new VBox();
-        topRightVBox.setSpacing(10);
+        final VBox topRightVBox = new VBox(10);
         topRightVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
-        final HBox basicData = new HBox();
+        final HBox basicData = new HBox(10);
         basicData.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        basicData.setSpacing(10);
         basicData.setAlignment(Pos.CENTER_LEFT);
         final Label servantNameLabel = new Label(
                 getTranslation(
@@ -87,10 +85,9 @@ public class ServantOptionEditor {
 
         basicData.getChildren().addAll(servantNameLabel, servantAscLabel, ascChoices, bondLabel, bondChoices);
 
-        final HBox buttonHBox = new HBox();
+        final HBox buttonHBox = new HBox(10);
         buttonHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         buttonHBox.setAlignment(Pos.CENTER_RIGHT);
-        buttonHBox.setSpacing(10);
         final Button cancelButton = new Button(getTranslation(APPLICATION_SECTION, "Cancel"));
         cancelButton.setMinWidth(100);
         cancelButton.setOnAction(e -> cancel());
@@ -101,18 +98,19 @@ public class ServantOptionEditor {
 
         topRightVBox.getChildren().addAll(basicData, buttonHBox);
         topHBox.getChildren().addAll(selectedServant, topRightVBox);
-        rootVBox.getChildren().addAll(topHBox, new Separator());
+        rootVBox.getChildren().addAll(topHBox);
 
         final ScrollPane optionsScrolls = new ScrollPane();
-        optionsScrolls.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+        optionsScrolls.setPadding(new Insets(10));
+        optionsScrolls.setPrefSize(300, 650);
         optionsScrolls.setFitToWidth(true);
-        optionsScrolls.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        optionsScrolls.setHbarPolicy(ScrollBarPolicy.NEVER);
+        optionsScrolls.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 
-        final VBox scrollsVBox = new VBox();
+        final VBox scrollsVBox = new VBox(10);
         scrollsVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        scrollsVBox.setSpacing(10);
         optionsScrolls.setContent(scrollsVBox);
-        rootVBox.getChildren().add(scrollsVBox);
+        rootVBox.getChildren().add(optionsScrolls);
 
         final Label attackStatusLabel = new Label(getTranslation(APPLICATION_SECTION, "Attack Status Up"));
         final Label attackStatusValueLabel = new Label(Integer.toString(source.getAttackStatusUp()));
@@ -198,7 +196,7 @@ public class ServantOptionEditor {
         servantLevelHBox.setAlignment(Pos.CENTER_LEFT);
         servantLevelHBox.getChildren().addAll(servantLevelLabel, servantLevelValueLabel, servantLevelSlider);
 
-        scrollsVBox.getChildren().add(servantLevelHBox);
+        scrollsVBox.getChildren().addAll(servantLevelHBox, new Separator());
 
         final Label npRankLabel = new Label(getTranslation(APPLICATION_SECTION, "NP Rank"));
         npRanks = new ChoiceBox<>();
@@ -234,7 +232,7 @@ public class ServantOptionEditor {
         npLevelHBox.setAlignment(Pos.CENTER_LEFT);
         npLevelHBox.getChildren().addAll(npLevelLabel, npLevelValueLabel, npLevelSlider);
 
-        scrollsVBox.getChildren().addAll(npRankHBox, npLevelHBox);
+        scrollsVBox.getChildren().addAll(npRankHBox, npLevelHBox, new Separator());
 
         activeSkillRanks = new ArrayList<>();
         activeSkillLevels = new ArrayList<>();
@@ -243,8 +241,7 @@ public class ServantOptionEditor {
                     new Label(String.format(getTranslation(APPLICATION_SECTION, "Active Skill %d Rank"), i + 1));
             final ChoiceBox<Integer> activeSkillRankChoices = new ChoiceBox<>();
             activeSkillRanks.add(activeSkillRankChoices);
-            final HBox activeSkillRankHBox = new HBox();
-            activeSkillRankHBox.setSpacing(10);
+            final HBox activeSkillRankHBox = new HBox(10);
             activeSkillRankHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
             activeSkillRankHBox.setAlignment(Pos.CENTER_LEFT);
             activeSkillRankHBox.getChildren().addAll(activeSkillRankLabel, activeSkillRankChoices);
@@ -270,47 +267,17 @@ public class ServantOptionEditor {
             activeSkillLevelSlider.setShowTickMarks(true);
             HBox.setHgrow(activeSkillLevelSlider, Priority.ALWAYS);
             activeSkillLevels.add(activeSkillLevelSlider);
-            final HBox activeSkillLevelHBox = new HBox();
-            activeSkillLevelHBox.setSpacing(10);
+            final HBox activeSkillLevelHBox = new HBox(10);
             activeSkillLevelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
             activeSkillLevelHBox.setAlignment(Pos.CENTER_LEFT);
             activeSkillLevelHBox.getChildren().addAll(activeSkillLevelLabel, activeSkillLevelValueLabel, activeSkillLevelSlider);
 
-            scrollsVBox.getChildren().addAll(activeSkillRankHBox, activeSkillLevelHBox);
+            scrollsVBox.getChildren().addAll(activeSkillRankHBox, activeSkillLevelHBox, new Separator());
         }
 
         appendSkillLevels = new ArrayList<>();
-
-        for (int i = 0; i < 3; i += 1) {
-            final Label appendSkillLevelLabel =
-                    new Label(String.format(getTranslation(APPLICATION_SECTION, "Append Skill %d Level"), i + 1));
-            final Label appendSkillLevelValueLabel = new Label(Integer.toString(source.getAppendSkillLevels(i)));
-            appendSkillLevelValueLabel.setMinWidth(50);
-            final Slider appendSkillLevelSlider = new Slider();
-            appendSkillLevelSlider.setMin(0);
-            appendSkillLevelSlider.setMax(10);
-            appendSkillLevelSlider.setBlockIncrement(1);
-            appendSkillLevelSlider.setMajorTickUnit(1);
-            appendSkillLevelSlider.setMinorTickCount(0);
-            appendSkillLevelSlider.valueProperty().addListener(
-                    (observable, oldValue, newValue) -> {
-                        final int intValue = newValue.intValue();
-                        appendSkillLevelSlider.setValue(intValue);
-                        appendSkillLevelValueLabel.setText(Integer.toString(intValue));
-                    }
-            );
-            appendSkillLevelSlider.setValue(source.getAppendSkillLevels(i));
-            appendSkillLevelSlider.setShowTickMarks(true);
-            HBox.setHgrow(appendSkillLevelSlider, Priority.ALWAYS);
-            appendSkillLevels.add(appendSkillLevelSlider);
-            final HBox appendSkillLevelHBox = new HBox();
-            appendSkillLevelHBox.setSpacing(10);
-            appendSkillLevelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-            appendSkillLevelHBox.setAlignment(Pos.CENTER_LEFT);
-            appendSkillLevelHBox.getChildren().addAll(appendSkillLevelLabel, appendSkillLevelValueLabel, appendSkillLevelSlider);
-
-            scrollsVBox.getChildren().add(appendSkillLevelHBox);
-        }
+        appendSkillVBox = new VBox(10);
+        scrollsVBox.getChildren().add(appendSkillVBox);
 
         commandCardOptionBoxes = new ArrayList<>();
         for (int i = 0; i < 5; i += 1) {
@@ -323,8 +290,8 @@ public class ServantOptionEditor {
 
         ascChoices.setOnAction(e -> {
             selectedServant.getImageView().setImage(selectedServant.getAscensionImages().get(ascChoices.getValue() - 1));
-            final ServantAscensionData servantAscensionData =
-                    selectedServant.getServantData().getServantAscensionData(ascChoices.getValue() - 1);
+            final ServantAscensionData servantAscensionData = selectedServant.getServantData()
+                    .getServantAscensionData(ascChoices.getValue() - 1);
 
             final int maxLevel = servantAscensionData.getServantStatusDataCount();
             servantLevelSlider.setMax(maxLevel);
@@ -348,6 +315,44 @@ public class ServantOptionEditor {
                     activeSkillRankItems.add(j);
                 }
                 activeSkillRanks.get(i).getSelectionModel().selectLast();
+            }
+
+            final List<Integer> previousAppendLevels = appendSkillLevels.stream()
+                    .map(slider -> (int) slider.getValue())
+                    .collect(Collectors.toList());
+            appendSkillVBox.getChildren().clear();
+            appendSkillLevels.clear();
+            for (int i = 0; i < servantAscensionData.getAppendSkillDataCount(); i += 1) {
+                final Label appendSkillLevelLabel =
+                        new Label(String.format(getTranslation(APPLICATION_SECTION, "Append Skill %d Level"), i + 1));
+                final int appendLevel = previousAppendLevels.size() > i
+                        ? previousAppendLevels.get(i)
+                        : source.getAppendSkillLevels(i);
+                final Label appendSkillLevelValueLabel = new Label(Integer.toString(appendLevel));
+                appendSkillLevelValueLabel.setMinWidth(50);
+                final Slider appendSkillLevelSlider = new Slider();
+                appendSkillLevelSlider.setMin(0);
+                appendSkillLevelSlider.setMax(10);
+                appendSkillLevelSlider.setBlockIncrement(1);
+                appendSkillLevelSlider.setMajorTickUnit(1);
+                appendSkillLevelSlider.setMinorTickCount(0);
+                appendSkillLevelSlider.valueProperty().addListener(
+                        (observable, oldValue, newValue) -> {
+                            final int intValue = newValue.intValue();
+                            appendSkillLevelSlider.setValue(intValue);
+                            appendSkillLevelValueLabel.setText(Integer.toString(intValue));
+                        }
+                );
+                appendSkillLevelSlider.setValue(appendLevel);
+                appendSkillLevelSlider.setShowTickMarks(true);
+                HBox.setHgrow(appendSkillLevelSlider, Priority.ALWAYS);
+                appendSkillLevels.add(appendSkillLevelSlider);
+                final HBox appendSkillLevelHBox = new HBox(10);
+                appendSkillLevelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+                appendSkillLevelHBox.setAlignment(Pos.CENTER_LEFT);
+                appendSkillLevelHBox.getChildren().addAll(appendSkillLevelLabel, appendSkillLevelValueLabel, appendSkillLevelSlider);
+
+                appendSkillVBox.getChildren().add(appendSkillLevelHBox);
             }
             for (int i = 0; i < 5; i += 1) {
                 commandCardOptionBoxes.get(i).setType(servantAscensionData.getCommandCardData(i).getCommandCardType());

@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -34,27 +35,28 @@ import static yome.fgo.simulator.ResourceManager.getUnknownServantThumbnail;
 import static yome.fgo.simulator.gui.components.DataPrinter.printServantOption;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectCraftEssence;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectServant;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class FormationSelector extends VBox {
     private final CheckBox support;
-    private ServantDataWrapper selectedServant;
+    private ServantDataAnchorPane selectedServant;
     private ServantOption servantOption;
     private final Label servantOptionLabel;
-    private final ServantDataWrapper defaultServantSelection;
+    private final ServantDataAnchorPane defaultServantSelection;
 
-    private CraftEssenceDataWrapper selectedCE;
+    private CraftEssenceDataAnchorPane selectedCE;
     private final Slider ceLevelSlider;
     private final CheckBox ceLimitBreakCheck;
-    private final CraftEssenceDataWrapper defaultCESelection;
+    private final CraftEssenceDataAnchorPane defaultCESelection;
 
     public FormationSelector(
             final Label errorLabel,
-            final Map<Integer, ServantDataWrapper> servantDataMap,
+            final Map<Integer, ServantDataAnchorPane> servantDataMap,
             final Map<Integer, ServantOption> servantOptions,
-            final Map<Integer, CraftEssenceDataWrapper> ceDataMap,
+            final Map<Integer, CraftEssenceDataAnchorPane> ceDataMap,
             final Map<Integer, CraftEssenceOption> ceOptions,
             final LevelCreatorFMXLController controller
     ) {
@@ -81,7 +83,7 @@ public class FormationSelector extends VBox {
             unknown = new Image(new FileInputStream(getUnknownServantThumbnail()));
         } catch (final FileNotFoundException ignored) {
         }
-        defaultServantSelection = new ServantDataWrapper(null, Lists.newArrayList(unknown));
+        defaultServantSelection = new ServantDataAnchorPane(null, Lists.newArrayList(unknown));
         selectedServant = defaultServantSelection;
         final Label servantNameLabel = new Label(getTranslation(APPLICATION_SECTION, "No servant selected"));
         servantNameLabel.setWrapText(true);
@@ -89,11 +91,9 @@ public class FormationSelector extends VBox {
         servantOptionLabel = new Label();
         servantOptionLabel.setWrapText(true);
 
-        final Button editServantOptionButton = new Button(getTranslation(APPLICATION_SECTION, "Edit Servant Option"));
-        editServantOptionButton.setDisable(true);
-        editServantOptionButton.setOnAction(e -> editServantOption());
-
-        final Button viewServantButton = new Button(getTranslation(APPLICATION_SECTION, "Details"));
+        final Button viewServantButton = new Button();
+        viewServantButton.setGraphic(createInfoImageView("info2"));
+        viewServantButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Details")));
         viewServantButton.setDisable(true);
         viewServantButton.setOnAction(e -> {
             try {
@@ -102,7 +102,15 @@ public class FormationSelector extends VBox {
             }
         });
 
-        final Button removeServantButton = new Button(getTranslation(APPLICATION_SECTION, "Remove selection"));
+        final Button editServantOptionButton = new Button();
+        editServantOptionButton.setGraphic(createInfoImageView("edit"));
+        editServantOptionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit Servant Option")));
+        editServantOptionButton.setDisable(true);
+        editServantOptionButton.setOnAction(e -> editServantOption());
+
+        final Button removeServantButton = new Button();
+        removeServantButton.setGraphic(createInfoImageView("remove"));
+        removeServantButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove selection")));
         removeServantButton.setDisable(true);
         removeServantButton.setOnAction(e -> {
             selectedServant = defaultServantSelection;
@@ -121,7 +129,7 @@ public class FormationSelector extends VBox {
         servantSelectButton.setGraphic(selectedServant);
         servantSelectButton.setOnAction(e -> {
             try {
-                final ServantDataWrapper selection = selectServant(this.getScene().getWindow(), servantDataMap);
+                final ServantDataAnchorPane selection = selectServant(this.getScene().getWindow(), servantDataMap);
                 if (selection != null) {
                     selectedServant = selection;
                     servantSelectButton.setGraphic(selectedServant);
@@ -154,7 +162,7 @@ public class FormationSelector extends VBox {
         });
 
         final Button ceSelectButton = new Button();
-        defaultCESelection = new CraftEssenceDataWrapper(null, unknown);
+        defaultCESelection = new CraftEssenceDataAnchorPane(null, unknown);
         selectedCE = defaultCESelection;
         final Label ceNameLabel = new Label(getTranslation(APPLICATION_SECTION, "No CE selected"));
         ceNameLabel.setWrapText(true);
@@ -190,7 +198,9 @@ public class FormationSelector extends VBox {
         ceLevelSlider.setDisable(true);
         ceLimitBreakCheck.setDisable(true);
 
-        final Button viewCEButton = new Button(getTranslation(APPLICATION_SECTION, "Details"));
+        final Button viewCEButton = new Button();
+        viewCEButton.setGraphic(createInfoImageView("info2"));
+        viewCEButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Details")));
         viewCEButton.setDisable(true);
         viewCEButton.setOnAction(e -> {
             try {
@@ -199,7 +209,9 @@ public class FormationSelector extends VBox {
             }
         });
 
-        final Button removeCEButton = new Button(getTranslation(APPLICATION_SECTION, "Remove selection"));
+        final Button removeCEButton = new Button();
+        removeCEButton.setGraphic(createInfoImageView("remove"));
+        removeCEButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove selection")));
         removeCEButton.setDisable(true);
         removeCEButton.setOnAction(e -> {
             selectedCE = defaultCESelection;
@@ -217,7 +229,7 @@ public class FormationSelector extends VBox {
         ceSelectButton.setGraphic(selectedCE);
         ceSelectButton.setOnAction(e -> {
             try {
-                final CraftEssenceDataWrapper selection = selectCraftEssence(this.getScene().getWindow(), ceDataMap);
+                final CraftEssenceDataAnchorPane selection = selectCraftEssence(this.getScene().getWindow(), ceDataMap);
                 if (selection != null) {
                     selectedCE = selection;
                     ceSelectButton.setGraphic(selectedCE);
@@ -258,17 +270,24 @@ public class FormationSelector extends VBox {
             }
         });
 
+        final HBox servantButtonHBox = new HBox(5);
+        servantButtonHBox.setAlignment(Pos.CENTER);
+        servantButtonHBox.getChildren().addAll(
+                viewServantButton, editServantOptionButton, removeServantButton
+        );
+
+        final HBox ceButtonHBox = new HBox(5);
+        ceButtonHBox.setAlignment(Pos.CENTER);
+        ceButtonHBox.getChildren().addAll(viewCEButton, removeCEButton);
+
         getChildren().addAll(
                 support,
                 servantSelectButton,
                 servantNameLabel,
-                removeServantButton,
-                viewServantButton,
-                editServantOptionButton,
+                servantButtonHBox,
                 ceSelectButton,
                 ceNameLabel,
-                removeCEButton,
-                viewCEButton,
+                ceButtonHBox,
                 ceLevelLabelHBox,
                 ceLevelSlider,
                 ceLimitBreakCheck,
@@ -319,7 +338,7 @@ public class FormationSelector extends VBox {
 
         final ServantOption.Builder builder = servantOption.toBuilder();
         final ServantOptionEditor editor = new ServantOptionEditor(
-                new ServantDataWrapper(selectedServant.getServantData(), selectedServant.getAscensionImages()),
+                new ServantDataAnchorPane(selectedServant.getServantData(), selectedServant.getAscensionImages()),
                 builder
         );
         final Parent root = editor.getRoot();

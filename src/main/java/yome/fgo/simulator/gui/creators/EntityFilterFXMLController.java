@@ -17,10 +17,10 @@ import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmType;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
-import yome.fgo.simulator.gui.components.CraftEssenceDataWrapper;
+import yome.fgo.simulator.gui.components.CraftEssenceDataAnchorPane;
 import yome.fgo.simulator.gui.components.EnumConverter;
-import yome.fgo.simulator.gui.components.MysticCodeDataWrapper;
-import yome.fgo.simulator.gui.components.ServantDataWrapper;
+import yome.fgo.simulator.gui.components.MysticCodeDataAnchorPane;
+import yome.fgo.simulator.gui.components.ServantDataAnchorPane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,21 +41,21 @@ public class EntityFilterFXMLController implements Initializable {
     @FXML
     private HBox filterHBox;
 
-    private ServantDataWrapper servantReturnWrapper;
-    private CraftEssenceDataWrapper ceReturnWrapper;
-    private MysticCodeDataWrapper mcReturnWrapper;
+    private ServantDataAnchorPane servantReturnWrapper;
+    private CraftEssenceDataAnchorPane ceReturnWrapper;
+    private MysticCodeDataAnchorPane mcReturnWrapper;
     private ChoiceBox<Gender> genderChoiceBox;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {}
 
-    public void fillServants(final Map<Integer, ServantDataWrapper> dataMap, final ServantDataWrapper returnWrapper) {
+    public void fillServants(final Map<Integer, ServantDataAnchorPane> dataMap, final ServantDataAnchorPane returnWrapper) {
         this.servantReturnWrapper = returnWrapper;
 
-        for (final ServantDataWrapper servantDataWrapper : dataMap.values()) {
+        for (final ServantDataAnchorPane servantDataAnchorPane : dataMap.values()) {
             final Button servantSelectButton = new Button();
-            servantSelectButton.setGraphic(servantDataWrapper);
-            servantSelectButton.setOnAction(e -> selectServant(servantDataWrapper));
+            servantSelectButton.setGraphic(servantDataAnchorPane);
+            servantSelectButton.setOnAction(e -> selectServant(servantDataAnchorPane));
             entityFlowPane.getChildren().add(servantSelectButton);
         }
 
@@ -101,13 +101,13 @@ public class EntityFilterFXMLController implements Initializable {
     private void filterServant(final FateClass filterClass, final CommandCardType filterCardType, final NoblePhantasmType filterNpType) {
         for (final Node node : entityFlowPane.getChildren()) {
             final Button button = (Button) node;
-            final ServantDataWrapper servantDataWrapper = (ServantDataWrapper) button.getGraphic();
+            final ServantDataAnchorPane servantDataAnchorPane = (ServantDataAnchorPane) button.getGraphic();
 
             boolean classMatch = false;
             boolean npMatch = false;
 
             for (final ServantAscensionData servantAscensionData :
-                    servantDataWrapper.getServantData().getServantAscensionDataList()) {
+                    servantDataAnchorPane.getServantData().getServantAscensionDataList()) {
 
                 classMatch = filterClass == FateClass.ANY_CLASS ||
                         servantAscensionData.getCombatantData().getFateClass() == filterClass;
@@ -135,21 +135,21 @@ public class EntityFilterFXMLController implements Initializable {
         }
     }
 
-    private void selectServant(final ServantDataWrapper servantDataWrapper) {
+    private void selectServant(final ServantDataAnchorPane servantDataAnchorPane) {
         if (servantReturnWrapper != null) {
-            servantReturnWrapper.setFrom(servantDataWrapper.getServantData(), servantDataWrapper.getAscensionImages());
+            servantReturnWrapper.setFrom(servantDataAnchorPane.getServantData(), servantDataAnchorPane.getAscensionImages());
         }
         final Stage stage = (Stage) filterHBox.getScene().getWindow();
         stage.close();
     }
 
     public void fillCraftEssence(
-            final Map<Integer, CraftEssenceDataWrapper> dataMap,
-            final CraftEssenceDataWrapper returnWrapper
+            final Map<Integer, CraftEssenceDataAnchorPane> dataMap,
+            final CraftEssenceDataAnchorPane returnWrapper
     ) {
         this.ceReturnWrapper = returnWrapper;
 
-        for (final CraftEssenceDataWrapper ceDataWrapper : dataMap.values()) {
+        for (final CraftEssenceDataAnchorPane ceDataWrapper : dataMap.values()) {
             final Button servantSelectButton = new Button();
             servantSelectButton.setGraphic(ceDataWrapper);
             servantSelectButton.setOnAction(e -> selectCraftEssence(ceDataWrapper));
@@ -185,30 +185,30 @@ public class EntityFilterFXMLController implements Initializable {
     private void filterCraftEssence(final int rarity) {
         for (final Node node : entityFlowPane.getChildren()) {
             final Button button = (Button) node;
-            final CraftEssenceDataWrapper craftEssenceDataWrapper = (CraftEssenceDataWrapper) button.getGraphic();
+            final CraftEssenceDataAnchorPane craftEssenceDataAnchorPane = (CraftEssenceDataAnchorPane) button.getGraphic();
 
-            final boolean rarityMatch = rarity == -1 || craftEssenceDataWrapper.getCraftEssenceData().getRarity() == rarity;
+            final boolean rarityMatch = rarity == -1 || craftEssenceDataAnchorPane.getCraftEssenceData().getRarity() == rarity;
             button.setVisible(rarityMatch);
             button.setManaged(rarityMatch);
         }
     }
 
-    private void selectCraftEssence(final CraftEssenceDataWrapper craftEssenceDataWrapper) {
+    private void selectCraftEssence(final CraftEssenceDataAnchorPane craftEssenceDataAnchorPane) {
         if (ceReturnWrapper != null) {
-            ceReturnWrapper.setFrom(craftEssenceDataWrapper.getCraftEssenceData(), craftEssenceDataWrapper.getImage());
+            ceReturnWrapper.setFrom(craftEssenceDataAnchorPane.getCraftEssenceData(), craftEssenceDataAnchorPane.getImage());
         }
         final Stage stage = (Stage) filterHBox.getScene().getWindow();
         stage.close();
     }
 
     public void fillMysticCode(
-            final Map<Integer, MysticCodeDataWrapper> mcDataMap,
-            final MysticCodeDataWrapper returnWrapper,
+            final Map<Integer, MysticCodeDataAnchorPane> mcDataMap,
+            final MysticCodeDataAnchorPane returnWrapper,
             final Gender gender
     ) {
         this.mcReturnWrapper = returnWrapper;
 
-        for (final MysticCodeDataWrapper dataWrapper : mcDataMap.values()) {
+        for (final MysticCodeDataAnchorPane dataWrapper : mcDataMap.values()) {
             final Button servantSelectButton = new Button();
             dataWrapper.setFromGender(gender);
             servantSelectButton.setGraphic(dataWrapper);
@@ -228,7 +228,7 @@ public class EntityFilterFXMLController implements Initializable {
         genderChoiceBox.setOnAction(e -> changeMysticCodeGender(genderChoiceBox.getValue()));
     }
 
-    private void selectMysticCode(final MysticCodeDataWrapper dataWrapper) {
+    private void selectMysticCode(final MysticCodeDataAnchorPane dataWrapper) {
         if (mcReturnWrapper != null) {
             mcReturnWrapper.setFrom(dataWrapper.getMysticCodeData(), dataWrapper.getImages(), genderChoiceBox.getValue());
         }
@@ -241,7 +241,7 @@ public class EntityFilterFXMLController implements Initializable {
 
         for (final Node node : entityFlowPane.getChildren()) {
             final Button button = (Button) node;
-            final MysticCodeDataWrapper dataWrapper = (MysticCodeDataWrapper) button.getGraphic();
+            final MysticCodeDataAnchorPane dataWrapper = (MysticCodeDataAnchorPane) button.getGraphic();
             dataWrapper.getImageView().setImage(dataWrapper.getImages().get(imgIndex));
         }
     }
