@@ -129,6 +129,10 @@ public class CommandCardExecution {
         final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class) +
                 currentCard.applyBuff(simulation, NpGenerationBuff.class);
 
+        final double classNpCorrection = defender.getCombatantData().getUseCustomNpMod()
+                ? defender.getCombatantData().getCustomNpMod()
+                : getClassNpCorrection(defenderClass);
+
         final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class) +
                 currentCard.applyBuff(simulation, CriticalStarGenerationBuff.class);
 
@@ -173,6 +177,7 @@ public class CommandCardExecution {
                 .commandCardBuff(commandCardBuff)
                 .commandCardResist(commandCardResist)
                 .npGenerationBuff(npGenerationBuff)
+                .classNpCorrection(classNpCorrection)
                 .build();
 
         final CriticalStarParameters critStarParams = CriticalStarParameters.builder()
@@ -337,7 +342,7 @@ public class CommandCardExecution {
     public static double calculateNpGain(final NpParameters npParameters, final boolean isOverkill) {
         final double commandCardNpCorrection = getCommandCardNpCorrection(npParameters.currentCardType, npParameters.chainIndex);
         final double artsStartNpBoost = npParameters.useFirstCardBoost ? 1 : 0;
-        final double classNpCorrection = getClassNpCorrection(npParameters.defenderClass);
+        final double classNpCorrection = npParameters.classNpCorrection;
         final double undeadNpCorrection = npParameters.useUndeadNpCorrection ? 1.2 : 1;
         final int criticalStrikeNpCorrection = npParameters.isCriticalStrike ? 2 : 1;
         final double overkillNpBonus = isOverkill ? 1.5 : 1;
@@ -416,6 +421,7 @@ public class CommandCardExecution {
         private final double commandCardBuff;
         private final double commandCardResist;
         private final double npGenerationBuff;
+        private final double classNpCorrection;
     }
 
     @Builder

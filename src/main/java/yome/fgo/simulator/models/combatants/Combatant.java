@@ -26,6 +26,7 @@ import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
 import yome.fgo.simulator.models.effects.buffs.EnterFieldEffect;
 import yome.fgo.simulator.models.effects.buffs.GrantTrait;
 import yome.fgo.simulator.models.effects.buffs.Guts;
+import yome.fgo.simulator.models.effects.buffs.HPBreakEffect;
 import yome.fgo.simulator.models.effects.buffs.ImmobilizeDebuff;
 import yome.fgo.simulator.models.effects.buffs.LeaveFieldEffect;
 import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
@@ -35,6 +36,7 @@ import yome.fgo.simulator.models.effects.buffs.PermanentSleep;
 import yome.fgo.simulator.models.effects.buffs.Poison;
 import yome.fgo.simulator.models.effects.buffs.PreventDeathAgainstDoT;
 import yome.fgo.simulator.models.effects.buffs.SkillSeal;
+import yome.fgo.simulator.models.effects.buffs.StartOfTurnEffect;
 import yome.fgo.simulator.models.effects.buffs.TriggerOnGutsEffect;
 import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
@@ -368,10 +370,11 @@ public class Combatant {
         currentHp -= damage;
     }
 
-    public void hpBarBreak() {
+    public void hpBarBreak(final Simulation simulation) {
         receivedInstantDeath = false;
         currentHpBarIndex += 1;
         currentHp = hpBars.get(currentHpBarIndex);
+        activateEffectActivatingBuff(simulation, HPBreakEffect.class);
     }
 
     public void receiveNonHpBarBreakDamage(final int damage) {
@@ -428,6 +431,10 @@ public class Combatant {
         }
 
         clearInactiveBuff();
+    }
+
+    public void startOfMyTurn(final Simulation simulation) {
+        activateEffectActivatingBuff(simulation, StartOfTurnEffect.class);
     }
 
     public int calculateDoTDamage(

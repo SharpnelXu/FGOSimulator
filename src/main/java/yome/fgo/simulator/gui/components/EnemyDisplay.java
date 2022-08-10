@@ -57,7 +57,7 @@ public class EnemyDisplay extends VBox {
 
         enemyTarget = new RadioButton();
         enemyTarget.setToggleGroup(toggleGroup);
-        enemyTarget.setOnAction(e -> this.simulationWindow.getSimulation().setCurrentAllyTargetIndex(enemyIndex));
+        enemyTarget.setOnAction(e -> this.simulationWindow.getSimulation().setCurrentEnemyTargetIndex(enemyIndex));
 
         getChildren().add(enemyTarget);
 

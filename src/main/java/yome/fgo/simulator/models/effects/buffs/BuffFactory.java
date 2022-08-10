@@ -254,6 +254,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(HitsDoubledBuff.class.getSimpleName())) {
             return setCommonBuffParams(HitsDoubledBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(HPBreakEffect.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(HPBreakEffect.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(IgnoreDefenseBuff.class.getSimpleName())) {
             return setCommonBuffParams(IgnoreDefenseBuff.builder(), buffData, level);
 
@@ -351,6 +354,9 @@ public class BuffFactory {
 
         } else if (type.equalsIgnoreCase(SpecificDefenseBuff.class.getSimpleName())) {
             return setValuedBuffParams(SpecificDefenseBuff.builder(), buffData, level);
+
+        } else if (type.equalsIgnoreCase(StartOfTurnEffect.class.getSimpleName())) {
+            return setEffectActivatingBuffParams(StartOfTurnEffect.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(Stun.class.getSimpleName())) {
             return setCommonBuffParams(Stun.builder(), buffData, level);
@@ -520,8 +526,10 @@ public class BuffFactory {
 
         builder.put(Guts.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_PERCENT_OPTION, BUFF_FIELD_NO_VARIATION));
         builder.put(TriggerOnGutsEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
+        builder.put(HPBreakEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
 
         builder.put(DelayedEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
+        builder.put(StartOfTurnEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(EndOfTurnEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(EnterFieldEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(LeaveFieldEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));

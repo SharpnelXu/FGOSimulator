@@ -506,6 +506,13 @@ public class DataPrinter {
             builder.append(getTranslation(APPLICATION_SECTION, "Use Undead Correction"));
         }
 
+        if (combatantData.getUseCustomNpMod()) {
+            builder.append(", ");
+            builder.append(getTranslation(APPLICATION_SECTION, "Use custom np gain mod"));
+            builder.append(": ");
+            builder.append(combatantData.getCustomNpMod());
+        }
+
         builder.append(", ");
         builder.append(getTranslation(APPLICATION_SECTION, "Rarity"));
         builder.append(": ");

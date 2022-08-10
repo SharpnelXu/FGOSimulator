@@ -17,6 +17,7 @@ import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.EffectFactory;
 import yome.fgo.simulator.models.effects.NpChange;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.StartOfTurnEffect;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.levels.Stage;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
@@ -361,8 +362,11 @@ public class Simulation {
 
     private void executeEnemyTurn() {
         for (final Combatant combatant : currentEnemies) {
-            if (combatant != null && combatant.getCurrentHp() <= 0) {
-                combatant.hpBarBreak();
+            if (combatant != null) {
+                if (combatant.getCurrentHp() <= 0) {
+                    combatant.hpBarBreak(this);
+                }
+                combatant.startOfMyTurn(this);
             }
         }
     }
@@ -410,6 +414,11 @@ public class Simulation {
         currentTurn += 1;
         if (getStatsLogger() != null) {
             getStatsLogger().logTurnStart(currentTurn);
+        }
+        for (final Servant servant : currentServants) {
+            if (servant != null) {
+                servant.startOfMyTurn(this);
+            }
         }
     }
 
@@ -595,7 +604,7 @@ public class Simulation {
 
     @VisibleForTesting
     static int getNextNonNullTargetIndex(final List<? extends Combatant> combatants, int currentTargetIndex) {
-        if (combatants.get(currentTargetIndex) == null) {
+        if ( currentTargetIndex >= combatants.size() || combatants.get(currentTargetIndex) == null) {
             for (int i = 0; i < combatants.size(); i += 1) {
                 if (combatants.get(i) != null) {
                     return i;

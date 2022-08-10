@@ -133,6 +133,9 @@ message CombatantData {
   bool undeadNpCorrection = 9;
 
   repeated PassiveSkillData enemyPassiveSkillData = 10;
+
+  bool useCustomNpMod = 11;
+  double customNpMod = 12;
 }
 
 message ServantData {

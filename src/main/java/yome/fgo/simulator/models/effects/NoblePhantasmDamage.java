@@ -57,6 +57,7 @@ import static yome.fgo.simulator.utils.CommandCardTypeUtils.getCommandCardDamage
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.modifierCap;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAdvantage;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAttackCorrection;
+import static yome.fgo.simulator.utils.FateClassUtils.getClassNpCorrection;
 
 @SuperBuilder
 public class NoblePhantasmDamage extends Effect {
@@ -150,6 +151,9 @@ public class NoblePhantasmDamage extends Effect {
             final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class) || isNpIgnoreDefense;
 
             final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class);
+            final double classNpCorrection = defender.getCombatantData().getUseCustomNpMod()
+                    ? defender.getCombatantData().getCustomNpMod()
+                    : getClassNpCorrection(defenderClass);
 
             final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class);
 
@@ -202,6 +206,7 @@ public class NoblePhantasmDamage extends Effect {
                     .commandCardBuff(commandCardBuff)
                     .commandCardResist(commandCardResist)
                     .npGenerationBuff(npGenerationBuff)
+                    .classNpCorrection(classNpCorrection)
                     .build();
 
             final CriticalStarParameters critStarParams = CriticalStarParameters.builder()

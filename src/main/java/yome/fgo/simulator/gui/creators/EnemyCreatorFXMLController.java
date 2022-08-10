@@ -3,6 +3,7 @@ package yome.fgo.simulator.gui.creators;
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -147,6 +148,12 @@ public class EnemyCreatorFXMLController implements Initializable {
     private VBox passiveEffectVBox;
     private ListContainerVBox passiveList;
 
+    @FXML
+    private CheckBox customNpModCheck;
+
+    @FXML
+    private TextField customNpModText;
+
     public void setParentBuilder(final CombatantData.Builder combatantDataBuilder) {
         this.combatantDataBuilder = combatantDataBuilder;
         loadCombatantData(combatantDataBuilder);
@@ -235,6 +242,10 @@ public class EnemyCreatorFXMLController implements Initializable {
 
         passiveList = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Enemy passive effects"), errorLabel, Mode.EFFECT);
         passiveEffectVBox.getChildren().add(passiveList);
+
+        customNpModCheck.setText(getTranslation(APPLICATION_SECTION, "Use custom np gain mod"));
+        customNpModText.setDisable(true);
+        customNpModCheck.setOnAction(e -> customNpModText.setDisable(!customNpModCheck.isSelected()));
     }
 
     private boolean buildCombatantData(final CombatantData.Builder combatantDataBuilder) {
@@ -282,8 +293,20 @@ public class EnemyCreatorFXMLController implements Initializable {
                 .setAttribute(attributeCombo.getValue())
                 .addAllAlignments(checkedAlignments)
                 .addAllTraits(traits)
-                .addAllEnemyPassiveSkillData(ImmutableList.of(builder.build()))
-                .build();
+                .addAllEnemyPassiveSkillData(ImmutableList.of(builder.build()));
+
+        if (customNpModCheck.isSelected()) {
+            final double customNpMod;
+            try {
+                customNpMod = RoundUtils.roundNearest(Double.parseDouble(customNpModText.getText()));
+            } catch (final Exception e) {
+                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Custom np mod is not a valid double"));
+                errorLabel.setVisible(true);
+                return false;
+            }
+            combatantDataBuilder.setUseCustomNpMod(true);
+            combatantDataBuilder.setCustomNpMod(customNpMod);
+        }
         return true;
     }
 
@@ -403,6 +426,12 @@ public class EnemyCreatorFXMLController implements Initializable {
 
         for (final PassiveSkillData passiveSkillData : combatantData.getEnemyPassiveSkillDataList()) {
             passiveList.loadEffect(passiveSkillData.getEffectsList());
+        }
+
+        if (combatantData.getUseCustomNpMod()) {
+            customNpModCheck.setSelected(true);
+            customNpModCheck.fireEvent(new ActionEvent());
+            customNpModText.setText(Double.toString(RoundUtils.roundNearest(combatantData.getCustomNpMod())));
         }
 
         final AtomicBoolean allTraitsFound = new AtomicBoolean(true);

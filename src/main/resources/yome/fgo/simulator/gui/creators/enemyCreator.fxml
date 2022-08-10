@@ -21,8 +21,10 @@
                   <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <Label fx:id="deathRateLabel" text="Label" />
-                        <TextField fx:id="deathRateTextField" prefHeight="25.0" prefWidth="65.0" />
+                        <TextField fx:id="deathRateTextField" prefWidth="65.0" />
                         <CheckBox fx:id="useUndeadCheck" mnemonicParsing="false" text="CheckBox" />
+                        <CheckBox fx:id="customNpModCheck" mnemonicParsing="false" text="CheckBox" />
+                        <TextField fx:id="customNpModText" prefWidth="65.0" />
                      </children>
                   </HBox>
                   <Separator prefWidth="200.0" />

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import org.easymock.Capture;
 import org.easymock.EasyMockSupport;
 import org.junit.jupiter.api.Test;
+import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardData;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
@@ -46,6 +47,7 @@ import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNp
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateTotalDamage;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.executeCommandCard;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.getHitsPercentages;
+import static yome.fgo.simulator.utils.FateClassUtils.getClassNpCorrection;
 
 public class CommandCardExecutionTest extends EasyMockSupport {
     public static final CommandCard KAMA_AVENGER_BUSTER = new CommandCard(
@@ -116,6 +118,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.isBuggedOverkill()).andReturn(false);
         expect(defender.isAlreadyDead()).andReturn(true).times(2);
         expect(defender.getUndeadNpCorrection()).andReturn(false);
+        expect(defender.getCombatantData()).andReturn(CombatantData.getDefaultInstance());
         attacker.changeNp(0.0062);
         attacker.changeNp(0.0093);
         expectLastCall().times(2);
@@ -172,6 +175,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         simulation.checkBuffStatus();
         defender.addCumulativeTurnDamage(anyInt());
         expect(simulation.getStatsLogger()).andReturn(null).anyTimes();
+        expect(defender.getCombatantData()).andReturn(CombatantData.getDefaultInstance()).anyTimes();
         replayAll();
 
         executeCommandCard(simulation, 3, false, BUSTER, false, true);
@@ -218,6 +222,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         simulation.checkBuffStatus();
         defender.addCumulativeTurnDamage(0);
         expect(simulation.getStatsLogger()).andReturn(null).anyTimes();
+        expect(defender.getCombatantData()).andReturn(CombatantData.getDefaultInstance()).anyTimes();
         replayAll();
 
         executeCommandCard(simulation, 3, false, BUSTER, false, false);
@@ -346,6 +351,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         npParametersBuilder.useFirstCardBoost(true);
         npParametersBuilder.isCriticalStrike(false);
         npParametersBuilder.currentCardType(ARTS).chainIndex(0).commandCardBuff(0.3);
+        npParametersBuilder.classNpCorrection(getClassNpCorrection(LANCER));
         double totalHitsNp = 0;
         for (int i = 0; i < 3; i += 1) {
             totalHitsNp += calculateNpGain(npParametersBuilder.build(), false);
@@ -415,7 +421,8 @@ public class CommandCardExecutionTest extends EasyMockSupport {
                 .useFirstCardBoost(false)
                 .isCriticalStrike(true)
                 .npGenerationBuff(0.45)
-                .commandCardBuff(0);
+                .commandCardBuff(0)
+                .classNpCorrection(getClassNpCorrection(LANCER));
         npParametersBuilder.currentCardType(ARTS).chainIndex(1);
         double totalHitsNp = 0;
         for (int i = 0; i < 4; i += 1) {
@@ -447,7 +454,8 @@ public class CommandCardExecutionTest extends EasyMockSupport {
                 .useFirstCardBoost(true)
                 .isCriticalStrike(true)
                 .npGenerationBuff(0.3)
-                .commandCardBuff(0.8);
+                .commandCardBuff(0.8)
+                .classNpCorrection(getClassNpCorrection(BEAST_III_R));
         double totalHitsNp = 0;
         npParametersBuilder.currentCardType(ARTS).chainIndex(2);
         for (int i = 0; i < 6; i += 1) {
@@ -465,7 +473,8 @@ public class CommandCardExecutionTest extends EasyMockSupport {
                 .useFirstCardBoost(true)
                 .isCriticalStrike(true)
                 .npGenerationBuff(0.3)
-                .commandCardBuff(0.8);
+                .commandCardBuff(0.8)
+                .classNpCorrection(getClassNpCorrection(LANCER));
         double totalHitsNp = 0;
         npParametersBuilder.currentCardType(ARTS).chainIndex(2);
         for (int i = 0; i < 2; i += 1) {
