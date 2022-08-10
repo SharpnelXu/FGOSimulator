@@ -51,7 +51,6 @@ public class StageNode extends VBox {
 
     public StageNode(final int stageNum, final Label errorLabel, final VBox stageVBox) {
         super(10);
-        setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         setPadding(new Insets(10));
         setStyle(SPECIAL_INFO_BOX_STYLE);
 

@@ -78,6 +78,7 @@ public class ServantCreatorFXMLController implements Initializable {
                             final ServantAscensionTab ascensionTab = (ServantAscensionTab) servantAscTabPane.getTabs().get(i - 1).getContent();
                             ascensionTab.setServantNo(servantNo, i);
                         }
+                        errorLabel.setVisible(false);
                     } catch (final Exception e) {
                         errorLabel.setVisible(true);
                         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot parse servant ID"));
@@ -94,17 +95,17 @@ public class ServantCreatorFXMLController implements Initializable {
             final String tabName = getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension;
             final int servantNo = parseServantNo();
             if (tabs.isEmpty()) {
-                tabs.add(new Tab(tabName, new ServantAscensionTab(servantNo, ascension)));
+                tabs.add(new Tab(tabName, new ServantAscensionTab(servantNo, ascension, errorLabel)));
             } else {
                 final ServantAscensionTab base = (ServantAscensionTab) servantAscTabPane.getSelectionModel().getSelectedItem().getContent();
-                tabs.add(new Tab(tabName, new ServantAscensionTab(base, servantNo, ascension)));
+                tabs.add(new Tab(tabName, new ServantAscensionTab(base, servantNo, ascension, errorLabel)));
             }
             servantAscTabPane.getSelectionModel().selectLast();
         });
 
         final Button leftButton = new Button();
         leftButton.setGraphic(createInfoImageView("left"));
-        leftButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move ascension left")));
+        leftButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item left")));
         leftButton.setOnAction(e -> {
             final ObservableList<Tab> tabs = servantAscTabPane.getTabs();
             if (tabs.isEmpty() || tabs.size() == 1) {
@@ -124,7 +125,7 @@ public class ServantCreatorFXMLController implements Initializable {
 
         final Button rightButton = new Button();
         rightButton.setGraphic(createInfoImageView("right"));
-        rightButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move ascension right")));
+        rightButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item right")));
         rightButton.setOnAction(e -> {
             final ObservableList<Tab> tabs = servantAscTabPane.getTabs();
             if (tabs.isEmpty() || tabs.size() == 1) {
@@ -156,7 +157,7 @@ public class ServantCreatorFXMLController implements Initializable {
             tabs.setAll(remainingNodes);
         });
 
-        servantAscTabPane.getTabs().add(new Tab(getTranslation(APPLICATION_SECTION, "Servant Asc") + 1, new ServantAscensionTab(0, 1)));
+        servantAscTabPane.getTabs().add(new Tab(getTranslation(APPLICATION_SECTION, "Servant Asc") + 1, new ServantAscensionTab(0, 1, errorLabel)));
 
         actionHBox.getChildren().addAll(addAscensionButton, leftButton, rightButton, removeButton);
 
@@ -214,7 +215,8 @@ public class ServantCreatorFXMLController implements Initializable {
             final ServantAscensionTab ascensionTab = new ServantAscensionTab(
                     servantDataBuilder.getServantAscensionData(i),
                     servantDataBuilder.getServantNum(),
-                    tabs.size() + 1
+                    tabs.size() + 1,
+                    errorLabel
             );
             tabs.add(new Tab(tabName, ascensionTab));
         }
@@ -241,11 +243,15 @@ public class ServantCreatorFXMLController implements Initializable {
             final ServantAscensionTab servantAscensionTab = (ServantAscensionTab) tab.getContent();
             final ServantAscensionData data = servantAscensionTab.build(servantNo);
             if (data == null) {
-                errorLabel.setVisible(true);
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Servant ascension data error") + tab.getText());
                 return;
             }
             servantAscensionData.add(data);
+        }
+
+        if (servantAscensionData.isEmpty()) {
+            errorLabel.setVisible(true);
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "No Ascension data"));
+            return;
         }
 
         final ServantData servantData = ServantData.newBuilder()
@@ -256,10 +262,6 @@ public class ServantCreatorFXMLController implements Initializable {
         DataWriter.writeServant(servantData);
         errorLabel.setVisible(true);
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Save success!"));
-        for (final Tab tab : servantAscTabPane.getTabs()) {
-            final ServantAscensionTab servantAscensionTab = (ServantAscensionTab) tab.getContent();
-            servantAscensionTab.clearError();
-        }
     }
 
     public void setPreviewMode(final ServantData servantData) {

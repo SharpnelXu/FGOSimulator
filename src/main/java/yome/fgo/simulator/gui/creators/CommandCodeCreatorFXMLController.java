@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 import yome.fgo.data.writer.DataWriter;
@@ -64,7 +64,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
     private Button saveButton;
 
     @FXML
-    private HBox buffHBox;
+    private VBox buffVBox;
     private ListContainerVBox buffs;
 
 
@@ -108,7 +108,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
         rarityChoices.getSelectionModel().selectFirst();
 
         buffs = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Buffs"), errorLabel, true);
-        buffHBox.getChildren().add(buffs);
+        buffVBox.getChildren().add(buffs);
 
         loadButton.setText(getTranslation(APPLICATION_SECTION, "Load From"));
         loadButton.setOnAction(e -> loadFrom());

@@ -71,7 +71,7 @@ public class MysticCodeCreatorFXMLController implements Initializable {
         );
 
         for (int i = 0; i < 3; i += 1) {
-            activeSkillsVBox.getChildren().add(new ActiveSkillUpgrade());
+            activeSkillsVBox.getChildren().add(new ActiveSkillUpgrade(errorLabel));
         }
 
         loadButton.setText(getTranslation(APPLICATION_SECTION, "Load From"));

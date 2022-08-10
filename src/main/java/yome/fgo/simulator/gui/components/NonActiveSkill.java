@@ -1,13 +1,14 @@
 package yome.fgo.simulator.gui.components;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -15,32 +16,37 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.AppendSkillData;
-import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
-import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class NonActiveSkill extends HBox {
     private final ImageView skillIcon;
     private final TextField iconFileNameText;
-    private final ListView<DataWrapper<EffectData>> skillEffects;
-    private final Label errorLabel;
+    private final ListContainerVBox skillEffects;
 
-    public NonActiveSkill() {
-        setPadding(new Insets(10, 10, 10, 10));
-        setSpacing(10);
-        setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+    public NonActiveSkill(final VBox skillVBox, final Label errorLabel) {
+        super(10);
+
+        setPadding(new Insets(10));
         setFillHeight(false);
+        setMinHeight(300);
+        setMaxHeight(700);
+        setStyle(SPECIAL_INFO_BOX_STYLE);
 
         final List<Node> nodes = getChildren();
 
@@ -48,33 +54,78 @@ public class NonActiveSkill extends HBox {
         Image icon = null;
         try {
             icon = new Image(new FileInputStream(iconFile));
-        } catch (FileNotFoundException ignored) {
+        } catch (final FileNotFoundException ignored) {
         }
         skillIcon = new ImageView();
         if (icon != null) {
             skillIcon.setImage(icon);
         }
-        skillIcon.setFitWidth(100);
-        skillIcon.setFitHeight(100);
-        final AnchorPane imgAnchor = new AnchorPane();
-        AnchorPane.setTopAnchor(skillIcon, 0.0);
-        AnchorPane.setBottomAnchor(skillIcon, 0.0);
-        AnchorPane.setLeftAnchor(skillIcon, 0.0);
-        AnchorPane.setRightAnchor(skillIcon, 0.0);
-        imgAnchor.setStyle("-fx-border-color: rgba(49,82,145,0.8); -fx-border-style: solid; -fx-border-width: 2");
-        imgAnchor.getChildren().add(skillIcon);
+        skillIcon.setFitWidth(SERVANT_THUMBNAIL_SIZE);
+        skillIcon.setFitHeight(SERVANT_THUMBNAIL_SIZE);
+        final AnchorPane imgAnchor = wrapInAnchor(skillIcon);
+        imgAnchor.setStyle(UNIT_THUMBNAIL_STYLE);
 
-        nodes.add(imgAnchor);
+        final VBox imageVBox = new VBox(10);
+        imageVBox.setAlignment(Pos.TOP_CENTER);
+        imageVBox.getChildren().add(imgAnchor);
+        imageVBox.setFillWidth(false);
 
-        final VBox dataVBox = new VBox();
+        final Button upButton = new Button();
+        upButton.setGraphic(createInfoImageView("up"));
+        upButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move Skill Up")));
+        upButton.setOnAction(e -> {
+            final ObservableList<Node> children = skillVBox.getChildren();
+            if (children.isEmpty() || children.size() == 1) {
+                return;
+            }
+
+            final int index = children.indexOf(this);
+            if (index > 0) {
+                final ObservableList<Node> workingCollection = FXCollections.observableArrayList(children);
+                Collections.swap(workingCollection, index - 1, index);
+                children.setAll(workingCollection);
+            }
+        });
+
+        final Button downButton = new Button();
+        downButton.setGraphic(createInfoImageView("down"));
+        downButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move Skill Down")));
+        downButton.setOnAction(e -> {
+            final ObservableList<Node> children = skillVBox.getChildren();
+            if (children.isEmpty() || children.size() == 1) {
+                return;
+            }
+
+            final int index = children.indexOf(this);
+            if (index < children.size() - 1 && index >= 0) {
+                final ObservableList<Node> workingCollection = FXCollections.observableArrayList(children);
+                Collections.swap(workingCollection, index + 1, index);
+                children.setAll(workingCollection);
+            }
+        });
+
+        final Button removeButton = new Button();
+        removeButton.setGraphic(createInfoImageView("remove"));
+        removeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove Skill")));
+        removeButton.setOnAction(e -> {
+            final ObservableList<Node> children = skillVBox.getChildren();
+            final List<Node> remainingNodes = new ArrayList<>(children);
+            remainingNodes.remove(this);
+            children.setAll(remainingNodes);
+        });
+
+        final HBox buttonHBox = new HBox(5);
+        buttonHBox.getChildren().addAll(upButton, downButton, removeButton);
+
+        imageVBox.getChildren().add(buttonHBox);
+
+        nodes.add(imageVBox);
+
+        final VBox dataVBox = new VBox(10);
         HBox.setHgrow(dataVBox, Priority.ALWAYS);
-        dataVBox.setSpacing(10);
-        dataVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
-        final HBox iconNameHBox = new HBox();
-        iconNameHBox.setSpacing(10);
+        final HBox iconNameHBox = new HBox(10);
         iconNameHBox.setAlignment(Pos.CENTER_LEFT);
-        iconNameHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         final Label iconFileNameLabel = new Label(getTranslation(APPLICATION_SECTION, "Icon Name"));
         iconFileNameText = new TextField();
         iconFileNameText.textProperty().addListener(
@@ -87,83 +138,46 @@ public class NonActiveSkill extends HBox {
         );
         iconNameHBox.getChildren().addAll(iconFileNameLabel, iconFileNameText);
 
-        errorLabel = new Label();
-        errorLabel.setVisible(false);
-        errorLabel.setStyle("-fx-text-fill: red");
+        skillEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
 
-        final HBox effectsHBox = new HBox();
-        effectsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        effectsHBox.setSpacing(10);
-        final Label effectsLabel = new Label(getTranslation(APPLICATION_SECTION, "Effects"));
-
-        effectsHBox.getChildren().add(effectsLabel);
-
-        final VBox effectsVBox = new VBox();
-        effectsVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        effectsVBox.setSpacing(10);
-        HBox.setHgrow(effectsVBox, Priority.ALWAYS);
-        skillEffects = new ListView<>();
-        skillEffects.setCellFactory(new EffectsCellFactory(errorLabel));
-        skillEffects.setItems(FXCollections.observableArrayList());
-        skillEffects.setMaxHeight(125);
-        final Button addEffectsButton = new Button(getTranslation(APPLICATION_SECTION, "Add Effect"));
-        addEffectsButton.setOnAction(e -> {
-            try {
-                final EffectData.Builder builder = EffectData.newBuilder();
-                createEffect(addEffectsButton.getScene().getWindow(), builder);
-
-                if (!builder.getType().isEmpty()) {
-                    skillEffects.getItems().add(new DataWrapper<>(builder.build()));
-                }
-            } catch (final IOException ex) {
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
-                errorLabel.setVisible(true);
-            }
-        });
-        final HBox effectButtonHBox = new HBox();
-        effectButtonHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        effectButtonHBox.setSpacing(10);
-        effectButtonHBox.setAlignment(Pos.CENTER_RIGHT);
-        effectButtonHBox.getChildren().addAll(errorLabel, addEffectsButton);
-
-        effectsVBox.getChildren().addAll(skillEffects, effectButtonHBox);
-        effectsHBox.getChildren().add(effectsVBox);
-
-        dataVBox.getChildren().addAll(iconNameHBox, effectsHBox);
+        dataVBox.getChildren().addAll(iconNameHBox, skillEffects);
         nodes.add(dataVBox);
     }
 
-    public NonActiveSkill(final NonActiveSkill source) {
-        this();
+    public NonActiveSkill(final NonActiveSkill source, final VBox passiveSkillVBox, final Label errorLabel) {
+        this(passiveSkillVBox, errorLabel);
 
         this.iconFileNameText.setText(source.iconFileNameText.getText());
-        this.skillEffects.getItems().addAll(source.skillEffects.getItems());
+        this.skillEffects.clear();
+        this.skillEffects.loadEffect(source.skillEffects.buildEffect());
     }
 
-    public NonActiveSkill(final PassiveSkillData passiveSkillData) {
-        this();
+    public NonActiveSkill(final PassiveSkillData passiveSkillData, final VBox passiveSkillVBox, final Label errorLabel) {
+        this(passiveSkillVBox, errorLabel);
 
         this.iconFileNameText.setText(passiveSkillData.getIconName());
-        this.skillEffects.getItems().addAll(passiveSkillData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
+        this.skillEffects.clear();
+        this.skillEffects.loadEffect(passiveSkillData.getEffectsList());
     }
 
-    public NonActiveSkill(final AppendSkillData appendSkillData) {
-        this();
+    public NonActiveSkill(final AppendSkillData appendSkillData, final VBox passiveSkillVBox, final Label errorLabel) {
+        this(passiveSkillVBox, errorLabel);
 
         this.iconFileNameText.setText(appendSkillData.getIconName());
-        this.skillEffects.getItems().addAll(appendSkillData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
+        this.skillEffects.clear();
+        this.skillEffects.loadEffect(appendSkillData.getEffectsList());
     }
 
     public PassiveSkillData buildPassive() {
         return PassiveSkillData.newBuilder()
-                .addAllEffects(skillEffects.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()))
+                .addAllEffects(skillEffects.buildEffect())
                 .setIconName(iconFileNameText.getText())
                 .build();
     }
 
     public AppendSkillData buildAppend() {
         return AppendSkillData.newBuilder()
-                .addAllEffects(skillEffects.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()))
+                .addAllEffects(skillEffects.buildEffect())
                 .setIconName(iconFileNameText.getText())
                 .build();
     }

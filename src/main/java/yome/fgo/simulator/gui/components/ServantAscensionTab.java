@@ -3,6 +3,7 @@ package yome.fgo.simulator.gui.components;
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -10,11 +11,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -46,6 +49,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +59,7 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListener;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillAttribute;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillFateClass;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillGender;
@@ -64,7 +69,7 @@ import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
-public class ServantAscensionTab extends VBox {
+public class ServantAscensionTab extends ScrollPane {
     private final ImageView thumbnail;
     private final ChoiceBox<Integer> rarityChoices;
     private final ChoiceBox<FateClass> classChoices;
@@ -76,7 +81,7 @@ public class ServantAscensionTab extends VBox {
     private final TextField deathRateText;
     private final TextField costText;
     private final TextField traitsText;
-    private final Label baseDataErrorLabel;
+    private final Label errorLabel;
     private final List<CommandCardBox> commandCardBoxes;
     private final CommandCardBox exCommandCardBox;
     private final TabPane npUpgradesTabs;
@@ -84,13 +89,21 @@ public class ServantAscensionTab extends VBox {
     private final VBox passiveSkillsVBox;
     private final VBox appendSkillsVBox;
     private final TextArea servantStatus;
+    private int ascension;
 
-    public ServantAscensionTab(final int servantNo, final int ascension) {
-        super(10);
+    public ServantAscensionTab(final int servantNo, final int ascension, final Label errorLabel) {
+        super();
+        setHbarPolicy(ScrollBarPolicy.NEVER);
+        setVbarPolicy(ScrollBarPolicy.ALWAYS);
+        setFitToWidth(true);
         setPadding(new Insets(10));
-        setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
-        final List<Node> nodes = getChildren();
+        this.errorLabel = errorLabel;
+        this.ascension = ascension;
+
+        final VBox rootVBox = new VBox(10);
+        setContent(rootVBox);
+        final List<Node> nodes = rootVBox.getChildren();
 
         final HBox baseDataBox = new HBox(10);
         baseDataBox.setFillHeight(false);
@@ -193,14 +206,10 @@ public class ServantAscensionTab extends VBox {
         traitsText = new TextField();
         final AnchorPane traitsAnchor = wrapInAnchor(traitsText);
         HBox.setHgrow(traitsAnchor, Priority.ALWAYS);
-        baseDataErrorLabel = new Label();
-        baseDataErrorLabel.setVisible(false);
-        baseDataErrorLabel.setStyle("-fx-text-fill: red");
-        addSplitTraitListener(traitsText, baseDataErrorLabel);
+        addSplitTraitListener(traitsText, errorLabel);
         traitsHBox.getChildren().addAll(traitsLabel, traitsAnchor);
 
         combatantDataVBox.getChildren().add(traitsHBox);
-        combatantDataVBox.getChildren().add(baseDataErrorLabel);
 
         baseDataBox.getChildren().add(combatantDataVBox);
 
@@ -209,7 +218,6 @@ public class ServantAscensionTab extends VBox {
 
         final Label cardsLabel = new Label(getTranslation(APPLICATION_SECTION, "Command Card"));
         cardsLabel.setFont(new Font(18));
-        nodes.add(cardsLabel);
 
         final HBox quickCardDataHBox = new HBox(10);
         quickCardDataHBox.setAlignment(Pos.CENTER_LEFT);
@@ -218,7 +226,7 @@ public class ServantAscensionTab extends VBox {
         final Label critStarRateLabel = new Label(getTranslation(APPLICATION_SECTION, "Crit Star Rate (%)"));
         final TextField critStarRateText = new TextField();
         final Button quickCardDataButton = new Button(getTranslation(APPLICATION_SECTION, "Autofill"));
-        quickCardDataHBox.getChildren().addAll(npRateLabel, npRateText, critStarRateLabel, critStarRateText, quickCardDataButton);
+        quickCardDataHBox.getChildren().addAll(cardsLabel, npRateLabel, npRateText, critStarRateLabel, critStarRateText, quickCardDataButton);
         nodes.add(quickCardDataHBox);
 
         commandCardBoxes = new ArrayList<>();
@@ -242,35 +250,84 @@ public class ServantAscensionTab extends VBox {
 
         final Label npLabel = new Label(getTranslation(APPLICATION_SECTION, "NP Card"));
         npLabel.setFont(new Font(18));
-        nodes.add(npLabel);
 
         final HBox npButtonsHBox = new HBox(10);
         npButtonsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        final Button removeNpUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Remove NP Upgrade"));
-        final Button addNpUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Add NP Upgrade"));
-        npButtonsHBox.getChildren().addAll(removeNpUpgradeButton, addNpUpgradeButton);
+        npButtonsHBox.setAlignment(Pos.CENTER_LEFT);
 
-        nodes.add(npButtonsHBox);
-
-        npUpgradesTabs = new TabPane(new Tab(getTranslation(APPLICATION_SECTION, "Base NP"), new NpUpgrade()));
+        npUpgradesTabs = new TabPane(new Tab(getTranslation(APPLICATION_SECTION, "Base NP"), new NpUpgrade(errorLabel)));
         npUpgradesTabs.setStyle("-fx-border-color:grey");
         npUpgradesTabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        removeNpUpgradeButton.setOnAction(e -> {
-            final List<Tab> tabs = npUpgradesTabs.getTabs();
-            if (tabs.size() > 1) {
-                tabs.remove(tabs.size() - 1);
-            }
-        });
+
+        final Button addNpUpgradeButton = new Button();
+        addNpUpgradeButton.setGraphic(createInfoImageView("add"));
+        addNpUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add NP Upgrade")));
         addNpUpgradeButton.setOnAction(e -> {
             final List<Tab> tabs = npUpgradesTabs.getTabs();
-            final String tabName = getTranslation(APPLICATION_SECTION, "NP Upgrade") + " " + tabs.size();
-            final NpUpgrade base = (NpUpgrade) tabs.get(tabs.size() - 1).getContent();
-            tabs.add(new Tab(tabName, new NpUpgrade(base)));
+            if (tabs.isEmpty()) {
+                tabs.add(new Tab(getTranslation(APPLICATION_SECTION, "Base NP"), new NpUpgrade(errorLabel)));
+            } else {
+                final NpUpgrade base = (NpUpgrade) npUpgradesTabs.getSelectionModel().getSelectedItem().getContent();
+                final String tabName = getTranslation(APPLICATION_SECTION, "NP Upgrade") + " " + tabs.size();
+                tabs.add(new Tab(tabName, new NpUpgrade(base, errorLabel)));
+            }
             npUpgradesTabs.getSelectionModel().selectLast();
         });
 
-        nodes.add(npUpgradesTabs);
+        final Button leftNpUpgradeButton = new Button();
+        leftNpUpgradeButton.setGraphic(createInfoImageView("left"));
+        leftNpUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item left")));
+        leftNpUpgradeButton.setOnAction(e -> {
+            final ObservableList<Tab> tabs = npUpgradesTabs.getTabs();
+            if (tabs.isEmpty() || tabs.size() == 1) {
+                return;
+            }
 
+            final int index = tabs.indexOf(npUpgradesTabs.getSelectionModel().getSelectedItem());
+            if (index > 0) {
+                final ObservableList<Tab> workingCollection = FXCollections.observableArrayList(tabs);
+                Collections.swap(workingCollection, index - 1, index);
+                syncNpUpgradeTab(workingCollection.get(index - 1), index - 1);
+                syncNpUpgradeTab(workingCollection.get(index), index);
+                tabs.setAll(workingCollection);
+            }
+        });
+
+        final Button rightNpUpgradeButton = new Button();
+        rightNpUpgradeButton.setGraphic(createInfoImageView("right"));
+        rightNpUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item right")));
+        rightNpUpgradeButton.setOnAction(e -> {
+            final ObservableList<Tab> tabs = npUpgradesTabs.getTabs();
+            if (tabs.isEmpty() || tabs.size() == 1) {
+                return;
+            }
+
+            final int index = tabs.indexOf(npUpgradesTabs.getSelectionModel().getSelectedItem());
+            if (index < tabs.size() - 1 && index >= 0) {
+                final ObservableList<Tab> workingCollection = FXCollections.observableArrayList(tabs);
+                Collections.swap(workingCollection, index + 1, index);
+                syncNpUpgradeTab(workingCollection.get(index + 1), index + 1);
+                syncNpUpgradeTab(workingCollection.get(index), index);
+                tabs.setAll(workingCollection);
+            }
+        });
+
+        final Button removeNpUpgradeButton = new Button();
+        removeNpUpgradeButton.setGraphic(createInfoImageView("remove"));
+        removeNpUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove NP Upgrade")));
+        removeNpUpgradeButton.setOnAction(e -> {
+            final ObservableList<Tab> tabs = npUpgradesTabs.getTabs();
+            final List<Tab> remainingNodes = new ArrayList<>(tabs);
+            remainingNodes.remove(npUpgradesTabs.getSelectionModel().getSelectedItem());
+            for (int i = 0; i < remainingNodes.size(); i += 1) {
+                syncNpUpgradeTab(remainingNodes.get(i), i);
+            }
+            tabs.setAll(remainingNodes);
+        });
+
+        npButtonsHBox.getChildren().addAll(npLabel, addNpUpgradeButton, leftNpUpgradeButton, rightNpUpgradeButton, removeNpUpgradeButton);
+        nodes.add(npButtonsHBox);
+        nodes.add(npUpgradesTabs);
 
         quickCardDataButton.setOnAction(e -> {
             for (final CommandCardBox cardBox : commandCardBoxes) {
@@ -285,34 +342,95 @@ public class ServantAscensionTab extends VBox {
 
         nodes.add(new Separator());
 
-        final Label activeSkillsLabel = new Label(getTranslation(APPLICATION_SECTION, "Active Skill"));
-        activeSkillsLabel.setFont(new Font(18));
-        nodes.add(activeSkillsLabel);
-
         activeSkillUpgradeTabPanes = new ArrayList<>();
         for (int i = 1; i <= 3; i += 1) {
-            final HBox activeSkillButtonHBox = new HBox(10);
-            activeSkillButtonHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-            final Button removeUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Active Skill Upgrade"));
-            final Button addUpgradeButton = new Button(getTranslation(APPLICATION_SECTION, "Add Active Skill Upgrade"));
-            activeSkillButtonHBox.getChildren().addAll(removeUpgradeButton, addUpgradeButton);
-            final TabPane activeSkillTabPane =
-                    new TabPane(new Tab(getTranslation(APPLICATION_SECTION, "Base Active Skill"), new ActiveSkillUpgrade()));
+            final Label activeSkillsLabel = new Label(getTranslation(APPLICATION_SECTION, "Active Skill") + " " + i);
+            activeSkillsLabel.setFont(new Font(18));
+
+            final TabPane activeSkillTabPane = new TabPane(
+                    new Tab(
+                            getTranslation(APPLICATION_SECTION, "Base Active Skill"),
+                            new ActiveSkillUpgrade(errorLabel)
+                    )
+            );
             activeSkillTabPane.setStyle("-fx-border-color:grey");
             activeSkillTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-            removeUpgradeButton.setOnAction(e -> {
+
+            final Button addActiveSkillUpgradeButton = new Button();
+            addActiveSkillUpgradeButton.setGraphic(createInfoImageView("add"));
+            addActiveSkillUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add NP Upgrade")));
+            addActiveSkillUpgradeButton.setOnAction(e -> {
                 final List<Tab> tabs = activeSkillTabPane.getTabs();
-                if (tabs.size() > 1) {
-                    tabs.remove(tabs.size() - 1);
+                if (tabs.isEmpty()) {
+                    tabs.add(new Tab(getTranslation(APPLICATION_SECTION, "Base Active Skill"), new ActiveSkillUpgrade(errorLabel)));
+                } else {
+                    final ActiveSkillUpgrade base = (ActiveSkillUpgrade) activeSkillTabPane.getSelectionModel().getSelectedItem().getContent();
+                    final String tabName = getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + tabs.size();
+                    tabs.add(new Tab(tabName, new ActiveSkillUpgrade(base, errorLabel)));
                 }
-            });
-            addUpgradeButton.setOnAction(e -> {
-                final List<Tab> tabs = activeSkillTabPane.getTabs();
-                final String tabName = getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + tabs.size();
-                final ActiveSkillUpgrade base = (ActiveSkillUpgrade) tabs.get(tabs.size() - 1).getContent();
-                tabs.add(new Tab(tabName, new ActiveSkillUpgrade(base)));
                 activeSkillTabPane.getSelectionModel().selectLast();
             });
+
+            final Button leftActiveSkillUpgradeButton = new Button();
+            leftActiveSkillUpgradeButton.setGraphic(createInfoImageView("left"));
+            leftActiveSkillUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item left")));
+            leftActiveSkillUpgradeButton.setOnAction(e -> {
+                final ObservableList<Tab> tabs = activeSkillTabPane.getTabs();
+                if (tabs.isEmpty() || tabs.size() == 1) {
+                    return;
+                }
+
+                final int index = tabs.indexOf(activeSkillTabPane.getSelectionModel().getSelectedItem());
+                if (index > 0) {
+                    final ObservableList<Tab> workingCollection = FXCollections.observableArrayList(tabs);
+                    Collections.swap(workingCollection, index - 1, index);
+                    syncActiveSkillUpgrade(workingCollection.get(index - 1), index - 1);
+                    syncActiveSkillUpgrade(workingCollection.get(index), index);
+                    tabs.setAll(workingCollection);
+                }
+            });
+
+            final Button rightActiveSkillUpgradeButton = new Button();
+            rightActiveSkillUpgradeButton.setGraphic(createInfoImageView("right"));
+            rightActiveSkillUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item right")));
+            rightActiveSkillUpgradeButton.setOnAction(e -> {
+                final ObservableList<Tab> tabs = activeSkillTabPane.getTabs();
+                if (tabs.isEmpty() || tabs.size() == 1) {
+                    return;
+                }
+
+                final int index = tabs.indexOf(activeSkillTabPane.getSelectionModel().getSelectedItem());
+                if (index < tabs.size() - 1 && index >= 0) {
+                    final ObservableList<Tab> workingCollection = FXCollections.observableArrayList(tabs);
+                    Collections.swap(workingCollection, index + 1, index);
+                    syncActiveSkillUpgrade(workingCollection.get(index + 1), index + 1);
+                    syncActiveSkillUpgrade(workingCollection.get(index), index);
+                    tabs.setAll(workingCollection);
+                }
+            });
+
+            final Button removeSkillUpgradeButton = new Button();
+            removeSkillUpgradeButton.setGraphic(createInfoImageView("remove"));
+            removeSkillUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove Active Skill Upgrade")));
+            removeSkillUpgradeButton.setOnAction(e -> {
+                final ObservableList<Tab> tabs = activeSkillTabPane.getTabs();
+                final List<Tab> remainingNodes = new ArrayList<>(tabs);
+                remainingNodes.remove(activeSkillTabPane.getSelectionModel().getSelectedItem());
+                for (int j = 0; j < remainingNodes.size(); j += 1) {
+                    syncActiveSkillUpgrade(remainingNodes.get(j), j);
+                }
+                tabs.setAll(remainingNodes);
+            });
+
+            final HBox activeSkillButtonHBox = new HBox(10);
+            activeSkillButtonHBox.setAlignment(Pos.CENTER_LEFT);
+            activeSkillButtonHBox.getChildren().addAll(
+                    activeSkillsLabel,
+                    addActiveSkillUpgradeButton,
+                    leftActiveSkillUpgradeButton,
+                    rightActiveSkillUpgradeButton,
+                    removeSkillUpgradeButton
+            );
             activeSkillUpgradeTabPanes.add(activeSkillTabPane);
             nodes.add(activeSkillButtonHBox);
             nodes.add(activeSkillTabPane);
@@ -324,23 +442,17 @@ public class ServantAscensionTab extends VBox {
         nodes.add(passiveSkillLabel);
 
         passiveSkillsVBox = new VBox(10);
-        passiveSkillsVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
         final HBox passiveHBox = new HBox(10);
-        passiveHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        passiveHBox.setAlignment(Pos.CENTER_RIGHT);
-        final Button removePassiveButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Passive Skill"));
-        final Button addPassiveButton = new Button(getTranslation(APPLICATION_SECTION, "Add Passive Skill"));
-        removePassiveButton.setOnAction(e -> {
-            final List<Node> passives = passiveSkillsVBox.getChildren();
-            if (!passives.isEmpty()) {
-                passives.remove(passives.size() - 1);
-            }
-        });
-        addPassiveButton.setOnAction(e -> passiveSkillsVBox.getChildren().add(new NonActiveSkill()));
-        passiveHBox.getChildren().addAll(removePassiveButton, addPassiveButton);
+        passiveHBox.setAlignment(Pos.CENTER);
+
+        final Button addPassiveButton = new Button();
+        addPassiveButton.setGraphic(createInfoImageView("add"));
+        addPassiveButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add Passive Skill")));
+        addPassiveButton.setOnAction(e -> passiveSkillsVBox.getChildren().add(new NonActiveSkill(passiveSkillsVBox, errorLabel)));
 
         nodes.add(passiveSkillsVBox);
+        passiveHBox.getChildren().addAll(addPassiveButton);
         nodes.add(passiveHBox);
         nodes.add(new Separator());
 
@@ -349,23 +461,16 @@ public class ServantAscensionTab extends VBox {
         nodes.add(appendSkillLabel);
 
         appendSkillsVBox = new VBox(10);
-        appendSkillsVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
 
         final HBox appendHBox = new HBox(10);
-        appendHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        appendHBox.setAlignment(Pos.CENTER_RIGHT);
-        final Button removeAppendButton = new Button(getTranslation(APPLICATION_SECTION, "Remove Append Skill"));
-        final Button addAppendButton = new Button(getTranslation(APPLICATION_SECTION, "Add Append Skill"));
-        removeAppendButton.setOnAction(e -> {
-            final List<Node> passives = appendSkillsVBox.getChildren();
-            if (!passives.isEmpty()) {
-                passives.remove(passives.size() - 1);
-            }
-        });
-        addAppendButton.setOnAction(e -> appendSkillsVBox.getChildren().add(new NonActiveSkill()));
-        appendHBox.getChildren().addAll(removeAppendButton, addAppendButton);
+        appendHBox.setAlignment(Pos.CENTER);
+        final Button addAppendButton = new Button();
+        addAppendButton.setGraphic(createInfoImageView("add"));
+        addAppendButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add Append Skill")));
+        addAppendButton.setOnAction(e -> appendSkillsVBox.getChildren().add(new NonActiveSkill(appendSkillsVBox, errorLabel)));
 
         nodes.add(appendSkillsVBox);
+        appendHBox.getChildren().addAll(addAppendButton);
         nodes.add(appendHBox);
         nodes.add(new Separator());
 
@@ -382,8 +487,8 @@ public class ServantAscensionTab extends VBox {
         nodes.add(new Separator());
     }
 
-    public ServantAscensionTab(final ServantAscensionTab source, final int servantNo, final int ascension) {
-        this(servantNo, ascension);
+    public ServantAscensionTab(final ServantAscensionTab source, final int servantNo, final int ascension, final Label errorLabel) {
+        this(servantNo, ascension, errorLabel);
 
         this.rarityChoices.getSelectionModel().select(source.rarityChoices.getValue());
         this.classChoices.getSelectionModel().select(source.classChoices.getValue());
@@ -406,7 +511,7 @@ public class ServantAscensionTab extends VBox {
         for (int i = 1; i < source.npUpgradesTabs.getTabs().size(); i += 1) {
             final Tab newTab = new Tab();
             newTab.setText(getTranslation(APPLICATION_SECTION, "NP Upgrade") + " " + i);
-            newTab.setContent(new NpUpgrade((NpUpgrade) source.npUpgradesTabs.getTabs().get(i).getContent()));
+            newTab.setContent(new NpUpgrade((NpUpgrade) source.npUpgradesTabs.getTabs().get(i).getContent(), errorLabel));
             this.npUpgradesTabs.getTabs().add(newTab);
         }
         for (int i = 0; i < this.activeSkillUpgradeTabPanes.size(); i += 1) {
@@ -419,23 +524,27 @@ public class ServantAscensionTab extends VBox {
             for (int j = 1; j < sourceActiveSkillPane.getTabs().size(); j += 1) {
                 final Tab newTab = new Tab();
                 newTab.setText(getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + j);
-                newTab.setContent(new ActiveSkillUpgrade((ActiveSkillUpgrade) sourceActiveSkillPane.getTabs().get(j).getContent()));
+                newTab.setContent(
+                        new ActiveSkillUpgrade(
+                                (ActiveSkillUpgrade) sourceActiveSkillPane.getTabs().get(j).getContent(), errorLabel
+                        )
+                );
                 thisActiveSkillPane.getTabs().add(newTab);
             }
         }
 
         for (final Node node : source.passiveSkillsVBox.getChildren()) {
-            this.passiveSkillsVBox.getChildren().add(new NonActiveSkill((NonActiveSkill) node));
+            this.passiveSkillsVBox.getChildren().add(new NonActiveSkill((NonActiveSkill) node, passiveSkillsVBox, errorLabel));
         }
 
         for (final Node node : source.appendSkillsVBox.getChildren()) {
-            this.appendSkillsVBox.getChildren().add(new NonActiveSkill((NonActiveSkill) node));
+            this.appendSkillsVBox.getChildren().add(new NonActiveSkill((NonActiveSkill) node, appendSkillsVBox, errorLabel));
         }
         this.servantStatus.setText(source.servantStatus.getText());
     }
 
-    public ServantAscensionTab(final ServantAscensionData servantAscensionData, final int servantNum, final int ascension) {
-        this(servantNum, ascension);
+    public ServantAscensionTab(final ServantAscensionData servantAscensionData, final int servantNum, final int ascension, final Label errorLabel) {
+        this(servantNum, ascension, errorLabel);
 
         final CombatantData combatantData = servantAscensionData.getCombatantData();
         this.rarityChoices.getSelectionModel().select(Integer.valueOf(combatantData.getRarity()));
@@ -474,7 +583,7 @@ public class ServantAscensionTab extends VBox {
         for (int i = 1; i < npUpgrades.getNoblePhantasmDataCount(); i += 1) {
             final Tab newTab = new Tab();
             newTab.setText(getTranslation(APPLICATION_SECTION, "NP Upgrade") + " " + i);
-            newTab.setContent(new NpUpgrade(npUpgrades.getNoblePhantasmData(i)));
+            newTab.setContent(new NpUpgrade(npUpgrades.getNoblePhantasmData(i), errorLabel));
             this.npUpgradesTabs.getTabs().add(newTab);
         }
 
@@ -488,17 +597,17 @@ public class ServantAscensionTab extends VBox {
             for (int j = 1; j < activeSkillUpgrades.getActiveSkillDataCount(); j += 1) {
                 final Tab newTab = new Tab();
                 newTab.setText(getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + j);
-                newTab.setContent(new ActiveSkillUpgrade(activeSkillUpgrades.getActiveSkillData(j)));
+                newTab.setContent(new ActiveSkillUpgrade(activeSkillUpgrades.getActiveSkillData(j), errorLabel));
                 thisActiveSkillPane.getTabs().add(newTab);
             }
         }
 
         for (final PassiveSkillData passiveSkillData : servantAscensionData.getPassiveSkillDataList()) {
-            this.passiveSkillsVBox.getChildren().add(new NonActiveSkill(passiveSkillData));
+            this.passiveSkillsVBox.getChildren().add(new NonActiveSkill(passiveSkillData, passiveSkillsVBox, errorLabel));
         }
 
         for (final AppendSkillData appendSkillData : servantAscensionData.getAppendSkillDataList()) {
-            this.appendSkillsVBox.getChildren().add(new NonActiveSkill(appendSkillData));
+            this.appendSkillsVBox.getChildren().add(new NonActiveSkill(appendSkillData, appendSkillsVBox, errorLabel));
         }
 
         final List<String> statusStrings = new ArrayList<>();
@@ -512,6 +621,22 @@ public class ServantAscensionTab extends VBox {
         this.servantStatus.setText(String.join(", ", statusStrings));
     }
 
+    private void syncActiveSkillUpgrade(final Tab tab, final int index) {
+        if (index == 0) {
+            tab.setText(getTranslation(APPLICATION_SECTION, "Base Active Skill"));
+        } else {
+            tab.setText(getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + index);
+        }
+    }
+
+    private void syncNpUpgradeTab(final Tab tab, final int index) {
+        if (index == 0) {
+            tab.setText(getTranslation(APPLICATION_SECTION, "Base NP"));
+        } else {
+            tab.setText(getTranslation(APPLICATION_SECTION, "NP Upgrade") + " " + index);
+        }
+    }
+
     public void setServantNo(final int servantNo, final int ascension) {
         final String servantId = "servant" + servantNo;
         final File thumbnailFile = getServantThumbnail(servantId, ascension);
@@ -519,6 +644,7 @@ public class ServantAscensionTab extends VBox {
             thumbnail.setImage(new Image(new FileInputStream(thumbnailFile)));
         } catch (final FileNotFoundException ignored) {
         }
+        this.ascension = ascension;
     }
 
     public ServantAscensionData build(final int servantNo) {
@@ -526,16 +652,20 @@ public class ServantAscensionTab extends VBox {
         try {
             deathRate = RoundUtils.roundNearest(Double.parseDouble(deathRateText.getText()) / 100);
         } catch (final Exception e) {
-            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Death Rate is not a valid double."));
-            baseDataErrorLabel.setVisible(true);
-            deathRateText.requestFocus();
+            errorLabel.setText(
+                    getTranslation(APPLICATION_SECTION, "Death Rate is not a valid double") + ": " +
+                            getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension
+            );
+            errorLabel.setVisible(true);
             return null;
         }
 
         if (deathRate < 0) {
-            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Death Rate is negative."));
-            baseDataErrorLabel.setVisible(true);
-            deathRateText.requestFocus();
+            errorLabel.setText(
+                    getTranslation(APPLICATION_SECTION, "Death Rate is negative") + ": " +
+                            getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension
+            );
+            errorLabel.setVisible(true);
             return null;
         }
 
@@ -564,16 +694,16 @@ public class ServantAscensionTab extends VBox {
         try {
             defNpRate = RoundUtils.roundNearest(Double.parseDouble(defNpText.getText()) / 100);
         } catch (final Exception e) {
-            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Defense NP rate is not a valid double"));
-            baseDataErrorLabel.setVisible(true);
-            defNpText.requestFocus();
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Defense NP rate is not a valid double") + ": " +
+                                       getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension);
+            errorLabel.setVisible(true);
             return null;
         }
 
         if (defNpRate < 0) {
-            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Defense NP rate is negative"));
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Defense NP rate is negative") + ": " +
+                                       getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension);
             defNpText.setVisible(true);
-            defNpText.requestFocus();
             return null;
         }
 
@@ -581,9 +711,9 @@ public class ServantAscensionTab extends VBox {
         try {
             starWeight = Integer.parseInt(critStarWeightText.getText());
         } catch (final Exception e ) {
-            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Critical star weight is not a valid integer"));
-            baseDataErrorLabel.setVisible(true);
-            critStarWeightText.requestFocus();
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Critical star weight is not a valid integer") + ": " +
+                                       getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension);
+            errorLabel.setVisible(true);
             return null;
         }
 
@@ -591,9 +721,9 @@ public class ServantAscensionTab extends VBox {
         try {
             cost = Integer.parseInt(costText.getText());
         } catch (final Exception e ) {
-            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Cost is not a valid integer"));
-            baseDataErrorLabel.setVisible(true);
-            costText.requestFocus();
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cost is not a valid integer") + ": " +
+                                       getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension);
+            errorLabel.setVisible(true);
             return null;
         }
 
@@ -601,48 +731,57 @@ public class ServantAscensionTab extends VBox {
         for (int i = 1; i <= commandCardBoxes.size(); i += 1) {
             final CommandCardBox cardBox = commandCardBoxes.get(i - 1);
             try {
-                commandCardData.add(cardBox.build());
+                final CommandCardData built = cardBox.build(errorLabel, ascension, i);
+                if (built == null) {
+                    return null;
+                }
+                commandCardData.add(cardBox.build(errorLabel, ascension, i));
             } catch (final Exception e) {
-                baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Card data not parsable:") + i);
-                baseDataErrorLabel.setVisible(true);
-                cardBox.requestFocus();
                 return null;
             }
         }
         final CommandCardData exCommandCardData;
         try {
-            exCommandCardData = exCommandCardBox.build();
+            exCommandCardData = exCommandCardBox.build(errorLabel, ascension, 0);
         } catch (final Exception e) {
-            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Card data not parsable:") + "EX");
-            baseDataErrorLabel.setVisible(true);
-            exCommandCardBox.requestFocus();
             return null;
         }
 
         final List<NoblePhantasmData> noblePhantasmData = new ArrayList<>();
-        for (final Tab tab : npUpgradesTabs.getTabs()) {
-            final NpUpgrade npUpgrade = (NpUpgrade) tab.getContent();
+        for (int i = 0; i < npUpgradesTabs.getTabs().size(); i += 1) {
+            final NpUpgrade npUpgrade = (NpUpgrade) npUpgradesTabs.getTabs().get(i).getContent();
             try {
-                noblePhantasmData.add(npUpgrade.build());
+                noblePhantasmData.add(npUpgrade.build(ascension, i + 6));
             } catch (final Exception e) {
-                baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "NP data not parsable") + tab.getText());
-                baseDataErrorLabel.setVisible(true);
-                npUpgrade.requestFocus();
                 return null;
             }
         }
+        if (noblePhantasmData.isEmpty()) {
+            errorLabel.setVisible(true);
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "No NP data") + ": " +
+                                       getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension);
+            return null;
+        }
 
         final List<ActiveSkillUpgrades> activeSkillUpgrades = new ArrayList<>();
-        for (final TabPane tabPane : activeSkillUpgradeTabPanes) {
+        for (int i = 0; i < activeSkillUpgradeTabPanes.size(); i += 1) {
+            final TabPane tabPane = activeSkillUpgradeTabPanes.get(i);
             final List<ActiveSkillData> activeSkillData = new ArrayList<>();
-            for (final Tab tab : tabPane.getTabs()) {
-                final ActiveSkillUpgrade activeSkillUpgrade = (ActiveSkillUpgrade) tab.getContent();
+            for (int j = 0; j < tabPane.getTabs().size(); j += 1) {
+                final ActiveSkillUpgrade activeSkillUpgrade = (ActiveSkillUpgrade) tabPane.getTabs().get(j).getContent();
                 try {
                     activeSkillData.add(activeSkillUpgrade.build());
                 } catch (final Exception e) {
-                    baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Activate skill not parsable") + tab.getText());
-                    baseDataErrorLabel.setVisible(true);
-                    activeSkillUpgrade.requestFocus();
+                    final String skillUpgradeText = j == 0
+                            ? getTranslation(APPLICATION_SECTION, "Base Active Skill")
+                            : getTranslation(APPLICATION_SECTION, "Active Skill Upgrade") + " " + j;
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(
+                            getTranslation(APPLICATION_SECTION, "Activate skill not parsable") + ": " +
+                                    getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension + " " +
+                                    getTranslation(APPLICATION_SECTION, "Active Skill") + " " + (i + 1) + " " +
+                                    skillUpgradeText
+                    );
                     return null;
                 }
             }
@@ -650,27 +789,33 @@ public class ServantAscensionTab extends VBox {
         }
 
         final List<PassiveSkillData> passiveSkillData = new ArrayList<>();
-        for (final Node node : passiveSkillsVBox.getChildren()) {
-            final NonActiveSkill nonActiveSkill = (NonActiveSkill) node;
+        for (int i = 1; i <= passiveSkillsVBox.getChildren().size(); i += 1) {
+            final NonActiveSkill nonActiveSkill = (NonActiveSkill) passiveSkillsVBox.getChildren().get(i - 1);
             try {
                 passiveSkillData.add(nonActiveSkill.buildPassive());
             } catch (final Exception e) {
-                baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Passive skill not parsable"));
-                baseDataErrorLabel.setVisible(true);
-                nonActiveSkill.requestFocus();
+                errorLabel.setVisible(true);
+                errorLabel.setText(
+                        getTranslation(APPLICATION_SECTION, "Passive skill not parsable") + ": " +
+                                getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension + " " +
+                                getTranslation(APPLICATION_SECTION, "Passive Skill") + " " + i
+                );
                 return null;
             }
         }
 
         final List<AppendSkillData> appendSkillData = new ArrayList<>();
-        for (final Node node : appendSkillsVBox.getChildren()) {
-            final NonActiveSkill nonActiveSkill = (NonActiveSkill) node;
+        for (int i = 1; i <= appendSkillsVBox.getChildren().size(); i += 1) {
+            final NonActiveSkill nonActiveSkill = (NonActiveSkill) appendSkillsVBox.getChildren().get(i - 1);
             try {
                 appendSkillData.add(nonActiveSkill.buildAppend());
             } catch (final Exception e) {
-                baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Append skill not parsable"));
-                baseDataErrorLabel.setVisible(true);
-                nonActiveSkill.requestFocus();
+                errorLabel.setVisible(true);
+                errorLabel.setText(
+                        getTranslation(APPLICATION_SECTION, "Append skill not parsable") + ": " +
+                                getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension + " " +
+                                getTranslation(APPLICATION_SECTION, "Append Skill") + " " + i
+                );
                 return null;
             }
         }
@@ -679,9 +824,9 @@ public class ServantAscensionTab extends VBox {
         try {
             JsonFormat.parser().merge(new StringReader("{\"servantStatusData\":[" + servantStatus.getText().trim() + "]}"), status);
         } catch (IOException e) {
-            baseDataErrorLabel.setText(getTranslation(APPLICATION_SECTION, "Servant status not parsable"));
-            baseDataErrorLabel.setVisible(true);
-            servantStatus.requestFocus();
+            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Servant status not parsable") + ": " +
+                                       getTranslation(APPLICATION_SECTION, "Servant Asc") + " " + ascension);
+            errorLabel.setVisible(true);
             return null;
         }
 
@@ -702,6 +847,6 @@ public class ServantAscensionTab extends VBox {
     }
 
     public void clearError() {
-        baseDataErrorLabel.setVisible(false);
+        errorLabel.setVisible(false);
     }
 }

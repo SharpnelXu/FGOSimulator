@@ -1,17 +1,16 @@
 package yome.fgo.simulator.gui.components;
 
 import com.google.common.collect.ImmutableList;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -21,7 +20,6 @@ import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
-import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget;
 
@@ -31,7 +29,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
@@ -39,7 +36,12 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
-import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.LIST_ITEM_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.SPECIAL_ACTIVATION_SECTION;
@@ -49,8 +51,6 @@ public class ActiveSkillUpgrade extends HBox {
     private final ImageView skillIcon;
     private final TextField iconFileNameText;
     private final TextField coolDownText;
-    private final ListView<DataWrapper<EffectData>> skillEffects;
-    private final Label errorLabel;
     private final CheckBox conditionCheckBox;
     private final Label builtConditionLabel;
 
@@ -58,46 +58,46 @@ public class ActiveSkillUpgrade extends HBox {
 
     private final CheckBox specialCheckBox;
     private final List<CheckBox> cardTypeCheckboxes;
-    private final ListView<DataWrapper<EffectData>> randomEffects;
     private final ChoiceBox<SpecialActivationTarget> specialActivationTargetChoiceBox;
+    private final ListContainerVBox randomEffects;
+    private final ListContainerVBox skillEffects;
 
-    public ActiveSkillUpgrade() {
-        setPadding(new Insets(10, 10, 10, 10));
-        setSpacing(10);
-        setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
+    public ActiveSkillUpgrade(final Label errorLabel) {
+        super(10);
         setFillHeight(false);
-
-        final List<Node> nodes = getChildren();
+        setMinHeight(300);
+        setMaxHeight(700);
+        setStyle(SPECIAL_INFO_BOX_STYLE);
 
         final File iconFile = getSkillIcon("default");
         Image icon = null;
         try {
             icon = new Image(new FileInputStream(iconFile));
-        } catch (FileNotFoundException ignored) {
+        } catch (final FileNotFoundException ignored) {
         }
         skillIcon = new ImageView();
         if (icon != null) {
             skillIcon.setImage(icon);
         }
-        skillIcon.setFitWidth(100);
-        skillIcon.setFitHeight(100);
-        final AnchorPane imgAnchor = new AnchorPane();
-        AnchorPane.setTopAnchor(skillIcon, 0.0);
-        AnchorPane.setBottomAnchor(skillIcon, 0.0);
-        AnchorPane.setLeftAnchor(skillIcon, 0.0);
-        AnchorPane.setRightAnchor(skillIcon, 0.0);
-        imgAnchor.setStyle("-fx-border-color: rgba(49,82,145,0.8); -fx-border-style: solid; -fx-border-width: 2");
-        imgAnchor.getChildren().add(skillIcon);
+        skillIcon.setFitWidth(SERVANT_THUMBNAIL_SIZE);
+        skillIcon.setFitHeight(SERVANT_THUMBNAIL_SIZE);
+        final AnchorPane imgAnchor = wrapInAnchor(skillIcon);
+        imgAnchor.setStyle(UNIT_THUMBNAIL_STYLE);
+        setMargin(imgAnchor, new Insets(10));
+        getChildren().add(imgAnchor);
 
-        nodes.add(imgAnchor);
+        final ScrollPane otherScroll = new ScrollPane();
+        otherScroll.setMinHeight(300);
+        otherScroll.setPadding(new Insets(10));
+        otherScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        otherScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        otherScroll.setFitToWidth(true);
+        HBox.setHgrow(otherScroll, Priority.ALWAYS);
+        final VBox dataVBox = new VBox(10);
+        otherScroll.setContent(dataVBox);
+        getChildren().add(otherScroll);
 
-        final VBox dataVBox = new VBox();
-        HBox.setHgrow(dataVBox, Priority.ALWAYS);
-        dataVBox.setSpacing(10);
-        dataVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-
-        final HBox coolDownHBox = new HBox();
-        coolDownHBox.setSpacing(10);
+        final HBox coolDownHBox = new HBox(10);
         coolDownHBox.setAlignment(Pos.CENTER_LEFT);
         coolDownHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         final Label coolDownLabel = new Label(getTranslation(APPLICATION_SECTION, "Base Cool Down"));
@@ -113,19 +113,19 @@ public class ActiveSkillUpgrade extends HBox {
                     }
                 }
         );
-        coolDownHBox.getChildren().addAll(coolDownLabel, coolDownText, iconFileNameLabel, iconFileNameText);
 
-        final HBox conditionHBox = new HBox();
-        conditionHBox.setAlignment(Pos.CENTER_LEFT);
-        conditionHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        conditionHBox.setSpacing(10);
-        errorLabel = new Label();
-        errorLabel.setVisible(false);
-        errorLabel.setStyle("-fx-text-fill: red");
         conditionCheckBox = new CheckBox(getTranslation(APPLICATION_SECTION, "Activate Condition"));
-        final Button editConditionButton = new Button(getTranslation(APPLICATION_SECTION, "Edit"));
+        final Button editConditionButton = new Button();
+        editConditionButton.setGraphic(createInfoImageView("edit"));
+        editConditionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit")));
+
+        coolDownHBox.getChildren().addAll(coolDownLabel, coolDownText, iconFileNameLabel, iconFileNameText, conditionCheckBox, editConditionButton);
+
         builtConditionLabel = new Label(getTranslation(APPLICATION_SECTION, "Empty"));
-        builtConditionLabel.setMaxWidth(700);
+        builtConditionLabel.setPadding(new Insets(3));
+        builtConditionLabel.setWrapText(true);
+        builtConditionLabel.setMaxWidth(Double.MAX_VALUE);
+        builtConditionLabel.setStyle(LIST_ITEM_STYLE);
         editConditionButton.setOnAction(e -> {
             try {
                 final ConditionData.Builder builder = activationCondition == null ? ConditionData.newBuilder() : activationCondition.toBuilder();
@@ -147,11 +147,7 @@ public class ActiveSkillUpgrade extends HBox {
             builtConditionLabel.setDisable(!conditionCheckBox.isSelected());
         });
 
-        conditionHBox.getChildren().addAll(conditionCheckBox, editConditionButton, builtConditionLabel);
-
-        final HBox specialTargetHBox = new HBox();
-        specialTargetHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        specialTargetHBox.setSpacing(10);
+        final HBox specialTargetHBox = new HBox(10);
         specialTargetHBox.setAlignment(Pos.CENTER_LEFT);
         specialCheckBox = new CheckBox(getTranslation(APPLICATION_SECTION, "Special Target"));
         specialActivationTargetChoiceBox = new ChoiceBox<>();
@@ -166,8 +162,7 @@ public class ActiveSkillUpgrade extends HBox {
         specialActivationTargetChoiceBox.getSelectionModel().selectFirst();
         specialTargetHBox.getChildren().addAll(specialCheckBox, specialActivationTargetChoiceBox);
 
-        final HBox cardTypeHBox = new HBox();
-        cardTypeHBox.setSpacing(10);
+        final HBox cardTypeHBox = new HBox(10);
         cardTypeHBox.setAlignment(Pos.CENTER_LEFT);
         final Label cardTypeLabel = new Label(getTranslation(APPLICATION_SECTION, "Card Types"));
         cardTypeHBox.getChildren().add(cardTypeLabel);
@@ -179,129 +174,65 @@ public class ActiveSkillUpgrade extends HBox {
             cardTypeHBox.getChildren().add(checkBox);
         }
 
-        final HBox randomEffectHBox = new HBox();
-        randomEffectHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        randomEffectHBox.setSpacing(10);
-        final Label randomEffectLabel = new Label(getTranslation(APPLICATION_SECTION, "Random Effects"));
-
-        randomEffectHBox.getChildren().add(randomEffectLabel);
-
-        final VBox randomEffectVBox = new VBox();
-        randomEffectVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        randomEffectVBox.setSpacing(10);
-        HBox.setHgrow(randomEffectVBox, Priority.ALWAYS);
-        randomEffects = new ListView<>();
-        randomEffects.setCellFactory(new EffectsCellFactory(errorLabel));
-        randomEffects.setItems(FXCollections.observableArrayList());
-        randomEffects.setMaxHeight(235);
-        final Button addRandomEffectButton = new Button(getTranslation(APPLICATION_SECTION, "Add Effect"));
-        addRandomEffectButton.setOnAction(e -> {
-            try {
-                final EffectData.Builder builder = EffectData.newBuilder();
-                createEffect(addRandomEffectButton.getScene().getWindow(), builder);
-
-                if (!builder.getType().isEmpty()) {
-                    randomEffects.getItems().add(new DataWrapper<>(builder.build()));
-                }
-            } catch (final IOException ex) {
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
-                errorLabel.setVisible(true);
-            }
-        });
-        final HBox randomEffectButtonHBox = new HBox();
-        randomEffectButtonHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        randomEffectButtonHBox.setSpacing(10);
-        randomEffectButtonHBox.setAlignment(Pos.CENTER_RIGHT);
-        randomEffectButtonHBox.getChildren().addAll(addRandomEffectButton);
-
-        randomEffectVBox.getChildren().addAll(randomEffects, randomEffectButtonHBox);
-        randomEffectHBox.getChildren().add(randomEffectVBox);
+        randomEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Random Effects"), errorLabel);
 
         cardTypeHBox.setVisible(false);
         cardTypeHBox.setManaged(false);
-        randomEffectHBox.setVisible(false);
-        randomEffectHBox.setManaged(false);
+        randomEffects.setVisible(false);
+        randomEffects.setManaged(false);
         specialCheckBox.setOnAction(e -> specialActivationTargetChoiceBox.setDisable(!specialCheckBox.isSelected()));
         specialActivationTargetChoiceBox.setOnAction(e -> {
             cardTypeHBox.setVisible(false);
             cardTypeHBox.setManaged(false);
-            randomEffectHBox.setVisible(false);
-            randomEffectHBox.setManaged(false);
+            randomEffects.setVisible(false);
+            randomEffects.setManaged(false);
             switch (specialActivationTargetChoiceBox.getValue()) {
                 case CARD_TYPE -> {
                     cardTypeHBox.setVisible(true);
                     cardTypeHBox.setManaged(true);
                 }
                 case RANDOM_EFFECT -> {
-                    randomEffectHBox.setVisible(true);
-                    randomEffectHBox.setManaged(true);
+                    randomEffects.setVisible(true);
+                    randomEffects.setManaged(true);
                 }
             }
         });
 
-        final HBox effectsHBox = new HBox();
-        effectsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        effectsHBox.setSpacing(10);
-        final Label effectsLabel = new Label(getTranslation(APPLICATION_SECTION, "Effects"));
+        skillEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
 
-        effectsHBox.getChildren().add(effectsLabel);
-
-        final VBox effectsVBox = new VBox();
-        effectsVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        effectsVBox.setSpacing(10);
-        HBox.setHgrow(effectsVBox, Priority.ALWAYS);
-        skillEffects = new ListView<>();
-        skillEffects.setCellFactory(new EffectsCellFactory(errorLabel));
-        skillEffects.setItems(FXCollections.observableArrayList());
-        skillEffects.setMaxHeight(235);
-        final Button addEffectsButton = new Button(getTranslation(APPLICATION_SECTION, "Add Effect"));
-        addEffectsButton.setOnAction(e -> {
-            try {
-                final EffectData.Builder builder = EffectData.newBuilder();
-                createEffect(addEffectsButton.getScene().getWindow(), builder);
-
-                if (!builder.getType().isEmpty()) {
-                    skillEffects.getItems().add(new DataWrapper<>(builder.build()));
-                }
-            } catch (final IOException ex) {
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
-                errorLabel.setVisible(true);
-            }
-        });
-        final HBox effectButtonHBox = new HBox();
-        effectButtonHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        effectButtonHBox.setSpacing(10);
-        effectButtonHBox.setAlignment(Pos.CENTER_RIGHT);
-        effectButtonHBox.getChildren().addAll(errorLabel, addEffectsButton);
-
-        effectsVBox.getChildren().addAll(skillEffects, effectButtonHBox);
-        effectsHBox.getChildren().add(effectsVBox);
-
-        dataVBox.getChildren().addAll(coolDownHBox, conditionHBox, specialTargetHBox, cardTypeHBox, randomEffectHBox, effectsHBox);
-        nodes.add(dataVBox);
+        dataVBox.getChildren().addAll(
+                coolDownHBox,
+                builtConditionLabel,
+                specialTargetHBox,
+                cardTypeHBox,
+                randomEffects,
+                skillEffects
+        );
     }
 
-    public ActiveSkillUpgrade(final ActiveSkillUpgrade source) {
-        this();
+    public ActiveSkillUpgrade(final ActiveSkillUpgrade source, final Label errorLabel) {
+        this(errorLabel);
         setFrom(source);
     }
 
-    public ActiveSkillUpgrade(final ActiveSkillData activeSkillData) {
-        this();
+    public ActiveSkillUpgrade(final ActiveSkillData activeSkillData, final Label errorLabel) {
+        this(errorLabel);
         setFrom(activeSkillData);
     }
 
     public void setFrom(final ActiveSkillUpgrade source) {
         this.iconFileNameText.setText(source.iconFileNameText.getText());
         this.coolDownText.setText(source.coolDownText.getText());
-        this.skillEffects.getItems().addAll(source.skillEffects.getItems());
+        this.skillEffects.clear();
+        this.skillEffects.loadEffect(source.skillEffects.buildEffect());
         this.activationCondition = source.activationCondition;
         if (this.activationCondition != null) {
             this.builtConditionLabel.setText(printConditionData(this.activationCondition));
         }
         this.conditionCheckBox.setSelected(source.conditionCheckBox.isSelected());
         this.conditionCheckBox.fireEvent(new ActionEvent());
-        this.randomEffects.getItems().addAll(source.randomEffects.getItems());
+        this.randomEffects.clear();
+        this.randomEffects.loadEffect(source.randomEffects.buildEffect());
         for (int i = 0; i < this.cardTypeCheckboxes.size(); i += 1) {
             this.cardTypeCheckboxes.get(i).setSelected(source.cardTypeCheckboxes.get(i).isSelected());
         }
@@ -313,7 +244,7 @@ public class ActiveSkillUpgrade extends HBox {
     public ActiveSkillData build() {
         final ActiveSkillData.Builder builder = ActiveSkillData.newBuilder()
                 .setBaseCoolDown(Integer.parseInt(coolDownText.getText().trim()))
-                .addAllEffects(skillEffects.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()))
+                .addAllEffects(skillEffects.buildEffect())
                 .setIconName(iconFileNameText.getText());
         if (conditionCheckBox.isSelected()) {
             builder.setActivationCondition(activationCondition);
@@ -321,9 +252,7 @@ public class ActiveSkillUpgrade extends HBox {
         if (specialCheckBox.isSelected()) {
             final SpecialActivationParams.Builder specialTargetBuilder = SpecialActivationParams.newBuilder()
                             .setSpecialTarget(specialActivationTargetChoiceBox.getValue())
-                            .addAllRandomEffectSelections(
-                                    randomEffects.getItems().stream().map(e -> e.protoData).collect(Collectors.toList())
-                            );
+                            .addAllRandomEffectSelections(randomEffects.buildEffect());
             final List<CommandCardType> cardTypes = ImmutableList.of(QUICK, ARTS, BUSTER);
             for (int i = 0; i < cardTypeCheckboxes.size(); i++) {
                 if (cardTypeCheckboxes.get(i).isSelected()) {
@@ -338,8 +267,8 @@ public class ActiveSkillUpgrade extends HBox {
     public void setFrom(final ActiveSkillData activeSkillData) {
         iconFileNameText.setText(activeSkillData.getIconName());
         coolDownText.setText(Integer.toString(activeSkillData.getBaseCoolDown()));
-        skillEffects.getItems().clear();
-        skillEffects.getItems().addAll(activeSkillData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
+        skillEffects.clear();
+        skillEffects.loadEffect(activeSkillData.getEffectsList());
         if (activeSkillData.hasActivationCondition()) {
             conditionCheckBox.setSelected(true);
             conditionCheckBox.fireEvent(new ActionEvent());
@@ -350,9 +279,8 @@ public class ActiveSkillUpgrade extends HBox {
             specialCheckBox.setSelected(true);
             specialCheckBox.fireEvent(new ActionEvent());
             final SpecialActivationParams specialActivationParams = activeSkillData.getSpecialActivationParams();
-            randomEffects.getItems().addAll(
-                    specialActivationParams.getRandomEffectSelectionsList().stream().map(DataWrapper::new).collect(Collectors.toList())
-            );
+            randomEffects.clear();
+            randomEffects.loadEffect(specialActivationParams.getRandomEffectSelectionsList());
 
             for (final CommandCardType cardType : specialActivationParams.getCardTypeSelectionsList()) {
                 if (cardType == QUICK) {

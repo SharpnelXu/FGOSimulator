@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.Status;
@@ -83,7 +83,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
     private TextArea statusText;
 
     @FXML
-    private HBox effectHBox;
+    private VBox effectVBox;
     private ListContainerVBox effects;
 
 
@@ -128,7 +128,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
         costLabel.setText(getTranslation(APPLICATION_SECTION, "Craft Essence Cost"));
 
         effects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
-        effectHBox.getChildren().add(effects);
+        effectVBox.getChildren().add(effects);
 
         statusLabel.setText(getTranslation(APPLICATION_SECTION, "Craft Essence Status"));
         loadButton.setText(getTranslation(APPLICATION_SECTION, "Load From"));

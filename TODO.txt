@@ -2,3 +2,7 @@
 	NP Gain Mod (Enemy)
 	StartOfTurnEffect
 	HP Bar breack effect
+
+Q
+1. Label width: try other components or anchor pane
+2. TabPane: implement own tab pane or wrap content in scrollPane (fixed size tabPane)

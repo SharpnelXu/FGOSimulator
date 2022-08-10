@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.CraftEssenceCreatorFXMLController">
    <children>
       <HBox alignment="CENTER_RIGHT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -28,7 +27,7 @@
       </HBox>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
          <content>
-            <VBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0">
+            <VBox spacing="10.0">
                <children>
                   <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="10.0">
                      <children>
@@ -43,7 +42,7 @@
                         <TextField fx:id="costText" maxWidth="85.0" />
                      </children>
                   </HBox>
-                  <HBox fx:id="effectHBox" spacing="10.0" VBox.vgrow="ALWAYS" />
+                  <VBox fx:id="effectVBox" />
                   <HBox spacing="10.0">
                      <children>
                         <Label fx:id="statusLabel" text="Label" />

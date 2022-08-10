@@ -27,7 +27,6 @@ import static yome.fgo.simulator.gui.creators.BuffBuilder.createBuff;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.LIST_ITEM_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -43,6 +42,8 @@ public class ListContainerVBox extends VBox {
 
     public ListContainerVBox(final String labelText, final Label errorLabel, final boolean isBuff) {
         super(5);
+        setPadding(new Insets(5));
+        setStyle("-fx-border-color: grey; -fx-border-width: 2");
 
         this.isBuff = isBuff;
         this.errorLabel = errorLabel;
@@ -50,7 +51,6 @@ public class ListContainerVBox extends VBox {
         final Label label = new Label(getTranslation(APPLICATION_SECTION, labelText));
 
         itemListVBox = new VBox(5);
-        itemListVBox.setFillWidth(true);
         toggleGroup = new ToggleGroup();
 
         final Button addButton = new Button();
@@ -112,7 +112,7 @@ public class ListContainerVBox extends VBox {
         buttonsHBox.setAlignment(Pos.CENTER_LEFT);
         buttonsHBox.getChildren().addAll(label, addButton, upButton, downButton, editButton, removeButton);
 
-        getChildren().addAll(buttonsHBox, wrapInAnchor(itemListVBox));
+        getChildren().addAll(buttonsHBox, itemListVBox);
     }
 
     public List<EffectData> buildEffect() {
@@ -173,11 +173,6 @@ public class ListContainerVBox extends VBox {
     }
 
     private void addToItemVBox(final ItemRadio itemRadio) {
-        errorLabel.getScene().widthProperty().addListener(e -> {
-            final double width = errorLabel.getScene().getWidth() - 55;
-            itemRadio.setPrefWidth(width);
-        });
-        itemRadio.setPrefWidth(errorLabel.getScene().getWidth() - 55);
         itemListVBox.getChildren().add(itemRadio);
     }
 
@@ -218,6 +213,7 @@ public class ListContainerVBox extends VBox {
         public ItemRadio(final ToggleGroup toggleGroup) {
             super();
 
+            setMaxWidth(Double.MAX_VALUE);
             setToggleGroup(toggleGroup);
             setWrapText(true);
             setStyle(LIST_ITEM_STYLE);

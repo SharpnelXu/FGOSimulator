@@ -5,27 +5,27 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
-import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmType;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
-import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.LIST_ITEM_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -33,34 +33,39 @@ import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 public class NpUpgrade extends HBox {
     private final CommandCardBox cardBox;
     private final ChoiceBox<NoblePhantasmType> npTypeChoices;
-    private final ListView<DataWrapper<EffectData>> npEffects;
     private final CheckBox conditionCheckBox;
     private final Label builtConditionLabel;
-
-    private ConditionData activationCondition;
+    private final ListContainerVBox npEffects;
     private final Label errorLabel;
 
-    public NpUpgrade() {
+    private ConditionData activationCondition;
+
+    public NpUpgrade(final Label errorLabel) {
         super();
-        setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        setSpacing(10);
-        setPadding(new Insets(5, 5, 5, 5));
         setFillHeight(false);
+        setMinHeight(300);
+        setMaxHeight(700);
 
-        final List<Node> nodes = getChildren();
+        this.errorLabel = errorLabel;
+
         cardBox = new CommandCardBox(6);
+        setMargin(cardBox, new Insets(5));
+        getChildren().add(cardBox);
+        cardBox.setMinWidth(280);
 
-        nodes.add(cardBox);
+        final ScrollPane otherScroll = new ScrollPane();
+        otherScroll.setMinHeight(300);
+        otherScroll.setPadding(new Insets(10));
+        otherScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+        otherScroll.setHbarPolicy(ScrollBarPolicy.NEVER);
+        otherScroll.setFitToWidth(true);
+        HBox.setHgrow(otherScroll, Priority.ALWAYS);
+        final VBox dataVBox = new VBox(10);
+        otherScroll.setContent(dataVBox);
+        getChildren().add(otherScroll);
 
-        final VBox dataVBox = new VBox();
-        HBox.setHgrow(dataVBox, Priority.ALWAYS);
-        dataVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        dataVBox.setSpacing(10);
-
-        final HBox npTypeChoicesHBox = new HBox();
+        final HBox npTypeChoicesHBox = new HBox(10);
         npTypeChoicesHBox.setAlignment(Pos.CENTER_LEFT);
-        npTypeChoicesHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        npTypeChoicesHBox.setSpacing(10);
         final Label npTypeLabel = new Label(getTranslation(APPLICATION_SECTION, "NP Type"));
         npTypeChoices = new ChoiceBox<>();
         npTypeChoices.setConverter(new EnumConverter<>(COMMAND_CARD_TYPE_SECTION));
@@ -72,20 +77,18 @@ public class NpUpgrade extends HBox {
         npTypeChoices.setItems(FXCollections.observableArrayList(npTypes));
         npTypeChoices.getSelectionModel().selectFirst();
 
-        npTypeChoicesHBox.getChildren().addAll(npTypeLabel, npTypeChoices);
-        dataVBox.getChildren().add(npTypeChoicesHBox);
-
-        final HBox conditionHBox = new HBox();
-        conditionHBox.setAlignment(Pos.CENTER_LEFT);
-        conditionHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        conditionHBox.setSpacing(10);
-        errorLabel = new Label();
-        errorLabel.setVisible(false);
-        errorLabel.setStyle("-fx-text-fill: red");
         conditionCheckBox = new CheckBox(getTranslation(APPLICATION_SECTION, "Activate Condition"));
-        final Button editConditionButton = new Button(getTranslation(APPLICATION_SECTION, "Edit"));
+        final Button editConditionButton = new Button();
+        editConditionButton.setGraphic(createInfoImageView("edit"));
+        editConditionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit")));
+
+        npTypeChoicesHBox.getChildren().addAll(npTypeLabel, npTypeChoices, conditionCheckBox, editConditionButton);
+        dataVBox.getChildren().add(npTypeChoicesHBox);
         builtConditionLabel = new Label(getTranslation(APPLICATION_SECTION, "Empty"));
-        builtConditionLabel.setMaxWidth(500);
+        builtConditionLabel.setPadding(new Insets(3));
+        builtConditionLabel.setWrapText(true);
+        builtConditionLabel.setMaxWidth(Double.MAX_VALUE);
+        builtConditionLabel.setStyle(LIST_ITEM_STYLE);
         editConditionButton.setOnAction(e -> {
             try {
                 final ConditionData.Builder builder = activationCondition == null ? ConditionData.newBuilder() : activationCondition.toBuilder();
@@ -107,65 +110,27 @@ public class NpUpgrade extends HBox {
             builtConditionLabel.setDisable(!conditionCheckBox.isSelected());
         });
 
-        conditionHBox.getChildren().addAll(conditionCheckBox, editConditionButton, builtConditionLabel);
-        dataVBox.getChildren().add(conditionHBox);
+        dataVBox.getChildren().add(builtConditionLabel);
 
-        final HBox effectsHBox = new HBox();
-        effectsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        effectsHBox.setSpacing(10);
-        final Label effectsLabel = new Label(getTranslation(APPLICATION_SECTION, "Effects"));
+        npEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
 
-        effectsHBox.getChildren().add(effectsLabel);
-
-        final VBox effectsVBox = new VBox();
-        effectsVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        effectsVBox.setSpacing(10);
-        HBox.setHgrow(effectsVBox, Priority.ALWAYS);
-        npEffects = new ListView<>();
-        npEffects.setCellFactory(new EffectsCellFactory(errorLabel));
-        npEffects.setItems(FXCollections.observableArrayList());
-        npEffects.setMaxHeight(235);
-        final Button addEffectsButton = new Button(getTranslation(APPLICATION_SECTION, "Add Effect"));
-        addEffectsButton.setOnAction(e -> {
-            try {
-                final EffectData.Builder builder = EffectData.newBuilder();
-                createEffect(addEffectsButton.getScene().getWindow(), builder);
-
-                if (!builder.getType().isEmpty()) {
-                    npEffects.getItems().add(new DataWrapper<>(builder.build()));
-                }
-            } catch (final IOException ex) {
-                errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + ex);
-                errorLabel.setVisible(true);
-            }
-        });
-        final HBox effectButtonHBox = new HBox();
-        effectButtonHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        effectButtonHBox.setSpacing(10);
-        effectButtonHBox.setAlignment(Pos.CENTER_RIGHT);
-        effectButtonHBox.getChildren().addAll(errorLabel, addEffectsButton);
-
-        effectsVBox.getChildren().addAll(npEffects, effectButtonHBox);
-        effectsHBox.getChildren().add(effectsVBox);
-
-        dataVBox.getChildren().add(effectsHBox);
-
-        nodes.add(dataVBox);
+        dataVBox.getChildren().add(npEffects);
     }
 
-    public NpUpgrade(final NpUpgrade source) {
-        this();
+    public NpUpgrade(final NpUpgrade source, final Label errorLabel) {
+        this(errorLabel);
         setFrom(source);
     }
 
-    public NpUpgrade(final NoblePhantasmData noblePhantasmData) {
-        this();
+    public NpUpgrade(final NoblePhantasmData noblePhantasmData, final Label errorLabel) {
+        this(errorLabel);
         setFrom(noblePhantasmData);
     }
 
     public void setFrom(final NpUpgrade source) {
         this.cardBox.setFrom(source.cardBox);
-        this.npEffects.getItems().addAll(source.npEffects.getItems());
+        this.npEffects.clear();
+        this.npEffects.loadEffect(source.npEffects.buildEffect());
         this.npTypeChoices.getSelectionModel().select(source.npTypeChoices.getValue());
         this.activationCondition = source.activationCondition;
         if (this.activationCondition != null) {
@@ -175,11 +140,11 @@ public class NpUpgrade extends HBox {
         this.conditionCheckBox.fireEvent(new ActionEvent());
     }
 
-    public NoblePhantasmData build() {
+    public NoblePhantasmData build(final int ascension, final int cardId) {
         final NoblePhantasmData.Builder builder =  NoblePhantasmData.newBuilder()
-                .setCommandCardData(cardBox.build())
+                .setCommandCardData(cardBox.build(errorLabel, ascension, cardId))
                 .setNoblePhantasmType(npTypeChoices.getValue())
-                .addAllEffects(npEffects.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()));
+                .addAllEffects(npEffects.buildEffect());
 
         if (conditionCheckBox.isSelected()) {
             builder.setActivationCondition(activationCondition);
@@ -190,7 +155,7 @@ public class NpUpgrade extends HBox {
 
     public void setFrom(final NoblePhantasmData noblePhantasmData) {
         cardBox.setFrom(noblePhantasmData.getCommandCardData());
-        npEffects.getItems().addAll(noblePhantasmData.getEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList()));
+        npEffects.loadEffect(noblePhantasmData.getEffectsList());
         npTypeChoices.getSelectionModel().select(noblePhantasmData.getNoblePhantasmType());
         if (noblePhantasmData.hasActivationCondition()) {
             conditionCheckBox.setSelected(true);

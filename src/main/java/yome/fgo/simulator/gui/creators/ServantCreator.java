@@ -34,14 +34,14 @@ public class ServantCreator extends Application {
 
         final FXMLLoader fxmlLoader = new FXMLLoader(BuffBuilder.class.getResource("servantCreator.fxml"));
         final Parent root = fxmlLoader.load();
-        final ServantCreatorFXMLController controller = fxmlLoader.getController();
-        controller.setPreviewMode(servantData);
 
         final Scene scene = new Scene(root);
-        scene.getStylesheets().add(BuffBuilder.class.getResource("style.css").toExternalForm());
-
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "ServantCreator"));
         newStage.setScene(scene);
+        scene.getStylesheets().add(BuffBuilder.class.getResource("style.css").toExternalForm());
+
+        final ServantCreatorFXMLController controller = fxmlLoader.getController();
+        controller.setPreviewMode(servantData);
 
         newStage.showAndWait();
     }
