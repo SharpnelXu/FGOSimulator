@@ -89,7 +89,8 @@
             "numTurnsActive": 3,
             "stringValue": "SHORE",
             "buffIcon": "fieldShoreline"
-          }]
+          }],
+          "probabilities": [5.0]
         }],
         "iconName": "shoreline"
       }]

@@ -48,6 +48,9 @@ public class VariationFactory {
         } else if (type.equalsIgnoreCase(NpAbsorptionVariation.class.getSimpleName())) {
             return new NpAbsorptionVariation(variationData.getTarget());
 
+        } else if (type.equalsIgnoreCase(TargetCountVariation.class.getSimpleName())) {
+            return new TargetCountVariation(variationData.getTarget());
+
         } else if (type.equalsIgnoreCase(TraitCountVariation.class.getSimpleName())) {
             return new TraitCountVariation(variationData.getMaxCount(), variationData.getTrait(), variationData.getTarget());
 
@@ -76,6 +79,9 @@ public class VariationFactory {
                 VARIATION_FIELD_TARGET
         ));
         builder.put(NpAbsorptionVariation.class.getSimpleName(), ImmutableSet.of(
+                VARIATION_FIELD_TARGET
+        ));
+        builder.put(TargetCountVariation.class.getSimpleName(), ImmutableSet.of(
                 VARIATION_FIELD_TARGET
         ));
         builder.put(TurnPassVariation.class.getSimpleName(), ImmutableSet.of());

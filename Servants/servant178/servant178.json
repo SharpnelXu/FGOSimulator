@@ -739,7 +739,8 @@
             "numTurnsActive": 3,
             "stringValue": "BURNING",
             "buffIcon": "fieldBurn"
-          }]
+          }],
+          "probabilities": [5.0]
         }],
         "noblePhantasmType": "SINGLE_TARGET_NP"
       }]

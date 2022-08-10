@@ -518,7 +518,6 @@ public class BuffFactory {
         builder.put(DeathChanceBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(DeathResist.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
 
-        builder.put(MaxHpBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE, BUFF_FIELD_NO_VARIATION));
         builder.put(Guts.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_PERCENT_OPTION, BUFF_FIELD_NO_VARIATION));
         builder.put(TriggerOnGutsEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
 
@@ -538,6 +537,7 @@ public class BuffFactory {
         builder.put(BurningLove.class.getSimpleName(), ImmutableSet.of());
         builder.put(Vengeance.class.getSimpleName(), ImmutableSet.of());
 
+        builder.put(MaxHpBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE, BUFF_FIELD_NO_VARIATION));
         builder.put(HealEffectivenessBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(HealGrantEffBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(Burn.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE));

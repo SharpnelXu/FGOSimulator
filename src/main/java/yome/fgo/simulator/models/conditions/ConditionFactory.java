@@ -101,6 +101,9 @@ public class ConditionFactory {
         } else if (type.equalsIgnoreCase(NpAtLeast.class.getSimpleName())) {
             return new NpAtLeast(conditionData.getDoubleValue());
 
+        } else if (type.equalsIgnoreCase(NpGaugeAtLeast.class.getSimpleName())) {
+            return new NpGaugeAtLeast((int) conditionData.getDoubleValue());
+
         } else if (type.equalsIgnoreCase(NpCard.class.getSimpleName())) {
             return NP_CARD;
 
@@ -187,6 +190,7 @@ public class ConditionFactory {
 
         builder.put(CritStarAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_INT_VALUE));
         builder.put(NpAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_DOUBLE_VALUE));
+        builder.put(NpGaugeAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_INT_VALUE));
         builder.put(HpAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_INT_VALUE));
         builder.put(HpPercentAtMost.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_DOUBLE_VALUE));
 

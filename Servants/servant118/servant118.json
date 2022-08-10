@@ -814,7 +814,8 @@
             "numTurnsActive": 5,
             "stringValue": "SUNLIGHT",
             "buffIcon": "fieldSunlight"
-          }]
+          }],
+          "probabilities": [5.0]
         }, {
           "type": "DecreaseActiveSkillCoolDown",
           "target": "SELF",

@@ -459,9 +459,7 @@ public class Combatant {
         final boolean immobilized = isImmobilized();
         if (currentNpGauge == maxNpGauge && !npSealed && !immobilized) {
             currentNpGauge = 0;
-        }
-
-        if (!npSealed) {
+        } else if (!npSealed) {
             currentNpGauge += 1;
             if (currentNpGauge > maxNpGauge) {
                 currentNpGauge = maxNpGauge;
