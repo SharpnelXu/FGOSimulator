@@ -5,8 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,13 +13,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+
 <StackPane prefHeight="596.0" prefWidth="946.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.BuffBuilderFXMLController">
    <children>
-      <VBox spacing="10.0" StackPane.alignment="TOP_LEFT">
+      <AnchorPane StackPane.alignment="TOP_LEFT">
          <children>
-            <VBox spacing="10.0">
+            <VBox spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <Label fx:id="buffTypeLabel" text="Label" />
                         <AnchorPane HBox.hgrow="ALWAYS">
@@ -30,7 +30,7 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <CheckBox fx:id="numTurnCheckbox" mnemonicParsing="false" text="CheckBox" />
                         <TextField fx:id="numTurnText" prefWidth="90.0" />
@@ -43,10 +43,10 @@
                         <ImageView fx:id="buffImage" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <CheckBox fx:id="probabilityCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <Button fx:id="probabilityGenerateButton" mnemonicParsing="false" prefWidth="69.0" text="Button" />
+                        <Button fx:id="probabilityGenerateButton" mnemonicParsing="false" text="Button" />
                         <AnchorPane HBox.hgrow="ALWAYS">
                            <children>
                               <TextField fx:id="probabilityText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -54,7 +54,8 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                  <HBox fx:id="regularBuffTraitsHBox" spacing="10.0" />
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <CheckBox fx:id="traitCheckbox" mnemonicParsing="false" text="CheckBox" />
                         <AnchorPane HBox.hgrow="ALWAYS">
@@ -64,137 +65,130 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" spacing="10.0">
-                     <children>
-                        <CheckBox fx:id="conditionCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <Button fx:id="conditionEditButton" mnemonicParsing="false" prefWidth="77.0" text="Button" />
-                        <Label fx:id="builtConditionLabel" maxWidth="500.0" text="Label" wrapText="true" />
-                     </children>
-                  </HBox>
                </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="15.0" />
-               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </VBox>
-            <Separator />
-            <VBox fx:id="valuePane" spacing="10.0">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
+               <content>
+                  <VBox spacing="10.0">
                      <children>
-                        <Label fx:id="valueLabel" text="Label" />
-                        <Button fx:id="generateValuesButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Button" />
-                        <AnchorPane HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                              <TextField fx:id="valuesText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <CheckBox fx:id="conditionCheckbox" mnemonicParsing="false" text="CheckBox" />
+                              <Button fx:id="conditionEditButton" mnemonicParsing="false" text="Button" />
                            </children>
-                        </AnchorPane>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
-                     <children>
-                        <CheckBox fx:id="useVariationCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <Button fx:id="generateVariationsButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Button" />
-                        <AnchorPane HBox.hgrow="ALWAYS">
+                        </HBox>
+                        <Label fx:id="builtConditionLabel" text="Label" wrapText="true" />
+                        <VBox fx:id="valuePane" spacing="10.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                            <children>
-                              <TextField fx:id="variationAdditionText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="valueLabel" text="Label" />
+                                    <Button fx:id="generateValuesButton" mnemonicParsing="false" text="Button" />
+                                    <AnchorPane HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <TextField fx:id="valuesText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <CheckBox fx:id="useVariationCheckbox" mnemonicParsing="false" text="CheckBox" />
+                                    <Button fx:id="editVariationButton" mnemonicParsing="false" text="Button" />
+                                    <Button fx:id="generateVariationsButton" mnemonicParsing="false" text="Button" />
+                                    <AnchorPane HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <TextField fx:id="variationAdditionText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="builtVariationLabel" text="Label" wrapText="true" />
                            </children>
-                        </AnchorPane>
+                        </VBox>
+                        <HBox fx:id="stringValuePane" alignment="CENTER_LEFT" spacing="10.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <Label fx:id="stringValueLabel" text="Label" />
+                              <AnchorPane HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TextField fx:id="stringValueText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </HBox>
+                        <VBox fx:id="effectsPane" />
+                        <HBox fx:id="gutsPane" alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <CheckBox fx:id="gutsPercentCheckbox" mnemonicParsing="false" text="CheckBox" />
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                        <VBox fx:id="classAdvPane" spacing="10.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="classAdvAtkLabel" text="Label" />
+                                    <ChoiceBox fx:id="classAdvChoicesAtk" prefWidth="160.0" />
+                                    <CheckBox fx:id="classAdvCustomAtkCheckbox" mnemonicParsing="false" text="CheckBox" />
+                                    <TextField fx:id="classAdvCustomAtkText" prefWidth="75.0" />
+                                    <Label fx:id="classAdvAtkTargetClassLabel" text="Label" />
+                                    <TextField fx:id="classAdvAtkTargetClassText" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="classAdvDefLabel" text="Label" />
+                                    <ChoiceBox fx:id="classAdvChoicesDef" prefWidth="160.0" />
+                                    <CheckBox fx:id="classAdvCustomDefCheckbox" mnemonicParsing="false" text="CheckBox" />
+                                    <TextField fx:id="classAdvCustomDefText" prefWidth="75.0" />
+                                    <Label fx:id="classAdvDefTargetClassLabel" text="Label" />
+                                    <TextField fx:id="classAdvDefTargetClassText" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </VBox>
+                        <HBox fx:id="cardTypePane" alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label fx:id="cardTypeLabel" text="Label" />
+                              <ChoiceBox fx:id="cardTypeChoices" prefWidth="160.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
-                     <children>
-                        <Button fx:id="editVariationButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Button" />
-                        <Label fx:id="builtVariationLabel" maxWidth="600.0" text="Label" wrapText="true" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <HBox fx:id="stringValuePane" alignment="CENTER_LEFT" spacing="20.0">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-               <children>
-                  <Label fx:id="stringValueLabel" text="Label" />
-                  <AnchorPane HBox.hgrow="ALWAYS">
-                     <children>
-                        <TextField fx:id="stringValueText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-            <HBox fx:id="effectsPane" spacing="20.0">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-               <children>
-                  <Label fx:id="effectsLabel" text="Label" />
-                  <AnchorPane HBox.hgrow="ALWAYS">
-                     <children>
-                        <ListView fx:id="effectsList" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button fx:id="addEffectsButton" mnemonicParsing="false" prefWidth="100.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-            <HBox fx:id="gutsPane" alignment="CENTER_LEFT" spacing="20.0">
-               <children>
-                  <CheckBox fx:id="gutsPercentCheckbox" mnemonicParsing="false" text="CheckBox" />
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-            </HBox>
-            <VBox fx:id="classAdvPane" spacing="10.0">
-               <children>
-                  <HBox alignment="CENTER_LEFT" spacing="20.0">
-                     <children>
-                        <Label fx:id="classAdvAtkLabel" text="Label" />
-                        <ChoiceBox fx:id="classAdvChoicesAtk" prefHeight="25.0" prefWidth="160.0" />
-                        <CheckBox fx:id="classAdvCustomAtkCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <TextField fx:id="classAdvCustomAtkText" prefHeight="25.0" prefWidth="74.0" />
-                        <Label fx:id="classAdvAtkTargetClassLabel" text="Label" />
-                        <TextField fx:id="classAdvAtkTargetClassText" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" spacing="20.0">
-                     <children>
-                        <Label fx:id="classAdvDefLabel" text="Label" />
-                        <ChoiceBox fx:id="classAdvChoicesDef" prefHeight="25.0" prefWidth="160.0" />
-                        <CheckBox fx:id="classAdvCustomDefCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <TextField fx:id="classAdvCustomDefText" prefHeight="25.0" prefWidth="74.0" />
-                        <Label fx:id="classAdvDefTargetClassLabel" text="Label" />
-                        <TextField fx:id="classAdvDefTargetClassText" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-            </VBox>
-            <HBox fx:id="cardTypePane" alignment="CENTER_LEFT" spacing="20.0">
-               <children>
-                  <Label fx:id="cardTypeLabel" text="Label" />
-                  <ChoiceBox fx:id="cardTypeChoices" prefHeight="25.0" prefWidth="160.0" />
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="BOTTOM_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
+                  </VBox>
+               </content>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </ScrollPane>
+            <HBox alignment="BOTTOM_RIGHT" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
                   <Label fx:id="errorLabel" text="Label" />
                   <Button fx:id="cancelButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
                   <Button fx:id="buildButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
                </children>
-               <VBox.margin>
-                  <Insets bottom="20.0" right="20.0" />
-               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </HBox>
          </children>
-      </VBox>
+      </AnchorPane>
       <StackPane fx:id="generateValuePane" focusTraversable="true" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e4e4e4" height="74.0" stroke="#5e5e5e" strokeType="INSIDE" width="476.0" />

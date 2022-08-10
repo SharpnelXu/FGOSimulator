@@ -1,16 +1,18 @@
 package yome.fgo.simulator.gui.creators;
 
+import com.google.common.collect.ImmutableList;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -18,15 +20,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
+import yome.fgo.data.proto.FgoStorageData.BuffTraits;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
-import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
-import yome.fgo.simulator.gui.components.DataWrapper;
-import yome.fgo.simulator.gui.components.EffectsCellFactory;
+import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
 import yome.fgo.simulator.translation.TranslationManager;
@@ -38,7 +39,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,10 +53,11 @@ import static yome.fgo.simulator.ResourceManager.getBuffIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printVariationData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
-import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.creators.VariationBuilder.createVariation;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListener;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillClassAdvMode;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillCommandCardType;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
@@ -67,14 +72,12 @@ import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUF
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
 
 public class BuffBuilderFXMLController implements Initializable {
-    @FXML
-    private Button addEffectsButton;
-
     @FXML
     private ChoiceBox<String> buffTypeChoices;
 
@@ -151,13 +154,7 @@ public class BuffBuilderFXMLController implements Initializable {
     private Button editVariationButton;
 
     @FXML
-    private Label effectsLabel;
-
-    @FXML
-    private ListView<DataWrapper<EffectData>> effectsList;
-
-    @FXML
-    private HBox effectsPane;
+    private VBox effectsPane;
 
     @FXML
     private Label errorLabel;
@@ -261,12 +258,18 @@ public class BuffBuilderFXMLController implements Initializable {
     @FXML
     private ImageView buffImage;
 
+    @FXML
+    private HBox regularBuffTraitsHBox;
+
     private Set<BuffFields> requiredFields;
 
     private BuffData.Builder buffDataBuilder;
     private TextField generateTargetTextField;
     private ConditionData applyCondition;
     private VariationData variationData;
+
+    private ListContainerVBox effects;
+    private Map<BuffTraits, CheckBox> buffTraitsMap;
 
     public void setParentBuilder(final BuffData.Builder buffDataBuilder) {
         this.buffDataBuilder = buffDataBuilder;
@@ -294,9 +297,22 @@ public class BuffBuilderFXMLController implements Initializable {
                 probabilityText.setText(doublesToString(buffDataBuilder.getProbabilitiesList()));
             }
             if (buffDataBuilder.getHasCustomTraits()) {
-                traitCheckbox.setSelected(true);
-                traitCheckbox.fireEvent(new ActionEvent());
-                traitText.setText(String.join(", ", buffDataBuilder.getCustomTraitsList()));
+                final Set<String> customTraits = new HashSet<>(buffDataBuilder.getCustomTraitsList());
+
+                for (final String customTrait : buffDataBuilder.getCustomTraitsList()) {
+                    try {
+                        final BuffTraits buffTraits = BuffTraits.valueOf(customTrait);
+                        buffTraitsMap.get(buffTraits).setSelected(true);
+                        customTraits.remove(customTrait);
+                    } catch (final Exception ignored) {
+                    }
+                }
+
+                if (!customTraits.isEmpty()) {
+                    traitCheckbox.setSelected(true);
+                    traitCheckbox.fireEvent(new ActionEvent());
+                    traitText.setText(String.join(", ", customTraits));
+                }
             }
             if (buffDataBuilder.hasApplyCondition()) {
                 conditionCheckbox.setSelected(true);
@@ -336,9 +352,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 stringValueText.setText(buffDataBuilder.getStringValue());
             }
             if (requiredFields.contains(BUFF_FIELD_EFFECTS)) {
-                effectsList.setItems(FXCollections.observableArrayList(
-                        buffDataBuilder.getSubEffectsList().stream().map(DataWrapper::new).collect(Collectors.toList())
-                ));
+                effects.loadEffect(buffDataBuilder.getSubEffectsList());
             }
             if (requiredFields.contains(BUFF_FIELD_CLASS_ADV) && buffDataBuilder.hasClassAdvChangeAdditionalParams()) {
                 final ClassAdvantageChangeAdditionalParams additionalParams = buffDataBuilder.getClassAdvChangeAdditionalParams();
@@ -408,6 +422,23 @@ public class BuffBuilderFXMLController implements Initializable {
             generateValueBaseText.requestFocus();
         });
 
+        final Label regularBuffTraitLabel = new Label(getTranslation(APPLICATION_SECTION, "Add custom buff traits"));
+        regularBuffTraitsHBox.getChildren().add(regularBuffTraitLabel);
+        buffTraitsMap = new HashMap<>();
+        final List<BuffTraits> regularBuffTraits = ImmutableList.of(
+                BuffTraits.ATTACKER_BUFF,
+                BuffTraits.DEFENDER_BUFF,
+                BuffTraits.POSITIVE_BUFF,
+                BuffTraits.NEGATIVE_BUFF,
+                BuffTraits.MENTAL_BUFF,
+                BuffTraits.IMMOBILIZE_BUFF
+        );
+        for (final BuffTraits buffTrait : regularBuffTraits) {
+            final CheckBox checkBox = new CheckBox(getTranslation(TRAIT_SECTION, buffTrait.name()));
+            buffTraitsMap.put(buffTrait, checkBox);
+            regularBuffTraitsHBox.getChildren().add(checkBox);
+        }
+
         traitCheckbox.setText(getTranslation(APPLICATION_SECTION, "Custom Buff Trait"));
         traitText.setDisable(true);
         traitCheckbox.setOnAction(e -> traitText.setDisable(!traitCheckbox.isSelected()));
@@ -421,8 +452,14 @@ public class BuffBuilderFXMLController implements Initializable {
             conditionEditButton.setDisable(!conditionCheckbox.isSelected());
             builtConditionLabel.setDisable(!conditionCheckbox.isSelected());
         });
-        conditionEditButton.setText(getTranslation(APPLICATION_SECTION, "Edit"));
+        conditionEditButton.setGraphic(createInfoImageView("edit"));
+        conditionEditButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit")));
         conditionEditButton.setOnAction(e -> editCondition());
+        conditionEditButton.setText(null);
+        builtConditionLabel.setPadding(new Insets(5));
+        builtConditionLabel.setMaxWidth(Double.MAX_VALUE);
+        builtConditionLabel.setStyle(SPECIAL_INFO_BOX_STYLE);
+        builtConditionLabel.setText(getTranslation(APPLICATION_SECTION, "Leave unchecked to always apply"));
 
         generateValuesButton.setText(getTranslation(APPLICATION_SECTION, "Autofill"));
         generateValuesButton.setOnAction(e -> {
@@ -448,9 +485,14 @@ public class BuffBuilderFXMLController implements Initializable {
             generateValuePane.setVisible(true);
             generateValueBaseText.requestFocus();
         });
-        editVariationButton.setText(getTranslation(APPLICATION_SECTION, "Edit"));
-        builtVariationLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
+        editVariationButton.setGraphic(createInfoImageView("edit"));
+        editVariationButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit")));
         editVariationButton.setOnAction(e -> editVariation());
+        editVariationButton.setText(null);
+        builtVariationLabel.setPadding(new Insets(5));
+        builtVariationLabel.setMaxWidth(Double.MAX_VALUE);
+        builtVariationLabel.setStyle(SPECIAL_INFO_BOX_STYLE);
+        builtVariationLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
 
         stringValueLabel.setText(getTranslation(APPLICATION_SECTION, "String Value"));
         stringValueText.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -462,11 +504,8 @@ public class BuffBuilderFXMLController implements Initializable {
             }
         });
 
-        effectsLabel.setText(getTranslation(APPLICATION_SECTION, "Effects"));
-        addEffectsButton.setText(getTranslation(APPLICATION_SECTION, "Add Effect"));
-        addEffectsButton.setOnAction(e -> addEffect());
-        effectsList.setCellFactory(new EffectsCellFactory(errorLabel));
-        effectsList.setItems(FXCollections.observableArrayList());
+        effects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
+        effectsPane.getChildren().addAll(effects);
 
         gutsPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));
         gutsPercentCheckbox.setOnAction(e ->
@@ -589,20 +628,6 @@ public class BuffBuilderFXMLController implements Initializable {
         cardTypePane.setManaged(false);
     }
 
-    public void addEffect() {
-        try {
-            final EffectData.Builder builder = EffectData.newBuilder();
-            createEffect(addEffectsButton.getScene().getWindow(), builder);
-
-            if (!builder.getType().isEmpty()) {
-                effectsList.getItems().add(new DataWrapper<>(builder.build()));
-            }
-        } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
-            errorLabel.setVisible(true);
-        }
-    }
-
     public void editVariation() {
         try {
             final VariationData.Builder builder = variationData == null ? VariationData.newBuilder() : variationData.toBuilder();
@@ -722,6 +747,14 @@ public class BuffBuilderFXMLController implements Initializable {
                     return;
                 }
             }
+
+            for (final BuffTraits buffTrait : buffTraitsMap.keySet()) {
+                if (buffTraitsMap.get(buffTrait).isSelected()) {
+                    buffDataBuilder.setHasCustomTraits(true);
+                    buffDataBuilder.addCustomTraits(buffTrait.name());
+                }
+            }
+
             if (traitCheckbox.isSelected()) {
                 buffDataBuilder.setHasCustomTraits(true);
                 buffDataBuilder.addAllCustomTraits(Arrays.stream(traitText.getText().trim().split(COMMA_SPLIT_REGEX)).sequential()
@@ -799,7 +832,7 @@ public class BuffBuilderFXMLController implements Initializable {
                 buffDataBuilder.setStringValue(getKeyForTrait(stringValueText.getText()));
             }
             if (requiredFields.contains(BUFF_FIELD_EFFECTS)) {
-                buffDataBuilder.addAllSubEffects(effectsList.getItems().stream().map(e -> e.protoData).collect(Collectors.toList()));
+                buffDataBuilder.addAllSubEffects(effects.buildEffect());
             }
             if (requiredFields.contains(BUFF_FIELD_CLASS_ADV)) {
                 final ClassAdvantageChangeAdditionalParams.Builder additionalParams = ClassAdvantageChangeAdditionalParams.newBuilder();
