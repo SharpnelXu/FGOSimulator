@@ -26,6 +26,7 @@ import static yome.fgo.simulator.gui.components.DataPrinter.printEffectData;
 import static yome.fgo.simulator.gui.creators.BuffBuilder.createBuff;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.LIST_ITEM_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -43,7 +44,7 @@ public class ListContainerVBox extends VBox {
     public ListContainerVBox(final String labelText, final Label errorLabel, final boolean isBuff) {
         super(5);
         setPadding(new Insets(5));
-        setStyle("-fx-border-color: grey; -fx-border-width: 2");
+        setStyle(SPECIAL_INFO_BOX_STYLE);
 
         this.isBuff = isBuff;
         this.errorLabel = errorLabel;
@@ -97,6 +98,22 @@ public class ListContainerVBox extends VBox {
         editButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit selected item")));
         editButton.setOnAction(e -> editSelectedItem());
 
+        final Button copyButton = new Button();
+        copyButton.setGraphic(createInfoImageView("copy"));
+        copyButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Copy selected item")));
+        copyButton.setOnAction(e -> {
+            final ItemRadio selectedItem = (ItemRadio) toggleGroup.getSelectedToggle();
+            if (selectedItem == null || !itemListVBox.getChildren().contains(selectedItem)) {
+                return;
+            }
+
+            if (isBuff) {
+                addToItemVBox(new ItemRadio(toggleGroup, selectedItem.storedBuff));
+            } else {
+                addToItemVBox(new ItemRadio(toggleGroup, selectedItem.storedEffect));
+            }
+        });
+
         final Button removeButton = new Button();
         removeButton.setGraphic(createInfoImageView("remove"));
         removeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove selected item")));
@@ -110,7 +127,7 @@ public class ListContainerVBox extends VBox {
 
         final HBox buttonsHBox = new HBox(5);
         buttonsHBox.setAlignment(Pos.CENTER_LEFT);
-        buttonsHBox.getChildren().addAll(label, addButton, upButton, downButton, editButton, removeButton);
+        buttonsHBox.getChildren().addAll(label, addButton, upButton, downButton, editButton, copyButton, removeButton);
 
         getChildren().addAll(buttonsHBox, itemListVBox);
     }

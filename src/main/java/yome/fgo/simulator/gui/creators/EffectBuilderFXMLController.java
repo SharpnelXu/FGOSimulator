@@ -5,12 +5,13 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -22,8 +23,7 @@ import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
-import yome.fgo.simulator.gui.components.BuffsCellFactory;
-import yome.fgo.simulator.gui.components.DataWrapper;
+import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.effects.EffectFactory.EffectFields;
 
@@ -37,13 +37,14 @@ import java.util.stream.Collectors;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.components.DataPrinter.printVariationData;
-import static yome.fgo.simulator.gui.creators.BuffBuilder.createBuff;
 import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.doublesToString;
 import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.intsToString;
 import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.parseDoubles;
 import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.parseInts;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.creators.VariationBuilder.createVariation;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;
 import static yome.fgo.simulator.models.effects.EffectFactory.EFFECT_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
@@ -58,18 +59,8 @@ import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class EffectBuilderFXMLController implements Initializable {
-
     @FXML
-    private Button addBuffButton;
-
-    @FXML
-    private Label buffsLabel;
-
-    @FXML
-    private ListView<DataWrapper<BuffData>> buffsList;
-
-    @FXML
-    private HBox buffsPane;
+    private VBox buffsPane;
 
     @FXML
     private Button buildButton;
@@ -224,9 +215,6 @@ public class EffectBuilderFXMLController implements Initializable {
     @FXML
     private TextField variationAdditionText;
 
-    @FXML
-    private Button duplicateButton;
-
     private EffectData.Builder effectDataBuilder;
     private Set<EffectFields> requiredFields;
     private TextField generateTargetTextField;
@@ -236,6 +224,7 @@ public class EffectBuilderFXMLController implements Initializable {
     private VariationData npSpdVariation;
 
     private List<Pane> optionalPanes;
+    private ListContainerVBox buffs;
 
     public void setParentBuilder(final EffectData.Builder builder) {
         this.effectDataBuilder = builder;
@@ -318,7 +307,7 @@ public class EffectBuilderFXMLController implements Initializable {
                 }
             }
             if (requiredFields.contains(EFFECT_FIELD_GRANT_BUFF)) {
-                buffsList.getItems().addAll(effectDataBuilder.getBuffDataList().stream().map(DataWrapper::new).collect(Collectors.toList()));
+                buffs.loadBuff(builder.getBuffDataList());
             }
             if (requiredFields.contains(EFFECT_FIELD_HP_CHANGE)) {
                 hpPercentCheckbox.setSelected(effectDataBuilder.getIsHpChangePercentBased());
@@ -375,13 +364,18 @@ public class EffectBuilderFXMLController implements Initializable {
         conditionCheckbox.setText(getTranslation(APPLICATION_SECTION, "Apply Condition"));
         conditionEditButton.setDisable(true);
         builtConditionLabel.setDisable(true);
-        builtConditionLabel.setText(getTranslation(APPLICATION_SECTION, "Leave unchecked to always apply"));
         conditionCheckbox.setOnAction(e -> {
             conditionEditButton.setDisable(!conditionCheckbox.isSelected());
             builtConditionLabel.setDisable(!conditionCheckbox.isSelected());
         });
-        conditionEditButton.setText(getTranslation(APPLICATION_SECTION, "Edit"));
+        conditionEditButton.setGraphic(createInfoImageView("edit"));
+        conditionEditButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit")));
         conditionEditButton.setOnAction(e -> applyCondition = editCondition(applyCondition, builtConditionLabel));
+        conditionEditButton.setText(null);
+        builtConditionLabel.setPadding(new Insets(5));
+        builtConditionLabel.setMaxWidth(Double.MAX_VALUE);
+        builtConditionLabel.setStyle(SPECIAL_INFO_BOX_STYLE);
+        builtConditionLabel.setText(getTranslation(APPLICATION_SECTION, "Leave unchecked to always apply"));
 
         targetLabel.setText(getTranslation(APPLICATION_SECTION, "Target"));
         fillTargets(targetChoice);
@@ -413,9 +407,14 @@ public class EffectBuilderFXMLController implements Initializable {
             generateValuePane.setVisible(true);
             generateValueBaseText.requestFocus();
         });
-        editVariationButton.setText(getTranslation(APPLICATION_SECTION, "Edit"));
-        builtVariationLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
+        editVariationButton.setGraphic(createInfoImageView("edit"));
+        editVariationButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit")));
         editVariationButton.setOnAction(e -> variationData = editVariation(variationData, builtVariationLabel));
+        editVariationButton.setText(null);
+        builtVariationLabel.setPadding(new Insets(5));
+        builtVariationLabel.setMaxWidth(Double.MAX_VALUE);
+        builtVariationLabel.setStyle(SPECIAL_INFO_BOX_STYLE);
+        builtVariationLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
 
         isNpIgnoreDefense.setText(getTranslation(APPLICATION_SECTION, "Ignore Defense"));
 
@@ -445,8 +444,13 @@ public class EffectBuilderFXMLController implements Initializable {
             builtNpSPDVariationLabel.setDisable(!hasNpSPD.isSelected() || !npSPDVariationCheckbox.isSelected());
         });
         isNpSPDOvercharged.setText(getTranslation(APPLICATION_SECTION, "Is Np SPD OC"));
-        editNpSPDConditionButton.setText(getTranslation(APPLICATION_SECTION, "Edit SPD Condition"));
+        editNpSPDConditionButton.setGraphic(createInfoImageView("edit"));
+        editNpSPDConditionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit SPD Condition")));
         editNpSPDConditionButton.setOnAction(e -> npSpdCondition = editCondition(npSpdCondition, builtNpSPDConditionLabel));
+        editNpSPDConditionButton.setText(null);
+        builtNpSPDConditionLabel.setPadding(new Insets(5));
+        builtNpSPDConditionLabel.setMaxWidth(Double.MAX_VALUE);
+        builtNpSPDConditionLabel.setStyle(SPECIAL_INFO_BOX_STYLE);
         builtNpSPDConditionLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
         npSPDVariationCheckbox.setText(getTranslation(APPLICATION_SECTION, "Use Variation"));
         npSPDVariationCheckbox.setOnAction(e -> {
@@ -456,23 +460,17 @@ public class EffectBuilderFXMLController implements Initializable {
             builtNpSPDVariationLabel.setDisable(!hasNpSPD.isSelected() || !npSPDVariationCheckbox.isSelected());
         });
         isNpSPDVariationOvercharged.setText(getTranslation(APPLICATION_SECTION, "Is NP SPD Addition OC"));
-        editNpSPDVariationButton.setText(getTranslation(APPLICATION_SECTION, "Edit SPD Variation"));
+        editNpSPDVariationButton.setGraphic(createInfoImageView("edit"));
+        editNpSPDVariationButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit SPD Variation")));
         editNpSPDVariationButton.setOnAction(e -> npSpdVariation = editVariation(npSpdVariation, builtNpSPDVariationLabel));
+        editNpSPDVariationButton.setText(null);
+        builtNpSPDVariationLabel.setPadding(new Insets(5));
+        builtNpSPDVariationLabel.setMaxWidth(Double.MAX_VALUE);
+        builtNpSPDVariationLabel.setStyle(SPECIAL_INFO_BOX_STYLE);
         builtNpSPDVariationLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
 
-        buffsLabel.setText(getTranslation(APPLICATION_SECTION, "Buffs"));
-        addBuffButton.setText(getTranslation(APPLICATION_SECTION, "Add Buff"));
-        addBuffButton.setOnAction(e -> addBuff());
-        buffsList.setCellFactory(new BuffsCellFactory(errorLabel));
-        buffsList.setItems(FXCollections.observableArrayList());
-        duplicateButton.setText(getTranslation(APPLICATION_SECTION, "Duplicate Buff"));
-        duplicateButton.setOnAction(e -> {
-            final List<DataWrapper<BuffData>> buffData = buffsList.getItems();
-            if (buffData.isEmpty()) {
-                return;
-            }
-            buffData.add(new DataWrapper<>(buffData.get(buffData.size() - 1).protoData));
-        });
+        buffs = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Buffs"), errorLabel, true);
+        buffsPane.getChildren().addAll(buffs);
 
         hpPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));
         hpPercentCheckbox.setOnAction(e -> {
@@ -523,20 +521,6 @@ public class EffectBuilderFXMLController implements Initializable {
             }
             generateValuePane.setVisible(false);
         });
-    }
-
-    public void addBuff() {
-        try {
-            final BuffData.Builder builder = BuffData.newBuilder();
-            createBuff(addBuffButton.getScene().getWindow(), builder);
-
-            if (!builder.getType().isEmpty()) {
-                buffsList.getItems().add(new DataWrapper<>(builder.build()));
-            }
-        } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!") + e);
-            errorLabel.setVisible(true);
-        }
     }
 
     public ConditionData editCondition(final ConditionData applyCondition, final Label builtLabel) {
@@ -758,12 +742,13 @@ public class EffectBuilderFXMLController implements Initializable {
                 }
             }
             if (requiredFields.contains(EFFECT_FIELD_GRANT_BUFF)) {
-                if (buffsList.getItems().isEmpty()) {
+                final List<BuffData> builtBuffs = buffs.buildBuff();
+                if (builtBuffs.isEmpty()) {
                     errorLabel.setVisible(true);
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "No buffs created"));
                     return;
                 }
-                effectDataBuilder.addAllBuffData(buffsList.getItems().stream().map(wrapper -> wrapper.protoData).collect(Collectors.toList()));
+                effectDataBuilder.addAllBuffData(builtBuffs);
             }
 
             if (requiredFields.contains(EFFECT_FIELD_HP_CHANGE)) {

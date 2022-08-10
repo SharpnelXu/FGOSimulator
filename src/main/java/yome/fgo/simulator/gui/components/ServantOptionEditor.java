@@ -320,9 +320,15 @@ public class ServantOptionEditor {
             for (int i = 0; i < servantAscensionData.getAppendSkillDataCount(); i += 1) {
                 final Label appendSkillLevelLabel =
                         new Label(String.format(getTranslation(APPLICATION_SECTION, "Append Skill %d Level"), i + 1));
-                final int appendLevel = previousAppendLevels.size() > i
-                        ? previousAppendLevels.get(i)
-                        : source.getAppendSkillLevels(i);
+                final int appendLevel;
+
+                if (previousAppendLevels.size() > i) {
+                    appendLevel = previousAppendLevels.get(i);
+                } else if (source.getAppendSkillLevelsCount() > i) {
+                    appendLevel = source.getAppendSkillLevels(i);
+                } else {
+                    appendLevel = 0;
+                }
                 final Label appendSkillLevelValueLabel = new Label(Integer.toString(appendLevel));
                 appendSkillLevelValueLabel.setMinWidth(50);
                 final Slider appendSkillLevelSlider = new Slider();

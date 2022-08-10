@@ -34,7 +34,7 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER_RIGHT" spacing="10.0" style="-fx-border-color: grey; -fx-border-width: 2 0 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <HBox alignment="CENTER_RIGHT" spacing="10.0" style="-fx-border-color: #DDDDDD; -fx-border-width: 1 0 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Label fx:id="errorLabel" text="Label" />
             <HBox fx:id="actionHBox" spacing="5.0" />

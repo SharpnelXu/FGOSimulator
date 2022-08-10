@@ -122,7 +122,7 @@ public class ActiveSkillUpgrade extends HBox {
         coolDownHBox.getChildren().addAll(coolDownLabel, coolDownText, iconFileNameLabel, iconFileNameText, conditionCheckBox, editConditionButton);
 
         builtConditionLabel = new Label(getTranslation(APPLICATION_SECTION, "Empty"));
-        builtConditionLabel.setPadding(new Insets(3));
+        builtConditionLabel.setPadding(new Insets(5));
         builtConditionLabel.setWrapText(true);
         builtConditionLabel.setMaxWidth(Double.MAX_VALUE);
         builtConditionLabel.setStyle(LIST_ITEM_STYLE);

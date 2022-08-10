@@ -5,21 +5,31 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+
 <StackPane prefHeight="755.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.EffectBuilderFXMLController">
    <children>
-      <VBox prefWidth="743.0" spacing="10.0" StackPane.alignment="TOP_LEFT">
+      <AnchorPane StackPane.alignment="TOP_LEFT">
          <children>
-            <VBox spacing="10.0">
+            <HBox alignment="BOTTOM_RIGHT" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                  <Label fx:id="errorLabel" text="Label" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
+                  <Button fx:id="buildButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
+               </children>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </HBox>
+            <VBox spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <Label fx:id="effectTypeLabel" text="Label" />
                         <AnchorPane HBox.hgrow="ALWAYS">
@@ -29,12 +39,12 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <CheckBox fx:id="isOverchargedEffect" mnemonicParsing="false" text="CheckBox" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <CheckBox fx:id="probabilityCheckbox" mnemonicParsing="false" text="CheckBox" />
                         <CheckBox fx:id="isProbabilityOvercharged" mnemonicParsing="false" text="CheckBox" />
@@ -46,161 +56,142 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT" spacing="10.0">
-                     <children>
-                        <CheckBox fx:id="conditionCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <Button fx:id="conditionEditButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Button" />
-                        <Label fx:id="builtConditionLabel" maxWidth="500.0" text="Label" wrapText="true" />
-                     </children>
-                  </HBox>
                </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" top="15.0" />
-               </VBox.margin>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
             </VBox>
-            <Separator />
-            <HBox fx:id="targetPane" alignment="CENTER_LEFT" spacing="20.0">
-               <children>
-                  <Label fx:id="targetLabel" text="Label" />
-                  <AnchorPane HBox.hgrow="ALWAYS">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="20.0" layoutY="160.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+               <content>
+                  <VBox spacing="10.0">
                      <children>
-                        <ChoiceBox fx:id="targetChoice" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-            </HBox>
-            <VBox fx:id="valuePane" spacing="10.0">
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
-                     <children>
-                        <Label fx:id="valueLabel" text="Label" />
-                        <Button fx:id="generateValuesButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Button" />
-                        <AnchorPane HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                              <TextField fx:id="valuesText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <CheckBox fx:id="conditionCheckbox" mnemonicParsing="false" text="CheckBox" />
+                              <Button fx:id="conditionEditButton" mnemonicParsing="false" text="Button" />
                            </children>
-                        </AnchorPane>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
-                     <children>
-                        <CheckBox fx:id="useVariationCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox fx:id="isAdditionOvercharged" mnemonicParsing="false" text="CheckBox" />
-                        <Button fx:id="generateVariationsButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Button" />
-                        <AnchorPane HBox.hgrow="ALWAYS">
+                        </HBox>
+                        <Label fx:id="builtConditionLabel" text="Label" wrapText="true" />
+                        <HBox fx:id="targetPane" alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                              <TextField fx:id="variationAdditionText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <Label fx:id="targetLabel" text="Label" />
+                              <AnchorPane HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <ChoiceBox fx:id="targetChoice" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
                            </children>
-                        </AnchorPane>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
-                     <children>
-                        <Button fx:id="editVariationButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Button" />
-                        <Label fx:id="builtVariationLabel" maxWidth="600.0" text="Label" wrapText="true" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <VBox fx:id="npPane" spacing="10.0">
-               <children>
-                  <CheckBox fx:id="isNpIgnoreDefense" mnemonicParsing="false" text="CheckBox" />
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
-                     <children>
-                        <CheckBox fx:id="isNpDamageOvercharged" mnemonicParsing="false" text="CheckBox" />
-                        <AnchorPane HBox.hgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                        <VBox fx:id="valuePane" spacing="10.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                            <children>
-                              <TextField fx:id="npOverchargedRatesText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="valueLabel" text="Label" />
+                                    <Button fx:id="generateValuesButton" mnemonicParsing="false" text="Button" />
+                                    <AnchorPane HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <TextField fx:id="valuesText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <CheckBox fx:id="useVariationCheckbox" mnemonicParsing="false" text="CheckBox" />
+                                    <Button fx:id="editVariationButton" mnemonicParsing="false" text="Button" />
+                                    <CheckBox fx:id="isAdditionOvercharged" mnemonicParsing="false" text="CheckBox" />
+                                    <Button fx:id="generateVariationsButton" mnemonicParsing="false" text="Button" />
+                                    <AnchorPane HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <TextField fx:id="variationAdditionText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="builtVariationLabel" text="Label" wrapText="true" />
                            </children>
-                        </AnchorPane>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
-                     <children>
-                        <CheckBox fx:id="hasNpSPD" mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox fx:id="isNpSPDOvercharged" mnemonicParsing="false" text="CheckBox" />
-                        <AnchorPane HBox.hgrow="ALWAYS">
+                        </VBox>
+                        <VBox fx:id="npPane" spacing="10.0">
                            <children>
-                              <TextField fx:id="npSPDText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <CheckBox fx:id="isNpIgnoreDefense" mnemonicParsing="false" text="CheckBox" />
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <CheckBox fx:id="isNpDamageOvercharged" mnemonicParsing="false" text="CheckBox" />
+                                    <AnchorPane HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <TextField fx:id="npOverchargedRatesText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <CheckBox fx:id="hasNpSPD" mnemonicParsing="false" text="CheckBox" />
+                                    <Button fx:id="editNpSPDConditionButton" mnemonicParsing="false" prefHeight="25.0" text="Button" />
+                                    <CheckBox fx:id="isNpSPDOvercharged" mnemonicParsing="false" text="CheckBox" />
+                                    <AnchorPane HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <TextField fx:id="npSPDText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="builtNpSPDConditionLabel" text="Label" wrapText="true" />
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <CheckBox fx:id="npSPDVariationCheckbox" mnemonicParsing="false" text="CheckBox" />
+                                    <Button fx:id="editNpSPDVariationButton" mnemonicParsing="false" text="Button" />
+                                    <CheckBox fx:id="isNpSPDVariationOvercharged" mnemonicParsing="false" text="CheckBox" />
+                                    <AnchorPane HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <TextField fx:id="npSPDVariationText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </HBox>
+                              <Label fx:id="builtNpSPDVariationLabel" text="Label" wrapText="true" />
                            </children>
-                        </AnchorPane>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
-                     <children>
-                        <Button fx:id="editNpSPDConditionButton" mnemonicParsing="false" prefHeight="25.0" text="Button" />
-                        <Label fx:id="builtNpSPDConditionLabel" maxWidth="600.0" text="Label" wrapText="true" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
-                     <children>
-                        <CheckBox fx:id="npSPDVariationCheckbox" mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox fx:id="isNpSPDVariationOvercharged" mnemonicParsing="false" text="CheckBox" />
-                        <AnchorPane HBox.hgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox fx:id="buffsPane">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </VBox>
+                        <HBox fx:id="hpPane" alignment="CENTER_LEFT" spacing="10.0">
                            <children>
-                              <TextField fx:id="npSPDVariationText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <CheckBox fx:id="hpPercentCheckbox" mnemonicParsing="false" text="CheckBox" />
+                              <CheckBox fx:id="hpDrainLethalCheckbox" mnemonicParsing="false" text="CheckBox" />
                            </children>
-                        </AnchorPane>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                        <CheckBox fx:id="removeFromStartCheckbox" mnemonicParsing="false" text="CheckBox">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </CheckBox>
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="747.0" spacing="20.0">
-                     <children>
-                        <Button fx:id="editNpSPDVariationButton" mnemonicParsing="false" prefHeight="25.0" text="Button" />
-                        <Label fx:id="builtNpSPDVariationLabel" maxWidth="600.0" text="Label" wrapText="true" />
-                     </children>
-                  </HBox>
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-            </VBox>
-            <HBox fx:id="buffsPane" spacing="20.0">
-               <children>
-                  <Label fx:id="buffsLabel" text="Label" />
-                  <AnchorPane HBox.hgrow="ALWAYS">
-                     <children>
-                        <ListView fx:id="buffsList" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button fx:id="addBuffButton" mnemonicParsing="false" prefWidth="100.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Button fx:id="duplicateButton" layoutX="436.0" layoutY="119.0" mnemonicParsing="false" prefWidth="100.0" text="Button" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="120.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox fx:id="hpPane" alignment="CENTER_LEFT" spacing="20.0">
-               <children>
-                  <CheckBox fx:id="hpPercentCheckbox" mnemonicParsing="false" text="CheckBox" />
-                  <CheckBox fx:id="hpDrainLethalCheckbox" mnemonicParsing="false" text="CheckBox" />
-               </children>
-               <VBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </VBox.margin>
-            </HBox>
-            <CheckBox fx:id="removeFromStartCheckbox" mnemonicParsing="false" text="CheckBox">
-               <VBox.margin>
-                  <Insets left="20.0" />
-               </VBox.margin>
-            </CheckBox>
-            <HBox alignment="BOTTOM_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label fx:id="errorLabel" text="Label" />
-                  <Button fx:id="cancelButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
-                  <Button fx:id="buildButton" mnemonicParsing="false" prefWidth="100.0" text="Button" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="20.0" right="20.0" />
-               </VBox.margin>
-            </HBox>
+                  </VBox>
+               </content>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </ScrollPane>
          </children>
-      </VBox>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
+      </AnchorPane>
       <StackPane fx:id="generateValuePane" focusTraversable="true" visible="false">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e4e4e4" height="74.0" stroke="#5e5e5e" strokeType="INSIDE" width="476.0" />

@@ -47,7 +47,7 @@ import static yome.fgo.simulator.utils.FilePathUtils.SIMULATION_ICON_DIRECTORY_P
 public class ComponentUtils {
     public static final String PERMANENT_BUFF_STYLE = "-fx-border-color: grey; -fx-border-style: solid; -fx-border-width: 1; -fx-border-radius: 3px";
     public static final String CD_NUMBER_STYLE = "-fx-background-color: rgba(0,0,0,0.78); -fx-border-radius: 3; -fx-border-width: 1";
-    public static final String SPECIAL_INFO_BOX_STYLE = "-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-width: 5; -fx-background-color: white";
+    public static final String SPECIAL_INFO_BOX_STYLE = "-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-width: 2; -fx-background-color: white";
     public static final String UNIT_DISPLAY_STYLE = "-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 3; -fx-border-radius: 3";
     public static final String UNIT_THUMBNAIL_STYLE = "-fx-border-color: rgba(73,73,73,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2; -fx-background-color: white";
     public static final String LIST_ITEM_STYLE = "-fx-border-color: grey; -fx-border-style: solid; -fx-border-width: 2; -fx-border-radius: 3px; -fx-background-color: white";
@@ -261,8 +261,8 @@ public class ComponentUtils {
 
     public static ImageView createInfoImageView(final String iconName) {
         final ImageView imageView = new ImageView();
-        imageView.setFitHeight(20);
-        imageView.setFitWidth(20);
+        imageView.setFitHeight(22);
+        imageView.setFitWidth(22);
         final String path = String.format("%s/%s.png", SIMULATION_ICON_DIRECTORY_PATH, iconName);
         imageView.setImage(getImage(path));
         return imageView;
