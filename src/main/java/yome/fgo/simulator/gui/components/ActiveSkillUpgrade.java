@@ -22,6 +22,7 @@ import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -174,7 +175,7 @@ public class ActiveSkillUpgrade extends HBox {
             cardTypeHBox.getChildren().add(checkBox);
         }
 
-        randomEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Random Effects"), errorLabel);
+        randomEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Random Effects"), errorLabel, Mode.EFFECT);
 
         cardTypeHBox.setVisible(false);
         cardTypeHBox.setManaged(false);
@@ -198,7 +199,7 @@ public class ActiveSkillUpgrade extends HBox {
             }
         });
 
-        skillEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
+        skillEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel, Mode.EFFECT);
 
         dataVBox.getChildren().addAll(
                 coolDownHBox,
@@ -223,7 +224,6 @@ public class ActiveSkillUpgrade extends HBox {
     public void setFrom(final ActiveSkillUpgrade source) {
         this.iconFileNameText.setText(source.iconFileNameText.getText());
         this.coolDownText.setText(source.coolDownText.getText());
-        this.skillEffects.clear();
         this.skillEffects.loadEffect(source.skillEffects.buildEffect());
         this.activationCondition = source.activationCondition;
         if (this.activationCondition != null) {
@@ -231,7 +231,6 @@ public class ActiveSkillUpgrade extends HBox {
         }
         this.conditionCheckBox.setSelected(source.conditionCheckBox.isSelected());
         this.conditionCheckBox.fireEvent(new ActionEvent());
-        this.randomEffects.clear();
         this.randomEffects.loadEffect(source.randomEffects.buildEffect());
         for (int i = 0; i < this.cardTypeCheckboxes.size(); i += 1) {
             this.cardTypeCheckboxes.get(i).setSelected(source.cardTypeCheckboxes.get(i).isSelected());
@@ -267,7 +266,6 @@ public class ActiveSkillUpgrade extends HBox {
     public void setFrom(final ActiveSkillData activeSkillData) {
         iconFileNameText.setText(activeSkillData.getIconName());
         coolDownText.setText(Integer.toString(activeSkillData.getBaseCoolDown()));
-        skillEffects.clear();
         skillEffects.loadEffect(activeSkillData.getEffectsList());
         if (activeSkillData.hasActivationCondition()) {
             conditionCheckBox.setSelected(true);
@@ -279,7 +277,6 @@ public class ActiveSkillUpgrade extends HBox {
             specialCheckBox.setSelected(true);
             specialCheckBox.fireEvent(new ActionEvent());
             final SpecialActivationParams specialActivationParams = activeSkillData.getSpecialActivationParams();
-            randomEffects.clear();
             randomEffects.loadEffect(specialActivationParams.getRandomEffectSelectionsList());
 
             for (final CommandCardType cardType : specialActivationParams.getCardTypeSelectionsList()) {

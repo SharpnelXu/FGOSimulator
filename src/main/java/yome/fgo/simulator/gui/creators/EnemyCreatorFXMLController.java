@@ -21,6 +21,7 @@ import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -232,7 +233,7 @@ public class EnemyCreatorFXMLController implements Initializable {
 
         errorLabel.setVisible(false);
 
-        passiveList = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Enemy passive effects"), errorLabel);
+        passiveList = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Enemy passive effects"), errorLabel, Mode.EFFECT);
         passiveEffectVBox.getChildren().add(passiveList);
     }
 

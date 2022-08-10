@@ -17,6 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.AppendSkillData;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,8 +45,6 @@ public class NonActiveSkill extends HBox {
 
         setPadding(new Insets(10));
         setFillHeight(false);
-        setMinHeight(300);
-        setMaxHeight(700);
         setStyle(SPECIAL_INFO_BOX_STYLE);
 
         final List<Node> nodes = getChildren();
@@ -138,7 +137,7 @@ public class NonActiveSkill extends HBox {
         );
         iconNameHBox.getChildren().addAll(iconFileNameLabel, iconFileNameText);
 
-        skillEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
+        skillEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel, Mode.EFFECT);
 
         dataVBox.getChildren().addAll(iconNameHBox, skillEffects);
         nodes.add(dataVBox);

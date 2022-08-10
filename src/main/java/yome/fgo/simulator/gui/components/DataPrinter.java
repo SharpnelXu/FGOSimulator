@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_REQUIRED_FIELD_MAP;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
@@ -91,7 +92,7 @@ public class DataPrinter {
             builder.append(" : ");
             builder.append(doubleToString(conditionData.getDoubleValue()));
         }
-        if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
+        if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) || requiredFields.contains(CONDITION_FIELD_BUFF_TRAIT_VALUE)) {
             builder.append(" : ");
             builder.append(getTranslation(TRAIT_SECTION, conditionData.getValue()));
         } else if (requiredFields.contains(CONDITION_FIELD_NAMES)) {

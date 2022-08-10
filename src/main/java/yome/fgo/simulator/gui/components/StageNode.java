@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.StageData;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.File;
@@ -198,7 +199,7 @@ public class StageNode extends VBox {
                         stageTraitTextAnchorPane
                 );
 
-        stageEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Stage Effects"), errorLabel);
+        stageEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Stage Effects"), errorLabel, Mode.EFFECT);
 
         nodes.add(stageLabelHBox);
         nodes.add(enemyGrid);

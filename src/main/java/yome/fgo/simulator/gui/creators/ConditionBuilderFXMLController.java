@@ -2,38 +2,44 @@ package yome.fgo.simulator.gui.creators;
 
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import yome.fgo.data.proto.FgoStorageData.BuffTraits;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Target;
-import yome.fgo.simulator.gui.components.DataWrapper;
-import yome.fgo.simulator.gui.components.SubConditionCellFactory;
+import yome.fgo.simulator.gui.components.ListContainerVBox;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields;
 import yome.fgo.simulator.utils.RoundUtils;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
 import static yome.fgo.simulator.gui.components.DataPrinter.intToString;
-import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListener;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillCommandCardType;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillFateClass;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_REQUIRED_FIELD_MAP;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
@@ -48,9 +54,12 @@ import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
+import static yome.fgo.simulator.utils.BuffUtils.REGULAR_BUFF_TRAITS;
 
 public class ConditionBuilderFXMLController implements Initializable {
     @FXML
@@ -66,13 +75,7 @@ public class ConditionBuilderFXMLController implements Initializable {
     private Label conditionLabel;
 
     @FXML
-    private Label subConditionLabel;
-
-    @FXML
-    private AnchorPane subConditionPane;
-
-    @FXML
-    private ListView<DataWrapper<ConditionData>> subConditionList;
+    private VBox subConditionPane;
 
     @FXML
     private ChoiceBox<Target> targetChoices;
@@ -81,13 +84,13 @@ public class ConditionBuilderFXMLController implements Initializable {
     private Label targetLabel;
 
     @FXML
-    private AnchorPane targetPane;
+    private HBox targetPane;
 
     @FXML
     private Label valueLabel;
 
     @FXML
-    private AnchorPane valuePane;
+    private HBox valuePane;
 
     @FXML
     private TextField valueText;
@@ -99,7 +102,7 @@ public class ConditionBuilderFXMLController implements Initializable {
     private Label buffLabel;
 
     @FXML
-    private AnchorPane buffPane;
+    private HBox buffPane;
 
     @FXML
     private ChoiceBox<FateClass> classChoices;
@@ -108,7 +111,7 @@ public class ConditionBuilderFXMLController implements Initializable {
     private Label classLabel;
 
     @FXML
-    private AnchorPane classPane;
+    private HBox classPane;
 
     @FXML
     private ChoiceBox<CommandCardType> cardTypeChoices;
@@ -117,19 +120,31 @@ public class ConditionBuilderFXMLController implements Initializable {
     private Label cardLabel;
 
     @FXML
-    private AnchorPane cardPane;
+    private HBox cardPane;
 
     @FXML
     private Label errorLabel;
 
     @FXML
-    private Button addListItemButton;
+    private VBox buffTraitPane;
+
+    @FXML
+    private HBox regularBuffTraitsHBox;
+
+    @FXML
+    private RadioButton buffTraitRadioButton;
+
+    @FXML
+    private TextField buffTraitText;
 
     private ConditionData.Builder conditionDataBuilder;
 
     private Set<ConditionFields> requiredFields;
 
     private ChangeListener<String> valueTextListener;
+    private ListContainerVBox conditions;
+    private Map<BuffTraits, RadioButton> buffTraitsMap;
+    private ToggleGroup buffTraitToggle;
 
     public void setParentBuilder(final ConditionData.Builder builder) {
         this.conditionDataBuilder = builder;
@@ -142,9 +157,10 @@ public class ConditionBuilderFXMLController implements Initializable {
                 valueText.setText(intToString(builder.getDoubleValue()));
             } else if (requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE)) {
                 valueText.setText(doubleToString(builder.getDoubleValue()));
-            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE) || requiredFields.contains(
-                    CONDITION_FIELD_NAMES)) {
-                valueText.setText(builder.getValue());
+            } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
+                valueText.setText(getTranslation(TRAIT_SECTION, builder.getValue()));
+            } else if (requiredFields.contains(CONDITION_FIELD_NAMES)) {
+                valueText.setText(getTranslation(ENTITY_NAME_SECTION, builder.getValue()));
             }
 
             if (requiredFields.contains(CONDITION_FIELD_BUFF_TYPE)) {
@@ -160,12 +176,19 @@ public class ConditionBuilderFXMLController implements Initializable {
             if (requiredFields.contains(CONDITION_FIELD_TARGET)) {
                 targetChoices.getSelectionModel().select(builder.getTarget());
             }
-            if (requiredFields.contains(CONDITION_FIELD_UNLIMITED_SUB_CONDITION)) {
-                subConditionList.getItems().addAll(
-                        builder.getSubConditionDataList().stream().map(DataWrapper::new).collect(Collectors.toList())
-                );
-            } else if (requiredFields.contains(CONDITION_FIELD_LIMITED_SUB_CONDITION)) {
-                subConditionList.getItems().add(new DataWrapper<>(builder.getSubConditionData(0)));
+            if (requiredFields.contains(CONDITION_FIELD_UNLIMITED_SUB_CONDITION)
+                    || requiredFields.contains(CONDITION_FIELD_LIMITED_SUB_CONDITION)) {
+                conditions.loadCondition(builder.getSubConditionDataList());
+            }
+            if (requiredFields.contains(CONDITION_FIELD_BUFF_TRAIT_VALUE)) {
+                try {
+                    final BuffTraits buffTraits = BuffTraits.valueOf(builder.getValue());
+                    buffTraitsMap.get(buffTraits).setSelected(true);
+                } catch (final Exception ignored) {
+                    buffTraitRadioButton.setSelected(true);
+                    buffTraitRadioButton.fireEvent(new ActionEvent());
+                    buffTraitText.setText(builder.getValue());
+                }
             }
         }
     }
@@ -197,18 +220,33 @@ public class ConditionBuilderFXMLController implements Initializable {
 
         fillTargets(targetChoices);
 
-        subConditionLabel.setText(getTranslation(APPLICATION_SECTION, "Sub-conditions"));
-
         cancelButton.setText(getTranslation(APPLICATION_SECTION, "Cancel"));
 
         buildButton.setText(getTranslation(APPLICATION_SECTION, "Build"));
 
+        buffTraitToggle = new ToggleGroup();
+        final Label regularBuffTraitLabel = new Label(getTranslation(APPLICATION_SECTION, "Add custom buff traits"));
+        regularBuffTraitsHBox.getChildren().add(regularBuffTraitLabel);
+        buffTraitsMap = new HashMap<>();
+        for (final BuffTraits buffTrait : REGULAR_BUFF_TRAITS) {
+            final RadioButton radioButton = new RadioButton(getTranslation(TRAIT_SECTION, buffTrait.name()));
+            radioButton.setToggleGroup(buffTraitToggle);
+            buffTraitsMap.put(buffTrait, radioButton);
+            regularBuffTraitsHBox.getChildren().add(radioButton);
+        }
+
+        buffTraitRadioButton.setText(getTranslation(APPLICATION_SECTION, "Custom Buff Trait"));
+        buffTraitText.setDisable(true);
+        buffTraitRadioButton.setOnAction(e -> buffTraitText.setDisable(!buffTraitRadioButton.isSelected()));
+        buffTraitRadioButton.setToggleGroup(buffTraitToggle);
+
+        buffTraitToggle.selectedToggleProperty().addListener(e -> buffTraitRadioButton.fireEvent(new ActionEvent()));
+        addSplitTraitListener(buffTraitText, errorLabel);
+
         resetPane();
 
-        subConditionList.setCellFactory(new SubConditionCellFactory(errorLabel));
-        subConditionList.setItems(FXCollections.observableArrayList());
-
-        addListItemButton.setText(getTranslation(APPLICATION_SECTION, "Add sub condition"));
+        conditions = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Sub-conditions"), errorLabel, Mode.CONDITION);
+        subConditionPane.getChildren().add(conditions);
 
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Select a condition type to start"));
         errorLabel.setVisible(true);
@@ -241,6 +279,9 @@ public class ConditionBuilderFXMLController implements Initializable {
 
         subConditionPane.setVisible(false);
         subConditionPane.setManaged(false);
+
+        buffTraitPane.setVisible(false);
+        buffTraitPane.setManaged(false);
     }
 
     @FXML
@@ -266,10 +307,10 @@ public class ConditionBuilderFXMLController implements Initializable {
                 valueLabel.setText(getTranslation(APPLICATION_SECTION, "Value (%)"));
                 valueText.textProperty().removeListener(valueTextListener);
             } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
-                valueLabel.setText(getTranslation(APPLICATION_SECTION, "String Value"));
+                valueLabel.setText(getTranslation(APPLICATION_SECTION, "Traits"));
                 valueText.textProperty().addListener(valueTextListener);
             } else {
-                valueLabel.setText(getTranslation(APPLICATION_SECTION, "Servant ID"));
+                valueLabel.setText(getTranslation(APPLICATION_SECTION, "ID"));
                 valueText.textProperty().removeListener(valueTextListener);
             }
         }
@@ -295,20 +336,9 @@ public class ConditionBuilderFXMLController implements Initializable {
             subConditionPane.setVisible(true);
             subConditionPane.setManaged(true);
         }
-    }
-
-    @FXML
-    public void onAddListItemButtonClick() {
-        try {
-            final ConditionData.Builder builder = ConditionData.newBuilder();
-            createCondition(addListItemButton.getScene().getWindow(), builder);
-
-            if (!builder.getType().isEmpty()) {
-                subConditionList.getItems().add(new DataWrapper<>(builder.build()));
-            }
-        } catch (final IOException e) {
-            errorLabel.setText(getTranslation(APPLICATION_SECTION, "Cannot start new window!" + e));
-            errorLabel.setVisible(true);
+        if (requiredFields.contains(CONDITION_FIELD_BUFF_TRAIT_VALUE)) {
+            buffTraitPane.setVisible(true);
+            buffTraitPane.setManaged(true);
         }
     }
 
@@ -368,14 +398,37 @@ public class ConditionBuilderFXMLController implements Initializable {
             }
             if (requiredFields.contains(CONDITION_FIELD_UNLIMITED_SUB_CONDITION) ||
                     requiredFields.contains(CONDITION_FIELD_LIMITED_SUB_CONDITION)) {
-                if (requiredFields.contains(CONDITION_FIELD_LIMITED_SUB_CONDITION) && subConditionList.getItems().size() != 1) {
+                final List<ConditionData> builtCondition = conditions.buildCondition();
+                if (requiredFields.contains(CONDITION_FIELD_LIMITED_SUB_CONDITION) && builtCondition.size() != 1) {
                     errorLabel.setVisible(true);
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "Only one sub-condition allowed"));
                     return;
                 }
-                conditionDataBuilder.addAllSubConditionData(
-                        subConditionList.getItems().stream().map(wrapper -> wrapper.protoData).collect(Collectors.toList())
-                );
+                conditionDataBuilder.addAllSubConditionData(builtCondition);
+            }
+            if (requiredFields.contains(CONDITION_FIELD_BUFF_TRAIT_VALUE)) {
+                if (buffTraitRadioButton.isSelected()) {
+
+                    if (buffTraitText.getText().isEmpty()) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "No custom buff trait provided"));
+                        return;
+                    }
+                    conditionDataBuilder.setValue(getKeyForTrait(buffTraitText.getText().trim()));
+                } else {
+                    if (buffTraitToggle.getSelectedToggle() == null) {
+                        errorLabel.setVisible(true);
+                        errorLabel.setText(getTranslation(APPLICATION_SECTION, "No custom buff trait provided"));
+                        return;
+                    }
+
+                    for (final BuffTraits buffTrait : buffTraitsMap.keySet()) {
+                        if (buffTraitsMap.get(buffTrait).isSelected()) {
+                            conditionDataBuilder.setValue(buffTrait.name());
+                            break;
+                        }
+                    }
+                }
             }
 
             conditionDataBuilder.setType(conditionChoices.getValue());

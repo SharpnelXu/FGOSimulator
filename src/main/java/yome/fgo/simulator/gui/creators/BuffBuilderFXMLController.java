@@ -1,6 +1,5 @@
 package yome.fgo.simulator.gui.creators;
 
-import com.google.common.collect.ImmutableList;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -28,6 +27,7 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
 import yome.fgo.simulator.translation.TranslationManager;
@@ -76,6 +76,7 @@ import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
+import static yome.fgo.simulator.utils.BuffUtils.REGULAR_BUFF_TRAITS;
 
 public class BuffBuilderFXMLController implements Initializable {
     @FXML
@@ -349,7 +350,7 @@ public class BuffBuilderFXMLController implements Initializable {
             }
 
             if (requiredFields.contains(BUFF_FIELD_STRING_VALUE)) {
-                stringValueText.setText(buffDataBuilder.getStringValue());
+                stringValueText.setText(getTranslation(TRAIT_SECTION, buffDataBuilder.getStringValue()));
             }
             if (requiredFields.contains(BUFF_FIELD_EFFECTS)) {
                 effects.loadEffect(buffDataBuilder.getSubEffectsList());
@@ -425,15 +426,7 @@ public class BuffBuilderFXMLController implements Initializable {
         final Label regularBuffTraitLabel = new Label(getTranslation(APPLICATION_SECTION, "Add custom buff traits"));
         regularBuffTraitsHBox.getChildren().add(regularBuffTraitLabel);
         buffTraitsMap = new HashMap<>();
-        final List<BuffTraits> regularBuffTraits = ImmutableList.of(
-                BuffTraits.ATTACKER_BUFF,
-                BuffTraits.DEFENDER_BUFF,
-                BuffTraits.POSITIVE_BUFF,
-                BuffTraits.NEGATIVE_BUFF,
-                BuffTraits.MENTAL_BUFF,
-                BuffTraits.IMMOBILIZE_BUFF
-        );
-        for (final BuffTraits buffTrait : regularBuffTraits) {
+        for (final BuffTraits buffTrait : REGULAR_BUFF_TRAITS) {
             final CheckBox checkBox = new CheckBox(getTranslation(TRAIT_SECTION, buffTrait.name()));
             buffTraitsMap.put(buffTrait, checkBox);
             regularBuffTraitsHBox.getChildren().add(checkBox);
@@ -494,7 +487,7 @@ public class BuffBuilderFXMLController implements Initializable {
         builtVariationLabel.setStyle(SPECIAL_INFO_BOX_STYLE);
         builtVariationLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
 
-        stringValueLabel.setText(getTranslation(APPLICATION_SECTION, "String Value"));
+        stringValueLabel.setText(getTranslation(APPLICATION_SECTION, "Traits"));
         stringValueText.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty() && !hasKeyForTrait(newValue)) {
                 errorLabel.setText(getTranslation(APPLICATION_SECTION, "Warning: unmapped traits:") + newValue);
@@ -504,7 +497,7 @@ public class BuffBuilderFXMLController implements Initializable {
             }
         });
 
-        effects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
+        effects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel, Mode.EFFECT);
         effectsPane.getChildren().addAll(effects);
 
         gutsPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));

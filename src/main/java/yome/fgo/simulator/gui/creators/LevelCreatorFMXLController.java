@@ -36,6 +36,7 @@ import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.gui.components.CraftEssenceDataAnchorPane;
 import yome.fgo.simulator.gui.components.FormationSelector;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.MysticCodeDataAnchorPane;
 import yome.fgo.simulator.gui.components.ServantDataAnchorPane;
 import yome.fgo.simulator.gui.components.SimulationWindow;
@@ -111,7 +112,7 @@ public class LevelCreatorFMXLController implements Initializable {
         addStageButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add Stage")));
         addStageButton.setOnAction(e -> stagesVBox.getChildren().add(new StageNode(stagesVBox.getChildren().size() + 1, errorLabel, stagesVBox)));
 
-        levelEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Level Effects"), errorLabel);
+        levelEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Level Effects"), errorLabel, Mode.EFFECT);
         levelEffectVBox.getChildren().add(levelEffects);
 
         loadLevelButton.setText(getTranslation(APPLICATION_SECTION, "Load From"));
@@ -156,7 +157,6 @@ public class LevelCreatorFMXLController implements Initializable {
             stagesVBox.getChildren().add(stageNode);
         }
 
-        levelEffects.clear();
         levelEffects.loadEffect(levelDataBuilder.getEffectsList());
 
         errorLabel.setText(getTranslation(APPLICATION_SECTION, "Load success!"));

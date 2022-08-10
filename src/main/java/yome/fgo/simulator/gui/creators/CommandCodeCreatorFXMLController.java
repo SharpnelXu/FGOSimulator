@@ -17,6 +17,7 @@ import javafx.stage.FileChooser;
 import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -107,7 +108,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
         rarityChoices.setItems(FXCollections.observableArrayList(ImmutableList.of(5, 4, 3, 2, 1)));
         rarityChoices.getSelectionModel().selectFirst();
 
-        buffs = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Buffs"), errorLabel, true);
+        buffs = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Buffs"), errorLabel, Mode.BUFF);
         buffVBox.getChildren().add(buffs);
 
         loadButton.setText(getTranslation(APPLICATION_SECTION, "Load From"));

@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 import static yome.fgo.simulator.models.conditions.BackupServantsExist.BACKUP_SERVANTS_EXIST;
 import static yome.fgo.simulator.models.conditions.BuffRemovable.BUFF_REMOVABLE;
+import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
@@ -41,7 +42,8 @@ public class ConditionFactory {
         CONDITION_FIELD_CLASS_VALUE,
         CONDITION_FIELD_TARGET,
         CONDITION_FIELD_UNLIMITED_SUB_CONDITION,
-        CONDITION_FIELD_LIMITED_SUB_CONDITION
+        CONDITION_FIELD_LIMITED_SUB_CONDITION,
+        CONDITION_FIELD_BUFF_TRAIT_VALUE
     }
 
     public static Condition buildCondition(final ConditionData conditionData) {
@@ -171,7 +173,7 @@ public class ConditionFactory {
         builder.put(IsCriticalStrike.class.getSimpleName(), ImmutableSet.of());
 
         builder.put(BuffTypeEquals.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_BUFF_TYPE));
-        builder.put(BuffHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TRAIT_VALUE));
+        builder.put(BuffHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_BUFF_TRAIT_VALUE));
         builder.put(BuffRemovable.class.getSimpleName(), ImmutableSet.of());
 
         builder.put(TargetsHaveClass.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_CLASS_VALUE));

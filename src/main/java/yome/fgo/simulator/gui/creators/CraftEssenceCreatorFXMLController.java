@@ -19,6 +19,7 @@ import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.Status;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -127,7 +128,7 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
         rarityChoices.getSelectionModel().selectFirst();
         costLabel.setText(getTranslation(APPLICATION_SECTION, "Craft Essence Cost"));
 
-        effects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
+        effects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel, Mode.EFFECT);
         effectVBox.getChildren().add(effects);
 
         statusLabel.setText(getTranslation(APPLICATION_SECTION, "Craft Essence Status"));
@@ -164,7 +165,6 @@ public class CraftEssenceCreatorFXMLController implements Initializable {
         idText.setText(Integer.toString(builder.getCeNum()));
         rarityChoices.getSelectionModel().select(Integer.valueOf(builder.getRarity()));
         costText.setText(Integer.toString(builder.getCost()));
-        effects.clear();
         effects.loadEffect(builder.getEffectsList());
 
         final List<String> statusStrings = new ArrayList<>();

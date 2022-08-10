@@ -24,6 +24,7 @@ import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.effects.EffectFactory.EffectFields;
 
@@ -469,7 +470,7 @@ public class EffectBuilderFXMLController implements Initializable {
         builtNpSPDVariationLabel.setStyle(SPECIAL_INFO_BOX_STYLE);
         builtNpSPDVariationLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
 
-        buffs = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Buffs"), errorLabel, true);
+        buffs = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Buffs"), errorLabel, Mode.BUFF);
         buffsPane.getChildren().addAll(buffs);
 
         hpPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));

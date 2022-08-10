@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmType;
+import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 
 import java.io.IOException;
 import java.util.List;
@@ -112,7 +113,7 @@ public class NpUpgrade extends HBox {
 
         dataVBox.getChildren().add(builtConditionLabel);
 
-        npEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel);
+        npEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel, Mode.EFFECT);
 
         dataVBox.getChildren().add(npEffects);
     }
@@ -129,7 +130,6 @@ public class NpUpgrade extends HBox {
 
     public void setFrom(final NpUpgrade source) {
         this.cardBox.setFrom(source.cardBox);
-        this.npEffects.clear();
         this.npEffects.loadEffect(source.npEffects.buildEffect());
         this.npTypeChoices.getSelectionModel().select(source.npTypeChoices.getValue());
         this.activationCondition = source.activationCondition;
