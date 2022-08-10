@@ -128,7 +128,12 @@ public class ListContainerVBox extends VBox {
             if (selected == null) {
                 return;
             }
-            itemListVBox.getChildren().remove(selected);
+            final List<Node> children = itemListVBox.getChildren();
+            children.remove(selected);
+            if (!children.isEmpty()) {
+                ((ItemRadio) children.get(children.size() - 1)).setSelected(true);
+            }
+
         });
 
         final HBox buttonsHBox = new HBox(5);
@@ -246,6 +251,7 @@ public class ListContainerVBox extends VBox {
 
     private void addToItemVBox(final ItemRadio itemRadio) {
         itemListVBox.getChildren().add(itemRadio);
+        itemRadio.setSelected(true);
     }
 
     private void editSelectedItem() {
