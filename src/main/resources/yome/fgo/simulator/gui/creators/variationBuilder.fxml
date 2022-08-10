@@ -4,14 +4,83 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox prefHeight="289.0" prefWidth="637.0" spacing="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.VariationBuilderFXMLController">
+
+
+<AnchorPane prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="yome.fgo.simulator.gui.creators.VariationBuilderFXMLController">
    <children>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
+      <HBox alignment="CENTER_RIGHT" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label fx:id="errorLabel" text="Label" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelButtonClick" prefWidth="100.0" text="Button" />
+            <Button fx:id="buildButton" mnemonicParsing="false" onAction="#onBuildButtonClick" prefWidth="100.0" text="Button" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutY="50.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+         <content>
+            <VBox spacing="10.0">
+               <children>
+                  <HBox fx:id="maxCountPane" alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label fx:id="maxCountLabel" text="Label" />
+                        <TextField fx:id="maxCountText" />
+                        <Label fx:id="maxCountDescLabel" text="Label" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="traitPane" alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label fx:id="traitLabel" text="Label" />
+                        <AnchorPane HBox.hgrow="ALWAYS">
+                           <children>
+                              <TextField fx:id="traitText" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hpPane" alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label fx:id="maxHpLabel" text="Label" />
+                        <TextField fx:id="maxHpText" prefWidth="69.0" />
+                        <Label fx:id="minHpLabel" text="Label" />
+                        <TextField fx:id="minHpText" prefWidth="69.0" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="targetPane" alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label fx:id="targetLabel" text="Label" />
+                        <AnchorPane HBox.hgrow="ALWAYS">
+                           <children>
+                              <ChoiceBox fx:id="targetChoices" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <VBox fx:id="conditionPane" spacing="10.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <Label fx:id="conditionLabel" text="Label" />
+                              <Button fx:id="addConditionButton" mnemonicParsing="false" onAction="#onAddConditionButtonClick" text="Button" />
+                           </children>
+                        </HBox>
+                        <Label fx:id="builtConditionLabel" text="LabelLabel LabelLabel LabelLabel LabelLabel LabelLabel LabelLabel LabelLabel Label" wrapText="true" />
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="variationLabel" text="Label" />
             <AnchorPane HBox.hgrow="ALWAYS">
@@ -20,77 +89,9 @@
                </children>
             </AnchorPane>
          </children>
-      </HBox>
-      <Separator prefWidth="200.0" />
-      <AnchorPane fx:id="maxCountPane">
-         <children>
-            <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label fx:id="maxCountLabel" text="Label" />
-                  <TextField fx:id="maxCountText" />
-                  <Label fx:id="maxCountDescLabel" text="Label" />
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="traitPane">
-         <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="617.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label fx:id="traitLabel" text="Label" />
-                  <AnchorPane HBox.hgrow="ALWAYS">
-                     <children>
-                        <TextField fx:id="traitText" prefHeight="25.0" prefWidth="161.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="hpPane">
-         <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="617.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label fx:id="maxHpLabel" text="Label" />
-                  <TextField fx:id="maxHpText" prefWidth="69.0" />
-                  <Label fx:id="minHpLabel" text="Label" />
-                  <TextField fx:id="minHpText" prefWidth="69.0" />
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="targetPane">
-         <children>
-            <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label fx:id="targetLabel" text="Label" />
-                  <ChoiceBox fx:id="targetChoices" prefWidth="150.0" />
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="conditionPane">
-         <children>
-            <HBox alignment="CENTER_LEFT" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label fx:id="conditionLabel" text="Label" />
-                  <Button fx:id="addConditionButton" mnemonicParsing="false" onAction="#onAddConditionButtonClick" text="Button" />
-                  <Button fx:id="removeConditionButton" mnemonicParsing="false" onAction="#onRemoveConditionButtonClick" text="Button" />
-                  <Label fx:id="builtConditionLabel" maxWidth="400.0" text="LabelLabel LabelLabel LabelLabel LabelLabel LabelLabel LabelLabel LabelLabel Label" wrapText="true" />
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-      <Separator prefWidth="200.0" />
-      <HBox alignment="CENTER_RIGHT" spacing="20.0">
-         <children>
-            <Label fx:id="errorLabel" text="Label" />
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelButtonClick" prefWidth="100.0" text="Button" />
-            <Button fx:id="buildButton" mnemonicParsing="false" onAction="#onBuildButtonClick" prefWidth="100.0" text="Button" />
-         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
       </HBox>
    </children>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
-</VBox>
+</AnchorPane>

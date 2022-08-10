@@ -3,11 +3,14 @@ package yome.fgo.simulator.gui.creators;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.Target;
@@ -24,6 +27,8 @@ import java.util.Set;
 import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;
 import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_BUFF;
@@ -55,13 +60,13 @@ public class VariationBuilderFXMLController implements Initializable {
     private Label conditionLabel;
 
     @FXML
-    private AnchorPane conditionPane;
+    private VBox conditionPane;
 
     @FXML
     private Label errorLabel;
 
     @FXML
-    private AnchorPane hpPane;
+    private HBox hpPane;
 
     @FXML
     private Label maxCountDescLabel;
@@ -70,7 +75,7 @@ public class VariationBuilderFXMLController implements Initializable {
     private Label maxCountLabel;
 
     @FXML
-    private AnchorPane maxCountPane;
+    private HBox maxCountPane;
 
     @FXML
     private TextField maxCountText;
@@ -88,22 +93,19 @@ public class VariationBuilderFXMLController implements Initializable {
     private TextField minHpText;
 
     @FXML
-    private Button removeConditionButton;
-
-    @FXML
     private ChoiceBox<Target> targetChoices;
 
     @FXML
     private Label targetLabel;
 
     @FXML
-    private AnchorPane targetPane;
+    private HBox targetPane;
 
     @FXML
     private Label traitLabel;
 
     @FXML
-    private AnchorPane traitPane;
+    private HBox traitPane;
 
     @FXML
     private TextField traitText;
@@ -179,10 +181,15 @@ public class VariationBuilderFXMLController implements Initializable {
         fillTargets(targetChoices);
 
         conditionLabel.setText(getTranslation(APPLICATION_SECTION, "Buff Condition"));
-        builtConditionLabel.setText(null);
 
-        addConditionButton.setText(getTranslation(APPLICATION_SECTION, "Edit"));
-        removeConditionButton.setText(getTranslation(APPLICATION_SECTION, "Remove"));
+        addConditionButton.setGraphic(createInfoImageView("edit"));
+        addConditionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit")));
+        addConditionButton.setOnAction(e -> onAddConditionButtonClick());
+        addConditionButton.setText(null);
+        builtConditionLabel.setPadding(new Insets(5));
+        builtConditionLabel.setMaxWidth(Double.MAX_VALUE);
+        builtConditionLabel.setStyle(SPECIAL_INFO_BOX_STYLE);
+        builtConditionLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
 
         buildButton.setText(getTranslation(APPLICATION_SECTION, "Build"));
         cancelButton.setText(getTranslation(APPLICATION_SECTION, "Cancel"));

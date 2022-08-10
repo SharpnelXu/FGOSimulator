@@ -440,7 +440,6 @@ public class BuffBuilderFXMLController implements Initializable {
         conditionCheckbox.setText(getTranslation(APPLICATION_SECTION, "Apply Condition"));
         conditionEditButton.setDisable(true);
         builtConditionLabel.setDisable(true);
-        builtConditionLabel.setText(getTranslation(APPLICATION_SECTION, "Leave unchecked to always apply"));
         conditionCheckbox.setOnAction(e -> {
             conditionEditButton.setDisable(!conditionCheckbox.isSelected());
             builtConditionLabel.setDisable(!conditionCheckbox.isSelected());
