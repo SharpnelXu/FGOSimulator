@@ -8,6 +8,8 @@ import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.combatants.NoblePhantasm;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +70,13 @@ public class StatsLogger extends VBox {
         );
 
         appendLogEntry(ACTION, message);
+    }
+
+    public void logException(final String errorDesc, final Exception e) {
+        appendLogEntry(ACTION, errorDesc + ": " + e);
+        final StringWriter s= new StringWriter();
+        e.printStackTrace(new PrintWriter(s)); // writing the stack trace in the writer
+        appendLogEntry(DEBUG, s.toString());
     }
 
     public enum LogLevel {

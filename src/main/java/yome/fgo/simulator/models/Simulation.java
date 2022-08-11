@@ -17,7 +17,6 @@ import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.EffectFactory;
 import yome.fgo.simulator.models.effects.NpChange;
 import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.StartOfTurnEffect;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.levels.Stage;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
@@ -231,12 +230,20 @@ public class Simulation {
     }
 
     public void activateServantSkill(final int servantIndex, final int activeSkillIndex) {
+        if (isSimulationCompleted()) {
+            return;
+        }
+
         takeSnapshot();
 
         currentServants.get(servantIndex).activateActiveSkill(this, activeSkillIndex);
     }
 
     public void activateMysticCodeSkill(final int skillIndex) {
+        if (isSimulationCompleted()) {
+            return;
+        }
+
         takeSnapshot();
 
         setActivator(mysticCodeActivator);
@@ -248,6 +255,10 @@ public class Simulation {
     }
 
     public boolean canActivateMysticCodeSkill(final int i) {
+        if (isSimulationCompleted()) {
+            return false;
+        }
+
         setActivator(mysticCodeActivator);
 
         final boolean result = mysticCode.canActivateSkill(this, i);
@@ -258,6 +269,10 @@ public class Simulation {
     }
 
     public void executeCombatActions(final List<CombatAction> combatActions) {
+        if (isSimulationCompleted()) {
+            return;
+        }
+
         takeSnapshot();
 
         currentStars = 0;
@@ -654,15 +669,25 @@ public class Simulation {
     }
 
     public void activateCustomEffect(final EffectData effectData) {
-        takeSnapshot();
+        if (isSimulationCompleted()) {
+            return;
+        }
 
-        setActivator(nullSourceSkillActivator);
+        try {
+            takeSnapshot();
 
-        EffectFactory.buildEffect(effectData, 1).apply(this, 1);
+            setActivator(nullSourceSkillActivator);
 
-        checkBuffStatus();
+            EffectFactory.buildEffect(effectData, 1).apply(this, 1);
 
-        unsetActivator();
+            checkBuffStatus();
+
+            unsetActivator();
+        } catch (final Exception e) {
+            if (getStatsLogger() != null) {
+                getStatsLogger().logException("Error activating custom effect", e);
+            }
+        }
     }
 
     private Stack<Snapshot> snapshots = new Stack<>();

@@ -260,28 +260,32 @@ public class SimulationWindow {
     }
 
     public void render() {
-        for (final ServantDisplay servantDisplay : servantDisplays) {
-            servantDisplay.renderServant();
-        }
-        servantDisplays.get(simulation.getCurrentAllyTargetIndex()).setSelected();
-        miscDisplay.renderMisc();
-
-        final List<Combatant> enemies = simulation.getCurrentEnemies();
-        final List<Node> nodes = enemyGrid.getChildren();
-        final int maxIndex = Math.max(enemies.size(), nodes.size());
-        for (int i = 0; i < maxIndex; i += 1) {
-            if (nodes.size() > i) {
-                ((EnemyDisplay) nodes.get(i)).renderEnemy();
-            } else {
-                final EnemyDisplay node = new EnemyDisplay(this, i, enemyToggle);
-                final int size = nodes.size();
-                final int rowIndex = size / 3;
-                final int colIndex = 2 - size % 3;
-                enemyGrid.add(node, colIndex, rowIndex);
-                node.renderEnemy();
+        try {
+            for (final ServantDisplay servantDisplay : servantDisplays) {
+                servantDisplay.renderServant();
             }
+            servantDisplays.get(simulation.getCurrentAllyTargetIndex()).setSelected();
+            miscDisplay.renderMisc();
+
+            final List<Combatant> enemies = simulation.getCurrentEnemies();
+            final List<Node> nodes = enemyGrid.getChildren();
+            final int maxIndex = Math.max(enemies.size(), nodes.size());
+            for (int i = 0; i < maxIndex; i += 1) {
+                if (nodes.size() > i) {
+                    ((EnemyDisplay) nodes.get(i)).renderEnemy();
+                } else {
+                    final EnemyDisplay node = new EnemyDisplay(this, i, enemyToggle);
+                    final int size = nodes.size();
+                    final int rowIndex = size / 3;
+                    final int colIndex = 2 - size % 3;
+                    enemyGrid.add(node, colIndex, rowIndex);
+                    node.renderEnemy();
+                }
+            }
+            ((EnemyDisplay) enemyGrid.getChildren().get(simulation.getCurrentEnemyTargetIndex())).setSelected();
+        } catch (final Exception e) {
+            statsLogger.logException("Render error", e);
         }
-        ((EnemyDisplay) enemyGrid.getChildren().get(simulation.getCurrentEnemyTargetIndex())).setSelected();
     }
 
     public Simulation getSimulation() {

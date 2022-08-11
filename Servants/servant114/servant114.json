@@ -109,6 +109,11 @@
         "effects": [{
           "type": "GrantBuff",
           "target": "SELF",
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "DEMONIC",
+            "target": "DEFENDER"
+          },
           "buffData": [{
             "type": "SpecificAttackBuff",
             "numTurnsActive": 3,
@@ -823,7 +828,7 @@
           "type": "GrantBuff",
           "target": "ALL_ENEMIES",
           "buffData": [{
-            "type": "CriticalStarGenerationBuff",
+            "type": "CriticalRateBuff",
             "numTurnsActive": 3,
             "values": [-0.2],
             "buffIcon": "critChanceDown"

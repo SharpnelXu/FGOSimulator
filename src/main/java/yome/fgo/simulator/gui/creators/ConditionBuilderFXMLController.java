@@ -225,7 +225,7 @@ public class ConditionBuilderFXMLController implements Initializable {
         buildButton.setText(getTranslation(APPLICATION_SECTION, "Build"));
 
         buffTraitToggle = new ToggleGroup();
-        final Label regularBuffTraitLabel = new Label(getTranslation(APPLICATION_SECTION, "Add custom buff traits"));
+        final Label regularBuffTraitLabel = new Label(getTranslation(APPLICATION_SECTION, "Buff Trait"));
         regularBuffTraitsHBox.getChildren().add(regularBuffTraitLabel);
         buffTraitsMap = new HashMap<>();
         for (final BuffTraits buffTrait : REGULAR_BUFF_TRAITS) {
