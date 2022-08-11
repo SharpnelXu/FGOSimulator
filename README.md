@@ -15,15 +15,36 @@
 ## 使用说明
 
 ### 下载
-在Release页面中下载FGO.Simulator.v1.00.zip：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.00)
+在Release页面中下载当前版本的压缩包解压就好：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.00)
+
+当前版本：v1.00，数据版本：v1.00.0
+
+![下载程序](./ReadmePic/System/download1.png)
 
 ### 运行
 我用Java15（corretto 15.0.2）写的，所以应该装个Java15以上就能跑？
 
 主程序在`Program`文件夹下，请不要随意挪到别的文件夹！另外`CommandCodes`, `CraftEssences`, `Enemies`, `Icons`, `Levels`, `MysticCodes`, `Servants`, 
-`Translations`文件夹及各种默认图片也请不要随意乱动。
+`Translations`文件夹及各种默认图片也请不要随意挪动。
 
-另外是支持多语言的，在`Translations`文件夹下加就好。首选的语言可以在`options.ini`里设置。
+另外是支持多语言的，有兴趣的在`Translations`文件夹下加就好。首选的语言可以在`options.ini`里设置。
+
+### 更新
+
+目前我已经更新完了我自己会用到的大多数功能，接下来就比较佛系了。
+
+新从者的更新我倾向于使用者自己去更新，不过我自己也会跟进。目前的想法是打包数据包，可以从上面的传送门去对着版本号下载，然后解压缩替换掉本地的数据就好了。
+![下载数据](./ReadmePic/System/download2.png)
+
+### 反馈
+
+用于数据是手动录入，缺漏和错误肯定不在少数（我写个Readme都能瞅见好几个），虽然使用者可以自己本地改掉，但是也希望能反馈给我完善数据。
+
+最直接的是去NGA找我：[传送门](https://ngabbs.com/read.php?tid=31985286)
+
+或者加我QQ：695312637
+
+当然如果你有什么建议的话也欢迎提出来，现在战斗界面还有不少空间放其它功能。
 
 ## 战斗模拟
 
