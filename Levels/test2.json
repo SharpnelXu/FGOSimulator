@@ -1,0 +1,98 @@
+{
+  "id": "test2",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "鬼魂",
+      "hpBars": [12010],
+      "combatantDataOverride": {
+        "id": "鬼魂",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.8,
+        "undeadNpCorrection": true,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼魂/"
+    }, {
+      "enemyBaseId": "鬼魂",
+      "hpBars": [11009],
+      "combatantDataOverride": {
+        "id": "鬼魂",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.8,
+        "undeadNpCorrection": true,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼魂/"
+    }, {
+      "enemyBaseId": "鬼魂",
+      "hpBars": [13202],
+      "combatantDataOverride": {
+        "id": "鬼魂",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.8,
+        "undeadNpCorrection": true,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼魂/"
+    }, {
+      "enemyBaseId": "鬼魂",
+      "hpBars": [13379],
+      "combatantDataOverride": {
+        "id": "鬼魂",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.8,
+        "undeadNpCorrection": true,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼魂/"
+    }, {
+      "enemyBaseId": "恐怖鬼魂",
+      "hpBars": [26008],
+      "combatantDataOverride": {
+        "id": "恐怖鬼魂",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.5,
+        "undeadNpCorrection": true,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼魂/"
+    }, {
+      "enemyBaseId": "恐怖鬼魂",
+      "hpBars": [25364],
+      "combatantDataOverride": {
+        "id": "恐怖鬼魂",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.5,
+        "undeadNpCorrection": true,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼魂/"
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["SUNLIGHT"]
+  }]
+}
