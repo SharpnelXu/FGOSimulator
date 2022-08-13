@@ -223,7 +223,7 @@
       "healthStatusUp": 2000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [1, 1, 1],
       "commandCardOptions": [{
       }, {
       }, {
@@ -876,6 +876,20 @@
       "ascension": 1
     }
   }, {
+    "servantNo": 308,
+    "option": {
+      "servantLevel": 80,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
     "servantNo": 309,
     "option": {
       "servantLevel": 90,
@@ -934,12 +948,18 @@
     "option": {
       "servantLevel": 90,
       "noblePhantasmRank": 1,
-      "noblePhantasmLevel": 5,
+      "noblePhantasmLevel": 3,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -968,12 +988,12 @@
     "option": {
       "servantLevel": 90,
       "noblePhantasmRank": 1,
-      "noblePhantasmLevel": 3,
+      "noblePhantasmLevel": 4,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 10, 0],
+      "appendSkillLevels": [1, 10, 0],
       "commandCardOptions": [{
       }, {
       }, {
@@ -1304,12 +1324,18 @@
     "option": {
       "servantLevel": 90,
       "noblePhantasmRank": 1,
-      "noblePhantasmLevel": 5,
+      "noblePhantasmLevel": 1,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 2, 1],
-      "activeSkillLevels": [10, 10, 10],
+      "activeSkillLevels": [9, 9, 9],
       "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -1331,12 +1357,12 @@
     "servantNo": 118,
     "option": {
       "servantLevel": 90,
-      "noblePhantasmRank": 1,
-      "noblePhantasmLevel": 3,
+      "noblePhantasmRank": 2,
+      "noblePhantasmLevel": 4,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
-      "activeSkillRanks": [1, 1, 1],
-      "activeSkillLevels": [10, 10, 10],
+      "activeSkillRanks": [2, 1, 1],
+      "activeSkillLevels": [10, 9, 10],
       "appendSkillLevels": [0, 0, 0],
       "commandCardOptions": [{
       }, {
@@ -1400,12 +1426,18 @@
     "option": {
       "servantLevel": 90,
       "noblePhantasmRank": 2,
-      "noblePhantasmLevel": 5,
+      "noblePhantasmLevel": 3,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
-      "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "activeSkillLevels": [9, 10, 9],
+      "appendSkillLevels": [0, 1, 1],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -1432,6 +1464,20 @@
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
+    "servantNo": 146,
+    "option": {
+      "servantLevel": 80,
+      "noblePhantasmRank": 2,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [2, 1, 2],
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [0, 0, 0],
       "bond": 10,
@@ -1550,6 +1596,20 @@
       "ascension": 1
     }
   }, {
+    "servantNo": 170,
+    "option": {
+      "servantLevel": 80,
+      "noblePhantasmRank": 2,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [2, 2, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
     "servantNo": 171,
     "option": {
       "servantLevel": 80,
@@ -1558,7 +1618,7 @@
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
-      "activeSkillLevels": [9, 10, 9],
+      "activeSkillLevels": [10, 9, 10],
       "appendSkillLevels": [1, 1, 1],
       "commandCardOptions": [{
       }, {
@@ -1608,6 +1668,20 @@
       }],
       "bond": 10,
       "ascension": 2
+    }
+  }, {
+    "servantNo": 175,
+    "option": {
+      "servantLevel": 90,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
     }
   }, {
     "servantNo": 176,
@@ -1667,7 +1741,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [2, 1, 1],
       "activeSkillLevels": [10, 9, 9],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [1, 1, 0],
       "commandCardOptions": [{
       }, {
       }, {
@@ -1898,7 +1972,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 9],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [1, 10, 0],
       "commandCardOptions": [{
         "commandCode": "commandCode50",
         "hasCommandCode": true
@@ -1988,12 +2062,6 @@
       "isLimitBreak": true
     }
   }, {
-    "craftEssenceNo": 34,
-    "option": {
-      "craftEssenceLevel": 100,
-      "isLimitBreak": true
-    }
-  }, {
     "craftEssenceNo": 1474,
     "option": {
       "craftEssenceLevel": 100,
@@ -2003,12 +2071,6 @@
     "craftEssenceNo": 1283,
     "option": {
       "craftEssenceLevel": 100,
-      "isLimitBreak": true
-    }
-  }, {
-    "craftEssenceNo": 100,
-    "option": {
-      "craftEssenceLevel": 1,
       "isLimitBreak": true
     }
   }, {
@@ -2027,6 +2089,54 @@
     "craftEssenceNo": 1095,
     "option": {
       "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 1106,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 212,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 661,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 662,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 1498,
+    "option": {
+      "craftEssenceLevel": 15,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 412,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 34,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 100,
+    "option": {
+      "craftEssenceLevel": 1,
       "isLimitBreak": true
     }
   }, {
@@ -2060,9 +2170,9 @@
       "isLimitBreak": true
     }
   }, {
-    "craftEssenceNo": 212,
+    "craftEssenceNo": 1459,
     "option": {
-      "craftEssenceLevel": 100,
+      "craftEssenceLevel": 15,
       "isLimitBreak": true
     }
   }, {
@@ -2071,19 +2181,7 @@
       "craftEssenceLevel": 100
     }
   }, {
-    "craftEssenceNo": 661,
-    "option": {
-      "craftEssenceLevel": 100,
-      "isLimitBreak": true
-    }
-  }, {
     "craftEssenceNo": 309,
-    "option": {
-      "craftEssenceLevel": 100,
-      "isLimitBreak": true
-    }
-  }, {
-    "craftEssenceNo": 662,
     "option": {
       "craftEssenceLevel": 100,
       "isLimitBreak": true
@@ -2101,21 +2199,9 @@
       "isLimitBreak": true
     }
   }, {
-    "craftEssenceNo": 1498,
-    "option": {
-      "craftEssenceLevel": 15,
-      "isLimitBreak": true
-    }
-  }, {
     "craftEssenceNo": 1274,
     "option": {
       "craftEssenceLevel": 1,
-      "isLimitBreak": true
-    }
-  }, {
-    "craftEssenceNo": 412,
-    "option": {
-      "craftEssenceLevel": 100,
       "isLimitBreak": true
     }
   }],
@@ -2175,6 +2261,12 @@
     }
   }, {
     "mysticCodeNo": 13,
+    "option": {
+      "mysticCodeLevel": 10,
+      "gender": "FEMALE"
+    }
+  }, {
+    "mysticCodeNo": 15,
     "option": {
       "mysticCodeLevel": 10,
       "gender": "FEMALE"

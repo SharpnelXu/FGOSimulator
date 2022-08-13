@@ -5,21 +5,9 @@
   "gender": "FEMALE",
   "alignments": ["CHAOTIC", "EVIL"],
   "attribute": "BEAST",
-  "traits": ["DIVINE", "WILD_BEAST", "DEMONIC", "MASSIVE"],
+  "traits": ["DIVINE", "WILD_BEAST", "DEMONIC", "MASSIVE", "IMMUNE_TO_PIGIFY"],
   "enemyPassiveSkillData": [{
     "effects": [{
-      "type": "GrantBuff",
-      "target": "SELF",
-      "buffData": [{
-        "type": "DebuffResist",
-        "applyCondition": {
-          "type": "BuffTypeEquals",
-          "value": "Pigify"
-        },
-        "values": [10.0],
-        "buffIcon": "immune"
-      }]
-    }, {
       "type": "GrantBuff",
       "target": "SELF",
       "buffData": [{
