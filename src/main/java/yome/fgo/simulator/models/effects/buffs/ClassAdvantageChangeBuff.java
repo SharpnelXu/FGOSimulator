@@ -99,7 +99,7 @@ public class ClassAdvantageChangeBuff extends Buff {
                     .collect(Collectors.joining(", "));
         }
 
-        return base;
+        return base + miscString();
     }
 
 }
