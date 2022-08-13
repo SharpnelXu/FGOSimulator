@@ -5,5 +5,99 @@
   "gender": "FEMALE",
   "alignments": ["CHAOTIC", "EVIL"],
   "attribute": "BEAST",
-  "traits": ["DIVINE", "WILD_BEAST", "DEMONIC", "MASSIVE"]
+  "traits": ["DIVINE", "WILD_BEAST", "DEMONIC", "MASSIVE"],
+  "enemyPassiveSkillData": [{
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "DebuffResist",
+        "applyCondition": {
+          "type": "BuffTypeEquals",
+          "value": "Pigify"
+        },
+        "values": [10.0],
+        "buffIcon": "immune"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "ClassAdvantageChangeBuff",
+        "applyCondition": {
+          "type": "And",
+          "subConditionData": [{
+            "type": "Not",
+            "subConditionData": [{
+              "type": "TargetsHaveClass",
+              "value": "CASTER",
+              "target": "DEFENDER"
+            }]
+          }, {
+            "type": "TargetsHaveTrait",
+            "value": "HOMINIDAE_SERVANT",
+            "target": "DEFENDER"
+          }]
+        },
+        "classAdvChangeAdditionalParams": {
+          "attackMode": "CLASS_ADV_FIXED_RATE",
+          "attackAdv": 2.0,
+          "attackModeAffectedClasses": ["ANY_CLASS"],
+          "customizeAttackModifier": true
+        }
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "ClassAdvantageChangeBuff",
+        "applyCondition": {
+          "type": "TargetsHaveTrait",
+          "value": "HOMINIDAE_SERVANT",
+          "target": "DEFENDER"
+        },
+        "classAdvChangeAdditionalParams": {
+          "attackMode": "CLASS_ADV_FIXED_RATE",
+          "attackAdv": 1.0,
+          "attackModeAffectedClasses": ["CASTER"],
+          "customizeAttackModifier": true
+        }
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "ClassAdvantageChangeBuff",
+        "applyCondition": {
+          "type": "TargetsHaveTrait",
+          "value": "DEMONIC_BEAST",
+          "target": "ATTACKER"
+        },
+        "classAdvChangeAdditionalParams": {
+          "defenseMode": "CLASS_ADV_FIXED_RATE",
+          "defenseAdv": 2.0,
+          "defenseModeAffectedClasses": ["ANY_CLASS"],
+          "customizeDefenseModifier": true
+        }
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "Curse",
+        "values": [20000.0],
+        "buffIcon": "curse"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "DefenseBuff",
+        "values": [-0.3],
+        "buffIcon": "defenseDown"
+      }],
+      "probabilities": [5.0]
+    }]
+  }]
 }
