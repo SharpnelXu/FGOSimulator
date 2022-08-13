@@ -371,6 +371,9 @@ public class Simulation {
                 combatant.endOfYourTurn(this);
             }
         }
+
+        mysticCode.decreaseCoolDown();
+
         removeDeadAlly();
         removeDeadEnemies();
     }

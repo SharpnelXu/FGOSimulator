@@ -61,4 +61,10 @@ public class MysticCode {
     public MysticCode makeCopy() {
         return new MysticCode(this);
     }
+
+    public void decreaseCoolDown() {
+        for (final ActiveSkill activeSkill : activeSkills) {
+            activeSkill.decreaseCoolDown(1);
+        }
+    }
 }
