@@ -67,6 +67,7 @@ public class Servant extends Combatant {
     private double currentNp;
 
     public Servant() {
+        super();
         this.isAlly = true;
     }
 

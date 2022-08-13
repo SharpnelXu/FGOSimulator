@@ -33,10 +33,12 @@ public class RemoveBuff extends IntValuedEffect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
 
-            if (removeFromStart) {
-                removeFromStart(simulation, combatant, probability, numToRemove);
-            } else {
-                removeFromEnd(simulation, combatant, probability, numToRemove);
+            if (combatant.isAlive(simulation)) {
+                if (removeFromStart) {
+                    removeFromStart(simulation, combatant, probability, numToRemove);
+                } else {
+                    removeFromEnd(simulation, combatant, probability, numToRemove);
+                }
             }
 
             simulation.unsetEffectTarget();

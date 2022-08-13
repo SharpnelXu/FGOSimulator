@@ -76,6 +76,7 @@ public class Combatant {
     // for testing
     public Combatant() {
         this.hpBars = ImmutableList.of(100);
+        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
     }
 
     // for testing
@@ -84,6 +85,7 @@ public class Combatant {
         this.hpBars = ImmutableList.of(1);
         this.combatantData = CombatantData.getDefaultInstance();
         this.enemyData = EnemyData.getDefaultInstance();
+        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
     }
 
     // for testing
@@ -582,14 +584,7 @@ public class Combatant {
     }
 
     public boolean activateGuts(final Simulation simulation) {
-        Guts gutsToApply = null;
-        for (final Buff buff : buffs) {
-            if (buff instanceof Guts && buff.shouldApply(simulation)) {
-                if (gutsToApply == null || (gutsToApply.isIrremovable() && !buff.isIrremovable())) {
-                    gutsToApply = (Guts) buff;
-                }
-            }
-        }
+        final Guts gutsToApply = getGutsToActivate(simulation);
         if (gutsToApply != null) {
             gutsToApply.setApplied();
             if (simulation.getStatsLogger() != null) {
@@ -691,5 +686,24 @@ public class Combatant {
 
     public Combatant makeCopy() {
         return new Combatant(this);
+    }
+
+    public boolean isAlive(final Simulation simulation) {
+        if (currentHp > 0 || hasNextHpBar()) {
+            return true;
+        }
+        return getGutsToActivate(simulation) != null;
+    }
+
+    public Guts getGutsToActivate(final Simulation simulation) {
+        Guts gutsToApply = null;
+        for (final Buff buff : buffs) {
+            if (buff instanceof Guts && buff.shouldApply(simulation)) {
+                if (gutsToApply == null || (gutsToApply.isIrremovable() && !buff.isIrremovable())) {
+                    gutsToApply = (Guts) buff;
+                }
+            }
+        }
+        return gutsToApply;
     }
 }

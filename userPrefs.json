@@ -846,12 +846,12 @@
     "option": {
       "servantLevel": 90,
       "noblePhantasmRank": 2,
-      "noblePhantasmLevel": 2,
+      "noblePhantasmLevel": 3,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [1, 1, 0],
       "commandCardOptions": [{
       }, {
       }, {
@@ -885,7 +885,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 9],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [1, 1, 1],
       "commandCardOptions": [{
       }, {
       }, {
@@ -968,12 +968,18 @@
     "option": {
       "servantLevel": 90,
       "noblePhantasmRank": 1,
-      "noblePhantasmLevel": 5,
+      "noblePhantasmLevel": 3,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [0, 10, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -1540,6 +1546,26 @@
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
+    "servantNo": 171,
+    "option": {
+      "servantLevel": 80,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [9, 10, 9],
+      "appendSkillLevels": [1, 1, 1],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -2125,6 +2151,12 @@
     }
   }, {
     "mysticCodeNo": 4,
+    "option": {
+      "mysticCodeLevel": 10,
+      "gender": "FEMALE"
+    }
+  }, {
+    "mysticCodeNo": 5,
     "option": {
       "mysticCodeLevel": 10,
       "gender": "FEMALE"
