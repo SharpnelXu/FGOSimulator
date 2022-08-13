@@ -3,6 +3,8 @@
   "rarity": 4,
   "fateClass": "CASTER",
   "attribute": "SKY",
-  "traits": ["DIVINE"],
-  "deathRate": 0.2
+  "traits": ["DIVINE", "IMMUNE_TO_PIGIFY"],
+  "deathRate": 0.2,
+  "enemyPassiveSkillData": [{
+  }]
 }

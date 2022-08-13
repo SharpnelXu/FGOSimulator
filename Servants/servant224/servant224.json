@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "GOOD"],
       "attribute": "SKY",
-      "traits": ["DIVINE", "ILLYA", "HOMINIDAE_SERVANT", "CHILD_SERVANT", "FAIRY_TALE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "ILLYA", "HOMINIDAE_SERVANT", "CHILD_SERVANT", "FAIRY_TALE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.25
     },
     "defenseNpRate": 0.04,

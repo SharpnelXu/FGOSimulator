@@ -7,7 +7,7 @@
       "gender": "MALE",
       "alignments": ["CHAOTIC", "BALANCED"],
       "attribute": "STAR",
-      "traits": ["ROMAN", "KING", "HOMINIDAE_SERVANT", "HUMANOID"],
+      "traits": ["ROMAN", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.32
     },
     "defenseNpRate": 0.04,

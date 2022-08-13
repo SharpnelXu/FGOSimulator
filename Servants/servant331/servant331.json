@@ -7,7 +7,7 @@
       "gender": "MALE",
       "alignments": ["NEUTRAL", "GOOD"],
       "attribute": "EARTH",
-      "traits": ["RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.25
     },
     "defenseNpRate": 0.03,

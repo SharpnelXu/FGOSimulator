@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "SKY",
-      "traits": ["DRAGON", "DEMONIC", "DEMONIC_BEAST", "DIVINE_SPIRIT", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DRAGON", "DEMONIC", "DEMONIC_BEAST", "DIVINE_SPIRIT", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.24
     },
     "defenseNpRate": 0.04,

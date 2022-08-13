@@ -7,7 +7,7 @@
       "gender": "OTHER",
       "alignments": ["CHAOTIC", "BALANCED"],
       "attribute": "EARTH",
-      "traits": ["DEMONIC", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "FEMININE_LOOKING_SERVANT"],
+      "traits": ["DEMONIC", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "FEMININE_LOOKING_SERVANT", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.275
     },
     "defenseNpRate": 0.04,

@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "EVIL"],
       "attribute": "BEAST",
-      "traits": ["DIVINE", "HOMINIDAE_SERVANT", "HUMANOID", "PSEUDO_SERVANT", "RIDING", "DEMONIC", "KING"],
+      "traits": ["DIVINE", "HOMINIDAE_SERVANT", "HUMANOID", "PSEUDO_SERVANT", "RIDING", "DEMONIC", "KING", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.03
     },
     "defenseNpRate": 0.03,

@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "GOOD"],
       "attribute": "SKY",
-      "traits": ["ONI", "DIVINE", "DRAGON", "RIDING", "DEMONIC", "DEMONIC_BEAST", "GIANT", "DIVINE_SPIRIT", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["ONI", "DIVINE", "DRAGON", "RIDING", "DEMONIC", "DEMONIC_BEAST", "GIANT", "DIVINE_SPIRIT", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.175
     },
     "defenseNpRate": 0.03,
@@ -750,26 +750,46 @@
           "buffData": [{
             "type": "CommandCardResist",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
             "values": [-0.2],
             "buffIcon": "busterResistDown"
           }, {
             "type": "CommandCardResist",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
             "values": [-0.25],
             "buffIcon": "busterResistDown"
           }, {
             "type": "CommandCardResist",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
             "values": [-0.3],
             "buffIcon": "busterResistDown"
           }, {
             "type": "CommandCardResist",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
             "values": [-0.35],
             "buffIcon": "busterResistDown"
           }, {
             "type": "CommandCardResist",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "BUSTER"
+            },
             "values": [-0.4],
             "buffIcon": "busterResistDown"
           }]

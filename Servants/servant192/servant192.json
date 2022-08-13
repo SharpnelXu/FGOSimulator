@@ -658,6 +658,14 @@
         }, {
           "type": "GrantBuff",
           "target": "TARGETED_ENEMY",
+          "applyCondition": {
+            "type": "Not",
+            "subConditionData": [{
+              "type": "TargetsHaveTrait",
+              "value": "IMMUNE_TO_PIGIFY",
+              "target": "EFFECT_TARGET"
+            }]
+          },
           "buffData": [{
             "type": "Pigify",
             "numTurnsActive": 1,
@@ -709,6 +717,14 @@
         }, {
           "type": "GrantBuff",
           "target": "TARGETED_ENEMY",
+          "applyCondition": {
+            "type": "Not",
+            "subConditionData": [{
+              "type": "TargetsHaveTrait",
+              "value": "IMMUNE_TO_PIGIFY",
+              "target": "EFFECT_TARGET"
+            }]
+          },
           "buffData": [{
             "type": "Pigify",
             "numTurnsActive": 1,

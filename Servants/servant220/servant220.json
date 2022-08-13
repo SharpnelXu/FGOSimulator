@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["DIVINE", "MASSIVE", "GIANT", "EXISTENCE_OUTSIDE_DOMAIN", "MECHANICAL", "DIVINE_SPIRIT", "HAS_COSTUME", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "MASSIVE", "GIANT", "EXISTENCE_OUTSIDE_DOMAIN", "MECHANICAL", "DIVINE_SPIRIT", "HAS_COSTUME", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.005
     },
     "defenseNpRate": 0.03,

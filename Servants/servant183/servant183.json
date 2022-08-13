@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "GOOD"],
       "attribute": "SKY",
-      "traits": ["DIVINE", "PSEUDO_SERVANT", "HOMINIDAE_SERVANT", "LIVING_HUMAN", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "PSEUDO_SERVANT", "HOMINIDAE_SERVANT", "LIVING_HUMAN", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.28
     },
     "defenseNpRate": 0.04,

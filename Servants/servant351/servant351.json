@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "GOOD"],
       "attribute": "STAR",
-      "traits": ["HUMANOID"],
+      "traits": ["HUMANOID", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.006
     },
     "defenseNpRate": 0.03,
@@ -817,7 +817,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "GOOD"],
       "attribute": "STAR",
-      "traits": ["HUMANOID"],
+      "traits": ["HUMANOID", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.006
     },
     "defenseNpRate": 0.03,

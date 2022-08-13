@@ -7,7 +7,7 @@
       "gender": "MALE",
       "alignments": ["NEUTRAL", "BALANCED"],
       "attribute": "MAN",
-      "traits": ["BRYNHILDS_BELOVED", "GENJI", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["BRYNHILDS_BELOVED", "GENJI", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.405
     },
     "defenseNpRate": 0.03,

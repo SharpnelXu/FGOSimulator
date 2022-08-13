@@ -7,7 +7,7 @@
       "gender": "OTHER",
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["DIVINE", "FEMININE_LOOKING_SERVANT", "CAENIS", "BRYNHILDS_BELOVED", "KING", "ASSOCIATED_TO_THE_ARGO", "DIVINE_SPIRIT", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "FEMININE_LOOKING_SERVANT", "CAENIS", "BRYNHILDS_BELOVED", "KING", "ASSOCIATED_TO_THE_ARGO", "DIVINE_SPIRIT", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.36
     },
     "defenseNpRate": 0.04,

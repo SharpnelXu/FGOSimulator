@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["FAE", "DRAGON", "BRYNHILDS_BELOVED", "DEMONIC_BEAST", "KNIGHTS_OF_THE_ROUND", "FAIRY_TALE_SERVANT", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "HUMANOID"],
+      "traits": ["FAE", "DRAGON", "BRYNHILDS_BELOVED", "DEMONIC_BEAST", "KNIGHTS_OF_THE_ROUND", "FAIRY_TALE_SERVANT", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "HUMANOID", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.23
     },
     "defenseNpRate": 0.04,
@@ -750,7 +750,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["FAE", "DRAGON", "BRYNHILDS_BELOVED", "DEMONIC_BEAST", "FAIRY_TALE_SERVANT", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "HUMANOID"],
+      "traits": ["FAE", "DRAGON", "BRYNHILDS_BELOVED", "DEMONIC_BEAST", "FAIRY_TALE_SERVANT", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "HUMANOID", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.23
     },
     "defenseNpRate": 0.04,
@@ -1493,7 +1493,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["FAE", "DRAGON", "BRYNHILDS_BELOVED", "DEMONIC_BEAST", "FAIRY_TALE_SERVANT", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "HUMANOID"],
+      "traits": ["FAE", "DRAGON", "BRYNHILDS_BELOVED", "DEMONIC_BEAST", "FAIRY_TALE_SERVANT", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "HUMANOID", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.23
     },
     "defenseNpRate": 0.04,

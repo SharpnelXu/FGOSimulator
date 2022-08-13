@@ -7,7 +7,7 @@
       "gender": "MALE",
       "alignments": ["NEUTRAL", "BALANCED"],
       "attribute": "EARTH",
-      "traits": ["DIVINE", "DEMONIC", "CHILD_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "DEMONIC", "CHILD_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.35
     },
     "defenseNpRate": 0.04,

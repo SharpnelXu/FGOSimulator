@@ -7,7 +7,7 @@
       "gender": "MALE",
       "alignments": ["CHAOTIC", "BALANCED"],
       "attribute": "SKY",
-      "traits": ["DIVINE", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.315
     },
     "defenseNpRate": 0.03,

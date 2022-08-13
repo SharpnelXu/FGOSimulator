@@ -3,23 +3,10 @@
   "rarity": 4,
   "fateClass": "BERSERKER",
   "attribute": "EARTH",
-  "traits": ["FAE", "DEMONIC"],
+  "traits": ["FAE", "DEMONIC", "IMMUNE_TO_PIGIFY"],
   "deathRate": 0.002,
   "enemyPassiveSkillData": [{
     "effects": [{
-      "type": "GrantBuff",
-      "target": "SELF",
-      "buffData": [{
-        "type": "DebuffResist",
-        "applyCondition": {
-          "type": "BuffTypeEquals",
-          "value": "Pigify"
-        },
-        "values": [10.0],
-        "buffIcon": "immune"
-      }],
-      "probabilities": [5.0]
-    }, {
       "type": "GrantBuff",
       "target": "SELF",
       "buffData": [{

@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "GOOD"],
       "attribute": "SKY",
-      "traits": ["DIVINE", "KING", "DIVINE_SPIRIT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "KING", "DIVINE_SPIRIT", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.3
     },
     "defenseNpRate": 0.03,

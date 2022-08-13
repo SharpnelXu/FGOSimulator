@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "BALANCED"],
       "attribute": "EARTH",
-      "traits": ["DIVINE", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.35
     },
     "defenseNpRate": 0.04,

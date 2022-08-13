@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "GOOD"],
       "attribute": "MAN",
-      "traits": ["THREAT_TO_HUMANITY", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["THREAT_TO_HUMANITY", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.5
     },
     "defenseNpRate": 0.04,

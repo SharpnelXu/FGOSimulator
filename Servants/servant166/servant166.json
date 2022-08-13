@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "GOOD"],
       "attribute": "MAN",
-      "traits": ["HOMINIDAE_SERVANT", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["HOMINIDAE_SERVANT", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.006
     },
     "defenseNpRate": 0.03,

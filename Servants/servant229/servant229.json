@@ -7,7 +7,7 @@
       "gender": "MALE",
       "alignments": ["LAWFUL", "GOOD"],
       "attribute": "MAN",
-      "traits": ["KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.236
     },
     "defenseNpRate": 0.03,
