@@ -656,6 +656,7 @@ public class SimulationWindow {
             final Label durationLabel = new Label(buff.durationString());
             buffGrid.add(durationLabel, 2, i);
             final RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setFillHeight(false);
             rowConstraints.setValignment(VPos.CENTER);
             buffGrid.getRowConstraints().add(rowConstraints);
         }
