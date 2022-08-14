@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "GOOD"],
       "attribute": "STAR",
-      "traits": ["RIDING", "DRAGON", "SABER_FACE", "ARTHUR", "BRYNHILDS_BELOVED", "KING", "HOMINIDAE_SERVANT", "EXISTENCE_OUTSIDE_DOMAIN", "HUMANOID"],
+      "traits": ["RIDING", "DRAGON", "SABER_FACE", "ARTHUR", "BRYNHILDS_BELOVED", "KING", "HOMINIDAE_SERVANT", "SUMMER_SERVANTS", "EXISTENCE_OUTSIDE_DOMAIN", "HUMANOID"],
       "deathRate": 0.1
     },
     "defenseNpRate": 0.03,

@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "SKY",
-      "traits": ["DEMONIC", "DIVINE", "HOMINIDAE_SERVANT", "HUMANOID", "PSEUDO_SERVANT", "RIDING", "WEAK_TO_ENUMA_ELISH", "CHILD_SERVANT", "IMMUNE_TO_PIGIFY"],
+      "traits": ["DEMONIC", "DIVINE", "HOMINIDAE_SERVANT", "HUMANOID", "PSEUDO_SERVANT", "RIDING", "WEAK_TO_ENUMA_ELISH", "CHILD_SERVANT", "SUMMER_SERVANTS", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.05
     },
     "defenseNpRate": 0.05,
@@ -853,7 +853,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "SKY",
-      "traits": ["DEMONIC", "DIVINE", "HOMINIDAE_SERVANT", "HUMANOID", "PSEUDO_SERVANT", "RIDING", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
+      "traits": ["DEMONIC", "DIVINE", "HOMINIDAE_SERVANT", "HUMANOID", "PSEUDO_SERVANT", "RIDING", "WEAK_TO_ENUMA_ELISH", "SUMMER_SERVANTS", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.05
     },
     "defenseNpRate": 0.05,

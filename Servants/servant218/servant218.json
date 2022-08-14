@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "SUMMER"],
       "attribute": "MAN",
-      "traits": ["RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "GENJI", "FAIRY_TALE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "GENJI", "FAIRY_TALE_SERVANT", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.385
     },
     "defenseNpRate": 0.04,

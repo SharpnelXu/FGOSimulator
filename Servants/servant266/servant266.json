@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "GOOD"],
       "attribute": "EARTH",
-      "traits": ["DIVINE", "DRAGON", "RIDING", "DEMONIC", "MECHANICAL", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
+      "traits": ["DIVINE", "DRAGON", "RIDING", "DEMONIC", "MECHANICAL", "HAS_COSTUME", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.28
     },
     "defenseNpRate": 0.04,

@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["HOMINIDAE_SERVANT", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.005
     },
     "defenseNpRate": 0.03,
@@ -1021,7 +1021,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["DEMONIC_BEAST", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DEMONIC_BEAST", "HAVING_ANIMAL_CHARACTERISTICS", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.005
     },
     "defenseNpRate": 0.03,

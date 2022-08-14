@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "SUMMER"],
       "attribute": "MAN",
-      "traits": ["ILLYA", "HOMINIDAE_SERVANT", "LIVING_HUMAN", "CHILD_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["ILLYA", "HOMINIDAE_SERVANT", "LIVING_HUMAN", "CHILD_SERVANT", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.315
     },
     "defenseNpRate": 0.03,

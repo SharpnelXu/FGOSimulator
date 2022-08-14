@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "GOOD"],
       "attribute": "EARTH",
-      "traits": ["RIDING", "DEMONIC", "HOMINIDAE_SERVANT", "ONI", "GENJI", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["RIDING", "DEMONIC", "HOMINIDAE_SERVANT", "ONI", "GENJI", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.245
     },
     "defenseNpRate": 0.03,

@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["DEMONIC", "CHILD_SERVANT", "ONI", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DEMONIC", "CHILD_SERVANT", "ONI", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.36
     },
     "defenseNpRate": 0.04,

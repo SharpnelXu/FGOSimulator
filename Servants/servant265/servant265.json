@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "SUMMER"],
       "attribute": "SKY",
-      "traits": ["DRAGON", "SABER_FACE", "ARTHUR", "KING", "HOMINIDAE_SERVANT", "KNIGHTS_OF_THE_ROUND", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DRAGON", "SABER_FACE", "ARTHUR", "KING", "HOMINIDAE_SERVANT", "KNIGHTS_OF_THE_ROUND", "HAVING_ANIMAL_CHARACTERISTICS", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.21
     },
     "defenseNpRate": 0.03,

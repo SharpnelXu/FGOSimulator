@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "SUMMER"],
       "attribute": "EARTH",
-      "traits": ["RIDING", "HOMINIDAE_SERVANT", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["RIDING", "HOMINIDAE_SERVANT", "MECHANICAL", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.315
     },
     "defenseNpRate": 0.03,

@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "GOOD"],
       "attribute": "EARTH",
-      "traits": ["DRAGON", "SABER_FACE", "ARTHUR", "KING", "HOMINIDAE_SERVANT", "KNIGHTS_OF_THE_ROUND", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DRAGON", "SABER_FACE", "ARTHUR", "KING", "HOMINIDAE_SERVANT", "KNIGHTS_OF_THE_ROUND", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.258
     },
     "defenseNpRate": 0.03,

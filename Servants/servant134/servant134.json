@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["DRAGON", "HOMINIDAE_SERVANT", "CHILD_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DRAGON", "HOMINIDAE_SERVANT", "CHILD_SERVANT", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.4
     },
     "defenseNpRate": 0.04,

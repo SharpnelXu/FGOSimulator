@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "EVIL"],
       "attribute": "EARTH",
-      "traits": ["DIVINE", "THREAT_TO_HUMANITY", "HOMINIDAE_SERVANT", "CHILD_SERVANT", "EXISTENCE_OUTSIDE_DOMAIN", "HUMANOID"],
+      "traits": ["DIVINE", "THREAT_TO_HUMANITY", "HOMINIDAE_SERVANT", "CHILD_SERVANT", "EXISTENCE_OUTSIDE_DOMAIN", "SUMMER_SERVANTS", "HUMANOID"],
       "deathRate": 0.06
     },
     "defenseNpRate": 0.03,

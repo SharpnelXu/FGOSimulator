@@ -161,7 +161,7 @@
         "baseCoolDown": 7,
         "effects": [{
           "type": "GrantBuff",
-          "target": "SELF",
+          "target": "ALL_ALLIES",
           "buffData": [{
             "type": "AttackBuff",
             "numTurnsActive": 3,

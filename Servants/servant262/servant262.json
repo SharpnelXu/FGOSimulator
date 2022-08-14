@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "SUMMER"],
       "attribute": "EARTH",
-      "traits": ["DIVINE", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "HOMINIDAE_SERVANT", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.27
     },
     "defenseNpRate": 0.03,

@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "SUMMER"],
       "attribute": "MAN",
-      "traits": ["RIDING", "HOMINIDAE_SERVANT", "CHILD_SERVANT", "HUMANOID"],
+      "traits": ["RIDING", "HOMINIDAE_SERVANT", "SUMMER_SERVANTS", "CHILD_SERVANT", "HUMANOID"],
       "deathRate": 0.21
     },
     "defenseNpRate": 0.03,

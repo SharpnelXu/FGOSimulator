@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "GOOD"],
       "attribute": "STAR",
-      "traits": ["KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["KING", "HOMINIDAE_SERVANT", "HUMANOID", "SUMMER_SERVANTS", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.44
     },
     "defenseNpRate": 0.04,

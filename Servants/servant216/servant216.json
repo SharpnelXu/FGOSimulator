@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "SUMMER"],
       "attribute": "MAN",
-      "traits": ["SABER_FACE", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["SABER_FACE", "HOMINIDAE_SERVANT", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.36
     },
     "defenseNpRate": 0.03,

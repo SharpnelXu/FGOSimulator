@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "GOOD"],
       "attribute": "MAN",
-      "traits": ["DIVINE", "RIDING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "RIDING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.52
     },
     "defenseNpRate": 0.05,

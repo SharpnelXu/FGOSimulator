@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "GOOD"],
       "attribute": "SKY",
-      "traits": ["DIVINE", "KING", "HOMINIDAE_SERVANT", "DIVINE_SPIRIT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "KING", "HOMINIDAE_SERVANT", "DIVINE_SPIRIT", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.33
     },
     "defenseNpRate": 0.04,

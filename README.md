@@ -179,6 +179,11 @@
   
       ![例子](./ReadmePic/ServantBuilder/example1.png)
 
+- 快速生成技能数值为基础值 + 每级加值 * 0 ~ 10 （9除外） 
+
+  ![例子](./ReadmePic/EffectBuilder/quickFill.png)
+
+
 ### 从者编辑器
 
 ![基础信息](./ReadmePic/ServantBuilder/servantEditor1.png)
@@ -435,7 +440,7 @@
 - v1.01:
   - 系统
     - 修复了魔术礼装技能不减CD的Bug......
-    - 添加特性`猪化无效`
+    - 添加特性`猪化无效`，`夏日模式的从者`
   - 效果相关
     - 付与Buff效果的固定检测更正为效果对象是否还存活（HP > 0、拥有下一血条或是有可使用的毅力）
     - 解除Buff效果现在固定检测对象是否还存活

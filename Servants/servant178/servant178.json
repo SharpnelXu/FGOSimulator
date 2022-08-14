@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "SUMMER"],
       "attribute": "MAN",
-      "traits": ["KING", "HOMINIDAE_SERVANT", "NOBUNAGA", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["KING", "HOMINIDAE_SERVANT", "NOBUNAGA", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.52
     },
     "defenseNpRate": 0.05,
