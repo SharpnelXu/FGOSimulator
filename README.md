@@ -17,7 +17,7 @@
 ### 下载
 在Release页面中下载当前版本的压缩包解压就好：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.00)
 
-当前版本：v1.00，数据版本：v1.00.0
+当前版本：v1.01，数据版本：v1.01.0
 
 ![下载程序](./ReadmePic/System/download1.png)
 
