@@ -1881,7 +1881,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [1, 1, 0],
       "commandCardOptions": [{
         "commandCode": "commandCode54",
         "hasCommandCode": true

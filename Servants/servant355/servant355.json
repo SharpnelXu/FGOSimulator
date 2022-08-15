@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["CHAOTIC", "SUMMER"],
       "attribute": "SKY",
-      "traits": ["ONI", "DIVINE", "DRAGON", "DEMONIC", "DEMONIC_BEAST", "GIANT", "DIVINE_SPIRIT", "HAVING_ANIMAL_CHARACTERISTICS", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["ONI", "DIVINE", "DRAGON", "DEMONIC", "DEMONIC_BEAST", "GIANT", "DIVINE_SPIRIT", "HAVING_ANIMAL_CHARACTERISTICS", "SUMMER_SERVANTS", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.325
     },
     "defenseNpRate": 0.05,
