@@ -160,7 +160,7 @@ public class ConditionBuilderFXMLController implements Initializable {
             } else if (requiredFields.contains(CONDITION_FIELD_TRAIT_VALUE)) {
                 valueText.setText(getTranslation(TRAIT_SECTION, builder.getValue()));
             } else if (requiredFields.contains(CONDITION_FIELD_NAMES)) {
-                valueText.setText(getTranslation(ENTITY_NAME_SECTION, builder.getValue()));
+                valueText.setText(builder.getValue());
             }
 
             if (requiredFields.contains(CONDITION_FIELD_BUFF_TYPE)) {

@@ -1,0 +1,10 @@
+{
+  "id": "巨龙",
+  "rarity": 4,
+  "fateClass": "RIDER",
+  "attribute": "EARTH",
+  "traits": ["DRAGON", "MASSIVE"],
+  "deathRate": 0.002,
+  "enemyPassiveSkillData": [{
+  }]
+}

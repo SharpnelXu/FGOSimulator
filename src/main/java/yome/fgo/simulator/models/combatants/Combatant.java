@@ -59,6 +59,7 @@ public class Combatant {
     private int currentNpGauge;
     private int currentHpBarIndex;
     private int cumulativeTurnDamage;
+    private int activatorHash;
 
     protected CombatantData combatantData;
     protected EnemyData enemyData;
@@ -165,6 +166,7 @@ public class Combatant {
         }
         simulation.setActivatingServantPassiveEffects(false);
         simulation.unsetActivator();
+        this.activatorHash = hashCode();
     }
 
     public int getAttack() {
@@ -533,7 +535,7 @@ public class Combatant {
     public void clearPassiveBuff(final Combatant activator) {
         for (int j = buffs.size() - 1; j >= 0; j -= 1) {
             final Buff buff = buffs.get(j);
-            if (buff.isPassive() && buff.getActivatorHash() == activator.hashCode()) {
+            if (buff.isPassive() && buff.getActivatorHash() == activator.getActivatorHash()) {
                 buffs.remove(j);
             }
         }
@@ -671,6 +673,7 @@ public class Combatant {
         this.currentNpGauge = other.currentNpGauge;
         this.currentHpBarIndex = other.currentHpBarIndex;
         this.cumulativeTurnDamage = other.cumulativeTurnDamage;
+        this.activatorHash = other.activatorHash;
         this.combatantData = other.combatantData;
         this.enemyData = other.enemyData;
         this.id = other.id;
@@ -705,5 +708,9 @@ public class Combatant {
             }
         }
         return gutsToApply;
+    }
+
+    public int getActivatorHash() {
+        return activatorHash;
     }
 }
