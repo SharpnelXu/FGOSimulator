@@ -23,7 +23,7 @@ Also, this simulator supports translations. If you are interested, you can put y
 ## 使用说明
 
 ### 下载
-在Release页面中下载当前版本的压缩包解压就好：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.01)
+在Release页面中下载当前版本的压缩包解压就好：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.02)
 
 当前版本：v1.02，数据版本：v1.02.0
 
