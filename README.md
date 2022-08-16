@@ -445,6 +445,8 @@ Also, this simulator supports translations. If you are interested, you can put y
 ## 更新相关
 - v1.02:
   - ~~**重大更新**：添加了看板娘Sim娘~~
+  - 系统：
+    - 添加特性`瓦尔基里`
   - 条件相关
     - 修正了目标ID型条件再编辑无变动时可能无法正确处理同名从者的问题
   - 效果相关

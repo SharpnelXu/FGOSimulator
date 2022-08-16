@@ -64,6 +64,7 @@ enum Traits {
   MILLENNIUM_CASTLE = 58;
   IMMUNE_TO_PIGIFY = 59;
   SUMMER_SERVANTS = 60;
+  VALKYRIE = 61;
 }
 
 enum FateClass {

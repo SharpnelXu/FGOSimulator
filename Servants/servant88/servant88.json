@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "GOOD"],
       "attribute": "SKY",
-      "traits": ["DIVINE", "RIDING", "DIVINE_SPIRIT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "RIDING", "DIVINE_SPIRIT", "VALKTRIE", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.32
     },
     "defenseNpRate": 0.04,
