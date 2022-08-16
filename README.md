@@ -249,7 +249,7 @@ Also, this simulator supports translations. If you are interested, you can put y
   - 500%解除全体敌方攻击强化状态
   
     ![例子2](./ReadmePic/EffectBuilder/effectBuilder3.png)
-  - 降低全体敌方攻击力20%~40%3T随OC变化：（OC）付与全体敌方攻击力变化-20%~-40%3T
+  - 降低全体敌方攻击力20%\~40%3T随OC变化：（OC）付与全体敌方攻击力变化-20%\~-40%3T
   
     ![例子3](./ReadmePic/EffectBuilder/effectBuilder4.png)
   - 水院宝具：全体敌方宝具伤害450%~750%随等级提升，宝具特攻精神异常类状态随防御者精神异常类状态变化
