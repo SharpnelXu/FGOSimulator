@@ -1,0 +1,11 @@
+{
+  "id": "酷吏僵尸",
+  "rarity": 3,
+  "fateClass": "SABER",
+  "gender": "FEMALE",
+  "attribute": "EARTH",
+  "traits": ["HUMAN", "UNDEAD", "HUMANOID", "DEMONIC"],
+  "deathRate": 0.2,
+  "enemyPassiveSkillData": [{
+  }]
+}

@@ -4,6 +4,8 @@
   "fateClass": "RIDER",
   "gender": "FEMALE",
   "attribute": "SKY",
-  "traits": ["HUMANOID", "DIVINE"],
-  "deathRate": 0.2
+  "traits": ["HUMANOID", "DIVINE", "VALKTRIE"],
+  "deathRate": 0.2,
+  "enemyPassiveSkillData": [{
+  }]
 }

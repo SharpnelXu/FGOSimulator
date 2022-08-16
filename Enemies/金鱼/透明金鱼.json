@@ -1,0 +1,10 @@
+{
+  "id": "透明金鱼",
+  "rarity": 2,
+  "fateClass": "RIDER",
+  "attribute": "EARTH",
+  "traits": ["DIVINE", "DEMONIC"],
+  "deathRate": 0.8,
+  "enemyPassiveSkillData": [{
+  }]
+}

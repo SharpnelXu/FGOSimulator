@@ -1,0 +1,10 @@
+{
+  "id": "伟大那伽",
+  "rarity": 4,
+  "fateClass": "LANCER",
+  "attribute": "SKY",
+  "traits": ["DIVINE", "DRAGON", "DEMONIC", "MASSIVE"],
+  "deathRate": 0.01,
+  "enemyPassiveSkillData": [{
+  }]
+}
