@@ -2,7 +2,7 @@
 
 未来大概就只在github随缘更新，但是现有的制作器基本支持写出绝大部分东西了。
 
-Also, this simulator supports translations. If you are interested, you can put your translations under `Translations` folder. The language to use is currently mannually configured in `options.ini`. However, some String key may not reflect what they are representing, so you can contact me via discord Yome#1561 for explanations if you are serious about your translations.
+Also, this simulator supports translations. If you are interested, you can put your translations under `Translations` folder. The language to use is currently manually configured in `options.ini`. Most of the string keys are direct descriptions, but you can still contact me via discord Yome#1561 for explanations if you are curious about what each key does.
 
 另外是支持多语言的，有兴趣的在`Translations`文件夹下加就好。首选的语言可以在`options.ini`里设置。
 
