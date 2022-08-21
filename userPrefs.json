@@ -966,14 +966,14 @@
   }, {
     "servantNo": 312,
     "option": {
-      "servantLevel": 100,
+      "servantLevel": 90,
       "noblePhantasmRank": 1,
       "noblePhantasmLevel": 5,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 10],
+      "appendSkillLevels": [1, 1, 1],
       "commandCardOptions": [{
       }, {
       }, {
@@ -1118,6 +1118,26 @@
       }],
       "bond": 10,
       "ascension": 2
+    }
+  }, {
+    "servantNo": 323,
+    "option": {
+      "servantLevel": 80,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 10, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
+      "bond": 10,
+      "ascension": 1
     }
   }, {
     "servantNo": 70,
@@ -1362,14 +1382,14 @@
   }, {
     "servantNo": 357,
     "option": {
-      "servantLevel": 1,
+      "servantLevel": 90,
       "noblePhantasmRank": 1,
       "noblePhantasmLevel": 5,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [1, 1],
+      "appendSkillLevels": [1, 1, 0],
       "commandCardOptions": [{
       }, {
       }, {
@@ -1382,14 +1402,14 @@
   }, {
     "servantNo": 358,
     "option": {
-      "servantLevel": 1,
+      "servantLevel": 80,
       "noblePhantasmRank": 1,
       "noblePhantasmLevel": 5,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [1, 1],
+      "appendSkillLevels": [1, 1, 1],
       "commandCardOptions": [{
       }, {
       }, {
@@ -1402,7 +1422,7 @@
   }, {
     "servantNo": 359,
     "option": {
-      "servantLevel": 1,
+      "servantLevel": 80,
       "noblePhantasmRank": 1,
       "noblePhantasmLevel": 5,
       "attackStatusUp": 1000,
@@ -1410,6 +1430,32 @@
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
+    "servantNo": 360,
+    "option": {
+      "servantLevel": 80,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -1424,6 +1470,12 @@
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -1889,7 +1941,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [2, 1, 1],
       "activeSkillLevels": [10, 9, 9],
-      "appendSkillLevels": [1, 1, 0],
+      "appendSkillLevels": [0, 1, 6],
       "commandCardOptions": [{
       }, {
       }, {
@@ -1998,6 +2050,26 @@
       "ascension": 1
     }
   }, {
+    "servantNo": 224,
+    "option": {
+      "servantLevel": 90,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 3,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [9, 10, 10],
+      "appendSkillLevels": [0, 1, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
     "servantNo": 225,
     "option": {
       "servantLevel": 80,
@@ -2021,7 +2093,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [9, 9, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [1, 1, 1],
       "commandCardOptions": [{
       }, {
       }, {
@@ -2366,37 +2438,13 @@
     }
   }],
   "mcPrefs": [{
-    "mysticCodeNo": 16,
-    "option": {
-      "mysticCodeLevel": 10,
-      "gender": "FEMALE"
-    }
-  }, {
-    "mysticCodeNo": 17,
-    "option": {
-      "mysticCodeLevel": 10,
-      "gender": "FEMALE"
-    }
-  }, {
     "mysticCodeNo": 2,
     "option": {
       "mysticCodeLevel": 10,
       "gender": "FEMALE"
     }
   }, {
-    "mysticCodeNo": 18,
-    "option": {
-      "mysticCodeLevel": 10,
-      "gender": "FEMALE"
-    }
-  }, {
     "mysticCodeNo": 3,
-    "option": {
-      "mysticCodeLevel": 10,
-      "gender": "FEMALE"
-    }
-  }, {
-    "mysticCodeNo": 19,
     "option": {
       "mysticCodeLevel": 10,
       "gender": "FEMALE"
@@ -2432,7 +2480,37 @@
       "gender": "FEMALE"
     }
   }, {
+    "mysticCodeNo": 14,
+    "option": {
+      "mysticCodeLevel": 10,
+      "gender": "FEMALE"
+    }
+  }, {
     "mysticCodeNo": 15,
+    "option": {
+      "mysticCodeLevel": 10,
+      "gender": "FEMALE"
+    }
+  }, {
+    "mysticCodeNo": 16,
+    "option": {
+      "mysticCodeLevel": 10,
+      "gender": "FEMALE"
+    }
+  }, {
+    "mysticCodeNo": 17,
+    "option": {
+      "mysticCodeLevel": 10,
+      "gender": "FEMALE"
+    }
+  }, {
+    "mysticCodeNo": 18,
+    "option": {
+      "mysticCodeLevel": 10,
+      "gender": "FEMALE"
+    }
+  }, {
+    "mysticCodeNo": 19,
     "option": {
       "mysticCodeLevel": 10,
       "gender": "FEMALE"

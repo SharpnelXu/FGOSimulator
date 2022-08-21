@@ -134,7 +134,7 @@
                 "irremovable": true,
                 "buffIcon": "permanentSleep"
               }],
-              "probabilities": [5.0]
+              "probabilities": [100.0]
             }, {
               "type": "GrantBuff",
               "target": "SELF",
