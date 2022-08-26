@@ -48,13 +48,13 @@
         }, {
           "type": "GrantBuff",
           "target": "SELF",
-          "applyCondition": {
-            "type": "HpPercentAtMost",
-            "doubleValue": 0.5
-          },
           "buffData": [{
             "type": "NpGenerationBuff",
             "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "HpPercentAtMost",
+              "doubleValue": 0.5
+            },
             "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
             "buffIcon": "npGainup"
           }]
