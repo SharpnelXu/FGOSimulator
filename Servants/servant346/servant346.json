@@ -179,14 +179,14 @@
             "type": "GrantBuff",
             "target": "SELF",
             "buffData": [{
-              "type": "CommandCardBuff",
+              "type": "CriticalStarWeightBuff",
               "numTurnsActive": 1,
               "applyCondition": {
                 "type": "CardTypeEquals",
                 "value": "BUSTER"
               },
               "values": [5.0],
-              "buffIcon": "busterUp"
+              "buffIcon": "starWeightUp"
             }]
           }]
         }
