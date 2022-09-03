@@ -233,11 +233,11 @@ public class Combatant {
         return RoundUtils.roundNearest(totalValue);
     }
 
-    public double applyDefenseUpBuff(final Simulation simulation) {
+    public double applyPositiveBuff(final Simulation simulation, final Class<? extends ValuedBuff> buffClass) {
         double totalValue = 0;
         for (final Buff buff : buffs) {
-            if (buff instanceof DefenseBuff && buff.shouldApply(simulation)) {
-                final double value = ((DefenseBuff) buff).getValue(simulation);
+            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
+                final double value = buffClass.cast(buff).getValue(simulation);
                 if (value > 0) {
                     totalValue += value;
                     buff.setApplied();
@@ -247,11 +247,11 @@ public class Combatant {
         return RoundUtils.roundNearest(totalValue);
     }
 
-    public double applyDefenseDownBuff(final Simulation simulation) {
+    public double applyNegativeBuff(final Simulation simulation, final Class<? extends ValuedBuff> buffClass) {
         double totalValue = 0;
         for (final Buff buff : buffs) {
-            if (buff instanceof DefenseBuff && buff.shouldApply(simulation)) {
-                final double value = ((DefenseBuff) buff).getValue(simulation);
+            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
+                final double value = buffClass.cast(buff).getValue(simulation);
                 if (value < 0) {
                     totalValue += value;
                     buff.setApplied();

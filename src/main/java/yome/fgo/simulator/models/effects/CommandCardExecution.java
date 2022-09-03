@@ -16,6 +16,7 @@ import yome.fgo.simulator.models.effects.buffs.CriticalDamageBuff;
 import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
+import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.HitsDoubledBuff;
 import yome.fgo.simulator.models.effects.buffs.IgnoreDefenseBuff;
@@ -104,8 +105,8 @@ public class CommandCardExecution {
         final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class) +
                 currentCard.applyBuff(simulation, AttackBuff.class);
 
-        final double defenseUpBuff = defender.applyDefenseUpBuff(simulation);
-        final double defenseDownBuff = defender.applyDefenseDownBuff(simulation); // value is negative
+        final double defenseUpBuff = defender.applyPositiveBuff(simulation, DefenseBuff.class);
+        final double defenseDownBuff = defender.applyNegativeBuff(simulation, DefenseBuff.class);; // value is negative
         final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class) ||
                 currentCard.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class);
         final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;

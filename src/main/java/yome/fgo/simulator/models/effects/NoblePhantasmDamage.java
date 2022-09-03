@@ -22,6 +22,7 @@ import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
 import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
 import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
+import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.Evade;
 import yome.fgo.simulator.models.effects.buffs.IgnoreDefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
@@ -143,8 +144,10 @@ public class NoblePhantasmDamage extends Effect {
             final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);
             final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class);
             final double specificAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
-            final double npDamageBuff = RoundUtils.roundNearest(attacker.applyBuff(simulation, NpDamageBuff.class) *
-                    (1 + attacker.applyBuff(simulation, NpDamageBuffEffectivenessUp.class)));
+            final double npDamageUpBuff = attacker.applyPositiveBuff(simulation, NpDamageBuff.class);
+            final double npDamageDownBuff = attacker.applyNegativeBuff(simulation, NpDamageBuff.class);; // value is negative
+            final double npEffectivenessUpBuff = attacker.applyBuff(simulation, NpDamageBuffEffectivenessUp.class);
+            final double npDamageBuff = RoundUtils.roundNearest(npDamageUpBuff * (1 + npEffectivenessUpBuff) + npDamageDownBuff);
 
             final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class);
             final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class);
@@ -161,8 +164,8 @@ public class NoblePhantasmDamage extends Effect {
 
             final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
 
-            final double defenseUpBuff = defender.applyDefenseUpBuff(simulation);
-            final double defenseDownBuff = defender.applyDefenseDownBuff(simulation); // value is negative
+            final double defenseUpBuff = defender.applyPositiveBuff(simulation, DefenseBuff.class);
+            final double defenseDownBuff = defender.applyNegativeBuff(simulation, DefenseBuff.class);; // value is negative
             final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
             final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
             final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);

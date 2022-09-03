@@ -157,7 +157,9 @@ public class Servant extends Combatant {
 
         appendSkills = new ArrayList<>();
         for (int i = 0; i < servantAscensionData.getAppendSkillDataCount(); i += 1) {
-            final int appendSkillLevel = servantOption.getAppendSkillLevels(i);
+            final int appendSkillLevel = servantOption.getAppendSkillLevelsCount() > i
+                    ? servantOption.getAppendSkillLevels(i)
+                    : 0;
             if (appendSkillLevel > 0) {
                 final AppendSkillData appendSkillData = servantAscensionData.getAppendSkillData(i);
                 appendSkills.add(new AppendSkill(appendSkillData, appendSkillLevel));
