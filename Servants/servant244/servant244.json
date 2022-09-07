@@ -136,6 +136,59 @@
           "probabilities": [5.0]
         }],
         "iconName": "invincible"
+      }, {
+        "baseCoolDown": 7,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "Invincible",
+            "numTurnsActive": 1,
+            "buffIcon": "invincible"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "NpGenerationBuff",
+            "numTurnsActive": 1,
+            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+            "buffIcon": "npGainUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "NpDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+            "buffIcon": "npDamageUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "SpecificAttackBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "LAWFUL",
+              "target": "DEFENDER"
+            },
+            "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5],
+            "buffIcon": "specialDamageUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "buffData": [{
+            "type": "SkillSeal",
+            "numTurnsActive": 1,
+            "buffIcon": "skillSeal"
+          }],
+          "probabilities": [5.0]
+        }],
+        "iconName": "invincible"
       }]
     }],
     "passiveSkillData": [{
