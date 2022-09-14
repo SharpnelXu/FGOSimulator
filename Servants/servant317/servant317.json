@@ -7,7 +7,7 @@
       "gender": "OTHER",
       "alignments": ["NEUTRAL", "BALANCED"],
       "attribute": "MAN",
-      "traits": ["SABER_FACE", "FEMININE_LOOKING_SERVANT", "HOMINIDAE_SERVANT", "SUMMER_SERVANTS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["SABER_FACE", "FEMININE_LOOKING_SERVANT", "HOMINIDAE_SERVANT", "SUMMER_SERVANTS", "新选组从者", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.245
     },
     "defenseNpRate": 0.03,

@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["NEUTRAL", "BALANCED"],
       "attribute": "MAN",
-      "traits": ["SABER_FACE", "RIDING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["SABER_FACE", "RIDING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "新选组从者", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.35
     },
     "defenseNpRate": 0.03,

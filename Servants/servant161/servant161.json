@@ -7,7 +7,7 @@
       "gender": "MALE",
       "alignments": ["LAWFUL", "EVIL"],
       "attribute": "MAN",
-      "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["HOMINIDAE_SERVANT", "新选组从者", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.65
     },
     "defenseNpRate": 0.05,
