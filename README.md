@@ -25,7 +25,7 @@ Also, this simulator supports translations. If you are interested, you can put y
 ### 下载
 在Release页面中下载当前版本的压缩包解压就好：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.03)
 
-当前版本：v1.03，数据版本：v1.03.0
+当前版本：v1.03，数据版本：v1.03.1
 
 ![下载程序](./ReadmePic/System/download1.png)
 
@@ -43,7 +43,7 @@ Also, this simulator supports translations. If you are interested, you can put y
 
 ![下载数据](./ReadmePic/System/download2.png)
 
-如果由之前的数据版本，可以直接下快速补丁（标记为Only Updated的zip文件）（上个数据版本为1.02.1）
+如果由之前的数据版本，可以直接下快速补丁（标记为Only Updated的zip文件）（上个数据版本为1.03.0）
 
 ### 反馈
 
