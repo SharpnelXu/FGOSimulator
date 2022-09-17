@@ -111,6 +111,41 @@
           }]
         }],
         "iconName": "attackApplyBuff"
+      }, {
+        "baseCoolDown": 7,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostAttackEffect",
+            "numTurnsActive": 3,
+            "subEffects": [{
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "AttackBuff",
+                "numTurnsActive": 3,
+                "values": [0.1, 0.105, 0.11, 0.115, 0.12, 0.125, 0.13, 0.135, 0.14, 0.15],
+                "buffIcon": "attackUp"
+              }],
+              "probabilities": [5.0]
+            }, {
+              "type": "GrantBuff",
+              "target": "SELF",
+              "buffData": [{
+                "type": "DefenseBuff",
+                "numTurnsActive": 3,
+                "values": [-0.1],
+                "buffIcon": "defenseDown"
+              }],
+              "probabilities": [5.0]
+            }],
+            "customTraits": ["POSITIVE_BUFF"],
+            "hasCustomTraits": true,
+            "buffIcon": "attackApplyBuff"
+          }]
+        }],
+        "iconName": "attackApplyBuff"
       }]
     }, {
       "activeSkillData": [{
