@@ -1,0 +1,222 @@
+{
+  "id": "【击退战】【80】【07】凶神「狂信」击退战 怨念级",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "凶神",
+      "hpBars": [680882],
+      "combatantDataOverride": {
+        "id": "凶神",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "attribute": "SKY",
+        "traits": ["MASSIVE", "DIVINE", "NOBUNAGA"],
+        "enemyPassiveSkillData": [{
+          "effects": [{
+            "type": "GrantBuff",
+            "target": "SELF",
+            "buffData": [{
+              "type": "DebuffResist",
+              "applyCondition": {
+                "type": "BuffTypeEquals",
+                "value": "Pigify"
+              },
+              "values": [10.0],
+              "buffIcon": "immune"
+            }]
+          }, {
+            "type": "GrantBuff",
+            "target": "SELF",
+            "buffData": [{
+              "type": "EndOfTurnEffect",
+              "subEffects": [{
+                "type": "NpGaugeChange",
+                "target": "SELF",
+                "intValues": [1]
+              }],
+              "customTraits": ["POSITIVE_BUFF"],
+              "hasCustomTraits": true,
+              "buffIcon": "npPerTurn"
+            }]
+          }]
+        }]
+      },
+      "enemyCategories": "迷你信/"
+    }],
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ENEMIES",
+      "buffData": [{
+        "type": "Evade",
+        "numTurnsActive": 3,
+        "probabilities": [0.5],
+        "buffIcon": "evade"
+      }]
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["GudaGuda5", "SUNLIGHT", "FOREST"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant317",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant12",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant125",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant172",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant231",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant31",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant192",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant203",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant258",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant267",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant49",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant178",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant268",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant68",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant11",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant69",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant252",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant23",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant211",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant86",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant210",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant235",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant161",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant162",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant251",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant250",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant209",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant1",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant292",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant293",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant294",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

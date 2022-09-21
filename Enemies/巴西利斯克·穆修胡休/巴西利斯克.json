@@ -1,0 +1,10 @@
+{
+  "id": "巴西利斯克",
+  "rarity": 3,
+  "fateClass": "LANCER",
+  "attribute": "EARTH",
+  "traits": ["DRAGON"],
+  "deathRate": 0.8,
+  "enemyPassiveSkillData": [{
+  }]
+}

@@ -1,0 +1,236 @@
+{
+  "id": "【90+】暗之新选组屯所·采集建材 在暗之新选组屯所收集材料",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "巴西利斯克",
+      "hpBars": [50857],
+      "enemyCategories": "巴西利斯克·穆修胡休/"
+    }, {
+      "enemyBaseId": "金之埴轮信",
+      "hpBars": [60015],
+      "combatantDataOverride": {
+        "id": "金之埴轮信",
+        "rarity": 3,
+        "fateClass": "LANCER",
+        "attribute": "SKY",
+        "traits": ["NOBUNAGA"],
+        "deathRate": 0.2,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "迷你信/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["GudaGuda5"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "巨龙",
+      "hpBars": [180097],
+      "combatantDataOverride": {
+        "id": "巨龙",
+        "rarity": 4,
+        "fateClass": "LANCER",
+        "attribute": "EARTH",
+        "traits": ["DRAGON", "MASSIVE"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "龙/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "金之埴轮信",
+      "hpBars": [100693],
+      "enemyCategories": "迷你信/"
+    }, {
+      "enemyBaseId": "servant196",
+      "hpBars": [210951],
+      "combatantDataOverride": {
+        "id": "servant196",
+        "rarity": 5,
+        "fateClass": "LANCER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "EARTH",
+        "traits": ["DIVINE", "PSEUDO_SERVANT", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant196/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "金之埴轮信",
+      "hpBars": [100693],
+      "enemyCategories": "迷你信/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant317",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant12",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant125",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant172",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant231",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant31",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant192",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant203",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant258",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant267",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant49",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant178",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant268",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant68",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant11",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant69",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant252",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant23",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant211",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant86",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant210",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant235",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant161",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant162",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant251",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant250",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant209",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant1",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant292",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant293",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant294",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

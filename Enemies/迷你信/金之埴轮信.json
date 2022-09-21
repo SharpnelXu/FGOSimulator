@@ -1,0 +1,10 @@
+{
+  "id": "金之埴轮信",
+  "rarity": 3,
+  "fateClass": "BERSERKER",
+  "attribute": "SKY",
+  "traits": ["NOBUNAGA"],
+  "deathRate": 0.2,
+  "enemyPassiveSkillData": [{
+  }]
+}

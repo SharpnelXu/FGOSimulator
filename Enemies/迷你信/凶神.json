@@ -1,0 +1,36 @@
+{
+  "id": "凶神",
+  "rarity": 3,
+  "fateClass": "SABER",
+  "attribute": "SKY",
+  "traits": ["MASSIVE", "DIVINE", "NOBUNAGA"],
+  "enemyPassiveSkillData": [{
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "DebuffResist",
+        "applyCondition": {
+          "type": "BuffTypeEquals",
+          "value": "Pigify"
+        },
+        "values": [10.0],
+        "buffIcon": "immune"
+      }]
+    }, {
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "EndOfTurnEffect",
+        "subEffects": [{
+          "type": "NpGaugeChange",
+          "target": "SELF",
+          "intValues": [1]
+        }],
+        "customTraits": ["POSITIVE_BUFF"],
+        "hasCustomTraits": true,
+        "buffIcon": "npPerTurn"
+      }]
+    }]
+  }]
+}
