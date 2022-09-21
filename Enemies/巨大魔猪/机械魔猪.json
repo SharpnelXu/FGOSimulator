@@ -1,0 +1,10 @@
+{
+  "id": "机械魔猪",
+  "rarity": 4,
+  "fateClass": "BERSERKER",
+  "attribute": "EARTH",
+  "traits": ["WILD_BEAST", "DEMONIC", "MASSIVE", "MECHANICAL"],
+  "deathRate": 0.002,
+  "enemyPassiveSkillData": [{
+  }]
+}

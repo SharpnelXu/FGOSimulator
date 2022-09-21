@@ -1,5 +1,5 @@
 {
-  "id": "泳装六期90+",
+  "id": "【90+】加勒比城市·迦勒底探险队！ 最终话！ 神秘总在脚下！？",
   "stageData": [{
     "enemyData": [{
       "enemyBaseId": "servant172",
@@ -11,8 +11,10 @@
         "gender": "MALE",
         "alignments": ["NEUTRAL", "EVIL"],
         "attribute": "MAN",
-        "traits": ["克里斯托弗·哥伦布", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.002
+        "traits": ["RIDING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
       },
       "servantAscension": 1,
       "enemyCategories": "servant172/",
@@ -27,8 +29,10 @@
         "gender": "MALE",
         "alignments": ["NEUTRAL", "EVIL"],
         "attribute": "MAN",
-        "traits": ["克里斯托弗·哥伦布", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.002
+        "traits": ["RIDING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
       },
       "servantAscension": 1,
       "enemyCategories": "servant172/",
@@ -43,8 +47,10 @@
         "gender": "MALE",
         "alignments": ["NEUTRAL", "EVIL"],
         "attribute": "MAN",
-        "traits": ["克里斯托弗·哥伦布", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.002
+        "traits": ["RIDING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
       },
       "servantAscension": 1,
       "enemyCategories": "servant172/",

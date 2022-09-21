@@ -1,0 +1,244 @@
+{
+  "id": "【90+】【2】灰姑娘之间·世界名著童话 吃惊的国王",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "机械魔猪",
+      "hpBars": [195418],
+      "enemyCategories": "巨大魔猪/"
+    }, {
+      "enemyBaseId": "机械魔猪",
+      "hpBars": [195418],
+      "enemyCategories": "巨大魔猪/"
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["CITY", "万圣5"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "稻草人",
+      "hpBars": [41823],
+      "combatantDataOverride": {
+        "id": "稻草人",
+        "rarity": 2,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.8,
+        "undeadNpCorrection": true,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼魂/"
+    }, {
+      "enemyBaseId": "人工生命体原型",
+      "hpBars": [65481],
+      "combatantDataOverride": {
+        "id": "人工生命体原型",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "deathRate": 0.2,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "人工生命体/"
+    }, {
+      "enemyBaseId": "恐怖鬼魂",
+      "hpBars": [58629],
+      "combatantDataOverride": {
+        "id": "恐怖鬼魂",
+        "rarity": 3,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.5,
+        "undeadNpCorrection": true,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼魂/"
+    }, {
+      "enemyBaseId": "稻草人",
+      "hpBars": [41823],
+      "combatantDataOverride": {
+        "id": "稻草人",
+        "rarity": 2,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.8,
+        "undeadNpCorrection": true,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼魂/"
+    }, {
+      "enemyBaseId": "人工生命体原型",
+      "hpBars": [65481],
+      "combatantDataOverride": {
+        "id": "人工生命体原型",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "deathRate": 0.2,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "人工生命体/"
+    }, {
+      "enemyBaseId": "恐怖鬼魂",
+      "hpBars": [58629],
+      "combatantDataOverride": {
+        "id": "恐怖鬼魂",
+        "rarity": 3,
+        "fateClass": "BERSERKER",
+        "attribute": "SKY",
+        "traits": ["UNDEAD", "DEMONIC"],
+        "deathRate": 0.5,
+        "undeadNpCorrection": true,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼魂/"
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant98",
+      "hpBars": [296763],
+      "combatantDataOverride": {
+        "id": "servant98",
+        "rarity": 5,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "EARTH",
+        "traits": ["DIVINE", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant98/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["CITY"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant326",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant324",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant76",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant10",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant138",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant298",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant126",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant212",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant325",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant13",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant125",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant18",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant61",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant190",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant191",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant293",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant64",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant169",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant235",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

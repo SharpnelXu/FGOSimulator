@@ -1,0 +1,10 @@
+{
+  "id": "南瓜无人机（大）",
+  "rarity": 4,
+  "fateClass": "SABER",
+  "attribute": "SKY",
+  "traits": ["MECHANICAL"],
+  "deathRate": 0.2,
+  "enemyPassiveSkillData": [{
+  }]
+}

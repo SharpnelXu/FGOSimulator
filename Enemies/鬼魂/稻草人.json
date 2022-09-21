@@ -1,0 +1,11 @@
+{
+  "id": "稻草人",
+  "rarity": 2,
+  "fateClass": "ASSASSIN",
+  "attribute": "SKY",
+  "traits": ["UNDEAD", "DEMONIC"],
+  "deathRate": 0.8,
+  "undeadNpCorrection": true,
+  "enemyPassiveSkillData": [{
+  }]
+}

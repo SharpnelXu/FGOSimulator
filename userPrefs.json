@@ -670,6 +670,20 @@
       "ascension": 1
     }
   }, {
+    "servantNo": 293,
+    "option": {
+      "servantLevel": 80,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
     "servantNo": 295,
     "option": {
       "servantLevel": 90,
@@ -1162,6 +1176,20 @@
       }, {
       }, {
       }],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
+    "servantNo": 324,
+    "option": {
+      "servantLevel": 90,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
       "bond": 10,
       "ascension": 1
     }
@@ -2416,10 +2444,26 @@
       "isLimitBreak": true
     }
   }, {
+    "craftEssenceNo": 1489,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
     "craftEssenceNo": 1106,
     "option": {
       "craftEssenceLevel": 100,
       "isLimitBreak": true
+    }
+  }, {
+    "craftEssenceNo": 1490,
+    "option": {
+      "craftEssenceLevel": 100
+    }
+  }, {
+    "craftEssenceNo": 1491,
+    "option": {
+      "craftEssenceLevel": 100
     }
   }, {
     "craftEssenceNo": 212,

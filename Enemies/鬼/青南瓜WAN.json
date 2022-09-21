@@ -1,0 +1,11 @@
+{
+  "id": "青南瓜WAN",
+  "rarity": 4,
+  "fateClass": "RIDER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["HUMANOID", "DEMONIC", "MASSIVE", "GIANT", "ONI"],
+  "deathRate": 0.1,
+  "enemyPassiveSkillData": [{
+  }]
+}

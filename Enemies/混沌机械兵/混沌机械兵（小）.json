@@ -1,0 +1,10 @@
+{
+  "id": "混沌机械兵（小）",
+  "rarity": 2,
+  "fateClass": "SABER",
+  "attribute": "SKY",
+  "traits": ["MECHANICAL"],
+  "deathRate": 0.8,
+  "enemyPassiveSkillData": [{
+  }]
+}

@@ -1,0 +1,242 @@
+{
+  "id": "【90+】【0】妖之森·世界名著童话 英雄的赔罪",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "地狱眼镜蛇",
+      "hpBars": [46251],
+      "combatantDataOverride": {
+        "id": "地狱眼镜蛇",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.2,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "眼镜蛇/"
+    }, {
+      "enemyBaseId": "背包魔猿",
+      "hpBars": [35809],
+      "combatantDataOverride": {
+        "id": "背包魔猿",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "魔猿/"
+    }, {
+      "enemyBaseId": "地狱眼镜蛇",
+      "hpBars": [46251],
+      "combatantDataOverride": {
+        "id": "地狱眼镜蛇",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.2,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "眼镜蛇/"
+    }, {
+      "enemyBaseId": "背包魔猿",
+      "hpBars": [35809],
+      "combatantDataOverride": {
+        "id": "背包魔猿",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "魔猿/"
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["FOREST", "万圣5"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "GreenMan",
+      "hpBars": [179816],
+      "enemyCategories": "守护者/"
+    }, {
+      "enemyBaseId": "包袱布魔猿",
+      "hpBars": [40258],
+      "combatantDataOverride": {
+        "id": "包袱布魔猿",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "魔猿/"
+    }, {
+      "enemyBaseId": "GreenMan",
+      "hpBars": [179816],
+      "enemyCategories": "守护者/"
+    }, {
+      "enemyBaseId": "包袱布魔猿",
+      "hpBars": [40258],
+      "combatantDataOverride": {
+        "id": "包袱布魔猿",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "魔猿/"
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["FOREST"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant6",
+      "hpBars": [247887],
+      "combatantDataOverride": {
+        "id": "servant6",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "GOOD"],
+        "attribute": "EARTH",
+        "traits": ["DRAGON", "RIDING", "BRYNHILDS_BELOVED", "KING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant6/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["FOREST"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant326",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant324",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant76",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant10",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant138",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant298",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant126",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant212",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant325",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant13",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant125",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant18",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant61",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant190",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant191",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant293",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant64",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant169",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant235",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

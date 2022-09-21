@@ -1,0 +1,268 @@
+{
+  "id": "【90+】【1】恰赫季斯灰姑娘城前·世界名著童话 鬼的大呵欠",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "南瓜无人机（中）",
+      "hpBars": [44791],
+      "combatantDataOverride": {
+        "id": "南瓜无人机（中）",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "attribute": "SKY",
+        "traits": ["MECHANICAL"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "混沌机械兵/"
+    }, {
+      "enemyBaseId": "小鬼",
+      "hpBars": [29132],
+      "combatantDataOverride": {
+        "id": "小鬼",
+        "rarity": 1,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC", "ONI"],
+        "deathRate": 1.0,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼/"
+    }, {
+      "enemyBaseId": "邪鬼",
+      "hpBars": [38876],
+      "combatantDataOverride": {
+        "id": "邪鬼",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC", "ONI"],
+        "deathRate": 0.8,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼/"
+    }, {
+      "enemyBaseId": "南瓜无人机（中）",
+      "hpBars": [44791],
+      "combatantDataOverride": {
+        "id": "南瓜无人机（中）",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "attribute": "SKY",
+        "traits": ["MECHANICAL"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "混沌机械兵/"
+    }, {
+      "enemyBaseId": "小鬼",
+      "hpBars": [29132],
+      "combatantDataOverride": {
+        "id": "小鬼",
+        "rarity": 1,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC", "ONI"],
+        "deathRate": 1.0,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼/"
+    }, {
+      "enemyBaseId": "邪鬼",
+      "hpBars": [38876],
+      "combatantDataOverride": {
+        "id": "邪鬼",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC", "ONI"],
+        "deathRate": 0.8,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼/"
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["CITY", "万圣5"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "青南瓜WAN",
+      "hpBars": [214041],
+      "combatantDataOverride": {
+        "id": "青南瓜WAN",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC", "MASSIVE", "GIANT", "ONI"],
+        "deathRate": 0.1,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼/"
+    }, {
+      "enemyBaseId": "青南瓜WAN",
+      "hpBars": [214041],
+      "combatantDataOverride": {
+        "id": "青南瓜WAN",
+        "rarity": 4,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DEMONIC", "MASSIVE", "GIANT", "ONI"],
+        "deathRate": 0.1,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "鬼/"
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant104",
+      "hpBars": [223513],
+      "combatantDataOverride": {
+        "id": "servant104",
+        "rarity": 3,
+        "fateClass": "CASTER",
+        "gender": "MALE",
+        "alignments": ["NEUTRAL", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant104/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["CITY"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant326",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant324",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant76",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant10",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant138",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant298",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant126",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant212",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant325",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant13",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant125",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant18",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant61",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant190",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant191",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant293",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant64",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant169",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant235",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

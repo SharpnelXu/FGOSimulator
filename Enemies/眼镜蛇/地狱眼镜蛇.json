@@ -1,0 +1,10 @@
+{
+  "id": "地狱眼镜蛇",
+  "rarity": 4,
+  "fateClass": "BERSERKER",
+  "attribute": "EARTH",
+  "traits": ["WILD_BEAST", "DEMONIC"],
+  "deathRate": 0.2,
+  "enemyPassiveSkillData": [{
+  }]
+}

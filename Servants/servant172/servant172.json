@@ -7,7 +7,7 @@
       "gender": "MALE",
       "alignments": ["NEUTRAL", "EVIL"],
       "attribute": "MAN",
-      "traits": ["克里斯托弗·哥伦布", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["RIDING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.5
     },
     "defenseNpRate": 0.03,
