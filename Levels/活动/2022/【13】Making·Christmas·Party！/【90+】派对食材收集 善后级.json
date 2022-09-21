@@ -73,5 +73,138 @@
     }],
     "maximumEnemiesOnScreen": 3,
     "traits": ["CITY"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "TargetsContainsSpecificServant",
+      "value": "servant330",
+      "target": "EFFECT_TARGET"
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant301",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant11",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant197",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant271",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant141",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant313",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant26",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant73",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant215",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant58",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant233",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant234",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant232",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant256",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant30",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant241",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant120",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant304",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant50",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant51",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant114",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant135",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant96",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
   }]
 }
