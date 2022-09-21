@@ -134,6 +134,7 @@ public class Combatant {
     }
 
     public static CombatantData mergeWithOverride(final CombatantData base, final CombatantData override) {
+        /* See comments below
         final CombatantData.Builder builder = base.toBuilder();
         builder.mergeFrom(override);
         builder.clearAlignments();
@@ -156,6 +157,11 @@ public class Combatant {
                         : override.getEnemyPassiveSkillDataList()
         );
         return builder.build();
+         */
+
+        // Proto3 doesn't have a `isSet` function, so just use override since it should be built from base (using editor)
+        // Keeping the logic in case I want to change it back
+        return override;
     }
 
     public void initiate(final Simulation simulation) {

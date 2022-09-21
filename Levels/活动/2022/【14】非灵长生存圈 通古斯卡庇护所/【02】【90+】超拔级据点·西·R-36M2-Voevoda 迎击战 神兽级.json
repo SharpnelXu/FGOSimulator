@@ -1,0 +1,367 @@
+{
+  "id": "【02】【90+】超拔级据点·西·R-36M2-Voevoda 迎击战 神兽级",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "苏鲁特·芬里厄",
+      "hpBars": [950454],
+      "combatantDataOverride": {
+        "id": "苏鲁特·芬里厄",
+        "rarity": 5,
+        "fateClass": "SABER",
+        "alignments": ["EVIL"],
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "DRAGON", "MASSIVE", "GIANT", "DEMONIC"],
+        "enemyPassiveSkillData": [{
+          "effects": [{
+            "type": "GrantBuff",
+            "target": "SELF",
+            "buffData": [{
+              "type": "DebuffResist",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "MENTAL_BUFF"
+              },
+              "values": [10.0],
+              "buffIcon": "immune"
+            }],
+            "probabilities": [5.0]
+          }, {
+            "type": "GrantBuff",
+            "target": "SELF",
+            "buffData": [{
+              "type": "DebuffResist",
+              "applyCondition": {
+                "type": "BuffTypeEquals",
+                "value": "Pigify"
+              },
+              "values": [10.0],
+              "buffIcon": "immune"
+            }],
+            "probabilities": [5.0]
+          }, {
+            "type": "GrantBuff",
+            "target": "SELF",
+            "buffData": [{
+              "type": "PostAttackEffect",
+              "subEffects": [{
+                "type": "GrantBuff",
+                "target": "DEFENDER",
+                "buffData": [{
+                  "type": "Burn",
+                  "numTurnsActive": 3,
+                  "values": [500.0],
+                  "buffIcon": "burn"
+                }],
+                "probabilities": [0.3]
+              }, {
+                "type": "GrantBuff",
+                "target": "DEFENDER",
+                "buffData": [{
+                  "type": "CriticalStarGenerationBuff",
+                  "numTurnsActive": 3,
+                  "values": [0.3],
+                  "buffIcon": "starDropRateDown"
+                }],
+                "probabilities": [0.3]
+              }],
+              "buffIcon": "attackApplyDebuff"
+            }]
+          }, {
+            "type": "GrantBuff",
+            "target": "SELF",
+            "buffData": [{
+              "type": "DebuffResist",
+              "applyCondition": {
+                "type": "BuffTypeEquals",
+                "value": "Burn"
+              },
+              "values": [10.0],
+              "buffIcon": "immune"
+            }]
+          }, {
+            "type": "GrantBuff",
+            "target": "SELF",
+            "buffData": [{
+              "type": "DebuffResist",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "IMMOBILIZE_BUFF"
+              },
+              "values": [10.0],
+              "buffIcon": "immune"
+            }]
+          }, {
+            "type": "GrantBuff",
+            "target": "SELF",
+            "buffData": [{
+              "type": "SpecificAttackBuff",
+              "applyCondition": {
+                "type": "TargetsHaveTrait",
+                "value": "DIVINE",
+                "target": "DEFENDER"
+              },
+              "values": [0.5],
+              "buffIcon": "specialDamageUp"
+            }]
+          }, {
+            "type": "GrantBuff",
+            "target": "SELF",
+            "buffData": [{
+              "type": "DebuffResist",
+              "values": [10.0],
+              "buffIcon": "immune"
+            }]
+          }, {
+            "type": "GrantBuff",
+            "target": "SELF",
+            "buffData": [{
+              "type": "SpecificAttackBuff",
+              "applyCondition": {
+                "type": "TargetsHaveTrait",
+                "value": "DIVINE",
+                "target": "DEFENDER"
+              },
+              "values": [0.5],
+              "buffIcon": "specialDamageUp"
+            }]
+          }]
+        }]
+      },
+      "enemyCategories": "苏鲁特·芬里厄/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["通古斯卡", "SUNLIGHT"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "buffData": [{
+      "type": "EnterFieldEffect",
+      "numTimesActive": 1,
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "applyCondition": {
+          "type": "TargetsHaveTrait",
+          "value": "HOMINIDAE_SERVANT",
+          "target": "EFFECT_TARGET"
+        },
+        "buffData": [{
+          "type": "DamageReductionBuff",
+          "values": [-500.0],
+          "irremovable": true,
+          "buffIcon": "defenseDown"
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "applyCondition": {
+          "type": "TargetsHaveTrait",
+          "value": "DEMONIC_BEAST",
+          "target": "EFFECT_TARGET"
+        },
+        "buffData": [{
+          "type": "DamageReductionBuff",
+          "values": [500.0],
+          "irremovable": true,
+          "buffIcon": "defenseUp"
+        }],
+        "probabilities": [5.0]
+      }]
+    }],
+    "probabilities": [5.0]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ENEMIES",
+    "buffData": [{
+      "type": "EnterFieldEffect",
+      "numTimesActive": 1,
+      "subEffects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardResist",
+          "numTimesActive": 2,
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "ARTS"
+          },
+          "values": [5.0],
+          "irremovable": true,
+          "buffIcon": "artsResistUp"
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "CommandCardResist",
+          "numTimesActive": 2,
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "BUSTER"
+          },
+          "values": [5.0],
+          "irremovable": true,
+          "buffIcon": "busterResistUp"
+        }],
+        "probabilities": [5.0]
+      }, {
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "DebuffChanceBuff",
+          "applyCondition": {
+            "type": "And",
+            "subConditionData": [{
+              "type": "BuffTypeEquals",
+              "value": "Burn"
+            }, {
+              "type": "StageHasTrait",
+              "value": "SHORE"
+            }]
+          },
+          "values": [-5.0],
+          "irremovable": true,
+          "buffIcon": "buffChanceDown"
+        }],
+        "probabilities": [5.0]
+      }]
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "buffData": [{
+      "type": "AttackBuff",
+      "numTurnsActive": 5,
+      "values": [0.15],
+      "irremovable": true,
+      "buffIcon": "attackUp"
+    }],
+    "probabilities": [5.0]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant234",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant310",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant300",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant128",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant312",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant148",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant231",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant307",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant282",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant53",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant147",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant158",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant285",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant299",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant253",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant315",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant62",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant58",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant1",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant331",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant332",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

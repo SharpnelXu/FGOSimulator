@@ -23,7 +23,7 @@ public class MainMenu extends Application {
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.getIcons().add(new Image(new FileInputStream(ResourceManager.getCCThumbnail("default"))));
 
-        stage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "FGO Simulator") + " v1.03");
+        stage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "FGO Simulator") + " v1.04");
         stage.setScene(scene);
         stage.show();
     }

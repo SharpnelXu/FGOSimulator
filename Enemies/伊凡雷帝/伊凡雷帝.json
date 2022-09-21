@@ -1,0 +1,23 @@
+{
+  "id": "伊凡雷帝",
+  "rarity": 5,
+  "fateClass": "RIDER",
+  "gender": "MALE",
+  "attribute": "MAN",
+  "traits": ["WILD_BEAST", "KING", "MASSIVE"],
+  "enemyPassiveSkillData": [{
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "SELF",
+      "buffData": [{
+        "type": "DebuffResist",
+        "applyCondition": {
+          "type": "BuffTypeEquals",
+          "value": "Pigify"
+        },
+        "values": [10.0],
+        "buffIcon": "immune"
+      }]
+    }]
+  }]
+}
