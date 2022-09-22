@@ -25,6 +25,11 @@ Also, this simulator supports translations. If you are interested, you can put y
 ### 下载
 在Release页面中下载当前版本的压缩包解压就好：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.04)
 
+#### 注意
+如果你的电脑安装了Java 15以上，可以直接下载标注为`.jar`的`zip`压缩包解压。
+
+如果没有或者不确定的话，Windows用户可以尝试下载标注为`.exe`的`zip`压缩包解压。这个压缩包包含了程序需求的运行环境，所以会大一点。
+
 当前版本：v1.04，数据版本：v1.04.0
 
 ![下载程序](./ReadmePic/System/download1.png)
@@ -32,10 +37,16 @@ Also, this simulator supports translations. If you are interested, you can put y
 ### 运行
 我用Java15（corretto 15.0.2）写的，所以应该装个Java15以上就能跑？
 
-主程序在`Program`文件夹下，请不要随意挪到别的文件夹！另外`CommandCodes`, `CraftEssences`, `Enemies`, `Icons`, `Levels`, `MysticCodes`, `Servants`, 
+如果下载的是`.jar`压缩包，主程序在`Program`文件夹下，直接双击`FGOSimulator.jar`即可运行。
+
+如果下载的是`.exe`压缩包，可以直接双击`FGOSimulator.exe`运行。目前`exe`版本仍在测试阶段，如果无法运行请联系我进行[反馈](#反馈)。
+
+由于路径关系，主程序请不要随意挪到别的文件夹！另外`CommandCodes`, `CraftEssences`, `Enemies`, `Icons`, `Levels`, `MysticCodes`, `Servants`, 
 `Translations`文件夹及各种默认图片也请不要随意挪动。
 
 ### 更新
+
+目前还未有数据更新。（v1.04.0）
 
 目前我已经更新完了我自己会用到的大多数功能，接下来就比较佛系了。
 
@@ -43,7 +54,7 @@ Also, this simulator supports translations. If you are interested, you can put y
 
 ![下载数据](./ReadmePic/System/download2.png)
 
-如果由之前的数据版本，可以直接下快速补丁（标记为Only Updated的zip文件）（无上个数据版本）
+如果由之前的数据版本，可以直接下快速补丁（标记为Quick Patch的zip文件）（无上个数据版本）
 
 ### 反馈
 
@@ -57,7 +68,7 @@ Also, this simulator supports translations. If you are interested, you can put y
 
 ## 战斗模拟
 
-在点击战斗模拟后可能会有卡顿，这是模拟器加载数据时的正常现象。换句话说，只有在进入战斗模拟界面的时候才会读取数据，
+**注意：** 在点击战斗模拟后可能会有卡顿，这是模拟器加载数据时的正常现象。换句话说，只有在进入战斗模拟界面的时候才会读取数据，
 同时在加载完成后，其他模式保存、更改的数据**不会影响**已加载的数据。若要重新加载，请关闭战斗模拟界面并重新加载。
 
 ### 准备界面
@@ -70,7 +81,9 @@ Also, this simulator supports translations. If you are interested, you can put y
 ![编队显示](./ReadmePic/BattleSimulation/formationSelector.png)
 
 - 点击`队伍`可以切换当前从者是否为助战。总Cost显示在右侧滑条下方，不过超过上限也并不会禁止模拟，仅作显示用。
-- 点击按钮即可选择从者或礼装。从者的筛选功能会从所有录入的再临中进行选择，举例同时可以在枪阶红卡光炮和蓝卡单体的条件下见到妖兰。
+- 点击按钮即可选择从者或礼装。
+  - 从者的筛选功能会从所有录入的再临中进行选择，举例同时可以在枪阶红卡光炮和蓝卡单体的条件下见到妖兰。
+  - 礼装目前没有特别的筛选功能，我自己只是把不用的从`CraftEssences`文件夹挪到了`Event CEs`。实际上确认不用直接把数据删了也可以。
 
 ![编队显示](./ReadmePic/BattleSimulation/entitySelector1.png)![编队显示](./ReadmePic/BattleSimulation/entitySelector2.png)
 - 编队显示头像下方的按钮作用分别为：
@@ -288,7 +301,7 @@ Also, this simulator supports translations. If you are interested, you can put y
     3. 出卡，回合结束
     4. 结算作用于我方的封印类、行动不能类状态的持续时间
     5. 诅咒、灼烧、毒结算
-    6. 作用于我方的回合结束时效果，此时有回血可以拉起上一步血量扣到0一下的单位
+    6. 作用于我方的回合结束时效果，此时有回血可以拉起上一步血量扣到0以下的单位
     7. 结算作用于我方的攻击类状态、回合结束时效果、诅咒、灼烧、毒的持续时间
     8. 作用于敌方的延迟效果
     9. 伤害反弹Buff（小安）
@@ -448,6 +461,7 @@ Also, this simulator supports translations. If you are interested, you can put y
 - v1.04:
   - 系统：
     - 调整了敌方数据读取逻辑，当有变动时不再将基础数据视为蓝本。这是为了修复无法将敌方设定改为空值（0、无性别、无属性等）的问题
+    - 新增`exe`运行版本
   - 效果：
     - 修正移动至替补末位未正确移动至末位的问题
 - v1.03:
