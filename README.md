@@ -62,7 +62,7 @@ Also, this simulator supports translations. If you are interested, you can put y
 
 最直接的是去NGA找我：[传送门](https://ngabbs.com/read.php?tid=31985286)
 
-或者加我QQ：695312637
+或者加我QQ：695312637，反馈QQ群：302901428
 
 当然如果你有什么建议的话也欢迎提出来，现在战斗界面还有不少空间放其它功能。
 
