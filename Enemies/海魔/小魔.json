@@ -1,0 +1,10 @@
+{
+  "id": "小魔",
+  "rarity": 2,
+  "fateClass": "ARCHER",
+  "attribute": "EARTH",
+  "traits": ["DEMONIC"],
+  "deathRate": 0.8,
+  "enemyPassiveSkillData": [{
+  }]
+}

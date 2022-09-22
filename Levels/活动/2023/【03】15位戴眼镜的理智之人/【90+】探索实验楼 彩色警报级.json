@@ -1,84 +1,86 @@
 {
-  "id": "【90+】密歇根湖·迦勒底剧场 电影真是非常棒的东西级",
+  "id": "【90+】探索实验楼 彩色警报级",
   "stageData": [{
     "enemyData": [{
-      "enemyBaseId": "失心之人",
-      "hpBars": [60526],
+      "enemyBaseId": "小魔",
+      "hpBars": [46536],
       "combatantDataOverride": {
-        "id": "失心之人",
-        "rarity": 1,
-        "fateClass": "ASSASSIN",
-        "gender": "MALE",
-        "attribute": "MAN",
-        "traits": ["HUMAN", "HUMANOID"],
-        "deathRate": 1.0
-      },
-      "enemyCategories": "失心之人/"
-    }, {
-      "enemyBaseId": "失心罪人",
-      "hpBars": [69458],
-      "combatantDataOverride": {
-        "id": "失心罪人",
+        "id": "小魔",
         "rarity": 2,
-        "fateClass": "ASSASSIN",
-        "gender": "MALE",
-        "attribute": "MAN",
-        "traits": ["HUMAN", "HUMANOID"],
-        "deathRate": 0.8
+        "fateClass": "LANCER",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC"],
+        "deathRate": 0.8,
+        "enemyPassiveSkillData": [{
+        }]
       },
-      "enemyCategories": "失心之人/"
-    }],
-    "maximumEnemiesOnScreen": 3,
-    "traits": ["SHORE", "CITY"]
-  }, {
-    "enemyData": [{
-      "enemyBaseId": "恶魔",
-      "hpBars": [163421],
-      "enemyCategories": "恶魔/"
-    }],
-    "maximumEnemiesOnScreen": 3,
-    "traits": ["SHORE", "CITY"]
-  }, {
-    "enemyData": [{
-      "enemyBaseId": "servant41",
-      "hpBars": [207324],
+      "enemyCategories": "海魔/"
+    }, {
+      "enemyBaseId": "小魔",
+      "hpBars": [45139],
       "combatantDataOverride": {
-        "id": "servant41",
-        "rarity": 4,
-        "fateClass": "ASSASSIN",
-        "gender": "FEMALE",
-        "alignments": ["CHAOTIC", "GOOD"],
-        "attribute": "SKY",
-        "traits": ["DIVINE", "DIVINE_SPIRIT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
-        "deathRate": 0.002
+        "id": "小魔",
+        "rarity": 2,
+        "fateClass": "LANCER",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC"],
+        "deathRate": 0.8,
+        "enemyPassiveSkillData": [{
+        }]
       },
-      "servantAscension": 1,
-      "enemyCategories": "servant41/",
-      "isServant": true
+      "enemyCategories": "海魔/"
     }],
-    "maximumEnemiesOnScreen": 3,
-    "traits": ["SHORE", "CITY"]
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "海魔",
+      "hpBars": [99772],
+      "combatantDataOverride": {
+        "id": "海魔",
+        "rarity": 2,
+        "fateClass": "LANCER",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "海魔/"
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["CITY"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "伟大那伽",
+      "hpBars": [195691],
+      "enemyCategories": "伟大那伽/"
+    }, {
+      "enemyBaseId": "大食海魔",
+      "hpBars": [113152],
+      "combatantDataOverride": {
+        "id": "大食海魔",
+        "rarity": 3,
+        "fateClass": "LANCER",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC"],
+        "deathRate": 0.2,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "海魔/"
+    }],
+    "maximumEnemiesOnScreen": 6,
+    "traits": ["CITY"]
   }],
   "effects": [{
     "type": "GrantBuff",
-    "target": "SELF",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
     "applyCondition": {
       "type": "Or",
       "subConditionData": [{
         "type": "TargetsContainsSpecificServant",
-        "value": "servant2",
-        "target": "EFFECT_TARGET"
-      }, {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant5",
-        "target": "EFFECT_TARGET"
-      }, {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant8",
-        "target": "EFFECT_TARGET"
-      }, {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant10",
+        "value": "servant6",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
@@ -86,23 +88,23 @@
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
+        "value": "servant221",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
         "value": "servant227",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant270",
+        "value": "servant264",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant15",
+        "value": "servant11",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant197",
-        "target": "EFFECT_TARGET"
-      }, {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant131",
+        "value": "servant156",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
@@ -110,55 +112,51 @@
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant128",
+        "value": "servant216",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant141",
+        "value": "servant246",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant279",
+        "value": "servant262",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant300",
+        "value": "servant276",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant66",
+        "value": "servant266",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant26",
+        "value": "servant288",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant27",
+        "value": "servant115",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant30",
+        "value": "servant206",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant182",
+        "value": "servant263",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant253",
+        "value": "servant291",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant326",
+        "value": "servant322",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant62",
-        "target": "EFFECT_TARGET"
-      }, {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant74",
+        "value": "servant33",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
@@ -166,43 +164,27 @@
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant120",
+        "value": "servant37",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant67",
+        "value": "servant237",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant100",
+        "value": "servant258",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant130",
+        "value": "servant319",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant194",
+        "value": "servant81",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant201",
-        "target": "EFFECT_TARGET"
-      }, {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant75",
-        "target": "EFFECT_TARGET"
-      }, {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant124",
-        "target": "EFFECT_TARGET"
-      }, {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant41",
-        "target": "EFFECT_TARGET"
-      }, {
-        "type": "TargetsContainsSpecificServant",
-        "value": "servant170",
+        "value": "servant44",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
@@ -214,15 +196,39 @@
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant56",
+        "value": "servant235",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant202",
+        "value": "servant314",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant59",
+        "value": "servant51",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant155",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant171",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant287",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant323",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant1",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant93",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
@@ -230,7 +236,31 @@
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant275",
+        "value": "servant96",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant166",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant244",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant281",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant308",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant334",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant324",
         "target": "EFFECT_TARGET"
       }]
     },
@@ -242,32 +272,40 @@
     }]
   }, {
     "type": "GrantBuff",
-    "target": "SELF",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
     "applyCondition": {
       "type": "Or",
       "subConditionData": [{
         "type": "TargetsContainsSpecificServant",
-        "value": "servant18",
+        "value": "servant123",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant94",
+        "value": "servant76",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant29",
+        "value": "servant85",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant103",
+        "value": "servant143",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant174",
+        "value": "servant23",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant1",
+        "value": "servant150",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant79",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant43",
         "target": "EFFECT_TARGET"
       }]
     },
@@ -279,20 +317,28 @@
     }]
   }, {
     "type": "GrantBuff",
-    "target": "SELF",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
     "applyCondition": {
       "type": "Or",
       "subConditionData": [{
         "type": "TargetsContainsSpecificServant",
-        "value": "servant341",
+        "value": "servant293",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant340",
+        "value": "servant294",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant339",
+        "value": "servant296",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant98",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant247",
         "target": "EFFECT_TARGET"
       }]
     },

@@ -1,0 +1,10 @@
+{
+  "id": "茶信",
+  "rarity": 2,
+  "fateClass": "CASTER",
+  "attribute": "MAN",
+  "traits": ["HUMANOID"],
+  "deathRate": 1.0,
+  "enemyPassiveSkillData": [{
+  }]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "黑巨人",
+  "rarity": 4,
+  "fateClass": "CASTER",
+  "attribute": "MAN",
+  "traits": ["DIVINE", "GIANT", "MASSIVE"],
+  "deathRate": 0.01,
+  "enemyPassiveSkillData": [{
+  }]
+}

@@ -1,0 +1,135 @@
+{
+  "id": "【90+】犬士品評会！ グランドチャンピオン級",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "化猫",
+      "hpBars": [56891],
+      "enemyCategories": "化猫/"
+    }, {
+      "enemyBaseId": "化猫",
+      "hpBars": [54854],
+      "enemyCategories": "化猫/"
+    }, {
+      "enemyBaseId": "化猫",
+      "hpBars": [53834],
+      "enemyCategories": "化猫/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "秽神",
+      "hpBars": [164598],
+      "combatantDataOverride": {
+        "id": "秽神",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC", "MASSIVE"],
+        "deathRate": 0.01,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "秽神/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant169",
+      "hpBars": [182229],
+      "combatantDataOverride": {
+        "id": "servant169",
+        "rarity": 5,
+        "fateClass": "CASTER",
+        "gender": "FEMALE",
+        "alignments": ["LAWFUL", "BALANCED"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant169/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT"]
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "SELF",
+    "applyCondition": {
+      "type": "And",
+      "subConditionData": [{
+        "type": "TargetsHaveClass",
+        "value": "ARCHER",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "Not",
+        "subConditionData": [{
+          "type": "TargetsContainsSpecificServant",
+          "value": "servant350",
+          "target": "EFFECT_TARGET"
+        }]
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "SELF",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant310",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant210",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant158",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant198",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "SELF",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant350",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant349",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}

@@ -1,0 +1,139 @@
+{
+  "id": "【90+】保镖打工 清除对城市的威胁",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "黑巨人",
+      "hpBars": [198674],
+      "enemyCategories": "黑巨人/"
+    }],
+    "maximumEnemiesOnScreen": 6
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "那伽",
+      "hpBars": [48012],
+      "enemyCategories": "蛇女/"
+    }, {
+      "enemyBaseId": "蛇女",
+      "hpBars": [35079],
+      "enemyCategories": "蛇女/"
+    }, {
+      "enemyBaseId": "蛇女",
+      "hpBars": [36531],
+      "enemyCategories": "蛇女/"
+    }],
+    "maximumEnemiesOnScreen": 6
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant113",
+      "hpBars": [246335],
+      "combatantDataOverride": {
+        "id": "servant113",
+        "rarity": 5,
+        "fateClass": "CASTER",
+        "gender": "FEMALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["DIVINE", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.1,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant113/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "那伽",
+      "hpBars": [55258],
+      "enemyCategories": "蛇女/"
+    }, {
+      "enemyBaseId": "那伽",
+      "hpBars": [56502],
+      "enemyCategories": "蛇女/"
+    }],
+    "maximumEnemiesOnScreen": 6
+  }],
+  "effects": [{
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant90",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant276",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant237",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant199",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant155",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant107",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.3],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant146",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant148",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant242",
+        "target": "EFFECT_TARGET"
+      }, {
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant305",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [0.5],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "ALL_ALLIES_INCLUDING_BACKUP",
+    "applyCondition": {
+      "type": "Or",
+      "subConditionData": [{
+        "type": "TargetsContainsSpecificServant",
+        "value": "servant336",
+        "target": "EFFECT_TARGET"
+      }]
+    },
+    "buffData": [{
+      "type": "SpecificAttackBuff",
+      "values": [1.0],
+      "irremovable": true,
+      "buffIcon": "specialDamageUp"
+    }]
+  }]
+}
