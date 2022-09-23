@@ -32,7 +32,7 @@ public class TranslationManager {
         TRANSLATIONS.clear();
         TRANSLATIONS.setSeparatorUsedInInput("=");
         try {
-            final String fileName = TRANSLATION_DIRECTORY_PATH + "\\" + language + ".ini";
+            final String fileName = TRANSLATION_DIRECTORY_PATH + "/" + language + ".ini";
             TRANSLATIONS.read(readFile(fileName));
         } catch (final Exception e) {
             throw new RuntimeException(e);
