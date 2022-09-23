@@ -37,7 +37,10 @@ Also, this simulator supports translations. If you are interested, you can put y
 ### 运行
 我用Java15（corretto 15.0.2）写的，所以应该装个Java15以上就能跑？
 
-如果下载的是`.jar`压缩包，主程序在`Program`文件夹下，直接双击`FGOSimulator.jar`即可运行。
+如果下载的是`.jar`压缩包，主程序在`Program`文件夹下，直接双击`FGOSimulator.jar`即可运行。我自己在Mac上测试的时候需要下个javafx sdk还要用console，可能还有地方没整好
+```
+java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,javafx.base --add-opens javafx.graphics/com.sun.javafx.util=ALL-UNNAMED --add-opens javafx.base/com.sun.javafx.reflect=ALL-UNNAMED --add-opens javafx.base/com.sun.javafx.beans=ALL-UNNAMED -jar <path to jar>/FGOSimulator.jar
+```
 
 如果下载的是`.exe`压缩包，可以直接双击`FGOSimulator.exe`运行。目前`exe`版本仍在测试阶段，如果无法运行请联系我进行[反馈](#反馈)。
 
