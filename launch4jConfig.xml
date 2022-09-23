@@ -15,7 +15,7 @@
   <manifest></manifest>
   <icon>D:\FGO Simulator\FGOSimulator\Program\simulator.ico</icon>
   <jre>
-    <path>runtime</path>
+    <path>./Program/runtime</path>
     <bundledJre64Bit>false</bundledJre64Bit>
     <bundledJreAsFallback>false</bundledJreAsFallback>
     <minVersion>15</minVersion>
