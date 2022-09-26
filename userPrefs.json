@@ -906,7 +906,7 @@
     "option": {
       "servantLevel": 90,
       "noblePhantasmRank": 2,
-      "noblePhantasmLevel": 3,
+      "noblePhantasmLevel": 5,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
@@ -954,7 +954,7 @@
     "option": {
       "servantLevel": 90,
       "noblePhantasmRank": 1,
-      "noblePhantasmLevel": 2,
+      "noblePhantasmLevel": 5,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
@@ -1022,7 +1022,7 @@
     "option": {
       "servantLevel": 90,
       "noblePhantasmRank": 1,
-      "noblePhantasmLevel": 2,
+      "noblePhantasmLevel": 5,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
@@ -1348,6 +1348,26 @@
       "activeSkillRanks": [2, 1, 2],
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
+    "servantNo": 346,
+    "option": {
+      "servantLevel": 90,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 1,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [9, 9, 9],
+      "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -2311,8 +2331,14 @@
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
-      "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "activeSkillLevels": [9, 9, 9],
+      "appendSkillLevels": [0, 1, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -2516,6 +2542,12 @@
       "isLimitBreak": true
     }
   }, {
+    "craftEssenceNo": 1699,
+    "option": {
+      "craftEssenceLevel": 100,
+      "isLimitBreak": true
+    }
+  }, {
     "craftEssenceNo": 100,
     "option": {
       "craftEssenceLevel": 1,
@@ -2655,7 +2687,7 @@
   }, {
     "mysticCodeNo": 18,
     "option": {
-      "mysticCodeLevel": 10,
+      "mysticCodeLevel": 6,
       "gender": "FEMALE"
     }
   }, {
