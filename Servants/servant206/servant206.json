@@ -742,6 +742,108 @@
           "values": [6.0, 8.0, 9.0, 9.5, 10.0]
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"
+      }, {
+        "commandCardData": {
+          "commandCardType": "QUICK",
+          "hitsData": [6, 13, 20, 26, 35],
+          "npRate": 0.0057,
+          "criticalStarGen": 0.091
+        },
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.2],
+            "buffIcon": "quickUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.3],
+            "buffIcon": "quickUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.4],
+            "buffIcon": "quickUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.5],
+            "buffIcon": "quickUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.6],
+            "buffIcon": "quickUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.5],
+            "buffIcon": "critDamageUp"
+          }, {
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.625],
+            "buffIcon": "critDamageUp"
+          }, {
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.75],
+            "buffIcon": "critDamageUp"
+          }, {
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.875],
+            "buffIcon": "critDamageUp"
+          }, {
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [1.0],
+            "buffIcon": "critDamageUp"
+          }]
+        }, {
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [8.0, 10.0, 11.0, 11.5, 12.0]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "Confusion",
+            "numTurnsActive": 3,
+            "probabilities": [0.3],
+            "buffIcon": "delayedEffect"
+          }]
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
       }]
     },
     "extraCard": {
@@ -1492,6 +1594,108 @@
           "type": "NoblePhantasmDamage",
           "target": "ALL_ENEMIES",
           "values": [6.0, 8.0, 9.0, 9.5, 10.0]
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
+      }, {
+        "commandCardData": {
+          "commandCardType": "QUICK",
+          "hitsData": [6, 13, 20, 26, 35],
+          "npRate": 0.0057,
+          "criticalStarGen": 0.091
+        },
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.2],
+            "buffIcon": "quickUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.3],
+            "buffIcon": "quickUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.4],
+            "buffIcon": "quickUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.5],
+            "buffIcon": "quickUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 1,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "QUICK"
+            },
+            "values": [0.6],
+            "buffIcon": "quickUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.5],
+            "buffIcon": "critDamageUp"
+          }, {
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.625],
+            "buffIcon": "critDamageUp"
+          }, {
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.75],
+            "buffIcon": "critDamageUp"
+          }, {
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [0.875],
+            "buffIcon": "critDamageUp"
+          }, {
+            "type": "CriticalDamageBuff",
+            "numTurnsActive": 3,
+            "values": [1.0],
+            "buffIcon": "critDamageUp"
+          }]
+        }, {
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [8.0, 10.0, 11.0, 11.5, 12.0]
+        }, {
+          "type": "GrantBuff",
+          "target": "ALL_ENEMIES",
+          "buffData": [{
+            "type": "Confusion",
+            "numTurnsActive": 3,
+            "probabilities": [0.3],
+            "buffIcon": "delayedEffect"
+          }]
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"
       }]

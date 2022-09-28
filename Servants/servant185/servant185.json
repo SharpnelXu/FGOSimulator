@@ -52,6 +52,50 @@
           "probabilities": [0.8, 0.82, 0.84, 0.86, 0.88, 0.9, 0.92, 0.94, 0.96, 1.0]
         }],
         "iconName": "seal"
+      }, {
+        "baseCoolDown": 7,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "TARGETED_ENEMY",
+          "buffData": [{
+            "type": "NpSeal",
+            "numTurnsActive": 1,
+            "buffIcon": "npSeal"
+          }],
+          "probabilities": [0.8, 0.82, 0.84, 0.86, 0.88, 0.9, 0.92, 0.94, 0.96, 1.0]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "SpecificAttackBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "TargetsHaveTrait",
+              "value": "DEMONIC",
+              "target": "DEFENDER"
+            },
+            "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3],
+            "buffIcon": "specialDamageUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "SpecificAttackBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "TargetsHaveBuff",
+              "subConditionData": [{
+                "type": "BuffTypeEquals",
+                "value": "Curse"
+              }],
+              "target": "DEFENDER"
+            },
+            "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+            "buffIcon": "specialDamageUp"
+          }]
+        }],
+        "iconName": "seal"
       }]
     }, {
       "activeSkillData": [{

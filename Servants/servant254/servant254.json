@@ -758,6 +758,83 @@
           "values": [4.5, 6.0, 6.75, 7.125, 7.5]
         }],
         "noblePhantasmType": "ALL_TARGETS_NP"
+      }, {
+        "commandCardData": {
+          "commandCardType": "ARTS",
+          "hitsData": [6, 13, 20, 26, 35],
+          "npRate": 0.0037,
+          "criticalStarGen": 0.1
+        },
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "isOverchargedEffect": true,
+          "buffData": [{
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [0.2],
+            "buffIcon": "artsUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [0.25],
+            "buffIcon": "artsUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [0.3],
+            "buffIcon": "artsUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [0.35],
+            "buffIcon": "artsUp"
+          }, {
+            "type": "CommandCardBuff",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "CardTypeEquals",
+              "value": "ARTS"
+            },
+            "values": [0.4],
+            "buffIcon": "artsUp"
+          }]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "numTurnsActive": 3,
+            "subEffects": [{
+              "type": "CriticalStarChange",
+              "intValues": [20]
+            }],
+            "customTraits": ["POSITIVE_BUFF"],
+            "hasCustomTraits": true,
+            "buffIcon": "starsPerTurn"
+          }]
+        }, {
+          "type": "NoblePhantasmDamage",
+          "target": "ALL_ENEMIES",
+          "values": [6.0, 7.5, 8.25, 8.625, 9.0]
+        }],
+        "noblePhantasmType": "ALL_TARGETS_NP"
       }]
     },
     "extraCard": {
