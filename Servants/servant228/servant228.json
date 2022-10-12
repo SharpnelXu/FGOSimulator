@@ -137,6 +137,38 @@
           "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2]
         }],
         "iconName": "guts"
+      }, {
+        "baseCoolDown": 10,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "Guts",
+            "numTurnsActive": 5,
+            "numTimesActive": 2,
+            "values": [1.0],
+            "buffIcon": "guts"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "SELF",
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "numTurnsActive": 5,
+            "subEffects": [{
+              "type": "CriticalStarChange",
+              "intValues": [5, 6, 7, 8, 9, 10, 11, 12, 13, 15]
+            }],
+            "customTraits": ["POSITIVE_BUFF"],
+            "hasCustomTraits": true,
+            "buffIcon": "starsPerTurn"
+          }]
+        }],
+        "iconName": "guts"
       }]
     }],
     "passiveSkillData": [{
