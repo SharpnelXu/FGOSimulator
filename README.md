@@ -34,6 +34,16 @@ Also, this simulator supports translations. If you are interested, you can put y
 
 ![下载程序](./ReadmePic/System/download1.png)
 
+### 更新
+
+目前有一次数据更新（v1.04.1），如果由之前的数据版本，可以直接下快速补丁，即标记为Quick Patch的zip文件然后在本地解压替换掉数据就好。
+
+![下载数据](./ReadmePic/System/download2.png)
+
+目前我已经更新完了我自己会用到的大多数功能，接下来就比较佛系了。
+
+新从者的更新我倾向于使用者自己去更新，不过我自己也会跟进。目前的想法是打包数据包，可以从上面的传送门去对着版本号下载，然后解压缩替换掉本地的数据就好了。
+
 ### 运行
 我用Java15（corretto 15.0.2）写的，所以应该装个Java15以上就能跑？
 
@@ -46,18 +56,6 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
 
 由于路径关系，主程序请不要随意挪到别的文件夹！另外`CommandCodes`, `CraftEssences`, `Enemies`, `Icons`, `Levels`, `MysticCodes`, `Servants`, 
 `Translations`文件夹及各种默认图片也请不要随意挪动。
-
-### 更新
-
-目前还未有数据更新。（v1.04.0）
-
-目前我已经更新完了我自己会用到的大多数功能，接下来就比较佛系了。
-
-新从者的更新我倾向于使用者自己去更新，不过我自己也会跟进。目前的想法是打包数据包，可以从上面的传送门去对着版本号下载，然后解压缩替换掉本地的数据就好了。
-
-![下载数据](./ReadmePic/System/download2.png)
-
-如果由之前的数据版本，可以直接下快速补丁（标记为Quick Patch的zip文件）（无上个数据版本）
 
 ### 反馈
 
