@@ -1,0 +1,10 @@
+{
+  "id": "职阶·Lancer",
+  "rarity": 4,
+  "fateClass": "LANCER",
+  "attribute": "MAN",
+  "traits": ["MALE", "FEMALE", "SERVANT", "WEAK_TO_ENUMA_ELISH", "HUMANOID"],
+  "deathRate": 0.2,
+  "enemyPassiveSkillData": [{
+  }]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "肃正骑士",
+  "rarity": 4,
+  "fateClass": "SABER",
+  "gender": "MALE",
+  "attribute": "MAN",
+  "traits": ["HUMAN", "HUMANOID"],
+  "deathRate": 0.2,
+  "enemyPassiveSkillData": [{
+  }]
+}

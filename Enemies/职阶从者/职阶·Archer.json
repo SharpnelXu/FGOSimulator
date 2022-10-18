@@ -1,0 +1,10 @@
+{
+  "id": "职阶·Archer",
+  "rarity": 4,
+  "fateClass": "ARCHER",
+  "attribute": "MAN",
+  "traits": ["MALE", "FEMALE", "SERVANT", "WEAK_TO_ENUMA_ELISH", "HUMANOID"],
+  "deathRate": 0.2,
+  "enemyPassiveSkillData": [{
+  }]
+}
