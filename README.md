@@ -30,13 +30,13 @@ Also, this simulator supports translations. If you are interested, you can put y
 
 如果没有或者不确定的话，Windows用户可以尝试下载标注为`.exe`的`zip`压缩包解压。这个压缩包包含了程序需求的运行环境，所以会大一点。
 
-当前版本：v1.04，数据版本：v1.04.1
+当前版本：v1.04，数据版本：v1.04.1（更新至108人的万圣节·反抗！ ～小龙娘水浒演义～）
 
 ![下载程序](./ReadmePic/System/download1.png)
 
 ### 更新
 
-目前有一次数据更新（v1.04.1），如果由之前的数据版本，可以直接下快速补丁，即标记为Quick Patch的zip文件然后在本地解压替换掉数据就好。
+目前有一次数据更新（v1.04.1），如果有之前的数据版本，可以直接下快速补丁，即标记为Quick Patch的zip文件然后在本地解压替换掉数据就好。
 
 ![下载数据](./ReadmePic/System/download2.png)
 
@@ -448,6 +448,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
 * 帝王花增殖状态这种复数的可堆叠上限没写
 * 无貌之月不会正确解除，这个我懒得写了
 * 由于强化无效和弱化无效是用耐性实现的，复数的无效会同时被消耗，推荐使用自定义效果来手动补充
+* 黄飞虎的特性消除暂时没写，现在只是添加特性，如果再来两个类似的效果我就写！
 
 ### 效果
 * 帕西维尔宝具最后一个回复HP百分比最低的友方的效果未制作
