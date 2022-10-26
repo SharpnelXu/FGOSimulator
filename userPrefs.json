@@ -755,7 +755,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [9, 10, 10],
-      "appendSkillLevels": [0, 10, 0],
+      "appendSkillLevels": [0, 10, 1],
       "commandCardOptions": [{
       }, {
       }, {
@@ -2546,7 +2546,8 @@
   }, {
     "craftEssenceNo": 1490,
     "option": {
-      "craftEssenceLevel": 100
+      "craftEssenceLevel": 15,
+      "isLimitBreak": true
     }
   }, {
     "craftEssenceNo": 1491,

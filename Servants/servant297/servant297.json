@@ -188,6 +188,10 @@
         "target": "SELF",
         "buffData": [{
           "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "ARTS"
+          },
           "values": [0.08],
           "buffIcon": "artsUp"
         }]
@@ -200,7 +204,7 @@
         "buffData": [{
           "type": "DebuffChanceBuff",
           "values": [0.1],
-          "buffIcon": "buffChanceBuff"
+          "buffIcon": "buffChanceUp"
         }]
       }],
       "iconName": "itemConstruction"
@@ -1022,6 +1026,10 @@
         "target": "SELF",
         "buffData": [{
           "type": "CommandCardBuff",
+          "applyCondition": {
+            "type": "CardTypeEquals",
+            "value": "ARTS"
+          },
           "values": [0.08],
           "buffIcon": "artsUp"
         }]
@@ -1034,7 +1042,7 @@
         "buffData": [{
           "type": "DebuffChanceBuff",
           "values": [0.1],
-          "buffIcon": "buffChanceBuff"
+          "buffIcon": "buffChanceUp"
         }]
       }],
       "iconName": "itemConstruction"
