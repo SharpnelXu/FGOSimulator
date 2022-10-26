@@ -181,8 +181,8 @@
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
-          "type": "SpecificAttackBuff",
-          "values": [1.75],
+          "type": "DamageAdditionBuff",
+          "values": [175.0],
           "buffIcon": "specialDamageUp"
         }]
       }],
