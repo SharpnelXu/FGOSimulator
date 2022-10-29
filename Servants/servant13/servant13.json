@@ -52,7 +52,7 @@
           }]
         }, {
           "type": "GrantBuff",
-          "target": "SELF",
+          "target": "ALL_ENEMIES",
           "buffData": [{
             "type": "Poison",
             "numTurnsActive": 5,
@@ -734,7 +734,7 @@
           }]
         }, {
           "type": "GrantBuff",
-          "target": "SELF",
+          "target": "ALL_ENEMIES",
           "buffData": [{
             "type": "Poison",
             "numTurnsActive": 5,
