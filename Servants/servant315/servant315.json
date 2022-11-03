@@ -125,6 +125,26 @@
             "buffIcon": "guts"
           }]
         }, {
+          "type": "GrantBuff",
+          "target": "TARGETED_ALLY",
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "FEMALE",
+            "target": "EFFECT_TARGET"
+          },
+          "buffData": [{
+            "type": "EndOfTurnEffect",
+            "numTurnsActive": 5,
+            "subEffects": [{
+              "type": "HpChange",
+              "target": "SELF",
+              "intValues": [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 2000]
+            }],
+            "customTraits": ["POSITIVE_BUFF"],
+            "hasCustomTraits": true,
+            "buffIcon": "hpPerTurn"
+          }]
+        }, {
           "type": "RemoveBuff",
           "target": "TARGETED_ALLY",
           "applyCondition": {
@@ -152,7 +172,7 @@
           "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
-            "type": "DelayedEffect",
+            "type": "EndOfTurnEffect",
             "numTurnsActive": 1,
             "subEffects": [{
               "type": "ForceInstantDeath",
