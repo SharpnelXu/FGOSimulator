@@ -116,7 +116,7 @@
             "type": "DelayedEffect",
             "numTurnsActive": 1,
             "subEffects": [{
-              "type": "MaxHpChange",
+              "type": "GrantBuff",
               "target": "SELF",
               "buffData": [{
                 "type": "MaxHpBuff",

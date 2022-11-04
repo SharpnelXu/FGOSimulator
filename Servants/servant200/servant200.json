@@ -99,7 +99,7 @@
       "activeSkillData": [{
         "baseCoolDown": 7,
         "effects": [{
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
             "type": "MaxHpBuff",

@@ -1,14 +1,11 @@
 package yome.fgo.simulator.models.effects;
 
 import lombok.experimental.SuperBuilder;
-import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
 
+/**
+ * Kinda useless now only this class utilizes the `afterBuffAdditionalChange`. Moved to GrantBuff
+ */
 @SuperBuilder
+@Deprecated
 public class MaxHpChange extends GrantBuff {
-    @Override
-    protected void afterBuffAdditionalChange(final Simulation simulation) {
-        final int change = ((MaxHpBuff) simulation.getCurrentBuff()).getChange();
-        simulation.getEffectTarget().changeHpAfterMaxHpChange(change);
-    }
 }

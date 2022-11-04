@@ -113,7 +113,7 @@
             "buffIcon": "guts"
           }]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "TARGETED_ALLY",
           "buffData": [{
             "type": "MaxHpBuff",

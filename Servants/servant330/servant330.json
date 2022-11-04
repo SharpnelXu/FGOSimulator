@@ -51,7 +51,7 @@
             "buffIcon": "attackUp"
           }]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "TARGETED_ALLY",
           "buffData": [{
             "type": "MaxHpBuff",

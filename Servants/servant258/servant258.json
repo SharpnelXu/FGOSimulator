@@ -122,7 +122,7 @@
             "buffIcon": "critDamageUp"
           }]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "TARGETED_ALLY",
           "applyCondition": {
             "type": "TargetsHaveClass",

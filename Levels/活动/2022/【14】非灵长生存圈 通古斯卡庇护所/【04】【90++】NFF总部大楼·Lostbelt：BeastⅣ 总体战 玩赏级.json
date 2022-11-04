@@ -262,7 +262,7 @@
           "type": "DeathEffect",
           "numTimesActive": 1,
           "subEffects": [{
-            "type": "MaxHpChange",
+            "type": "GrantBuff",
             "target": "ALL_ALLIES",
             "applyCondition": {
               "type": "TargetsHaveClass",

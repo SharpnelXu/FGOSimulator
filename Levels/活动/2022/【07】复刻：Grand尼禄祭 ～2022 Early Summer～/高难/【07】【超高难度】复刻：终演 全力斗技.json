@@ -236,7 +236,7 @@
         "type": "EnterFieldEffect",
         "numTimesActive": 1,
         "subEffects": [{
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "ALL_ENEMIES",
           "buffData": [{
             "type": "MaxHpBuff",

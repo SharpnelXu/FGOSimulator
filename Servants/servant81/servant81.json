@@ -660,7 +660,7 @@
           "probabilities": [5.0],
           "intValues": [2]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
             "type": "MaxHpBuff",
@@ -735,7 +735,7 @@
           "probabilities": [5.0],
           "intValues": [2]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
             "type": "MaxHpBuff",

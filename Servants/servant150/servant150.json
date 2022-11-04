@@ -106,7 +106,7 @@
             "buffIcon": "busterUp"
           }]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "TARGETED_ALLY",
           "buffData": [{
             "type": "MaxHpBuff",
@@ -902,7 +902,7 @@
             "buffIcon": "busterUp"
           }]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "TARGETED_ALLY",
           "buffData": [{
             "type": "MaxHpBuff",

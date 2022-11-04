@@ -48,7 +48,7 @@
             "type": "EndOfTurnEffect",
             "numTurnsActive": 10,
             "subEffects": [{
-              "type": "MaxHpChange",
+              "type": "GrantBuff",
               "target": "SELF",
               "buffData": [{
                 "type": "MaxHpBuff",
@@ -73,7 +73,7 @@
             "type": "EndOfTurnEffect",
             "numTurnsActive": 10,
             "subEffects": [{
-              "type": "MaxHpChange",
+              "type": "GrantBuff",
               "target": "SELF",
               "buffData": [{
                 "type": "MaxHpBuff",

@@ -139,7 +139,7 @@
             "buffIcon": "npGainup"
           }]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "ALL_ALLIES",
           "buffData": [{
             "type": "MaxHpBuff",

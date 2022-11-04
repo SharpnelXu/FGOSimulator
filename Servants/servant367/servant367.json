@@ -125,7 +125,7 @@
             "target": "EFFECT_TARGET"
           }
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "ALL_ALLIES",
           "applyCondition": {
             "type": "TargetsHaveTrait",

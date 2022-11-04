@@ -10,6 +10,7 @@ import yome.fgo.simulator.models.effects.buffs.BuffChanceBuff;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory;
 import yome.fgo.simulator.models.effects.buffs.DebuffChanceBuff;
 import yome.fgo.simulator.models.effects.buffs.DebuffResist;
+import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
 import yome.fgo.simulator.models.effects.buffs.ReceivedBuffChanceBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
@@ -111,6 +112,10 @@ public class GrantBuff extends Effect {
 
     protected void afterBuffAdditionalChange(final Simulation simulation) {
         // for subClass to override
+        if (simulation.getCurrentBuff() instanceof MaxHpBuff) {
+            final int change = ((MaxHpBuff) simulation.getCurrentBuff()).getChange();
+            simulation.getEffectTarget().changeHpAfterMaxHpChange(change);
+        }
     }
 
     @Override

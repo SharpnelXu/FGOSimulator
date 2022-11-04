@@ -27,7 +27,7 @@
   }, {
     "baseCoolDown": 10,
     "effects": [{
-      "type": "MaxHpChange",
+      "type": "GrantBuff",
       "target": "TARGETED_ALLY",
       "buffData": [{
         "type": "MaxHpBuff",

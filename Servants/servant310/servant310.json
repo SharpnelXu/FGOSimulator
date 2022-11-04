@@ -777,7 +777,7 @@
           "target": "ALL_ENEMIES",
           "values": [3.0, 4.0, 4.5, 4.75, 5.0]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
             "type": "MaxHpBuff",
@@ -1578,7 +1578,7 @@
           "target": "ALL_ENEMIES",
           "values": [3.0, 4.0, 4.5, 4.75, 5.0]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
             "type": "MaxHpBuff",

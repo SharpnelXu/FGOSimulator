@@ -130,7 +130,7 @@
             "buffIcon": "defenseUp"
           }]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
             "type": "MaxHpBuff",

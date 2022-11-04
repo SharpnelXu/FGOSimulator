@@ -880,7 +880,7 @@
           "type": "PostDefenseEffect",
           "numTimesActive": 1,
           "subEffects": [{
-            "type": "MaxHpChange",
+            "type": "GrantBuff",
             "target": "ATTACKER",
             "buffData": [{
               "type": "MaxHpBuff",

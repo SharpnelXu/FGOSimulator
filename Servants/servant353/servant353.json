@@ -55,7 +55,7 @@
             "buffIcon": "artsUp"
           }]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "TARGETED_ALLY",
           "buffData": [{
             "type": "MaxHpBuff",
@@ -758,7 +758,7 @@
           "criticalStarGen": 0.198
         },
         "effects": [{
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "ALL_ALLIES",
           "buffData": [{
             "type": "MaxHpBuff",

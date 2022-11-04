@@ -112,7 +112,7 @@
           },
           "intValues": [0]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
             "type": "MaxHpBuff",

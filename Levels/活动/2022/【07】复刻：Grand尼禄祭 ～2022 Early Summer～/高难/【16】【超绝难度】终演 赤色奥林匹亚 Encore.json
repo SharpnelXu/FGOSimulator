@@ -445,7 +445,7 @@
           "buffIcon": "leaveField"
         }]
       }, {
-        "type": "MaxHpChange",
+        "type": "GrantBuff",
         "target": "ALL_ALLIES",
         "applyCondition": {
           "type": "TargetsContainsSpecificServant",

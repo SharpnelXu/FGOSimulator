@@ -789,7 +789,7 @@
             "buffIcon": "quickUp"
           }]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "ALL_ALLIES",
           "buffData": [{
             "type": "MaxHpBuff",
@@ -916,7 +916,7 @@
             "buffIcon": "busterUp"
           }]
         }, {
-          "type": "MaxHpChange",
+          "type": "GrantBuff",
           "target": "ALL_ALLIES",
           "buffData": [{
             "type": "MaxHpBuff",
