@@ -79,9 +79,9 @@
           "type": "GrantBuff",
           "target": "SELF",
           "buffData": [{
-            "type": "GrantTrait",
+            "type": "RemoveTrait",
             "numTurnsActive": 3,
-            "stringValue": "不是混沌"
+            "stringValue": "CHAOTIC"
           }]
         }],
         "iconName": "artsBusterUp"
@@ -132,12 +132,9 @@
           "type": "GrantBuff",
           "target": "SELF",
           "applyCondition": {
-            "type": "Not",
-            "subConditionData": [{
-              "type": "TargetsHaveTrait",
-              "value": "不是混沌",
-              "target": "EFFECT_TARGET"
-            }]
+            "type": "TargetsHaveTrait",
+            "value": "CHAOTIC",
+            "target": "EFFECT_TARGET"
           },
           "buffData": [{
             "type": "NpGenerationBuff",

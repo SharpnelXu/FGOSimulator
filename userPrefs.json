@@ -684,6 +684,20 @@
       "ascension": 1
     }
   }, {
+    "servantNo": 38,
+    "option": {
+      "servantLevel": 70,
+      "noblePhantasmRank": 2,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [2, 1, 2],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
     "servantNo": 295,
     "option": {
       "servantLevel": 90,

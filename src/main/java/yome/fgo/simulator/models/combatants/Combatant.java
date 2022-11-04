@@ -35,6 +35,7 @@ import yome.fgo.simulator.models.effects.buffs.NpSeal;
 import yome.fgo.simulator.models.effects.buffs.PermanentSleep;
 import yome.fgo.simulator.models.effects.buffs.Poison;
 import yome.fgo.simulator.models.effects.buffs.PreventDeathAgainstDoT;
+import yome.fgo.simulator.models.effects.buffs.RemoveTrait;
 import yome.fgo.simulator.models.effects.buffs.SkillSeal;
 import yome.fgo.simulator.models.effects.buffs.StartOfTurnEffect;
 import yome.fgo.simulator.models.effects.buffs.TriggerOnGutsEffect;
@@ -42,7 +43,9 @@ import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
@@ -189,19 +192,25 @@ public class Combatant {
     }
 
     public List<String> getAllTraits(final Simulation simulation) {
-        final ImmutableList.Builder<String> allTraits = ImmutableList.builder();
+        final List<String> allTraits = new ArrayList<>();
         allTraits.addAll(combatantData.getTraitsList());
         allTraits.add(combatantData.getGender().name());
         allTraits.add(combatantData.getAttribute().name());
         allTraits.addAll(combatantData.getAlignmentsList().stream().map(Alignment::name).collect(Collectors.toList()));
+
+        final Set<String> traitsToRemove = new HashSet<>();
         for (final Buff buff : buffs) {
             if (buff instanceof GrantTrait && buff.shouldApply(simulation)) {
                 allTraits.add(((GrantTrait) buff).getTrait());
                 buff.setApplied();
+            } else if (buff instanceof RemoveTrait && buff.shouldApply(simulation)) {
+                traitsToRemove.add(((RemoveTrait) buff).getTrait());
+                buff.setApplied();
             }
         }
 
-        return allTraits.build();
+        allTraits.removeAll(traitsToRemove);
+        return allTraits;
     }
 
     public boolean getUndeadNpCorrection() {
