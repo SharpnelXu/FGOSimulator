@@ -1746,8 +1746,14 @@
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 2],
-      "activeSkillLevels": [10, 10, 10],
+      "activeSkillLevels": [10, 10, 5],
       "appendSkillLevels": [0, 0, 0],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -2751,7 +2757,7 @@
   }, {
     "mysticCodeNo": 18,
     "option": {
-      "mysticCodeLevel": 6,
+      "mysticCodeLevel": 10,
       "gender": "FEMALE"
     }
   }, {

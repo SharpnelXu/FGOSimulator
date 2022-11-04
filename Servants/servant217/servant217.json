@@ -116,12 +116,8 @@
             "buffIcon": "critDamageUp"
           }]
         }, {
-          "type": "RandomEffects"
-        }],
-        "iconName": "starWeightUp",
-        "specialActivationParams": {
-          "specialTarget": "RANDOM_EFFECT",
-          "randomEffectSelections": [{
+          "type": "RandomEffects",
+          "effectData": [{
             "type": "GrantBuff",
             "target": "SELF",
             "buffData": [{
@@ -138,10 +134,10 @@
               "numTurnsActive": 1,
               "values": [-0.3],
               "buffIcon": "debuffResistDown"
-            }],
-            "probabilities": [5.0]
+            }]
           }]
-        }
+        }],
+        "iconName": "starWeightUp"
       }]
     }],
     "passiveSkillData": [{

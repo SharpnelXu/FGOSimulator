@@ -3,13 +3,19 @@ package yome.fgo.simulator.models.effects;
 import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
+import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory;
 
+import java.util.List;
+
+import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.CARD_TYPE;
+
 @SuperBuilder
 public class CardTypeChangeSelect extends GrantBuff {
     private CommandCardType selectedCardType;
+    private List<CommandCardType> allowedCardTypes;
 
     @Override
     protected Buff buildBuff(final int level) {
@@ -21,6 +27,11 @@ public class CardTypeChangeSelect extends GrantBuff {
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
+        final SpecialActivationParams specialActivationParams = SpecialActivationParams.newBuilder()
+                .setSpecialTarget(CARD_TYPE)
+                .addAllCardTypeSelections(allowedCardTypes)
+                .build();
+        simulation.requestSpecialActivationTarget(specialActivationParams);
         selectedCardType = simulation.selectCommandCardType();
         super.internalApply(simulation, level);
     }

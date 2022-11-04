@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
+import yome.fgo.simulator.gui.components.SimulationWindow;
 import yome.fgo.simulator.gui.components.StatsLogger;
 import yome.fgo.simulator.models.combatants.CombatAction;
 import yome.fgo.simulator.models.combatants.Combatant;
@@ -61,7 +63,17 @@ public class Simulation {
         this.backupServants.addAll(servants);
         this.mysticCode = mysticCode;
     }
+    public Simulation(
+            final Level level,
+            final List<Servant> servants,
+            final MysticCode mysticCode,
+            final SimulationWindow simulationWindow
+    ) {
+        this(level, servants, mysticCode);
+        this.simulationWindow = simulationWindow;
+    }
 
+    public SimulationWindow simulationWindow;
     public Level level;
 
     public int currentStage;
@@ -266,6 +278,12 @@ public class Simulation {
         unsetActivator();
 
         return result;
+    }
+
+    public void requestSpecialActivationTarget(
+            final SpecialActivationParams specialActivationParams
+    ) {
+        simulationWindow.showSpecialTargetSelectionWindow(specialActivationParams);
     }
 
     public void executeCombatActions(final List<CombatAction> combatActions) {

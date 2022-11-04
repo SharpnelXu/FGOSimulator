@@ -736,6 +736,25 @@
           "type": "NoblePhantasmDamage",
           "target": "TARGETED_ENEMY",
           "values": [6.0, 8.0, 9.0, 9.5, 10.0]
+        }, {
+          "type": "RandomEffects",
+          "effectData": [{
+            "type": "CriticalStarChange",
+            "intValues": [30]
+          }, {
+            "type": "NpChange",
+            "target": "ALL_ALLIES",
+            "values": [0.2]
+          }, {
+            "type": "GrantBuff",
+            "target": "ALL_ALLIES",
+            "buffData": [{
+              "type": "AttackBuff",
+              "numTurnsActive": 3,
+              "values": [0.2],
+              "buffIcon": "attackUp"
+            }]
+          }]
         }],
         "noblePhantasmType": "SINGLE_TARGET_NP"
       }]

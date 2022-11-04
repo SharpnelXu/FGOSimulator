@@ -213,7 +213,7 @@ message ActiveSkillData {
   repeated EffectData effects = 2;
   ConditionData activationCondition = 3;
   string iconName = 4;
-  SpecialActivationParams specialActivationParams = 5;
+  SpecialActivationParams specialActivationParams = 5; // deprecated
 }
 
 message SpecialActivationParams {
@@ -264,6 +264,9 @@ message EffectData {
   bool isHpChangePercentBased = 16;
 
   bool removeFromStart = 20;
+
+  repeated EffectData effectData = 21; // for random effects
+  repeated CommandCardType cardTypeSelections = 22; // for cardTypeChangeSelect
 }
 
 message NpDamageAdditionalParams {

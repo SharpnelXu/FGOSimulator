@@ -97,16 +97,8 @@
           "target": "SELF",
           "values": [-1.0]
         }, {
-          "type": "RandomEffects"
-        }],
-        "activationCondition": {
-          "type": "NpAtLeast",
-          "doubleValue": 1.0
-        },
-        "iconName": "specialAttackUp",
-        "specialActivationParams": {
-          "specialTarget": "RANDOM_EFFECT",
-          "randomEffectSelections": [{
+          "type": "RandomEffects",
+          "effectData": [{
             "type": "GrantBuff",
             "target": "SELF",
             "buffData": [{
@@ -144,7 +136,12 @@
             "type": "CriticalStarChange",
             "intValues": [30, 32, 34, 36, 38, 40, 42, 44, 46, 50]
           }]
-        }
+        }],
+        "activationCondition": {
+          "type": "NpAtLeast",
+          "doubleValue": 1.0
+        },
+        "iconName": "specialAttackUp"
       }, {
         "baseCoolDown": 8,
         "effects": [{
@@ -152,16 +149,8 @@
           "target": "SELF",
           "values": [-0.5]
         }, {
-          "type": "RandomEffects"
-        }],
-        "activationCondition": {
-          "type": "NpAtLeast",
-          "doubleValue": 0.5
-        },
-        "iconName": "specialAttackUp",
-        "specialActivationParams": {
-          "specialTarget": "RANDOM_EFFECT",
-          "randomEffectSelections": [{
+          "type": "RandomEffects",
+          "effectData": [{
             "type": "GrantBuff",
             "target": "SELF",
             "buffData": [{
@@ -199,7 +188,12 @@
             "type": "CriticalStarChange",
             "intValues": [30, 32, 34, 36, 38, 40, 42, 44, 46, 50]
           }]
-        }
+        }],
+        "activationCondition": {
+          "type": "NpAtLeast",
+          "doubleValue": 0.5
+        },
+        "iconName": "specialAttackUp"
       }]
     }],
     "passiveSkillData": [{

@@ -180,6 +180,8 @@
                               <Insets />
                            </VBox.margin>
                         </CheckBox>
+                        <VBox fx:id="effectsPane" />
+                        <HBox fx:id="cardTypePane" alignment="CENTER_LEFT" spacing="10.0" />
                      </children>
                   </VBox>
                </content>

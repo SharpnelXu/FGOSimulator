@@ -17,7 +17,6 @@ import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
-import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.gui.creators.ServantCreator;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
@@ -32,7 +31,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static yome.fgo.data.proto.FgoStorageData.SpecialActivationTarget.NO_SPECIAL_TARGET;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.data.proto.FgoStorageData.Target.TARGETED_ALLY;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.INFO_THUMBNAIL_SIZE;
@@ -223,15 +221,8 @@ public class ServantDisplay extends VBox {
     }
 
     private void activateSkill(final int skillIndex) {
-        final Simulation simulation = simulationWindow.getSimulation();
-        final SpecialActivationParams specialActivationParams =
-                simulation.getCurrentServants().get(servantIndex).getActiveSkillSpecialTarget(simulation, skillIndex);
-        if (specialActivationParams == null || specialActivationParams.getSpecialTarget() == NO_SPECIAL_TARGET) {
-            simulationWindow.getSimulation().activateServantSkill(servantIndex, skillIndex);
-            simulationWindow.render();
-        } else {
-            simulationWindow.showSpecialTargetSelectionWindow(specialActivationParams, servantIndex, skillIndex);
-        }
+        simulationWindow.getSimulation().activateServantSkill(servantIndex, skillIndex);
+        simulationWindow.render();
     }
 
     public void renderServant() {

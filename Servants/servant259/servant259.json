@@ -98,12 +98,8 @@
       "activeSkillData": [{
         "baseCoolDown": 7,
         "effects": [{
-          "type": "RandomEffects"
-        }],
-        "iconName": "specialAttackUp",
-        "specialActivationParams": {
-          "specialTarget": "RANDOM_EFFECT",
-          "randomEffectSelections": [{
+          "type": "RandomEffects",
+          "effectData": [{
             "type": "GrantBuff",
             "target": "SELF",
             "buffData": [{
@@ -135,7 +131,8 @@
               "buffIcon": "npDamageUp"
             }]
           }]
-        }
+        }],
+        "iconName": "specialAttackUp"
       }]
     }],
     "passiveSkillData": [{

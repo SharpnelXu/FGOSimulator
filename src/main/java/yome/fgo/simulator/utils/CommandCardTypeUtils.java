@@ -17,6 +17,11 @@ public class CommandCardTypeUtils {
             BUSTER,
             EXTRA
     );
+    public static final List<CommandCardType> SELECTABLE_CARD_TYPES = ImmutableList.of(
+            QUICK,
+            ARTS,
+            BUSTER
+    );
 
     public static boolean isValidCardPos(
             final CommandCardType commandCardType,

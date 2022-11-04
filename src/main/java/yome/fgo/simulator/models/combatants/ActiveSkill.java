@@ -3,7 +3,6 @@ package yome.fgo.simulator.models.combatants;
 import lombok.Getter;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillUpgrades;
-import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.conditions.Condition;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
@@ -21,7 +20,6 @@ public class ActiveSkill {
     public static class ActiveSkillWrapper extends Skill {
         private final int maxCoolDown;
         private final Condition activationCondition;
-        private final SpecialActivationParams specialActivationParams;
         private final String iconName;
 
         public ActiveSkillWrapper(final ActiveSkillData activeSkillData, final int activeSkillLevel) {
@@ -33,12 +31,6 @@ public class ActiveSkill {
                 this.activationCondition = ConditionFactory.buildCondition(activeSkillData.getActivationCondition());
             } else {
                 this.activationCondition = ALWAYS;
-            }
-
-            if (activeSkillData.hasSpecialActivationParams()) {
-                this.specialActivationParams = activeSkillData.getSpecialActivationParams();
-            } else {
-                this.specialActivationParams = null;
             }
         }
     }
@@ -65,9 +57,6 @@ public class ActiveSkill {
         } else {
             return activeSkillWrapperList.get(activeSkillWrapperList.size() - 1);
         }
-    }
-    public SpecialActivationParams getSpecialActivationParams(int currentRank) {
-        return getSkillAtRankOrHighest(currentRank).specialActivationParams;
     }
 
     public boolean canActivate(final Simulation simulation, final int rank) {

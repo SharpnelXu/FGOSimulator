@@ -1,5 +1,6 @@
 package yome.fgo.simulator.gui.components;
 
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -101,6 +102,8 @@ public class SimulationWindow {
     private final VBox combatActionsVBox;
     private final FateClassInfoVBox fateClassInfoVBox;
 
+    public final Object mutex = new Object();
+
     public SimulationWindow(
             final LevelData levelData,
             final List<ServantData> servantData,
@@ -152,7 +155,7 @@ public class SimulationWindow {
 
         final MysticCode mysticCode = new MysticCode(mysticCodeData, mysticCodeOption);
 
-        simulation = new Simulation(level, servants, mysticCode);
+        simulation = new Simulation(level, servants, mysticCode, this);
         simulation.setProbabilityThreshold(probabilityThreshold);
         simulation.setFixedRandom(randomValue);
 
@@ -385,12 +388,9 @@ public class SimulationWindow {
     }
 
     public void showSpecialTargetSelectionWindow(
-            final SpecialActivationParams specialActivationParams,
-            final int servantIndex,
-            final int skillIndex
+            final SpecialActivationParams specialActivationParams
     ) {
         specialSelectionVBox.getChildren().clear();
-        specialSelectionVBox.setVisible(true);
         switch (specialActivationParams.getSpecialTarget()) {
             case ORDER_CHANGE -> {
                 final Label orderChangeDesc = new Label(getTranslation(APPLICATION_SECTION, "Select servants to swap"));
@@ -432,11 +432,6 @@ public class SimulationWindow {
                 final HBox buttonHBox = new HBox();
                 buttonHBox.setAlignment(Pos.CENTER);
                 buttonHBox.setSpacing(10);
-                final Button cancelButton = new Button(getTranslation(APPLICATION_SECTION, "Cancel"));
-                cancelButton.setOnAction(e -> {
-                    specialSelectionVBox.setVisible(false);
-                    contentVBox.setDisable(false);
-                });
                 final Button selectButton = new Button(getTranslation(APPLICATION_SECTION, "Select"));
                 selectButton.setOnAction(e -> {
                     if (onFieldChoices.stream().noneMatch(OrderChangeChoice::isSelected) ||
@@ -475,16 +470,9 @@ public class SimulationWindow {
                     );
 
                     simulation.setOrderChangeSelections(selections);
-
-                    if (servantIndex < 0) {
-                        simulation.activateMysticCodeSkill(skillIndex);
-                        render();
-                    } else {
-                        simulation.activateServantSkill(servantIndex, skillIndex);
-                        render();
-                    }
+                    Platform.exitNestedEventLoop(mutex, null);
                 });
-                buttonHBox.getChildren().addAll(cancelButton, selectButton);
+                buttonHBox.getChildren().addAll(selectButton);
                 specialSelectionVBox.getChildren().add(buttonHBox);
             }
             case CARD_TYPE -> {
@@ -505,30 +493,18 @@ public class SimulationWindow {
                     cardTypeSelectButton.setOnAction(e -> {
                         specialSelectionVBox.setVisible(false);
                         contentVBox.setDisable(false);
-                        simulation.setSelectedCommandCardType(commandCardType);
                         statsLogger.logEffect(
                                 String.format(
                                         getTranslation(APPLICATION_SECTION, "Selected card type %s"),
                                         getTranslation(COMMAND_CARD_TYPE_SECTION, commandCardType.name())
                                 )
                         );
-                        if (servantIndex < 0) {
-                            simulation.activateMysticCodeSkill(skillIndex);
-                            render();
-                        } else {
-                            simulation.activateServantSkill(servantIndex, skillIndex);
-                            render();
-                        }
+                        simulation.setSelectedCommandCardType(commandCardType);
+                        Platform.exitNestedEventLoop(mutex, null);
                     });
                     cardTypesHBox.getChildren().add(cardTypeSelectButton);
                 }
                 specialSelectionVBox.getChildren().add(cardTypesHBox);
-                final Button cardTypeCancelButton = new Button(getTranslation(APPLICATION_SECTION, "Cancel"));
-                cardTypeCancelButton.setOnAction(e ->{
-                    specialSelectionVBox.setVisible(false);
-                    contentVBox.setDisable(false);
-                });
-                specialSelectionVBox.getChildren().add(cardTypeCancelButton);
             }
             case RANDOM_EFFECT -> {
                 final Label effectSelectDesc = new Label(getTranslation(APPLICATION_SECTION, "Select random effect"));
@@ -542,33 +518,23 @@ public class SimulationWindow {
                     randomEffectSelectionButton.setOnAction(e -> {
                         specialSelectionVBox.setVisible(false);
                         contentVBox.setDisable(false);
-                        simulation.setSelectedEffectData(effectData);
                         statsLogger.logEffect(
                                 String.format(
                                         getTranslation(APPLICATION_SECTION, "Selected random effect %s"),
                                         printEffectData(effectData)
                                 )
                         );
-                        if (servantIndex < 0) {
-                            simulation.activateMysticCodeSkill(skillIndex);
-                            render();
-                        } else {
-                            simulation.activateServantSkill(servantIndex, skillIndex);
-                            render();
-                        }
+                        simulation.setSelectedEffectData(effectData);
+                        Platform.exitNestedEventLoop(mutex, null);
                     });
                     specialSelectionVBox.getChildren().add(randomEffectSelectionButton);
                 }
-                final Button randomEffectCancelButton = new Button(getTranslation(APPLICATION_SECTION, "Cancel"));
-                randomEffectCancelButton.setOnAction(e -> {
-                    specialSelectionVBox.setVisible(false);
-                    contentVBox.setDisable(false);
-                });
-                specialSelectionVBox.getChildren().add(randomEffectCancelButton);
             }
         }
-
+        specialSelectionVBox.setVisible(true);
         contentVBox.setDisable(true);
+
+        Platform.enterNestedEventLoop(mutex);
     }
 
     public void viewEnemyBuffs(final int enemyIndex) {

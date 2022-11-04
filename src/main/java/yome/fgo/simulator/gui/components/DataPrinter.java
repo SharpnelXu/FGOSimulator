@@ -34,11 +34,13 @@ import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFie
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.effects.EffectFactory.EFFECT_REQUIRED_FIELDS_MAP;
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_GRANT_BUFF;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_HP_CHANGE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_INT_VALUE;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_NP_DAMAGE;
+import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_RANDOM_EFFECT;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_TARGET;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
@@ -485,7 +487,25 @@ public class DataPrinter {
             builder.append(" : ");
             builder.append(getTranslation(APPLICATION_SECTION, "Remove from earliest"));
         }
+        if (requiredFields.contains(EFFECT_FIELD_CARD_TYPE_SELECT)) {
+            builder.append(" : ");
+            builder.append(getTranslation(APPLICATION_SECTION, "Available Card Type Choices"));
+            builder.append(" ");
+            final List<String> cards = effectData.getCardTypeSelectionsList()
+                    .stream()
+                    .map(cardType -> getTranslation(COMMAND_CARD_TYPE_SECTION, cardType.name()))
+                    .collect(Collectors.toList());
+            builder.append(cards);
+        }
 
+        if (requiredFields.contains(EFFECT_FIELD_RANDOM_EFFECT)) {
+            builder.append(" : ");
+            final List<String> effects = effectData.getEffectDataList()
+                    .stream()
+                    .map(DataPrinter::printEffectData)
+                    .collect(Collectors.toList());
+            builder.append(effects);
+        }
         return builder.toString();
     }
 

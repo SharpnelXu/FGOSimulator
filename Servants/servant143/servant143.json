@@ -55,12 +55,8 @@
             "buffIcon": "busterUp"
           }]
         }, {
-          "type": "RandomEffects"
-        }],
-        "iconName": "busterUp",
-        "specialActivationParams": {
-          "specialTarget": "RANDOM_EFFECT",
-          "randomEffectSelections": [{
+          "type": "RandomEffects",
+          "effectData": [{
             "type": "GrantBuff",
             "target": "SELF",
             "buffData": [{
@@ -87,7 +83,8 @@
               "buffIcon": "artsUp"
             }]
           }]
-        }
+        }],
+        "iconName": "busterUp"
       }]
     }, {
       "activeSkillData": [{

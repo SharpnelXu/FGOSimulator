@@ -105,13 +105,10 @@
             "numTurnsActive": 3,
             "stringValue": "ANY",
             "buffIcon": "npCardTypeChange"
-          }]
-        }],
-        "iconName": "npDamageUp",
-        "specialActivationParams": {
-          "specialTarget": "CARD_TYPE",
+          }],
           "cardTypeSelections": ["QUICK", "ARTS", "BUSTER"]
-        }
+        }],
+        "iconName": "npDamageUp"
       }]
     }, {
       "activeSkillData": [{

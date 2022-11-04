@@ -154,15 +154,8 @@
           "target": "SELF",
           "values": [0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.5]
         }, {
-          "type": "RandomEffects"
-        }, {
-          "type": "CriticalStarChange",
-          "intValues": [10, 11, 12, 13, 14, 15, 16, 17, 18, 20]
-        }],
-        "iconName": "npGain",
-        "specialActivationParams": {
-          "specialTarget": "RANDOM_EFFECT",
-          "randomEffectSelections": [{
+          "type": "RandomEffects",
+          "effectData": [{
             "type": "GrantBuff",
             "target": "SELF",
             "buffData": [{
@@ -189,7 +182,11 @@
               "buffIcon": "starWeightUp"
             }]
           }]
-        }
+        }, {
+          "type": "CriticalStarChange",
+          "intValues": [10, 11, 12, 13, 14, 15, 16, 17, 18, 20]
+        }],
+        "iconName": "npGain"
       }]
     }],
     "passiveSkillData": [{

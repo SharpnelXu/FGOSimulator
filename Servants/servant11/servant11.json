@@ -208,13 +208,10 @@
             "numTurnsActive": 1,
             "stringValue": "ANY",
             "buffIcon": "npCardTypeChange"
-          }]
-        }],
-        "iconName": "quickArtsBusterUp",
-        "specialActivationParams": {
-          "specialTarget": "CARD_TYPE",
+          }],
           "cardTypeSelections": ["ARTS", "BUSTER"]
-        }
+        }],
+        "iconName": "quickArtsBusterUp"
       }]
     }],
     "passiveSkillData": [{
@@ -1071,13 +1068,10 @@
             "numTurnsActive": 1,
             "stringValue": "ANY",
             "buffIcon": "npCardTypeChange"
-          }]
-        }],
-        "iconName": "quickArtsBusterUp",
-        "specialActivationParams": {
-          "specialTarget": "CARD_TYPE",
+          }],
           "cardTypeSelections": ["ARTS", "BUSTER"]
-        }
+        }],
+        "iconName": "quickArtsBusterUp"
       }]
     }],
     "passiveSkillData": [{
