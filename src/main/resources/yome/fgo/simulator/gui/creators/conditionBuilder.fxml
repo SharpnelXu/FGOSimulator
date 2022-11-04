@@ -53,11 +53,6 @@
                   <HBox fx:id="cardPane" alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <Label fx:id="cardLabel" text="Label" />
-                        <AnchorPane HBox.hgrow="ALWAYS">
-                           <children>
-                              <ChoiceBox fx:id="cardTypeChoices" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                           </children>
-                        </AnchorPane>
                      </children>
                   </HBox>
                   <HBox fx:id="classPane" alignment="CENTER_LEFT" spacing="10.0">

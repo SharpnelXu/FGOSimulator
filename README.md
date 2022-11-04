@@ -460,6 +460,11 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
 * 巴姐被晕/宝具封印会攻击吗？
 
 ## 更新相关
+- v1.05:
+  - 系统：
+    - 选择卡色从下拉菜单改为按钮
+  - Buff相关：
+    - 添加新Buff：移除特性
 - v1.04:
   - 系统：
     - 调整了敌方数据读取逻辑，当有变动时不再将基础数据视为蓝本。这是为了修复无法将敌方设定改为空值（0、无性别、无属性等）的问题

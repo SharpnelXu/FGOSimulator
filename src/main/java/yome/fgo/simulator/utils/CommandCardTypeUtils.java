@@ -1,11 +1,23 @@
 package yome.fgo.simulator.utils;
 
+import com.google.common.collect.ImmutableList;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 
+import java.util.List;
+
+import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
+import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 
 public class CommandCardTypeUtils {
+    public static final List<CommandCardType> REGULAR_CARD_TYPES = ImmutableList.of(
+            QUICK,
+            ARTS,
+            BUSTER,
+            EXTRA
+    );
+
     public static boolean isValidCardPos(
             final CommandCardType commandCardType,
             final int chainIndex

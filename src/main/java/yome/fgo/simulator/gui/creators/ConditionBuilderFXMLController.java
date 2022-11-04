@@ -35,7 +35,6 @@ import java.util.Set;
 import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
 import static yome.fgo.simulator.gui.components.DataPrinter.intToString;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListener;
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillCommandCardType;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillFateClass;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_REQUIRED_FIELD_MAP;
@@ -53,6 +52,7 @@ import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFie
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
@@ -60,6 +60,7 @@ import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.translation.TranslationManager.hasKeyForTrait;
 import static yome.fgo.simulator.utils.BuffUtils.REGULAR_BUFF_TRAITS;
+import static yome.fgo.simulator.utils.CommandCardTypeUtils.REGULAR_CARD_TYPES;
 
 public class ConditionBuilderFXMLController implements Initializable {
     @FXML
@@ -114,9 +115,6 @@ public class ConditionBuilderFXMLController implements Initializable {
     private HBox classPane;
 
     @FXML
-    private ChoiceBox<CommandCardType> cardTypeChoices;
-
-    @FXML
     private Label cardLabel;
 
     @FXML
@@ -145,6 +143,8 @@ public class ConditionBuilderFXMLController implements Initializable {
     private ListContainerVBox conditions;
     private Map<BuffTraits, RadioButton> buffTraitsMap;
     private ToggleGroup buffTraitToggle;
+    private Map<CommandCardType, RadioButton> cardTypeMap;
+    private ToggleGroup cardTypeToggle;
 
     public void setParentBuilder(final ConditionData.Builder builder) {
         this.conditionDataBuilder = builder;
@@ -167,7 +167,7 @@ public class ConditionBuilderFXMLController implements Initializable {
                 buffChoices.getSelectionModel().select(builder.getValue());
             }
             if (requiredFields.contains(CONDITION_FIELD_CARD_TYPE)) {
-                cardTypeChoices.getSelectionModel().select(CommandCardType.valueOf(builder.getValue()));
+                cardTypeMap.get(CommandCardType.valueOf(builder.getValue())).setSelected(true);
             }
             if (requiredFields.contains(CONDITION_FIELD_CLASS_VALUE)) {
                 classChoices.getSelectionModel().select(FateClass.valueOf(builder.getValue()));
@@ -211,7 +211,14 @@ public class ConditionBuilderFXMLController implements Initializable {
         buffChoices.getSelectionModel().selectFirst();
 
         cardLabel.setText(getTranslation(APPLICATION_SECTION, "Card Type"));
-        fillCommandCardType(cardTypeChoices);
+        cardTypeToggle = new ToggleGroup();
+        cardTypeMap = new HashMap<>();
+        for (final CommandCardType commandCardType : REGULAR_CARD_TYPES) {
+            final RadioButton radioButton = new RadioButton(getTranslation(COMMAND_CARD_TYPE_SECTION, commandCardType.name()));
+            radioButton.setToggleGroup(cardTypeToggle);
+            cardTypeMap.put(commandCardType, radioButton);
+            cardPane.getChildren().add(radioButton);
+        }
 
         classLabel.setText(getTranslation(APPLICATION_SECTION, "Class"));
         fillFateClass(classChoices);
@@ -388,7 +395,18 @@ public class ConditionBuilderFXMLController implements Initializable {
             if (requiredFields.contains(CONDITION_FIELD_BUFF_TYPE)) {
                 conditionDataBuilder.setValue(buffChoices.getValue());
             } else if (requiredFields.contains(CONDITION_FIELD_CARD_TYPE)) {
-                conditionDataBuilder.setValue(cardTypeChoices.getValue().name());
+                if (cardTypeToggle.getSelectedToggle() == null) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "No card type selected"));
+                    return;
+                }
+
+                for (final CommandCardType cardType : cardTypeMap.keySet()) {
+                    if (cardTypeMap.get(cardType).isSelected()) {
+                        conditionDataBuilder.setValue(cardType.name());
+                        break;
+                    }
+                }
             } else if (requiredFields.contains(CONDITION_FIELD_CLASS_VALUE)) {
                 conditionDataBuilder.setValue(classChoices.getValue().name());
             }

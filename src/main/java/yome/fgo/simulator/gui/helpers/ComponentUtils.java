@@ -172,6 +172,7 @@ public class ComponentUtils {
     public static void fillCommandCardType(final ChoiceBox<CommandCardType> commandCardTypeChoiceBox) {
         final List<CommandCardType> cardTypes = Lists.newArrayList(CommandCardType.values());
         cardTypes.remove(CommandCardType.UNRECOGNIZED);
+        cardTypes.remove(CommandCardType.ANY);
         commandCardTypeChoiceBox.setConverter(new EnumConverter<>(COMMAND_CARD_TYPE_SECTION));
         commandCardTypeChoiceBox.setItems(FXCollections.observableArrayList(cardTypes));
         commandCardTypeChoiceBox.getSelectionModel().selectFirst();
