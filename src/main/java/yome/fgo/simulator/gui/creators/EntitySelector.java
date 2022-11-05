@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import yome.fgo.data.proto.FgoStorageData.Formation;
 import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.simulator.gui.components.CraftEssenceDataAnchorPane;
 import yome.fgo.simulator.gui.components.MysticCodeDataAnchorPane;
@@ -13,11 +14,47 @@ import yome.fgo.simulator.gui.components.ServantDataAnchorPane;
 import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class EntitySelector {
+
+    public static Formation selectFormation(
+            final Window window,
+            final List<Formation> formationList,
+            final Map<Integer, ServantDataAnchorPane> servantDataMap,
+            final Map<Integer, CraftEssenceDataAnchorPane> ceDataMap,
+            final Map<Integer, MysticCodeDataAnchorPane> mcDataMap
+    ) throws IOException {
+        final Formation.Builder selection = Formation.newBuilder();
+
+        final Stage newStage = new Stage();
+        newStage.initModality(Modality.APPLICATION_MODAL);
+        newStage.initOwner(window);
+
+        final FXMLLoader fxmlLoader = new FXMLLoader(BuffBuilder.class.getResource("formationViewer.fxml"));
+        final Parent root = fxmlLoader.load();
+        final FormationFXMLController controller = fxmlLoader.getController();
+        controller.fillFormations(
+                formationList,
+                servantDataMap,
+                ceDataMap,
+                mcDataMap,
+                selection
+        );
+
+        final Scene scene = new Scene(root);
+        scene.getStylesheets().add(BuffBuilder.class.getResource("style.css").toExternalForm());
+
+        newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "Formation Viewer"));
+        newStage.setScene(scene);
+
+        newStage.showAndWait();
+
+        return selection.getName().isEmpty() ? null : selection.build();
+    }
 
     public static ServantDataAnchorPane selectServant(
             final Window window,

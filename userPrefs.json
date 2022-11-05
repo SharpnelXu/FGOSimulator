@@ -1180,6 +1180,8 @@
         "commandCode": "commandCode28",
         "hasCommandCode": true
       }, {
+        "commandCode": "commandCode28",
+        "hasCommandCode": true
       }, {
       }, {
       }, {
@@ -2757,7 +2759,7 @@
   }, {
     "mysticCodeNo": 18,
     "option": {
-      "mysticCodeLevel": 10,
+      "mysticCodeLevel": 6,
       "gender": "FEMALE"
     }
   }, {
@@ -2765,6 +2767,104 @@
     "option": {
       "mysticCodeLevel": 10,
       "gender": "FEMALE"
+    }
+  }],
+  "formations": [{
+    "name": "泡馍wC呆",
+    "servants": [{
+      "servantNo": 284,
+      "option": {
+        "servantLevel": 90,
+        "noblePhantasmRank": 1,
+        "noblePhantasmLevel": 5,
+        "attackStatusUp": 1000,
+        "healthStatusUp": 1000,
+        "activeSkillRanks": [1, 1, 1],
+        "activeSkillLevels": [10, 10, 10],
+        "appendSkillLevels": [0, 0, 0],
+        "commandCardOptions": [{
+        }, {
+          "commandCode": "commandCode46",
+          "hasCommandCode": true
+        }, {
+          "commandCode": "commandCode71",
+          "hasCommandCode": true
+        }, {
+        }, {
+        }],
+        "bond": 10,
+        "ascension": 1
+      }
+    }, {
+      "servantNo": 321,
+      "option": {
+        "servantLevel": 120,
+        "noblePhantasmRank": 1,
+        "noblePhantasmLevel": 5,
+        "attackStatusUp": 2000,
+        "healthStatusUp": 2000,
+        "activeSkillRanks": [1, 1, 1],
+        "activeSkillLevels": [10, 10, 10],
+        "appendSkillLevels": [10, 10, 10],
+        "commandCardOptions": [{
+          "commandCode": "commandCode28",
+          "hasCommandCode": true
+        }, {
+          "commandCode": "commandCode28",
+          "hasCommandCode": true
+        }, {
+        }, {
+        }, {
+        }],
+        "bond": 10,
+        "ascension": 2
+      }
+    }, {
+      "servantNo": 284,
+      "option": {
+        "servantLevel": 90,
+        "noblePhantasmRank": 1,
+        "noblePhantasmLevel": 5,
+        "attackStatusUp": 1000,
+        "healthStatusUp": 1000,
+        "activeSkillRanks": [1, 1, 1],
+        "activeSkillLevels": [10, 10, 10],
+        "appendSkillLevels": [0, 0, 0],
+        "commandCardOptions": [{
+        }, {
+          "commandCode": "commandCode46",
+          "hasCommandCode": true
+        }, {
+          "commandCode": "commandCode71",
+          "hasCommandCode": true
+        }, {
+        }, {
+        }],
+        "bond": 10,
+        "ascension": 2
+      }
+    }, {
+    }, {
+    }, {
+    }],
+    "craftEssences": [{
+    }, {
+      "craftEssenceNo": 1080,
+      "option": {
+        "craftEssenceLevel": 100,
+        "isLimitBreak": true
+      }
+    }, {
+    }, {
+    }, {
+    }, {
+    }],
+    "mysticCode": {
+      "mysticCodeNo": 18,
+      "option": {
+        "mysticCodeLevel": 6,
+        "gender": "FEMALE"
+      }
     }
   }]
 }

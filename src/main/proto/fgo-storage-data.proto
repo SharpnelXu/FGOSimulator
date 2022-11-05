@@ -489,4 +489,12 @@ message UserPreference {
   repeated ServantPreference servantPrefs = 1;
   repeated CraftEssencePreference cePrefs = 2;
   repeated MysticCodePreference mcPrefs = 3;
+  repeated Formation formations = 4;
+}
+
+message Formation {
+  string name = 1;
+  repeated ServantPreference servants = 2;
+  repeated CraftEssencePreference craftEssences = 3;
+  MysticCodePreference mysticCode = 4;
 }

@@ -18,9 +18,11 @@ import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillUpgrades;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
+import yome.fgo.data.proto.FgoStorageData.CraftEssencePreference;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
+import yome.fgo.data.proto.FgoStorageData.ServantPreference;
 import yome.fgo.simulator.gui.creators.CraftEssenceCreator;
 import yome.fgo.simulator.gui.creators.LevelCreatorFMXLController;
 import yome.fgo.simulator.gui.creators.ServantCreator;
@@ -52,6 +54,22 @@ public class FormationSelector extends VBox {
     private final CheckBox ceLimitBreakCheck;
     private final CraftEssenceDataAnchorPane defaultCESelection;
 
+    private final Map<Integer, ServantDataAnchorPane> servantDataMap;
+    private final Map<Integer, CraftEssenceDataAnchorPane> ceDataMap;
+    private final LevelCreatorFMXLController controller;
+
+    private final Button servantSelectButton;
+    private final Label servantNameLabel;
+    private final Button editServantOptionButton;
+    private final Button viewServantButton;
+    private final Button removeServantButton;
+    private final Button ceSelectButton;
+    private final Label ceNameLabel;
+    private final HBox ceLevelLabelHBox;
+    private final Button viewCEButton;
+    private final Button removeCEButton;
+
+
     public FormationSelector(
             final Label errorLabel,
             final Map<Integer, ServantDataAnchorPane> servantDataMap,
@@ -61,6 +79,10 @@ public class FormationSelector extends VBox {
             final LevelCreatorFMXLController controller
     ) {
         super(10);
+
+        this.servantDataMap = servantDataMap;
+        this.ceDataMap = ceDataMap;
+        this.controller = controller;
 
         setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         setAlignment(Pos.TOP_CENTER);
@@ -76,7 +98,7 @@ public class FormationSelector extends VBox {
             controller.calculateCost();
         });
 
-        final Button servantSelectButton = new Button();
+        servantSelectButton = new Button();
         Image unknown = null;
         try {
             unknown = new Image(new FileInputStream(getUnknownServantThumbnail()));
@@ -84,75 +106,45 @@ public class FormationSelector extends VBox {
         }
         defaultServantSelection = new ServantDataAnchorPane(null, Lists.newArrayList(unknown));
         selectedServant = defaultServantSelection;
-        final Label servantNameLabel = new Label(getTranslation(APPLICATION_SECTION, "No servant selected"));
+        servantNameLabel = new Label(getTranslation(APPLICATION_SECTION, "No servant selected"));
         servantNameLabel.setWrapText(true);
         servantNameLabel.setAlignment(Pos.CENTER);
         servantOptionLabel = new Label();
         servantOptionLabel.setWrapText(true);
 
-        final Button viewServantButton = new Button();
+        viewServantButton = new Button();
         viewServantButton.setGraphic(createInfoImageView("info2"));
         viewServantButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Details")));
         viewServantButton.setDisable(true);
         viewServantButton.setOnAction(e -> {
             try {
                 ServantCreator.preview(this.getScene().getWindow(), selectedServant.getServantData());
-            } catch (IOException ignored) {
+            } catch (final IOException ignored) {
             }
         });
 
-        final Button editServantOptionButton = new Button();
+        editServantOptionButton = new Button();
         editServantOptionButton.setGraphic(createInfoImageView("edit"));
         editServantOptionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit Servant Option")));
         editServantOptionButton.setDisable(true);
         editServantOptionButton.setOnAction(e -> editServantOption());
 
-        final Button removeServantButton = new Button();
+        removeServantButton = new Button();
         removeServantButton.setGraphic(createInfoImageView("remove"));
         removeServantButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove selection")));
         removeServantButton.setDisable(true);
-        removeServantButton.setOnAction(e -> {
-            selectedServant = defaultServantSelection;
-            servantSelectButton.setGraphic(selectedServant);
-            servantOption = null;
-            servantNameLabel.setText(getTranslation(APPLICATION_SECTION, "No servant selected"));
-            servantNameLabel.setMaxWidth(getWidth());
-            servantOptionLabel.setText(null);
-            servantOptionLabel.setMaxWidth(getWidth());
-            editServantOptionButton.setDisable(true);
-            viewServantButton.setDisable(true);
-            removeServantButton.setDisable(true);
-            controller.calculateCost();
-        });
+        removeServantButton.setOnAction(e -> removeServant());
 
         servantSelectButton.setGraphic(selectedServant);
         servantSelectButton.setOnAction(e -> {
             try {
                 final ServantDataAnchorPane selection = selectServant(this.getScene().getWindow(), servantDataMap);
                 if (selection != null) {
-                    selectedServant = selection;
-                    servantSelectButton.setGraphic(selectedServant);
-                    final int servantNo = selectedServant.getServantData().getServantNum();
+                    final int servantNo = selection.getServantData().getServantNum();
                     servantOption = servantOptions.containsKey(servantNo) ?
                             servantOptions.get(servantNo) :
-                            createDefaultServantOption(selectedServant.getServantData());
-                    selectedServant.getImageView().setImage(selectedServant.getAscensionImages().get(servantOption.getAscension() - 1));
-                    servantNameLabel.setText(
-                            getTranslation(
-                                    ENTITY_NAME_SECTION,
-                                    selectedServant.getServantData()
-                                            .getServantAscensionData(0)
-                                            .getCombatantData()
-                                            .getId()
-                            )
-                    );
-                    servantOptionLabel.setText(printServantOption(servantOption));
-                    servantNameLabel.setMaxWidth(getWidth());
-                    servantOptionLabel.setMaxWidth(getWidth());
-                    editServantOptionButton.setDisable(false);
-                    viewServantButton.setDisable(false);
-                    removeServantButton.setDisable(false);
-                    controller.calculateCost();
+                            createDefaultServantOption(selection.getServantData());
+                    setServant(selection, servantOption);
                 }
             } catch (final IOException ex) {
                 errorLabel.setVisible(true);
@@ -160,16 +152,16 @@ public class FormationSelector extends VBox {
             }
         });
 
-        final Button ceSelectButton = new Button();
+        ceSelectButton = new Button();
         defaultCESelection = new CraftEssenceDataAnchorPane(null, unknown);
         selectedCE = defaultCESelection;
-        final Label ceNameLabel = new Label(getTranslation(APPLICATION_SECTION, "No CE selected"));
+        ceNameLabel = new Label(getTranslation(APPLICATION_SECTION, "No CE selected"));
         ceNameLabel.setWrapText(true);
         ceNameLabel.setAlignment(Pos.CENTER);
 
         final Label ceLevelLabel = new Label(getTranslation(APPLICATION_SECTION, "CE Level"));
         final Label ceLevelValueLabel = new Label("0");
-        final HBox ceLevelLabelHBox = new HBox(10);
+        ceLevelLabelHBox = new HBox(10);
         ceLevelLabelHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         ceLevelLabelHBox.getChildren().addAll(ceLevelLabel, ceLevelValueLabel);
         ceLevelSlider = new Slider();
@@ -196,7 +188,7 @@ public class FormationSelector extends VBox {
         ceLevelSlider.setDisable(true);
         ceLimitBreakCheck.setDisable(true);
 
-        final Button viewCEButton = new Button();
+        viewCEButton = new Button();
         viewCEButton.setGraphic(createInfoImageView("info2"));
         viewCEButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Details")));
         viewCEButton.setDisable(true);
@@ -207,60 +199,29 @@ public class FormationSelector extends VBox {
             }
         });
 
-        final Button removeCEButton = new Button();
+        removeCEButton = new Button();
         removeCEButton.setGraphic(createInfoImageView("remove"));
         removeCEButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove selection")));
         removeCEButton.setDisable(true);
-        removeCEButton.setOnAction(e -> {
-            selectedCE = defaultCESelection;
-            ceSelectButton.setGraphic(selectedCE);
-            ceNameLabel.setText(getTranslation(APPLICATION_SECTION, "No CE selected"));
-            ceNameLabel.setMaxWidth(getWidth());
-            ceLevelLabelHBox.setDisable(true);
-            ceLevelSlider.setDisable(true);
-            ceLimitBreakCheck.setDisable(true);
-            viewCEButton.setDisable(true);
-            removeCEButton.setDisable(true);
-            controller.calculateCost();
-        });
+        removeCEButton.setOnAction(e -> removeCraftEssence());
 
         ceSelectButton.setGraphic(selectedCE);
         ceSelectButton.setOnAction(e -> {
             try {
                 final CraftEssenceDataAnchorPane selection = selectCraftEssence(this.getScene().getWindow(), ceDataMap);
                 if (selection != null) {
-                    selectedCE = selection;
-                    ceSelectButton.setGraphic(selectedCE);
-                    ceNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, selectedCE.getCraftEssenceData().getId()));
-                    ceNameLabel.setMaxWidth(getWidth());
                     final int maxLevel = Math.min(
-                            defaultCEMaxLevel(selectedCE.getCraftEssenceData().getRarity()),
-                            selectedCE.getCraftEssenceData().getStatusDataCount()
+                            defaultCEMaxLevel(selection.getCraftEssenceData().getRarity()),
+                            selection.getCraftEssenceData().getStatusDataCount()
                     );
-                    ceLevelSlider.setMax(maxLevel);
-
-                    final int ceNo = selectedCE.getCraftEssenceData().getCeNum();
-                    final int ceLevel;
-                    final boolean isLimitBreak;
-                    if (ceOptions.containsKey(ceNo)) {
-                        final CraftEssenceOption ceOption = ceOptions.get(ceNo);
-                        ceLevel = ceOption.getCraftEssenceLevel();
-                        isLimitBreak = ceOption.getIsLimitBreak();
-                    } else {
-                        ceLevel = maxLevel;
-                        isLimitBreak = true;
-                    }
-                    ceLevelSlider.setValue(ceLevel);
-                    if (maxLevel == 1) {
-                        ceLevelSlider.setDisable(true);
-                    }
-                    ceLimitBreakCheck.setSelected(isLimitBreak);
-                    ceLevelLabelHBox.setDisable(false);
-                    ceLevelSlider.setDisable(false);
-                    ceLimitBreakCheck.setDisable(false);
-                    viewCEButton.setDisable(false);
-                    removeCEButton.setDisable(false);
-                    controller.calculateCost();
+                    final int ceNo = selection.getCraftEssenceData().getCeNum();
+                    final CraftEssenceOption ceOption = ceOptions.containsKey(ceNo) ?
+                            ceOptions.get(ceNo) :
+                            CraftEssenceOption.newBuilder()
+                                    .setCraftEssenceLevel(maxLevel)
+                                    .setIsLimitBreak(true)
+                                    .build();
+                    setCraftEssence(selection, ceOption, maxLevel);
                 }
             } catch (final IOException ex) {
                 errorLabel.setVisible(true);
@@ -350,7 +311,6 @@ public class FormationSelector extends VBox {
         if (builder.getAscension() != -1) {
             servantOption = builder.build();
             servantOptionLabel.setText(printServantOption(servantOption));
-            servantOptionLabel.setMaxWidth(getWidth());
             selectedServant.getImageView().setImage(selectedServant.getAscensionImages().get(servantOption.getAscension() - 1));
         }
     }
@@ -364,6 +324,105 @@ public class FormationSelector extends VBox {
             case 1 -> 50;
             default -> 1;
         };
+    }
+
+    public void setFromPreferences(
+            final ServantPreference servantPreference,
+            final CraftEssencePreference craftEssencePreference
+    ) {
+        final int servantNo = servantPreference.getServantNo();
+        if (servantDataMap.containsKey(servantNo)) {
+            final ServantDataAnchorPane reference = servantDataMap.get(servantNo);
+            final ServantDataAnchorPane servantSelection = new ServantDataAnchorPane(reference.getServantData(), reference.getAscensionImages());
+            servantOption = servantPreference.getOption();
+            servantSelection.getImageView().setImage(servantSelection.getAscensionImages().get(servantOption.getAscension() - 1));
+            setServant(servantSelection, servantOption);
+        } else {
+            removeServant();
+        }
+
+        final int ceNo = craftEssencePreference.getCraftEssenceNo();
+        if (ceDataMap.containsKey(ceNo)) {
+            final CraftEssenceDataAnchorPane reference = ceDataMap.get(ceNo);
+            final CraftEssenceDataAnchorPane ceSelection = new CraftEssenceDataAnchorPane(reference.getCraftEssenceData(), reference.getImage());
+            final CraftEssenceOption ceOption = craftEssencePreference.getOption();
+            final int maxLevel = Math.min(
+                    defaultCEMaxLevel(ceSelection.getCraftEssenceData().getRarity()),
+                    ceSelection.getCraftEssenceData().getStatusDataCount()
+            );
+            setCraftEssence(ceSelection, ceOption, maxLevel);
+        } else {
+            removeCraftEssence();
+        }
+    }
+
+    public void setServant(
+            final ServantDataAnchorPane selection,
+            final ServantOption servantOption
+    ) {
+        selectedServant = selection;
+        servantSelectButton.setGraphic(selectedServant);
+        selectedServant.getImageView().setImage(selectedServant.getAscensionImages().get(servantOption.getAscension() - 1));
+        servantNameLabel.setText(
+                getTranslation(
+                        ENTITY_NAME_SECTION,
+                        selectedServant.getServantData()
+                                .getServantAscensionData(0)
+                                .getCombatantData()
+                                .getId()
+                )
+        );
+        servantOptionLabel.setText(printServantOption(servantOption));
+        editServantOptionButton.setDisable(false);
+        viewServantButton.setDisable(false);
+        removeServantButton.setDisable(false);
+        controller.calculateCost();
+    }
+
+    public void removeServant() {
+        selectedServant = defaultServantSelection;
+        servantSelectButton.setGraphic(selectedServant);
+        servantOption = null;
+        servantNameLabel.setText(getTranslation(APPLICATION_SECTION, "No servant selected"));
+        servantOptionLabel.setText(null);
+        editServantOptionButton.setDisable(true);
+        viewServantButton.setDisable(true);
+        removeServantButton.setDisable(true);
+        controller.calculateCost();
+    }
+
+    public void setCraftEssence(
+            final CraftEssenceDataAnchorPane selection,
+            final CraftEssenceOption option,
+            final int maxLevel
+    ) {
+        selectedCE = selection;
+        ceSelectButton.setGraphic(selectedCE);
+        ceNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, selectedCE.getCraftEssenceData().getId()));
+        ceLevelSlider.setMax(maxLevel);
+        ceLevelSlider.setValue(option.getCraftEssenceLevel());
+        if (maxLevel == 1) {
+            ceLevelSlider.setDisable(true);
+        }
+        ceLimitBreakCheck.setSelected(option.getIsLimitBreak());
+        ceLevelLabelHBox.setDisable(false);
+        ceLevelSlider.setDisable(false);
+        ceLimitBreakCheck.setDisable(false);
+        viewCEButton.setDisable(false);
+        removeCEButton.setDisable(false);
+        controller.calculateCost();
+    }
+
+    public void removeCraftEssence() {
+        selectedCE = defaultCESelection;
+        ceSelectButton.setGraphic(selectedCE);
+        ceNameLabel.setText(getTranslation(APPLICATION_SECTION, "No CE selected"));
+        ceLevelLabelHBox.setDisable(true);
+        ceLevelSlider.setDisable(true);
+        ceLimitBreakCheck.setDisable(true);
+        viewCEButton.setDisable(true);
+        removeCEButton.setDisable(true);
+        controller.calculateCost();
     }
 
     public int getCost() {

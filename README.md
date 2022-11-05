@@ -23,20 +23,20 @@ Also, this simulator supports translations. If you are interested, you can put y
 ## 使用说明
 
 ### 下载
-在Release页面中下载当前版本的压缩包解压就好：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.04)
+在Release页面中下载当前版本的压缩包解压就好：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.05)
 
 #### 注意
 如果你的电脑安装了Java 15以上，可以直接下载标注为`.jar`的`zip`压缩包解压。
 
 如果没有或者不确定的话，Windows用户可以尝试下载标注为`.exe`的`zip`压缩包解压。这个压缩包包含了程序需求的运行环境，所以会大一点。
 
-当前版本：v1.04，数据版本：v1.04.1（更新至108人的万圣节·反抗！ ～小龙娘水浒演义～）
+当前版本：v1.05，数据版本：v1.05.0（更新至108人的万圣节·反抗！ ～小龙娘水浒演义～）
 
 ![下载程序](./ReadmePic/System/download1.png)
 
 ### 更新
 
-目前有一次数据更新（v1.04.1），如果有之前的数据版本，可以直接下快速补丁，即标记为Quick Patch的zip文件然后在本地解压替换掉数据就好。
+目前有一次数据更新（v1.05.0），如果有之前的数据版本，可以直接下快速补丁，即标记为Quick Patch的zip文件然后在本地解压替换掉数据就好。
 
 ![下载数据](./ReadmePic/System/download2.png)
 
@@ -460,6 +460,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
   - 系统：
     - 选择卡色从下拉菜单改为按钮
     - 取消特殊发动目标这一设置，原本的特殊目标现在只需要在效果编辑器内列出即可
+    - 新增编队储存功能
   - 效果相关：
     - 新增宝具随机效果（尺芬奇）
     - 删除最大HP改变（并未删除Buff），其原本功能由付与状态继承。此改动应无实际效果除了读取旧数据时可能会报错
