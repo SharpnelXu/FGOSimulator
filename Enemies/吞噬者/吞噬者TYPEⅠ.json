@@ -1,0 +1,10 @@
+{
+  "id": "吞噬者TYPEⅠ",
+  "rarity": 4,
+  "fateClass": "RIDER",
+  "attribute": "EARTH",
+  "traits": ["MECHANICAL"],
+  "deathRate": 0.8,
+  "enemyPassiveSkillData": [{
+  }]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "双足飞龙·俄里翁",
+  "rarity": 2,
+  "fateClass": "RIDER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["DRAGON", "GREEK_MYTHOLOGY_MALES"],
+  "deathRate": 0.8,
+  "enemyPassiveSkillData": [{
+  }]
+}

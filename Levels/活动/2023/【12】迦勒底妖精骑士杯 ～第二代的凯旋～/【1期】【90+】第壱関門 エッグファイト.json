@@ -1,0 +1,106 @@
+{
+  "id": "【1期】【90+】第壱関門 エッグファイト",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "吞噬者TYPEⅠ",
+      "hpBars": [37989],
+      "combatantDataOverride": {
+        "id": "吞噬者TYPEⅠ",
+        "rarity": 2,
+        "fateClass": "RIDER",
+        "attribute": "EARTH",
+        "traits": ["MECHANICAL"],
+        "deathRate": 0.8,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "吞噬者/"
+    }, {
+      "enemyBaseId": "吞噬者TYPEⅡ",
+      "hpBars": [42195],
+      "combatantDataOverride": {
+        "id": "吞噬者TYPEⅡ",
+        "rarity": 3,
+        "fateClass": "RIDER",
+        "attribute": "EARTH",
+        "traits": ["MECHANICAL"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "吞噬者/"
+    }, {
+      "enemyBaseId": "吞噬者TYPEⅩ",
+      "hpBars": [42195],
+      "combatantDataOverride": {
+        "id": "吞噬者TYPEⅩ",
+        "rarity": 3,
+        "fateClass": "RIDER",
+        "attribute": "EARTH",
+        "traits": ["MECHANICAL"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "吞噬者/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["摩根祭"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "凝视者",
+      "hpBars": [125765],
+      "combatantDataOverride": {
+        "id": "凝视者",
+        "rarity": 4,
+        "fateClass": "RIDER",
+        "attribute": "EARTH",
+        "traits": ["DEMON", "DEMONIC"],
+        "deathRate": 0.05,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "凝视者/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant72",
+      "hpBars": [130153],
+      "combatantDataOverride": {
+        "id": "servant72",
+        "rarity": 3,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "BALANCED"],
+        "attribute": "EARTH",
+        "traits": ["RIDING", "BRYNHILDS_BELOVED", "KING", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant72/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant99",
+      "hpBars": [174600],
+      "combatantDataOverride": {
+        "id": "servant99",
+        "rarity": 5,
+        "fateClass": "RIDER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "EARTH",
+        "traits": ["RIDING", "KING", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant99/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3
+  }]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "【1期】【90++】第壱関門 ミミクリーパラダイス",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "双足飞龙·俄里翁",
+      "hpBars": [68928],
+      "combatantDataOverride": {
+        "id": "双足飞龙·俄里翁",
+        "rarity": 2,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["DRAGON", "GREEK_MYTHOLOGY_MALES"],
+        "deathRate": 0.8,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "俄里翁/"
+    }, {
+      "enemyBaseId": "魔猪·俄里翁",
+      "hpBars": [103980],
+      "combatantDataOverride": {
+        "id": "魔猪·俄里翁",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC", "GREEK_MYTHOLOGY_MALES"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "俄里翁/"
+    }, {
+      "enemyBaseId": "魔猪·俄里翁",
+      "hpBars": [105717],
+      "combatantDataOverride": {
+        "id": "魔猪·俄里翁",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC", "GREEK_MYTHOLOGY_MALES"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "俄里翁/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["摩根祭", "SUNLIGHT", "BURNING"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "机械魔猪·俄里翁",
+      "hpBars": [202667],
+      "combatantDataOverride": {
+        "id": "机械魔猪·俄里翁",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC", "MASSIVE", "GREEK_MYTHOLOGY_MALES", "MECHANICAL"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "俄里翁/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "BURNING"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant16",
+      "hpBars": [242148],
+      "combatantDataOverride": {
+        "id": "servant16",
+        "rarity": 1,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "BALANCED"],
+        "attribute": "EARTH",
+        "traits": ["BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant16/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant272",
+      "hpBars": [843551],
+      "combatantDataOverride": {
+        "id": "servant272",
+        "rarity": 5,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "BALANCED"],
+        "attribute": "EARTH",
+        "traits": ["DIVINE", "BRYNHILDS_BELOVED", "GREEK_MYTHOLOGY_MALES", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.004,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant272/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "BURNING"]
+  }]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "魔猪·俄里翁",
+  "rarity": 3,
+  "fateClass": "BERSERKER",
+  "gender": "MALE",
+  "attribute": "EARTH",
+  "traits": ["WILD_BEAST", "DEMONIC", "GREEK_MYTHOLOGY_MALES"],
+  "deathRate": 0.5,
+  "enemyPassiveSkillData": [{
+  }]
+}
