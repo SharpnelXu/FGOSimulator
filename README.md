@@ -30,13 +30,13 @@ Also, this simulator supports translations. If you are interested, you can put y
 
 如果没有或者不确定的话，Windows用户可以尝试下载标注为`.exe`的`zip`压缩包解压。这个压缩包包含了程序需求的运行环境，所以会大一点。
 
-当前版本：v1.05，数据版本：v1.05.0（更新至108人的万圣节·反抗！ ～小龙娘水浒演义～）
+当前版本：v1.05，数据版本：v1.05.0（更新至迦勒底妖精骑士杯 ～第二代的凯旋～）
 
 ![下载程序](./ReadmePic/System/download1.png)
 
 ### 更新
 
-目前有一次数据更新（v1.05.0），如果有之前的数据版本，可以直接下快速补丁，即标记为Quick Patch的zip文件然后在本地解压替换掉数据就好。
+目前没有数据更新（v1.05.0），如果有之前的数据版本，可以直接下快速补丁，即标记为Quick Patch的zip文件然后在本地解压替换掉数据就好。
 
 ![下载数据](./ReadmePic/System/download2.png)
 
