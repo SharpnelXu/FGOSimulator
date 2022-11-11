@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class EntitySelector {
@@ -51,6 +52,7 @@ public class EntitySelector {
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "Formation Viewer"));
         newStage.setScene(scene);
 
+        setWindowSize(root);
         newStage.showAndWait();
 
         return selection.getName().isEmpty() ? null : selection.build();
@@ -77,6 +79,7 @@ public class EntitySelector {
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "ServantSelector"));
         newStage.setScene(scene);
 
+        setWindowSize(root);
         newStage.showAndWait();
 
         return selection.getServantData() == null ? null : selection;
@@ -103,6 +106,7 @@ public class EntitySelector {
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "Craft Essence Selector"));
         newStage.setScene(scene);
 
+        setWindowSize(root);
         newStage.showAndWait();
 
         return selection.getCraftEssenceData() == null ? null : selection;
@@ -130,6 +134,7 @@ public class EntitySelector {
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "Mystic Code Selector"));
         newStage.setScene(scene);
 
+        setWindowSize(root);
         newStage.showAndWait();
 
         return selection.getMysticCodeData() == null ? null : selection;

@@ -12,6 +12,7 @@ import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.IOException;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class EnemyCreator extends Application {
@@ -45,6 +46,7 @@ public class EnemyCreator extends Application {
         final EnemyCreatorFXMLController controller = fxmlLoader.getController();
         controller.setParentBuilder(builder);
 
+        setWindowSize(root);
         newStage.showAndWait();
     }
 

@@ -51,6 +51,7 @@ public class ServantOptionEditor {
         rootVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         this.root = rootVBox;
         this.parentOption = source;
+        rootVBox.setPrefSize(500, 900);
 
         final HBox topHBox = new HBox(10);
         topHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
@@ -102,7 +103,6 @@ public class ServantOptionEditor {
 
         final ScrollPane optionsScrolls = new ScrollPane();
         optionsScrolls.setPadding(new Insets(10));
-        optionsScrolls.setPrefSize(300, 650);
         optionsScrolls.setFitToWidth(true);
         optionsScrolls.setHbarPolicy(ScrollBarPolicy.NEVER);
         optionsScrolls.setVbarPolicy(ScrollBarPolicy.ALWAYS);

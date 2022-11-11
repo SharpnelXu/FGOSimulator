@@ -9,6 +9,7 @@ import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.IOException;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class LevelCreator extends Application {
@@ -43,6 +44,7 @@ public class LevelCreator extends Application {
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "LevelCreator"));
         newStage.setScene(scene);
 
+        setWindowSize(root);
         newStage.show();
         newStage.setMaximized(true);
     }

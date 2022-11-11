@@ -38,6 +38,7 @@ import static yome.fgo.simulator.gui.components.DataPrinter.printServantOption;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectCraftEssence;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectServant;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -306,6 +307,7 @@ public class FormationSelector extends VBox {
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "ServantOptionEditor"));
         newStage.setScene(scene);
 
+        setWindowSize(root);
         newStage.showAndWait();
 
         if (builder.getAscension() != -1) {

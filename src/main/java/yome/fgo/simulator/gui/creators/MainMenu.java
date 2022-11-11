@@ -12,6 +12,7 @@ import yome.fgo.simulator.translation.TranslationManager;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class MainMenu extends Application {
@@ -48,6 +49,7 @@ public class MainMenu extends Application {
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, appName));
         newStage.setScene(scene);
 
+        setWindowSize(root);
         newStage.show();
         newStage.setMaximized(setMaximized);
     }

@@ -12,6 +12,7 @@ import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.IOException;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class ServantCreator extends Application {
@@ -43,6 +44,7 @@ public class ServantCreator extends Application {
         final ServantCreatorFXMLController controller = fxmlLoader.getController();
         controller.setPreviewMode(servantData);
 
+        setWindowSize(root);
         newStage.showAndWait();
     }
 

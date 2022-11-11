@@ -12,6 +12,7 @@ import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.IOException;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class EffectBuilder extends Application {
@@ -43,6 +44,7 @@ public class EffectBuilder extends Application {
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "EffectBuilder"));
         newStage.setScene(scene);
 
+        setWindowSize(root);
         newStage.showAndWait();
     }
 

@@ -5,7 +5,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,6 +17,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
+import javafx.stage.Window;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
@@ -285,5 +290,14 @@ public class ComponentUtils {
         } catch (final FileNotFoundException ignored) {
         }
         return image;
+    }
+
+    public static void setWindowSize(final Parent root) {
+        final Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        double maxWidth = Math.min(screenBounds.getWidth() * 0.9, root.prefWidth(-1));
+        double maxHeight = Math.min(screenBounds.getHeight() * 0.9, root.prefHeight(-1));
+        final Window window = root.getScene().getWindow();
+        window.setWidth(maxWidth);
+        window.setHeight(maxHeight);
     }
 }

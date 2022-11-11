@@ -61,6 +61,7 @@ import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectMysticCode;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
@@ -628,6 +629,7 @@ public class LevelCreatorFMXLController implements Initializable {
         newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "Simulation Window"));
         newStage.setScene(scene);
 
+        setWindowSize(root);
         newStage.show();
         newStage.setMaximized(true);
         simulationWindow.init();
