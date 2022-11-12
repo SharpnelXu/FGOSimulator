@@ -19,7 +19,6 @@ import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.Curse;
 import yome.fgo.simulator.models.effects.buffs.DamageReflect;
 import yome.fgo.simulator.models.effects.buffs.DeathEffect;
-import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
 import yome.fgo.simulator.models.effects.buffs.DelayedEffect;
 import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
 import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
