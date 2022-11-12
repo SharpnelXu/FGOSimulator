@@ -1,0 +1,103 @@
+{
+  "id": "【2期】【90++】第弐関門 ぶっちぎりバトルサーキット",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "蝎狮",
+      "hpBars": [105684],
+      "combatantDataOverride": {
+        "id": "蝎狮",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST"],
+        "deathRate": 0.1,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "蝎狮·乌伽尔·冰雪加姆/"
+    }, {
+      "enemyBaseId": "半人马",
+      "hpBars": [64581],
+      "combatantDataOverride": {
+        "id": "半人马",
+        "rarity": 2,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "GREEK_MYTHOLOGY_MALES"],
+        "deathRate": 0.8,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "半人马/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["摩根祭", "SUNLIGHT", "BURNING"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant344",
+      "hpBars": [245860],
+      "combatantDataOverride": {
+        "id": "servant344",
+        "rarity": 4,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "EARTH",
+        "traits": ["RIDING", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.004,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant344/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "BURNING"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant343",
+      "hpBars": [802320],
+      "combatantDataOverride": {
+        "id": "servant343",
+        "rarity": 5,
+        "fateClass": "SABER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "STAR",
+        "traits": ["ROMAN", "RIDING", "BRYNHILDS_BELOVED", "KING", "HOMINIDAE_SERVANT", "HUMANOID"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant343/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "半人马",
+      "hpBars": [76607],
+      "enemyCategories": "半人马/"
+    }, {
+      "enemyBaseId": "servant232",
+      "hpBars": [235230],
+      "combatantDataOverride": {
+        "id": "servant232",
+        "rarity": 5,
+        "fateClass": "LANCER",
+        "gender": "FEMALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "EARTH",
+        "traits": ["BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant232/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["SUNLIGHT", "BURNING"]
+  }]
+}

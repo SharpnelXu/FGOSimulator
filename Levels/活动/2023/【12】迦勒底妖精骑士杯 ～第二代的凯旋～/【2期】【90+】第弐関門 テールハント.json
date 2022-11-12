@@ -1,0 +1,113 @@
+{
+  "id": "【2期】【90+】第弐関門 テールハント",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "哥布林",
+      "hpBars": [33290],
+      "combatantDataOverride": {
+        "id": "哥布林",
+        "rarity": 3,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "FAE", "DEMONIC"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "兽人/"
+    }, {
+      "enemyBaseId": "狼人",
+      "hpBars": [27593],
+      "combatantDataOverride": {
+        "id": "狼人",
+        "rarity": 2,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["HUMANOID", "WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.8,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "兽人/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["摩根祭"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "斯芬克斯",
+      "hpBars": [127447],
+      "combatantDataOverride": {
+        "id": "斯芬克斯",
+        "rarity": 4,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "attribute": "EARTH",
+        "traits": ["DIVINE", "MASSIVE"],
+        "deathRate": 0.01,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "斯芬克斯/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant332",
+      "hpBars": [177487],
+      "combatantDataOverride": {
+        "id": "servant332",
+        "rarity": 4,
+        "fateClass": "RIDER",
+        "gender": "FEMALE",
+        "alignments": ["NEUTRAL", "GOOD"],
+        "attribute": "EARTH",
+        "traits": ["DRAGON", "WILD_BEAST", "RIDING", "BRYNHILDS_BELOVED", "DEMONIC_BEAST", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.004,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant332/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant334",
+      "hpBars": [95693],
+      "combatantDataOverride": {
+        "id": "servant334",
+        "rarity": 5,
+        "fateClass": "FOREIGNER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "BEAST",
+        "traits": ["DIVINE", "WILD_BEAST", "DEMONIC", "DEMONIC_BEAST", "EXISTENCE_OUTSIDE_DOMAIN", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant334/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant314",
+      "hpBars": [94323],
+      "combatantDataOverride": {
+        "id": "servant314",
+        "rarity": 5,
+        "fateClass": "ASSASSIN",
+        "gender": "FEMALE",
+        "alignments": ["LAWFUL", "EVIL"],
+        "attribute": "BEAST",
+        "traits": ["DIVINE", "RIDING", "DEMONIC", "DEMONIC_BEAST", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant314/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3
+  }]
+}
