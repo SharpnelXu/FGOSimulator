@@ -238,20 +238,23 @@ public class SimulationWindow {
      * Callback function to set scene related properties because I didn't put Scene in this class
      */
     public void init() {
-        root.getScene().heightProperty().addListener(e -> {
-            final double height = root.getScene().getHeight();
-            combatActionsVBox.setMaxHeight(height);
-            showBuffsVBox.setMaxHeight(height);
-            specialSelectionVBox.setMaxHeight(height);
-            fateClassInfoVBox.setMaxHeight(height);
-        });
-        root.getScene().widthProperty().addListener(e -> {
-            final double width = root.getScene().getWidth();
-            combatActionsVBox.setMaxWidth(width);
-            showBuffsVBox.setMaxWidth(width);
-            specialSelectionVBox.setMaxWidth(width);
-            fateClassInfoVBox.setMaxWidth(width);
-        });
+        root.getScene().heightProperty().addListener(e -> syncScreen());
+        root.getScene().widthProperty().addListener(e -> syncScreen());
+        syncScreen();
+    }
+
+    public void syncScreen() {
+        final double height = root.getScene().getHeight();
+        combatActionsVBox.setMaxHeight(height);
+        showBuffsVBox.setMaxHeight(height);
+        specialSelectionVBox.setMaxHeight(height);
+        fateClassInfoVBox.setMaxHeight(height);
+
+        final double width = root.getScene().getWidth();
+        combatActionsVBox.setMaxWidth(width);
+        showBuffsVBox.setMaxWidth(width);
+        specialSelectionVBox.setMaxWidth(width);
+        fateClassInfoVBox.setMaxWidth(width);
     }
 
     public void setLogLevel(final LogLevel logLevel) {
@@ -512,7 +515,7 @@ public class SimulationWindow {
                 final List<EffectData> randomEffectSelections = specialActivationParams.getRandomEffectSelectionsList();
                 for (final EffectData effectData : randomEffectSelections) {
                     final Button randomEffectSelectionButton = new Button(printEffectData(effectData));
-                    randomEffectSelectionButton.setMaxWidth(600);
+                    randomEffectSelectionButton.setMaxWidth(specialSelectionVBox.getMaxWidth());
                     randomEffectSelectionButton.setWrapText(true);
 
                     randomEffectSelectionButton.setOnAction(e -> {
@@ -576,7 +579,6 @@ public class SimulationWindow {
         );
 
         infoLabel.setWrapText(true);
-        infoLabel.setMaxWidth(600);
         final Label traitLabel = new Label(
                 getTranslation(APPLICATION_SECTION, "Traits") + ": " +
                         combatant.getAllTraits(simulation).stream()
@@ -584,8 +586,13 @@ public class SimulationWindow {
                                 .collect(Collectors.toList())
         );
         traitLabel.setWrapText(true);
-        traitLabel.setMaxWidth(600);
         showBuffsVBox.getChildren().addAll(closeButton, imgAnchor, infoLabel, traitLabel);
+        infoLabel.setMaxWidth(showBuffsVBox.getMaxWidth() * 0.95);
+        traitLabel.setMaxWidth(showBuffsVBox.getMaxWidth() * 0.95);
+        showBuffsVBox.widthProperty().addListener(e -> {
+            infoLabel.setMaxWidth(showBuffsVBox.getMaxWidth() * 0.95);
+            traitLabel.setMaxWidth(showBuffsVBox.getWidth() * 0.95);
+        });
 
         final ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
@@ -600,7 +607,6 @@ public class SimulationWindow {
             buffGrid.getColumnConstraints().add(constraints);
         }
         buffGrid.getColumnConstraints().get(1).setHgrow(Priority.ALWAYS);
-        buffGrid.getColumnConstraints().get(1).setMinWidth(300);
         buffGrid.getColumnConstraints().get(2).setHalignment(HPos.RIGHT);
         scrollPane.setContent(buffGrid);
 
@@ -617,7 +623,6 @@ public class SimulationWindow {
             buffGrid.add(buffImgAnchor, 0, i);
             final Label buffLabel = new Label(buff.toString());
             buffLabel.setWrapText(true);
-            buffLabel.setMaxWidth(550);
             buffGrid.add(buffLabel, 1, i);
             final Label durationLabel = new Label(buff.durationString());
             buffGrid.add(durationLabel, 2, i);
