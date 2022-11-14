@@ -114,7 +114,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
 - <img src="./Icons/Simulation/info.png" alt="详细数据" width="40" align="center"/>：通过从者编辑器查看该从者的基础数据。
 - <img src="./Icons/Simulation/skillCharge.png" alt="刷新技能" width="40" align="center"/>：立刻刷新技能。
 - <img src="./Icons/Simulation/forceInstantDeath.png" alt="回合结束即死" width="40" align="center"/>：为该从者添加一个回合结束时强制即死的状态，用于模拟敌方攻击。
-- 最下方为当前该从者被赋予的所有状态。带框为不可解除的状态，通常是该从者的被动技能和礼装赋予的。
+- 最下方为当前该从者被付与的所有状态。带框为不可解除的状态，通常是该从者的被动技能和礼装付与的。
 
 #### 礼装及功能显示
 ![礼装及功能显示](./ReadmePic/BattleSimulation/miscDisplay.png)
@@ -449,7 +449,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
 
 ### 效果
 * 帕西维尔宝具最后一个回复HP百分比最低的友方的效果未制作
-* 解除成功后赋予状态类效果实际为先检测是否有满足要求的可解除状态，实际可能被解除耐性顶掉而不会解除
+* 解除成功后付与状态类效果实际为先检测是否有满足要求的可解除状态，实际可能被解除耐性顶掉而不会解除
 
 ### 模拟
 * 敌方从者（主要为巴姐服务）默认1宝+atk为所在稀有度最大等级的atk
