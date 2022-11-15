@@ -27,9 +27,11 @@ public class TranslationManager {
     public static final String EFFECT_SECTION = "Effect";
     public static final String ENEMY_NAME_SECTION = "Name";
     public static final String SPECIAL_ACTIVATION_SECTION = "SpecialActivationTarget";
+    public static final String MOONCELL_SECTION = "Mooncell";
 
     public static void setTranslations(final String language) {
         TRANSLATIONS.clear();
+        TRAIT_REVERSE_MAP.clear();
         TRANSLATIONS.setSeparatorUsedInInput("=");
         try {
             final String fileName = TRANSLATION_DIRECTORY_PATH + "/" + language + ".ini";

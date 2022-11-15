@@ -9,6 +9,11 @@ import static yome.fgo.simulator.utils.FilePathUtils.USER_DIR;
 
 public class SimulatorMain {
     public static void main(String[] args) {
+        loadOptions();
+        MainMenu.main(args);
+    }
+
+    public static void loadOptions() {
         final INIConfiguration options = new INIConfiguration();
         options.setSeparatorUsedInInput("=");
 
@@ -20,7 +25,5 @@ public class SimulatorMain {
         } catch (final Exception e) {
             TranslationManager.setTranslations("zh_CN");
         }
-
-        MainMenu.main(args);
     }
 }

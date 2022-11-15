@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import yome.fgo.simulator.gui.converter.AtlasDataConverterVBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -82,6 +83,14 @@ public class MainMenuFXMLController implements Initializable {
                 throw new RuntimeException(ex);
             }
         });
+        final Button converterButton = new Button(getTranslation(APPLICATION_SECTION, "Atlas Data Converter"));
+        converterButton.setOnAction(e -> {
+            try {
+                MainMenu.launch("Atlas Data Converter", new AtlasDataConverterVBox(), false);
+            } catch (final IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         final List<Button> buttons = ImmutableList.of(
                 simulationButton,
                 servantCreatorButton,
@@ -89,7 +98,8 @@ public class MainMenuFXMLController implements Initializable {
                 levelCreatorButton,
                 enemyCreatorButton,
                 commandCodeCreatorButton,
-                mysticCodeCreatorButton
+                mysticCodeCreatorButton,
+                converterButton
         );
         for (final Button button : buttons) {
             final AnchorPane wrapper = new AnchorPane();

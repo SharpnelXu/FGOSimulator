@@ -38,10 +38,13 @@ public class MainMenu extends Application {
     }
 
     public static void launch(final String appName, final String fileName, final boolean setMaximized) throws IOException {
-        final Stage newStage = new Stage();
-
         final FXMLLoader fxmlLoader = new FXMLLoader(BuffBuilder.class.getResource(fileName + ".fxml"));
         final Parent root = fxmlLoader.load();
+        launch(appName, root, false);
+    }
+
+    public static void launch(final String appName, final Parent root, final boolean setMaximized) throws IOException {
+        final Stage newStage = new Stage();
 
         final Scene scene = new Scene(root);
         scene.getStylesheets().add(BuffBuilder.class.getResource("style.css").toExternalForm());
@@ -50,7 +53,7 @@ public class MainMenu extends Application {
         newStage.setScene(scene);
 
         setWindowSize(root);
-        newStage.show();
         newStage.setMaximized(setMaximized);
+        newStage.show();
     }
 }
