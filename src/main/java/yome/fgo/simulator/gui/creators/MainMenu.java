@@ -10,9 +10,7 @@ import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class MainMenu extends Application {
@@ -31,29 +29,5 @@ public class MainMenu extends Application {
 
     public static void main(final String[] args) {
         launch();
-    }
-
-    public static void launch(final String appName, final String fileName) throws IOException {
-        launch(appName, fileName, false);
-    }
-
-    public static void launch(final String appName, final String fileName, final boolean setMaximized) throws IOException {
-        final FXMLLoader fxmlLoader = new FXMLLoader(BuffBuilder.class.getResource(fileName + ".fxml"));
-        final Parent root = fxmlLoader.load();
-        launch(appName, root, false);
-    }
-
-    public static void launch(final String appName, final Parent root, final boolean setMaximized) throws IOException {
-        final Stage newStage = new Stage();
-
-        final Scene scene = new Scene(root);
-        scene.getStylesheets().add(BuffBuilder.class.getResource("style.css").toExternalForm());
-
-        newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, appName));
-        newStage.setScene(scene);
-
-        setWindowSize(root);
-        newStage.setMaximized(setMaximized);
-        newStage.show();
     }
 }

@@ -2,8 +2,6 @@ package yome.fgo.simulator.gui.components;
 
 import com.google.common.collect.Lists;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -13,8 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.ActiveSkillUpgrades;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
@@ -26,7 +22,7 @@ import yome.fgo.data.proto.FgoStorageData.ServantPreference;
 import yome.fgo.simulator.gui.creators.CraftEssenceCreator;
 import yome.fgo.simulator.gui.creators.LevelCreatorFMXLController;
 import yome.fgo.simulator.gui.creators.ServantCreator;
-import yome.fgo.simulator.translation.TranslationManager;
+import yome.fgo.simulator.gui.helpers.LaunchUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,7 +34,6 @@ import static yome.fgo.simulator.gui.components.DataPrinter.printServantOption;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectCraftEssence;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectServant;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -292,23 +287,13 @@ public class FormationSelector extends VBox {
     }
 
     private void editServantOption() {
-        final Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        newStage.initOwner(this.getScene().getWindow());
-
         final ServantOption.Builder builder = servantOption.toBuilder();
         final ServantOptionEditor editor = new ServantOptionEditor(
                 new ServantDataAnchorPane(selectedServant.getServantData(), selectedServant.getAscensionImages()),
                 builder
         );
-        final Parent root = editor.getRoot();
-        final Scene scene = new Scene(root);
 
-        newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "ServantOptionEditor"));
-        newStage.setScene(scene);
-
-        setWindowSize(root);
-        newStage.showAndWait();
+        LaunchUtils.launchBlocking("BuffBuilder", this.getScene().getWindow(), editor.getRoot(), false);
 
         if (builder.getAscension() != -1) {
             servantOption = builder.build();

@@ -163,6 +163,7 @@ public class AtlasDataConverter {
         builder.put(6549, 9);
         builder.put(6551, 10);
         builder.put(6552, 11);
+
         builder.put(6502, 100);
         builder.put(6508, 101);
         builder.put(6515, 102);
@@ -184,6 +185,7 @@ public class AtlasDataConverter {
         builder.put(6545, 118);
         builder.put(6547, 119);
         builder.put(6550, 120);
+
         builder.put(6507, 201);
         builder.put(6517, 202);
         builder.put(6506, 203);
@@ -202,6 +204,7 @@ public class AtlasDataConverter {
         builder.put(6544, 216);
         builder.put(6546, 217);
         builder.put(6548, 218);
+
         builder.put(6999, 999);
 
         return builder.build();

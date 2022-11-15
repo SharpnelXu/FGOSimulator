@@ -6,8 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -20,7 +18,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceData;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
 import yome.fgo.data.proto.FgoStorageData.CraftEssencePreference;
@@ -44,7 +41,7 @@ import yome.fgo.simulator.gui.components.MysticCodeDataAnchorPane;
 import yome.fgo.simulator.gui.components.ServantDataAnchorPane;
 import yome.fgo.simulator.gui.components.SimulationWindow;
 import yome.fgo.simulator.gui.components.StageNode;
-import yome.fgo.simulator.translation.TranslationManager;
+import yome.fgo.simulator.gui.helpers.LaunchUtils;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.File;
@@ -61,7 +58,6 @@ import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectMysticCode;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
@@ -621,17 +617,7 @@ public class LevelCreatorFMXLController implements Initializable {
                 random
         );
 
-        final Stage newStage = new Stage();
-
-        final Parent root = simulationWindow.getRoot();
-        final Scene scene = new Scene(root);
-
-        newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "Simulation Window"));
-        newStage.setScene(scene);
-
-        setWindowSize(root);
-        newStage.show();
-        newStage.setMaximized(true);
+        LaunchUtils.launch("Simulation Window", simulationWindow.getRoot(), true);
         simulationWindow.init();
     }
 

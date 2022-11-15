@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static yome.fgo.simulator.gui.helpers.LaunchUtils.launch;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -38,7 +39,7 @@ public class MainMenuFXMLController implements Initializable {
         final Button servantCreatorButton = new Button(getTranslation(APPLICATION_SECTION, "ServantCreator"));
         servantCreatorButton.setOnAction(e -> {
             try {
-                MainMenu.launch("ServantCreator", "servantCreator");
+                launch("ServantCreator", "servantCreator");
             } catch (final IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -46,7 +47,7 @@ public class MainMenuFXMLController implements Initializable {
         final Button craftEssenceCreatorButton = new Button(getTranslation(APPLICATION_SECTION, "CraftEssenceCreator"));
         craftEssenceCreatorButton.setOnAction(e -> {
             try {
-                MainMenu.launch("CraftEssenceCreator", "craftEssenceCreator");
+                launch("CraftEssenceCreator", "craftEssenceCreator");
             } catch (final IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -54,7 +55,7 @@ public class MainMenuFXMLController implements Initializable {
         final Button levelCreatorButton = new Button(getTranslation(APPLICATION_SECTION, "LevelCreator"));
         levelCreatorButton.setOnAction(e -> {
             try {
-                MainMenu.launch("LevelCreator", "levelCreator", true);
+                launch("LevelCreator", "levelCreator", true);
             } catch (final IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -62,7 +63,7 @@ public class MainMenuFXMLController implements Initializable {
         final Button enemyCreatorButton = new Button(getTranslation(APPLICATION_SECTION, "EnemyCreator"));
         enemyCreatorButton.setOnAction(e -> {
             try {
-                MainMenu.launch("EnemyCreator", "enemyCreator");
+                launch("EnemyCreator", "enemyCreator");
             } catch (final IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -70,7 +71,7 @@ public class MainMenuFXMLController implements Initializable {
         final Button commandCodeCreatorButton = new Button(getTranslation(APPLICATION_SECTION, "CommandCodeCreator"));
         commandCodeCreatorButton.setOnAction(e -> {
             try {
-                MainMenu.launch("CommandCodeCreator", "commandCodeCreator");
+                launch("CommandCodeCreator", "commandCodeCreator");
             } catch (final IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -78,19 +79,13 @@ public class MainMenuFXMLController implements Initializable {
         final Button mysticCodeCreatorButton = new Button(getTranslation(APPLICATION_SECTION, "MysticCodeCreator"));
         mysticCodeCreatorButton.setOnAction(e -> {
             try {
-                MainMenu.launch("MysticCodeCreator", "mysticCodeCreator");
+                launch("MysticCodeCreator", "mysticCodeCreator");
             } catch (final IOException ex) {
                 throw new RuntimeException(ex);
             }
         });
         final Button converterButton = new Button(getTranslation(APPLICATION_SECTION, "Atlas Data Converter"));
-        converterButton.setOnAction(e -> {
-            try {
-                MainMenu.launch("Atlas Data Converter", new AtlasDataConverterVBox(), false);
-            } catch (final IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        converterButton.setOnAction(e -> launch("Atlas Data Converter", new AtlasDataConverterVBox(), false));
         final List<Button> buttons = ImmutableList.of(
                 simulationButton,
                 servantCreatorButton,

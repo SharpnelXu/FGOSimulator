@@ -4,15 +4,14 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
+import yome.fgo.simulator.gui.helpers.LaunchUtils;
 import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.IOException;
 
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.setWindowSize;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class ServantCreator extends Application {
@@ -29,23 +28,12 @@ public class ServantCreator extends Application {
     }
 
     public static void preview(final Window window, final ServantData servantData) throws IOException {
-        final Stage newStage = new Stage();
-        newStage.initModality(Modality.APPLICATION_MODAL);
-        newStage.initOwner(window);
-
         final FXMLLoader fxmlLoader = new FXMLLoader(BuffBuilder.class.getResource("servantCreator.fxml"));
         final Parent root = fxmlLoader.load();
-
-        final Scene scene = new Scene(root);
-        newStage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "ServantCreator"));
-        newStage.setScene(scene);
-        scene.getStylesheets().add(BuffBuilder.class.getResource("style.css").toExternalForm());
-
         final ServantCreatorFXMLController controller = fxmlLoader.getController();
         controller.setPreviewMode(servantData);
 
-        setWindowSize(root);
-        newStage.showAndWait();
+        LaunchUtils.launchBlocking("ServantCreator", window, root, false);
     }
 
     public static void main(final String[] args) {
