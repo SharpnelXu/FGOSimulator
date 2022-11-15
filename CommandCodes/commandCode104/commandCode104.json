@@ -1,0 +1,24 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "CHAOTIC",
+      "target": "DEFENDER"
+    },
+    "values": [0.15],
+    "buffIcon": "specialDamageUp"
+  }, {
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "EVIL",
+      "target": "DEFENDER"
+    },
+    "values": [0.15],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode104",
+  "ccNum": 104,
+  "rarity": 5
+}

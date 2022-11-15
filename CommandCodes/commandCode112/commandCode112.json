@@ -1,0 +1,23 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "ATTACKER",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.1],
+        "buffIcon": "npDamageUp"
+      }]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }, {
+    "type": "NpGenerationBuff",
+    "values": [0.05],
+    "buffIcon": "npGainUp"
+  }],
+  "id": "commandCode112",
+  "ccNum": 112,
+  "rarity": 5
+}

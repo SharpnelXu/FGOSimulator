@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "HUMAN",
+      "target": "DEFENDER"
+    },
+    "values": [0.05],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode1",
+  "ccNum": 1,
+  "rarity": 1
+}

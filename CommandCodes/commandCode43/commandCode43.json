@@ -1,0 +1,20 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "CriticalDamageBuff",
+        "numTurnsActive": 1,
+        "numTimesActive": 1,
+        "values": [0.05],
+        "buffIcon": "critDamageUp"
+      }]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode43",
+  "ccNum": 43,
+  "rarity": 3
+}

@@ -1,0 +1,25 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveBuff",
+      "subConditionData": [{
+        "type": "BuffTypeEquals",
+        "value": "Charm"
+      }],
+      "target": "DEFENDER"
+    },
+    "values": [0.2],
+    "buffIcon": "specialDamageUp"
+  }, {
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "CriticalStarChange",
+      "intValues": [2]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode35",
+  "ccNum": 35,
+  "rarity": 4
+}

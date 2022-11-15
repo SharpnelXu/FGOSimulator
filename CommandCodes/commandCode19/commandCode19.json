@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "CriticalDamageBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "DRAGON",
+      "target": "DEFENDER"
+    },
+    "values": [0.25],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode19",
+  "ccNum": 19,
+  "rarity": 4
+}

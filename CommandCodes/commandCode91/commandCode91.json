@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveClass",
+      "value": "SABER",
+      "target": "DEFENDER"
+    },
+    "values": [0.2],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode91",
+  "ccNum": 91,
+  "rarity": 5
+}

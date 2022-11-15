@@ -1,0 +1,28 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "ATTACKER",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.1],
+        "buffIcon": "npDamageUp"
+      }]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }, {
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "SKY",
+      "target": "DEFENDER"
+    },
+    "values": [0.1],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode118",
+  "ccNum": 118,
+  "rarity": 5
+}

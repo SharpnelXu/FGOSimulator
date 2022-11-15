@@ -31,10 +31,20 @@
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [1, 10, 1],
       "commandCardOptions": [{
+        "commandCode": "commandCode95",
+        "hasCommandCode": true
       }, {
+        "commandCode": "commandCode77",
+        "hasCommandCode": true
       }, {
+        "commandCode": "commandCode91",
+        "hasCommandCode": true
       }, {
+        "commandCode": "commandCode83",
+        "hasCommandCode": true
       }, {
+        "commandCode": "commandCode42",
+        "hasCommandCode": true
       }],
       "bond": 10,
       "ascension": 1
@@ -1191,7 +1201,7 @@
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [10, 10, 10],
       "commandCardOptions": [{
-        "commandCode": "commandCode28",
+        "commandCode": "commandCode35",
         "hasCommandCode": true
       }, {
         "commandCode": "commandCode28",
@@ -2387,7 +2397,9 @@
       "activeSkillLevels": [10, 10, 10],
       "appendSkillLevels": [10, 10, 10],
       "commandCardOptions": [{
-        "strengthen": 500
+        "strengthen": 500,
+        "commandCode": "commandCode101",
+        "hasCommandCode": true
       }, {
         "strengthen": 500
       }, {
@@ -2765,7 +2777,7 @@
   }, {
     "mysticCodeNo": 3,
     "option": {
-      "mysticCodeLevel": 10,
+      "mysticCodeLevel": 6,
       "gender": "FEMALE"
     }
   }, {

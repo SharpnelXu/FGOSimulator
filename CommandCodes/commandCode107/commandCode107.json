@@ -1,0 +1,13 @@
+{
+  "buffs": [{
+    "type": "SureHit",
+    "buffIcon": "sureHit"
+  }, {
+    "type": "CriticalDamageBuff",
+    "values": [0.1],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode107",
+  "ccNum": 107,
+  "rarity": 4
+}

@@ -1,0 +1,32 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "DEFENDER",
+      "buffData": [{
+        "type": "Curse",
+        "numTurnsActive": 3,
+        "values": [500.0],
+        "buffIcon": "curse"
+      }]
+    }, {
+      "type": "HpChange",
+      "target": "ATTACKER",
+      "intValues": [0],
+      "variationData": {
+        "type": "HpAbsorptionVariation",
+        "target": "DEFENDER"
+      },
+      "additions": [100.0]
+    }, {
+      "type": "HpChange",
+      "target": "DEFENDER",
+      "intValues": [-100]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode132",
+  "ccNum": 132,
+  "rarity": 3
+}

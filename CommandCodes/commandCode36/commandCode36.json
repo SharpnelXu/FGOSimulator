@@ -1,0 +1,24 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "LAWFUL",
+      "target": "DEFENDER"
+    },
+    "values": [0.2],
+    "buffIcon": "specialDamageUp"
+  }, {
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveClass",
+      "value": "RULER",
+      "target": "DEFENDER"
+    },
+    "values": [0.2],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode36",
+  "ccNum": 36,
+  "rarity": 5
+}

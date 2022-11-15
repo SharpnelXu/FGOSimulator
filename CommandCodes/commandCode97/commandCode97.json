@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "FEMALE",
+      "target": "DEFENDER"
+    },
+    "values": [0.15],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode97",
+  "ccNum": 97,
+  "rarity": 4
+}

@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "DIVINE",
+      "target": "DEFENDER"
+    },
+    "values": [0.15],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode16",
+  "ccNum": 16,
+  "rarity": 4
+}

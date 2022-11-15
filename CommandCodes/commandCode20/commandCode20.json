@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "DRAGON",
+      "target": "DEFENDER"
+    },
+    "values": [0.2],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode20",
+  "ccNum": 20,
+  "rarity": 5
+}

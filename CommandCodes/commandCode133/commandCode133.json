@@ -1,0 +1,17 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "CriticalStarChange",
+      "intValues": [2]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }, {
+    "type": "CriticalDamageBuff",
+    "values": [0.1],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode133",
+  "ccNum": 133,
+  "rarity": 4
+}

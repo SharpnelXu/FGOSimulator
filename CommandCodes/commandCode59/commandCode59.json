@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "DEMONIC",
+      "target": "DEFENDER"
+    },
+    "values": [0.2],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode59",
+  "ccNum": 59,
+  "rarity": 5
+}

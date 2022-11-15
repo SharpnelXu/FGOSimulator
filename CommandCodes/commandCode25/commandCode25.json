@@ -1,0 +1,19 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "DEFENDER",
+      "buffData": [{
+        "type": "Curse",
+        "numTurnsActive": 3,
+        "values": [500.0],
+        "buffIcon": "curse"
+      }]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode25",
+  "ccNum": 25,
+  "rarity": 3
+}

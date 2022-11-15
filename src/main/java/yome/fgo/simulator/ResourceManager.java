@@ -272,7 +272,7 @@ public class ResourceManager {
         final File servantDirectory = new File(COMMAND_CODES_DIRECTORY_PATH);
         Image defaultImage = null;
         try {
-            defaultImage = new Image(new FileInputStream(String.format("%s/default.png", CRAFT_ESSENCE_DIRECTORY_PATH)));
+            defaultImage = new Image(new FileInputStream(String.format("%s/default.png", COMMAND_CODES_DIRECTORY_PATH)));
         } catch (final FileNotFoundException ignored) {
         }
         for (final String directoryName : Objects.requireNonNull(servantDirectory.list())) {

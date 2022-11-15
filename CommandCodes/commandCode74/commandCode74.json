@@ -1,0 +1,14 @@
+{
+  "buffs": [{
+    "type": "CriticalStarWeightBuff",
+    "values": [1.0],
+    "buffIcon": "starWeightUp"
+  }, {
+    "type": "CriticalDamageBuff",
+    "values": [0.1],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode74",
+  "ccNum": 74,
+  "rarity": 5
+}

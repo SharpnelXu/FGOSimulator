@@ -1,0 +1,28 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "RemoveBuff",
+      "target": "DEFENDER",
+      "applyCondition": {
+        "type": "And",
+        "subConditionData": [{
+          "type": "BuffTypeEquals",
+          "value": "DefenseBuff"
+        }, {
+          "type": "BuffHasTrait",
+          "value": "POSITIVE_BUFF"
+        }]
+      },
+      "intValues": [1]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }, {
+    "type": "CriticalDamageBuff",
+    "values": [0.1],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode48",
+  "ccNum": 48,
+  "rarity": 4
+}

@@ -1,0 +1,24 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "THREAT_TO_HUMANITY",
+      "target": "DEFENDER"
+    },
+    "values": [0.1],
+    "buffIcon": "specialDamageUp"
+  }, {
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveClass",
+      "value": "SABER",
+      "target": "DEFENDER"
+    },
+    "values": [0.1],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode51",
+  "ccNum": 51,
+  "rarity": 4
+}

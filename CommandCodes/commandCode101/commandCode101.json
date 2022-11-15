@@ -1,0 +1,16 @@
+{
+  "buffs": [{
+    "type": "CriticalDamageBuff",
+    "values": [0.1],
+    "variationData": {
+      "type": "HpVariation",
+      "maxHp": 1.0,
+      "target": "SELF"
+    },
+    "additions": [0.2],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode101",
+  "ccNum": 101,
+  "rarity": 5
+}

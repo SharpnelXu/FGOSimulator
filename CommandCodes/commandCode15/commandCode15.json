@@ -1,0 +1,10 @@
+{
+  "buffs": [{
+    "type": "CriticalDamageBuff",
+    "values": [0.1],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode15",
+  "ccNum": 15,
+  "rarity": 3
+}

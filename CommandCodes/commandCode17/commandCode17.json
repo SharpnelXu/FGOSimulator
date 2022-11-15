@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "WEAK_TO_ENUMA_ELISH",
+      "target": "DEFENDER"
+    },
+    "values": [0.2],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode17",
+  "ccNum": 17,
+  "rarity": 5
+}

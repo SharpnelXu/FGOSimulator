@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "WILD_BEAST",
+      "target": "DEFENDER"
+    },
+    "values": [0.05],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode2",
+  "ccNum": 2,
+  "rarity": 1
+}

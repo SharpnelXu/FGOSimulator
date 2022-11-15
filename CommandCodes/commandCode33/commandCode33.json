@@ -1,0 +1,33 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "RemoveBuff",
+      "target": "DEFENDER",
+      "applyCondition": {
+        "type": "And",
+        "subConditionData": [{
+          "type": "BuffTypeEquals",
+          "value": "DebuffResist"
+        }, {
+          "type": "BuffHasTrait",
+          "value": "POSITIVE_BUFF"
+        }]
+      },
+      "intValues": [1]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }, {
+    "type": "CriticalDamageBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "GOOD",
+      "target": "DEFENDER"
+    },
+    "values": [0.2],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode33",
+  "ccNum": 33,
+  "rarity": 4
+}

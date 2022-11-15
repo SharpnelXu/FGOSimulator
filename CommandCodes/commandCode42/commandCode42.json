@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "CriticalDamageBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "DIVINE",
+      "target": "DEFENDER"
+    },
+    "values": [0.3],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode42",
+  "ccNum": 42,
+  "rarity": 5
+}

@@ -1,0 +1,10 @@
+{
+  "buffs": [{
+    "type": "DamageAdditionBuff",
+    "values": [1000.0],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode23",
+  "ccNum": 23,
+  "rarity": 4
+}

@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "CriticalDamageBuff",
+    "applyCondition": {
+      "type": "TargetsHaveClass",
+      "value": "SABER",
+      "target": "DEFENDER"
+    },
+    "values": [0.25],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode30",
+  "ccNum": 30,
+  "rarity": 4
+}

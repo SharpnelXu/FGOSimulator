@@ -1,10 +1,27 @@
 {
   "buffs": [{
     "type": "PostAttackEffect",
+    "applyCondition": {
+      "type": "Not",
+      "subConditionData": [{
+        "type": "TargetsHaveTrait",
+        "value": "梅林走神中",
+        "target": "ATTACKER"
+      }]
+    },
     "subEffects": [{
       "type": "NpChange",
       "target": "ATTACKER",
       "values": [0.1]
+    }, {
+      "type": "GrantBuff",
+      "target": "ATTACKER",
+      "buffData": [{
+        "type": "GrantTrait",
+        "numTurnsActive": 3,
+        "stringValue": "梅林走神中",
+        "irremovable": true
+      }]
     }],
     "buffIcon": "attackApplyBuff"
   }],

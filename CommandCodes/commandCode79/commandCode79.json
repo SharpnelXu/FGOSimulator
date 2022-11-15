@@ -1,0 +1,21 @@
+{
+  "buffs": [{
+    "type": "CriticalDamageBuff",
+    "applyCondition": {
+      "type": "And",
+      "subConditionData": [{
+        "type": "CardTypeEquals",
+        "value": "BUSTER"
+      }, {
+        "type": "TargetsHaveTrait",
+        "value": "DRAGON",
+        "target": "DEFENDER"
+      }]
+    },
+    "values": [0.3],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode79",
+  "ccNum": 79,
+  "rarity": 4
+}

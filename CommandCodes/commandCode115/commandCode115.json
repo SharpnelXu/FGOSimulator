@@ -1,0 +1,22 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "ATTACKER",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.1],
+        "buffIcon": "npDamageUp"
+      }]
+    }, {
+      "type": "CriticalStarChange",
+      "intValues": [2]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode115",
+  "ccNum": 115,
+  "rarity": 5
+}

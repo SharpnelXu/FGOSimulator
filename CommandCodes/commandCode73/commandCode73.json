@@ -1,0 +1,14 @@
+{
+  "buffs": [{
+    "type": "CriticalDamageBuff",
+    "applyCondition": {
+      "type": "StageHasTrait",
+      "value": "BURNING"
+    },
+    "values": [0.25],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode73",
+  "ccNum": 73,
+  "rarity": 4
+}

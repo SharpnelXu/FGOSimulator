@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "UNDEAD",
+      "target": "DEFENDER"
+    },
+    "values": [0.1],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode62",
+  "ccNum": 62,
+  "rarity": 3
+}

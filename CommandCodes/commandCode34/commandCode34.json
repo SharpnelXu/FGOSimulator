@@ -1,0 +1,23 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "DEFENDER",
+      "buffData": [{
+        "type": "Poison",
+        "numTurnsActive": 3,
+        "values": [600.0],
+        "buffIcon": "poison"
+      }]
+    }, {
+      "type": "HpChange",
+      "target": "SELF",
+      "intValues": [-100]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode34",
+  "ccNum": 34,
+  "rarity": 3
+}

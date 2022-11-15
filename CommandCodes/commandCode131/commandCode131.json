@@ -1,0 +1,22 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "GrantBuff",
+      "target": "DEFENDER",
+      "buffData": [{
+        "type": "Curse",
+        "numTurnsActive": 3,
+        "values": [500.0],
+        "buffIcon": "curse"
+      }]
+    }, {
+      "type": "CriticalStarChange",
+      "intValues": [3]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }],
+  "id": "commandCode131",
+  "ccNum": 131,
+  "rarity": 5
+}

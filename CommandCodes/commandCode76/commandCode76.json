@@ -1,0 +1,13 @@
+{
+  "buffs": [{
+    "type": "IgnoreDefenseBuff",
+    "buffIcon": "ignoreDefense"
+  }, {
+    "type": "CriticalDamageBuff",
+    "values": [0.1],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode76",
+  "ccNum": 76,
+  "rarity": 4
+}

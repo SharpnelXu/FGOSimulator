@@ -1,0 +1,28 @@
+{
+  "buffs": [{
+    "type": "PreAttackEffect",
+    "subEffects": [{
+      "type": "RemoveBuff",
+      "target": "DEFENDER",
+      "applyCondition": {
+        "type": "And",
+        "subConditionData": [{
+          "type": "BuffTypeEquals",
+          "value": "AttackBuff"
+        }, {
+          "type": "BuffHasTrait",
+          "value": "POSITIVE_BUFF"
+        }]
+      },
+      "intValues": [1]
+    }],
+    "buffIcon": "attackApplyBuff"
+  }, {
+    "type": "CriticalDamageBuff",
+    "values": [0.1],
+    "buffIcon": "critDamageUp"
+  }],
+  "id": "commandCode83",
+  "ccNum": 83,
+  "rarity": 4
+}

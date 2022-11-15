@@ -1,0 +1,52 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "DEMONIC",
+      "target": "DEFENDER"
+    },
+    "values": [0.15],
+    "buffIcon": "specialDamageUp"
+  }, {
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "And",
+      "subConditionData": [{
+        "type": "Or",
+        "subConditionData": [{
+          "type": "TargetsHaveTrait",
+          "value": "SKY",
+          "target": "DEFENDER"
+        }, {
+          "type": "TargetsHaveTrait",
+          "value": "EARTH",
+          "target": "DEFENDER"
+        }]
+      }, {
+        "type": "Not",
+        "subConditionData": [{
+          "type": "TargetsHaveTrait",
+          "value": "PSEUDO_SERVANT",
+          "target": "DEFENDER"
+        }]
+      }, {
+        "type": "Not",
+        "subConditionData": [{
+          "type": "TargetsHaveTrait",
+          "value": "DEMI_SERVANT",
+          "target": "DEFENDER"
+        }]
+      }, {
+        "type": "TargetsHaveTrait",
+        "value": "SERVANT",
+        "target": "DEFENDER"
+      }]
+    },
+    "values": [0.15],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode121",
+  "ccNum": 121,
+  "rarity": 5
+}
