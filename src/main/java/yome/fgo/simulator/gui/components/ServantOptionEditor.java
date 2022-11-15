@@ -46,7 +46,10 @@ public class ServantOptionEditor {
         return root;
     }
 
-    public ServantOptionEditor(final ServantDataAnchorPane selectedServant, final ServantOption.Builder source) {
+    public ServantOptionEditor(
+            final ServantDataAnchorPane selectedServant,
+            final ServantOption.Builder source
+    ) {
         final VBox rootVBox = new VBox(10);
         rootVBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         this.root = rootVBox;

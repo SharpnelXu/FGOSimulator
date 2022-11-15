@@ -121,6 +121,8 @@ public class EnemyNode extends VBox {
             throw new RuntimeException("ID is null or empty!");
         }
 
+        combatantDataOverride = baseEnemyData;
+
         final File thumbnailFile;
         if (isServant) {
             thumbnailFile = getServantThumbnail(baseEnemyData.getId(), 1);
@@ -189,9 +191,7 @@ public class EnemyNode extends VBox {
         editEnemyButton.setGraphic(createInfoImageView("edit"));
         editEnemyButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit enemy data")));
         editEnemyButton.setOnAction(e -> {
-            final CombatantData.Builder builder = combatantDataOverride == null ?
-                    baseEnemyData.toBuilder() :
-                    combatantDataOverride.toBuilder();
+            final CombatantData.Builder builder = combatantDataOverride.toBuilder();
             try {
                 editCombatantData(editEnemyButton.getScene().getWindow(), builder);
             } catch (final Exception ex) {
@@ -266,7 +266,7 @@ public class EnemyNode extends VBox {
         } catch (final FileNotFoundException ignored) {
         }
         baseEnemyData = baseServantData.getServantAscensionData(asc - 1).getCombatantData();
-        combatantDataOverride = null;
+        combatantDataOverride = baseEnemyData;
         combatantDataLabel.setText(printCombatantData(baseEnemyData));
     }
 
@@ -323,9 +323,7 @@ public class EnemyNode extends VBox {
             }
         }
 
-        if (combatantDataOverride != null) {
-            builder.setCombatantDataOverride(combatantDataOverride);
-        }
+        builder.setCombatantDataOverride(combatantDataOverride);
 
         if (customGaugeCheckbox.isSelected()) {
             builder.setHasCustomMaxNpGauge(true);

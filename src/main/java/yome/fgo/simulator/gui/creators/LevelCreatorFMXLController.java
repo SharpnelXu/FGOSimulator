@@ -33,12 +33,10 @@ import yome.fgo.data.proto.FgoStorageData.StageData;
 import yome.fgo.data.proto.FgoStorageData.UserPreference;
 import yome.fgo.data.writer.DataWriter;
 import yome.fgo.simulator.ResourceManager;
-import yome.fgo.simulator.gui.components.CraftEssenceDataAnchorPane;
 import yome.fgo.simulator.gui.components.FormationSelector;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.MysticCodeDataAnchorPane;
-import yome.fgo.simulator.gui.components.ServantDataAnchorPane;
 import yome.fgo.simulator.gui.components.SimulationWindow;
 import yome.fgo.simulator.gui.components.StageNode;
 import yome.fgo.simulator.gui.helpers.LaunchUtils;
@@ -55,6 +53,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
+import static yome.fgo.simulator.ResourceManager.MYSTIC_CODE_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectMysticCode;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
@@ -234,9 +233,8 @@ public class LevelCreatorFMXLController implements Initializable {
     }
 
     public void setPreviewMode() {
-        final Map<Integer, ServantDataAnchorPane> servantDataMap = ResourceManager.buildServantSortMap();
-        final Map<Integer, CraftEssenceDataAnchorPane> ceDataMap = ResourceManager.buildCESortMap();
-        final Map<Integer, MysticCodeDataAnchorPane> mcDataMap = ResourceManager.buildMCSortMap();
+        ResourceManager.rebuildDataMap();
+
         final UserPreference userPreference = ResourceManager.getUserPreference();
         final Map<Integer, ServantOption> servantOptions = new HashMap<>();
         final Map<Integer, CraftEssenceOption> ceOptions = new HashMap<>();
@@ -280,9 +278,7 @@ public class LevelCreatorFMXLController implements Initializable {
         for (int i = 0; i < 3; i += 1) {
             final FormationSelector formationSelector = new FormationSelector(
                     errorLabel,
-                    servantDataMap,
                     servantOptions,
-                    ceDataMap,
                     ceOptions,
                     this
             );
@@ -293,9 +289,7 @@ public class LevelCreatorFMXLController implements Initializable {
         for (int i = 0; i < 3; i += 1) {
             final FormationSelector formationSelector = new FormationSelector(
                     errorLabel,
-                    servantDataMap,
                     servantOptions,
-                    ceDataMap,
                     ceOptions,
                     this
             );
@@ -311,7 +305,7 @@ public class LevelCreatorFMXLController implements Initializable {
         nodes.add(miscVBox);
 
         final Button selectMCButton = new Button();
-        final MysticCodeDataAnchorPane defaultMC = mcDataMap.get(2);
+        final MysticCodeDataAnchorPane defaultMC = MYSTIC_CODE_DATA_ANCHOR_MAP.get(2);
         mysticCodeDataAnchorPane = new MysticCodeDataAnchorPane(defaultMC.getMysticCodeData(), defaultMC.getImages());
         selectMCButton.setGraphic(mysticCodeDataAnchorPane);
 
@@ -323,7 +317,6 @@ public class LevelCreatorFMXLController implements Initializable {
             try {
                 final MysticCodeDataAnchorPane wrapper = selectMysticCode(
                         simulationPrepHBox.getScene().getWindow(),
-                        mcDataMap,
                         mysticCodeDataAnchorPane.getGender()
                 );
                 if (wrapper != null) {
@@ -438,10 +431,7 @@ public class LevelCreatorFMXLController implements Initializable {
                 final List<Formation> newFormationList = new ArrayList<>(formationList);
                 final Formation selection = EntitySelector.selectFormation(
                         formationNameHBox.getScene().getWindow(),
-                        newFormationList,
-                        servantDataMap,
-                        ceDataMap,
-                        mcDataMap
+                        newFormationList
 
                 );
                 if (selection != null) {
@@ -455,7 +445,7 @@ public class LevelCreatorFMXLController implements Initializable {
                     final MysticCodePreference mysticCodePreference = selection.getMysticCode();
                     mcLevelSlider.setValue(mysticCodePreference.getOption().getMysticCodeLevel());
 
-                    final MysticCodeDataAnchorPane reference = mcDataMap.get(mysticCodePreference.getMysticCodeNo());
+                    final MysticCodeDataAnchorPane reference = MYSTIC_CODE_DATA_ANCHOR_MAP.get(mysticCodePreference.getMysticCodeNo());
                     mysticCodeDataAnchorPane = new MysticCodeDataAnchorPane();
                     mysticCodeDataAnchorPane.setFrom(reference.getMysticCodeData(), reference.getImages(), mysticCodePreference.getOption().getGender());
                     selectMCButton.setGraphic(mysticCodeDataAnchorPane);

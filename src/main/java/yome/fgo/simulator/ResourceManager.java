@@ -10,6 +10,7 @@ import yome.fgo.data.proto.FgoStorageData.MysticCodeData;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
 import yome.fgo.data.proto.FgoStorageData.ServantData;
 import yome.fgo.data.proto.FgoStorageData.UserPreference;
+import yome.fgo.simulator.gui.components.CommandCodeDataAnchorPane;
 import yome.fgo.simulator.gui.components.CraftEssenceDataAnchorPane;
 import yome.fgo.simulator.gui.components.MysticCodeDataAnchorPane;
 import yome.fgo.simulator.gui.components.ServantDataAnchorPane;
@@ -40,7 +41,7 @@ import static yome.fgo.simulator.utils.FilePathUtils.USER_PREFERENCE_FILE_PATH;
 public class ResourceManager {
     /**
      * Originally going to build a in memory system but realized it needs some sort of updates to refresh memory,
-     * so now just call `build*SortMap` to get data.
+     * so now just call `*_ANCHOR_MAP` to get data.
      */
     @Deprecated
     private static final Map<String, CombatantData> ENEMY_DATA_MAP = new HashMap<>();
@@ -48,6 +49,11 @@ public class ResourceManager {
     private static final Map<String, ServantData> SERVANT_DATA_MAP = new HashMap<>();
     @Deprecated
     private static final Map<String, CraftEssenceData> CRAFT_ESSENCE_DATA_MAP = new HashMap<>();
+
+    public static final Map<Integer, ServantDataAnchorPane> SERVANT_DATA_ANCHOR_MAP = new TreeMap<>();
+    public static final Map<Integer, CraftEssenceDataAnchorPane> CRAFT_ESSENCE_DATA_ANCHOR_MAP = new TreeMap<>();
+    public static final Map<Integer, MysticCodeDataAnchorPane> MYSTIC_CODE_DATA_ANCHOR_MAP = new TreeMap<>();
+    public static final Map<Integer, CommandCodeDataAnchorPane> COMMAND_CODE_DATA_ANCHOR_MAP = new TreeMap<>();
 
     public static BufferedReader readFile(final String fileName) throws FileNotFoundException {
         final FileInputStream fileInputStream = new FileInputStream(fileName);
@@ -133,9 +139,16 @@ public class ResourceManager {
         return CRAFT_ESSENCE_DATA_MAP.get(id);
     }
 
-    public static Map<Integer, ServantDataAnchorPane> buildServantSortMap() {
+    public static void rebuildDataMap() {
+        buildServantSortMap();
+        buildCCSortMap();
+        buildCESortMap();
+        buildMCSortMap();
+    }
+
+    public static void buildServantSortMap() {
+        SERVANT_DATA_ANCHOR_MAP.clear();
         final File servantDirectory = new File(SERVANT_DIRECTORY_PATH);
-        final Map<Integer, ServantDataAnchorPane> results = new TreeMap<>();
         Image defaultImage = null;
         try {
             defaultImage = new Image(new FileInputStream(String.format("%s/defaultServant_thumbnail.png", SERVANT_DIRECTORY_PATH)));
@@ -176,16 +189,14 @@ public class ResourceManager {
                     }
                     ascensionImages.add(servantAscensionImage);
                 }
-                results.put(servantData.getServantNum(), new ServantDataAnchorPane(servantData, ascensionImages));
+                SERVANT_DATA_ANCHOR_MAP.put(servantData.getServantNum(), new ServantDataAnchorPane(servantData, ascensionImages));
             }
         }
-
-        return results;
     }
 
-    public static Map<Integer, CraftEssenceDataAnchorPane> buildCESortMap() {
+    public static void buildCESortMap() {
+        CRAFT_ESSENCE_DATA_ANCHOR_MAP.clear();
         final File servantDirectory = new File(CRAFT_ESSENCE_DIRECTORY_PATH);
-        final Map<Integer, CraftEssenceDataAnchorPane> results = new TreeMap<>();
         Image defaultImage = null;
         try {
             defaultImage = new Image(new FileInputStream(String.format("%s/defaultCE_thumbnail.png", CRAFT_ESSENCE_DIRECTORY_PATH)));
@@ -213,16 +224,14 @@ public class ResourceManager {
                 }
 
                 final CraftEssenceData ceData = ceDataBuilder.build();
-                results.put(ceData.getCeNum(), new CraftEssenceDataAnchorPane(ceData, ceImage));
+                CRAFT_ESSENCE_DATA_ANCHOR_MAP.put(ceData.getCeNum(), new CraftEssenceDataAnchorPane(ceData, ceImage));
             }
         }
-
-        return results;
     }
 
-    public static Map<Integer, MysticCodeDataAnchorPane> buildMCSortMap() {
+    public static void buildMCSortMap() {
+        MYSTIC_CODE_DATA_ANCHOR_MAP.clear();
         final File servantDirectory = new File(MYSTIC_CODES_DIRECTORY_PATH);
-        final Map<Integer, MysticCodeDataAnchorPane> results = new TreeMap<>();
         for (final String directoryName : Objects.requireNonNull(servantDirectory.list())) {
             final File dataFile = new File(String.format("%s/%s/%s.json", MYSTIC_CODES_DIRECTORY_PATH, directoryName, directoryName));
             if (dataFile.exists()) {
@@ -253,11 +262,44 @@ public class ResourceManager {
                 }
 
                 final MysticCodeData data = builder.build();
-                results.put(data.getMcNum(), new MysticCodeDataAnchorPane(data, mcImages));
+                MYSTIC_CODE_DATA_ANCHOR_MAP.put(data.getMcNum(), new MysticCodeDataAnchorPane(data, mcImages));
             }
         }
+    }
 
-        return results;
+    public static void buildCCSortMap() {
+        COMMAND_CODE_DATA_ANCHOR_MAP.clear();
+        final File servantDirectory = new File(COMMAND_CODES_DIRECTORY_PATH);
+        Image defaultImage = null;
+        try {
+            defaultImage = new Image(new FileInputStream(String.format("%s/default.png", CRAFT_ESSENCE_DIRECTORY_PATH)));
+        } catch (final FileNotFoundException ignored) {
+        }
+        for (final String directoryName : Objects.requireNonNull(servantDirectory.list())) {
+            final File ccDataFile = new File(String.format("%s/%s/%s.json", COMMAND_CODES_DIRECTORY_PATH, directoryName, directoryName));
+            if (ccDataFile.exists()) {
+                final JsonFormat.Parser parser = JsonFormat.parser();
+                final CommandCodeData.Builder ccDataBuilder = CommandCodeData.newBuilder();
+                try {
+                    parser.merge(readFile(ccDataFile), ccDataBuilder);
+                } catch (final Exception e) {
+                    continue;
+                }
+
+                final File ccThumbnail = new File(String.format("%s/%s/%s.png", COMMAND_CODES_DIRECTORY_PATH, directoryName, directoryName));
+                Image ccImage;
+                try {
+                    ccImage = ccThumbnail.exists() ?
+                            new Image(new FileInputStream(ccThumbnail)) :
+                            defaultImage;
+                } catch (final FileNotFoundException e) {
+                    ccImage = defaultImage;
+                }
+
+                final CommandCodeData ccData = ccDataBuilder.build();
+                COMMAND_CODE_DATA_ANCHOR_MAP.put(ccData.getCcNum(), new CommandCodeDataAnchorPane(ccData, ccImage));
+            }
+        }
     }
 
     public static LevelData getLevelData(final String path, final String id) {

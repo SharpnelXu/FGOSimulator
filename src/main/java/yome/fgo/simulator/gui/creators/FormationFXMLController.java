@@ -26,9 +26,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
+import static yome.fgo.simulator.ResourceManager.CRAFT_ESSENCE_DATA_ANCHOR_MAP;
+import static yome.fgo.simulator.ResourceManager.MYSTIC_CODE_DATA_ANCHOR_MAP;
+import static yome.fgo.simulator.ResourceManager.SERVANT_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.getUnknownServantThumbnail;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.LIST_ITEM_STYLE;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
@@ -44,9 +46,6 @@ public class FormationFXMLController implements Initializable {
 
     public void fillFormations(
             final List<Formation> formationList,
-            final Map<Integer, ServantDataAnchorPane> servantDataMap,
-            final Map<Integer, CraftEssenceDataAnchorPane> ceDataMap,
-            final Map<Integer, MysticCodeDataAnchorPane> mcDataMap,
             final Formation.Builder builder
     ) {
         Image unknown = null;
@@ -76,8 +75,8 @@ public class FormationFXMLController implements Initializable {
                 final ServantPreference servantPreference = servantPreferences.get(i);
                 final ServantDataAnchorPane servant;
                 final int servantNo = servantPreference.getServantNo();
-                if (servantDataMap.containsKey(servantNo)) {
-                    final ServantDataAnchorPane reference = servantDataMap.get(servantNo);
+                if (SERVANT_DATA_ANCHOR_MAP.containsKey(servantNo)) {
+                    final ServantDataAnchorPane reference = SERVANT_DATA_ANCHOR_MAP.get(servantNo);
                     servant = new ServantDataAnchorPane(reference.getServantData(), reference.getAscensionImages());
                     servant.getImageView().setImage(servant.getAscensionImages().get(servantPreference.getOption().getAscension() - 1));
                 } else {
@@ -86,8 +85,8 @@ public class FormationFXMLController implements Initializable {
 
                 final CraftEssenceDataAnchorPane craftEssence;
                 final int ceNo = craftEssencePreferences.get(i).getCraftEssenceNo();
-                if (ceDataMap.containsKey(ceNo)) {
-                    final CraftEssenceDataAnchorPane reference = ceDataMap.get(ceNo);
+                if (CRAFT_ESSENCE_DATA_ANCHOR_MAP.containsKey(ceNo)) {
+                    final CraftEssenceDataAnchorPane reference = CRAFT_ESSENCE_DATA_ANCHOR_MAP.get(ceNo);
                     craftEssence = new CraftEssenceDataAnchorPane(reference.getCraftEssenceData(), reference.getImage());
                 } else {
                     craftEssence = new CraftEssenceDataAnchorPane(null, unknown);
@@ -101,7 +100,7 @@ public class FormationFXMLController implements Initializable {
 
             final MysticCodePreference mysticCodePreference = formation.getMysticCode();
             final MysticCodeDataAnchorPane mysticCode = new MysticCodeDataAnchorPane();
-            final MysticCodeDataAnchorPane reference = mcDataMap.get(mysticCodePreference.getMysticCodeNo());
+            final MysticCodeDataAnchorPane reference = MYSTIC_CODE_DATA_ANCHOR_MAP.get(mysticCodePreference.getMysticCodeNo());
             mysticCode.setFrom(reference.getMysticCodeData(), reference.getImages(), mysticCodePreference.getOption().getGender());
 
             partyHBox.getChildren().add(mysticCode);

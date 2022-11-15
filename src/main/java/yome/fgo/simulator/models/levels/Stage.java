@@ -17,6 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import static yome.fgo.simulator.ResourceManager.SERVANT_DATA_ANCHOR_MAP;
+
 @AllArgsConstructor
 @Getter
 public class Stage {
@@ -44,9 +46,15 @@ public class Stage {
         for (final EnemyData enemyData : stageData.getEnemyDataList()) {
             final String enemyId = enemyData.getEnemyBaseId();
             if (enemyData.getIsServant()) {
-                this.enemies.add(new Servant(ResourceManager.getServantData(enemyId), enemyData));
+                final int id = Integer.parseInt(enemyId.split("servant")[1]);
+                this.enemies.add(new Servant(SERVANT_DATA_ANCHOR_MAP.get(id).getServantData(), enemyData));
             } else {
-                this.enemies.add(new Combatant(ResourceManager.getEnemyCombatantData(enemyData.getEnemyCategories(), enemyId), enemyData));
+                if (enemyData.hasCombatantDataOverride()) { // always true due to EnemyNode changes
+                    this.enemies.add(new Combatant(enemyData.getCombatantDataOverride(), enemyData));
+                } else {
+                    // just to safeguard
+                    this.enemies.add(new Combatant(ResourceManager.getEnemyCombatantData(enemyData.getEnemyCategories(), enemyId), enemyData));
+                }
             }
         }
         this.traits = new ArrayList<>(stageData.getTraitsList());

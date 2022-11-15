@@ -21,6 +21,7 @@ import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmType;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
+import yome.fgo.simulator.gui.components.CommandCodeDataAnchorPane;
 import yome.fgo.simulator.gui.components.CraftEssenceDataAnchorPane;
 import yome.fgo.simulator.gui.components.EnumConverter;
 import yome.fgo.simulator.gui.components.MysticCodeDataAnchorPane;
@@ -33,6 +34,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import static yome.fgo.simulator.ResourceManager.COMMAND_CODE_DATA_ANCHOR_MAP;
+import static yome.fgo.simulator.ResourceManager.CRAFT_ESSENCE_DATA_ANCHOR_MAP;
+import static yome.fgo.simulator.ResourceManager.MYSTIC_CODE_DATA_ANCHOR_MAP;
+import static yome.fgo.simulator.ResourceManager.SERVANT_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createClassImageView;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
@@ -51,15 +56,16 @@ public class EntityFilterFXMLController implements Initializable {
     private ServantDataAnchorPane servantReturnWrapper;
     private CraftEssenceDataAnchorPane ceReturnWrapper;
     private MysticCodeDataAnchorPane mcReturnWrapper;
+    private CommandCodeDataAnchorPane ccReturnWrapper;
     private ChoiceBox<Gender> genderChoiceBox;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {}
 
-    public void fillServants(final Map<Integer, ServantDataAnchorPane> dataMap, final ServantDataAnchorPane returnWrapper) {
+    public void fillServants(final ServantDataAnchorPane returnWrapper) {
         this.servantReturnWrapper = returnWrapper;
 
-        for (final ServantDataAnchorPane servantDataAnchorPane : dataMap.values()) {
+        for (final ServantDataAnchorPane servantDataAnchorPane : SERVANT_DATA_ANCHOR_MAP.values()) {
             final Button servantSelectButton = new Button();
             servantSelectButton.setGraphic(servantDataAnchorPane);
             servantSelectButton.setOnAction(e -> selectServant(servantDataAnchorPane));
@@ -226,17 +232,14 @@ public class EntityFilterFXMLController implements Initializable {
         stage.close();
     }
 
-    public void fillCraftEssence(
-            final Map<Integer, CraftEssenceDataAnchorPane> dataMap,
-            final CraftEssenceDataAnchorPane returnWrapper
-    ) {
+    public void fillCraftEssence(final CraftEssenceDataAnchorPane returnWrapper) {
         this.ceReturnWrapper = returnWrapper;
 
-        for (final CraftEssenceDataAnchorPane ceDataWrapper : dataMap.values()) {
-            final Button servantSelectButton = new Button();
-            servantSelectButton.setGraphic(ceDataWrapper);
-            servantSelectButton.setOnAction(e -> selectCraftEssence(ceDataWrapper));
-            entityFlowPane.getChildren().add(servantSelectButton);
+        for (final CraftEssenceDataAnchorPane ceDataWrapper : CRAFT_ESSENCE_DATA_ANCHOR_MAP.values()) {
+            final Button selectButton = new Button();
+            selectButton.setGraphic(ceDataWrapper);
+            selectButton.setOnAction(e -> selectCraftEssence(ceDataWrapper));
+            entityFlowPane.getChildren().add(selectButton);
         }
 
         final Label rarityLabel = new Label(getTranslation(APPLICATION_SECTION, "Rarity"));
@@ -285,18 +288,17 @@ public class EntityFilterFXMLController implements Initializable {
     }
 
     public void fillMysticCode(
-            final Map<Integer, MysticCodeDataAnchorPane> mcDataMap,
             final MysticCodeDataAnchorPane returnWrapper,
             final Gender gender
     ) {
         this.mcReturnWrapper = returnWrapper;
 
-        for (final MysticCodeDataAnchorPane dataWrapper : mcDataMap.values()) {
-            final Button servantSelectButton = new Button();
+        for (final MysticCodeDataAnchorPane dataWrapper : MYSTIC_CODE_DATA_ANCHOR_MAP.values()) {
+            final Button selectButton = new Button();
             dataWrapper.setFromGender(gender);
-            servantSelectButton.setGraphic(dataWrapper);
-            servantSelectButton.setOnAction(e -> selectMysticCode(dataWrapper));
-            entityFlowPane.getChildren().add(servantSelectButton);
+            selectButton.setGraphic(dataWrapper);
+            selectButton.setOnAction(e -> selectMysticCode(dataWrapper));
+            entityFlowPane.getChildren().add(selectButton);
         }
 
         final Label genderLabel = new Label(getTranslation(APPLICATION_SECTION, "Gender"));
@@ -327,5 +329,60 @@ public class EntityFilterFXMLController implements Initializable {
             final MysticCodeDataAnchorPane dataWrapper = (MysticCodeDataAnchorPane) button.getGraphic();
             dataWrapper.getImageView().setImage(dataWrapper.getImages().get(imgIndex));
         }
+    }
+
+    public void fillCommandCode(final CommandCodeDataAnchorPane returnWrapper) {
+        this.ccReturnWrapper = returnWrapper;
+
+        for (final CommandCodeDataAnchorPane ccDataWrapper : COMMAND_CODE_DATA_ANCHOR_MAP.values()) {
+            final Button selectButton = new Button();
+            selectButton.setGraphic(ccDataWrapper);
+            selectButton.setOnAction(e -> selectCommandCode(ccDataWrapper));
+            entityFlowPane.getChildren().add(selectButton);
+        }
+
+        final Label rarityLabel = new Label(getTranslation(APPLICATION_SECTION, "Rarity"));
+
+        final ChoiceBox<Integer> rarityChoices = new ChoiceBox<>();
+        rarityChoices.getItems().addAll(-1, 5, 4, 3, 2, 1);
+        rarityChoices.getSelectionModel().selectFirst();
+        rarityChoices.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(final Integer object) {
+                if (object > 0) {
+                    return object.toString();
+                } else {
+                    return getTranslation(APPLICATION_SECTION, "Any Rarity");
+                }
+            }
+
+            @Override
+            public Integer fromString(String string) {
+                return null;
+            }
+        });
+
+        filterHBox.getChildren().addAll(rarityLabel, rarityChoices);
+
+        rarityChoices.setOnAction(e -> filterCommandCode(rarityChoices.getValue()));
+    }
+
+    private void filterCommandCode(final int rarity) {
+        for (final Node node : entityFlowPane.getChildren()) {
+            final Button button = (Button) node;
+            final CommandCodeDataAnchorPane commandCodeDataAnchorPane = (CommandCodeDataAnchorPane) button.getGraphic();
+
+            final boolean rarityMatch = rarity == -1 || commandCodeDataAnchorPane.getCommandCodeData().getRarity() == rarity;
+            button.setVisible(rarityMatch);
+            button.setManaged(rarityMatch);
+        }
+    }
+
+    private void selectCommandCode(final CommandCodeDataAnchorPane commandCodeDataAnchorPane) {
+        if (ccReturnWrapper != null) {
+            ccReturnWrapper.setFrom(commandCodeDataAnchorPane.getCommandCodeData(), commandCodeDataAnchorPane.getImage());
+        }
+        final Stage stage = (Stage) filterHBox.getScene().getWindow();
+        stage.close();
     }
 }

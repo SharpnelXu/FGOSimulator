@@ -29,6 +29,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 
+import static yome.fgo.simulator.ResourceManager.CRAFT_ESSENCE_DATA_ANCHOR_MAP;
+import static yome.fgo.simulator.ResourceManager.SERVANT_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.getUnknownServantThumbnail;
 import static yome.fgo.simulator.gui.components.DataPrinter.printServantOption;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectCraftEssence;
@@ -49,9 +51,6 @@ public class FormationSelector extends VBox {
     private final Slider ceLevelSlider;
     private final CheckBox ceLimitBreakCheck;
     private final CraftEssenceDataAnchorPane defaultCESelection;
-
-    private final Map<Integer, ServantDataAnchorPane> servantDataMap;
-    private final Map<Integer, CraftEssenceDataAnchorPane> ceDataMap;
     private final LevelCreatorFMXLController controller;
 
     private final Button servantSelectButton;
@@ -68,16 +67,12 @@ public class FormationSelector extends VBox {
 
     public FormationSelector(
             final Label errorLabel,
-            final Map<Integer, ServantDataAnchorPane> servantDataMap,
             final Map<Integer, ServantOption> servantOptions,
-            final Map<Integer, CraftEssenceDataAnchorPane> ceDataMap,
             final Map<Integer, CraftEssenceOption> ceOptions,
             final LevelCreatorFMXLController controller
     ) {
         super(10);
 
-        this.servantDataMap = servantDataMap;
-        this.ceDataMap = ceDataMap;
         this.controller = controller;
 
         setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
@@ -134,7 +129,7 @@ public class FormationSelector extends VBox {
         servantSelectButton.setGraphic(selectedServant);
         servantSelectButton.setOnAction(e -> {
             try {
-                final ServantDataAnchorPane selection = selectServant(this.getScene().getWindow(), servantDataMap);
+                final ServantDataAnchorPane selection = selectServant(this.getScene().getWindow());
                 if (selection != null) {
                     final int servantNo = selection.getServantData().getServantNum();
                     servantOption = servantOptions.containsKey(servantNo) ?
@@ -204,7 +199,7 @@ public class FormationSelector extends VBox {
         ceSelectButton.setGraphic(selectedCE);
         ceSelectButton.setOnAction(e -> {
             try {
-                final CraftEssenceDataAnchorPane selection = selectCraftEssence(this.getScene().getWindow(), ceDataMap);
+                final CraftEssenceDataAnchorPane selection = selectCraftEssence(this.getScene().getWindow());
                 if (selection != null) {
                     final int maxLevel = Math.min(
                             defaultCEMaxLevel(selection.getCraftEssenceData().getRarity()),
@@ -318,8 +313,8 @@ public class FormationSelector extends VBox {
             final CraftEssencePreference craftEssencePreference
     ) {
         final int servantNo = servantPreference.getServantNo();
-        if (servantDataMap.containsKey(servantNo)) {
-            final ServantDataAnchorPane reference = servantDataMap.get(servantNo);
+        if (SERVANT_DATA_ANCHOR_MAP.containsKey(servantNo)) {
+            final ServantDataAnchorPane reference = SERVANT_DATA_ANCHOR_MAP.get(servantNo);
             final ServantDataAnchorPane servantSelection = new ServantDataAnchorPane(reference.getServantData(), reference.getAscensionImages());
             servantOption = servantPreference.getOption();
             servantSelection.getImageView().setImage(servantSelection.getAscensionImages().get(servantOption.getAscension() - 1));
@@ -329,8 +324,8 @@ public class FormationSelector extends VBox {
         }
 
         final int ceNo = craftEssencePreference.getCraftEssenceNo();
-        if (ceDataMap.containsKey(ceNo)) {
-            final CraftEssenceDataAnchorPane reference = ceDataMap.get(ceNo);
+        if (CRAFT_ESSENCE_DATA_ANCHOR_MAP.containsKey(ceNo)) {
+            final CraftEssenceDataAnchorPane reference = CRAFT_ESSENCE_DATA_ANCHOR_MAP.get(ceNo);
             final CraftEssenceDataAnchorPane ceSelection = new CraftEssenceDataAnchorPane(reference.getCraftEssenceData(), reference.getImage());
             final CraftEssenceOption ceOption = craftEssencePreference.getOption();
             final int maxLevel = Math.min(
