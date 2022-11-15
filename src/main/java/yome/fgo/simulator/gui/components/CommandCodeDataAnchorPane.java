@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.CC_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 
 @NoArgsConstructor
@@ -25,7 +25,7 @@ public class CommandCodeDataAnchorPane extends AnchorPane {
 
     public void setFrom(final CommandCodeData commandCodeData, final Image image) {
         setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
-        setStyle(UNIT_THUMBNAIL_STYLE);
+        setStyle(CC_THUMBNAIL_STYLE);
         this.commandCodeData = commandCodeData;
         this.image = image;
         imageView = new ImageView(image);

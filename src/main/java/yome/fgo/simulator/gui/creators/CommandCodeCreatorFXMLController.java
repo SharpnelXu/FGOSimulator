@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 import static yome.fgo.simulator.ResourceManager.getCCThumbnail;
 import static yome.fgo.simulator.ResourceManager.readFile;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.CC_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -75,7 +76,7 @@ public class CommandCodeCreatorFXMLController implements Initializable {
         nameLabel.setVisible(false);
         nameLabel.setText(null);
 
-        imgAnchor.setStyle("-fx-border-color: rgba(161,161,161,0.8); -fx-border-style: solid; -fx-border-radius: 3; -fx-border-width: 2; -fx-background-color: rgba(220,245,255,0.73)");
+        imgAnchor.setStyle(CC_THUMBNAIL_STYLE);
         final File thumbnailFile = getCCThumbnail("");
         Image image = null;
         try {

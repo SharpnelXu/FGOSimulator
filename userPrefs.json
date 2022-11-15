@@ -2850,11 +2850,7 @@
         "appendSkillLevels": [0, 0, 0],
         "commandCardOptions": [{
         }, {
-          "commandCode": "commandCode46",
-          "hasCommandCode": true
         }, {
-          "commandCode": "commandCode71",
-          "hasCommandCode": true
         }, {
         }, {
         }],
@@ -2933,18 +2929,24 @@
       }
     }
   }, {
-    "name": "test",
+    "name": "泡馍C呆奥伯龙",
     "servants": [{
-      "servantNo": 349,
+      "servantNo": 316,
       "option": {
         "servantLevel": 90,
         "noblePhantasmRank": 1,
-        "noblePhantasmLevel": 5,
+        "noblePhantasmLevel": 4,
         "attackStatusUp": 1000,
         "healthStatusUp": 1000,
         "activeSkillRanks": [1, 1, 1],
         "activeSkillLevels": [10, 10, 10],
-        "appendSkillLevels": [0, 0, 0],
+        "appendSkillLevels": [1, 10, 0],
+        "commandCardOptions": [{
+        }, {
+        }, {
+        }, {
+        }, {
+        }],
         "bond": 10,
         "ascension": 1
       }
@@ -2973,7 +2975,7 @@
         "ascension": 2
       }
     }, {
-      "servantNo": 349,
+      "servantNo": 284,
       "option": {
         "servantLevel": 90,
         "noblePhantasmRank": 1,
@@ -2983,8 +2985,18 @@
         "activeSkillRanks": [1, 1, 1],
         "activeSkillLevels": [10, 10, 10],
         "appendSkillLevels": [0, 0, 0],
+        "commandCardOptions": [{
+        }, {
+          "commandCode": "commandCode46",
+          "hasCommandCode": true
+        }, {
+          "commandCode": "commandCode71",
+          "hasCommandCode": true
+        }, {
+        }, {
+        }],
         "bond": 10,
-        "ascension": 1
+        "ascension": 2
       }
     }, {
     }, {
@@ -2992,7 +3004,7 @@
     }],
     "craftEssences": [{
     }, {
-      "craftEssenceNo": 683,
+      "craftEssenceNo": 1080,
       "option": {
         "craftEssenceLevel": 100,
         "isLimitBreak": true
@@ -3003,9 +3015,9 @@
     }, {
     }],
     "mysticCode": {
-      "mysticCodeNo": 2,
+      "mysticCodeNo": 3,
       "option": {
-        "mysticCodeLevel": 10,
+        "mysticCodeLevel": 6,
         "gender": "FEMALE"
       }
     }

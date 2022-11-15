@@ -7,7 +7,6 @@ import yome.fgo.data.proto.FgoStorageData.CommandCardData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
-import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory;
@@ -18,6 +17,8 @@ import yome.fgo.simulator.utils.RoundUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static yome.fgo.simulator.ResourceManager.COMMAND_CODE_DATA_ANCHOR_MAP;
 
 @AllArgsConstructor
 @Getter
@@ -50,7 +51,8 @@ public class CommandCard {
         this.commandCardData = commandCardData;
 
         if (commandCardOption.getHasCommandCode()) {
-            final CommandCodeData commandCodeData = ResourceManager.getCommandCodeData(commandCardOption.getCommandCode());
+            final int id = Integer.parseInt(commandCardOption.getCommandCode().split("commandCode")[1]);
+            final CommandCodeData commandCodeData = COMMAND_CODE_DATA_ANCHOR_MAP.get(id).getCommandCodeData();
             this.commandCodeData = commandCodeData;
             this.commandCodeBuffs = commandCodeData.getBuffsList()
                     .stream()

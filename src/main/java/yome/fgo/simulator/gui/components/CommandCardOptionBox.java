@@ -2,21 +2,29 @@ package yome.fgo.simulator.gui.components;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
+import yome.fgo.simulator.gui.creators.EntitySelector;
 
+import java.io.IOException;
+
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
 public class CommandCardOptionBox extends VBox {
     private final Slider strengthenSlider;
-    private final TextField commandCodeText;
+    private final Label commandCodeNameLabel;
+
+    private String selectedCommandCode;
 
     public CommandCardOptionBox() {
         super();
@@ -49,13 +57,39 @@ public class CommandCardOptionBox extends VBox {
         strengthenHBox.getChildren().addAll(strengthenLabel, strengthenValueLabel, strengthenSlider);
 
         final Label commandCodeLabel = new Label(getTranslation(APPLICATION_SECTION, "Command Code"));
-        commandCodeText = new TextField();
-        HBox.setHgrow(commandCodeText, Priority.ALWAYS);
+
+        final Button editCCButton = new Button();
+        editCCButton.setGraphic(createInfoImageView("edit"));
+        editCCButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "SelectCommandCode")));
+
+        final Button removeCCButton = new Button();
+        removeCCButton.setGraphic(createInfoImageView("remove"));
+        removeCCButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "RemoveCommandCode")));
+
+        this.commandCodeNameLabel = new Label(getTranslation(APPLICATION_SECTION, "Empty"));
+        HBox.setHgrow(this.commandCodeNameLabel, Priority.ALWAYS);
+
+        editCCButton.setOnAction(e -> {
+            try {
+                final CommandCodeDataAnchorPane selection = EntitySelector.selectCommandCode(this.getScene().getWindow());
+                if (selection != null) {
+                    selectedCommandCode = selection.getCommandCodeData().getId();
+                    commandCodeNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, selectedCommandCode));
+                }
+            } catch (final IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        removeCCButton.setOnAction(e -> {
+            selectedCommandCode = null;
+            commandCodeNameLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
+        });
+
         final HBox commandCodeHBox = new HBox();
         commandCodeHBox.setSpacing(10);
         commandCodeHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
         commandCodeHBox.setAlignment(Pos.CENTER_LEFT);
-        commandCodeHBox.getChildren().addAll(commandCodeLabel, commandCodeText);
+        commandCodeHBox.getChildren().addAll(commandCodeLabel, editCCButton, removeCCButton, this.commandCodeNameLabel);
 
         getChildren().addAll(strengthenHBox, commandCodeHBox);
     }
@@ -63,7 +97,10 @@ public class CommandCardOptionBox extends VBox {
     public CommandCardOptionBox(final CommandCardOption source) {
         this();
         strengthenSlider.setValue(source.getStrengthen() / 20);
-        commandCodeText.setText(source.getCommandCode());
+        if (source.getHasCommandCode()) {
+            selectedCommandCode = source.getCommandCode();
+            commandCodeNameLabel.setText(getTranslation(ENTITY_NAME_SECTION, source.getCommandCode()));
+        }
     }
 
     public void setType(final CommandCardType commandCardType) {
@@ -83,9 +120,8 @@ public class CommandCardOptionBox extends VBox {
         final CommandCardOption.Builder builder = CommandCardOption.newBuilder()
                 .setStrengthen((int) strengthenSlider.getValue() * 20);
 
-        if (!commandCodeText.getText().trim().isEmpty()) {
-            builder.setHasCommandCode(true)
-                    .setCommandCode(commandCodeText.getText().trim());
+        if (selectedCommandCode != null) {
+            builder.setHasCommandCode(true).setCommandCode(selectedCommandCode);
         }
 
         return builder.build();
