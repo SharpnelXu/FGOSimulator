@@ -92,8 +92,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
   - <img src="./Icons/Simulation/edit.png" alt="编辑从者设置" width="30" align="center"/>：编辑从者的再临、等级等具体的设置。
   - <img src="./Icons/Simulation/remove.png" alt="移除选择" width="30" align="center"/>：将从者或礼装从编队中移除。
 - 从者设置界面中，附加技能设置为0则为未开放。
-- 指令纹章的格式为`commandCode<指令纹章编号>`，可以对照Mooncell或者`zh_CN.ini`中的翻译来找想要的纹章的编号。
-不过要注意的是绝大部分纹章可能需要自己制作。
+- 指令纹章可以通过点击从者设置界面中的<img src="./Icons/Simulation/edit.png" alt="编辑从者设置" width="30" align="center"/>图标进行选择。
 - 羁绊等级现在暂无实际用途。
 - 点击开始模拟后，队伍中从者、礼装、御主装备的设置将会保存至`userPrefs.json`。
 如果队伍中有同名从者/礼装，则保存最右边的从者/礼装的设置，但进入关卡时的设置还是各自的设置，只是保存时会选最右的保存。
@@ -462,6 +461,8 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
     - 取消特殊发动目标这一设置，原本的特殊目标现在只需要在效果编辑器内列出即可
     - 新增编队储存功能
     - 尝试对小屏幕进行适配
+    - 指令纹章选择功能
+    - Atlas数据转换器（开发中）
   - 效果相关：
     - 新增宝具随机效果（尺芬奇）
     - 删除最大HP改变（并未删除Buff），其原本功能由付与状态继承。此改动应无实际效果除了读取旧数据时可能会报错
