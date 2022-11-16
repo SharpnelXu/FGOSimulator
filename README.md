@@ -462,7 +462,6 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
     - 新增编队储存功能
     - 尝试对小屏幕进行适配
     - 指令纹章选择功能
-    - Atlas数据转换器（开发中）
   - 效果相关：
     - 新增宝具随机效果（尺芬奇）
     - 删除最大HP改变（并未删除Buff），其原本功能由付与状态继承。此改动应无实际效果除了读取旧数据时可能会报错

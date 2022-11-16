@@ -93,8 +93,7 @@ public class MainMenuFXMLController implements Initializable {
                 levelCreatorButton,
                 enemyCreatorButton,
                 commandCodeCreatorButton,
-                mysticCodeCreatorButton,
-                converterButton
+                mysticCodeCreatorButton
         );
         for (final Button button : buttons) {
             final AnchorPane wrapper = new AnchorPane();
