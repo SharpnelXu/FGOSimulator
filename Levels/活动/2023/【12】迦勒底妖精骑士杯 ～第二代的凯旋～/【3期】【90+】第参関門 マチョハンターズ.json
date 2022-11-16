@@ -1,0 +1,120 @@
+{
+  "id": "【3期】【90+】第参関門 マチョハンターズ",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "魔猿",
+      "hpBars": [80361],
+      "combatantDataOverride": {
+        "id": "魔猿",
+        "rarity": 2,
+        "fateClass": "BERSERKER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.8
+      },
+      "enemyCategories": "魔猿/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["摩根祭"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "魔猪",
+      "hpBars": [31238],
+      "combatantDataOverride": {
+        "id": "魔猪",
+        "rarity": 3,
+        "fateClass": "BERSERKER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "魔猪/"
+    }, {
+      "enemyBaseId": "魔猪",
+      "hpBars": [31906],
+      "combatantDataOverride": {
+        "id": "魔猪",
+        "rarity": 3,
+        "fateClass": "BERSERKER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "魔猪/"
+    }, {
+      "enemyBaseId": "巨大魔猪",
+      "hpBars": [120126],
+      "combatantDataOverride": {
+        "id": "巨大魔猪",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "attribute": "EARTH",
+        "traits": ["WILD_BEAST", "DEMONIC", "MASSIVE"],
+        "deathRate": 0.01
+      },
+      "enemyCategories": "巨大魔猪/"
+    }],
+    "maximumEnemiesOnScreen": 3
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant206",
+      "hpBars": [122260],
+      "combatantDataOverride": {
+        "id": "servant206",
+        "rarity": 5,
+        "fateClass": "RIDER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "BALANCED"],
+        "attribute": "EARTH",
+        "traits": ["DIVINE", "RIDING", "BRYNHILDS_BELOVED", "GREEK_MYTHOLOGY_MALES", "HOMINIDAE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant206/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant279",
+      "hpBars": [103788],
+      "combatantDataOverride": {
+        "id": "servant279",
+        "rarity": 4,
+        "fateClass": "LANCER",
+        "gender": "OTHER",
+        "alignments": ["NEUTRAL", "EVIL"],
+        "attribute": "EARTH",
+        "traits": ["DIVINE", "FEMININE_LOOKING_SERVANT", "CAENIS", "BRYNHILDS_BELOVED", "KING", "ASSOCIATED_TO_THE_ARGO", "DIVINE_SPIRIT", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant279/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "servant47",
+      "hpBars": [181524],
+      "combatantDataOverride": {
+        "id": "servant47",
+        "rarity": 4,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "INSANE"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "GREEK_MYTHOLOGY_MALES", "ASSOCIATED_TO_THE_ARGO", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant47/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3
+  }]
+}

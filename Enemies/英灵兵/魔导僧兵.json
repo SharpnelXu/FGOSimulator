@@ -1,0 +1,10 @@
+{
+  "id": "魔导僧兵",
+  "rarity": 3,
+  "fateClass": "RIDER",
+  "attribute": "EARTH",
+  "traits": ["MECHANICAL", "HUMANOID"],
+  "deathRate": 0.5,
+  "enemyPassiveSkillData": [{
+  }]
+}

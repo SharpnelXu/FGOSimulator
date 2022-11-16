@@ -1,0 +1,126 @@
+{
+  "id": "【3期】【90++】第参関門 3択RIKISI",
+  "stageData": [{
+    "enemyData": [{
+      "enemyBaseId": "英灵兵",
+      "hpBars": [35839],
+      "combatantDataOverride": {
+        "id": "英灵兵",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "attribute": "EARTH",
+        "traits": ["MECHANICAL"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "英灵兵/"
+    }, {
+      "enemyBaseId": "英灵兵",
+      "hpBars": [36531],
+      "combatantDataOverride": {
+        "id": "英灵兵",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "attribute": "EARTH",
+        "traits": ["MECHANICAL"],
+        "deathRate": 0.5,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "英灵兵/"
+    }, {
+      "enemyBaseId": "servant125",
+      "hpBars": [127400],
+      "combatantDataOverride": {
+        "id": "servant125",
+        "rarity": 3,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "alignments": ["NEUTRAL", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant125/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["摩根祭", "BURNING"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant350",
+      "hpBars": [235300],
+      "combatantDataOverride": {
+        "id": "servant350",
+        "rarity": 5,
+        "fateClass": "ARCHER",
+        "gender": "MALE",
+        "alignments": ["NEUTRAL", "BALANCED"],
+        "attribute": "MAN",
+        "traits": ["BRYNHILDS_BELOVED", "GENJI", "MECHANICAL", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant350/",
+      "isServant": true
+    }, {
+      "enemyBaseId": "黑武者",
+      "hpBars": [54413],
+      "combatantDataOverride": {
+        "id": "黑武者",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "attribute": "SKY",
+        "traits": ["HUMANOID", "UNDEAD", "DEMONIC"],
+        "deathRate": 0.2,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "黑武者/"
+    }, {
+      "enemyBaseId": "秽神",
+      "hpBars": [146979],
+      "combatantDataOverride": {
+        "id": "秽神",
+        "rarity": 4,
+        "fateClass": "ARCHER",
+        "attribute": "EARTH",
+        "traits": ["DEMONIC", "MASSIVE"],
+        "deathRate": 0.01,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "enemyCategories": "秽神/"
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["BURNING"]
+  }, {
+    "enemyData": [{
+      "enemyBaseId": "servant51",
+      "hpBars": [1021200],
+      "combatantDataOverride": {
+        "id": "servant51",
+        "rarity": 5,
+        "fateClass": "BERSERKER",
+        "gender": "MALE",
+        "alignments": ["LAWFUL", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["DIVINE", "BRYNHILDS_BELOVED", "HOMINIDAE_SERVANT", "GENJI", "FAIRY_TALE_SERVANT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.002,
+        "enemyPassiveSkillData": [{
+        }]
+      },
+      "servantAscension": 1,
+      "enemyCategories": "servant51/",
+      "isServant": true
+    }],
+    "maximumEnemiesOnScreen": 3,
+    "traits": ["BURNING"]
+  }]
+}
