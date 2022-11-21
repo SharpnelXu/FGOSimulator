@@ -557,7 +557,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [0, 10, 0],
       "commandCardOptions": [{
       }, {
         "commandCode": "commandCode46",
