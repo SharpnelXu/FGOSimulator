@@ -84,6 +84,43 @@
           }]
         }],
         "iconName": "npGainUp"
+      }, {
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "NpGenerationBuff",
+            "numTurnsActive": 3,
+            "values": [0.2, 0.23, 0.26, 0.29, 0.32, 0.35, 0.38, 0.41, 0.44, 0.5],
+            "buffIcon": "npGainUp"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "SELF",
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostAttackEffect",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "IsCriticalStrike"
+            },
+            "subEffects": [{
+              "type": "RemoveBuff",
+              "target": "DEFENDER",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "POSITIVE_BUFF"
+              },
+              "intValues": [1]
+            }],
+            "buffIcon": "attackApplyDebuff"
+          }]
+        }],
+        "iconName": "npGainUp"
       }]
     }, {
       "activeSkillData": [{
@@ -921,6 +958,43 @@
             "numTurnsActive": 3,
             "values": [0.2, 0.23, 0.26, 0.29, 0.32, 0.35, 0.38, 0.41, 0.44, 0.5],
             "buffIcon": "npGainUp"
+          }]
+        }],
+        "iconName": "npGainUp"
+      }, {
+        "baseCoolDown": 8,
+        "effects": [{
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "NpGenerationBuff",
+            "numTurnsActive": 3,
+            "values": [0.2, 0.23, 0.26, 0.29, 0.32, 0.35, 0.38, 0.41, 0.44, 0.5],
+            "buffIcon": "npGainUp"
+          }]
+        }, {
+          "type": "NpChange",
+          "target": "SELF",
+          "values": [0.2, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.3]
+        }, {
+          "type": "GrantBuff",
+          "target": "SELF",
+          "buffData": [{
+            "type": "PostAttackEffect",
+            "numTurnsActive": 3,
+            "applyCondition": {
+              "type": "IsCriticalStrike"
+            },
+            "subEffects": [{
+              "type": "RemoveBuff",
+              "target": "DEFENDER",
+              "applyCondition": {
+                "type": "BuffHasTrait",
+                "value": "POSITIVE_BUFF"
+              },
+              "intValues": [1]
+            }],
+            "buffIcon": "attackApplyDebuff"
           }]
         }],
         "iconName": "npGainUp"
