@@ -1,0 +1,11 @@
+{
+  "id": "派对鬼魂",
+  "rarity": 3,
+  "fateClass": "ASSASSIN",
+  "attribute": "SKY",
+  "traits": ["UNDEAD", "DEMONIC"],
+  "deathRate": 0.8,
+  "undeadNpCorrection": true,
+  "enemyPassiveSkillData": [{
+  }]
+}
