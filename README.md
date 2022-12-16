@@ -20,6 +20,11 @@ Also, this simulator supports translations. If you are interested, you can put y
 
 ![看板娘](./ReadmePic/System/sim娘.png)
 
+## 没什么别的意思，只是给大家看看我十五绊的两只迦摩
+
+![夹馍](./ReadmePic/MyKama/kama.jpg)
+![泡馍](./ReadmePic/MyKama/kama2.jpg)
+
 ## 使用说明
 
 ### 下载
