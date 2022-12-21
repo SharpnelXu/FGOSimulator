@@ -172,11 +172,11 @@
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant282",
+        "value": "servant53",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
-        "value": "servant53",
+        "value": "servant282",
         "target": "EFFECT_TARGET"
       }, {
         "type": "TargetsContainsSpecificServant",
