@@ -577,7 +577,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 10, 0],
+      "appendSkillLevels": [0, 0, 0],
       "commandCardOptions": [{
       }, {
         "commandCode": "commandCode46",
@@ -1056,6 +1056,26 @@
       "ascension": 1
     }
   }, {
+    "servantNo": 311,
+    "option": {
+      "servantLevel": 80,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [8, 8, 8],
+      "appendSkillLevels": [4, 4, 4],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
     "servantNo": 312,
     "option": {
       "servantLevel": 90,
@@ -1065,7 +1085,7 @@
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [1, 1, 1],
+      "appendSkillLevels": [9, 10, 10],
       "commandCardOptions": [{
       }, {
       }, {
@@ -1175,10 +1195,10 @@
       "servantLevel": 70,
       "noblePhantasmRank": 2,
       "noblePhantasmLevel": 5,
-      "attackStatusUp": 500,
+      "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [1, 1, 1],
-      "activeSkillLevels": [6, 6, 6],
+      "activeSkillLevels": [9, 9, 9],
       "appendSkillLevels": [0, 0, 0],
       "commandCardOptions": [{
       }, {
@@ -2026,14 +2046,20 @@
   }, {
     "servantNo": 155,
     "option": {
-      "servantLevel": 90,
+      "servantLevel": 100,
       "noblePhantasmRank": 2,
       "noblePhantasmLevel": 5,
       "attackStatusUp": 1000,
       "healthStatusUp": 1000,
       "activeSkillRanks": [2, 2, 1],
       "activeSkillLevels": [10, 10, 10],
-      "appendSkillLevels": [0, 0, 0],
+      "appendSkillLevels": [9, 9, 9],
+      "commandCardOptions": [{
+      }, {
+      }, {
+      }, {
+      }, {
+      }],
       "bond": 10,
       "ascension": 1
     }
@@ -2298,6 +2324,20 @@
       }, {
       }, {
       }],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
+    "servantNo": 197,
+    "option": {
+      "servantLevel": 80,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
       "bond": 10,
       "ascension": 1
     }
@@ -3027,7 +3067,7 @@
   }, {
     "mysticCodeNo": 11,
     "option": {
-      "mysticCodeLevel": 10,
+      "mysticCodeLevel": 6,
       "gender": "FEMALE"
     }
   }, {
@@ -3349,16 +3389,16 @@
     }, {
     }],
     "mysticCode": {
-      "mysticCodeNo": 2,
+      "mysticCodeNo": 3,
       "option": {
         "mysticCodeLevel": 10,
         "gender": "FEMALE"
       }
     }
   }, {
-    "name": "狂那w杀兔",
+    "name": "wCBA",
     "servants": [{
-      "servantNo": 314,
+      "servantNo": 215,
       "option": {
         "servantLevel": 90,
         "noblePhantasmRank": 1,
@@ -3367,7 +3407,7 @@
         "healthStatusUp": 1000,
         "activeSkillRanks": [1, 1, 1],
         "activeSkillLevels": [10, 10, 10],
-        "appendSkillLevels": [0, 1, 0],
+        "appendSkillLevels": [0, 0, 0],
         "commandCardOptions": [{
         }, {
         }, {
@@ -3378,37 +3418,8 @@
         "ascension": 1
       }
     }, {
-      "servantNo": 247,
-      "option": {
-        "servantLevel": 90,
-        "noblePhantasmRank": 1,
-        "noblePhantasmLevel": 3,
-        "attackStatusUp": 1000,
-        "healthStatusUp": 1000,
-        "activeSkillRanks": [1, 1, 1],
-        "activeSkillLevels": [10, 10, 9],
-        "appendSkillLevels": [1, 10, 0],
-        "commandCardOptions": [{
-          "commandCode": "commandCode50",
-          "hasCommandCode": true
-        }, {
-          "commandCode": "commandCode50",
-          "hasCommandCode": true
-        }, {
-          "commandCode": "commandCode50",
-          "hasCommandCode": true
-        }, {
-          "commandCode": "commandCode50",
-          "hasCommandCode": true
-        }, {
-          "commandCode": "commandCode50",
-          "hasCommandCode": true
-        }],
-        "bond": 10,
-        "ascension": 1
-      }
     }, {
-      "servantNo": 314,
+      "servantNo": 215,
       "option": {
         "servantLevel": 90,
         "noblePhantasmRank": 1,
@@ -3417,7 +3428,7 @@
         "healthStatusUp": 1000,
         "activeSkillRanks": [1, 1, 1],
         "activeSkillLevels": [10, 10, 10],
-        "appendSkillLevels": [0, 1, 0],
+        "appendSkillLevels": [0, 0, 0],
         "commandCardOptions": [{
         }, {
         }, {
@@ -3439,7 +3450,106 @@
     }, {
     }],
     "mysticCode": {
-      "mysticCodeNo": 3,
+      "mysticCodeNo": 2,
+      "option": {
+        "mysticCodeLevel": 10,
+        "gender": "FEMALE"
+      }
+    }
+  }, {
+    "name": "妖兰",
+    "servants": [{
+      "servantNo": 314,
+      "option": {
+        "servantLevel": 90,
+        "noblePhantasmRank": 1,
+        "noblePhantasmLevel": 5,
+        "attackStatusUp": 1000,
+        "healthStatusUp": 1000,
+        "activeSkillRanks": [1, 1, 1],
+        "activeSkillLevels": [10, 10, 10],
+        "appendSkillLevels": [0, 1, 0],
+        "commandCardOptions": [{
+        }, {
+        }, {
+        }, {
+        }, {
+        }],
+        "bond": 10,
+        "ascension": 1
+      }
+    }, {
+      "servantNo": 312,
+      "option": {
+        "servantLevel": 90,
+        "noblePhantasmRank": 1,
+        "noblePhantasmLevel": 5,
+        "attackStatusUp": 1000,
+        "healthStatusUp": 1000,
+        "activeSkillRanks": [1, 1, 1],
+        "activeSkillLevels": [10, 10, 10],
+        "appendSkillLevels": [9, 10, 10],
+        "commandCardOptions": [{
+        }, {
+        }, {
+        }, {
+        }, {
+        }],
+        "bond": 10,
+        "ascension": 1
+      }
+    }, {
+      "servantNo": 314,
+      "option": {
+        "servantLevel": 90,
+        "noblePhantasmRank": 1,
+        "noblePhantasmLevel": 5,
+        "attackStatusUp": 1000,
+        "healthStatusUp": 1000,
+        "activeSkillRanks": [1, 1, 1],
+        "activeSkillLevels": [10, 10, 10],
+        "appendSkillLevels": [0, 1, 0],
+        "commandCardOptions": [{
+        }, {
+        }, {
+        }, {
+        }, {
+        }],
+        "bond": 10,
+        "ascension": 1
+      }
+    }, {
+      "servantNo": 316,
+      "option": {
+        "servantLevel": 90,
+        "noblePhantasmRank": 1,
+        "noblePhantasmLevel": 4,
+        "attackStatusUp": 1000,
+        "healthStatusUp": 1000,
+        "activeSkillRanks": [1, 1, 1],
+        "activeSkillLevels": [10, 10, 10],
+        "appendSkillLevels": [1, 10, 0],
+        "commandCardOptions": [{
+        }, {
+        }, {
+        }, {
+        }, {
+        }],
+        "bond": 10,
+        "ascension": 1
+      }
+    }, {
+    }, {
+    }],
+    "craftEssences": [{
+    }, {
+    }, {
+    }, {
+    }, {
+    }, {
+    }],
+    "mysticCode": {
+      "mysticCodeNo": 2,
       "option": {
         "mysticCodeLevel": 10,
         "gender": "FEMALE"

@@ -199,6 +199,8 @@ public class CommandCardExecution {
             simulation.getStatsLogger().logDamageParameter(critStarParams.toString());
         }
 
+        // move this before defender buff consumption. Based on my testing:
+        // - if invulnerable/evasion, will not apply any defender buff
         final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
 
         final int totalDamage = calculateTotalDamage(damageParameters);
