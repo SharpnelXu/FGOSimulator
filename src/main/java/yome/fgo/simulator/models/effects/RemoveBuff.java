@@ -20,10 +20,23 @@ public class RemoveBuff extends IntValuedEffect {
     private final Target target;
     private final boolean removeFromStart;
 
-    public boolean shouldRemove(final Buff buff, final Simulation simulation) {
-        return !buff.isIrremovable() && shouldApply(simulation);
-    }
+    public boolean shouldRemove(
+            final Buff buff,
+            final Simulation simulation,
+            final Combatant combatant,
+            final double probability
+    ) {
+        if (buff.isIrremovable() || !shouldApply(simulation)) {
+            return false;
+        }
 
+        final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
+        final double activationProbability = probability - buffRemovalResist;
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logProbability(combatant.getId(), activationProbability, simulation.getProbabilityThreshold());
+        }
+        return activationProbability >= simulation.getProbabilityThreshold();
+    }
 
     @Override
     protected void internalApply(final Simulation simulation, final int level) {
@@ -58,16 +71,9 @@ public class RemoveBuff extends IntValuedEffect {
 
             simulation.setCurrentBuff(buff);
 
-            if (shouldRemove(buff, simulation)) {
-                final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
-                final double activationProbability = probability - buffRemovalResist;
-                if (simulation.getStatsLogger() != null) {
-                    simulation.getStatsLogger().logProbability(combatant.getId(), activationProbability, simulation.getProbabilityThreshold());
-                }
-                if (activationProbability >= simulation.getProbabilityThreshold()) {
-                    buffList.remove(j);
-                    removeCount += 1;
-                }
+            if (shouldRemove(buff, simulation, combatant, probability)) {
+                buffList.remove(j);
+                removeCount += 1;
             }
 
             simulation.unsetCurrentBuff();
@@ -91,17 +97,10 @@ public class RemoveBuff extends IntValuedEffect {
 
             simulation.setCurrentBuff(buff);
 
-            if (shouldRemove(buff, simulation)) {
-                final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
-                final double activationProbability = probability - buffRemovalResist;
-                if (simulation.getStatsLogger() != null) {
-                    simulation.getStatsLogger().logProbability(combatant.getId(), activationProbability, simulation.getProbabilityThreshold());
-                }
-                if (activationProbability >= simulation.getProbabilityThreshold()) {
-                    buffList.remove(i);
-                    i -= 1;
-                    removeCount += 1;
-                }
+            if (shouldRemove(buff, simulation, combatant, probability)) {
+                buffList.remove(i);
+                i -= 1;
+                removeCount += 1;
             }
 
             simulation.unsetCurrentBuff();
