@@ -9,106 +9,36 @@
       "target": "ACTIVATOR"
     },
     "buffData": [{
-      "type": "EnterFieldEffect",
-      "subEffects": [{
-        "type": "GrantBuff",
+      "type": "OnFieldEffect",
+      "onFieldBuffParams": {
         "target": "ALL_ALLIES_INCLUDING_BACKUP",
-        "buffData": [{
+        "buffData": {
           "type": "AttackBuff",
           "values": [0.1],
-          "customTraits": ["POSITIVE_BUFF", "ATTACKER_BUFF", "约定之刻A"],
-          "irremovable": true,
-          "hasCustomTraits": true,
           "buffIcon": "attackUp"
-        }],
-        "probabilities": [50.0]
-      }, {
-        "type": "GrantBuff",
-        "target": "SELF",
-        "buffData": [{
-          "type": "LeaveFieldEffect",
-          "subEffects": [{
-            "type": "ForceRemoveBuff",
-            "target": "ALL_ALLIES_INCLUDING_BACKUP",
-            "applyCondition": {
-              "type": "BuffHasTrait",
-              "value": "约定之刻A"
-            },
-            "probabilities": [50.0],
-            "intValues": [1]
-          }],
-          "irremovable": true,
-          "buffIcon": "delayedEffect"
-        }]
-      }, {
-        "type": "GrantBuff",
-        "target": "SELF",
-        "buffData": [{
-          "type": "DeathEffect",
-          "subEffects": [{
-            "type": "ForceRemoveBuff",
-            "target": "ALL_ALLIES_INCLUDING_BACKUP",
-            "applyCondition": {
-              "type": "BuffHasTrait",
-              "value": "约定之刻A"
-            },
-            "probabilities": [50.0],
-            "intValues": [1]
-          }],
-          "irremovable": true,
-          "buffIcon": "leaveFieldDebuff"
-        }]
-      }, {
-        "type": "GrantBuff",
+        }
+      },
+      "buffIcon": "attackUp"
+    }]
+  }, {
+    "type": "GrantBuff",
+    "target": "SELF",
+    "applyCondition": {
+      "type": "TargetsContainsSpecificServant",
+      "value": "servant284",
+      "target": "ACTIVATOR"
+    },
+    "buffData": [{
+      "type": "OnFieldEffect",
+      "onFieldBuffParams": {
         "target": "ALL_ALLIES_INCLUDING_BACKUP",
-        "buffData": [{
+        "buffData": {
           "type": "NpGenerationBuff",
           "values": [0.1],
-          "customTraits": ["POSITIVE_BUFF", "约定之刻B"],
-          "irremovable": true,
-          "hasCustomTraits": true,
           "buffIcon": "npGainUp"
-        }],
-        "probabilities": [50.0]
-      }, {
-        "type": "GrantBuff",
-        "target": "SELF",
-        "buffData": [{
-          "type": "LeaveFieldEffect",
-          "subEffects": [{
-            "type": "ForceRemoveBuff",
-            "target": "ALL_ALLIES_INCLUDING_BACKUP",
-            "applyCondition": {
-              "type": "BuffHasTrait",
-              "value": "约定之刻B"
-            },
-            "probabilities": [50.0],
-            "intValues": [1]
-          }],
-          "irremovable": true,
-          "buffIcon": "delayedEffect"
-        }]
-      }, {
-        "type": "GrantBuff",
-        "target": "SELF",
-        "buffData": [{
-          "type": "DeathEffect",
-          "subEffects": [{
-            "type": "ForceRemoveBuff",
-            "target": "ALL_ALLIES_INCLUDING_BACKUP",
-            "applyCondition": {
-              "type": "BuffHasTrait",
-              "value": "约定之刻B"
-            },
-            "probabilities": [50.0],
-            "intValues": [1]
-          }],
-          "irremovable": true,
-          "buffIcon": "leaveFieldDebuff"
-        }]
-      }],
-      "irremovable": true,
-      "buffIcon": "delayedBuff"
+        }
+      },
+      "buffIcon": "npGainUp"
     }]
   }],
   "cost": 9,

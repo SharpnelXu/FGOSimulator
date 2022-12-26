@@ -7,8 +7,15 @@ import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
+import yome.fgo.data.proto.FgoStorageData.OnFieldBuffParams;
+import yome.fgo.data.proto.FgoStorageData.Target;
+import yome.fgo.simulator.models.conditions.And;
+import yome.fgo.simulator.models.conditions.BuffHasTrait;
 import yome.fgo.simulator.models.conditions.BuffTypeEquals;
+import yome.fgo.simulator.models.conditions.ConditionFactory;
 import yome.fgo.simulator.models.effects.EffectFactory;
+import yome.fgo.simulator.models.effects.ForceGrantBuff;
+import yome.fgo.simulator.models.effects.ForceRemoveBuff;
 import yome.fgo.simulator.models.effects.GrantBuff;
 import yome.fgo.simulator.models.variations.VariationFactory;
 
@@ -27,6 +34,7 @@ import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.data.proto.FgoStorageData.Traits.BLESSED_BY_KUR;
 import static yome.fgo.data.proto.FgoStorageData.Traits.BURNING_LOVE;
 import static yome.fgo.data.proto.FgoStorageData.Traits.VENGEANCE;
+import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 import static yome.fgo.simulator.models.conditions.ConditionFactory.buildCondition;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CLASS_ADV;
@@ -34,11 +42,14 @@ import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUF
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_EFFECTS;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_INT_VALUE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_NO_VARIATION;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_ON_FIELD;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_PERCENT_OPTION;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_STRING_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.OnFieldEffect.ON_FIELD_BUFF_MARK;
 
 public class BuffFactory {
     public static final Map<String, Set<BuffFields>> BUFF_REQUIRED_FIELDS_MAP = buildRequiredBuffFieldsMap();
+
     public enum BuffFields {
         BUFF_FIELD_DOUBLE_VALUE,
         BUFF_FIELD_INT_VALUE,
@@ -47,7 +58,8 @@ public class BuffFactory {
         BUFF_FIELD_EFFECTS,
         BUFF_FIELD_PERCENT_OPTION,
         BUFF_FIELD_CLASS_ADV,
-        BUFF_FIELD_CARD_TYPE
+        BUFF_FIELD_CARD_TYPE,
+        BUFF_FIELD_ON_FIELD
     }
 
     public static Buff buildBuff(final BuffData buffData, final int level) {
@@ -295,6 +307,46 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(NpSeal.class.getSimpleName())) {
             return setCommonBuffParams(NpSeal.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(OnFieldEffect.class.getSimpleName())) {
+            final OnFieldEffect.OnFieldEffectBuilder<?, ?> builder = OnFieldEffect.builder();
+            final OnFieldBuffParams onFieldBuffParams = buffData.getOnFieldBuffParams();
+            final Buff baseBuff = buildBuff(onFieldBuffParams.getBuffData(), level);
+            builder.activatedBuffBase(baseBuff);
+
+            final Target target = onFieldBuffParams.getTarget();
+            builder.target(target);
+
+            final String buffHash = "" + baseBuff.hashCode();
+            final BuffData baseBuffData = onFieldBuffParams.getBuffData().toBuilder()
+                    .clearCustomTraits()
+                    .addAllCustomTraits(baseBuff.buffTraits)
+                    .addCustomTraits(ON_FIELD_BUFF_MARK)
+                    .addCustomTraits(buffHash)
+                    .setHasCustomTraits(true)
+                    .setIrremovable(true)
+                    .build();
+            final ForceGrantBuff forceGrantBuff = ForceGrantBuff.builder()
+                    .target(target)
+                    .buffData(List.of(baseBuffData))
+                    .applyCondition(
+                            buffData.hasApplyCondition()
+                                    ? ConditionFactory.buildCondition(buffData.getApplyCondition())
+                                    : ALWAYS
+                            )
+                    .buffLevel(level)
+                    .build();
+            builder.forceGrantBuff(forceGrantBuff);
+
+            final ForceRemoveBuff forceRemoveBuff = ForceRemoveBuff.builder()
+                    .target(target)
+                    .removeFromStart(false)
+                    .values(List.of(1))
+                    .applyCondition(new And(List.of(new BuffHasTrait(ON_FIELD_BUFF_MARK), new BuffHasTrait(buffHash))))
+                    .build();
+            builder.forceRemoveBuff(forceRemoveBuff);
+
+            return setCommonBuffParams(builder, buffData, level);
+
         } else if (type.equalsIgnoreCase(OverchargeBuff.class.getSimpleName())) {
             final OverchargeBuff.OverchargeBuffBuilder<?, ?> builder = OverchargeBuff.builder();
             final int value = (int) getValueFromListForLevel(buffData.getValuesList(), level);
@@ -332,7 +384,11 @@ public class BuffFactory {
             return setEffectActivatingBuffParams(PreDefenseEffect.builder(), buffData, level);
 
         } else if (type.equalsIgnoreCase(PreventDeathAgainstDoT.class.getSimpleName())) {
-            return setCommonBuffParams(PreventDeathAgainstDoT.builder().type(buffData.getStringValue()), buffData, level);
+            return setCommonBuffParams(
+                    PreventDeathAgainstDoT.builder().type(buffData.getStringValue()),
+                    buffData,
+                    level
+            );
 
         } else if (type.equalsIgnoreCase(ReceivedBuffChanceBuff.class.getSimpleName())) {
             return setValuedBuffParams(ReceivedBuffChanceBuff.builder(), buffData, level);
@@ -426,7 +482,7 @@ public class BuffFactory {
         builder.buffData(buffData);
         builder.buffLevel(level);
 
-        final Buff buff =  builder.build();
+        final Buff buff = builder.build();
         if (buffData.getHasCustomTraits()) {
             buff.getBuffTraits().addAll(buffData.getCustomTraitsList());
         } else {
@@ -515,7 +571,10 @@ public class BuffFactory {
         builder.put(CriticalStarWeightBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(NpGenerationBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
         builder.put(DefNpGenerationBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
-        builder.put(OverchargeBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_INT_VALUE, BUFF_FIELD_NO_VARIATION));
+        builder.put(
+                OverchargeBuff.class.getSimpleName(),
+                ImmutableSet.of(BUFF_FIELD_INT_VALUE, BUFF_FIELD_NO_VARIATION)
+        );
         builder.put(Taunt.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
 
         builder.put(BuffChanceBuff.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
@@ -537,6 +596,7 @@ public class BuffFactory {
         builder.put(EnterFieldEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(LeaveFieldEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(DeathEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
+        builder.put(OnFieldEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_ON_FIELD));
         builder.put(PreAttackEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(PreDefenseEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
         builder.put(PostAttackEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));

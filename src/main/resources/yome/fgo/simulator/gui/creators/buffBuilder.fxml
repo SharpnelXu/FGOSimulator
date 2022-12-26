@@ -72,7 +72,7 @@
             </VBox>
             <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
                <content>
-                  <VBox spacing="10.0">
+                  <VBox fx:id="scrollPaneVBox" spacing="10.0">
                      <children>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                            <children>

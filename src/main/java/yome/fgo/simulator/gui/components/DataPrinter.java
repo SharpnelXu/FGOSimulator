@@ -49,6 +49,7 @@ import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUF
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_EFFECTS;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_ON_FIELD;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_PERCENT_OPTION;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_STRING_VALUE;
 import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_REQUIRED_FIELDS_MAP;
@@ -344,6 +345,12 @@ public class DataPrinter {
         if (requiredFields.contains(BUFF_FIELD_CARD_TYPE)) {
             builder.append(" : ");
             builder.append(getTranslation(COMMAND_CARD_TYPE_SECTION, buffData.getStringValue()));
+        }
+        if (requiredFields.contains(BUFF_FIELD_ON_FIELD)) {
+            builder.append(" : ");
+            builder.append(getTranslation(TARGET_SECTION, buffData.getOnFieldBuffParams().getTarget().name()));
+            builder.append(" : ");
+            builder.append(printBuffData(buffData.getOnFieldBuffParams().getBuffData()));
         }
 
         return builder.toString();

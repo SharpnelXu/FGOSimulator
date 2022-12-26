@@ -217,55 +217,16 @@
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
-          "type": "EnterFieldEffect",
-          "subEffects": [{
-            "type": "GrantBuff",
+          "type": "OnFieldEffect",
+          "onFieldBuffParams": {
             "target": "ALL_ALLIES_INCLUDING_BACKUP",
-            "buffData": [{
+            "buffData": {
               "type": "CriticalDamageBuff",
               "values": [0.05],
-              "customTraits": ["刀剑审美", "ATTACKER_BUFF", "POSITIVE_BUFF"],
-              "irremovable": true,
-              "hasCustomTraits": true,
               "buffIcon": "critDamageUp"
-            }],
-            "probabilities": [50.0]
-          }],
-          "buffIcon": "delayedBuff"
-        }]
-      }, {
-        "type": "GrantBuff",
-        "target": "SELF",
-        "buffData": [{
-          "type": "LeaveFieldEffect",
-          "subEffects": [{
-            "type": "ForceRemoveBuff",
-            "target": "ALL_ALLIES_INCLUDING_BACKUP",
-            "applyCondition": {
-              "type": "BuffHasTrait",
-              "value": "刀剑审美"
-            },
-            "probabilities": [50.0],
-            "intValues": [1]
-          }],
-          "buffIcon": "delayedEffect"
-        }]
-      }, {
-        "type": "GrantBuff",
-        "target": "SELF",
-        "buffData": [{
-          "type": "DeathEffect",
-          "subEffects": [{
-            "type": "ForceRemoveBuff",
-            "target": "ALL_ALLIES_INCLUDING_BACKUP",
-            "applyCondition": {
-              "type": "BuffHasTrait",
-              "value": "刀剑审美"
-            },
-            "probabilities": [50.0],
-            "intValues": [1]
-          }],
-          "buffIcon": "delayedEffect"
+            }
+          },
+          "buffIcon": "critDamageUp"
         }]
       }],
       "iconName": "critDamageUp"

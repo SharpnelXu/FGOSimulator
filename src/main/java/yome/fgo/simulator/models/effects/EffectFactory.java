@@ -72,6 +72,9 @@ public class EffectFactory {
         } else if (type.equalsIgnoreCase(GrantBuff.class.getSimpleName())) {
             return setCommonGrantBuffEffectValue(GrantBuff.builder(), effectData, level);
 
+        } else if (type.equalsIgnoreCase(ForceGrantBuff.class.getSimpleName())) {
+            return setCommonGrantBuffEffectValue(ForceGrantBuff.builder(), effectData, level);
+
         } else if (type.equalsIgnoreCase(ForceInstantDeath.class.getSimpleName())) {
             return setCommonEffectParams(ForceInstantDeath.builder().target(effectData.getTarget()), effectData, level);
 
@@ -319,6 +322,7 @@ public class EffectFactory {
         final ImmutableMap.Builder<String, Set<EffectFields>> builder = ImmutableMap.builder();
 
         builder.put(GrantBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
+        builder.put(ForceGrantBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
         builder.put(RemoveBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_REMOVE_BUFF));
         builder.put(ForceRemoveBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_REMOVE_BUFF));
         builder.put(CriticalStarChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE));

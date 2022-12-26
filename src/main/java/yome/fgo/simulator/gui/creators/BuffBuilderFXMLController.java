@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -25,7 +26,10 @@ import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
+import yome.fgo.data.proto.FgoStorageData.OnFieldBuffParams;
+import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
+import yome.fgo.simulator.gui.components.EnumConverter;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.TranslationConverter;
@@ -48,6 +52,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES_INCLUDING_BACKUP;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES_INCLUDING_BACKUP;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 import static yome.fgo.simulator.ResourceManager.getBuffIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
@@ -67,11 +76,13 @@ import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUF
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_EFFECTS;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_INT_VALUE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_NO_VARIATION;
+import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_ON_FIELD;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_PERCENT_OPTION;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_STRING_VALUE;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -272,6 +283,12 @@ public class BuffBuilderFXMLController implements Initializable {
     private ListContainerVBox effects;
     private Map<BuffTraits, CheckBox> buffTraitsMap;
 
+    @FXML
+    private VBox scrollPaneVBox;
+    private VBox onFieldPane;
+    private ChoiceBox<Target> targetChoiceBox;
+    private ListContainerVBox buffs;
+
     public void setParentBuilder(final BuffData.Builder buffDataBuilder) {
         this.buffDataBuilder = buffDataBuilder;
 
@@ -385,11 +402,16 @@ public class BuffBuilderFXMLController implements Initializable {
             if (requiredFields.contains(BUFF_FIELD_CARD_TYPE)) {
                 cardTypeChoices.getSelectionModel().select(CommandCardType.valueOf(buffDataBuilder.getStringValue()));
             }
+            if (requiredFields.contains(BUFF_FIELD_ON_FIELD)) {
+                targetChoiceBox.getSelectionModel().select(buffDataBuilder.getOnFieldBuffParams().getTarget());
+                buffs.loadBuff(List.of(buffDataBuilder.getOnFieldBuffParamsBuilder().getBuffData()));
+            }
         }
     }
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
+        onFieldPane = new VBox(10);
         resetPane();
 
         buffTypeLabel.setText(getTranslation(APPLICATION_SECTION, "Buff Type"));
@@ -498,6 +520,24 @@ public class BuffBuilderFXMLController implements Initializable {
 
         effects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Effects"), errorLabel, Mode.EFFECT);
         effectsPane.getChildren().addAll(effects);
+
+        final Label targetLabel = new Label(getTranslation(APPLICATION_SECTION, "Target"));
+        targetChoiceBox = new ChoiceBox<>();
+        targetChoiceBox.setConverter(new EnumConverter<>(TARGET_SECTION));
+        targetChoiceBox.setItems(FXCollections.observableArrayList(
+                ALL_ALLIES_INCLUDING_BACKUP,
+                ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP,
+                ALL_ENEMIES_INCLUDING_BACKUP,
+                ALL_CHARACTERS_INCLUDING_BACKUP,
+                ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP
+        ));
+        targetChoiceBox.getSelectionModel().selectFirst();
+        final HBox targetHBox = new HBox(10);
+        targetHBox.setAlignment(Pos.CENTER_LEFT);
+        targetHBox.getChildren().addAll(targetLabel, targetChoiceBox);
+        buffs = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Buffs"), errorLabel, Mode.BUFF);
+        onFieldPane.getChildren().addAll(targetHBox, buffs);
+        scrollPaneVBox.getChildren().add(onFieldPane);
 
         gutsPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));
         gutsPercentCheckbox.setOnAction(e ->
@@ -618,6 +658,9 @@ public class BuffBuilderFXMLController implements Initializable {
 
         cardTypePane.setVisible(false);
         cardTypePane.setManaged(false);
+
+        onFieldPane.setVisible(false);
+        onFieldPane.setManaged(false);
     }
 
     public void editVariation() {
@@ -691,6 +734,10 @@ public class BuffBuilderFXMLController implements Initializable {
         if (requiredFields.contains(BUFF_FIELD_CARD_TYPE)) {
             cardTypePane.setVisible(true);
             cardTypePane.setManaged(true);
+        }
+        if (requiredFields.contains(BUFF_FIELD_ON_FIELD)) {
+            onFieldPane.setVisible(true);
+            onFieldPane.setManaged(true);
         }
     }
 
@@ -888,6 +935,22 @@ public class BuffBuilderFXMLController implements Initializable {
 
             if (requiredFields.contains(BUFF_FIELD_CARD_TYPE)) {
                 buffDataBuilder.setStringValue(cardTypeChoices.getValue().name());
+            }
+
+            if (requiredFields.contains(BUFF_FIELD_ON_FIELD)) {
+                final List<BuffData> builtBuff = buffs.buildBuff();
+                if (builtBuff.size() != 1) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText(getTranslation(APPLICATION_SECTION, "Should only contain one buff"));
+                    return;
+                }
+
+                final OnFieldBuffParams onFieldBuffParamsBuilder = OnFieldBuffParams.newBuilder()
+                        .setTarget(targetChoiceBox.getValue())
+                        .setBuffData(builtBuff.get(0))
+                        .build();
+
+                buffDataBuilder.setOnFieldBuffParams(onFieldBuffParamsBuilder);
             }
 
             buffDataBuilder.setType(buffTypeChoices.getValue());

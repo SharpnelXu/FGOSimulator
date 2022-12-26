@@ -308,6 +308,7 @@ message BuffData {
   bool isGutsPercentBased = 14;
 
   ClassAdvantageChangeAdditionalParams classAdvChangeAdditionalParams = 15;
+  OnFieldBuffParams onFieldBuffParams = 16;
 }
 
 enum BuffTraits {
@@ -337,6 +338,11 @@ enum ClassAdvantageChangeMode {
   CLASS_ADV_FIXED_RATE = 1;
   CLASS_ADV_REMOVE_ADV = 2;
   CLASS_ADV_REMOVE_DISADV = 3;
+}
+
+message OnFieldBuffParams {
+  Target target = 1;
+  BuffData buffData = 2;
 }
 
 enum Target {

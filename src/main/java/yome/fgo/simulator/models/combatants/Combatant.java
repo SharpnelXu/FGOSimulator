@@ -31,6 +31,8 @@ import yome.fgo.simulator.models.effects.buffs.LeaveFieldEffect;
 import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
 import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.NpSeal;
+import yome.fgo.simulator.models.effects.buffs.OnFieldEffect;
+import yome.fgo.simulator.models.effects.buffs.OnFieldEffect.OnFieldMode;
 import yome.fgo.simulator.models.effects.buffs.PermanentSleep;
 import yome.fgo.simulator.models.effects.buffs.Poison;
 import yome.fgo.simulator.models.effects.buffs.PreventDeathAgainstDoT;
@@ -47,6 +49,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.models.effects.buffs.OnFieldEffect.OnFieldMode.DEATH;
+import static yome.fgo.simulator.models.effects.buffs.OnFieldEffect.OnFieldMode.ENTER_FIELD;
+import static yome.fgo.simulator.models.effects.buffs.OnFieldEffect.OnFieldMode.LEAVE_FIELD;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -361,6 +366,7 @@ public class Combatant {
         }
 
         activateEffectActivatingBuff(simulation, EnterFieldEffect.class);
+        activateOnFieldBuff(simulation, ENTER_FIELD);
     }
 
     public void leaveField(final Simulation simulation) {
@@ -368,6 +374,7 @@ public class Combatant {
             simulation.getStatsLogger().logLeaveField(id);
         }
         activateEffectActivatingBuff(simulation, LeaveFieldEffect.class);
+        activateOnFieldBuff(simulation, LEAVE_FIELD);
     }
 
     public void death(final Simulation simulation) {
@@ -375,6 +382,7 @@ public class Combatant {
             simulation.getStatsLogger().logDeath(id);
         }
         activateEffectActivatingBuff(simulation, DeathEffect.class);
+        activateOnFieldBuff(simulation, DEATH);
     }
 
     public void receiveDamage(final int damage) {
@@ -577,6 +585,27 @@ public class Combatant {
                 buff.setApplied();
                 checkBuffStatus();
             }
+        }
+        simulation.unsetActivator();
+    }
+
+    public void activateOnFieldBuff(final Simulation simulation, final OnFieldMode onFieldMode) {
+        final List<OnFieldEffect> buffsToActivate = Lists.newArrayList();
+        for (final Buff buff : buffs) {
+            if (buff instanceof OnFieldEffect) {
+                buffsToActivate.add((OnFieldEffect) buff);
+            }
+        }
+        simulation.setActivator(this);
+        for (final OnFieldEffect buff : buffsToActivate) {
+            if (simulation.getStatsLogger() != null) {
+                simulation.getStatsLogger().logEffectActivatingBuff(id, OnFieldEffect.class);
+            }
+            buff.activate(simulation, onFieldMode);
+
+            // extra step since this is a buff
+            buff.setApplied();
+            checkBuffStatus();
         }
         simulation.unsetActivator();
     }

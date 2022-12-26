@@ -127,14 +127,13 @@
               "probabilities": [10.0],
               "intValues": [0]
             }, {
-              "type": "GrantBuff",
+              "type": "ForceGrantBuff",
               "target": "SELF",
               "buffData": [{
                 "type": "PermanentSleep",
                 "irremovable": true,
                 "buffIcon": "permanentSleep"
-              }],
-              "probabilities": [100.0]
+              }]
             }, {
               "type": "GrantBuff",
               "target": "SELF",
@@ -161,168 +160,46 @@
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
-          "type": "EnterFieldEffect",
-          "subEffects": [{
-            "type": "GrantBuff",
+          "type": "OnFieldEffect",
+          "applyCondition": {
+            "type": "Not",
+            "subConditionData": [{
+              "type": "TargetsHaveClass",
+              "value": "FOREIGNER",
+              "target": "EFFECT_TARGET"
+            }]
+          },
+          "onFieldBuffParams": {
             "target": "ALL_ALLIES_INCLUDING_BACKUP",
-            "applyCondition": {
-              "type": "Not",
-              "subConditionData": [{
-                "type": "TargetsHaveClass",
-                "value": "FOREIGNER",
-                "target": "EFFECT_TARGET"
-              }]
-            },
-            "buffData": [{
+            "buffData": {
               "type": "DebuffChanceBuff",
               "values": [0.1],
-              "customTraits": ["POSITIVE_BUFF", "对人理"],
               "irremovable": true,
-              "hasCustomTraits": true,
               "buffIcon": "buffChanceUp"
-            }],
-            "probabilities": [50.0]
-          }],
-          "buffIcon": "delayedBuff"
+            }
+          },
+          "buffIcon": "buffChanceUp"
         }]
       }, {
         "type": "GrantBuff",
         "target": "SELF",
         "buffData": [{
-          "type": "LeaveFieldEffect",
-          "subEffects": [{
-            "type": "ForceRemoveBuff",
-            "target": "ALL_ALLIES_INCLUDING_BACKUP",
-            "applyCondition": {
-              "type": "And",
-              "subConditionData": [{
-                "type": "BuffTypeEquals",
-                "value": "DebuffChanceBuff"
-              }, {
-                "type": "BuffHasTrait",
-                "value": "对人理"
-              }, {
-                "type": "Not",
-                "subConditionData": [{
-                  "type": "TargetsHaveClass",
-                  "value": "FOREIGNER",
-                  "target": "EFFECT_TARGET"
-                }]
-              }]
-            },
-            "probabilities": [50.0],
-            "intValues": [1]
-          }],
-          "buffIcon": "delayedEffect"
-        }]
-      }, {
-        "type": "GrantBuff",
-        "target": "SELF",
-        "buffData": [{
-          "type": "DeathEffect",
-          "subEffects": [{
-            "type": "ForceRemoveBuff",
-            "target": "ALL_ALLIES_INCLUDING_BACKUP",
-            "applyCondition": {
-              "type": "And",
-              "subConditionData": [{
-                "type": "BuffTypeEquals",
-                "value": "DebuffChanceBuff"
-              }, {
-                "type": "BuffHasTrait",
-                "value": "对人理"
-              }, {
-                "type": "Not",
-                "subConditionData": [{
-                  "type": "TargetsHaveClass",
-                  "value": "FOREIGNER",
-                  "target": "EFFECT_TARGET"
-                }]
-              }]
-            },
-            "probabilities": [50.0],
-            "intValues": [1]
-          }],
-          "buffIcon": "delayedEffect"
-        }]
-      }, {
-        "type": "GrantBuff",
-        "target": "SELF",
-        "buffData": [{
-          "type": "EnterFieldEffect",
-          "subEffects": [{
-            "type": "GrantBuff",
+          "type": "OnFieldEffect",
+          "applyCondition": {
+            "type": "TargetsHaveTrait",
+            "value": "MERLIN",
+            "target": "EFFECT_TARGET"
+          },
+          "onFieldBuffParams": {
             "target": "ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP",
-            "applyCondition": {
-              "type": "TargetsHaveTrait",
-              "value": "MERLIN",
-              "target": "EFFECT_TARGET"
-            },
-            "buffData": [{
+            "buffData": {
               "type": "BuffChanceBuff",
               "values": [-0.2],
-              "customTraits": ["对人理", "NEGATIVE_BUFF"],
               "irremovable": true,
-              "hasCustomTraits": true,
               "buffIcon": "buffChanceDown"
-            }],
-            "probabilities": [50.0]
-          }],
-          "buffIcon": "delayedEffect"
-        }]
-      }, {
-        "type": "GrantBuff",
-        "target": "SELF",
-        "buffData": [{
-          "type": "LeaveFieldEffect",
-          "subEffects": [{
-            "type": "ForceRemoveBuff",
-            "target": "SELF",
-            "applyCondition": {
-              "type": "And",
-              "subConditionData": [{
-                "type": "TargetsHaveTrait",
-                "value": "MERLIN",
-                "target": "EFFECT_TARGET"
-              }, {
-                "type": "BuffTypeEquals",
-                "value": "BuffChanceBuff"
-              }, {
-                "type": "BuffHasTrait",
-                "value": "对人理"
-              }]
-            },
-            "probabilities": [50.0],
-            "intValues": [1]
-          }],
-          "buffIcon": "delayedBuff"
-        }]
-      }, {
-        "type": "GrantBuff",
-        "target": "SELF",
-        "buffData": [{
-          "type": "DeathEffect",
-          "subEffects": [{
-            "type": "ForceRemoveBuff",
-            "target": "SELF",
-            "applyCondition": {
-              "type": "And",
-              "subConditionData": [{
-                "type": "TargetsHaveTrait",
-                "value": "MERLIN",
-                "target": "EFFECT_TARGET"
-              }, {
-                "type": "BuffTypeEquals",
-                "value": "BuffChanceBuff"
-              }, {
-                "type": "BuffHasTrait",
-                "value": "对人理"
-              }]
-            },
-            "probabilities": [50.0],
-            "intValues": [1]
-          }],
-          "buffIcon": "delayedBuff"
+            }
+          },
+          "buffIcon": "buffChanceDown"
         }]
       }],
       "iconName": "buffChanceUp"

@@ -66,7 +66,7 @@ public class GrantBuff extends Effect {
         }
     }
 
-    private void grantBuff(
+    protected boolean isProbabilityBelowThreshold(
             final Simulation simulation,
             final Buff buff,
             final Combatant combatant,
@@ -90,7 +90,16 @@ public class GrantBuff extends Effect {
         if (simulation.getStatsLogger() != null) {
             simulation.getStatsLogger().logProbability(combatant.getId(), activationProbability, simulation.getProbabilityThreshold());
         }
-        if (activationProbability < simulation.getProbabilityThreshold()) {
+        return activationProbability < simulation.getProbabilityThreshold();
+    }
+
+    private void grantBuff(
+            final Simulation simulation,
+            final Buff buff,
+            final Combatant combatant,
+            final double probability
+    ) {
+        if (isProbabilityBelowThreshold(simulation, buff, combatant, probability)) {
             return;
         }
 
