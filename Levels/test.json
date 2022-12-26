@@ -18,18 +18,47 @@
     }, {
       "enemyBaseId": "servant275",
       "hpBars": [3000000],
+      "combatantDataOverride": {
+        "id": "servant275",
+        "rarity": 5,
+        "fateClass": "FOREIGNER",
+        "gender": "FEMALE",
+        "alignments": ["CHAOTIC", "GOOD"],
+        "attribute": "MAN",
+        "traits": ["DIVINE", "THREAT_TO_HUMANITY", "HOMINIDAE_SERVANT", "EXISTENCE_OUTSIDE_DOMAIN", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.06
+      },
       "servantAscension": 1,
       "enemyCategories": "servant275/",
       "isServant": true
     }, {
       "enemyBaseId": "servant336",
       "hpBars": [3000000],
+      "combatantDataOverride": {
+        "id": "servant336",
+        "rarity": 5,
+        "fateClass": "ALTEREGO",
+        "gender": "FEMALE",
+        "alignments": ["NEUTRAL", "GOOD"],
+        "attribute": "SKY",
+        "traits": ["DIVINE", "RIDING", "PSEUDO_SERVANT", "KING", "HOMINIDAE_SERVANT", "LIVING_HUMAN", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
+        "deathRate": 0.25
+      },
       "servantAscension": 1,
       "enemyCategories": "servant336/",
       "isServant": true
     }, {
       "enemyBaseId": "servant107",
       "hpBars": [3000000],
+      "combatantDataOverride": {
+        "id": "servant107",
+        "fateClass": "AVENGER",
+        "gender": "MALE",
+        "alignments": ["CHAOTIC", "EVIL"],
+        "attribute": "MAN",
+        "traits": ["HOMINIDAE_SERVANT", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+        "deathRate": 0.09
+      },
       "servantAscension": 1,
       "enemyCategories": "servant107/",
       "isServant": true

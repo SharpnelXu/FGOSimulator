@@ -162,18 +162,9 @@ public class NoblePhantasmDamage extends Effect {
 
             final double npSpecificDamageRate = getNpSpecificDamageRate(simulation, level);
 
-            final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
-
-            final double defenseUpBuff = defender.applyPositiveBuff(simulation, DefenseBuff.class);
-            final double defenseDownBuff = defender.applyNegativeBuff(simulation, DefenseBuff.class);; // value is negative
-            final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
-            final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
-            final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
-            final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
-
             final double classAdvantage = getClassAdvantage(simulation, attacker, defender);
 
-            final NpDamageParameters npDamageParams = NpDamageParameters.builder()
+            final NpDamageParameters.NpDamageParametersBuilder npDamageParams = NpDamageParameters.builder()
                     .attack(attacker.getAttack())
                     .totalHits(currentCard.getTotalHits())
                     .damageRate(damageRate)
@@ -185,20 +176,14 @@ public class NoblePhantasmDamage extends Effect {
                     .defenderAttribute(defender.getAttribute())
                     .currentCardType(currentCardType)
                     .commandCardBuff(commandCardBuff)
-                    .commandCardResist(commandCardResist)
                     .attackBuff(attackBuff)
-                    .defenseBuff(defenseBuff)
                     .specificAttackBuff(specificAttackBuff)
-                    .specificDefenseBuff(specificDefenseBuff)
                     .npDamageBuff(npDamageBuff)
                     .percentAttackBuff(percentAttackBuff)
-                    .percentDefenseBuff(percentDefenseBuff)
                     .damageAdditionBuff(damageAdditionBuff)
-                    .damageReductionBuff(damageReductionBuff)
-                    .fixedRandom(simulation.getFixedRandom())
-                    .build();
+                    .fixedRandom(simulation.getFixedRandom());
 
-            final NpParameters npParameters = NpParameters.builder()
+            final NpParameters.NpParametersBuilder npParameters = NpParameters.builder()
                     .npCharge(currentCard.getNpCharge())
                     .defenderClass(defenderClass)
                     .useUndeadNpCorrection(defender.getUndeadNpCorrection())
@@ -207,12 +192,10 @@ public class NoblePhantasmDamage extends Effect {
                     .isCriticalStrike(false)
                     .useFirstCardBoost(false)
                     .commandCardBuff(commandCardBuff)
-                    .commandCardResist(commandCardResist)
                     .npGenerationBuff(npGenerationBuff)
-                    .classNpCorrection(classNpCorrection)
-                    .build();
+                    .classNpCorrection(classNpCorrection);
 
-            final CriticalStarParameters critStarParams = CriticalStarParameters.builder()
+            final CriticalStarParameters.CriticalStarParametersBuilder critStarParams = CriticalStarParameters.builder()
                     .servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
                     .defenderClass(defenderClass)
                     .currentCardType(currentCardType)
@@ -220,9 +203,29 @@ public class NoblePhantasmDamage extends Effect {
                     .isCriticalStrike(false)
                     .useFirstCardBoost(false)
                     .commandCardBuff(commandCardBuff)
-                    .commandCardResist(commandCardResist)
-                    .critStarGenerationBuff(critStarGenerationBuff)
-                    .build();
+                    .critStarGenerationBuff(critStarGenerationBuff);
+
+            final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
+
+            if (!skipDamage) {
+                final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
+                final double defenseUpBuff = defender.applyPositiveBuff(simulation, DefenseBuff.class);
+                final double defenseDownBuff = defender.applyNegativeBuff(simulation, DefenseBuff.class); // value is negative
+                final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
+                final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
+                final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
+                final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
+
+                npDamageParams.commandCardResist(commandCardResist)
+                        .defenseBuff(defenseBuff)
+                        .specificDefenseBuff(specificDefenseBuff)
+                        .percentDefenseBuff(percentDefenseBuff)
+                        .damageReductionBuff(damageReductionBuff);
+
+                npParameters.commandCardResist(commandCardResist);
+
+                critStarParams.commandCardResist(commandCardResist);
+            }
 
             if (simulation.getStatsLogger() != null) {
                 simulation.getStatsLogger().logDamageParameter(npDamageParams.toString());
@@ -230,14 +233,12 @@ public class NoblePhantasmDamage extends Effect {
                 simulation.getStatsLogger().logDamageParameter(critStarParams.toString());
             }
 
-            final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
-
             if (defender.isReceivedInstantDeath()) {
                 simulation.unsetDefender();
                 continue; // for NP I remembered it skips damage calculation
             }
 
-            final int totalDamage = calculateTotalNpDamage(npDamageParams);
+            final int totalDamage = calculateTotalNpDamage(npDamageParams.build());
 
             int remainingDamage = totalDamage;
 
@@ -264,11 +265,11 @@ public class NoblePhantasmDamage extends Effect {
                     overkillCount += 1;
                 }
 
-                final double hitNpGain = calculateNpGain(npParameters, isOverkill);
+                final double hitNpGain = calculateNpGain(npParameters.build(), isOverkill);
                 totalNp = RoundUtils.roundNearest(hitNpGain + totalNp);
                 attacker.changeNp(hitNpGain);
 
-                final double hitStars = calculateCritStar(critStarParams, isOverkill);
+                final double hitStars = calculateCritStar(critStarParams.build(), isOverkill);
                 if (hitStars > 3) {
                     totalCritStar += 3;
                 } else {

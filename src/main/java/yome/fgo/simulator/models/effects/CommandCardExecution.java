@@ -100,17 +100,12 @@ public class CommandCardExecution {
 
         final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class) +
                 currentCard.applyBuff(simulation, CommandCardBuff.class);
-        final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
 
         final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class) +
                 currentCard.applyBuff(simulation, AttackBuff.class);
 
-        final double defenseUpBuff = defender.applyPositiveBuff(simulation, DefenseBuff.class);
-        final double defenseDownBuff = defender.applyNegativeBuff(simulation, DefenseBuff.class);; // value is negative
         final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class) ||
                 currentCard.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class);
-        final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
-        final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
 
         final double specificAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class) +
                 currentCard.applyBuff(simulation, SpecificAttackBuff.class);
@@ -119,13 +114,11 @@ public class CommandCardExecution {
                         currentCard.applyBuff(simulation, CriticalDamageBuff.class) :
                 0;
 
-        final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
         final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class) +
                 currentCard.applyBuff(simulation, PercentAttackBuff.class);
 
         final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class) +
                 currentCard.applyBuff(simulation, DamageAdditionBuff.class);
-        final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
 
         final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class) +
                 currentCard.applyBuff(simulation, NpGenerationBuff.class);
@@ -139,7 +132,7 @@ public class CommandCardExecution {
 
         final double classAdvantage = getClassAdvantage(simulation, attacker, defender);
 
-        final DamageParameters damageParameters = DamageParameters.builder()
+        final DamageParameters.DamageParametersBuilder damageParameters = DamageParameters.builder()
                 .attack(attacker.getAttack() + currentCard.getCommandCardStrengthen())
                 .totalHits(currentCard.getTotalHits())
                 .attackerClass(attacker.getFateClass())
@@ -154,20 +147,14 @@ public class CommandCardExecution {
                 .useFirstCardBoost(firstCardType == BUSTER || isTriColorChain)
                 .isBusterChain(isBusterChain(isTypeChain, firstCardType))
                 .commandCardBuff(commandCardBuff)
-                .commandCardResist(commandCardResist)
                 .attackBuff(attackBuff)
-                .defenseBuff(defenseBuff)
                 .specificAttackBuff(specificAttackBuff)
-                .specificDefenseBuff(specificDefenseBuff)
                 .percentAttackBuff(percentAttackBuff)
-                .percentDefenseBuff(percentDefenseBuff)
                 .damageAdditionBuff(damageAdditionBuff)
-                .damageReductionBuff(damageReductionBuff)
                 .criticalDamageBuff(criticalDamageBuff)
-                .fixedRandom(simulation.getFixedRandom())
-                .build();
+                .fixedRandom(simulation.getFixedRandom());
 
-        final NpParameters npParameters = NpParameters.builder()
+        final NpParameters.NpParametersBuilder npParameters = NpParameters.builder()
                 .npCharge(currentCard.getNpCharge())
                 .defenderClass(defenderClass)
                 .useUndeadNpCorrection(defender.getUndeadNpCorrection())
@@ -176,12 +163,10 @@ public class CommandCardExecution {
                 .isCriticalStrike(isCriticalStrike)
                 .useFirstCardBoost(firstCardType == ARTS || isTriColorChain)
                 .commandCardBuff(commandCardBuff)
-                .commandCardResist(commandCardResist)
                 .npGenerationBuff(npGenerationBuff)
-                .classNpCorrection(classNpCorrection)
-                .build();
+                .classNpCorrection(classNpCorrection);
 
-        final CriticalStarParameters critStarParams = CriticalStarParameters.builder()
+        final CriticalStarParameters.CriticalStarParametersBuilder critStarParams = CriticalStarParameters.builder()
                 .servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
                 .defenderClass(defenderClass)
                 .currentCardType(currentCardType)
@@ -189,9 +174,28 @@ public class CommandCardExecution {
                 .isCriticalStrike(isCriticalStrike)
                 .useFirstCardBoost(firstCardType == QUICK || isTriColorChain)
                 .commandCardBuff(commandCardBuff)
-                .commandCardResist(commandCardResist)
-                .critStarGenerationBuff(critStarGenerationBuff)
-                .build();
+                .critStarGenerationBuff(critStarGenerationBuff);
+
+        final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
+        if (!skipDamage) {
+            final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
+            final double defenseUpBuff = defender.applyPositiveBuff(simulation, DefenseBuff.class);
+            final double defenseDownBuff = defender.applyNegativeBuff(simulation, DefenseBuff.class); // value is negative
+            final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
+            final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
+            final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
+            final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
+
+            damageParameters.commandCardResist(commandCardResist)
+                    .defenseBuff(defenseBuff)
+                    .specificDefenseBuff(specificDefenseBuff)
+                    .percentDefenseBuff(percentDefenseBuff)
+                    .damageReductionBuff(damageReductionBuff);
+
+            npParameters.commandCardResist(commandCardResist);
+
+            critStarParams.commandCardResist(commandCardResist);
+        }
 
         if (simulation.getStatsLogger() != null) {
             simulation.getStatsLogger().logDamageParameter(damageParameters.toString());
@@ -199,11 +203,7 @@ public class CommandCardExecution {
             simulation.getStatsLogger().logDamageParameter(critStarParams.toString());
         }
 
-        // move this before defender buff consumption. Based on my testing:
-        // - if invulnerable/evasion, will not apply any defender buff
-        final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
-
-        final int totalDamage = calculateTotalDamage(damageParameters);
+        final int totalDamage = calculateTotalDamage(damageParameters.build());
 
         int remainingDamage = totalDamage;
 
@@ -230,11 +230,11 @@ public class CommandCardExecution {
                 overkillCount += 1;
             }
 
-            final double hitNpGain = calculateNpGain(npParameters, isOverkill);
+            final double hitNpGain = calculateNpGain(npParameters.build(), isOverkill);
             totalNp = RoundUtils.roundNearest(hitNpGain + totalNp);
             attacker.changeNp(hitNpGain);
 
-            final double hitStars = calculateCritStar(critStarParams, isOverkill);
+            final double hitStars = calculateCritStar(critStarParams.build(), isOverkill);
             if (hitStars > 3) {
                 totalCritStar += 3;
             } else {

@@ -196,6 +196,7 @@ public class SimulationTest {
     }
     @Test
     public void testOverchargeCarryOverInStun() {
+        ResourceManager.rebuildDataMap();
         final Level level = new Level(ResourceManager.getLevelData("", "test"));
         final List<Combatant> stage1Enemies = new ArrayList<>(level.getStage(1).getEnemies());
         final Servant kama = new Servant(KAMA_ID, ResourceManager.getServantData(KAMA_ID), KAMA_OPTION);
