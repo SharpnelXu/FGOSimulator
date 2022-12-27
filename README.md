@@ -450,7 +450,6 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
 
 ## 已知问题
 ### BUFF
-* 有无敌、回避生效时防御类buff的次数不会被消耗，我得修一下
 * 帝王花增殖状态这种复数的可堆叠上限没写
 * 无貌之月不会正确解除，这个我懒得写了
 * 由于强化无效和弱化无效是用耐性实现的，复数的无效会同时被消耗，推荐使用自定义效果来手动补充
