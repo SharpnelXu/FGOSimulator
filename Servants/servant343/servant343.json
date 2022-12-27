@@ -14,12 +14,12 @@
     "criticalStarWeight": 102,
     "commandCardData": [{
       "commandCardType": "QUICK",
-      "hitsData": [6, 13, 20, 26, 35],
+      "hitsData": [10, 20, 30, 40],
       "npRate": 0.0048,
       "criticalStarGen": 0.1
     }, {
       "commandCardType": "QUICK",
-      "hitsData": [6, 13, 20, 26, 35],
+      "hitsData": [10, 20, 30, 40],
       "npRate": 0.0048,
       "criticalStarGen": 0.1
     }, {
