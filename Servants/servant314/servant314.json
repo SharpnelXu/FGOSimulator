@@ -7,7 +7,7 @@
       "gender": "FEMALE",
       "alignments": ["LAWFUL", "EVIL"],
       "attribute": "BEAST",
-      "traits": ["DIVINE", "RIDING", "DEMONIC", "DEMONIC_BEAST", "HAVING_ANIMAL_CHARACTERISTICS", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
+      "traits": ["DIVINE", "RIDING", "DEMONIC", "DEMONIC_BEAST", "HAVING_ANIMAL_CHARACTERISTICS", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH"],
       "deathRate": 0.33
     },
     "defenseNpRate": 0.04,
