@@ -470,6 +470,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
     - 计算伤害时，如果无法造成伤害（无敌）则不消耗防御者的效果次数
   - Buff相关：
     - 添加新Buff：在场时效果，用这个新Buff重写了奥伯龙、村正的被动技能和小玉、C呆的羁绊礼装。注意该Buff本质是入场、退场、战败三个buff的打包，所以必须入场一次才生效。
+    - 修了巴姐被动会导致DOT伤害不正确的问题
 - v1.05:
   - 系统：
     - 选择卡色从下拉菜单改为按钮

@@ -25,7 +25,7 @@ public class BuffUtils {
         return buff instanceof ImmobilizeDebuff || buff instanceof SkillSeal || buff instanceof NpSeal;
     }
 
-    public static boolean shouldDecreaseNumTurnsActiveAtMyTurn(final Buff buff) {
-        return buff instanceof AttackerBuff || buff instanceof EndOfTurnEffect || buff instanceof DamageOverTime;
+    public static boolean shouldDecreaseNumTurnsActiveAtMyTurn(final Buff buff, final boolean isBuffExtended) {
+        return (!isBuffExtended && buff instanceof AttackerBuff) || buff instanceof EndOfTurnEffect || buff instanceof DamageOverTime;
     }
 }

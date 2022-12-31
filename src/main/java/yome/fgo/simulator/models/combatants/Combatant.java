@@ -448,10 +448,8 @@ public class Combatant {
 
         activateDamageReflect(simulation);
 
-        final boolean isBuffExtended = isBuffExtended();
-
         for (final Buff buff : buffs) {
-            if ((isBuffExtended || !shouldDecreaseNumTurnsActiveAtMyTurn(buff)) && !isImmobilizeOrSeal(buff)) {
+            if (!shouldDecreaseNumTurnsActiveAtMyTurn(buff, isBuffExtended()) && !isImmobilizeOrSeal(buff)) {
                 buff.decreaseNumTurnsActive();
             }
         }
@@ -518,12 +516,8 @@ public class Combatant {
 
         activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
 
-        if (isBuffExtended()) {
-            return;
-        }
-
         for (final Buff buff : buffs) {
-            if (shouldDecreaseNumTurnsActiveAtMyTurn(buff)) {
+            if (shouldDecreaseNumTurnsActiveAtMyTurn(buff, isBuffExtended())) {
                 buff.decreaseNumTurnsActive();
             }
         }
