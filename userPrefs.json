@@ -3174,6 +3174,12 @@
       "mysticCodeLevel": 10,
       "gender": "FEMALE"
     }
+  }, {
+    "mysticCodeNo": 20,
+    "option": {
+      "mysticCodeLevel": 10,
+      "gender": "FEMALE"
+    }
   }],
   "formations": [{
     "name": "泡馍wC呆",

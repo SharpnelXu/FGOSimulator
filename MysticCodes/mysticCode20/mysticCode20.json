@@ -1,0 +1,65 @@
+{
+  "activeSkillData": [{
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "NpDamageBuff",
+        "numTurnsActive": 1,
+        "values": [0.15, 0.16, 0.17, 0.18, 0.19, 0.2, 0.21, 0.22, 0.23, 0.25],
+        "buffIcon": "npDamageUp"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "GrantBuff",
+      "target": "ALL_ALLIES",
+      "buffData": [{
+        "type": "NpGenerationBuff",
+        "numTurnsActive": 1,
+        "values": [0.1, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.2],
+        "buffIcon": "npGainUp"
+      }],
+      "probabilities": [5.0]
+    }],
+    "iconName": "npDamageUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "OverchargeBuff",
+        "numTurnsActive": 1,
+        "values": [1.0],
+        "buffIcon": "overchargeUp"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "NpChange",
+      "target": "TARGETED_ALLY",
+      "values": [0.1]
+    }],
+    "iconName": "overchargeUp"
+  }, {
+    "baseCoolDown": 12,
+    "effects": [{
+      "type": "GrantBuff",
+      "target": "TARGETED_ALLY",
+      "buffData": [{
+        "type": "DebuffResist",
+        "numTurnsActive": 3,
+        "numTimesActive": 1,
+        "values": [10.0],
+        "buffIcon": "immune"
+      }],
+      "probabilities": [5.0]
+    }, {
+      "type": "CriticalStarChange",
+      "intValues": [5, 6, 7, 8, 9, 10, 11, 12, 13, 15]
+    }],
+    "iconName": "immune"
+  }],
+  "id": "mysticCode20",
+  "mcNum": 20
+}
