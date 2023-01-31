@@ -393,6 +393,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(ReceivedBuffChanceBuff.class.getSimpleName())) {
             return setValuedBuffParams(ReceivedBuffChanceBuff.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(RemoveStageTrait.class.getSimpleName())) {
+            return setCommonBuffParams(RemoveStageTrait.builder().trait(buffData.getStringValue()), buffData, level);
+
         } else if (type.equalsIgnoreCase(RemoveTrait.class.getSimpleName())) {
             return setCommonBuffParams(RemoveTrait.builder().trait(buffData.getStringValue()), buffData, level);
 
@@ -603,6 +606,7 @@ public class BuffFactory {
         builder.put(PostDefenseEffect.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_EFFECTS));
 
         builder.put(GrantStageTrait.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_STRING_VALUE));
+        builder.put(RemoveStageTrait.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_STRING_VALUE));
         builder.put(GrantTrait.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_STRING_VALUE));
         builder.put(RemoveTrait.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_STRING_VALUE));
         builder.put(BlessedByKur.class.getSimpleName(), ImmutableSet.of());

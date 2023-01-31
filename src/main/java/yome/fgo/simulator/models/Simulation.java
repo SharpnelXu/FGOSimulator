@@ -19,10 +19,13 @@ import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.EffectFactory;
 import yome.fgo.simulator.models.effects.NpChange;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.GrantStageTrait;
+import yome.fgo.simulator.models.effects.buffs.RemoveStageTrait;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.levels.Stage;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 import yome.fgo.simulator.utils.RoundUtils;
+import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,6 +35,7 @@ import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
@@ -39,6 +43,7 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.UNRECOGNIZED;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS;
 
 @NoArgsConstructor
 @Getter
@@ -668,6 +673,24 @@ public class Simulation {
         for (final Combatant combatant : newCombatants) {
             combatant.enterField(this);
         }
+    }
+
+    public Set<String> getStageTraits() {
+        final Set<String> fieldTraits = new TreeSet<>(getLevel().getStage(getCurrentStage()).getTraits());
+        final Set<String> removeTraits = new HashSet<>();
+        for (final Combatant combatant : TargetUtils.getTargets(this, ALL_CHARACTERS)) {
+            for (final Buff buff : combatant.getBuffs()) {
+                if (buff instanceof GrantStageTrait && buff.shouldApply(this)) {
+                    fieldTraits.add(((GrantStageTrait) buff).getTrait());
+                }
+
+                if (buff instanceof RemoveStageTrait && buff.shouldApply(this)) {
+                    removeTraits.add(((RemoveStageTrait) buff).getTrait());
+                }
+            }
+        }
+        fieldTraits.removeAll(removeTraits);
+        return fieldTraits;
     }
 
     public void gainStar(final double starsToGain) {

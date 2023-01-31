@@ -18,23 +18,17 @@ import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.simulator.gui.components.StatsLogger.LogLevel;
 import yome.fgo.simulator.gui.creators.MysticCodeCreator;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.NpChange;
-import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.GrantStageTrait;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 import yome.fgo.simulator.utils.RoundUtils;
-import yome.fgo.simulator.utils.TargetUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import static yome.fgo.data.proto.FgoStorageData.Gender.MALE;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
-import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.BUFF_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.INFO_THUMBNAIL_SIZE;
@@ -331,14 +325,7 @@ public class MiscDisplay extends VBox {
         currentStageCountLabel.setText(String.format("%d/%d", simulation.getCurrentStage(), simulation.getLevel().getStages().size()));
         enemyCountLabel.setText(Integer.toString(simulation.getBackupEnemies().size() + simulation.getAliveEnemies().size()));
 
-        final Set<String> fieldTraits = new TreeSet<>(simulation.getLevel().getStage(simulation.getCurrentStage()).getTraits());
-        for (final Combatant combatant : TargetUtils.getTargets(simulation, ALL_CHARACTERS)) {
-            for (final Buff buff : combatant.getBuffs()) {
-                if (buff instanceof GrantStageTrait && buff.shouldApply(simulation)) {
-                    fieldTraits.add(((GrantStageTrait) buff).getTrait());
-                }
-            }
-        }
+        final Set<String> fieldTraits = simulation.getStageTraits();
         final List<Node> fieldChildren = fieldTraitsHBox.getChildren();
         fieldChildren.clear();
         fieldChildren.add(fieldTraitsLabel);
