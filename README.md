@@ -453,6 +453,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
 * 帝王花增殖状态这种复数的可堆叠上限没写
 * 无貌之月不会正确解除，这个我懒得写了
 * 由于强化无效和弱化无效是用耐性实现的，复数的无效会同时被消耗，推荐使用自定义效果来手动补充
+* 烟雾镜的强化御主技能的被动没做，因为我还没搞明白这是什么意思
 
 ### 效果
 * 帕西维尔宝具最后一个回复HP百分比最低的友方的效果未制作
@@ -470,6 +471,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
     - 计算伤害时，如果无法造成伤害（无敌）则不消耗防御者的效果次数
   - Buff相关：
     - 添加新Buff：在场时效果，用这个新Buff重写了奥伯龙、村正的被动技能和小玉、C呆的羁绊礼装。注意该Buff本质是入场、退场、战败三个buff的打包，所以必须入场一次才生效。
+    - 添加新Buff：移除场地特性
     - 修了巴姐被动会导致DOT伤害不正确的问题
 - v1.05:
   - 系统：
