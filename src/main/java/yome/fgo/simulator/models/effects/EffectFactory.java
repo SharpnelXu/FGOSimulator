@@ -1,43 +1,16 @@
 package yome.fgo.simulator.models.effects;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import yome.fgo.data.proto.FgoStorageData.EffectData;
 import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
+import yome.fgo.simulator.models.effects.Effect.EffectType;
 import yome.fgo.simulator.models.variations.VariationFactory;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_GRANT_BUFF;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_HP_CHANGE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_INT_VALUE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_NP_DAMAGE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_RANDOM_EFFECT;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_TARGET;
-
 public class EffectFactory {
-    public static final Map<String, Set<EffectFields>> EFFECT_REQUIRED_FIELDS_MAP = buildEffectsRequiredFieldsMap();
-    public enum EffectFields {
-        EFFECT_FIELD_TARGET,
-        EFFECT_FIELD_INT_VALUE,
-        EFFECT_FIELD_DOUBLE_VALUE,
-        EFFECT_FIELD_NP_DAMAGE,
-        EFFECT_FIELD_GRANT_BUFF,
-        EFFECT_FIELD_HP_CHANGE,
-        EFFECT_FIELD_REMOVE_BUFF,
-        EFFECT_FIELD_RANDOM_EFFECT,
-        EFFECT_FIELD_CARD_TYPE_SELECT
-    }
-
-
     public static List<Effect> buildEffects(final List<EffectData> effectData) {
         return buildEffects(effectData, 1);
     }
@@ -49,97 +22,81 @@ public class EffectFactory {
     }
 
     public static Effect buildEffect(final EffectData effectData, final int level) {
-        final String type = effectData.getType();
-        if (type.equalsIgnoreCase(AscensionChange.class.getSimpleName())) {
-            return setCommonIntValuedEffectValue(AscensionChange.builder().target(effectData.getTarget()), effectData, level);
-
-        } else if (type.equalsIgnoreCase(BuffAbsorption.class.getSimpleName())) {
-            return setCommonEffectParams(BuffAbsorption.builder().target(effectData.getTarget()), effectData, level);
-
-        } else if (type.equalsIgnoreCase(CardTypeChangeSelect.class.getSimpleName())) {
-            return setCommonGrantBuffEffectValue(
+        return switch (EffectType.ofType(effectData.getType())) {
+            case GRANT_BUFF -> setGrantBuffEffectValue(GrantBuff.builder(), effectData, level);
+            case FORCE_GRANT_BUFF -> setGrantBuffEffectValue(ForceGrantBuff.builder(), effectData, level);
+            case REMOVE_BUFF -> setIntValuedEffectValue(
+                    RemoveBuff.builder()
+                            .target(effectData.getTarget())
+                            .removeFromStart(effectData.getRemoveFromStart()),
+                    effectData,
+                    level
+            );
+            case FORCE_REMOVE_BUFF -> setIntValuedEffectValue(
+                    ForceRemoveBuff.builder()
+                            .target(effectData.getTarget())
+                            .removeFromStart(effectData.getRemoveFromStart()),
+                    effectData,
+                    level
+            );
+            case CRITICAL_STAR_CHANGE -> setIntValuedEffectValue(CriticalStarChange.builder(), effectData, level);
+            case NP_CHANGE ->
+                    setValuedEffectValue(NpChange.builder().target(effectData.getTarget()), effectData, level);
+            case NP_GAUGE_CHANGE -> setIntValuedEffectValue(
+                    NpGaugeChange.builder().target(effectData.getTarget()),
+                    effectData,
+                    level
+            );
+            case HP_CHANGE -> effectData.getIsHpChangePercentBased() ?
+                    setValuedEffectValue(
+                            PercentHpChange.builder()
+                                    .isLethal(effectData.getIsLethal())
+                                    .target(effectData.getTarget()), effectData, level) :
+                    setIntValuedEffectValue(
+                            HpChange.builder()
+                                    .isLethal(effectData.getIsLethal())
+                                    .target(effectData.getTarget()), effectData, level);
+            case NOBLE_PHANTASM_DAMAGE -> setNpDamageParams(NoblePhantasmDamage.builder(), effectData, level);
+            case DECREASE_ACTIVE_SKILL_COOL_DOWN -> setIntValuedEffectValue(
+                    DecreaseActiveSkillCoolDown.builder().target(effectData.getTarget()),
+                    effectData,
+                    level
+            );
+            case INSTANT_DEATH ->
+                    setEffectParams(InstantDeath.builder().target(effectData.getTarget()), effectData, level);
+            case FORCE_INSTANT_DEATH -> setEffectParams(
+                    ForceInstantDeath.builder().target(effectData.getTarget()),
+                    effectData,
+                    level
+            );
+            case ASCENSION_CHANGE -> setIntValuedEffectValue(
+                    AscensionChange.builder().target(effectData.getTarget()),
+                    effectData,
+                    level
+            );
+            case BUFF_ABSORPTION ->
+                    setEffectParams(BuffAbsorption.builder().target(effectData.getTarget()), effectData, level);
+            case CARD_TYPE_CHANGE_SELECT -> setGrantBuffEffectValue(
                     CardTypeChangeSelect.builder().allowedCardTypes(effectData.getCardTypeSelectionsList()),
                     effectData,
                     level
             );
-
-        } else if (type.equalsIgnoreCase(CriticalStarChange.class.getSimpleName())) {
-            return setCommonIntValuedEffectValue(CriticalStarChange.builder(), effectData, level);
-
-        } else if (type.equalsIgnoreCase(DecreaseActiveSkillCoolDown.class.getSimpleName())) {
-            return setCommonIntValuedEffectValue(DecreaseActiveSkillCoolDown.builder().target(effectData.getTarget()), effectData, level);
-
-        } else if (type.equalsIgnoreCase(GrantBuff.class.getSimpleName())) {
-            return setCommonGrantBuffEffectValue(GrantBuff.builder(), effectData, level);
-
-        } else if (type.equalsIgnoreCase(ForceGrantBuff.class.getSimpleName())) {
-            return setCommonGrantBuffEffectValue(ForceGrantBuff.builder(), effectData, level);
-
-        } else if (type.equalsIgnoreCase(ForceInstantDeath.class.getSimpleName())) {
-            return setCommonEffectParams(ForceInstantDeath.builder().target(effectData.getTarget()), effectData, level);
-
-        } else if (type.equalsIgnoreCase(ForceRemoveBuff.class.getSimpleName())) {
-            final ForceRemoveBuff.ForceRemoveBuffBuilder<?, ?> builder = ForceRemoveBuff.builder()
-                    .target(effectData.getTarget())
-                    .removeFromStart(effectData.getRemoveFromStart());
-            return setCommonIntValuedEffectValue(builder, effectData, level);
-
-        } else if (type.equalsIgnoreCase(HpChange.class.getSimpleName())) {
-            if (effectData.getIsHpChangePercentBased()) {
-                final PercentHpChange.PercentHpChangeBuilder<?, ?> builder = PercentHpChange.builder()
-                        .isLethal(effectData.getIsLethal())
-                        .target(effectData.getTarget());
-                return setCommonValuedEffectValue(builder, effectData, level);
-            } else {
-                final HpChange.HpChangeBuilder<?, ?> builder = HpChange.builder()
-                        .isLethal(effectData.getIsLethal())
-                        .target(effectData.getTarget());
-                return setCommonIntValuedEffectValue(builder, effectData, level);
-            }
-
-        } else if (type.equalsIgnoreCase(InstantDeath.class.getSimpleName())) {
-            return setCommonEffectParams(InstantDeath.builder().target(effectData.getTarget()), effectData, level);
-
-        } else if (type.equalsIgnoreCase(MaxHpChange.class.getSimpleName())) {
-            return setCommonGrantBuffEffectValue(MaxHpChange.builder(), effectData, level);
-
-        } else if (type.equalsIgnoreCase(MoveToLastBackup.class.getSimpleName())) {
-            return setCommonEffectParams(MoveToLastBackup.builder(), effectData, level);
-
-        } else if (type.equalsIgnoreCase(NoblePhantasmDamage.class.getSimpleName())) {
-            return setCommonNpDamageParams(NoblePhantasmDamage.builder(), effectData, level);
-
-        } else if (type.equalsIgnoreCase(NpChange.class.getSimpleName())) {
-            return setCommonValuedEffectValue(NpChange.builder().target(effectData.getTarget()), effectData, level);
-
-        } else if (type.equalsIgnoreCase(NpGaugeChange.class.getSimpleName())) {
-            return setCommonIntValuedEffectValue(NpGaugeChange.builder().target(effectData.getTarget()), effectData, level);
-
-        } else if (type.equalsIgnoreCase(OrderChange.class.getSimpleName())) {
-            return setCommonEffectParams(OrderChange.builder(), effectData, level);
-
-        } else if (type.equalsIgnoreCase(RandomEffects.class.getSimpleName())) {
-            return setCommonEffectParams(
+            case ORDER_CHANGE -> setEffectParams(OrderChange.builder(), effectData, level);
+            case MOVE_TO_LAST_BACKUP -> setEffectParams(MoveToLastBackup.builder(), effectData, level);
+            case SHUFFLE_CARDS -> setEffectParams(ShuffleCards.builder(), effectData, level);
+            case RANDOM_EFFECTS -> setEffectParams(
                     RandomEffects.builder().skillLevel(level).effectData(effectData.getEffectDataList()),
                     effectData,
                     level
             );
-
-        } else if (type.equalsIgnoreCase(RemoveBuff.class.getSimpleName())) {
-            final RemoveBuff.RemoveBuffBuilder<?, ?> builder = RemoveBuff.builder()
-                    .target(effectData.getTarget())
-                    .removeFromStart(effectData.getRemoveFromStart());
-            return setCommonIntValuedEffectValue(builder, effectData, level);
-
-        } else if (type.equalsIgnoreCase(ShuffleCards.class.getSimpleName())) {
-            return setCommonEffectParams(ShuffleCards.builder(), effectData, level);
-
-        }
-
-        throw new UnsupportedOperationException("Effect type unsupported: " + type);
+        };
     }
 
-    private static Effect setCommonEffectParams(Effect.EffectBuilder<?, ?> builder, EffectData effectData, final int level) {
+    private static Effect setEffectParams(
+            Effect.EffectBuilder<?, ?> builder,
+            EffectData effectData,
+            final int level
+    ) {
         if (effectData.hasApplyCondition()) {
             builder.applyCondition(ConditionFactory.buildCondition(effectData.getApplyCondition()));
         }
@@ -155,7 +112,7 @@ public class EffectFactory {
         return builder.build();
     }
 
-    private static Effect setCommonValuedEffectValue(
+    private static Effect setValuedEffectValue(
             final ValuedEffect.ValuedEffectBuilder<?, ?> builder,
             final EffectData effectData,
             final int level
@@ -180,10 +137,10 @@ public class EffectFactory {
             }
         }
 
-        return setCommonEffectParams(builder, effectData, level);
+        return setEffectParams(builder, effectData, level);
     }
 
-    private static Effect setCommonIntValuedEffectValue(
+    private static Effect setIntValuedEffectValue(
             final IntValuedEffect.IntValuedEffectBuilder<?, ?> builder,
             final EffectData effectData,
             final int level
@@ -211,10 +168,10 @@ public class EffectFactory {
             }
         }
 
-        return setCommonEffectParams(builder, effectData, level);
+        return setEffectParams(builder, effectData, level);
     }
 
-    private static Effect setCommonGrantBuffEffectValue(
+    private static Effect setGrantBuffEffectValue(
             final GrantBuff.GrantBuffBuilder<?, ?> builder,
             final EffectData effectData,
             final int level
@@ -230,10 +187,10 @@ public class EffectFactory {
             builder.buffData(getSingletonValueListForLevel(effectData.getBuffDataList(), level));
         }
 
-        return setCommonEffectParams(builder, effectData, level);
+        return setEffectParams(builder, effectData, level);
     }
 
-    private static Effect setCommonNpDamageParams(
+    private static Effect setNpDamageParams(
             final NoblePhantasmDamage.NoblePhantasmDamageBuilder<?, ?> builder,
             final EffectData effectData,
             final int level
@@ -284,7 +241,10 @@ public class EffectFactory {
                             .isNpSpecificDamageOverchargedEffect(true)
                             .isOverchargedEffect(true);
                 } else {
-                    builder.npSpecificDamageRates(getSingletonValueListForLevel(additionalParams.getNpSpecificDamageRateList(), level));
+                    builder.npSpecificDamageRates(getSingletonValueListForLevel(
+                            additionalParams.getNpSpecificDamageRateList(),
+                            level
+                    ));
                 }
 
                 // specific damage variation
@@ -305,7 +265,7 @@ public class EffectFactory {
             }
         }
 
-        return setCommonEffectParams(builder, effectData, level);
+        return setEffectParams(builder, effectData, level);
     }
 
     private static <E> List<E> getSingletonValueListForLevel(final List<E> values, final int level) {
@@ -316,32 +276,5 @@ public class EffectFactory {
         } else {
             return ImmutableList.of();
         }
-    }
-
-    public static Map<String, Set<EffectFields>> buildEffectsRequiredFieldsMap() {
-        final ImmutableMap.Builder<String, Set<EffectFields>> builder = ImmutableMap.builder();
-
-        builder.put(GrantBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
-        builder.put(ForceGrantBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET));
-        builder.put(RemoveBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_REMOVE_BUFF));
-        builder.put(ForceRemoveBuff.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_REMOVE_BUFF));
-        builder.put(CriticalStarChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE));
-        builder.put(NpChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_DOUBLE_VALUE, EFFECT_FIELD_TARGET));
-        builder.put(NpGaugeChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));
-        builder.put(HpChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET, EFFECT_FIELD_HP_CHANGE));
-        builder.put(NoblePhantasmDamage.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_DOUBLE_VALUE, EFFECT_FIELD_NP_DAMAGE, EFFECT_FIELD_TARGET));
-
-        builder.put(DecreaseActiveSkillCoolDown.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));
-        builder.put(InstantDeath.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET));
-        builder.put(ForceInstantDeath.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET));
-        builder.put(AscensionChange.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_INT_VALUE, EFFECT_FIELD_TARGET));
-        builder.put(BuffAbsorption.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_TARGET));
-        builder.put(CardTypeChangeSelect.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_GRANT_BUFF, EFFECT_FIELD_TARGET, EFFECT_FIELD_CARD_TYPE_SELECT));
-        builder.put(OrderChange.class.getSimpleName(), ImmutableSet.of());
-        builder.put(MoveToLastBackup.class.getSimpleName(), ImmutableSet.of());
-        builder.put(ShuffleCards.class.getSimpleName(), ImmutableSet.of());
-        builder.put(RandomEffects.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_RANDOM_EFFECT));
-
-        return builder.build();
     }
 }

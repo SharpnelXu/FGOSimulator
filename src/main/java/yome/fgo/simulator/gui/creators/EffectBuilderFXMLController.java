@@ -27,7 +27,8 @@ import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.TranslationConverter;
-import yome.fgo.simulator.models.effects.EffectFactory.EffectFields;
+import yome.fgo.simulator.models.effects.Effect.EffectType;
+import yome.fgo.simulator.models.effects.Effect.EffectFields;
 import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
 import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
 
@@ -51,16 +52,15 @@ import static yome.fgo.simulator.gui.creators.VariationBuilder.createVariation;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;
-import static yome.fgo.simulator.models.effects.EffectFactory.EFFECT_REQUIRED_FIELDS_MAP;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_GRANT_BUFF;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_HP_CHANGE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_INT_VALUE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_NP_DAMAGE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_RANDOM_EFFECT;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_TARGET;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_GRANT_BUFF;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_HP_CHANGE;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_NP_DAMAGE;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_RANDOM_EFFECT;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_TARGET;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
@@ -246,7 +246,7 @@ public class EffectBuilderFXMLController implements Initializable {
     public void setParentBuilder(final EffectData.Builder builder) {
         this.effectDataBuilder = builder;
         if (!effectDataBuilder.getType().isEmpty()) {
-            requiredFields = EFFECT_REQUIRED_FIELDS_MAP.get(effectDataBuilder.getType());
+            requiredFields = EffectType.ofType(effectDataBuilder.getType()).getRequiredFields();
             effectTypeChoices.getSelectionModel().select(effectDataBuilder.getType());
 
             isOverchargedEffect.setSelected(effectDataBuilder.getIsOverchargedEffect());
@@ -364,7 +364,7 @@ public class EffectBuilderFXMLController implements Initializable {
 
         effectTypeLabel.setText(getTranslation(APPLICATION_SECTION, "Effect Type"));
         effectTypeChoices.setConverter(new TranslationConverter(EFFECT_SECTION));
-        effectTypeChoices.setItems(FXCollections.observableArrayList(EFFECT_REQUIRED_FIELDS_MAP.keySet()));
+        effectTypeChoices.setItems(FXCollections.observableArrayList(EffectType.getOrder()));
         effectTypeChoices.setOnAction(e -> onEffectTypeChoiceChange());
         effectTypeChoices.getSelectionModel().selectFirst();
 
@@ -599,7 +599,7 @@ public class EffectBuilderFXMLController implements Initializable {
         removeFromStartCheckbox.setVisible(false);
         removeFromStartCheckbox.setManaged(false);
 
-        requiredFields = EFFECT_REQUIRED_FIELDS_MAP.get(effectTypeChoices.getValue());
+        requiredFields = EffectType.ofType(effectTypeChoices.getValue()).getRequiredFields();
         if (requiredFields.contains(EFFECT_FIELD_TARGET)) {
             setPaneVisAndManaged(targetPane, true);
         }

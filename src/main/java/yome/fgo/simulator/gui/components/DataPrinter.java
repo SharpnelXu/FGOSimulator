@@ -13,7 +13,8 @@ import yome.fgo.data.proto.FgoStorageData.ServantOption;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.models.conditions.Condition.ConditionFields;
 import yome.fgo.simulator.models.conditions.Condition.ConditionType;
-import yome.fgo.simulator.models.effects.EffectFactory.EffectFields;
+import yome.fgo.simulator.models.effects.Effect;
+import yome.fgo.simulator.models.effects.Effect.EffectFields;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
 import yome.fgo.simulator.models.variations.Variation.VariationFields;
 import yome.fgo.simulator.models.variations.Variation.VariationType;
@@ -34,16 +35,15 @@ import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CON
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TARGET;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
-import static yome.fgo.simulator.models.effects.EffectFactory.EFFECT_REQUIRED_FIELDS_MAP;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_GRANT_BUFF;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_HP_CHANGE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_INT_VALUE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_NP_DAMAGE;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_RANDOM_EFFECT;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
-import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_TARGET;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_GRANT_BUFF;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_HP_CHANGE;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_NP_DAMAGE;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_RANDOM_EFFECT;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
+import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_TARGET;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CLASS_ADV;
@@ -383,7 +383,7 @@ public class DataPrinter {
             builder.append(printConditionData(effectData.getApplyCondition()));
         }
 
-        final Set<EffectFields> requiredFields = EFFECT_REQUIRED_FIELDS_MAP.get(effectData.getType());
+        final Set<EffectFields> requiredFields = Effect.EffectType.ofType(effectData.getType()).getRequiredFields();
         if (requiredFields == null || requiredFields.isEmpty()) {
             return builder.toString();
         }
