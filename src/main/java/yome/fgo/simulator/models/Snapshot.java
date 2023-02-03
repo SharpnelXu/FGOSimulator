@@ -26,6 +26,7 @@ public class Snapshot {
     private LinkedList<Servant> backupServants;
 
     private MysticCode mysticCode;
+    private Combatant master;
 
     private double currentStars;
     private int currentAllyTargetIndex;
@@ -67,6 +68,7 @@ public class Snapshot {
         }
 
         this.mysticCode = simulation.mysticCode.makeCopy();
+        this.master = simulation.getMysticCodeActivator().makeCopy();
 
         this.currentStars = simulation.currentStars;
         this.currentAllyTargetIndex = simulation.currentAllyTargetIndex;

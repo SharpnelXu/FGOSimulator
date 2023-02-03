@@ -6,6 +6,7 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.HealEffectivenessBuff;
 import yome.fgo.simulator.models.effects.buffs.HealGrantEffBuff;
+import yome.fgo.simulator.models.effects.buffs.SkillEffectivenessUp;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
@@ -22,7 +23,8 @@ public class HpChange extends IntValuedEffect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                final int baseChange = getValue(simulation, level);
+                final double skillEffectiveness = simulation.getActivator().applyBuff(simulation, SkillEffectivenessUp.class);
+                final int baseChange = (int) ((1 + skillEffectiveness) * getValue(simulation, level));
                 heal(simulation, combatant, baseChange, isLethal);
             }
             simulation.unsetEffectTarget();

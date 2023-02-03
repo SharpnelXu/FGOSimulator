@@ -139,7 +139,9 @@ public class ComponentUtils {
             Target.ALL_CHARACTERS,
             Target.ALL_CHARACTERS_INCLUDING_BACKUP,
             Target.ALL_CHARACTERS_EXCLUDING_SELF,
-            Target.ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP
+            Target.ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP,
+
+            Target.MASTER
     );
 
     public static void fillFateClass(final ChoiceBox<FateClass> classChoiceBox) {

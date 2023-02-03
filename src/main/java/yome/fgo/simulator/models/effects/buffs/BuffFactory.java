@@ -402,6 +402,9 @@ public class BuffFactory {
         } else if (type.equalsIgnoreCase(Sleep.class.getSimpleName())) {
             return setCommonBuffParams(Sleep.builder(), buffData, level);
 
+        } else if (type.equalsIgnoreCase(SkillEffectivenessUp.class.getSimpleName())) {
+            return setValuedBuffParams(SkillEffectivenessUp.builder(), buffData, level);
+
         } else if (type.equalsIgnoreCase(SkillRankUp.class.getSimpleName())) {
             return setCommonBuffParams(SkillRankUp.builder(), buffData, level);
 
@@ -643,6 +646,7 @@ public class BuffFactory {
         builder.put(DoNotShuffleIn.class.getSimpleName(), ImmutableSet.of());
         builder.put(FacelessMoon.class.getSimpleName(), ImmutableSet.of());
         builder.put(SkillRankUp.class.getSimpleName(), ImmutableSet.of());
+        builder.put(SkillEffectivenessUp.class.getSimpleName(), ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
 
         return builder.build();
     }

@@ -11,10 +11,15 @@ import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 
 @SuperBuilder
 public abstract class ValuedBuff extends Buff {
-    protected final double value;
     @Builder.Default
     protected final Variation variation = NO_VARIATION;
     protected final double addition;
+
+    protected double value; // no longer final due to effectiveness being a thing
+
+    public void scaleValue(final double effectiveness) {
+        this.value *= effectiveness;
+    }
 
     public double getValue(final Simulation simulation) {
         simulation.setCurrentBuff(this);

@@ -6,7 +6,11 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Getter
 public class MaxHpBuff extends Buff {
-    private final int change;
+    private int change;
+
+    public void scaleValue(final double effectiveness) {
+        change = (int) (change * effectiveness);
+    }
 
     @Override
     public boolean commonBuffCondition() {

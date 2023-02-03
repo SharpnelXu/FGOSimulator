@@ -765,6 +765,7 @@ public class Simulation {
         this.backupServants = snapshot.getBackupServants();
 
         this.mysticCode = snapshot.getMysticCode();
+        this.mysticCodeActivator = snapshot.getMaster();
 
         this.currentStars = snapshot.getCurrentStars();
         this.currentAllyTargetIndex = snapshot.getCurrentAllyTargetIndex();

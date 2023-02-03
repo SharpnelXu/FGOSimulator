@@ -375,6 +375,8 @@ enum Target {
   EFFECT_TARGET = 20;
   ACTIVATOR = 21; // just to avoid ambiguity. This is same as self, or self is the same as activator
   SERVANT_EXCHANGE = 30;
+
+  MASTER = 40;
 }
 
 message ConditionData {

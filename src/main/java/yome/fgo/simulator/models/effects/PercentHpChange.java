@@ -4,6 +4,7 @@ import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
+import yome.fgo.simulator.models.effects.buffs.SkillEffectivenessUp;
 import yome.fgo.simulator.utils.TargetUtils;
 
 import static yome.fgo.simulator.models.effects.HpChange.heal;
@@ -20,7 +21,8 @@ public class PercentHpChange extends ValuedEffect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                final int baseChange = (int) (combatant.getMaxHp() * getValue(simulation, level));
+                final double skillEffectiveness = simulation.getActivator().applyBuff(simulation, SkillEffectivenessUp.class);
+                final int baseChange = (int) ((1 + skillEffectiveness) * combatant.getMaxHp() * getValue(simulation, level));
                 heal(simulation, combatant, baseChange, isLethal);
             }
             simulation.unsetEffectTarget();

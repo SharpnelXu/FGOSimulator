@@ -57,6 +57,7 @@ import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES_INCLUDING_BAC
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES_INCLUDING_BACKUP;
+import static yome.fgo.data.proto.FgoStorageData.Target.MASTER;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 import static yome.fgo.simulator.ResourceManager.getBuffIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
@@ -529,7 +530,8 @@ public class BuffBuilderFXMLController implements Initializable {
                 ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP,
                 ALL_ENEMIES_INCLUDING_BACKUP,
                 ALL_CHARACTERS_INCLUDING_BACKUP,
-                ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP
+                ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP,
+                MASTER
         ));
         targetChoiceBox.getSelectionModel().selectFirst();
         final HBox targetHBox = new HBox(10);

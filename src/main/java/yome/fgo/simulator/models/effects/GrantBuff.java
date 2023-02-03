@@ -12,6 +12,8 @@ import yome.fgo.simulator.models.effects.buffs.DebuffChanceBuff;
 import yome.fgo.simulator.models.effects.buffs.DebuffResist;
 import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
 import yome.fgo.simulator.models.effects.buffs.ReceivedBuffChanceBuff;
+import yome.fgo.simulator.models.effects.buffs.SkillEffectivenessUp;
+import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
@@ -56,6 +58,16 @@ public class GrantBuff extends Effect {
                 }
 
                 simulation.setCurrentBuff(buff);
+
+                if (buff instanceof ValuedBuff) {
+                    final double skillEffectiveness = simulation.getActivator()
+                            .applyBuff(simulation, SkillEffectivenessUp.class);
+                    ((ValuedBuff) buff).scaleValue(1 + skillEffectiveness);
+                } else if (buff instanceof MaxHpBuff) {
+                    final double skillEffectiveness = simulation.getActivator()
+                            .applyBuff(simulation, SkillEffectivenessUp.class);
+                    ((MaxHpBuff) buff).scaleValue(1 + skillEffectiveness);
+                }
 
                 grantBuff(simulation, buff, combatant, probability);
 

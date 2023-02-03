@@ -228,6 +228,22 @@
       }],
       "iconName": "busterUp"
     }, {
+      "effects": [{
+        "type": "GrantBuff",
+        "target": "SELF",
+        "buffData": [{
+          "type": "OnFieldEffect",
+          "onFieldBuffParams": {
+            "target": "MASTER",
+            "buffData": {
+              "type": "SkillEffectivenessUp",
+              "values": [0.1],
+              "buffIcon": "circuit"
+            }
+          },
+          "buffIcon": "circuit"
+        }]
+      }],
       "iconName": "circuit"
     }],
     "appendSkillData": [{

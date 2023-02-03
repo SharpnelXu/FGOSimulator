@@ -129,6 +129,9 @@ public class TargetUtils {
             case EFFECT_TARGET:
                 targets.add(simulation.getEffectTarget());
                 break;
+            case MASTER:
+                targets.add(simulation.getMysticCodeActivator());
+                break;
             case SERVANT_EXCHANGE:
                 throw new UnsupportedOperationException("pending implementation");
             case UNRECOGNIZED:
