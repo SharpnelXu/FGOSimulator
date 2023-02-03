@@ -35,6 +35,9 @@ public abstract class Condition {
         CONDITION_FIELD_BUFF_TRAIT_VALUE
     }
 
+    /**
+     * Display order of GUI is the same as Enum order.
+     */
     public enum ConditionType {
         ALWAYS(Always.class.getSimpleName(), ImmutableSet.of()),
         NEVER(Never.class.getSimpleName(), ImmutableSet.of()),
@@ -50,14 +53,35 @@ public abstract class Condition {
         BUFF_HAS_TRAIT(BuffHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TRAIT_VALUE)),
         BUFF_REMOVABLE(BuffRemovable.class.getSimpleName(), ImmutableSet.of()),
 
-        TARGETS_HAVE_CLASS(TargetsHaveClass.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_CLASS_VALUE)),
-        TARGETS_HAVE_BUFF(TargetsHaveBuff.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_LIMITED_SUB_CONDITION)),
-        TARGETS_HAVE_TRAIT(TargetsHaveTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_TRAIT_VALUE)),
-        TARGETS_CONTAINS_SPECIFIC_SERVANT(TargetsContainsSpecificServant.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_NAMES)),
+        TARGETS_HAVE_CLASS(
+                TargetsHaveClass.class.getSimpleName(),
+                ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_CLASS_VALUE)
+        ),
+        TARGETS_HAVE_BUFF(
+                TargetsHaveBuff.class.getSimpleName(),
+                ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_LIMITED_SUB_CONDITION)
+        ),
+        TARGETS_HAVE_TRAIT(
+                TargetsHaveTrait.class.getSimpleName(),
+                ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_TRAIT_VALUE)
+        ),
+        TARGETS_CONTAINS_SPECIFIC_SERVANT(
+                TargetsContainsSpecificServant.class.getSimpleName(),
+                ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_NAMES)
+        ),
 
-        RARITY_AT_LEAST(RarityAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_INT_VALUE, CONDITION_FIELD_TARGET)),
-        SERVANTS_WITH_CE(ServantsWithCE.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_NAMES)),
-        TARGETS_RECEIVED_INSTANT_DEATH(TargetsReceivedInstantDeath.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TARGET)),
+        RARITY_AT_LEAST(
+                RarityAtLeast.class.getSimpleName(),
+                ImmutableSet.of(CONDITION_FIELD_INT_VALUE, CONDITION_FIELD_TARGET)
+        ),
+        SERVANTS_WITH_CE(
+                ServantsWithCE.class.getSimpleName(),
+                ImmutableSet.of(CONDITION_FIELD_TARGET, CONDITION_FIELD_NAMES)
+        ),
+        TARGETS_RECEIVED_INSTANT_DEATH(
+                TargetsReceivedInstantDeath.class.getSimpleName(),
+                ImmutableSet.of(CONDITION_FIELD_TARGET)
+        ),
         STAGE_HAS_TRAIT(StageHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TRAIT_VALUE)),
 
         CRIT_STAR_AT_LEAST(CritStarAtLeast.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_INT_VALUE)),
@@ -80,7 +104,7 @@ public abstract class Condition {
         private static final Map<String, ConditionType> BY_TYPE_STRING = new LinkedHashMap<>();
 
         static {
-            for (final ConditionType conditionType: values()) {
+            for (final ConditionType conditionType : values()) {
                 BY_TYPE_STRING.put(conditionType.type, conditionType);
             }
         }

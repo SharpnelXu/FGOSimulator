@@ -16,7 +16,8 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.TranslationConverter;
-import yome.fgo.simulator.models.variations.VariationFactory.VariationFields;
+import yome.fgo.simulator.models.variations.Variation.VariationFields;
+import yome.fgo.simulator.models.variations.Variation.VariationType;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.io.IOException;
@@ -30,12 +31,11 @@ import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_REQUIRED_FIELDS_MAP;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_BUFF;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_HP;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_MAX_COUNT;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TARGET;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TRAIT;
+import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_BUFF;
+import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_HP;
+import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_MAX_COUNT;
+import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_TARGET;
+import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_TRAIT;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.VARIATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
@@ -126,7 +126,7 @@ public class VariationBuilderFXMLController implements Initializable {
         this.variationBuilder = variationBuilder;
 
         if (!variationBuilder.getType().isEmpty()) {
-            requiredFields = VARIATION_REQUIRED_FIELDS_MAP.get(variationBuilder.getType());
+            requiredFields = VariationType.ofType(variationBuilder.getType()).getRequiredFields();
             variationChoices.getSelectionModel().select(variationBuilder.getType());
 
             if (requiredFields.contains(VARIATION_FIELD_MAX_COUNT)) {
@@ -155,9 +155,9 @@ public class VariationBuilderFXMLController implements Initializable {
 
         variationLabel.setText(getTranslation(APPLICATION_SECTION, "Variation Type"));
         variationChoices.setConverter(new TranslationConverter(VARIATION_SECTION));
-        variationChoices.setItems(FXCollections.observableArrayList(VARIATION_REQUIRED_FIELDS_MAP.keySet()));
+        variationChoices.setItems(FXCollections.observableArrayList(VariationType.getOrder()));
         variationChoices.getSelectionModel().select("NoVariation");
-        requiredFields = VARIATION_REQUIRED_FIELDS_MAP.get("NoVariation");
+        requiredFields = VariationType.ofType("NoVariation").getRequiredFields();
 
         variationChoices.setOnAction(e -> onVariationTypeChoiceChanges());
 
@@ -221,7 +221,7 @@ public class VariationBuilderFXMLController implements Initializable {
 
         resetPane();
 
-        requiredFields = VARIATION_REQUIRED_FIELDS_MAP.get(variationChoices.getValue());
+        requiredFields = VariationType.ofType(variationChoices.getValue()).getRequiredFields();
 
         if (requiredFields.contains(VARIATION_FIELD_MAX_COUNT)) {
             maxCountPane.setVisible(true);

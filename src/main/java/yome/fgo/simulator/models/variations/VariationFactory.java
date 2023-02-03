@@ -1,95 +1,35 @@
 package yome.fgo.simulator.models.variations;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
-
-import java.util.Map;
-import java.util.Set;
+import yome.fgo.simulator.models.variations.Variation.VariationType;
 
 import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 import static yome.fgo.simulator.models.variations.TurnPassVariation.TURN_PASS_VARIATION;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_BUFF;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_HP;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_MAX_COUNT;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TARGET;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TRAIT;
 
 public class VariationFactory {
-    public static final Map<String, Set<VariationFields>> VARIATION_REQUIRED_FIELDS_MAP = buildVariationRequiredFieldsMap();
-    public enum VariationFields {
-        VARIATION_FIELD_MAX_COUNT,
-        VARIATION_FIELD_TRAIT,
-        VARIATION_FIELD_BUFF,
-        VARIATION_FIELD_HP,
-        VARIATION_FIELD_TARGET
-    }
-
     public static Variation buildVariation(final VariationData variationData) {
-        final String type = variationData.getType();
-
-        if (type.equalsIgnoreCase(BuffCountVariation.class.getSimpleName())) {
-            return new BuffCountVariation(
+        return switch (VariationType.ofType(variationData.getType())) {
+            case NO_VARIATION -> NO_VARIATION;
+            case BUFF_COUNT_VARIATION -> new BuffCountVariation(
                     variationData.getMaxCount(),
                     ConditionFactory.buildCondition(variationData.getConditionData()),
                     variationData.getTarget()
             );
-
-        } else if (type.equalsIgnoreCase(HpAbsorptionVariation.class.getSimpleName())) {
-            return new HpAbsorptionVariation(variationData.getTarget());
-
-        } else if (type.equalsIgnoreCase(HpVariation.class.getSimpleName())) {
-            return new HpVariation(variationData.getMaxHp(), variationData.getMinHp(), variationData.getTarget());
-
-        } else if (type.equalsIgnoreCase(NoVariation.class.getSimpleName())) {
-            return NO_VARIATION;
-
-        } else if (type.equalsIgnoreCase(NpAbsorptionVariation.class.getSimpleName())) {
-            return new NpAbsorptionVariation(variationData.getTarget());
-
-        } else if (type.equalsIgnoreCase(TargetCountVariation.class.getSimpleName())) {
-            return new TargetCountVariation(variationData.getTarget());
-
-        } else if (type.equalsIgnoreCase(TraitCountVariation.class.getSimpleName())) {
-            return new TraitCountVariation(variationData.getMaxCount(), variationData.getTrait(), variationData.getTarget());
-
-        } else if (type.equalsIgnoreCase(TurnPassVariation.class.getSimpleName())) {
-            return TURN_PASS_VARIATION;
-        }
-
-
-        throw new IllegalArgumentException("Unrecognized Variation type: " + type);
-    }
-
-    public static Map<String, Set<VariationFields>> buildVariationRequiredFieldsMap() {
-        final ImmutableMap.Builder<String, Set<VariationFields>> builder = ImmutableMap.builder();
-        builder.put(NoVariation.class.getSimpleName(), ImmutableSet.of());
-        builder.put(BuffCountVariation.class.getSimpleName(), ImmutableSet.of(
-                VARIATION_FIELD_MAX_COUNT,
-                VARIATION_FIELD_BUFF,
-                VARIATION_FIELD_TARGET
-        ));
-        builder.put(TraitCountVariation.class.getSimpleName(), ImmutableSet.of(
-                VARIATION_FIELD_MAX_COUNT,
-                VARIATION_FIELD_TRAIT,
-                VARIATION_FIELD_TARGET
-        ));
-        builder.put(HpAbsorptionVariation.class.getSimpleName(), ImmutableSet.of(
-                VARIATION_FIELD_TARGET
-        ));
-        builder.put(NpAbsorptionVariation.class.getSimpleName(), ImmutableSet.of(
-                VARIATION_FIELD_TARGET
-        ));
-        builder.put(TargetCountVariation.class.getSimpleName(), ImmutableSet.of(
-                VARIATION_FIELD_TARGET
-        ));
-        builder.put(TurnPassVariation.class.getSimpleName(), ImmutableSet.of());
-        builder.put(HpVariation.class.getSimpleName(), ImmutableSet.of(
-                VARIATION_FIELD_HP,
-                VARIATION_FIELD_TARGET
-        ));
-
-        return builder.build();
+            case TRAIT_COUNT_VARIATION -> new TraitCountVariation(
+                    variationData.getMaxCount(),
+                    variationData.getTrait(),
+                    variationData.getTarget()
+            );
+            case HP_ABSORPTION_VARIATION -> new HpAbsorptionVariation(variationData.getTarget());
+            case NP_ABSORPTION_VARIATION -> new NpAbsorptionVariation(variationData.getTarget());
+            case TARGET_COUNT_VARIATION -> new TargetCountVariation(variationData.getTarget());
+            case TURN_PASS_VARIATION -> TURN_PASS_VARIATION;
+            case HP_VARIATION -> new HpVariation(
+                    variationData.getMaxHp(),
+                    variationData.getMinHp(),
+                    variationData.getTarget()
+            );
+        };
     }
 }

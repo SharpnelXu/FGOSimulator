@@ -15,7 +15,8 @@ import yome.fgo.simulator.models.conditions.Condition.ConditionFields;
 import yome.fgo.simulator.models.conditions.Condition.ConditionType;
 import yome.fgo.simulator.models.effects.EffectFactory.EffectFields;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
-import yome.fgo.simulator.models.variations.VariationFactory.VariationFields;
+import yome.fgo.simulator.models.variations.Variation.VariationFields;
+import yome.fgo.simulator.models.variations.Variation.VariationType;
 
 import java.util.List;
 import java.util.Set;
@@ -52,12 +53,11 @@ import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUF
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_ON_FIELD;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_PERCENT_OPTION;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_STRING_VALUE;
-import static yome.fgo.simulator.models.variations.VariationFactory.VARIATION_REQUIRED_FIELDS_MAP;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_BUFF;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_HP;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_MAX_COUNT;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TARGET;
-import static yome.fgo.simulator.models.variations.VariationFactory.VariationFields.VARIATION_FIELD_TRAIT;
+import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_BUFF;
+import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_HP;
+import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_MAX_COUNT;
+import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_TARGET;
+import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_TRAIT;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_ADV_SECTION;
@@ -138,7 +138,7 @@ public class DataPrinter {
 
         builder.append(getTranslation(VARIATION_SECTION, type));
 
-        final Set<VariationFields> requiredFields = VARIATION_REQUIRED_FIELDS_MAP.get(type);
+        final Set<VariationFields> requiredFields = VariationType.ofType(type).getRequiredFields();
         if (requiredFields == null || requiredFields.isEmpty()) {
             return builder.toString();
         }
