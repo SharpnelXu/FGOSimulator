@@ -11,7 +11,8 @@ import yome.fgo.data.proto.FgoStorageData.NpDamageAdditionalParams;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.data.proto.FgoStorageData.ServantOption;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
-import yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields;
+import yome.fgo.simulator.models.conditions.Condition.ConditionFields;
+import yome.fgo.simulator.models.conditions.Condition.ConditionType;
 import yome.fgo.simulator.models.effects.EffectFactory.EffectFields;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
 import yome.fgo.simulator.models.variations.VariationFactory.VariationFields;
@@ -21,18 +22,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_REQUIRED_FIELD_MAP;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TRAIT_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CARD_TYPE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_INT_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_NAMES;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TARGET;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_BUFF_TRAIT_VALUE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_NAMES;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TARGET;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.effects.EffectFactory.EFFECT_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_CARD_TYPE_SELECT;
 import static yome.fgo.simulator.models.effects.EffectFactory.EffectFields.EFFECT_FIELD_DOUBLE_VALUE;
@@ -83,7 +83,7 @@ public class DataPrinter {
 
         builder.append(getTranslation(CONDITION_SECTION, type));
 
-        final Set<ConditionFields> requiredFields = CONDITION_REQUIRED_FIELD_MAP.get(type);
+        final Set<ConditionFields> requiredFields = ConditionType.ofType(type).getRequiredFields();
         if (requiredFields == null || requiredFields.isEmpty()) {
             return builder.toString();
         }

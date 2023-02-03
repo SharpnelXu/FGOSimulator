@@ -22,7 +22,8 @@ import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.TranslationConverter;
-import yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields;
+import yome.fgo.simulator.models.conditions.Condition.ConditionFields;
+import yome.fgo.simulator.models.conditions.Condition.ConditionType;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.net.URL;
@@ -37,18 +38,17 @@ import static yome.fgo.simulator.gui.components.DataPrinter.intToString;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListener;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillFateClass;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.CONDITION_REQUIRED_FIELD_MAP;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TRAIT_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CARD_TYPE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_INT_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_NAMES;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TARGET;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
-import static yome.fgo.simulator.models.conditions.ConditionFactory.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_BUFF_TRAIT_VALUE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_NAMES;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TARGET;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
@@ -149,7 +149,7 @@ public class ConditionBuilderFXMLController implements Initializable {
         this.conditionDataBuilder = builder;
 
         if (!builder.getType().isEmpty()) {
-            requiredFields = CONDITION_REQUIRED_FIELD_MAP.get(builder.getType());
+            requiredFields = ConditionType.ofType(builder.getType()).getRequiredFields();
             conditionChoices.getSelectionModel().select(builder.getType());
             
             if (requiredFields.contains(CONDITION_FIELD_INT_VALUE)) {
@@ -197,10 +197,10 @@ public class ConditionBuilderFXMLController implements Initializable {
         conditionLabel.setText(getTranslation(APPLICATION_SECTION, "Condition Type"));
 
         conditionChoices.setConverter(new TranslationConverter(CONDITION_SECTION));
-        conditionChoices.setItems(FXCollections.observableArrayList(CONDITION_REQUIRED_FIELD_MAP.keySet()));
+        conditionChoices.setItems(FXCollections.observableArrayList(ConditionType.getOrder()));
 
         conditionChoices.getSelectionModel().select( "Always");
-        requiredFields = CONDITION_REQUIRED_FIELD_MAP.get("Always");
+        requiredFields = ConditionType.ofType("Always").getRequiredFields();
 
         conditionChoices.setOnAction(e -> onConditionChoicesChange());
 
@@ -296,7 +296,7 @@ public class ConditionBuilderFXMLController implements Initializable {
 
         resetPane();
 
-        requiredFields = CONDITION_REQUIRED_FIELD_MAP.get(conditionChoices.getValue());
+        requiredFields = ConditionType.ofType(conditionChoices.getValue()).getRequiredFields();
 
         if (requiredFields.contains(CONDITION_FIELD_INT_VALUE) ||
                 requiredFields.contains(CONDITION_FIELD_DOUBLE_VALUE) ||
