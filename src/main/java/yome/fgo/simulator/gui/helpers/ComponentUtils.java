@@ -37,6 +37,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES_INCLUDING_BACKUP;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP;
+import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES_INCLUDING_BACKUP;
+import static yome.fgo.data.proto.FgoStorageData.Target.MASTER;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_ADV_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
@@ -144,6 +150,8 @@ public class ComponentUtils {
             Target.MASTER
     );
 
+
+
     public static void fillFateClass(final ChoiceBox<FateClass> classChoiceBox) {
         final List<FateClass> fateClasses = Lists.newArrayList(FateClass.values());
         fateClasses.remove(FateClass.NO_CLASS);
@@ -173,6 +181,19 @@ public class ComponentUtils {
     public static void fillTargets(final ChoiceBox<Target> targetChoiceBox) {
         targetChoiceBox.setConverter(new EnumConverter<>(TARGET_SECTION));
         targetChoiceBox.setItems(FXCollections.observableArrayList(VALID_TARGETS));
+        targetChoiceBox.getSelectionModel().selectFirst();
+    }
+
+    public static void fillOnFieldEffectTargets(final ChoiceBox<Target> targetChoiceBox) {
+        targetChoiceBox.setConverter(new EnumConverter<>(TARGET_SECTION));
+        targetChoiceBox.setItems(FXCollections.observableArrayList(
+                ALL_ALLIES_INCLUDING_BACKUP,
+                ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP,
+                ALL_ENEMIES_INCLUDING_BACKUP,
+                ALL_CHARACTERS_INCLUDING_BACKUP,
+                ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP,
+                MASTER
+        ));
         targetChoiceBox.getSelectionModel().selectFirst();
     }
 

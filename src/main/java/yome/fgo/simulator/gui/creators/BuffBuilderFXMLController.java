@@ -29,7 +29,6 @@ import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.OnFieldBuffParams;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.data.proto.FgoStorageData.VariationData;
-import yome.fgo.simulator.gui.components.EnumConverter;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.TranslationConverter;
@@ -52,12 +51,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
-import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP;
-import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES_INCLUDING_BACKUP;
-import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP;
-import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP;
-import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES_INCLUDING_BACKUP;
-import static yome.fgo.data.proto.FgoStorageData.Target.MASTER;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 import static yome.fgo.simulator.ResourceManager.getBuffIcon;
 import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
@@ -70,6 +63,7 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListene
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillClassAdvMode;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillCommandCardType;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillOnFieldEffectTargets;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CLASS_ADV;
@@ -83,7 +77,6 @@ import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUF
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
-import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -524,16 +517,7 @@ public class BuffBuilderFXMLController implements Initializable {
 
         final Label targetLabel = new Label(getTranslation(APPLICATION_SECTION, "Target"));
         targetChoiceBox = new ChoiceBox<>();
-        targetChoiceBox.setConverter(new EnumConverter<>(TARGET_SECTION));
-        targetChoiceBox.setItems(FXCollections.observableArrayList(
-                ALL_ALLIES_INCLUDING_BACKUP,
-                ALL_ALLIES_EXCLUDING_SELF_INCLUDING_BACKUP,
-                ALL_ENEMIES_INCLUDING_BACKUP,
-                ALL_CHARACTERS_INCLUDING_BACKUP,
-                ALL_CHARACTERS_EXCLUDING_SELF_INCLUDING_BACKUP,
-                MASTER
-        ));
-        targetChoiceBox.getSelectionModel().selectFirst();
+        fillOnFieldEffectTargets(targetChoiceBox);
         final HBox targetHBox = new HBox(10);
         targetHBox.setAlignment(Pos.CENTER_LEFT);
         targetHBox.getChildren().addAll(targetLabel, targetChoiceBox);
