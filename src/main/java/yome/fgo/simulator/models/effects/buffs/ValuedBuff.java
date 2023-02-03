@@ -21,6 +21,13 @@ public abstract class ValuedBuff extends Buff {
         this.value *= effectiveness;
     }
 
+    @Override
+    public Buff makeCopy() {
+        final ValuedBuff copy = (ValuedBuff) super.makeCopy();
+        copy.value = this.value;
+        return copy;
+    }
+
     public double getValue(final Simulation simulation) {
         simulation.setCurrentBuff(this);
         final double result = variation.evaluate(simulation, value, addition);

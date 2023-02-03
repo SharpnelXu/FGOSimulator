@@ -13,6 +13,13 @@ public class MaxHpBuff extends Buff {
     }
 
     @Override
+    public Buff makeCopy() {
+        final MaxHpBuff copy = (MaxHpBuff) super.makeCopy();
+        copy.change = this.change;
+        return copy;
+    }
+
+    @Override
     public boolean commonBuffCondition() {
         return change > 0;
     }
