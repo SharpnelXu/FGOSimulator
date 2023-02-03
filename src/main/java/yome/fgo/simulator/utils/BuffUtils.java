@@ -2,7 +2,6 @@ package yome.fgo.simulator.utils;
 
 import com.google.common.collect.ImmutableList;
 import yome.fgo.data.proto.FgoStorageData.BuffTraits;
-import yome.fgo.simulator.models.effects.buffs.AttackerBuff;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.DamageOverTime;
 import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
@@ -26,6 +25,8 @@ public class BuffUtils {
     }
 
     public static boolean shouldDecreaseNumTurnsActiveAtMyTurn(final Buff buff, final boolean isBuffExtended) {
-        return (!isBuffExtended && buff instanceof AttackerBuff) || buff instanceof EndOfTurnEffect || buff instanceof DamageOverTime;
+        return (!isBuffExtended && buff.getBuffTraits()
+                .contains(BuffTraits.ATTACKER_BUFF.name())) || buff instanceof EndOfTurnEffect || buff instanceof DamageOverTime;
+    }
     }
 }

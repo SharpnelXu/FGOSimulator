@@ -476,6 +476,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
     - 添加新Buff：移除场地特性（烟雾镜）
     - 添加新Buff：技能效果提升（烟雾镜）
     - 修了巴姐被动会导致DOT伤害不正确的问题
+    - 修了基础数值为0但具有数值变化的Buff不被正确视为强化效果的问题（泡馍三技能）
 - v1.05:
   - 系统：
     - 选择卡色从下拉菜单改为按钮

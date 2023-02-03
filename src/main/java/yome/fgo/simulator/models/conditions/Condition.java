@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_BUFF_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
@@ -50,7 +51,7 @@ public abstract class Condition {
         NP_CARD(NpCard.class.getSimpleName(), ImmutableSet.of()),
 
         BUFF_TYPE_EQUALS(BuffTypeEquals.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_BUFF_TYPE)),
-        BUFF_HAS_TRAIT(BuffHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_TRAIT_VALUE)),
+        BUFF_HAS_TRAIT(BuffHasTrait.class.getSimpleName(), ImmutableSet.of(CONDITION_FIELD_BUFF_TRAIT_VALUE)),
         BUFF_REMOVABLE(BuffRemovable.class.getSimpleName(), ImmutableSet.of()),
 
         TARGETS_HAVE_CLASS(

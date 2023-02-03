@@ -37,12 +37,12 @@ public abstract class ValuedBuff extends Buff {
 
     @Override
     public boolean commonBuffCondition() {
-        return value > 0;
+        return value > 0 || (value == 0 && addition > 0);
     }
 
     @Override
     public boolean commonDebuffCondition() {
-        return value < 0;
+        return value < 0 || (value == 0 && addition < 0);
     }
 
     @Override
