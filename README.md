@@ -466,7 +466,9 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
 * 巴姐被晕/宝具封印会攻击吗？
 
 ## 更新相关
-- v1.06:
+- v1.06 (Beta):
+  - 系统：
+    - 重写了底层代码，所以新版本可能会有奇怪的Bug
   - 效果相关：
     - 新增强制付与效果（奥伯龙三技能现在不消耗耐性）
     - 调整强制解除效果，现在无视耐性
