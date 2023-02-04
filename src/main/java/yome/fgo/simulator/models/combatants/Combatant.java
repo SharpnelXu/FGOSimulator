@@ -12,49 +12,50 @@ import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.effects.buffs.AttackBuffDurationExtend;
 import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.Burn;
-import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
-import yome.fgo.simulator.models.effects.buffs.Curse;
-import yome.fgo.simulator.models.effects.buffs.DamageReflect;
-import yome.fgo.simulator.models.effects.buffs.DeathEffect;
-import yome.fgo.simulator.models.effects.buffs.DelayedEffect;
-import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
-import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
-import yome.fgo.simulator.models.effects.buffs.EnterFieldEffect;
-import yome.fgo.simulator.models.effects.buffs.GrantTrait;
-import yome.fgo.simulator.models.effects.buffs.Guts;
-import yome.fgo.simulator.models.effects.buffs.HPBreakEffect;
-import yome.fgo.simulator.models.effects.buffs.ImmobilizeDebuff;
-import yome.fgo.simulator.models.effects.buffs.LeaveFieldEffect;
-import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
-import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
-import yome.fgo.simulator.models.effects.buffs.NpSeal;
-import yome.fgo.simulator.models.effects.buffs.OnFieldEffect;
-import yome.fgo.simulator.models.effects.buffs.OnFieldEffect.OnFieldMode;
-import yome.fgo.simulator.models.effects.buffs.PermanentSleep;
-import yome.fgo.simulator.models.effects.buffs.Poison;
-import yome.fgo.simulator.models.effects.buffs.PreventDeathAgainstDoT;
-import yome.fgo.simulator.models.effects.buffs.RemoveTrait;
-import yome.fgo.simulator.models.effects.buffs.SkillSeal;
-import yome.fgo.simulator.models.effects.buffs.StartOfTurnEffect;
-import yome.fgo.simulator.models.effects.buffs.TriggerOnGutsEffect;
-import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
+import yome.fgo.simulator.models.effects.buffs.BuffType;
+import yome.fgo.simulator.utils.BuffUtils;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static yome.fgo.simulator.models.effects.buffs.OnFieldEffect.OnFieldMode.DEATH;
-import static yome.fgo.simulator.models.effects.buffs.OnFieldEffect.OnFieldMode.ENTER_FIELD;
-import static yome.fgo.simulator.models.effects.buffs.OnFieldEffect.OnFieldMode.LEAVE_FIELD;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.ATTACK_BUFF_DURATION_EXTEND;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.BURN;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.BURN_EFFECTIVENESS_UP;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CARD_TYPE_CHANGE;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CURSE;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CURSE_EFFECTIVENESS_UP;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_REFLECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DEATH_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DELAYED_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.END_OF_TURN_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.ENTER_FIELD_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.GRANT_STAGE_TRAIT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.GRANT_TRAIT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.GUTS;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.HP_BREAK_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.LEAVE_FIELD_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.MAX_HP_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_CARD_TYPE_CHANGE;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_SEAL;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.ON_FIELD_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PERMANENT_SLEEP;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.POISON;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.POISON_EFFECTIVENESS_UP;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PREVENT_DEATH_AGAINST_DOT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.REMOVE_TRAIT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SKILL_SEAL;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.START_OF_TURN_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.TRIGGER_ON_GUTS_EFFECT;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
+import static yome.fgo.simulator.utils.BuffUtils.isImmobilizeDebuff;
 import static yome.fgo.simulator.utils.BuffUtils.isImmobilizeOrSeal;
 import static yome.fgo.simulator.utils.BuffUtils.shouldDecreaseNumTurnsActiveAtMyTurn;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassMaxNpGauge;
@@ -204,11 +205,11 @@ public class Combatant {
 
         final Set<String> traitsToRemove = new HashSet<>();
         for (final Buff buff : buffs) {
-            if (buff instanceof GrantTrait && buff.shouldApply(simulation)) {
-                allTraits.add(((GrantTrait) buff).getTrait());
+            if (buff.getBuffType() == GRANT_TRAIT && buff.shouldApply(simulation)) {
+                allTraits.add(buff.getTrait());
                 buff.setApplied();
-            } else if (buff instanceof RemoveTrait && buff.shouldApply(simulation)) {
-                traitsToRemove.add(((RemoveTrait) buff).getTrait());
+            } else if (buff.getBuffType() == REMOVE_TRAIT && buff.shouldApply(simulation)) {
+                traitsToRemove.add(buff.getTrait());
                 buff.setApplied();
             }
         }
@@ -224,10 +225,8 @@ public class Combatant {
     public int getMaxHp() {
         double additionalHp = 0;
 
-        for (final Buff buff : buffs) {
-            if (buff instanceof MaxHpBuff) {
-                additionalHp += ((MaxHpBuff) buff).getChange();
-            }
+        for (final Buff buff : fetchBuffs(MAX_HP_BUFF)) {
+            additionalHp += buff.getValue();
         }
 
         return Math.max(hpBars.get(currentHpBarIndex) + (int) RoundUtils.roundNearest(additionalHp), 1);
@@ -241,48 +240,53 @@ public class Combatant {
         buffs.add(buff);
     }
 
-    public double applyBuff(final Simulation simulation, final Class<? extends ValuedBuff> buffClass) {
-        double totalValue = 0;
-        for (final Buff buff : buffs) {
-            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
-                totalValue += buffClass.cast(buff).getValue(simulation);
-                buff.setApplied();
-            }
-        }
-        return RoundUtils.roundNearest(totalValue);
+    public List<Buff> fetchBuffs(final BuffType buffType) {
+        return buffs.stream()
+                .filter(buff -> buffType == buff.getBuffType())
+                .collect(Collectors.toList());
     }
 
-    public double applyPositiveBuff(final Simulation simulation, final Class<? extends ValuedBuff> buffClass) {
+    public Buff fetchFirst(final BuffType buffType) {
+        return buffs.stream()
+                .filter(buff -> buffType == buff.getBuffType())
+                .findFirst()
+                .orElse(null);
+    }
+
+    public boolean anyBuffMatch(final Predicate<Buff> predicate) {
+        return buffs.stream().anyMatch(predicate);
+    }
+
+    public double applyBuff(final Simulation simulation, final BuffType buffType, final Predicate<Double> predicate) {
         double totalValue = 0;
-        for (final Buff buff : buffs) {
-            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
-                final double value = buffClass.cast(buff).getValue(simulation);
-                if (value > 0) {
+        for (final Buff buff : fetchBuffs(buffType)) {
+            if (buff.shouldApply(simulation)) {
+                final double value = buff.getValue(simulation);
+                if (predicate.test(value)) {
                     totalValue += value;
                     buff.setApplied();
                 }
             }
         }
+
         return RoundUtils.roundNearest(totalValue);
     }
 
-    public double applyNegativeBuff(final Simulation simulation, final Class<? extends ValuedBuff> buffClass) {
-        double totalValue = 0;
-        for (final Buff buff : buffs) {
-            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
-                final double value = buffClass.cast(buff).getValue(simulation);
-                if (value < 0) {
-                    totalValue += value;
-                    buff.setApplied();
-                }
-            }
-        }
-        return RoundUtils.roundNearest(totalValue);
+    public double applyBuff(final Simulation simulation, final BuffType buffType) {
+        return applyBuff(simulation, buffType, (value) -> true);
     }
 
-    public boolean consumeBuffIfExist(final Simulation simulation, final Class<? extends Buff> buffClass) {
-        for (final Buff buff : buffs) {
-            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
+    public double applyPositiveBuff(final Simulation simulation, final BuffType buffType) {
+        return applyBuff(simulation, buffType, (value) -> value > 0);
+    }
+
+    public double applyNegativeBuff(final Simulation simulation, final BuffType buffType) {
+        return applyBuff(simulation, buffType, (value) -> value < 0);
+    }
+
+    public boolean consumeBuffIfExist(final Simulation simulation, final BuffType buffType) {
+        for (final Buff buff : fetchBuffs(buffType)) {
+            if (buff.shouldApply(simulation)) {
                 buff.setApplied();
                 return true;
             }
@@ -291,57 +295,27 @@ public class Combatant {
     }
 
     public boolean isImmobilized() {
-        for (final Buff buff : buffs) {
-            if (buff instanceof ImmobilizeDebuff) {
-                return true;
-            }
-        }
-        return false;
+        return anyBuffMatch(buff -> isImmobilizeDebuff(buff.getBuffType()));
     }
 
     public boolean isSelectable() {
-        for (final Buff buff : buffs) {
-            if (buff instanceof PermanentSleep) {
-                return false;
-            }
-        }
-        return true;
+        return !anyBuffMatch(buff -> buff.getBuffType() == PERMANENT_SLEEP);
     }
 
     public boolean isSkillInaccessible() {
-        for (final Buff buff : buffs) {
-            if (buff instanceof SkillSeal || buff instanceof ImmobilizeDebuff) {
-                return true;
-            }
-        }
-        return false;
+        return anyBuffMatch(buff -> buff.getBuffType() == SKILL_SEAL || BuffUtils.isImmobilizeDebuff(buff.getBuffType()));
     }
 
     public boolean isNpSealed() {
-        for (final Buff buff : buffs) {
-            if (buff instanceof NpSeal) {
-                return true;
-            }
-        }
-        return false;
+        return anyBuffMatch(buff -> buff.getBuffType() == NP_SEAL);
     }
 
     public boolean isNpInaccessible() {
-        for (final Buff buff : buffs) {
-            if (buff instanceof NpSeal || buff instanceof ImmobilizeDebuff) {
-                return true;
-            }
-        }
-        return false;
+        return anyBuffMatch(buff -> buff.getBuffType() == NP_SEAL || BuffUtils.isImmobilizeDebuff(buff.getBuffType()));
     }
 
     public boolean isBuffExtended() {
-        for (final Buff buff : buffs) {
-            if (buff instanceof AttackBuffDurationExtend) {
-                return true;
-            }
-        }
-        return false;
+        return anyBuffMatch(buff -> buff.getBuffType() == ATTACK_BUFF_DURATION_EXTEND);
     }
 
     public boolean isAlreadyDead() {
@@ -365,32 +339,29 @@ public class Combatant {
             simulation.getStatsLogger().logEnterField(id);
         }
 
-        activateEffectActivatingBuff(simulation, EnterFieldEffect.class);
-        activateOnFieldBuff(simulation, ENTER_FIELD);
+        activateEffectActivatingBuff(simulation, ENTER_FIELD_EFFECT);
+        activateOnFieldBuff(simulation, true);
     }
 
     public void leaveField(final Simulation simulation) {
         if (simulation.getStatsLogger() != null) {
             simulation.getStatsLogger().logLeaveField(id);
         }
-        activateEffectActivatingBuff(simulation, LeaveFieldEffect.class);
-        activateOnFieldBuff(simulation, LEAVE_FIELD);
+        activateEffectActivatingBuff(simulation, LEAVE_FIELD_EFFECT);
+        activateOnFieldBuff(simulation, false);
     }
 
     public void death(final Simulation simulation) {
         if (simulation.getStatsLogger() != null) {
             simulation.getStatsLogger().logDeath(id);
         }
-        activateEffectActivatingBuff(simulation, DeathEffect.class);
-        activateOnFieldBuff(simulation, DEATH);
+        activateEffectActivatingBuff(simulation, DEATH_EFFECT);
+        activateOnFieldBuff(simulation, false);
     }
 
     public void receiveDamage(final int damage) {
-        for (final Buff buff : buffs) {
-            if (buff instanceof DamageReflect) {
-                final DamageReflect damageReflect = (DamageReflect) buff;
-                damageReflect.storeDamage(damage);
-            }
+        for (final Buff buff : fetchBuffs(DAMAGE_REFLECT)) {
+            buff.storeDamage(damage);
         }
 
         currentHp -= damage;
@@ -400,7 +371,7 @@ public class Combatant {
         receivedInstantDeath = false;
         currentHpBarIndex += 1;
         currentHp = hpBars.get(currentHpBarIndex);
-        activateEffectActivatingBuff(simulation, HPBreakEffect.class);
+        activateEffectActivatingBuff(simulation, HP_BREAK_EFFECT);
     }
 
     public void receiveNonHpBarBreakDamage(final int damage) {
@@ -411,18 +382,16 @@ public class Combatant {
     }
 
     private void activateDamageReflect(final Simulation simulation) {
-        for (final Buff buff : buffs) {
-            if (buff instanceof DamageReflect && buff.shouldApply(simulation)) {
-                final DamageReflect damageReflect = (DamageReflect) buff;
-
-                final int reflectedDamage = (int) (damageReflect.getStoredDamage() * damageReflect.getValue(simulation));
+        for (final Buff buff : fetchBuffs(DAMAGE_REFLECT)) {
+            if (buff.shouldApply(simulation)) {
+                final int reflectedDamage = (int) (buff.getStoredDamage() * buff.getValue(simulation));
                 if (reflectedDamage != 0) {
                     if (simulation.getStatsLogger() != null) {
                         simulation.getStatsLogger().logEffect(
                                 String.format(
                                         getTranslation(APPLICATION_SECTION, "%s activates %s"),
                                         getTranslation(ENTITY_NAME_SECTION, id),
-                                        damageReflect + " * " + damageReflect.getStoredDamage() + " = " + reflectedDamage
+                                        buff + " * " + buff.getStoredDamage() + " = " + reflectedDamage
                                 )
                         );
                     }
@@ -434,8 +403,8 @@ public class Combatant {
                         }
                     }
 
-                    damageReflect.resetDamageStored();
-                    damageReflect.setApplied();
+                    buff.resetStoredDamage();
+                    buff.setApplied();
                 }
             }
         }
@@ -444,13 +413,13 @@ public class Combatant {
     }
 
     public void endOfYourTurn(final Simulation simulation) {
-        activateEffectActivatingBuff(simulation, DelayedEffect.class);
+        activateEffectActivatingBuff(simulation, DELAYED_EFFECT);
 
         activateDamageReflect(simulation);
 
         for (final Buff buff : buffs) {
             if (!shouldDecreaseNumTurnsActiveAtMyTurn(buff, isBuffExtended()) && !isImmobilizeOrSeal(buff)) {
-                buff.decreaseNumTurnsActive();
+                buff.decrementActiveTurns();
             }
         }
 
@@ -458,23 +427,23 @@ public class Combatant {
     }
 
     public void startOfMyTurn(final Simulation simulation) {
-        activateEffectActivatingBuff(simulation, StartOfTurnEffect.class);
+        activateEffectActivatingBuff(simulation, START_OF_TURN_EFFECT);
     }
 
     public int calculateDoTDamage(
             final Simulation simulation,
-            final Class<? extends ValuedBuff> doTClass,
-            final Class<? extends ValuedBuff> doTEffClass
+            final BuffType dotType,
+            final BuffType dotEffType
     ) {
-        final double baseDamage = applyBuff(simulation, doTClass);
-        final double effectiveness = applyBuff(simulation, doTEffClass);
+        final double baseDamage = applyBuff(simulation, dotType);
+        final double effectiveness = applyBuff(simulation, dotEffType);
         int totalDamage = Math.max(0, (int) RoundUtils.roundNearest(baseDamage * (1 + effectiveness)));
 
         if (totalDamage >= currentHp) {
-            for (final Buff buff : buffs) {
-                if (buff instanceof PreventDeathAgainstDoT && buff.shouldApply(simulation)) {
-                    final String preventType = ((PreventDeathAgainstDoT) buff).getType();
-                    if (doTClass.getSimpleName().equalsIgnoreCase(preventType) || Strings.isNullOrEmpty(preventType)) {
+            for (final Buff buff : fetchBuffs(PREVENT_DEATH_AGAINST_DOT)) {
+                if (buff.shouldApply(simulation)) {
+                    final String preventType = buff.getTrait();
+                    if (dotType.getType().equalsIgnoreCase(preventType) || Strings.isNullOrEmpty(preventType)) {
                         buff.setApplied();
                         return currentHp - 1;
                     }
@@ -499,14 +468,14 @@ public class Combatant {
 
         for (final Buff buff : buffs) {
             if (isImmobilizeOrSeal(buff)) {
-                buff.decreaseNumTurnsActive();
+                buff.decrementActiveTurns();
             }
         }
         clearInactiveBuff();
 
-        final int poisonDamage = calculateDoTDamage(simulation, Poison.class, Poison.getEffectivenessClass());
-        final int burnDamage = calculateDoTDamage(simulation, Burn.class, Burn.getEffectivenessClass());
-        final int curseDamage = calculateDoTDamage(simulation, Curse.class, Curse.getEffectivenessClass());
+        final int poisonDamage = calculateDoTDamage(simulation, POISON, POISON_EFFECTIVENESS_UP);
+        final int burnDamage = calculateDoTDamage(simulation, BURN, BURN_EFFECTIVENESS_UP);
+        final int curseDamage = calculateDoTDamage(simulation, CURSE, CURSE_EFFECTIVENESS_UP);
 
         if (simulation.getStatsLogger() != null) {
             simulation.getStatsLogger().logDoT(id, poisonDamage, burnDamage, curseDamage);
@@ -514,11 +483,11 @@ public class Combatant {
 
         receiveNonHpBarBreakDamage(poisonDamage + burnDamage + curseDamage);
 
-        activateEffectActivatingBuff(simulation, EndOfTurnEffect.class);
+        activateEffectActivatingBuff(simulation, END_OF_TURN_EFFECT);
 
         for (final Buff buff : buffs) {
             if (shouldDecreaseNumTurnsActiveAtMyTurn(buff, isBuffExtended())) {
-                buff.decreaseNumTurnsActive();
+                buff.decrementActiveTurns();
             }
         }
 
@@ -528,7 +497,7 @@ public class Combatant {
     public void checkBuffStatus() {
         for (final Buff buff : buffs) {
             if (buff.isApplied()) {
-                buff.decreaseNumTimeActive();
+                buff.decrementActiveTimes();
             }
         }
 
@@ -559,21 +528,17 @@ public class Combatant {
 
     public void activateEffectActivatingBuff(
             final Simulation simulation,
-            final Class<? extends EffectActivatingBuff> buffClass
+            final BuffType buffType,
+            final boolean isOnFieldEnterField
     ) {
-        final List<EffectActivatingBuff> buffsToActivate = Lists.newArrayList();
-        for (final Buff buff : buffs) {
-            if (buffClass.isInstance(buff)) {
-                buffsToActivate.add((EffectActivatingBuff) buff);
-            }
-        }
+        final List<Buff> buffsToActivate = fetchBuffs(buffType);
         simulation.setActivator(this);
-        for (final EffectActivatingBuff buff : buffsToActivate) {
+        for (final Buff buff : buffsToActivate) {
             if (buff.shouldApply(simulation)) {
                 if (simulation.getStatsLogger() != null) {
-                    simulation.getStatsLogger().logEffectActivatingBuff(id, buffClass);
+                    simulation.getStatsLogger().logEffectActivatingBuff(id, buffType);
                 }
-                buff.activate(simulation);
+                buff.activate(simulation, isOnFieldEnterField);
 
                 // extra step since this is a buff
                 buff.setApplied();
@@ -583,47 +548,34 @@ public class Combatant {
         simulation.unsetActivator();
     }
 
-    public void activateOnFieldBuff(final Simulation simulation, final OnFieldMode onFieldMode) {
-        final List<OnFieldEffect> buffsToActivate = Lists.newArrayList();
-        for (final Buff buff : buffs) {
-            if (buff instanceof OnFieldEffect) {
-                buffsToActivate.add((OnFieldEffect) buff);
-            }
-        }
-        simulation.setActivator(this);
-        for (final OnFieldEffect buff : buffsToActivate) {
-            if (simulation.getStatsLogger() != null) {
-                simulation.getStatsLogger().logEffectActivatingBuff(id, OnFieldEffect.class);
-            }
-            buff.activate(simulation, onFieldMode);
-
-            // extra step since this is a buff
-            buff.setApplied();
-            checkBuffStatus();
-        }
-        simulation.unsetActivator();
+    public void activateEffectActivatingBuff(final Simulation simulation, final BuffType buffType) {
+        activateEffectActivatingBuff(simulation, buffType, false);
     }
 
-    public CardTypeChange hasCardTypeChangeBuff() {
-        for (final Buff buff : buffs) {
-            if (buff instanceof CardTypeChange) {
-                return (CardTypeChange) buff;
-            }
-        }
-        return null;
+    public void activateOnFieldBuff(final Simulation simulation, final boolean isOnFieldEnterField) {
+        activateEffectActivatingBuff(simulation, ON_FIELD_EFFECT, isOnFieldEnterField);
     }
 
-    public NpCardTypeChange hasNpCardTypeChangeBuff() {
-        for (final Buff buff : buffs) {
-            if (buff instanceof NpCardTypeChange) {
-                return (NpCardTypeChange) buff;
-            }
+    public Buff hasCardTypeChangeBuff() {
+        final List<Buff> cardTypes = fetchBuffs(CARD_TYPE_CHANGE);
+        if (cardTypes.isEmpty()) {
+            return null;
+        } else {
+            return cardTypes.get(0);
         }
-        return null;
+    }
+
+    public Buff hasNpCardTypeChangeBuff() {
+        final List<Buff> cardTypes = fetchBuffs(NP_CARD_TYPE_CHANGE);
+        if (cardTypes.isEmpty()) {
+            return null;
+        } else {
+            return cardTypes.get(0);
+        }
     }
 
     public boolean activateGuts(final Simulation simulation) {
-        final Guts gutsToApply = getGutsToActivate(simulation);
+        final Buff gutsToApply = getGutsToActivate(simulation);
         if (gutsToApply != null) {
             gutsToApply.setApplied();
             if (simulation.getStatsLogger() != null) {
@@ -634,14 +586,15 @@ public class Combatant {
                 );
                 simulation.getStatsLogger().logEffect(message);
             }
+            final double value = gutsToApply.getValue(simulation);
             if (gutsToApply.isPercentageGuts()) {
-                currentHp = (int) (getMaxHp() * gutsToApply.getPercent());
+                currentHp = (int) (getMaxHp() * value);
             } else {
-                currentHp = gutsToApply.getGutsLeft();
+                currentHp = (int) value;
             }
             receivedInstantDeath = false;
             checkBuffStatus();
-            activateEffectActivatingBuff(simulation, TriggerOnGutsEffect.class);
+            activateEffectActivatingBuff(simulation, TRIGGER_ON_GUTS_EFFECT);
         }
 
         return gutsToApply != null;
@@ -667,8 +620,8 @@ public class Combatant {
         if (currentHp > maxHp) {
             currentHp = maxHp;
         }
-        // non-lethal
-        if (currentHp <= 0 && !isLethal) {
+        // non-lethal damage
+        if (currentHp <= 0 && hpChange < 0 && !isLethal) {
             currentHp = 1;
         }
     }
@@ -735,12 +688,12 @@ public class Combatant {
         return getGutsToActivate(simulation) != null;
     }
 
-    public Guts getGutsToActivate(final Simulation simulation) {
-        Guts gutsToApply = null;
-        for (final Buff buff : buffs) {
-            if (buff instanceof Guts && buff.shouldApply(simulation)) {
+    public Buff getGutsToActivate(final Simulation simulation) {
+        Buff gutsToApply = null;
+        for (final Buff buff : fetchBuffs(GUTS)) {
+            if (buff.shouldApply(simulation)) {
                 if (gutsToApply == null || (gutsToApply.isIrremovable() && !buff.isIrremovable())) {
-                    gutsToApply = (Guts) buff;
+                    gutsToApply = buff;
                 }
             }
         }

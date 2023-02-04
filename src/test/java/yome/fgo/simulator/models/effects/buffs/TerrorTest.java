@@ -18,13 +18,17 @@ import yome.fgo.simulator.models.effects.GrantBuff;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.MENTAL_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ENEMIES;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
 import static yome.fgo.simulator.models.combatants.CombatAction.createCommandCardAction;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.END_OF_TURN_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.STUN;
 
 public class TerrorTest {
     @Test
@@ -46,7 +50,7 @@ public class TerrorTest {
                                 .setTarget(ALL_ENEMIES)
                                 .addBuffData(
                                         BuffData.newBuilder()
-                                                .setType(Terror.class.getSimpleName())
+                                                .setType("Terror")
                                                 .addProbabilities(0.5)
                                                 .setNumTimesActive(1)
                                 )
@@ -70,16 +74,18 @@ public class TerrorTest {
         simulation.initiate();
         simulation.setProbabilityThreshold(1.0);
         final Combatant enemy = simulation.getCurrentEnemies().get(0);
-        assertTrue(enemy.getBuffs().get(0) instanceof Terror);
+        assertEquals(END_OF_TURN_EFFECT, enemy.getBuffs().get(0).getBuffType());
+        assertTrue(enemy.getBuffs().get(0).getBuffTraits().contains(MENTAL_BUFF.name()));
         assertFalse(enemy.isImmobilized());
 
         simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
-        assertTrue(enemy.getBuffs().get(0) instanceof Terror);
+        assertEquals(END_OF_TURN_EFFECT, enemy.getBuffs().get(0).getBuffType());
+        assertTrue(enemy.getBuffs().get(0).getBuffTraits().contains(MENTAL_BUFF.name()));
         assertFalse(enemy.isImmobilized());
 
         simulation.setProbabilityThreshold(0.4);
         simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));
-        assertTrue(enemy.getBuffs().get(0) instanceof Stun);
+        assertEquals(STUN, enemy.getBuffs().get(0).getBuffType());
         assertTrue(enemy.isImmobilized());
 
         simulation.executeCombatActions(ImmutableList.of(createCommandCardAction(0, 2, false)));

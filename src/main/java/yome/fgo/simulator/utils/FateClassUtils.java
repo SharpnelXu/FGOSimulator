@@ -4,7 +4,6 @@ import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.ClassAdvantageChangeBuff;
 
 import static yome.fgo.data.proto.FgoStorageData.FateClass.ALTEREGO;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.ARCHER;
@@ -25,6 +24,7 @@ import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.RULER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.SABER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.SHIELDER;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CLASS_ADVANTAGE_CHANGE_BUFF;
 
 public class FateClassUtils {
     public static final FateClass[] ALL_CLASSES = {SABER, ARCHER, LANCER, RIDER, CASTER, ASSASSIN, BERSERKER, RULER, AVENGER, ALTEREGO, MOONCANCER, FOREIGNER, PRETENDER, SHIELDER, BEAST_I, BEAST_II, BEAST_III_R, BEAST_III_L, BEAST_IV};
@@ -72,15 +72,15 @@ public class FateClassUtils {
 
         double baseRate = getClassAdvantage(attackerClass, defenderClass);
 
-        for (final Buff buff : attacker.getBuffs()) {
-            if (buff instanceof ClassAdvantageChangeBuff && buff.shouldApply(simulation)) {
-                baseRate = ((ClassAdvantageChangeBuff) buff).asAttacker(baseRate, defenderClass);
+        for (final Buff buff : attacker.fetchBuffs(CLASS_ADVANTAGE_CHANGE_BUFF)) {
+            if (buff.shouldApply(simulation)) {
+                baseRate = buff.asAttacker(baseRate, defenderClass);
             }
         }
 
-        for (final Buff buff : defender.getBuffs()) {
-            if (buff instanceof ClassAdvantageChangeBuff && buff.shouldApply(simulation)) {
-                baseRate = ((ClassAdvantageChangeBuff) buff).asDefender(baseRate, attackerClass);
+        for (final Buff buff : defender.fetchBuffs(CLASS_ADVANTAGE_CHANGE_BUFF)) {
+            if (buff.shouldApply(simulation)) {
+                baseRate = buff.asDefender(baseRate, attackerClass);
             }
         }
 

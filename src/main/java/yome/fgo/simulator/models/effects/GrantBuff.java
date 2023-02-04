@@ -6,20 +6,19 @@ import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.BuffChanceBuff;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory;
-import yome.fgo.simulator.models.effects.buffs.DebuffChanceBuff;
-import yome.fgo.simulator.models.effects.buffs.DebuffResist;
-import yome.fgo.simulator.models.effects.buffs.MaxHpBuff;
-import yome.fgo.simulator.models.effects.buffs.ReceivedBuffChanceBuff;
-import yome.fgo.simulator.models.effects.buffs.SkillEffectivenessUp;
-import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static yome.fgo.simulator.models.effects.buffs.BuffType.BUFF_CHANCE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DEBUFF_CHANCE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DEBUFF_RESIST;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.MAX_HP_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.RECEIVED_BUFF_CHANCE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SKILL_EFFECTIVENESS_UP;
 import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -31,11 +30,10 @@ public class GrantBuff extends Effect {
     protected final Target target;
     protected final int buffLevel;
 
-    protected Buff buildBuff(final int level) {
-        final BuffData buffDataToUse = isBuffOvercharged ?
+    protected BuffData getBuffData(final int level) {
+        return isBuffOvercharged ?
                 buffData.get(level - 1) :
                 buffData.get(0);
-        return BuffFactory.buildBuff(buffDataToUse, buffLevel);
     }
 
     @Override
@@ -46,28 +44,20 @@ public class GrantBuff extends Effect {
             simulation.setEffectTarget(combatant);
 
             if (shouldApply(simulation) && combatant.isAlive(simulation)) {
-                final Buff buff = buildBuff(level);
-
-                if (simulation.isActivatingCePassiveEffects() || simulation.isActivatingServantPassiveEffects()) {
-                    buff.setIrremovable(true);
-                    buff.setIsPassive(true);
-
-                    if (simulation.isActivatingServantPassiveEffects()) {
-                        buff.setActivatorHash(simulation.getActivator().getActivatorHash());
-                    }
-                }
+                final boolean isPassive = simulation.isActivatingCePassiveEffects() ||
+                        simulation.isActivatingServantPassiveEffects();
+                final Combatant activator = simulation.getActivator();
+                final Buff buff = BuffFactory.buildBuff(
+                        getBuffData(level),
+                        buffLevel,
+                        isPassive,
+                        activator.getActivatorHash()
+                );
 
                 simulation.setCurrentBuff(buff);
 
-                if (buff instanceof ValuedBuff) {
-                    final double skillEffectiveness = simulation.getActivator()
-                            .applyBuff(simulation, SkillEffectivenessUp.class);
-                    ((ValuedBuff) buff).scaleValue(1 + skillEffectiveness);
-                } else if (buff instanceof MaxHpBuff) {
-                    final double skillEffectiveness = simulation.getActivator()
-                            .applyBuff(simulation, SkillEffectivenessUp.class);
-                    ((MaxHpBuff) buff).scaleValue(1 + skillEffectiveness);
-                }
+                final double skillEffectiveness = activator.applyBuff(simulation, SKILL_EFFECTIVENESS_UP);
+                buff.addEffectiveness(skillEffectiveness);
 
                 grantBuff(simulation, buff, combatant, probability);
 
@@ -86,13 +76,13 @@ public class GrantBuff extends Effect {
     ) {
         final double activationProbability;
         if (buff.isDebuff()) {
-            final double debuffChance = simulation.getActivator().applyBuff(simulation, DebuffChanceBuff.class);
-            final double debuffResist = combatant.applyBuff(simulation, DebuffResist.class);
+            final double debuffChance = simulation.getActivator().applyBuff(simulation, DEBUFF_CHANCE_BUFF);
+            final double debuffResist = combatant.applyBuff(simulation, DEBUFF_RESIST);
 
             activationProbability = RoundUtils.roundNearest(probability + debuffChance - debuffResist);
         } else if (buff.isBuff()) {
-            final double buffChance = simulation.getActivator().applyBuff(simulation, BuffChanceBuff.class);
-            final double receivedBuffChance = combatant.applyBuff(simulation, ReceivedBuffChanceBuff.class);
+            final double buffChance = simulation.getActivator().applyBuff(simulation, BUFF_CHANCE_BUFF);
+            final double receivedBuffChance = combatant.applyBuff(simulation, RECEIVED_BUFF_CHANCE_BUFF);
 
             activationProbability = RoundUtils.roundNearest(probability + buffChance + receivedBuffChance);
         } else {
@@ -118,7 +108,7 @@ public class GrantBuff extends Effect {
         boolean canActivate = true;
         if (!buff.isStackable()) {
             for (final Buff existingBuff : combatant.getBuffs()) {
-                if (existingBuff.getClass().isInstance(buff) && !existingBuff.isStackable()) {
+                if (existingBuff.getBuffType() == buff.getBuffType() && !existingBuff.isStackable()) {
                     canActivate = false;
                     break;
                 }
@@ -133,8 +123,8 @@ public class GrantBuff extends Effect {
 
     protected void afterBuffAdditionalChange(final Simulation simulation) {
         // for subClass to override
-        if (simulation.getCurrentBuff() instanceof MaxHpBuff) {
-            final int change = ((MaxHpBuff) simulation.getCurrentBuff()).getChange();
+        if (simulation.getCurrentBuff().getBuffType() == MAX_HP_BUFF) {
+            final int change = (int) simulation.getCurrentBuff().getValue(simulation);
             simulation.getEffectTarget().changeHpAfterMaxHpChange(change);
         }
     }

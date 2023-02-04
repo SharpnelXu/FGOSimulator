@@ -6,12 +6,13 @@ import org.junit.jupiter.api.Test;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Servant;
-import yome.fgo.simulator.models.effects.buffs.SureHit;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SURE_HIT;
 
 public class AscensionChangeTest {
     @Test
@@ -41,7 +42,7 @@ public class AscensionChangeTest {
         assertEquals(16, kama2.getBuffs().size());
         assertEquals(14, kama3.getBuffs().size());
 
-        kama2.addBuff(SureHit.builder().activatorHash(kama2.hashCode()).isPassive(true).build());
+        kama2.addBuff(Buff.builder().buffType(SURE_HIT).activatorHash(kama2.hashCode()).isPassive(true).build());
         assertEquals(17, kama2.getBuffs().size());
 
         simulation.setActivator(kama2);

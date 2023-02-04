@@ -24,6 +24,7 @@ import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.TranslationConverter;
 import yome.fgo.simulator.models.conditions.Condition.ConditionFields;
 import yome.fgo.simulator.models.conditions.Condition.ConditionType;
+import yome.fgo.simulator.models.effects.buffs.BuffType;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.net.URL;
@@ -49,7 +50,6 @@ import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CON
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TARGET;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
@@ -206,7 +206,7 @@ public class ConditionBuilderFXMLController implements Initializable {
 
         buffLabel.setText(getTranslation(APPLICATION_SECTION, "Buff Type"));
         buffChoices.setConverter(new TranslationConverter(BUFF_SECTION));
-        buffChoices.setItems(FXCollections.observableArrayList(BUFF_REQUIRED_FIELDS_MAP.keySet()));
+        buffChoices.setItems(FXCollections.observableArrayList(BuffType.getOrder()));
         buffChoices.getSelectionModel().selectFirst();
 
         cardLabel.setText(getTranslation(APPLICATION_SECTION, "Card Type"));

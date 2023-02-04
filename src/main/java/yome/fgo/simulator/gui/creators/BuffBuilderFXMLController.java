@@ -32,7 +32,8 @@ import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.TranslationConverter;
-import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
+import yome.fgo.simulator.models.effects.buffs.BuffFields;
+import yome.fgo.simulator.models.effects.buffs.BuffType;
 import yome.fgo.simulator.translation.TranslationManager;
 import yome.fgo.simulator.utils.RoundUtils;
 
@@ -64,16 +65,15 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillClassAdvMode;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillCommandCardType;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillOnFieldEffectTargets;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CARD_TYPE;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CLASS_ADV;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_EFFECTS;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_INT_VALUE;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_NO_VARIATION;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_ON_FIELD;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_PERCENT_OPTION;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_STRING_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_CLASS_ADV;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_EFFECTS;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_NO_VARIATION;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_ON_FIELD;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_PERCENT_OPTION;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_STRING_VALUE;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
@@ -287,7 +287,7 @@ public class BuffBuilderFXMLController implements Initializable {
         this.buffDataBuilder = buffDataBuilder;
 
         if (!buffDataBuilder.getType().isEmpty()) {
-            requiredFields = BUFF_REQUIRED_FIELDS_MAP.get(buffDataBuilder.getType());
+            requiredFields = BuffType.ofType(buffDataBuilder.getType()).getRequiredFields();
             buffTypeChoices.getSelectionModel().select(buffDataBuilder.getType());
 
             if (buffDataBuilder.getNumTurnsActive() > 0) {
@@ -410,7 +410,7 @@ public class BuffBuilderFXMLController implements Initializable {
 
         buffTypeLabel.setText(getTranslation(APPLICATION_SECTION, "Buff Type"));
         buffTypeChoices.setConverter(new TranslationConverter(BUFF_SECTION));
-        buffTypeChoices.setItems(FXCollections.observableArrayList(BUFF_REQUIRED_FIELDS_MAP.keySet()));
+        buffTypeChoices.setItems(FXCollections.observableArrayList(BuffType.getOrder()));
         buffTypeChoices.setOnAction(e -> onBuffTypeChoiceChange());
         buffTypeChoices.getSelectionModel().selectFirst();
 
@@ -681,7 +681,7 @@ public class BuffBuilderFXMLController implements Initializable {
 
     public void onBuffTypeChoiceChange() {
         resetPane();
-        requiredFields = BUFF_REQUIRED_FIELDS_MAP.get(buffTypeChoices.getValue());
+        requiredFields = BuffType.ofType(buffTypeChoices.getValue()).getRequiredFields();
 
         useVariationCheckbox.setDisable(requiredFields.contains(BUFF_FIELD_NO_VARIATION));
         if (requiredFields.contains(BUFF_FIELD_DOUBLE_VALUE)) {

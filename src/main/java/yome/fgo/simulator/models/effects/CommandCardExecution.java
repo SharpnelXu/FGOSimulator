@@ -8,32 +8,8 @@ import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
-import yome.fgo.simulator.models.effects.buffs.AttackBuff;
 import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
-import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
-import yome.fgo.simulator.models.effects.buffs.CriticalDamageBuff;
-import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
-import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
-import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
-import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
-import yome.fgo.simulator.models.effects.buffs.Evade;
-import yome.fgo.simulator.models.effects.buffs.HitsDoubledBuff;
-import yome.fgo.simulator.models.effects.buffs.IgnoreDefenseBuff;
-import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
-import yome.fgo.simulator.models.effects.buffs.Invincible;
-import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
-import yome.fgo.simulator.models.effects.buffs.PercentAttackBuff;
-import yome.fgo.simulator.models.effects.buffs.PercentDefenseBuff;
-import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
-import yome.fgo.simulator.models.effects.buffs.PostDefenseEffect;
-import yome.fgo.simulator.models.effects.buffs.PreAttackEffect;
-import yome.fgo.simulator.models.effects.buffs.PreDefenseEffect;
-import yome.fgo.simulator.models.effects.buffs.Sleep;
-import yome.fgo.simulator.models.effects.buffs.SpecialInvincible;
-import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
-import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
-import yome.fgo.simulator.models.effects.buffs.SureHit;
+import yome.fgo.simulator.models.effects.buffs.BuffType;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
@@ -43,6 +19,31 @@ import java.util.stream.Collectors;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.ATTACK_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.COMMAND_CARD_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.COMMAND_CARD_RESIST;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CRITICAL_DAMAGE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CRITICAL_STAR_GENERATION_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_ADDITION_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_REDUCTION_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DEFENSE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.EVADE;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.HITS_DOUBLED_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.IGNORE_DEFENSE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.IGNORE_INVINCIBLE;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.INVINCIBLE;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_GENERATION_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PERCENT_ATTACK_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PERCENT_DEFENSE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.POST_ATTACK_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.POST_DEFENSE_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PRE_ATTACK_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PRE_DEFENSE_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SLEEP;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SPECIAL_INVINCIBLE;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SPECIFIC_ATTACK_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SPECIFIC_DEFENSE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SURE_HIT;
 import static yome.fgo.simulator.utils.AttributeUtils.getAttributeAdvantage;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.busterChainDamageAddition;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.extraCardBuff;
@@ -64,8 +65,8 @@ public class CommandCardExecution {
             final Combatant attacker,
             final List<Integer> baseHitsPercentages
     ) {
-        for (final Buff buff : attacker.getBuffs()) {
-            if (buff instanceof HitsDoubledBuff && buff.shouldApply(simulation)) {
+        for (final Buff buff : attacker.fetchBuffs(HITS_DOUBLED_BUFF)) {
+            if (buff.shouldApply(simulation)) {
                 final List<Double> doubledHits = new ArrayList<>();
                 for (final int hit : baseHitsPercentages) {
                     for (int i = 0; i < 2; i += 1) {
@@ -94,41 +95,31 @@ public class CommandCardExecution {
 
         final List<Double> hitsPercentages = getHitsPercentages(simulation, attacker, currentCard.getHitPercentages());
 
-        attacker.activateEffectActivatingBuff(simulation, PreAttackEffect.class);
-        currentCard.activateEffectActivatingBuff(simulation, PreAttackEffect.class);
-        defender.activateEffectActivatingBuff(simulation, PreDefenseEffect.class);
+        activateEffectActivatingBuff(simulation, attacker, currentCard, PRE_ATTACK_EFFECT);
+        defender.activateEffectActivatingBuff(simulation, PRE_DEFENSE_EFFECT);
 
-        final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class) +
-                currentCard.applyBuff(simulation, CommandCardBuff.class);
+        final double commandCardBuff = applyBuff(simulation, attacker, currentCard, COMMAND_CARD_BUFF);
 
-        final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class) +
-                currentCard.applyBuff(simulation, AttackBuff.class);
+        final double attackBuff = applyBuff(simulation, attacker, currentCard, ATTACK_BUFF);
 
-        final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class) ||
-                currentCard.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class);
+        final boolean ignoreDefense = consumeBuffIfExists(simulation, attacker, currentCard, IGNORE_DEFENSE_BUFF);
 
-        final double specificAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class) +
-                currentCard.applyBuff(simulation, SpecificAttackBuff.class);
+        final double specificAttackBuff = applyBuff(simulation, attacker, currentCard, SPECIFIC_ATTACK_BUFF);
         final double criticalDamageBuff = isCriticalStrike ?
-                attacker.applyBuff(simulation, CriticalDamageBuff.class) +
-                        currentCard.applyBuff(simulation, CriticalDamageBuff.class) :
+                applyBuff(simulation, attacker, currentCard, CRITICAL_DAMAGE_BUFF) :
                 0;
 
-        final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class) +
-                currentCard.applyBuff(simulation, PercentAttackBuff.class);
+        final double percentAttackBuff = applyBuff(simulation, attacker, currentCard, PERCENT_ATTACK_BUFF);
 
-        final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class) +
-                currentCard.applyBuff(simulation, DamageAdditionBuff.class);
+        final double damageAdditionBuff = applyBuff(simulation, attacker, currentCard, DAMAGE_ADDITION_BUFF);
 
-        final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class) +
-                currentCard.applyBuff(simulation, NpGenerationBuff.class);
+        final double npGenerationBuff = applyBuff(simulation, attacker, currentCard, NP_GENERATION_BUFF);
 
         final double classNpCorrection = defender.getCombatantData().getUseCustomNpMod()
                 ? defender.getCombatantData().getCustomNpMod()
                 : getClassNpCorrection(defenderClass);
 
-        final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class) +
-                currentCard.applyBuff(simulation, CriticalStarGenerationBuff.class);
+        final double critStarGenerationBuff = applyBuff(simulation, attacker, currentCard, CRITICAL_STAR_GENERATION_BUFF);
 
         final double classAdvantage = getClassAdvantage(simulation, attacker, defender);
 
@@ -178,13 +169,13 @@ public class CommandCardExecution {
 
         final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
         if (!skipDamage) {
-            final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
-            final double defenseUpBuff = defender.applyPositiveBuff(simulation, DefenseBuff.class);
-            final double defenseDownBuff = defender.applyNegativeBuff(simulation, DefenseBuff.class); // value is negative
+            final double commandCardResist = defender.applyBuff(simulation, COMMAND_CARD_RESIST);
+            final double defenseUpBuff = defender.applyPositiveBuff(simulation, DEFENSE_BUFF);
+            final double defenseDownBuff = defender.applyNegativeBuff(simulation, DEFENSE_BUFF); // value is negative
             final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
-            final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
-            final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
-            final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
+            final double specificDefenseBuff = defender.applyBuff(simulation, SPECIFIC_DEFENSE_BUFF);
+            final double percentDefenseBuff = defender.applyBuff(simulation, PERCENT_DEFENSE_BUFF);
+            final double damageReductionBuff = defender.applyBuff(simulation, DAMAGE_REDUCTION_BUFF);
 
             damageParameters.commandCardResist(commandCardResist)
                     .defenseBuff(defenseBuff)
@@ -257,13 +248,12 @@ public class CommandCardExecution {
         }
 
 
-        attacker.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
-        currentCard.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
-        defender.activateEffectActivatingBuff(simulation, PostDefenseEffect.class);
+        activateEffectActivatingBuff(simulation, attacker, currentCard, POST_ATTACK_EFFECT);
+        defender.activateEffectActivatingBuff(simulation, POST_DEFENSE_EFFECT);
         final List<Buff> buffs = defender.getBuffs();
         for (int j = buffs.size() - 1; j >= 0; j -= 1) {
             final Buff buff = buffs.get(j);
-            if (buff instanceof Sleep) {
+            if (buff.getBuffType() == SLEEP) {
                 buffs.remove(j);
             }
         }
@@ -280,26 +270,52 @@ public class CommandCardExecution {
             final Combatant defender,
             final CommandCard currentCard
     ) {
-        final boolean hasSpecialInvincible = defender.consumeBuffIfExist(simulation, SpecialInvincible.class);
-        final boolean hasIgnoreInvincible = attacker.consumeBuffIfExist(simulation, IgnoreInvincible.class) ||
-                currentCard.consumeBuffIfExist(simulation, IgnoreInvincible.class);
+        final boolean hasSpecialInvincible = defender.consumeBuffIfExist(simulation, SPECIAL_INVINCIBLE);
+        final boolean hasIgnoreInvincible = consumeBuffIfExists(simulation, attacker, currentCard, IGNORE_INVINCIBLE);
         if (hasSpecialInvincible) {
             return true;
         }
-        final boolean hasInvincible = defender.consumeBuffIfExist(simulation, Invincible.class);
+        final boolean hasInvincible = defender.consumeBuffIfExist(simulation, INVINCIBLE);
         if (hasIgnoreInvincible) {
             return false;
         }
-        final boolean hasSureHit = attacker.consumeBuffIfExist(simulation, SureHit.class) ||
-                currentCard.consumeBuffIfExist(simulation, SureHit.class);
+        final boolean hasSureHit = consumeBuffIfExists(simulation, attacker, currentCard, SURE_HIT);
         if (hasInvincible) {
             return true;
         }
-        final boolean hasEvade = defender.consumeBuffIfExist(simulation, Evade.class);
+        final boolean hasEvade = defender.consumeBuffIfExist(simulation, EVADE);
         if (hasSureHit) {
             return false;
         }
         return hasEvade;
+    }
+
+    public static double applyBuff(
+            final Simulation simulation,
+            final Combatant attacker,
+            final CommandCard currentCard,
+            final BuffType buffType
+            ) {
+        return attacker.applyBuff(simulation, buffType) + currentCard.applyBuff(simulation, buffType);
+    }
+
+    public static void activateEffectActivatingBuff(
+            final Simulation simulation,
+            final Combatant attacker,
+            final CommandCard currentCard,
+            final BuffType buffType
+    ) {
+        attacker.activateEffectActivatingBuff(simulation, buffType);
+        currentCard.activateEffectActivatingBuff(simulation, buffType);
+    }
+
+    public static boolean consumeBuffIfExists(
+            final Simulation simulation,
+            final Combatant attacker,
+            final CommandCard currentCard,
+            final BuffType buffType
+    ) {
+        return attacker.consumeBuffIfExist(simulation, buffType) || currentCard.consumeBuffIfExist(simulation, buffType);
     }
 
     public static int calculateTotalDamage(final DamageParameters damageParameters) {

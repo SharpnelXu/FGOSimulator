@@ -19,8 +19,6 @@ import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.EffectFactory;
 import yome.fgo.simulator.models.effects.NpChange;
 import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.GrantStageTrait;
-import yome.fgo.simulator.models.effects.buffs.RemoveStageTrait;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.levels.Stage;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
@@ -44,6 +42,8 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.UNRECOGNIZED;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.GRANT_STAGE_TRAIT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.REMOVE_STAGE_TRAIT;
 
 @NoArgsConstructor
 @Getter
@@ -680,12 +680,12 @@ public class Simulation {
         final Set<String> removeTraits = new HashSet<>();
         for (final Combatant combatant : TargetUtils.getTargets(this, ALL_CHARACTERS)) {
             for (final Buff buff : combatant.getBuffs()) {
-                if (buff instanceof GrantStageTrait && buff.shouldApply(this)) {
-                    fieldTraits.add(((GrantStageTrait) buff).getTrait());
+                if (buff.getBuffType() == GRANT_STAGE_TRAIT && buff.shouldApply(this)) {
+                    fieldTraits.add(buff.getTrait());
                 }
 
-                if (buff instanceof RemoveStageTrait && buff.shouldApply(this)) {
-                    removeTraits.add(((RemoveStageTrait) buff).getTrait());
+                if (buff.getBuffType() == REMOVE_STAGE_TRAIT && buff.shouldApply(this)) {
+                    removeTraits.add(buff.getTrait());
                 }
             }
         }

@@ -4,18 +4,17 @@ import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.conditions.BuffTypeEquals;
-import yome.fgo.simulator.models.effects.buffs.Charm;
-import yome.fgo.simulator.models.effects.buffs.CharmResistDown;
-import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
-import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
-import yome.fgo.simulator.models.effects.buffs.Confusion;
-import yome.fgo.simulator.models.effects.buffs.DebuffResist;
-import yome.fgo.simulator.models.effects.buffs.Stun;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CHARM;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.COMMAND_CARD_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.COMMAND_CARD_RESIST;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DEBUFF_RESIST;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.STUN;
 
 public class CombatantTest {
     @Test
@@ -27,64 +26,70 @@ public class CombatantTest {
         final Combatant test = new Combatant("test", ImmutableList.of(50, 100, 1000));
         assertEquals(50, test.getCurrentHp());
     }
+
     @Test
     public void testApplyBuff() {
         final Simulation simulation = new Simulation();
 
         final Combatant combatant = new Combatant();
 
-        combatant.addBuff(CommandCardBuff.builder()
-                                .value(0.3)
-                                .build());
-        combatant.addBuff(CommandCardBuff.builder()
-                                .value(0.5)
-                                .build());
+        combatant.addBuff(Buff.builder()
+                                  .buffType(COMMAND_CARD_BUFF)
+                                  .value(0.3)
+                                  .build());
+        combatant.addBuff(Buff.builder()
+                                  .buffType(COMMAND_CARD_BUFF)
+                                  .value(0.5)
+                                  .build());
 
-        combatant.addBuff(CommandCardResist.builder()
-                                .value(0.7)
-                                .build());
-        combatant.addBuff(CommandCardResist.builder()
-                                .value(0.9)
-                                .build());
-        combatant.addBuff(CommandCardResist.builder()
-                                .value(1.1)
-                                .build());
+        combatant.addBuff(Buff.builder()
+                                  .buffType(COMMAND_CARD_RESIST)
+                                  .value(0.7)
+                                  .build());
+        combatant.addBuff(Buff.builder()
+                                  .buffType(COMMAND_CARD_RESIST)
+                                  .value(0.9)
+                                  .build());
+        combatant.addBuff(Buff.builder()
+                                  .buffType(COMMAND_CARD_RESIST)
+                                  .value(1.1)
+                                  .build());
 
-        final double totalBuff = combatant.applyBuff(simulation, CommandCardBuff.class);
+        final double totalBuff = combatant.applyBuff(simulation, COMMAND_CARD_BUFF);
         assertEquals(0.8, totalBuff, 0.0000001);
     }
+
     @Test
     public void testApplyBuff_subClassing() {
         final Simulation simulation = new Simulation();
 
         final Combatant combatant = new Combatant();
 
-        combatant.addBuff(DebuffResist.builder()
-                                  .value(0.3)
+        combatant.addBuff(Buff.builder().buffType(DEBUFF_RESIST).value(0.3).build());
+        combatant.addBuff(Buff.builder().buffType(DEBUFF_RESIST).value(0.5).build());
+
+        combatant.addBuff(Buff.builder()
+                                  .buffType(DEBUFF_RESIST)
+                                  .condition(new BuffTypeEquals(CHARM))
+                                  .value(-0.7)
                                   .build());
-        combatant.addBuff(DebuffResist.builder()
-                                  .value(0.5)
+        combatant.addBuff(Buff.builder()
+                                  .buffType(DEBUFF_RESIST)
+                                  .condition(new BuffTypeEquals(CHARM))
+                                  .value(-0.9)
+                                  .build());
+        combatant.addBuff(Buff.builder()
+                                  .buffType(DEBUFF_RESIST)
+                                  .condition(new BuffTypeEquals(CHARM))
+                                  .value(-1.1)
                                   .build());
 
-        combatant.addBuff(CharmResistDown.builder()
-                                  .condition(new BuffTypeEquals(Charm.class))
-                                  .value(0.7)
-                                  .build());
-        combatant.addBuff(CharmResistDown.builder()
-                                  .condition(new BuffTypeEquals(Charm.class))
-                                  .value(0.9)
-                                  .build());
-        combatant.addBuff(CharmResistDown.builder()
-                                  .condition(new BuffTypeEquals(Charm.class))
-                                  .value(1.1)
-                                  .build());
-
-        simulation.setCurrentBuff(Confusion.builder().build());
-        final double totalBuff = combatant.applyBuff(simulation, DebuffResist.class);
+        simulation.setCurrentBuff(Buff.builder().buffType(STUN).build());
+        final double totalBuff = combatant.applyBuff(simulation, DEBUFF_RESIST);
         assertEquals(0.8, totalBuff, 0.0000001);
 
-        simulation.setCurrentBuff(Charm.builder().build());
-        final double totalBuff2 = combatant.applyBuff(simulation, DebuffResist.class);
+        simulation.setCurrentBuff(Buff.builder().buffType(CHARM).build());
+        final double totalBuff2 = combatant.applyBuff(simulation, DEBUFF_RESIST);
         assertEquals(-1.9, totalBuff2, 0.0000001);
     }
 
@@ -92,12 +97,12 @@ public class CombatantTest {
     public void testIsImmobilized() {
         final Combatant combatant = new Combatant();
         assertFalse(combatant.isImmobilized());
-        combatant.addBuff(Stun.builder().build());
+        combatant.addBuff(Buff.builder().buffType(STUN).build());
         assertTrue(combatant.isImmobilized());
 
         combatant.getBuffs().clear();
         assertFalse(combatant.isImmobilized());
-        combatant.addBuff(Charm.builder().build());
+        combatant.addBuff(Buff.builder().buffType(CHARM).build());
         assertTrue(combatant.isImmobilized());
     }
 }

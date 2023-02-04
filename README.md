@@ -478,6 +478,9 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
     - 修了巴姐被动会导致DOT伤害不正确的问题
     - 修了自定义攻击强化状态可能判断不正确的问题
     - 修了基础数值为0但具有数值变化的Buff不被正确视为强化效果的问题（泡馍三技能）
+    - 修了受到DOT伤害时如果有生命值恢复效果可以救死扶伤的奇迹
+  - UI:
+    - 战斗界面不会自动带入设置的概率的Bug
 - v1.05:
   - 系统：
     - 选择卡色从下拉菜单改为按钮

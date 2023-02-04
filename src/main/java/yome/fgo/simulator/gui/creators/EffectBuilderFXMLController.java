@@ -27,10 +27,8 @@ import yome.fgo.data.proto.FgoStorageData.VariationData;
 import yome.fgo.simulator.gui.components.ListContainerVBox;
 import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import yome.fgo.simulator.gui.components.TranslationConverter;
-import yome.fgo.simulator.models.effects.Effect.EffectType;
 import yome.fgo.simulator.models.effects.Effect.EffectFields;
-import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
-import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
+import yome.fgo.simulator.models.effects.Effect.EffectType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -61,6 +59,8 @@ import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD
 import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_RANDOM_EFFECT;
 import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
 import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_TARGET;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CARD_TYPE_CHANGE;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_CARD_TYPE_CHANGE;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
@@ -812,8 +812,7 @@ public class EffectBuilderFXMLController implements Initializable {
             }
             if (requiredFields.contains(EFFECT_FIELD_CARD_TYPE_SELECT)) {
                 final String buffType = effectDataBuilder.getBuffDataList().get(0).getType();
-                if (!buffType.equals(CardTypeChange.class.getSimpleName())
-                        && !buffType.equals(NpCardTypeChange.class.getSimpleName())) {
+                if (!buffType.equals(CARD_TYPE_CHANGE.getType()) && !buffType.equals(NP_CARD_TYPE_CHANGE.getType())) {
                     errorLabel.setVisible(true);
                     errorLabel.setText(getTranslation(APPLICATION_SECTION, "Must select card type related buff"));
                     return;

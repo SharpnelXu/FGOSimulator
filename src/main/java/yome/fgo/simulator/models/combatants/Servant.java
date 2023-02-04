@@ -20,10 +20,6 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
 import yome.fgo.simulator.models.effects.CommandCardExecution;
 import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.CardTypeChange;
-import yome.fgo.simulator.models.effects.buffs.NpCardTypeChange;
-import yome.fgo.simulator.models.effects.buffs.OverchargeBuff;
-import yome.fgo.simulator.models.effects.buffs.SkillRankUp;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
@@ -34,6 +30,8 @@ import java.util.stream.Collectors;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP;
 import static yome.fgo.data.proto.FgoStorageData.Traits.SERVANT;
 import static yome.fgo.simulator.gui.components.FormationSelector.defaultServantLevel;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.OVERCHARGE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SKILL_RANK_UP;
 
 @Getter
 @Setter
@@ -258,8 +256,8 @@ public class Servant extends Combatant {
     public int getCurrentSkillRank(final Simulation simulation, final int activeSkillIndex) {
         final int currentRank = servantOption.getActiveSkillRanks(activeSkillIndex);
         int increasedRank = 0;
-        for (final Buff buff : buffs) {
-            if (buff instanceof SkillRankUp && buff.shouldApply(simulation)) {
+        for (final Buff buff : fetchBuffs(SKILL_RANK_UP)) {
+            if (buff.shouldApply(simulation)) {
                 increasedRank += 1;
             }
         }
@@ -333,9 +331,9 @@ public class Servant extends Combatant {
     int calculateOverchargeLevel(final Simulation simulation, final int extraOvercharge) {
         int overchargeBuff = 0;
 
-        for (final Buff buff : buffs) {
-            if (buff instanceof OverchargeBuff && buff.shouldApply(simulation)) {
-                overchargeBuff += ((OverchargeBuff) buff).getValue();
+        for (final Buff buff : fetchBuffs(OVERCHARGE_BUFF)) {
+            if (buff.shouldApply(simulation)) {
+                overchargeBuff += buff.getValue();
                 buff.setApplied();
             }
         }
@@ -395,7 +393,7 @@ public class Servant extends Combatant {
     }
 
     public CommandCardType getNoblePhantasmCardType() {
-        final NpCardTypeChange cardTypeChange = hasNpCardTypeChangeBuff();
+        final Buff cardTypeChange = hasNpCardTypeChangeBuff();
         if (cardTypeChange != null) {
             return cardTypeChange.getCommandCardType();
         } else {
@@ -404,7 +402,7 @@ public class Servant extends Combatant {
     }
 
     public NoblePhantasm getNoblePhantasm() {
-        final NpCardTypeChange cardTypeChange = hasNpCardTypeChangeBuff();
+        final Buff cardTypeChange = hasNpCardTypeChangeBuff();
         if (cardTypeChange != null) {
             return new NoblePhantasm(
                     cardTypeChange.getCommandCardType(),
@@ -425,7 +423,7 @@ public class Servant extends Combatant {
     }
 
     public CommandCardType getCommandCardType(final int commandCardIndex) {
-        final CardTypeChange cardTypeChange = hasCardTypeChangeBuff();
+        final Buff cardTypeChange = hasCardTypeChangeBuff();
         if (cardTypeChange != null) {
             return cardTypeChange.getCommandCardType();
         } else {
@@ -434,7 +432,7 @@ public class Servant extends Combatant {
     }
 
     public CommandCard getCommandCard(final int index) {
-        final CardTypeChange cardTypeChange = hasCardTypeChangeBuff();
+        final Buff cardTypeChange = hasCardTypeChangeBuff();
         if (cardTypeChange != null) {
             final CommandCardType cardTypeOfChangedType = cardTypeChange.getCommandCardType();
 

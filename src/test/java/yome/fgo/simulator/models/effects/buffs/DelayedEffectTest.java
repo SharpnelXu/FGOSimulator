@@ -45,7 +45,7 @@ public class DelayedEffectTest {
                                 .setTarget(ALL_ALLIES)
                                 .addBuffData(
                                         BuffData.newBuilder()
-                                                .setType(EndOfTurnEffect.class.getSimpleName())
+                                                .setType("EndOfTurnEffect")
                                                 .setNumTurnsActive(2)
                                                 .addSubEffects(
                                                         EffectData.newBuilder()
@@ -60,7 +60,7 @@ public class DelayedEffectTest {
                                 .setTarget(ALL_ALLIES)
                                 .addBuffData(
                                         BuffData.newBuilder()
-                                                .setType(DelayedEffect.class.getSimpleName())
+                                                .setType("DelayedEffect")
                                                 .setNumTurnsActive(2)
                                                 .addSubEffects(
                                                         EffectData.newBuilder()

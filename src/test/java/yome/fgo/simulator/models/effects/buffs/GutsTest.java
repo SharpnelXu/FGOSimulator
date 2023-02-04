@@ -49,7 +49,7 @@ public class GutsTest {
                                 .setTarget(ALL_ENEMIES)
                                 .addBuffData(
                                         BuffData.newBuilder()
-                                                .setType(Guts.class.getSimpleName())
+                                                .setType("Guts")
                                                 .setNumTimesActive(1)
                                                 .addValues(20)
                                 )
@@ -60,7 +60,7 @@ public class GutsTest {
                                 .setTarget(ALL_ENEMIES)
                                 .addBuffData(
                                         BuffData.newBuilder()
-                                                .setType(TriggerOnGutsEffect.class.getSimpleName())
+                                                .setType("TriggerOnGutsEffect")
                                                 .setNumTimesActive(1)
                                                 .addSubEffects(
                                                         EffectData.newBuilder()

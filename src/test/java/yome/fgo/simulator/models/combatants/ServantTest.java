@@ -7,8 +7,7 @@ import yome.fgo.data.proto.FgoStorageData.ServantOption;
 import yome.fgo.data.proto.FgoStorageData.Traits;
 import yome.fgo.simulator.ResourceManager;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
-import yome.fgo.simulator.models.effects.buffs.OverchargeBuff;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.simulator.models.combatants.Servant.NP_CAP_1;
 import static yome.fgo.simulator.models.combatants.Servant.NP_CAP_2;
 import static yome.fgo.simulator.models.combatants.Servant.NP_CAP_3;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.COMMAND_CARD_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.OVERCHARGE_BUFF;
 
 public class ServantTest {
     @Test
@@ -55,7 +56,7 @@ public class ServantTest {
         servant.changeNp(20.002);
         assertEquals(5, servant.calculateOverchargeLevel(simulation, 20));
         servant.changeNp(-10);
-        servant.addBuff(OverchargeBuff.builder().value(2).build());
+        servant.addBuff(Buff.builder().buffType(OVERCHARGE_BUFF).value(2).build());
         servant.changeNp(1);
         assertEquals(4, servant.calculateOverchargeLevel(simulation, 1));
     }
@@ -95,7 +96,7 @@ public class ServantTest {
 
         simulation.setCurrentCommandCard(kama.getCommandCard(2));
 
-        final double artsBuff = kama.applyBuff(simulation, CommandCardBuff.class);
+        final double artsBuff = kama.applyBuff(simulation, COMMAND_CARD_BUFF);
         assertEquals(0.3, artsBuff);
     }
 }

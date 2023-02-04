@@ -5,8 +5,6 @@ import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.SpecialActivationParams;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.BuffFactory;
 
 import java.util.List;
 
@@ -18,11 +16,11 @@ public class CardTypeChangeSelect extends GrantBuff {
     private List<CommandCardType> allowedCardTypes;
 
     @Override
-    protected Buff buildBuff(final int level) {
+    protected BuffData getBuffData(final int level) {
         final BuffData buffDataToUse = isBuffOvercharged ?
                 buffData.get(level - 1) :
                 buffData.get(0);
-        return BuffFactory.buildBuff(buffDataToUse.toBuilder().setStringValue(selectedCardType.name()).build(), buffLevel);
+        return buffDataToUse.toBuilder().setStringValue(selectedCardType.name()).build();
     }
 
     @Override

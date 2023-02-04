@@ -24,7 +24,6 @@ import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.DecreaseActiveSkillCoolDown;
 import yome.fgo.simulator.models.effects.ForceInstantDeath;
 import yome.fgo.simulator.models.effects.GrantBuff;
-import yome.fgo.simulator.models.effects.buffs.EndOfTurnEffect;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -42,6 +41,7 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.getClassIcon;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.renderBuffPane;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.END_OF_TURN_EFFECT;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
@@ -53,7 +53,7 @@ public class ServantDisplay extends VBox {
             .setTarget(TARGETED_ALLY)
             .addBuffData(
                     BuffData.newBuilder()
-                            .setType(EndOfTurnEffect.class.getSimpleName())
+                            .setType(END_OF_TURN_EFFECT.getType())
                             .setNumTurnsActive(1)
                             .setBuffIcon("leaveField")
                             .addSubEffects(

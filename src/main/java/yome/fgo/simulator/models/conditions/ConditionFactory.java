@@ -5,6 +5,7 @@ import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.conditions.Condition.ConditionType;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.BuffType;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,16 +29,7 @@ public class ConditionFactory {
             case CARD_TYPE_EQUALS -> CardTypeEquals.get(CommandCardType.valueOf(conditionData.getValue().toUpperCase()));
             case IS_CRITICAL_STRIKE -> IS_CRITICAL_STRIKE;
             case NP_CARD -> NP_CARD;
-            case BUFF_TYPE_EQUALS -> {
-                // TODO: Change to BuffType after that is implemented
-                try {
-                    yield new BuffTypeEquals(
-                            Class.forName(Buff.class.getPackage().getName() + "." + conditionData.getValue())
-                    );
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            case BUFF_TYPE_EQUALS -> new BuffTypeEquals(BuffType.ofType(conditionData.getValue()));
             case BUFF_HAS_TRAIT -> new BuffHasTrait(conditionData.getValue());
             case BUFF_REMOVABLE -> BUFF_REMOVABLE;
             case TARGETS_HAVE_CLASS -> TargetsHaveClass.builder()

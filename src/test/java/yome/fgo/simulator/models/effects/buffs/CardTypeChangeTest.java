@@ -13,6 +13,7 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CARD_TYPE_CHANGE;
 
 public class CardTypeChangeTest {
     @Test
@@ -30,7 +31,8 @@ public class CardTypeChangeTest {
         assertEquals(BUSTER, kama.getCommandCard(4).getCommandCardType());
         assertThat(kama.getCommandCard(4).getHitPercentages()).containsExactly(16, 33, 51);
 
-        final CardTypeChange cardTypeChange = CardTypeChange.builder()
+        final Buff cardTypeChange = Buff.builder()
+                .buffType(CARD_TYPE_CHANGE)
                 .commandCardType(BUSTER)
                 .build();
 

@@ -10,8 +10,7 @@ import yome.fgo.data.proto.FgoStorageData.CommandCodeData;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory;
-import yome.fgo.simulator.models.effects.buffs.EffectActivatingBuff;
-import yome.fgo.simulator.models.effects.buffs.ValuedBuff;
+import yome.fgo.simulator.models.effects.buffs.BuffType;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
@@ -100,11 +99,11 @@ public class CommandCard {
         return commandCardData.getHitsDataList().stream().mapToInt(i -> i).sum();
     }
 
-    public double applyBuff(final Simulation simulation, final Class<? extends ValuedBuff> buffClass) {
+    public double applyBuff(final Simulation simulation, final BuffType buffType) {
         double totalValue = 0;
         for (final Buff buff : commandCodeBuffs) {
-            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
-                totalValue += buffClass.cast(buff).getValue(simulation);
+            if (buff.getBuffType() == buffType && buff.shouldApply(simulation)) {
+                totalValue += buff.getValue(simulation);
                 // command code buffs should be permanent anyway so not setting applied
             }
         }
@@ -114,29 +113,29 @@ public class CommandCard {
     // should only be called in damage step, so activator is already set
     public void activateEffectActivatingBuff(
             final Simulation simulation,
-            final Class<? extends EffectActivatingBuff> buffClass
+            final BuffType buffType
     ) {
-        final List<EffectActivatingBuff> buffsToActivate = new ArrayList<>();
+        final List<Buff> buffsToActivate = new ArrayList<>();
         for (final Buff buff : commandCodeBuffs) {
-            if (buffClass.isInstance(buff)) {
-                buffsToActivate.add((EffectActivatingBuff) buff);
+            if (buff.getBuffType() == buffType) {
+                buffsToActivate.add(buff);
             }
         }
 
-        for (final EffectActivatingBuff buff : buffsToActivate) {
+        for (final Buff buff : buffsToActivate) {
             if (buff.shouldApply(simulation)) {
 
                 if (simulation.getStatsLogger() != null) {
-                    simulation.getStatsLogger().logEffectActivatingBuff(commandCodeData.getId(), buffClass);
+                    simulation.getStatsLogger().logEffectActivatingBuff(commandCodeData.getId(), buffType);
                 }
                 buff.activate(simulation);
             }
         }
     }
 
-    public boolean consumeBuffIfExist(final Simulation simulation, final Class<? extends Buff> buffClass) {
+    public boolean consumeBuffIfExist(final Simulation simulation, final BuffType buffType) {
         for (final Buff buff : commandCodeBuffs) {
-            if (buffClass.isInstance(buff) && buff.shouldApply(simulation)) {
+            if (buff.getBuffType() == buffType && buff.shouldApply(simulation)) {
                 return true;
             }
         }

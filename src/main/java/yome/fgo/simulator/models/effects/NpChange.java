@@ -4,9 +4,9 @@ import lombok.experimental.SuperBuilder;
 import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
-import yome.fgo.simulator.models.effects.buffs.SkillEffectivenessUp;
 import yome.fgo.simulator.utils.TargetUtils;
 
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SKILL_EFFECTIVENESS_UP;
 import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -24,7 +24,7 @@ public class NpChange extends ValuedEffect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                final double skillEffectiveness = simulation.getActivator().applyBuff(simulation, SkillEffectivenessUp.class);
+                final double skillEffectiveness = simulation.getActivator().applyBuff(simulation, SKILL_EFFECTIVENESS_UP);
                 final double baseChange = (1 + skillEffectiveness) * getValue(simulation, level);
                 combatant.changeNp(baseChange);
             }

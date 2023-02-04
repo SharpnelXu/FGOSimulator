@@ -3,7 +3,6 @@ package yome.fgo.simulator.models;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
-import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardOption;
 import yome.fgo.data.proto.FgoStorageData.CraftEssenceOption;
@@ -19,8 +18,7 @@ import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
-import yome.fgo.simulator.models.effects.buffs.PermanentSleep;
-import yome.fgo.simulator.models.effects.buffs.Stun;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 
@@ -41,6 +39,8 @@ import static yome.fgo.simulator.models.Simulation.isBraveChain;
 import static yome.fgo.simulator.models.Simulation.shouldRemoveDeadCombatants;
 import static yome.fgo.simulator.models.combatants.CombatAction.createCommandCardAction;
 import static yome.fgo.simulator.models.combatants.CombatAction.createNoblePhantasmAction;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PERMANENT_SLEEP;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.STUN;
 import static yome.fgo.simulator.models.levels.LevelTest.TEST_LEVEL_NAME;
 import static yome.fgo.simulator.models.levels.LevelTest.TEST_LEVEL_PATH;
 
@@ -150,7 +150,11 @@ public class SimulationTest {
 
         assertEquals(1.0472, kama.getCurrentNp());
         for (final Combatant combatant : stage1Enemies) {
-            assertEquals(127111, combatant.getHpBars().get(combatant.getCurrentHpBarIndex()) - combatant.getCurrentHp(), 5);
+            assertEquals(
+                    127111,
+                    combatant.getHpBars().get(combatant.getCurrentHpBarIndex()) - combatant.getCurrentHp(),
+                    5
+            );
         }
 
         simNp3TClear.executeCombatActions(ImmutableList.of(kamaNp));
@@ -158,7 +162,11 @@ public class SimulationTest {
 
         assertEquals(0.9842, kama.getCurrentNp());
         for (final Combatant combatant : stage2Enemies) {
-            assertEquals(127111, combatant.getHpBars().get(combatant.getCurrentHpBarIndex()) - combatant.getCurrentHp(), 5);
+            assertEquals(
+                    127111,
+                    combatant.getHpBars().get(combatant.getCurrentHpBarIndex()) - combatant.getCurrentHp(),
+                    5
+            );
         }
 
         assertFalse(kama.canActivateActiveSkill(simNp3TClear, 0));
@@ -176,11 +184,23 @@ public class SimulationTest {
 
         assertEquals(0.9211, kama.getCurrentNp());
         final Combatant stage3first = stage3Enemies.get(0);
-        assertEquals(288890 + 48948 + 17142, stage3first.getHpBars().get(stage3first.getCurrentHpBarIndex()) - stage3first.getCurrentHp(), 5);
+        assertEquals(
+                288890 + 48948 + 17142,
+                stage3first.getHpBars().get(stage3first.getCurrentHpBarIndex()) - stage3first.getCurrentHp(),
+                5
+        );
         final Combatant stage3second = stage3Enemies.get(1);
-        assertEquals(247652, stage3second.getHpBars().get(stage3second.getCurrentHpBarIndex()) - stage3second.getCurrentHp(), 5);
+        assertEquals(
+                247652,
+                stage3second.getHpBars().get(stage3second.getCurrentHpBarIndex()) - stage3second.getCurrentHp(),
+                5
+        );
         final Combatant stage3third = stage3Enemies.get(2);
-        assertEquals(450096, stage3third.getHpBars().get(stage3third.getCurrentHpBarIndex()) - stage3third.getCurrentHp(), 5);
+        assertEquals(
+                450096,
+                stage3third.getHpBars().get(stage3third.getCurrentHpBarIndex()) - stage3third.getCurrentHp(),
+                5
+        );
 
         assertTrue(simNp3TClear.isSimulationCompleted());
         assertEquals(12 + 3, kama.getBuffs().size()); // skill 2 & 3 activated at turn 3
@@ -194,6 +214,7 @@ public class SimulationTest {
         assertEquals(2, altria2.getActiveSkills().get(1).getCurrentCoolDown());
         assertEquals(3, altria2.getActiveSkills().get(2).getCurrentCoolDown());
     }
+
     @Test
     public void testOverchargeCarryOverInStun() {
         ResourceManager.rebuildDataMap();
@@ -213,7 +234,7 @@ public class SimulationTest {
         simNp3TClear.initiate();
         simNp3TClear.setFixedRandom(0.9);
 
-        altria1.addBuff(Stun.builder().buffData(BuffData.newBuilder().setType("Stun").build()).buffLevel(1).build());
+        altria1.addBuff(Buff.builder().buffType(STUN).build());
         simNp3TClear.activateServantSkill(0, 1);
 
         final ImmutableList<CombatAction> npStunNp = ImmutableList.of(
@@ -271,23 +292,27 @@ public class SimulationTest {
                                         )
                         )
                         .build());
-        final Servant scathach = new Servant("servant70", ResourceManager.getServantData("servant70"), ServantOption.newBuilder()
-                .setServantLevel(90)
-                .setNoblePhantasmRank(2)
-                .setNoblePhantasmLevel(2)
-                .setAttackStatusUp(1000)
-                .setHealthStatusUp(1000)
-                .addAllActiveSkillRanks(ImmutableList.of(1, 2, 1))
-                .addAllActiveSkillLevels(ImmutableList.of(10, 10, 10))
-                .addAllAppendSkillLevels(ImmutableList.of(0, 0, 0))
-                .addCommandCardOptions(CommandCardOption.newBuilder())
-                .addCommandCardOptions(CommandCardOption.newBuilder())
-                .addCommandCardOptions(CommandCardOption.newBuilder())
-                .addCommandCardOptions(CommandCardOption.newBuilder())
-                .addCommandCardOptions(CommandCardOption.newBuilder())
-                .setBond(15)
-                .setAscension(2)
-                .build());
+        final Servant scathach = new Servant(
+                "servant70",
+                ResourceManager.getServantData("servant70"),
+                ServantOption.newBuilder()
+                        .setServantLevel(90)
+                        .setNoblePhantasmRank(2)
+                        .setNoblePhantasmLevel(2)
+                        .setAttackStatusUp(1000)
+                        .setHealthStatusUp(1000)
+                        .addAllActiveSkillRanks(ImmutableList.of(1, 2, 1))
+                        .addAllActiveSkillLevels(ImmutableList.of(10, 10, 10))
+                        .addAllAppendSkillLevels(ImmutableList.of(0, 0, 0))
+                        .addCommandCardOptions(CommandCardOption.newBuilder())
+                        .addCommandCardOptions(CommandCardOption.newBuilder())
+                        .addCommandCardOptions(CommandCardOption.newBuilder())
+                        .addCommandCardOptions(CommandCardOption.newBuilder())
+                        .addCommandCardOptions(CommandCardOption.newBuilder())
+                        .setBond(15)
+                        .setAscension(2)
+                        .build()
+        );
         final CraftEssence ce = new CraftEssence(ResourceManager.getCraftEssenceData("craftEssence309"), CE_OPTION);
         scathach.equipCraftEssence(ce);
 
@@ -344,7 +369,7 @@ public class SimulationTest {
 
         assertEquals(BUSTER, simulation.getFirstCardType(COMMAND_CARD_0_1_0));
 
-        busterServant.addBuff(PermanentSleep.builder().build());
+        busterServant.addBuff(Buff.builder().buffType(PERMANENT_SLEEP).build());
         assertEquals(UNRECOGNIZED, simulation.getFirstCardType(COMMAND_CARD_0_1_0));
         assertEquals(UNRECOGNIZED, simulation.getFirstCardType(COMMAND_CARD_0_0));
     }
@@ -371,7 +396,7 @@ public class SimulationTest {
         );
         assertTrue(simulation.isTypeChain(arts));
 
-        artsServant2.addBuff(PermanentSleep.builder().build());
+        artsServant2.addBuff(Buff.builder().buffType(PERMANENT_SLEEP).build());
         assertFalse(simulation.isTypeChain(arts));
     }
 
@@ -396,7 +421,7 @@ public class SimulationTest {
         );
         assertTrue(simulation.isTriColorChain(qab));
 
-        quickServant.addBuff(PermanentSleep.builder().build());
+        quickServant.addBuff(Buff.builder().buffType(PERMANENT_SLEEP).build());
         assertFalse(simulation.isTriColorChain(qab));
     }
 

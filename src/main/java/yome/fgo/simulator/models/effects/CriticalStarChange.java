@@ -2,7 +2,8 @@ package yome.fgo.simulator.models.effects;
 
 import lombok.experimental.SuperBuilder;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.effects.buffs.SkillEffectivenessUp;
+
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SKILL_EFFECTIVENESS_UP;
 
 @SuperBuilder
 public class CriticalStarChange extends IntValuedEffect {
@@ -12,7 +13,7 @@ public class CriticalStarChange extends IntValuedEffect {
             return;
         }
 
-        final double skillEffectiveness = simulation.getActivator().applyBuff(simulation, SkillEffectivenessUp.class);
+        final double skillEffectiveness = simulation.getActivator().applyBuff(simulation, SKILL_EFFECTIVENESS_UP);
         final int starValue = (int) ((1 + skillEffectiveness) * getValue(simulation, level));
 
         simulation.gainStar(starValue);

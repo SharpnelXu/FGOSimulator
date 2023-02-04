@@ -7,7 +7,7 @@ import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.conditions.TargetsHaveTrait;
-import yome.fgo.simulator.models.effects.buffs.ClassAdvantageChangeBuff;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_REMOVE_DISADV;
@@ -15,11 +15,6 @@ import static yome.fgo.data.proto.FgoStorageData.FateClass.ALTEREGO;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.ARCHER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.ASSASSIN;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.AVENGER;
-import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_I;
-import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_II;
-import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_III_L;
-import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_III_R;
-import static yome.fgo.data.proto.FgoStorageData.FateClass.BEAST_IV;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.BERSERKER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.CASTER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.FOREIGNER;
@@ -32,6 +27,7 @@ import static yome.fgo.data.proto.FgoStorageData.FateClass.SABER;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.SHIELDER;
 import static yome.fgo.data.proto.FgoStorageData.Target.DEFENDER;
 import static yome.fgo.data.proto.FgoStorageData.Traits.DEMONIC;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CLASS_ADVANTAGE_CHANGE_BUFF;
 import static yome.fgo.simulator.utils.FateClassUtils.ALL_CLASSES;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAdvantage;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassAttackCorrection;
@@ -109,7 +105,8 @@ public class FateClassUtilsTest {
                 CombatantData.newBuilder().setFateClass(FOREIGNER).addTraits(DEMONIC.name()).build()
         );
 
-        final ClassAdvantageChangeBuff buff = ClassAdvantageChangeBuff.builder()
+        final Buff buff = Buff.builder()
+                .buffType(CLASS_ADVANTAGE_CHANGE_BUFF)
                 .attackMode(CLASS_ADV_REMOVE_DISADV)
                 .defenseMode(CLASS_ADV_REMOVE_DISADV)
                 .defenseModeAffectedClasses(ImmutableList.of(BERSERKER))

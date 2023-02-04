@@ -2,7 +2,6 @@ package yome.fgo.simulator.models.effects.buffs;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
-import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.LevelData;
@@ -21,6 +20,8 @@ import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
 import static yome.fgo.simulator.models.combatants.CombatAction.createCommandCardAction;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_REFLECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.STUN;
 
 public class DamageReflectTest {
     @Test
@@ -56,13 +57,12 @@ public class DamageReflectTest {
         simulation.initiate();
         final Combatant enemy = simulation.getCurrentEnemies().get(0);
 
-        final DamageReflect damageReflect = DamageReflect.builder()
-                .buffData(BuffData.newBuilder().setType("DamageReflect").addValues(2).build())
-                .buffLevel(1)
+        final Buff damageReflect = Buff.builder()
+                .buffType(DAMAGE_REFLECT)
                 .value(2)
-                .numTimesActive(3)
+                .activeTimes(3)
                 .build();
-        final Stun stun = Stun.builder().numTurnsActive(3).buffData(BuffData.newBuilder().setType("Stun").setNumTurnsActive(3).build()).buffLevel(1).build();
+        final Buff stun = Buff.builder().buffType(STUN).activeTurns(3).build();
         kama.addBuff(damageReflect);
         kama.addBuff(stun);
 

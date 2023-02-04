@@ -15,7 +15,8 @@ import yome.fgo.simulator.models.conditions.Condition.ConditionFields;
 import yome.fgo.simulator.models.conditions.Condition.ConditionType;
 import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.Effect.EffectFields;
-import yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields;
+import yome.fgo.simulator.models.effects.buffs.BuffFields;
+import yome.fgo.simulator.models.effects.buffs.BuffType;
 import yome.fgo.simulator.models.variations.Variation.VariationFields;
 import yome.fgo.simulator.models.variations.Variation.VariationType;
 
@@ -44,15 +45,14 @@ import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD
 import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_RANDOM_EFFECT;
 import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
 import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_TARGET;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BUFF_REQUIRED_FIELDS_MAP;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CARD_TYPE;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_CLASS_ADV;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_EFFECTS;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_INT_VALUE;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_ON_FIELD;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_PERCENT_OPTION;
-import static yome.fgo.simulator.models.effects.buffs.BuffFactory.BuffFields.BUFF_FIELD_STRING_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_CLASS_ADV;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_EFFECTS;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_INT_VALUE;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_ON_FIELD;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_PERCENT_OPTION;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_STRING_VALUE;
 import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_BUFF;
 import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_HP;
 import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_MAX_COUNT;
@@ -253,7 +253,7 @@ public class DataPrinter {
             builder.append(printConditionData(buffData.getApplyCondition()));
         }
 
-        final Set<BuffFields> requiredFields = BUFF_REQUIRED_FIELDS_MAP.get(type);
+        final Set<BuffFields> requiredFields = BuffType.ofType(type).getRequiredFields();
         if (requiredFields == null || requiredFields.isEmpty()) {
             return builder.toString();
         }

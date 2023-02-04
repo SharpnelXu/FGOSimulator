@@ -176,7 +176,7 @@ public class MiscDisplay extends VBox {
                 }
         );
         probabilityThresholdSlider.setShowTickMarks(true);
-        probabilityThresholdSlider.setValue(10);
+        probabilityThresholdSlider.setValue((int) (10 * simulationWindow.getSimulation().getProbabilityThreshold()));
 
         final Label randomLabel = new Label(getTranslation(APPLICATION_SECTION, "Random Value:"));
         randomLabel.setStyle("-fx-font-weight: bold");

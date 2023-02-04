@@ -1,0 +1,13 @@
+package yome.fgo.simulator.models.effects.buffs;
+
+public enum BuffFields {
+    BUFF_FIELD_DOUBLE_VALUE,
+    BUFF_FIELD_INT_VALUE,
+    BUFF_FIELD_NO_VARIATION,
+    BUFF_FIELD_STRING_VALUE,
+    BUFF_FIELD_EFFECTS,
+    BUFF_FIELD_PERCENT_OPTION,
+    BUFF_FIELD_CLASS_ADV,
+    BUFF_FIELD_CARD_TYPE,
+    BUFF_FIELD_ON_FIELD
+}

@@ -4,11 +4,12 @@ import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.Test;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
-import yome.fgo.simulator.models.effects.buffs.HealEffectivenessBuff;
-import yome.fgo.simulator.models.effects.buffs.HealGrantEffBuff;
+import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.HEAL_EFFECTIVENESS_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.HEAL_GRANT_EFF_BUFF;
 
 public class HpChangeTest {
     @Test
@@ -51,12 +52,12 @@ public class HpChangeTest {
         final Simulation simulation = new Simulation();
         simulation.setActivator(combatant);
 
-        combatant.addBuff(HealEffectivenessBuff.builder().value(0.5).build());
+        combatant.addBuff(Buff.builder().buffType(HEAL_EFFECTIVENESS_BUFF).value(0.5).build());
 
         hpChange.apply(simulation);
         assertEquals(2500, combatant.getCurrentHp());
 
-        combatant.addBuff(HealGrantEffBuff.builder().value(0.5).build());
+        combatant.addBuff(Buff.builder().buffType(HEAL_GRANT_EFF_BUFF).value(0.5).build());
 
         hpChange.apply(simulation);
         assertEquals(4750, combatant.getCurrentHp());

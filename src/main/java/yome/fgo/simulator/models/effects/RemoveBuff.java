@@ -5,11 +5,11 @@ import yome.fgo.data.proto.FgoStorageData.Target;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.BuffRemovalResist;
 import yome.fgo.simulator.utils.TargetUtils;
 
 import java.util.List;
 
+import static yome.fgo.simulator.models.effects.buffs.BuffType.BUFF_REMOVAL_RESIST;
 import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 import static yome.fgo.simulator.translation.TranslationManager.EFFECT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TARGET_SECTION;
@@ -30,7 +30,7 @@ public class RemoveBuff extends IntValuedEffect {
             return false;
         }
 
-        final double buffRemovalResist = combatant.applyBuff(simulation, BuffRemovalResist.class);
+        final double buffRemovalResist = combatant.applyBuff(simulation, BUFF_REMOVAL_RESIST);
         final double activationProbability = probability - buffRemovalResist;
         if (simulation.getStatsLogger() != null) {
             simulation.getStatsLogger().logProbability(combatant.getId(), activationProbability, simulation.getProbabilityThreshold());

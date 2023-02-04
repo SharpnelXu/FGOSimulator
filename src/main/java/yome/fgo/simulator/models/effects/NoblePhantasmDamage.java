@@ -15,32 +15,7 @@ import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.conditions.Condition;
 import yome.fgo.simulator.models.effects.CommandCardExecution.CriticalStarParameters;
 import yome.fgo.simulator.models.effects.CommandCardExecution.NpParameters;
-import yome.fgo.simulator.models.effects.buffs.AttackBuff;
 import yome.fgo.simulator.models.effects.buffs.Buff;
-import yome.fgo.simulator.models.effects.buffs.CommandCardBuff;
-import yome.fgo.simulator.models.effects.buffs.CommandCardResist;
-import yome.fgo.simulator.models.effects.buffs.CriticalStarGenerationBuff;
-import yome.fgo.simulator.models.effects.buffs.DamageAdditionBuff;
-import yome.fgo.simulator.models.effects.buffs.DamageReductionBuff;
-import yome.fgo.simulator.models.effects.buffs.DefenseBuff;
-import yome.fgo.simulator.models.effects.buffs.Evade;
-import yome.fgo.simulator.models.effects.buffs.IgnoreDefenseBuff;
-import yome.fgo.simulator.models.effects.buffs.IgnoreInvincible;
-import yome.fgo.simulator.models.effects.buffs.Invincible;
-import yome.fgo.simulator.models.effects.buffs.NpDamageBuff;
-import yome.fgo.simulator.models.effects.buffs.NpDamageBuffEffectivenessUp;
-import yome.fgo.simulator.models.effects.buffs.NpGenerationBuff;
-import yome.fgo.simulator.models.effects.buffs.PercentAttackBuff;
-import yome.fgo.simulator.models.effects.buffs.PercentDefenseBuff;
-import yome.fgo.simulator.models.effects.buffs.PostAttackEffect;
-import yome.fgo.simulator.models.effects.buffs.PostDefenseEffect;
-import yome.fgo.simulator.models.effects.buffs.PreAttackEffect;
-import yome.fgo.simulator.models.effects.buffs.PreDefenseEffect;
-import yome.fgo.simulator.models.effects.buffs.Sleep;
-import yome.fgo.simulator.models.effects.buffs.SpecialInvincible;
-import yome.fgo.simulator.models.effects.buffs.SpecificAttackBuff;
-import yome.fgo.simulator.models.effects.buffs.SpecificDefenseBuff;
-import yome.fgo.simulator.models.effects.buffs.SureHit;
 import yome.fgo.simulator.models.variations.Variation;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
@@ -51,6 +26,27 @@ import static yome.fgo.simulator.models.conditions.Never.NEVER;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCritStar;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.getHitsPercentages;
+import static yome.fgo.simulator.models.effects.CommandCardExecution.shouldSkipDamage;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.ATTACK_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.COMMAND_CARD_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.COMMAND_CARD_RESIST;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CRITICAL_STAR_GENERATION_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_ADDITION_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_REDUCTION_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DEFENSE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.IGNORE_DEFENSE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_DAMAGE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_DAMAGE_BUFF_EFFECTIVENESS_UP;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_GENERATION_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PERCENT_ATTACK_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PERCENT_DEFENSE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.POST_ATTACK_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.POST_DEFENSE_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PRE_ATTACK_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.PRE_DEFENSE_EFFECT;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SLEEP;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SPECIFIC_ATTACK_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.SPECIFIC_DEFENSE_BUFF;
 import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 import static yome.fgo.simulator.utils.AttributeUtils.getAttributeAdvantage;
 import static yome.fgo.simulator.utils.CommandCardTypeUtils.convertDamageRate;
@@ -133,32 +129,32 @@ public class NoblePhantasmDamage extends Effect {
             simulation.setDefender(defender);
             final FateClass defenderClass = defender.getFateClass();
 
-            attacker.activateEffectActivatingBuff(simulation, PreAttackEffect.class);
-            defender.activateEffectActivatingBuff(simulation, PreDefenseEffect.class);
+            attacker.activateEffectActivatingBuff(simulation, PRE_ATTACK_EFFECT);
+            defender.activateEffectActivatingBuff(simulation, PRE_DEFENSE_EFFECT);
 
             final double originalDamageRate = getDamageRate(simulation, level);
             final double damageRate = originalCardType == currentCardType ?
                     originalDamageRate :
                     convertDamageRate(originalDamageRate, originalCardType, currentCardType);
 
-            final double commandCardBuff = attacker.applyBuff(simulation, CommandCardBuff.class);
-            final double attackBuff = attacker.applyBuff(simulation, AttackBuff.class);
-            final double specificAttackBuff = attacker.applyBuff(simulation, SpecificAttackBuff.class);
-            final double npDamageUpBuff = attacker.applyPositiveBuff(simulation, NpDamageBuff.class);
-            final double npDamageDownBuff = attacker.applyNegativeBuff(simulation, NpDamageBuff.class);; // value is negative
-            final double npEffectivenessUpBuff = attacker.applyBuff(simulation, NpDamageBuffEffectivenessUp.class);
+            final double commandCardBuff = attacker.applyBuff(simulation, COMMAND_CARD_BUFF);
+            final double attackBuff = attacker.applyBuff(simulation, ATTACK_BUFF);
+            final double specificAttackBuff = attacker.applyBuff(simulation, SPECIFIC_ATTACK_BUFF);
+            final double npDamageUpBuff = attacker.applyPositiveBuff(simulation, NP_DAMAGE_BUFF);
+            final double npDamageDownBuff = attacker.applyNegativeBuff(simulation, NP_DAMAGE_BUFF);; // value is negative
+            final double npEffectivenessUpBuff = attacker.applyBuff(simulation, NP_DAMAGE_BUFF_EFFECTIVENESS_UP);
             final double npDamageBuff = RoundUtils.roundNearest(npDamageUpBuff * (1 + npEffectivenessUpBuff) + npDamageDownBuff);
 
-            final double percentAttackBuff = attacker.applyBuff(simulation, PercentAttackBuff.class);
-            final double damageAdditionBuff = attacker.applyBuff(simulation, DamageAdditionBuff.class);
-            final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IgnoreDefenseBuff.class) || isNpIgnoreDefense;
+            final double percentAttackBuff = attacker.applyBuff(simulation, PERCENT_ATTACK_BUFF);
+            final double damageAdditionBuff = attacker.applyBuff(simulation, DAMAGE_ADDITION_BUFF);
+            final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IGNORE_DEFENSE_BUFF) || isNpIgnoreDefense;
 
-            final double npGenerationBuff = attacker.applyBuff(simulation, NpGenerationBuff.class);
+            final double npGenerationBuff = attacker.applyBuff(simulation, NP_GENERATION_BUFF);
             final double classNpCorrection = defender.getCombatantData().getUseCustomNpMod()
                     ? defender.getCombatantData().getCustomNpMod()
                     : getClassNpCorrection(defenderClass);
 
-            final double critStarGenerationBuff = attacker.applyBuff(simulation, CriticalStarGenerationBuff.class);
+            final double critStarGenerationBuff = attacker.applyBuff(simulation, CRITICAL_STAR_GENERATION_BUFF);
 
             final double npSpecificDamageRate = getNpSpecificDamageRate(simulation, level);
 
@@ -205,16 +201,16 @@ public class NoblePhantasmDamage extends Effect {
                     .commandCardBuff(commandCardBuff)
                     .critStarGenerationBuff(critStarGenerationBuff);
 
-            final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender);
+            final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
 
             if (!skipDamage) {
-                final double commandCardResist = defender.applyBuff(simulation, CommandCardResist.class);
-                final double defenseUpBuff = defender.applyPositiveBuff(simulation, DefenseBuff.class);
-                final double defenseDownBuff = defender.applyNegativeBuff(simulation, DefenseBuff.class); // value is negative
+                final double commandCardResist = defender.applyBuff(simulation, COMMAND_CARD_RESIST);
+                final double defenseUpBuff = defender.applyPositiveBuff(simulation, DEFENSE_BUFF);
+                final double defenseDownBuff = defender.applyNegativeBuff(simulation, DEFENSE_BUFF); // value is negative
                 final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
-                final double specificDefenseBuff = defender.applyBuff(simulation, SpecificDefenseBuff.class);
-                final double percentDefenseBuff = defender.applyBuff(simulation, PercentDefenseBuff.class);
-                final double damageReductionBuff = defender.applyBuff(simulation, DamageReductionBuff.class);
+                final double specificDefenseBuff = defender.applyBuff(simulation, SPECIFIC_DEFENSE_BUFF);
+                final double percentDefenseBuff = defender.applyBuff(simulation, PERCENT_DEFENSE_BUFF);
+                final double damageReductionBuff = defender.applyBuff(simulation, DAMAGE_REDUCTION_BUFF);
 
                 npDamageParams.commandCardResist(commandCardResist)
                         .defenseBuff(defenseBuff)
@@ -293,12 +289,12 @@ public class NoblePhantasmDamage extends Effect {
                 );
             }
 
-            attacker.activateEffectActivatingBuff(simulation, PostAttackEffect.class);
-            defender.activateEffectActivatingBuff(simulation, PostDefenseEffect.class);
+            attacker.activateEffectActivatingBuff(simulation, POST_ATTACK_EFFECT);
+            defender.activateEffectActivatingBuff(simulation, POST_DEFENSE_EFFECT);
             final List<Buff> buffs = defender.getBuffs();
             for (int j = buffs.size() - 1; j >= 0; j -= 1) {
                 final Buff buff = buffs.get(j);
-                if (buff instanceof Sleep) {
+                if (buff.getBuffType() == SLEEP) {
                     buffs.remove(j);
                 }
             }
@@ -311,31 +307,6 @@ public class NoblePhantasmDamage extends Effect {
 
         simulation.unsetCurrentCommandCard();
         simulation.unsetAttacker();
-    }
-
-    public static boolean shouldSkipDamage(
-            final Simulation simulation,
-            final Combatant attacker,
-            final Combatant defender
-    ) {
-        final boolean hasSpecialInvincible = defender.consumeBuffIfExist(simulation, SpecialInvincible.class);
-        final boolean hasIgnoreInvincible = attacker.consumeBuffIfExist(simulation, IgnoreInvincible.class);
-        if (hasSpecialInvincible) {
-            return true;
-        }
-        final boolean hasInvincible = defender.consumeBuffIfExist(simulation, Invincible.class);
-        if (hasIgnoreInvincible) {
-            return false;
-        }
-        final boolean hasSureHit = attacker.consumeBuffIfExist(simulation, SureHit.class);
-        if (hasInvincible) {
-            return true;
-        }
-        final boolean hasEvade = defender.consumeBuffIfExist(simulation, Evade.class);
-        if (hasSureHit) {
-            return false;
-        }
-        return hasEvade;
     }
 
     public static int calculateTotalNpDamage(final NpDamageParameters npDamageParams) {

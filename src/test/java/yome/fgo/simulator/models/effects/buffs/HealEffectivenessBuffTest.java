@@ -8,6 +8,7 @@ import yome.fgo.simulator.models.effects.HpChange;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static yome.fgo.data.proto.FgoStorageData.Target.SELF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.HEAL_EFFECTIVENESS_BUFF;
 
 public class HealEffectivenessBuffTest {
     @Test
@@ -24,13 +25,13 @@ public class HealEffectivenessBuffTest {
 
         assertEquals(60, combatant.getCurrentHp());
 
-        final HealEffectivenessBuff buff = HealEffectivenessBuff.builder().value(1.5).build();
+        final Buff buff = Buff.builder().buffType(HEAL_EFFECTIVENESS_BUFF).value(1.5).build();
         combatant.addBuff(buff);
         hpChange.apply(simulation);
 
         assertEquals(85, combatant.getCurrentHp());
 
-        final HealEffectivenessBuff buff2 = HealEffectivenessBuff.builder().value(-2.5).build();
+        final Buff buff2 = Buff.builder().buffType(HEAL_EFFECTIVENESS_BUFF).value(-2.5).build();
         combatant.addBuff(buff2);
         hpChange.apply(simulation);
 

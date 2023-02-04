@@ -7,6 +7,7 @@ import lombok.Getter;
 import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.combatants.NoblePhantasm;
 import yome.fgo.simulator.models.effects.buffs.Buff;
+import yome.fgo.simulator.models.effects.buffs.BuffType;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -130,11 +131,11 @@ public class StatsLogger extends VBox {
         appendLogEntry(DEBUG, message);
     }
 
-    public void logEffectActivatingBuff(final String id, final Class<? extends Buff> buffClass) {
+    public void logEffectActivatingBuff(final String id, final BuffType buffType) {
         final String message = String.format(
                 getTranslation(APPLICATION_SECTION, "%s activates %s"),
                 getTranslation(ENTITY_NAME_SECTION, id),
-                getTranslation(BUFF_SECTION, buffClass.getSimpleName())
+                getTranslation(BUFF_SECTION, buffType.getType())
         );
 
         appendLogEntry(EFFECT, message);
