@@ -3,6 +3,7 @@ package yome.fgo.simulator.models.conditions;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.ConditionData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
+import yome.fgo.simulator.models.conditions.Condition.ConditionType;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 
 import java.util.List;
@@ -11,7 +12,6 @@ import java.util.stream.Collectors;
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 import static yome.fgo.simulator.models.conditions.BackupServantsExist.BACKUP_SERVANTS_EXIST;
 import static yome.fgo.simulator.models.conditions.BuffRemovable.BUFF_REMOVABLE;
-import static yome.fgo.simulator.models.conditions.Condition.ConditionType.ofType;
 import static yome.fgo.simulator.models.conditions.IsCriticalStrike.IS_CRITICAL_STRIKE;
 import static yome.fgo.simulator.models.conditions.Never.NEVER;
 import static yome.fgo.simulator.models.conditions.NpCard.NP_CARD;
@@ -19,7 +19,7 @@ import static yome.fgo.simulator.models.conditions.ServantsExplodable.EXPLOOOOOO
 
 public class ConditionFactory {
     public static Condition buildCondition(final ConditionData conditionData) {
-        return switch (ofType(conditionData.getType())) {
+        return switch (ConditionType.ofType(conditionData.getType())) {
             case ALWAYS -> ALWAYS;
             case NEVER -> NEVER;
             case AND -> new And(buildSubConditions(conditionData));

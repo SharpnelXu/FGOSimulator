@@ -65,6 +65,10 @@ public abstract class Variation {
         }
 
         public static VariationType ofType(final String type) {
+            if (!BY_TYPE_STRING.containsKey(type)) {
+                throw new IllegalArgumentException("Unknown VariationType: " + type);
+            }
+
             return BY_TYPE_STRING.get(type);
         }
 

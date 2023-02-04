@@ -23,6 +23,6 @@ public class ConditionFactoryTest {
                 .setType("RandomClassName")
                 .build();
 
-        assertThrows(UnsupportedOperationException.class, () -> buildCondition(conditionData));
+        assertThrows(IllegalArgumentException.class, () -> buildCondition(conditionData));
     }
 }

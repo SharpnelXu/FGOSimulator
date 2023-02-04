@@ -115,6 +115,10 @@ public abstract class Condition {
         }
 
         public static ConditionType ofType(final String type) {
+            if (!BY_TYPE_STRING.containsKey(type)) {
+                throw new IllegalArgumentException("Unknown ConditionType: " + type);
+            }
+
             return BY_TYPE_STRING.get(type);
         }
 

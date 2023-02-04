@@ -91,6 +91,10 @@ public abstract class Effect {
         }
 
         public static EffectType ofType(final String type) {
+            if (!BY_TYPE_STRING.containsKey(type)) {
+                throw new IllegalArgumentException("Unknown EffectType: " + type);
+            }
+
             return BY_TYPE_STRING.get(type);
         }
 

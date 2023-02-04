@@ -36,7 +36,7 @@ public class EffectFactoryTest extends EasyMockSupport {
                 .setType("Custom")
                 .build();
 
-        assertThrows(UnsupportedOperationException.class, () -> buildEffect(effectData, 0));
+        assertThrows(IllegalArgumentException.class, () -> buildEffect(effectData, 0));
         replayAll();
     }
 
@@ -49,7 +49,7 @@ public class EffectFactoryTest extends EasyMockSupport {
 
         final Effect effect = buildEffect(effectData, 2);
 
-        expect(simulation.getActivator()).andReturn(new Servant());
+        expect(simulation.getActivator()).andReturn(new Servant()).times(2);
         simulation.gainStar(15.0);
         expect(simulation.getStatsLogger()).andReturn(null);
         replayAll();
@@ -67,7 +67,7 @@ public class EffectFactoryTest extends EasyMockSupport {
 
         final Effect effect = buildEffect(effectData, 2);
 
-        expect(simulation.getActivator()).andReturn(new Servant());
+        expect(simulation.getActivator()).andReturn(new Servant()).times(2);
         simulation.gainStar(20.0);
         expect(simulation.getStatsLogger()).andReturn(null);
         replayAll();
