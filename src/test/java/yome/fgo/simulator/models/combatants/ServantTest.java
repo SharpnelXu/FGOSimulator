@@ -96,7 +96,7 @@ public class ServantTest {
 
         simulation.setCurrentCommandCard(kama.getCommandCard(2));
 
-        final double artsBuff = kama.applyBuff(simulation, COMMAND_CARD_BUFF);
+        final double artsBuff = kama.applyValuedBuff(simulation, COMMAND_CARD_BUFF);
         assertEquals(0.3, artsBuff);
     }
 }

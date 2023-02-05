@@ -24,7 +24,7 @@ public class NpChange extends ValuedEffect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                final double skillEffectiveness = simulation.getActivator().applyBuff(simulation, SKILL_EFFECTIVENESS_UP);
+                final double skillEffectiveness = simulation.getActivator().applyValuedBuff(simulation, SKILL_EFFECTIVENESS_UP);
                 final double baseChange = (1 + skillEffectiveness) * getValue(simulation, level);
                 combatant.changeNp(baseChange);
             }

@@ -18,8 +18,8 @@ public class InstantDeath extends Effect {
         for (final Combatant combatant : TargetUtils.getTargets(simulation, target)) {
             simulation.setEffectTarget(combatant);
             if (shouldApply(simulation)) {
-                final double deathSuccessChance = simulation.getActivator().applyBuff(simulation, DEATH_CHANCE_BUFF);
-                final double deathResist = combatant.applyBuff(simulation, DEATH_RESIST);
+                final double deathSuccessChance = simulation.getActivator().applyValuedBuff(simulation, DEATH_CHANCE_BUFF);
+                final double deathResist = combatant.applyValuedBuff(simulation, DEATH_RESIST);
 
                 final double deathProbability = getProbability(level) * combatant.getDeathRate() * (1 + deathSuccessChance - deathResist);
 

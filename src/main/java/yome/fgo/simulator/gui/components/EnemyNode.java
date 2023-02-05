@@ -44,7 +44,6 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SI
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
-import static yome.fgo.simulator.models.combatants.Combatant.mergeWithOverride;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
@@ -282,7 +281,7 @@ public class EnemyNode extends VBox {
         }
 
         if (enemyData.hasCombatantDataOverride()) {
-            combatantDataOverride = mergeWithOverride(baseEnemyData, enemyData.getCombatantDataOverride());
+            combatantDataOverride = enemyData.getCombatantDataOverride();
             combatantDataLabel.setText(printCombatantData(combatantDataOverride));
         }
 

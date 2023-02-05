@@ -56,7 +56,7 @@ public class GrantBuff extends Effect {
 
                 simulation.setCurrentBuff(buff);
 
-                final double skillEffectiveness = activator.applyBuff(simulation, SKILL_EFFECTIVENESS_UP);
+                final double skillEffectiveness = activator.applyValuedBuff(simulation, SKILL_EFFECTIVENESS_UP);
                 buff.addEffectiveness(skillEffectiveness);
 
                 grantBuff(simulation, buff, combatant, probability);
@@ -76,13 +76,13 @@ public class GrantBuff extends Effect {
     ) {
         final double activationProbability;
         if (buff.isDebuff()) {
-            final double debuffChance = simulation.getActivator().applyBuff(simulation, DEBUFF_CHANCE_BUFF);
-            final double debuffResist = combatant.applyBuff(simulation, DEBUFF_RESIST);
+            final double debuffChance = simulation.getActivator().applyValuedBuff(simulation, DEBUFF_CHANCE_BUFF);
+            final double debuffResist = combatant.applyValuedBuff(simulation, DEBUFF_RESIST);
 
             activationProbability = RoundUtils.roundNearest(probability + debuffChance - debuffResist);
         } else if (buff.isBuff()) {
-            final double buffChance = simulation.getActivator().applyBuff(simulation, BUFF_CHANCE_BUFF);
-            final double receivedBuffChance = combatant.applyBuff(simulation, RECEIVED_BUFF_CHANCE_BUFF);
+            final double buffChance = simulation.getActivator().applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
+            final double receivedBuffChance = combatant.applyValuedBuff(simulation, RECEIVED_BUFF_CHANCE_BUFF);
 
             activationProbability = RoundUtils.roundNearest(probability + buffChance + receivedBuffChance);
         } else {
@@ -122,7 +122,6 @@ public class GrantBuff extends Effect {
     }
 
     protected void afterBuffAdditionalChange(final Simulation simulation) {
-        // for subClass to override
         if (simulation.getCurrentBuff().getBuffType() == MAX_HP_BUFF) {
             final int change = (int) simulation.getCurrentBuff().getValue(simulation);
             simulation.getEffectTarget().changeHpAfterMaxHpChange(change);

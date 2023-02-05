@@ -137,24 +137,24 @@ public class NoblePhantasmDamage extends Effect {
                     originalDamageRate :
                     convertDamageRate(originalDamageRate, originalCardType, currentCardType);
 
-            final double commandCardBuff = attacker.applyBuff(simulation, COMMAND_CARD_BUFF);
-            final double attackBuff = attacker.applyBuff(simulation, ATTACK_BUFF);
-            final double specificAttackBuff = attacker.applyBuff(simulation, SPECIFIC_ATTACK_BUFF);
+            final double commandCardBuff = attacker.applyValuedBuff(simulation, COMMAND_CARD_BUFF);
+            final double attackBuff = attacker.applyValuedBuff(simulation, ATTACK_BUFF);
+            final double specificAttackBuff = attacker.applyValuedBuff(simulation, SPECIFIC_ATTACK_BUFF);
             final double npDamageUpBuff = attacker.applyPositiveBuff(simulation, NP_DAMAGE_BUFF);
             final double npDamageDownBuff = attacker.applyNegativeBuff(simulation, NP_DAMAGE_BUFF);; // value is negative
-            final double npEffectivenessUpBuff = attacker.applyBuff(simulation, NP_DAMAGE_BUFF_EFFECTIVENESS_UP);
+            final double npEffectivenessUpBuff = attacker.applyValuedBuff(simulation, NP_DAMAGE_BUFF_EFFECTIVENESS_UP);
             final double npDamageBuff = RoundUtils.roundNearest(npDamageUpBuff * (1 + npEffectivenessUpBuff) + npDamageDownBuff);
 
-            final double percentAttackBuff = attacker.applyBuff(simulation, PERCENT_ATTACK_BUFF);
-            final double damageAdditionBuff = attacker.applyBuff(simulation, DAMAGE_ADDITION_BUFF);
-            final boolean ignoreDefense = attacker.consumeBuffIfExist(simulation, IGNORE_DEFENSE_BUFF) || isNpIgnoreDefense;
+            final double percentAttackBuff = attacker.applyValuedBuff(simulation, PERCENT_ATTACK_BUFF);
+            final double damageAdditionBuff = attacker.applyValuedBuff(simulation, DAMAGE_ADDITION_BUFF);
+            final boolean ignoreDefense = attacker.consumeBuffIfExists(simulation, IGNORE_DEFENSE_BUFF) || isNpIgnoreDefense;
 
-            final double npGenerationBuff = attacker.applyBuff(simulation, NP_GENERATION_BUFF);
+            final double npGenerationBuff = attacker.applyValuedBuff(simulation, NP_GENERATION_BUFF);
             final double classNpCorrection = defender.getCombatantData().getUseCustomNpMod()
                     ? defender.getCombatantData().getCustomNpMod()
                     : getClassNpCorrection(defenderClass);
 
-            final double critStarGenerationBuff = attacker.applyBuff(simulation, CRITICAL_STAR_GENERATION_BUFF);
+            final double critStarGenerationBuff = attacker.applyValuedBuff(simulation, CRITICAL_STAR_GENERATION_BUFF);
 
             final double npSpecificDamageRate = getNpSpecificDamageRate(simulation, level);
 
@@ -204,13 +204,13 @@ public class NoblePhantasmDamage extends Effect {
             final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
 
             if (!skipDamage) {
-                final double commandCardResist = defender.applyBuff(simulation, COMMAND_CARD_RESIST);
+                final double commandCardResist = defender.applyValuedBuff(simulation, COMMAND_CARD_RESIST);
                 final double defenseUpBuff = defender.applyPositiveBuff(simulation, DEFENSE_BUFF);
                 final double defenseDownBuff = defender.applyNegativeBuff(simulation, DEFENSE_BUFF); // value is negative
                 final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
-                final double specificDefenseBuff = defender.applyBuff(simulation, SPECIFIC_DEFENSE_BUFF);
-                final double percentDefenseBuff = defender.applyBuff(simulation, PERCENT_DEFENSE_BUFF);
-                final double damageReductionBuff = defender.applyBuff(simulation, DAMAGE_REDUCTION_BUFF);
+                final double specificDefenseBuff = defender.applyValuedBuff(simulation, SPECIFIC_DEFENSE_BUFF);
+                final double percentDefenseBuff = defender.applyValuedBuff(simulation, PERCENT_DEFENSE_BUFF);
+                final double damageReductionBuff = defender.applyValuedBuff(simulation, DAMAGE_REDUCTION_BUFF);
 
                 npDamageParams.commandCardResist(commandCardResist)
                         .defenseBuff(defenseBuff)

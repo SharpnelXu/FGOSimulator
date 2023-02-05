@@ -15,7 +15,10 @@ import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.IMMOBILIZE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.RIDER;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_ID;
 import static yome.fgo.simulator.models.SimulationTest.KAMA_OPTION;
@@ -62,7 +65,7 @@ public class DamageReflectTest {
                 .value(2)
                 .activeTimes(3)
                 .build();
-        final Buff stun = Buff.builder().buffType(STUN).activeTurns(3).build();
+        final Buff stun = Buff.builder().buffType(STUN).buffTraits(Collections.singletonList(IMMOBILIZE_BUFF.name())).activeTurns(3).build();
         kama.addBuff(damageReflect);
         kama.addBuff(stun);
 

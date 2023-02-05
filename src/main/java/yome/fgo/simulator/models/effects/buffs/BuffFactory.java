@@ -35,6 +35,8 @@ import static yome.fgo.simulator.models.effects.buffs.BuffType.DEBUFF_RESIST;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.END_OF_TURN_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.SKILL_SEAL;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.STUN;
+import static yome.fgo.simulator.utils.BuffUtils.DAMAGE_OVER_TIME;
+import static yome.fgo.simulator.utils.BuffUtils.SEAL_TRAIT;
 
 public class BuffFactory {
     public static Buff buildBuff(
@@ -210,6 +212,12 @@ public class BuffFactory {
             }
             if (BuffUtils.isImmobilizeDebuff(buffType)) {
                 buffTraits.add(IMMOBILIZE_BUFF.name());
+            }
+            if (BuffUtils.isSeal(buffType)) {
+                buffTraits.add(SEAL_TRAIT);
+            }
+            if (BuffUtils.isDamageOverTimeBuff(buffType)) {
+                buffTraits.add(DAMAGE_OVER_TIME);
             }
         }
 

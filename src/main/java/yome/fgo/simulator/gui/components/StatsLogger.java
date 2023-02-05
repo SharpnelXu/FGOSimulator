@@ -6,7 +6,6 @@ import javafx.scene.layout.VBox;
 import lombok.Getter;
 import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.combatants.NoblePhantasm;
-import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.BuffType;
 
 import java.io.PrintWriter;

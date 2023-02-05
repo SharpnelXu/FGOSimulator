@@ -13,7 +13,7 @@ public class CriticalStarChange extends IntValuedEffect {
             return;
         }
 
-        final double skillEffectiveness = simulation.getActivator().applyBuff(simulation, SKILL_EFFECTIVENESS_UP);
+        final double skillEffectiveness = simulation.getActivator().applyValuedBuff(simulation, SKILL_EFFECTIVENESS_UP);
         final int starValue = (int) ((1 + skillEffectiveness) * getValue(simulation, level));
 
         simulation.gainStar(starValue);

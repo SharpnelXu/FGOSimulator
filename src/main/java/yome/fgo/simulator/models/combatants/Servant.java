@@ -30,6 +30,8 @@ import java.util.stream.Collectors;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP;
 import static yome.fgo.data.proto.FgoStorageData.Traits.SERVANT;
 import static yome.fgo.simulator.gui.components.FormationSelector.defaultServantLevel;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CARD_TYPE_CHANGE;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_CARD_TYPE_CHANGE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.OVERCHARGE_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.SKILL_RANK_UP;
 
@@ -61,31 +63,28 @@ public class Servant extends Combatant {
 
     private CraftEssence craftEssence;
 
+    /*
+     * ================================================================================
+     * Execution Fields
+     * ================================================================================
+     */
     private double currentNp;
 
-    public Servant() {
-        super();
-        this.isAlly = true;
-    }
-
-    // for testing
+    /*
+     * ================================================================================
+     * NullSource & Master constructor
+     * ================================================================================
+     */
     public Servant(final String id) {
         super(id);
         this.isAlly = true;
     }
 
-    // for testing
-    public Servant(final String id, final CombatantData combatantData) {
-        super(id, combatantData);
-    }
-
-    private static ServantAscensionData getAscensionOrLastData(final ServantData servantData, final int ascension) {
-        final int index = servantData.getServantAscensionDataCount() < ascension ?
-                servantData.getServantAscensionDataCount() - 1 : ascension - 1;
-        return servantData.getServantAscensionData(index);
-    }
-
-    // when as enemy
+    /*
+     * ================================================================================
+     * Enemy Servant constructor
+     * ================================================================================
+     */
     public Servant(final ServantData servantData, final EnemyData enemyData) {
         super(getAscensionOrLastData(servantData, enemyData.getServantAscension()).getCombatantData(), enemyData);
 
@@ -109,6 +108,11 @@ public class Servant extends Combatant {
         }
     }
 
+    /*
+     * ================================================================================
+     * Ally Servant constructors
+     * ================================================================================
+     */
     public Servant(final ServantData servantData, final ServantOption servantOption) {
         this("servant" + servantData.getServantNum(), servantData, servantOption);
     }
@@ -130,7 +134,331 @@ public class Servant extends Combatant {
         this.isAlly = true;
     }
 
-    public void buildAscension(final int ascension) {
+    /*
+     * ================================================================================
+     * Initiation methods - called by simulation only
+     * ================================================================================
+     */
+    @Override
+    public void initiate(final Simulation simulation) {
+        super.initiate(simulation);
+
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logActivatePassiveSkill(getId());
+        }
+
+        simulation.setActivator(this);
+        simulation.setActivatingServantPassiveEffects(true);
+
+        for (final PassiveSkill passiveSkill : passiveSkills) {
+            passiveSkill.activate(simulation);
+        }
+        for (final AppendSkill appendSkill : appendSkills) {
+            appendSkill.activate(simulation);
+        }
+
+        simulation.setActivatingServantPassiveEffects(false);
+
+        if (craftEssence != null) {
+            simulation.setActivatingCePassiveEffects(true);
+            craftEssence.activate(simulation);
+            simulation.setActivatingCePassiveEffects(false);
+        }
+
+        simulation.unsetActivator();
+    }
+
+    public void equipCraftEssence(final CraftEssence craftEssence) {
+        this.craftEssence = craftEssence;
+    }
+
+    /*
+     * ================================================================================
+     * Basic access methods
+     * ================================================================================
+     */
+    public int getAttack() {
+        final int craftEssenceAtk = craftEssence == null ? 0 : craftEssence.getAttack();
+        return attack + craftEssenceAtk + attackStatusUp;
+    }
+
+    public String getActiveSkillIconPath(final Simulation simulation, final int activeSkillIndex) {
+        simulation.setActivator(this);
+
+        final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
+        final String iconPath = activeSkills.get(activeSkillIndex).getIconPath(currentRank);
+
+        simulation.unsetActivator();
+
+        return iconPath;
+    }
+
+    public CommandCardType getNoblePhantasmCardType() {
+        final Buff cardTypeChange = fetchFirst(NP_CARD_TYPE_CHANGE);
+        if (cardTypeChange != null) {
+            return cardTypeChange.getCommandCardType();
+        } else {
+            return noblePhantasm.getCommandCardType();
+        }
+    }
+
+    public NoblePhantasm getNoblePhantasm() {
+        final Buff cardTypeChange = fetchFirst(NP_CARD_TYPE_CHANGE);
+        if (cardTypeChange != null) {
+            return new NoblePhantasm(
+                    cardTypeChange.getCommandCardType(),
+                    noblePhantasm.getHitPercentages(),
+                    noblePhantasm.getNpCharge(),
+                    noblePhantasm.getCriticalStarGeneration(),
+                    noblePhantasm.getEffects(),
+                    noblePhantasm.getNoblePhantasmType(),
+                    noblePhantasm.getActivationCondition()
+            );
+        } else {
+            return noblePhantasm;
+        }
+    }
+
+    public CommandCardType getOriginalNoblePhantasmCardType() {
+        return noblePhantasm.getCommandCardType();
+    }
+
+    public CommandCardType getCommandCardType(final int commandCardIndex) {
+        final Buff cardTypeChange = fetchFirst(CARD_TYPE_CHANGE);
+        if (cardTypeChange != null) {
+            return cardTypeChange.getCommandCardType();
+        } else {
+            return commandCards.get(commandCardIndex).getCommandCardType();
+        }
+    }
+
+    public CommandCard getCommandCard(final int index) {
+        final Buff cardTypeChange = fetchFirst(CARD_TYPE_CHANGE);
+        if (cardTypeChange != null) {
+            final CommandCardType cardTypeOfChangedType = cardTypeChange.getCommandCardType();
+
+            CommandCardData cardDataOfChangedType = null;
+            for (final CommandCard commandCard : commandCards) {
+                if (commandCard.getCommandCardType() == cardTypeOfChangedType) {
+                    cardDataOfChangedType = commandCard.getCommandCardData();
+                    break;
+                }
+            }
+
+            final CommandCard supposedCard = commandCards.get(index);
+            return new CommandCard(
+                    cardDataOfChangedType,
+                    supposedCard.getCommandCodeData(),
+                    supposedCard.getCommandCodeBuffs(),
+                    supposedCard.getCommandCardStrengthen()
+            );
+        } else {
+            return commandCards.get(index);
+        }
+    }
+
+    @Override
+    public List<String> getAllTraits(final Simulation simulation) {
+        final ImmutableList.Builder<String> allTraits = ImmutableList.builder();
+        allTraits.addAll(super.getAllTraits(simulation));
+        allTraits.add(SERVANT.name());
+        return allTraits.build();
+    }
+
+    /*
+     * ================================================================================
+     * Methods for basic effects
+     * ================================================================================
+     */
+    @Override
+    public void changeNp(final double npChange) {
+        currentNp += npChange;
+        currentNp = RoundUtils.roundNearest(currentNp);
+
+        final double npCap = getNpCap(noblePhantasmLevel);
+        if (currentNp > npCap) {
+            currentNp = npCap;
+        } else if (shouldApplyNpPity(currentNp, npChange)) {
+            currentNp = NP_CAP_1;
+        } else if (currentNp < 0) {
+            currentNp = 0;
+        }
+    }
+
+    @Override
+    public void decreaseActiveSkillsCoolDown(final int decrease) {
+        for (final ActiveSkill activeSkill : activeSkills) {
+            activeSkill.decreaseCoolDown(decrease);
+        }
+    }
+
+    @Override
+    public void endOfMyTurn(final Simulation simulation) {
+        super.endOfMyTurn(simulation);
+
+        if (!isSkillInaccessible()) {
+            for (final ActiveSkill activeSkill : activeSkills) {
+                activeSkill.decreaseCoolDown(1);
+            }
+        }
+    }
+
+    /*
+     * ================================================================================
+     * Activation (player action) methods
+     * ================================================================================
+     */
+    public boolean canActivateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
+        simulation.setActivator(this);
+
+        final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
+
+        final boolean canActivate = !isSkillInaccessible() &&
+                activeSkills.get(activeSkillIndex).canActivate(simulation, currentRank);
+
+        simulation.unsetActivator();
+
+        return canActivate;
+    }
+
+    public void activateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
+        simulation.setActivator(this);
+
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logActivateActiveSkill(getId(), activeSkillIndex);
+        }
+        final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
+
+        activeSkills.get(activeSkillIndex).activate(simulation, currentRank);
+
+        simulation.unsetActivator();
+    }
+
+    public boolean canActivateNoblePhantasm(final Simulation simulation) {
+        simulation.setActivator(this);
+
+        final boolean canActivate = currentNp >= 1 && !isNpInaccessible() && noblePhantasm.canActivate(simulation);
+
+        simulation.unsetActivator();
+
+        return canActivate;
+    }
+
+    public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
+        final boolean isCrit = simulation.isCriticalStrike();
+        simulation.setActivator(this);
+        simulation.setCriticalStrike(false);
+
+        final int overchargeLevel = calculateOverchargeLevel(simulation, extraOvercharge);
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logNoblePhantasm(getId(), overchargeLevel);
+        }
+        currentNp = 0;
+        noblePhantasm.activate(simulation, overchargeLevel);
+
+        simulation.setCriticalStrike(isCrit);
+        simulation.unsetActivator();
+    }
+
+    public void activateCommandCard(
+            final Simulation simulation,
+            final int commandCardIndex,
+            final int chainIndex,
+            final boolean isCriticalStrike,
+            final CommandCardType firstCardType,
+            final boolean isTypeChain,
+            final boolean isTriColorChain
+    ) {
+        final boolean isCrit = simulation.isCriticalStrike();
+        simulation.setActivator(this);
+        simulation.setAttacker(this);
+        simulation.setDefender(simulation.getTargetedEnemy());
+        simulation.setCurrentCommandCard(getCommandCard(commandCardIndex));
+        simulation.setCriticalStrike(isCriticalStrike);
+
+        CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain, isTriColorChain);
+
+        simulation.setCriticalStrike(isCrit);
+        simulation.unsetCurrentCommandCard();
+        simulation.unsetDefender();
+        simulation.unsetAttacker();
+        simulation.unsetActivator();
+    }
+
+    public void activateExtraAttack(
+            final Simulation simulation,
+            final CommandCardType firstCardType,
+            final boolean isTypeChain,
+            final boolean isTriColorChain
+    ) {
+        simulation.setActivator(this);
+        simulation.setAttacker(this);
+        simulation.setDefender(simulation.getTargetedEnemy());
+        simulation.setCurrentCommandCard(extraCommandCard);
+        simulation.setCriticalStrike(false);
+
+        CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain, isTriColorChain);
+
+        simulation.unsetCurrentCommandCard();
+        simulation.unsetDefender();
+        simulation.unsetAttacker();
+        simulation.unsetActivator();
+    }
+
+    /*
+     * ================================================================================
+     * Methods for specific effects
+     * ================================================================================
+     */
+    public void changeAscension(final Simulation simulation, final int newAscension) {
+        for (final Combatant clearBuff : TargetUtils.getTargets(simulation, ALL_CHARACTERS_INCLUDING_BACKUP)) {
+            clearBuff.clearPassiveBuff(this);
+        }
+
+        final List<Integer> coolDowns = activeSkills.stream()
+                .map(ActiveSkill::getCurrentCoolDown)
+                .collect(Collectors.toList());
+
+        ascension = newAscension;
+        buildAscension(newAscension);
+
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logActivatePassiveSkill(getId());
+        }
+
+        simulation.setActivator(this);
+        simulation.setActivatingServantPassiveEffects(true);
+
+        // should all be buffs
+        for (final PassiveSkill passiveSkill : passiveSkills) {
+            passiveSkill.activate(simulation);
+        }
+        for (final AppendSkill appendSkill : appendSkills) {
+            appendSkill.activateOnlyBuffGrantingEffects(simulation);
+        }
+
+        for (int i = 0; i < activeSkills.size(); i += 1) {
+            if (coolDowns.size() > i) {
+                activeSkills.get(i).setCurrentCoolDown(coolDowns.get(i));
+            }
+        }
+
+        simulation.setActivatingServantPassiveEffects(false);
+        simulation.unsetActivator();
+    }
+
+    /*
+     * ================================================================================
+     * Utility methods
+     * ================================================================================
+     */
+    private static ServantAscensionData getAscensionOrLastData(final ServantData servantData, final int ascension) {
+        final int index = servantData.getServantAscensionDataCount() < ascension ?
+                servantData.getServantAscensionDataCount() - 1 : ascension - 1;
+        return servantData.getServantAscensionData(index);
+    }
+
+    private void buildAscension(final int ascension) {
         final ServantAscensionData servantAscensionData = getAscensionOrLastData(servantData, ascension);
         combatantData = servantAscensionData.getCombatantData();
 
@@ -178,82 +506,7 @@ public class Servant extends Combatant {
         extraCommandCard = new CommandCard(servantAscensionData.getExtraCard());
     }
 
-    public void changeAscension(final Simulation simulation, final int newAscension) {
-        for (final Combatant clearBuff : TargetUtils.getTargets(simulation, ALL_CHARACTERS_INCLUDING_BACKUP)) {
-            clearBuff.clearPassiveBuff(this);
-        }
-
-        final List<Integer> coolDowns = activeSkills.stream()
-                .map(ActiveSkill::getCurrentCoolDown)
-                .collect(Collectors.toList());
-
-        ascension = newAscension;
-        buildAscension(newAscension);
-
-        if (simulation.getStatsLogger() != null) {
-            simulation.getStatsLogger().logActivatePassiveSkill(getId());
-        }
-
-        simulation.setActivator(this);
-        simulation.setActivatingServantPassiveEffects(true);
-
-        // should all be buffs
-        for (final PassiveSkill passiveSkill : passiveSkills) {
-            passiveSkill.activate(simulation);
-        }
-        for (final AppendSkill appendSkill : appendSkills) {
-            appendSkill.activateOnlyBuffGrantingEffects(simulation);
-        }
-
-        for (int i = 0; i < activeSkills.size(); i += 1) {
-            if (coolDowns.size() > i) {
-                activeSkills.get(i).setCurrentCoolDown(coolDowns.get(i));
-            }
-        }
-
-        simulation.setActivatingServantPassiveEffects(false);
-        simulation.unsetActivator();
-    }
-
-    public void equipCraftEssence(final CraftEssence craftEssence) {
-        this.craftEssence = craftEssence;
-    }
-
-    @Override
-    public void initiate(final Simulation simulation) {
-        super.initiate(simulation);
-
-        if (simulation.getStatsLogger() != null) {
-            simulation.getStatsLogger().logActivatePassiveSkill(getId());
-        }
-
-        simulation.setActivator(this);
-        simulation.setActivatingServantPassiveEffects(true);
-
-        for (final PassiveSkill passiveSkill : passiveSkills) {
-            passiveSkill.activate(simulation);
-        }
-        for (final AppendSkill appendSkill : appendSkills) {
-            appendSkill.activate(simulation);
-        }
-
-        simulation.setActivatingServantPassiveEffects(false);
-
-        if (craftEssence != null) {
-            simulation.setActivatingCePassiveEffects(true);
-            craftEssence.activate(simulation);
-            simulation.setActivatingCePassiveEffects(false);
-        }
-
-        simulation.unsetActivator();
-    }
-
-    public int getAttack() {
-        final int craftEssenceAtk = craftEssence == null ? 0 : craftEssence.getAttack();
-        return attack + craftEssenceAtk + attackStatusUp;
-    }
-
-    public int getCurrentSkillRank(final Simulation simulation, final int activeSkillIndex) {
+    private int getCurrentSkillRank(final Simulation simulation, final int activeSkillIndex) {
         final int currentRank = servantOption.getActiveSkillRanks(activeSkillIndex);
         int increasedRank = 0;
         for (final Buff buff : fetchBuffs(SKILL_RANK_UP)) {
@@ -262,69 +515,6 @@ public class Servant extends Combatant {
             }
         }
         return currentRank + increasedRank;
-    }
-
-    public void activateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
-        simulation.setActivator(this);
-
-        if (simulation.getStatsLogger() != null) {
-            simulation.getStatsLogger().logActivateActiveSkill(getId(), activeSkillIndex);
-        }
-        final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
-
-        activeSkills.get(activeSkillIndex).activate(simulation, currentRank);
-
-        simulation.unsetActivator();
-    }
-
-    public String getActiveSkillIconPath(final Simulation simulation, final int activeSkillIndex) {
-        simulation.setActivator(this);
-
-        final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
-
-        final String iconPath = activeSkills.get(activeSkillIndex).getIconPath(currentRank);
-
-        simulation.unsetActivator();
-
-        return iconPath;
-    }
-
-    public boolean canActivateActiveSkill(final Simulation simulation, final int activeSkillIndex) {
-        simulation.setActivator(this);
-
-        final int currentRank = getCurrentSkillRank(simulation, activeSkillIndex);
-
-        final boolean canActivate = !isSkillInaccessible() &&
-                activeSkills.get(activeSkillIndex).canActivate(simulation, currentRank);
-
-        simulation.unsetActivator();
-
-        return canActivate;
-    }
-
-    public boolean canActivateNoblePhantasm(final Simulation simulation) {
-        simulation.setActivator(this);
-
-        final boolean canActivate = currentNp >= 1 && !isNpInaccessible() && noblePhantasm.canActivate(simulation);
-
-        simulation.unsetActivator();
-
-        return canActivate;
-    }
-
-    public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
-        simulation.setActivator(this);
-        simulation.setCriticalStrike(false);
-
-
-        final int overchargeLevel = calculateOverchargeLevel(simulation, extraOvercharge);
-        if (simulation.getStatsLogger() != null) {
-            simulation.getStatsLogger().logNoblePhantasm(getId(), overchargeLevel);
-        }
-        currentNp = 0;
-        noblePhantasm.activate(simulation, overchargeLevel);
-
-        simulation.unsetActivator();
     }
 
     @VisibleForTesting
@@ -348,148 +538,6 @@ public class Servant extends Combatant {
         }
     }
 
-    public void activateCommandCard(
-            final Simulation simulation,
-            final int commandCardIndex,
-            final int chainIndex,
-            final boolean isCriticalStrike,
-            final CommandCardType firstCardType,
-            final boolean isTypeChain,
-            final boolean isTriColorChain
-    ) {
-        simulation.setActivator(this);
-        simulation.setAttacker(this);
-        simulation.setDefender(simulation.getTargetedEnemy());
-        simulation.setCurrentCommandCard(getCommandCard(commandCardIndex));
-        simulation.setCriticalStrike(isCriticalStrike);
-
-        CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain, isTriColorChain);
-
-        simulation.setCriticalStrike(false);
-        simulation.unsetCurrentCommandCard();
-        simulation.unsetDefender();
-        simulation.unsetAttacker();
-        simulation.unsetActivator();
-    }
-
-    public void activateExtraAttack(
-            final Simulation simulation,
-            final CommandCardType firstCardType,
-            final boolean isTypeChain,
-            final boolean isTriColorChain
-    ) {
-        simulation.setActivator(this);
-        simulation.setAttacker(this);
-        simulation.setDefender(simulation.getTargetedEnemy());
-        simulation.setCurrentCommandCard(extraCommandCard);
-        simulation.setCriticalStrike(false);
-
-        CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain, isTriColorChain);
-
-        simulation.unsetCurrentCommandCard();
-        simulation.unsetDefender();
-        simulation.unsetAttacker();
-        simulation.unsetActivator();
-    }
-
-    public CommandCardType getNoblePhantasmCardType() {
-        final Buff cardTypeChange = hasNpCardTypeChangeBuff();
-        if (cardTypeChange != null) {
-            return cardTypeChange.getCommandCardType();
-        } else {
-            return noblePhantasm.getCommandCardType();
-        }
-    }
-
-    public NoblePhantasm getNoblePhantasm() {
-        final Buff cardTypeChange = hasNpCardTypeChangeBuff();
-        if (cardTypeChange != null) {
-            return new NoblePhantasm(
-                    cardTypeChange.getCommandCardType(),
-                    noblePhantasm.getHitPercentages(),
-                    noblePhantasm.getNpCharge(),
-                    noblePhantasm.getCriticalStarGeneration(),
-                    noblePhantasm.getEffects(),
-                    noblePhantasm.getNoblePhantasmType(),
-                    noblePhantasm.getActivationCondition()
-            );
-        } else {
-            return noblePhantasm;
-        }
-    }
-
-    public CommandCardType getOriginalNoblePhantasmCardType() {
-        return noblePhantasm.getCommandCardType();
-    }
-
-    public CommandCardType getCommandCardType(final int commandCardIndex) {
-        final Buff cardTypeChange = hasCardTypeChangeBuff();
-        if (cardTypeChange != null) {
-            return cardTypeChange.getCommandCardType();
-        } else {
-            return commandCards.get(commandCardIndex).getCommandCardType();
-        }
-    }
-
-    public CommandCard getCommandCard(final int index) {
-        final Buff cardTypeChange = hasCardTypeChangeBuff();
-        if (cardTypeChange != null) {
-            final CommandCardType cardTypeOfChangedType = cardTypeChange.getCommandCardType();
-
-            CommandCardData cardDataOfChangedType = null;
-            for (final CommandCard commandCard : commandCards) {
-                if (commandCard.getCommandCardType() == cardTypeOfChangedType) {
-                    cardDataOfChangedType = commandCard.getCommandCardData();
-                    break;
-                }
-            }
-
-            final CommandCard supposedCard = commandCards.get(index);
-            return new CommandCard(
-                    cardDataOfChangedType,
-                    supposedCard.getCommandCodeData(),
-                    supposedCard.getCommandCodeBuffs(),
-                    supposedCard.getCommandCardStrengthen()
-            );
-        } else {
-            return commandCards.get(index);
-        }
-    }
-
-    @Override
-    public List<String> getAllTraits(final Simulation simulation) {
-        final ImmutableList.Builder<String> allTraits = ImmutableList.builder();
-        allTraits.addAll(super.getAllTraits(simulation));
-        allTraits.add(SERVANT.name());
-        return allTraits.build();
-    }
-
-    @Override
-    public void endOfMyTurn(final Simulation simulation) {
-        super.endOfMyTurn(simulation);
-
-        if (!isSkillInaccessible()) {
-            for (final ActiveSkill activeSkill : activeSkills) {
-                activeSkill.decreaseCoolDown(1);
-            }
-        }
-    }
-
-    @Override
-    public void changeNp(final double npChange) {
-        currentNp += npChange;
-        currentNp = RoundUtils.roundNearest(currentNp);
-
-        final double npCap = getNpCap(noblePhantasmLevel);
-        if (currentNp > npCap) {
-            currentNp = npCap;
-        } else if (shouldApplyNpPity(currentNp, npChange)) {
-            currentNp = NP_CAP_1;
-        } else if (currentNp < 0) {
-            currentNp = 0;
-        }
-    }
-
     public static double getNpCap(final int npLevel) {
         if (npLevel == 1) {
             return NP_CAP_1;
@@ -504,13 +552,11 @@ public class Servant extends Combatant {
         return Math.signum(npChange) > 0 && currentNp < NP_CAP_1 && currentNp > NP_GAIN_PITY_THRESHOLD;
     }
 
-    @Override
-    public void decreaseActiveSkillsCoolDown(final int decrease) {
-        for (final ActiveSkill activeSkill : activeSkills) {
-            activeSkill.decreaseCoolDown(decrease);
-        }
-    }
-
+    /*
+     * ================================================================================
+     * Make Copy
+     * ================================================================================
+     */
     private Servant(final Servant other) {
         super(other);
 
@@ -539,5 +585,19 @@ public class Servant extends Combatant {
     @Override
     public Servant makeCopy() {
         return new Servant(this);
+    }
+
+    /*
+     * ================================================================================
+     * Test constructors
+     * ================================================================================
+     */
+    public Servant() {
+        super();
+        this.isAlly = true;
+    }
+
+    public Servant(final String id, final CombatantData combatantData) {
+        super(id, combatantData);
     }
 }

@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.ATTACK_BUFF_DURATION_EXTEND;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.BURN;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.BURN_EFFECTIVENESS_UP;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.CARD_TYPE_CHANGE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.CURSE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.CURSE_EFFECTIVENESS_UP;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_REFLECT;
@@ -35,13 +34,11 @@ import static yome.fgo.simulator.models.effects.buffs.BuffType.DEATH_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DELAYED_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.END_OF_TURN_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.ENTER_FIELD_EFFECT;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.GRANT_STAGE_TRAIT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.GRANT_TRAIT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.GUTS;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.HP_BREAK_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.LEAVE_FIELD_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.MAX_HP_BUFF;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_CARD_TYPE_CHANGE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_SEAL;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.ON_FIELD_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.PERMANENT_SLEEP;
@@ -55,77 +52,53 @@ import static yome.fgo.simulator.models.effects.buffs.BuffType.TRIGGER_ON_GUTS_E
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
-import static yome.fgo.simulator.utils.BuffUtils.isImmobilizeDebuff;
 import static yome.fgo.simulator.utils.BuffUtils.isImmobilizeOrSeal;
 import static yome.fgo.simulator.utils.BuffUtils.shouldDecreaseNumTurnsActiveAtMyTurn;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassMaxNpGauge;
 
 @Getter
 public class Combatant {
-    // enemy only data
+    /*
+     * ================================================================================
+     * Enemy Fields
+     * ================================================================================
+     */
+    private EnemyData enemyData;
     private int maxNpGauge;
     private int currentNpGauge;
-    private int currentHpBarIndex;
-    private int cumulativeTurnDamage;
-    private int activatorHash;
-
-    protected CombatantData combatantData;
-    protected EnemyData enemyData;
-
-    protected String id;
-    protected int currentHp;
-    protected List<Integer> hpBars;
-    protected List<Buff> buffs = Lists.newArrayList();
-
     private List<PassiveSkill> enemyPassiveSkills = Lists.newArrayList();
-
-    private boolean receivedInstantDeath;
+    /*
+     * ================================================================================
+     * Basic Fields
+     * ================================================================================
+     */
+    protected CombatantData combatantData;
+    protected String id;
+    protected List<Integer> hpBars;
     protected boolean isAlly;
 
-    // for testing
-    public Combatant() {
-        this.hpBars = ImmutableList.of(100);
-        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
-    }
+    /*
+     * ================================================================================
+     * Execution Fields
+     * ================================================================================
+     */
+    protected int currentHp;
+    private int currentHpBarIndex;
+    protected List<Buff> buffs = Lists.newArrayList();
+    private int cumulativeTurnDamage;
+    private boolean receivedInstantDeath;
+    private int activatorHash;
 
-    // for testing
-    public Combatant(final String id) {
-        this.id = id;
-        this.hpBars = ImmutableList.of(1);
-        this.combatantData = CombatantData.getDefaultInstance();
-        this.enemyData = EnemyData.getDefaultInstance();
-        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
-    }
-
-    // for testing
-    public Combatant(final String id, final List<Integer> hpBars) {
-        if (hpBars.isEmpty()) {
-            throw new IllegalArgumentException("Empty hpBars");
-        }
-        for (final int hpBar : hpBars) {
-            if (hpBar <= 0) {
-                throw new IllegalArgumentException("Invalid hpBar: " + hpBar + " in " + hpBars);
-            }
-        }
-
-        this.id = id;
-        this.hpBars = Lists.newArrayList(hpBars);
-        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
-    }
-
-    // for testing
-    public Combatant(final String id, final CombatantData combatantData) {
-        this.id = id;
-        this.combatantData = combatantData;
-        this.hpBars = ImmutableList.of(1);
-        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
-    }
-
+    /*
+     * ================================================================================
+     * Enemy constructor
+     * ================================================================================
+     */
     public Combatant(final CombatantData combatantData, final EnemyData enemyData) {
         this(enemyData.getEnemyBaseId(), enemyData.getHpBarsList());
 
         if (enemyData.hasCombatantDataOverride()) {
-            this.combatantData = mergeWithOverride(combatantData, enemyData.getCombatantDataOverride());
+            this.combatantData = enemyData.getCombatantDataOverride();
         } else {
             this.combatantData = combatantData;
         }
@@ -141,37 +114,11 @@ public class Combatant {
         }
     }
 
-    public static CombatantData mergeWithOverride(final CombatantData base, final CombatantData override) {
-        /* See comments below
-        final CombatantData.Builder builder = base.toBuilder();
-        builder.mergeFrom(override);
-        builder.clearAlignments();
-        builder.addAllAlignments(
-                override.getAlignmentsCount() == 0
-                        ? base.getAlignmentsList()
-                        : override.getAlignmentsList()
-        );
-        builder.setDeathRate(override.getDeathRate());
-        builder.clearTraits();
-        builder.addAllTraits(
-                override.getTraitsCount() == 0
-                        ? base.getTraitsList()
-                        : override.getTraitsList()
-        );
-        builder.clearEnemyPassiveSkillData();
-        builder.addAllEnemyPassiveSkillData(
-                override.getEnemyPassiveSkillDataCount() == 0
-                        ? base.getEnemyPassiveSkillDataList()
-                        : override.getEnemyPassiveSkillDataList()
-        );
-        return builder.build();
-         */
-
-        // Proto3 doesn't have a `isSet` function, so just use override since it should be built from base (using editor)
-        // Keeping the logic in case I want to change it back
-        return override;
-    }
-
+    /*
+     * ================================================================================
+     * Initiation methods - called by simulation only
+     * ================================================================================
+     */
     public void initiate(final Simulation simulation) {
         simulation.setActivator(this);
         simulation.setActivatingServantPassiveEffects(true);
@@ -183,6 +130,11 @@ public class Combatant {
         this.activatorHash = hashCode();
     }
 
+    /*
+     * ================================================================================
+     * Basic access methods
+     * ================================================================================
+     */
     public int getAttack() {
         // enemy don't have attack
         return 0;
@@ -194,6 +146,18 @@ public class Combatant {
 
     public Attribute getAttribute() {
         return combatantData.getAttribute();
+    }
+
+    public Gender getGender() {
+        return combatantData.getGender();
+    }
+
+    public double getDeathRate() {
+        return combatantData.getDeathRate();
+    }
+
+    public int getRarity() {
+        return combatantData.getRarity();
     }
 
     public List<String> getAllTraits(final Simulation simulation) {
@@ -236,90 +200,67 @@ public class Combatant {
         return currentHpBarIndex < hpBars.size() - 1;
     }
 
-    public void addBuff(final Buff buff) {
-        buffs.add(buff);
+    public int getActivatorHash() {
+        return activatorHash;
     }
 
-    public List<Buff> fetchBuffs(final BuffType buffType) {
-        return buffs.stream()
-                .filter(buff -> buffType == buff.getBuffType())
-                .collect(Collectors.toList());
+    /*
+     * ================================================================================
+     * Methods for basic effects
+     * ================================================================================
+     */
+    public void decreaseActiveSkillsCoolDown(final int change) {}
+
+    public void changeNp(final double percentNpChange) {}
+
+    public void changeNpGauge(final int gaugeChange) {
+        currentNpGauge += gaugeChange;
+        if (currentNpGauge > maxNpGauge) {
+            currentNpGauge = maxNpGauge;
+        }
+        if (currentNpGauge < 0) {
+            currentNpGauge = 0;
+        }
     }
 
-    public Buff fetchFirst(final BuffType buffType) {
-        return buffs.stream()
-                .filter(buff -> buffType == buff.getBuffType())
-                .findFirst()
-                .orElse(null);
+    public void changeHp(final int hpChange, final boolean isLethal) {
+        currentHp += hpChange;
+
+        final int maxHp = getMaxHp();
+        if (currentHp > maxHp) {
+            currentHp = maxHp;
+        }
+        // non-lethal damage
+        if (currentHp <= 0 && hpChange < 0 && !isLethal) {
+            currentHp = 1;
+        }
     }
 
-    public boolean anyBuffMatch(final Predicate<Buff> predicate) {
-        return buffs.stream().anyMatch(predicate);
-    }
-
-    public double applyBuff(final Simulation simulation, final BuffType buffType, final Predicate<Double> predicate) {
-        double totalValue = 0;
-        for (final Buff buff : fetchBuffs(buffType)) {
-            if (buff.shouldApply(simulation)) {
-                final double value = buff.getValue(simulation);
-                if (predicate.test(value)) {
-                    totalValue += value;
-                    buff.setApplied();
-                }
+    public void changeHpAfterMaxHpChange(final int change) {
+        if (change > 0) {
+            currentHp += change;
+        } else {
+            final int maxHp = getMaxHp();
+            if (currentHp > maxHp) {
+                currentHp = maxHp;
             }
         }
-
-        return RoundUtils.roundNearest(totalValue);
     }
 
-    public double applyBuff(final Simulation simulation, final BuffType buffType) {
-        return applyBuff(simulation, buffType, (value) -> true);
-    }
-
-    public double applyPositiveBuff(final Simulation simulation, final BuffType buffType) {
-        return applyBuff(simulation, buffType, (value) -> value > 0);
-    }
-
-    public double applyNegativeBuff(final Simulation simulation, final BuffType buffType) {
-        return applyBuff(simulation, buffType, (value) -> value < 0);
-    }
-
-    public boolean consumeBuffIfExist(final Simulation simulation, final BuffType buffType) {
-        for (final Buff buff : fetchBuffs(buffType)) {
-            if (buff.shouldApply(simulation)) {
-                buff.setApplied();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isImmobilized() {
-        return anyBuffMatch(buff -> isImmobilizeDebuff(buff.getBuffType()));
-    }
-
-    public boolean isSelectable() {
-        return !anyBuffMatch(buff -> buff.getBuffType() == PERMANENT_SLEEP);
-    }
-
-    public boolean isSkillInaccessible() {
-        return anyBuffMatch(buff -> buff.getBuffType() == SKILL_SEAL || BuffUtils.isImmobilizeDebuff(buff.getBuffType()));
-    }
-
-    public boolean isNpSealed() {
-        return anyBuffMatch(buff -> buff.getBuffType() == NP_SEAL);
-    }
-
-    public boolean isNpInaccessible() {
-        return anyBuffMatch(buff -> buff.getBuffType() == NP_SEAL || BuffUtils.isImmobilizeDebuff(buff.getBuffType()));
-    }
-
-    public boolean isBuffExtended() {
-        return anyBuffMatch(buff -> buff.getBuffType() == ATTACK_BUFF_DURATION_EXTEND);
+    public void instantDeath() {
+        receivedInstantDeath = true;
+        currentHp = 0;
     }
 
     public boolean isAlreadyDead() {
         return currentHp <= 0;
+    }
+
+    public boolean isAlive(final Simulation simulation) {
+        if (currentHp > 0 || hasNextHpBar()) {
+            return true;
+        }
+        return getGutsToActivate(simulation) != null;
     }
 
     public boolean isBuggedOverkill() {
@@ -332,6 +273,28 @@ public class Combatant {
 
     public void clearCumulativeTurnDamage() {
         cumulativeTurnDamage = 0;
+    }
+
+    public void receiveDamage(final int damage) {
+        for (final Buff buff : fetchBuffs(DAMAGE_REFLECT)) {
+            buff.storeDamage(damage);
+        }
+
+        currentHp -= damage;
+    }
+
+    public void receiveNonHpBarBreakDamage(final int damage) {
+        currentHp -= damage;
+        if (currentHp <= 0 && hasNextHpBar()) {
+            currentHp = 1;
+        }
+    }
+
+    public void hpBarBreak(final Simulation simulation) {
+        receivedInstantDeath = false;
+        currentHpBarIndex += 1;
+        currentHp = hpBars.get(currentHpBarIndex);
+        activateEffectActivatingBuff(simulation, HP_BREAK_EFFECT);
     }
 
     public void enterField(final Simulation simulation) {
@@ -359,59 +322,6 @@ public class Combatant {
         activateOnFieldBuff(simulation, false);
     }
 
-    public void receiveDamage(final int damage) {
-        for (final Buff buff : fetchBuffs(DAMAGE_REFLECT)) {
-            buff.storeDamage(damage);
-        }
-
-        currentHp -= damage;
-    }
-
-    public void hpBarBreak(final Simulation simulation) {
-        receivedInstantDeath = false;
-        currentHpBarIndex += 1;
-        currentHp = hpBars.get(currentHpBarIndex);
-        activateEffectActivatingBuff(simulation, HP_BREAK_EFFECT);
-    }
-
-    public void receiveNonHpBarBreakDamage(final int damage) {
-        currentHp -= damage;
-        if (currentHp <= 0 && hasNextHpBar()) {
-            currentHp = 1;
-        }
-    }
-
-    private void activateDamageReflect(final Simulation simulation) {
-        for (final Buff buff : fetchBuffs(DAMAGE_REFLECT)) {
-            if (buff.shouldApply(simulation)) {
-                final int reflectedDamage = (int) (buff.getStoredDamage() * buff.getValue(simulation));
-                if (reflectedDamage != 0) {
-                    if (simulation.getStatsLogger() != null) {
-                        simulation.getStatsLogger().logEffect(
-                                String.format(
-                                        getTranslation(APPLICATION_SECTION, "%s activates %s"),
-                                        getTranslation(ENTITY_NAME_SECTION, id),
-                                        buff + " * " + buff.getStoredDamage() + " = " + reflectedDamage
-                                )
-                        );
-                    }
-
-
-                    for (final Combatant combatant : simulation.getOtherTeam(this)) {
-                        if (combatant != null) {
-                            combatant.receiveNonHpBarBreakDamage(reflectedDamage);
-                        }
-                    }
-
-                    buff.resetStoredDamage();
-                    buff.setApplied();
-                }
-            }
-        }
-
-        checkBuffStatus();
-    }
-
     public void endOfYourTurn(final Simulation simulation) {
         activateEffectActivatingBuff(simulation, DELAYED_EFFECT);
 
@@ -428,30 +338,6 @@ public class Combatant {
 
     public void startOfMyTurn(final Simulation simulation) {
         activateEffectActivatingBuff(simulation, START_OF_TURN_EFFECT);
-    }
-
-    public int calculateDoTDamage(
-            final Simulation simulation,
-            final BuffType dotType,
-            final BuffType dotEffType
-    ) {
-        final double baseDamage = applyBuff(simulation, dotType);
-        final double effectiveness = applyBuff(simulation, dotEffType);
-        int totalDamage = Math.max(0, (int) RoundUtils.roundNearest(baseDamage * (1 + effectiveness)));
-
-        if (totalDamage >= currentHp) {
-            for (final Buff buff : fetchBuffs(PREVENT_DEATH_AGAINST_DOT)) {
-                if (buff.shouldApply(simulation)) {
-                    final String preventType = buff.getTrait();
-                    if (dotType.getType().equalsIgnoreCase(preventType) || Strings.isNullOrEmpty(preventType)) {
-                        buff.setApplied();
-                        return currentHp - 1;
-                    }
-                }
-            }
-        }
-
-        return totalDamage;
     }
 
     public void endOfMyTurn(final Simulation simulation) {
@@ -494,36 +380,62 @@ public class Combatant {
         clearInactiveBuff();
     }
 
-    public void checkBuffStatus() {
-        for (final Buff buff : buffs) {
-            if (buff.isApplied()) {
-                buff.decrementActiveTimes();
-            }
-        }
-
-        clearInactiveBuff();
-
-        final int maxHp = getMaxHp();
-        if (currentHp > maxHp) {
-            currentHp = maxHp;
-        }
+    /*
+     * ================================================================================
+     * Buff basic methods
+     * ================================================================================
+     */
+    public void addBuff(final Buff buff) {
+        buffs.add(buff);
     }
 
-    public void clearInactiveBuff() {
-        for (int j = buffs.size() - 1; j >= 0; j -= 1) {
-            if (buffs.get(j).isInactive()) {
-                buffs.remove(j);
-            }
-        }
+    public List<Buff> fetchBuffs(final BuffType buffType) {
+        return buffs.stream()
+                .filter(buff -> buffType == buff.getBuffType())
+                .collect(Collectors.toList());
     }
 
-    public void clearPassiveBuff(final Combatant activator) {
-        for (int j = buffs.size() - 1; j >= 0; j -= 1) {
-            final Buff buff = buffs.get(j);
-            if (buff.isPassive() && buff.getActivatorHash() == activator.getActivatorHash()) {
-                buffs.remove(j);
+    public Buff fetchFirst(final BuffType buffType) {
+        return buffs.stream()
+                .filter(buff -> buffType == buff.getBuffType())
+                .findFirst()
+                .orElse(null);
+    }
+
+    private double applyValuedBuff(final Simulation simulation, final BuffType buffType, final Predicate<Double> predicate) {
+        double totalValue = 0;
+        for (final Buff buff : fetchBuffs(buffType)) {
+            if (buff.shouldApply(simulation)) {
+                final double value = buff.getValue(simulation);
+                if (predicate.test(value)) {
+                    totalValue += value;
+                    buff.setApplied();
+                }
             }
         }
+
+        return RoundUtils.roundNearest(totalValue);
+    }
+
+    public double applyValuedBuff(final Simulation simulation, final BuffType buffType) {
+        return applyValuedBuff(simulation, buffType, (value) -> true);
+    }
+
+    public double applyPositiveBuff(final Simulation simulation, final BuffType buffType) {
+        return applyValuedBuff(simulation, buffType, (value) -> value > 0);
+    }
+
+    public double applyNegativeBuff(final Simulation simulation, final BuffType buffType) {
+        return applyValuedBuff(simulation, buffType, (value) -> value < 0);
+    }
+
+    public boolean consumeBuffIfExists(final Simulation simulation, final BuffType buffType) {
+        final Buff buff = fetchFirst(buffType);
+        if (buff != null && buff.shouldApply(simulation)) {
+            buff.setApplied();
+            return true;
+        }
+        return false;
     }
 
     public void activateEffectActivatingBuff(
@@ -556,24 +468,44 @@ public class Combatant {
         activateEffectActivatingBuff(simulation, ON_FIELD_EFFECT, isOnFieldEnterField);
     }
 
-    public Buff hasCardTypeChangeBuff() {
-        final List<Buff> cardTypes = fetchBuffs(CARD_TYPE_CHANGE);
-        if (cardTypes.isEmpty()) {
-            return null;
-        } else {
-            return cardTypes.get(0);
-        }
+    /*
+     * ================================================================================
+     * Buff check methods
+     * ================================================================================
+     */
+    public boolean anyBuffMatch(final Predicate<Buff> predicate) {
+        return buffs.stream().anyMatch(predicate);
     }
 
-    public Buff hasNpCardTypeChangeBuff() {
-        final List<Buff> cardTypes = fetchBuffs(NP_CARD_TYPE_CHANGE);
-        if (cardTypes.isEmpty()) {
-            return null;
-        } else {
-            return cardTypes.get(0);
-        }
+    public boolean isImmobilized() {
+        return anyBuffMatch(BuffUtils::isImmobilizeDebuff);
     }
 
+    public boolean isSelectable() {
+        return !anyBuffMatch(buff -> buff.getBuffType() == PERMANENT_SLEEP);
+    }
+
+    public boolean isSkillInaccessible() {
+        return anyBuffMatch(buff -> buff.getBuffType() == SKILL_SEAL || BuffUtils.isImmobilizeDebuff(buff));
+    }
+
+    public boolean isNpSealed() {
+        return anyBuffMatch(buff -> buff.getBuffType() == NP_SEAL);
+    }
+
+    public boolean isNpInaccessible() {
+        return anyBuffMatch(buff -> buff.getBuffType() == NP_SEAL || BuffUtils.isImmobilizeDebuff(buff));
+    }
+
+    public boolean isBuffExtended() {
+        return anyBuffMatch(buff -> buff.getBuffType() == ATTACK_BUFF_DURATION_EXTEND);
+    }
+
+    /*
+     * ================================================================================
+     * Methods for specific effects
+     * ================================================================================
+     */
     public boolean activateGuts(final Simulation simulation) {
         final Buff gutsToApply = getGutsToActivate(simulation);
         if (gutsToApply != null) {
@@ -600,64 +532,115 @@ public class Combatant {
         return gutsToApply != null;
     }
 
-    public void changeNp(final double percentNpChange) {
+    private void activateDamageReflect(final Simulation simulation) {
+        for (final Buff buff : fetchBuffs(DAMAGE_REFLECT)) {
+            if (buff.shouldApply(simulation)) {
+                final int reflectedDamage = (int) (buff.getStoredDamage() * buff.getValue(simulation));
+                if (reflectedDamage != 0) {
+                    if (simulation.getStatsLogger() != null) {
+                        simulation.getStatsLogger().logEffect(
+                                String.format(
+                                        getTranslation(APPLICATION_SECTION, "%s activates %s"),
+                                        getTranslation(ENTITY_NAME_SECTION, id),
+                                        buff + " * " + buff.getStoredDamage() + " = " + reflectedDamage
+                                )
+                        );
+                    }
+
+
+                    for (final Combatant combatant : simulation.getOtherTeam(this)) {
+                        if (combatant != null) {
+                            combatant.receiveNonHpBarBreakDamage(reflectedDamage);
+                        }
+                    }
+
+                    buff.resetStoredDamage();
+                    buff.setApplied();
+                }
+            }
+        }
+
+        checkBuffStatus();
     }
 
-    public void changeNpGauge(final int gaugeChange) {
-        currentNpGauge += gaugeChange;
-        if (currentNpGauge > maxNpGauge) {
-            currentNpGauge = maxNpGauge;
+    /*
+     * ================================================================================
+     * Utility methods
+     * ================================================================================
+     */
+    public void checkBuffStatus() {
+        for (final Buff buff : buffs) {
+            if (buff.isApplied()) {
+                buff.decrementActiveTimes();
+            }
         }
-        if (currentNpGauge < 0) {
-            currentNpGauge = 0;
-        }
-    }
 
-    public void changeHp(final int hpChange, final boolean isLethal) {
-        currentHp += hpChange;
+        clearInactiveBuff();
 
         final int maxHp = getMaxHp();
         if (currentHp > maxHp) {
             currentHp = maxHp;
         }
-        // non-lethal damage
-        if (currentHp <= 0 && hpChange < 0 && !isLethal) {
-            currentHp = 1;
-        }
     }
 
-    public void decreaseActiveSkillsCoolDown(final int change) {
-
-    }
-
-    public void changeHpAfterMaxHpChange(final int change) {
-        if (change > 0) {
-            currentHp += change;
-        } else {
-            final int maxHp = getMaxHp();
-            if (currentHp > maxHp) {
-                currentHp = maxHp;
+    private void clearInactiveBuff() {
+        for (int j = buffs.size() - 1; j >= 0; j -= 1) {
+            if (buffs.get(j).isInactive()) {
+                buffs.remove(j);
             }
         }
     }
 
-    public Gender getGender() {
-        return combatantData.getGender();
+    protected void clearPassiveBuff(final Combatant activator) {
+        for (int j = buffs.size() - 1; j >= 0; j -= 1) {
+            final Buff buff = buffs.get(j);
+            if (buff.isPassive() && buff.getActivatorHash() == activator.getActivatorHash()) {
+                buffs.remove(j);
+            }
+        }
     }
 
-    public double getDeathRate() {
-        return combatantData.getDeathRate();
+    private int calculateDoTDamage(
+            final Simulation simulation,
+            final BuffType dotType,
+            final BuffType dotEffType
+    ) {
+        final double baseDamage = applyValuedBuff(simulation, dotType);
+        final double effectiveness = applyValuedBuff(simulation, dotEffType);
+        int totalDamage = Math.max(0, (int) RoundUtils.roundNearest(baseDamage * (1 + effectiveness)));
+
+        if (totalDamage >= currentHp) {
+            for (final Buff buff : fetchBuffs(PREVENT_DEATH_AGAINST_DOT)) {
+                if (buff.shouldApply(simulation)) {
+                    final String preventType = buff.getTrait();
+                    if (dotType.getType().equalsIgnoreCase(preventType) || Strings.isNullOrEmpty(preventType)) {
+                        buff.setApplied();
+                        return currentHp - 1;
+                    }
+                }
+            }
+        }
+
+        return totalDamage;
     }
 
-    public void instantDeath() {
-        receivedInstantDeath = true;
-        currentHp = 0;
+    private Buff getGutsToActivate(final Simulation simulation) {
+        Buff gutsToApply = null;
+        for (final Buff buff : fetchBuffs(GUTS)) {
+            if (buff.shouldApply(simulation)) {
+                if (gutsToApply == null || (gutsToApply.isIrremovable() && !buff.isIrremovable())) {
+                    gutsToApply = buff;
+                }
+            }
+        }
+        return gutsToApply;
     }
 
-    public int getRarity() {
-        return combatantData.getRarity();
-    }
-
+    /*
+     * ================================================================================
+     * Make Copy
+     * ================================================================================
+     */
     protected Combatant(final Combatant other) {
         this.maxNpGauge = other.maxNpGauge;
         this.currentNpGauge = other.currentNpGauge;
@@ -681,26 +664,44 @@ public class Combatant {
         return new Combatant(this);
     }
 
-    public boolean isAlive(final Simulation simulation) {
-        if (currentHp > 0 || hasNextHpBar()) {
-            return true;
-        }
-        return getGutsToActivate(simulation) != null;
+    /*
+     * ================================================================================
+     * Testing Constructors
+     * ================================================================================
+     */
+    public Combatant() {
+        this.hpBars = ImmutableList.of(100);
+        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
     }
 
-    public Buff getGutsToActivate(final Simulation simulation) {
-        Buff gutsToApply = null;
-        for (final Buff buff : fetchBuffs(GUTS)) {
-            if (buff.shouldApply(simulation)) {
-                if (gutsToApply == null || (gutsToApply.isIrremovable() && !buff.isIrremovable())) {
-                    gutsToApply = buff;
-                }
+    public Combatant(final String id) {
+        this.id = id;
+        this.hpBars = ImmutableList.of(1);
+        this.combatantData = CombatantData.getDefaultInstance();
+        this.enemyData = EnemyData.getDefaultInstance();
+        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
+    }
+
+    public Combatant(final String id, final List<Integer> hpBars) {
+        if (hpBars.isEmpty()) {
+            throw new IllegalArgumentException("Empty hpBars");
+        }
+        for (final int hpBar : hpBars) {
+            if (hpBar <= 0) {
+                throw new IllegalArgumentException("Invalid hpBar: " + hpBar + " in " + hpBars);
             }
         }
-        return gutsToApply;
+
+        this.id = id;
+        this.hpBars = Lists.newArrayList(hpBars);
+        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
     }
 
-    public int getActivatorHash() {
-        return activatorHash;
+    public Combatant(final String id, final CombatantData combatantData) {
+        this.id = id;
+        this.combatantData = combatantData;
+        this.hpBars = ImmutableList.of(1);
+        this.currentHp = this.hpBars.get(this.currentHpBarIndex);
     }
+
 }

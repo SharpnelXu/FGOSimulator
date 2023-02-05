@@ -30,7 +30,7 @@ public class RemoveBuff extends IntValuedEffect {
             return false;
         }
 
-        final double buffRemovalResist = combatant.applyBuff(simulation, BUFF_REMOVAL_RESIST);
+        final double buffRemovalResist = combatant.applyValuedBuff(simulation, BUFF_REMOVAL_RESIST);
         final double activationProbability = probability - buffRemovalResist;
         if (simulation.getStatsLogger() != null) {
             simulation.getStatsLogger().logProbability(combatant.getId(), activationProbability, simulation.getProbabilityThreshold());

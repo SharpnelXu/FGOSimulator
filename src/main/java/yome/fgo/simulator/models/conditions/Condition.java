@@ -10,14 +10,14 @@ import java.util.Set;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_BUFF_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_BUFF_TYPE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_CARD_TYPE;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_DOUBLE_VALUE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_INT_VALUE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_LIMITED_SUB_CONDITION;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_NAMES;
+import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TARGET;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TRAIT_VALUE;
 import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_UNLIMITED_SUB_CONDITION;
-import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_CLASS_VALUE;
-import static yome.fgo.simulator.models.conditions.Condition.ConditionFields.CONDITION_FIELD_TARGET;
 import static yome.fgo.simulator.translation.TranslationManager.CONDITION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 

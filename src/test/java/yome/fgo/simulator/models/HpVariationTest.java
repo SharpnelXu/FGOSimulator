@@ -26,19 +26,19 @@ public class HpVariationTest {
         assertEquals(100, combatant.getCurrentHp());
         simulation.setActivator(combatant);
         combatant.addBuff(buff);
-        final double valueAt100 = combatant.applyBuff(simulation, BUFF_CHANCE_BUFF);
+        final double valueAt100 = combatant.applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
         assertEquals(0, valueAt100);
 
         combatant.receiveDamage(50);
-        final double valueAt50 = combatant.applyBuff(simulation, BUFF_CHANCE_BUFF);
+        final double valueAt50 = combatant.applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
         assertEquals(0.2, valueAt50);
 
         combatant.receiveDamage(50);
-        final double valueAt0 = combatant.applyBuff(simulation, BUFF_CHANCE_BUFF);
+        final double valueAt0 = combatant.applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
         assertEquals(0.4, valueAt0);
 
         combatant.receiveDamage(50);
-        final double valueAtNegative = combatant.applyBuff(simulation, BUFF_CHANCE_BUFF);
+        final double valueAtNegative = combatant.applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
         assertEquals(0.4, valueAtNegative);
     }
     @Test
@@ -55,27 +55,27 @@ public class HpVariationTest {
         assertEquals(100, combatant.getCurrentHp());
         simulation.setActivator(combatant);
         combatant.addBuff(buff);
-        final double valueAt100 = combatant.applyBuff(simulation, BUFF_CHANCE_BUFF);
+        final double valueAt100 = combatant.applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
         assertEquals(0, valueAt100);
 
         combatant.receiveDamage(25);
-        final double valueAt75 = combatant.applyBuff(simulation, BUFF_CHANCE_BUFF);
+        final double valueAt75 = combatant.applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
         assertEquals(0, valueAt75);
 
         combatant.receiveDamage(25);
-        final double valueAt50 = combatant.applyBuff(simulation, BUFF_CHANCE_BUFF);
+        final double valueAt50 = combatant.applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
         assertEquals(0.2, valueAt50);
 
         combatant.receiveDamage(15);
-        final double valueAt35 = combatant.applyBuff(simulation, BUFF_CHANCE_BUFF);
+        final double valueAt35 = combatant.applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
         assertEquals(0.5, valueAt35);
 
         combatant.receiveDamage(25);
-        final double valueAt10 = combatant.applyBuff(simulation, BUFF_CHANCE_BUFF);
+        final double valueAt10 = combatant.applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
         assertEquals(0.6, valueAt10);
 
         combatant.receiveDamage(50);
-        final double valueAtNegative = combatant.applyBuff(simulation, BUFF_CHANCE_BUFF);
+        final double valueAtNegative = combatant.applyValuedBuff(simulation, BUFF_CHANCE_BUFF);
         assertEquals(0.6, valueAtNegative);
     }
 }

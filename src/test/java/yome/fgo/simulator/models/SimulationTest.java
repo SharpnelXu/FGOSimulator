@@ -23,11 +23,13 @@ import yome.fgo.simulator.models.levels.Level;
 import yome.fgo.simulator.models.mysticcodes.MysticCode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.IMMOBILIZE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
@@ -234,7 +236,7 @@ public class SimulationTest {
         simNp3TClear.initiate();
         simNp3TClear.setFixedRandom(0.9);
 
-        altria1.addBuff(Buff.builder().buffType(STUN).build());
+        altria1.addBuff(Buff.builder().buffType(STUN).buffTraits(Collections.singletonList(IMMOBILIZE_BUFF.name())).build());
         simNp3TClear.activateServantSkill(0, 1);
 
         final ImmutableList<CombatAction> npStunNp = ImmutableList.of(
@@ -369,7 +371,7 @@ public class SimulationTest {
 
         assertEquals(BUSTER, simulation.getFirstCardType(COMMAND_CARD_0_1_0));
 
-        busterServant.addBuff(Buff.builder().buffType(PERMANENT_SLEEP).build());
+        busterServant.addBuff(Buff.builder().buffType(PERMANENT_SLEEP).buffTraits(Collections.singletonList(IMMOBILIZE_BUFF.name())).build());
         assertEquals(UNRECOGNIZED, simulation.getFirstCardType(COMMAND_CARD_0_1_0));
         assertEquals(UNRECOGNIZED, simulation.getFirstCardType(COMMAND_CARD_0_0));
     }
@@ -396,7 +398,7 @@ public class SimulationTest {
         );
         assertTrue(simulation.isTypeChain(arts));
 
-        artsServant2.addBuff(Buff.builder().buffType(PERMANENT_SLEEP).build());
+        artsServant2.addBuff(Buff.builder().buffType(PERMANENT_SLEEP).buffTraits(Collections.singletonList(IMMOBILIZE_BUFF.name())).build());
         assertFalse(simulation.isTypeChain(arts));
     }
 
@@ -421,7 +423,7 @@ public class SimulationTest {
         );
         assertTrue(simulation.isTriColorChain(qab));
 
-        quickServant.addBuff(Buff.builder().buffType(PERMANENT_SLEEP).build());
+        quickServant.addBuff(Buff.builder().buffType(PERMANENT_SLEEP).buffTraits(Collections.singletonList(IMMOBILIZE_BUFF.name())).build());
         assertFalse(simulation.isTriColorChain(qab));
     }
 

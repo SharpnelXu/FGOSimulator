@@ -7,31 +7,47 @@ import yome.fgo.simulator.models.effects.buffs.BuffType;
 
 import java.util.List;
 
-import static yome.fgo.simulator.models.effects.buffs.BuffType.*;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.SKILL_SEAL;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.ATTACKER_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.DEFENDER_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.IMMOBILIZE_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.MENTAL_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.NEGATIVE_BUFF;
+import static yome.fgo.data.proto.FgoStorageData.BuffTraits.POSITIVE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.END_OF_TURN_EFFECT;
 
 public class BuffUtils {
     public static final List<BuffTraits> REGULAR_BUFF_TRAITS = ImmutableList.of(
-            BuffTraits.ATTACKER_BUFF,
-            BuffTraits.DEFENDER_BUFF,
-            BuffTraits.POSITIVE_BUFF,
-            BuffTraits.NEGATIVE_BUFF,
-            BuffTraits.MENTAL_BUFF,
-            BuffTraits.IMMOBILIZE_BUFF
+            ATTACKER_BUFF,
+            DEFENDER_BUFF,
+            POSITIVE_BUFF,
+            NEGATIVE_BUFF,
+            MENTAL_BUFF,
+            IMMOBILIZE_BUFF
     );
+    public static final String SEAL_TRAIT = "SEAL";
+    public static final String DAMAGE_OVER_TIME = "DAMAGE_OVER_TIME";
 
     public static boolean isImmobilizeOrSeal(final Buff buff) {
-        final BuffType buffType = buff.getBuffType();
-        return isImmobilizeDebuff(buffType) || buffType == SKILL_SEAL || buffType == NP_SEAL;
+        return buff.getBuffTraits().stream()
+                .anyMatch(trait -> SEAL_TRAIT.equals(trait) || IMMOBILIZE_BUFF.name().equals(trait));
+    }
+
+    public static boolean isImmobilizeDebuff(final Buff buff) {
+        return buff.getBuffTraits().contains(IMMOBILIZE_BUFF.name());
     }
 
     public static boolean shouldDecreaseNumTurnsActiveAtMyTurn(final Buff buff, final boolean isBuffExtended) {
         final BuffType buffType = buff.getBuffType();
-        return (!isBuffExtended && buff.getBuffTraits().contains(BuffTraits.ATTACKER_BUFF.name())) ||
+        return (!isBuffExtended && buff.getBuffTraits().contains(ATTACKER_BUFF.name())) ||
                 buffType == END_OF_TURN_EFFECT ||
-                isDamageOverTimeBuff(buffType);
+                buff.getBuffTraits().contains(DAMAGE_OVER_TIME);
     }
 
+    /*
+     * ===========================================================================================
+     * The following methods should only be used by BuffFactory
+     * ===========================================================================================
+     */
     public static boolean isAttackerBuff(final BuffType buffType) {
         switch (buffType) {
             case ATTACK_BUFF:
@@ -75,6 +91,13 @@ public class BuffUtils {
         }
     }
 
+    public static boolean isSeal(final BuffType buffType) {
+        return switch (buffType) {
+            case NP_SEAL, SKILL_SEAL -> true;
+            default -> false;
+        };
+    }
+
     public static boolean isImmobilizeDebuff(final BuffType buffType) {
         return switch (buffType) {
             case CHARM, PERMANENT_SLEEP, PIGIFY, SLEEP, STUN -> true;
@@ -82,6 +105,10 @@ public class BuffUtils {
         };
     }
 
+    /**
+     * Warning: since CHARM_RESIST_DOWN is converted to DEBUFF_RESIST, checking if a buff is a mental buff during
+     * simulation should be by checking trait.
+     */
     public static boolean isMentalDebuff(final BuffType buffType) {
         return switch (buffType) {
             case CHARM, CHARM_RESIST_DOWN, CONFUSION, PERMANENT_SLEEP, SLEEP, TERROR -> true;

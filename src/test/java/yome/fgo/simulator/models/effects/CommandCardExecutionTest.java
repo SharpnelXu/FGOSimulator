@@ -45,13 +45,10 @@ import static yome.fgo.simulator.models.effects.CommandCardExecution.getHitsPerc
 import static yome.fgo.simulator.models.effects.buffs.BuffType.CLASS_ADVANTAGE_CHANGE_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.COMMAND_CARD_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_ADDITION_BUFF;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_REDUCTION_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.EVADE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.HITS_DOUBLED_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.IGNORE_INVINCIBLE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.INVINCIBLE;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.PRE_ATTACK_EFFECT;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.PRE_DEFENSE_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.SPECIAL_INVINCIBLE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.SURE_HIT;
 import static yome.fgo.simulator.utils.FateClassUtils.getClassNpCorrection;
@@ -106,7 +103,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(attacker.fetchBuffs(CLASS_ADVANTAGE_CHANGE_BUFF)).andReturn(Lists.newArrayList());
         expect(defender.fetchBuffs(CLASS_ADVANTAGE_CHANGE_BUFF)).andReturn(Lists.newArrayList());
 
-        expect(attacker.applyBuff(simulation, DAMAGE_ADDITION_BUFF)).andReturn(225.0);
+        expect(attacker.applyValuedBuff(simulation, DAMAGE_ADDITION_BUFF)).andReturn(225.0);
 
         expect(attacker.getAttack()).andReturn(20977);
         expect(attacker.getFateClass()).andReturn(AVENGER).anyTimes();
@@ -114,9 +111,9 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.getAttribute()).andReturn(SKY);
         expect(simulation.getFixedRandom()).andReturn(0.9);
 
-        expect(defender.consumeBuffIfExist(simulation, SPECIAL_INVINCIBLE)).andReturn(false);
-        expect(attacker.consumeBuffIfExist(simulation, IGNORE_INVINCIBLE)).andReturn(true);
-        expect(defender.consumeBuffIfExist(simulation, INVINCIBLE)).andReturn(false);
+        expect(defender.consumeBuffIfExists(simulation, SPECIAL_INVINCIBLE)).andReturn(false);
+        expect(attacker.consumeBuffIfExists(simulation, IGNORE_INVINCIBLE)).andReturn(true);
+        expect(defender.consumeBuffIfExists(simulation, INVINCIBLE)).andReturn(false);
 
         final List<Capture<Integer>> captures = new ArrayList<>();
         for (int i = 0; i < KAMA_AVENGER_BUSTER.getHitPercentages().size(); i += 1) {
@@ -161,8 +158,8 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(attacker.fetchBuffs(CLASS_ADVANTAGE_CHANGE_BUFF)).andReturn(Lists.newArrayList());
         expect(defender.fetchBuffs(CLASS_ADVANTAGE_CHANGE_BUFF)).andReturn(Lists.newArrayList());
 
-        expect(attacker.applyBuff(simulation, COMMAND_CARD_BUFF)).andReturn(0.5);
-        expect(attacker.applyBuff(simulation, DAMAGE_ADDITION_BUFF)).andReturn(225.0);
+        expect(attacker.applyValuedBuff(simulation, COMMAND_CARD_BUFF)).andReturn(0.5);
+        expect(attacker.applyValuedBuff(simulation, DAMAGE_ADDITION_BUFF)).andReturn(225.0);
 
         expect(attacker.getAttack()).andReturn(20977);
         expect(attacker.getFateClass()).andReturn(AVENGER).anyTimes();
@@ -170,9 +167,9 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.getAttribute()).andReturn(SKY);
         expect(simulation.getFixedRandom()).andReturn(0.9);
 
-        expect(defender.consumeBuffIfExist(simulation, SPECIAL_INVINCIBLE)).andReturn(false);
-        expect(attacker.consumeBuffIfExist(simulation, IGNORE_INVINCIBLE)).andReturn(true);
-        expect(defender.consumeBuffIfExist(simulation, INVINCIBLE)).andReturn(false);
+        expect(defender.consumeBuffIfExists(simulation, SPECIAL_INVINCIBLE)).andReturn(false);
+        expect(attacker.consumeBuffIfExists(simulation, IGNORE_INVINCIBLE)).andReturn(true);
+        expect(defender.consumeBuffIfExists(simulation, INVINCIBLE)).andReturn(false);
 
         final List<Capture<Integer>> captures = new ArrayList<>();
         for (int i = 0; i < KAMA_AVENGER_EXTRA.getHitPercentages().size(); i += 1) {
@@ -214,8 +211,8 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(attacker.fetchBuffs(CLASS_ADVANTAGE_CHANGE_BUFF)).andReturn(Lists.newArrayList());
         expect(defender.fetchBuffs(CLASS_ADVANTAGE_CHANGE_BUFF)).andReturn(Lists.newArrayList());
 
-        expect(attacker.applyBuff(simulation, COMMAND_CARD_BUFF)).andReturn(0.5);
-        expect(attacker.applyBuff(simulation, DAMAGE_ADDITION_BUFF)).andReturn(225.0);
+        expect(attacker.applyValuedBuff(simulation, COMMAND_CARD_BUFF)).andReturn(0.5);
+        expect(attacker.applyValuedBuff(simulation, DAMAGE_ADDITION_BUFF)).andReturn(225.0);
 
         expect(attacker.getAttack()).andReturn(20977);
         expect(attacker.getFateClass()).andReturn(AVENGER).anyTimes();
@@ -223,11 +220,11 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         expect(defender.getAttribute()).andReturn(SKY);
         expect(simulation.getFixedRandom()).andReturn(0.9);
 
-        expect(defender.consumeBuffIfExist(simulation, SPECIAL_INVINCIBLE)).andReturn(false);
-        expect(attacker.consumeBuffIfExist(simulation, IGNORE_INVINCIBLE)).andReturn(false);
-        expect(defender.consumeBuffIfExist(simulation, INVINCIBLE)).andReturn(false);
-        expect(attacker.consumeBuffIfExist(simulation, SURE_HIT)).andReturn(false);
-        expect(defender.consumeBuffIfExist(simulation, EVADE)).andReturn(true);
+        expect(defender.consumeBuffIfExists(simulation, SPECIAL_INVINCIBLE)).andReturn(false);
+        expect(attacker.consumeBuffIfExists(simulation, IGNORE_INVINCIBLE)).andReturn(false);
+        expect(defender.consumeBuffIfExists(simulation, INVINCIBLE)).andReturn(false);
+        expect(attacker.consumeBuffIfExists(simulation, SURE_HIT)).andReturn(false);
+        expect(defender.consumeBuffIfExists(simulation, EVADE)).andReturn(true);
 
         expect(defender.isAlreadyDead()).andReturn(false).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());
         expect(defender.isBuggedOverkill()).andReturn(false).times(KAMA_AVENGER_EXTRA.getHitPercentages().size());

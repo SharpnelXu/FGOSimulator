@@ -49,7 +49,7 @@ public class GrantBuffTest {
         simulation.setActivator(servant);
         effect.apply(simulation);
 
-        final double attackBuff = servant.applyBuff(simulation, ATTACK_BUFF);
+        final double attackBuff = servant.applyValuedBuff(simulation, ATTACK_BUFF);
         assertEquals(15.0, attackBuff);
     }
 
@@ -79,14 +79,14 @@ public class GrantBuffTest {
         simulation.setActivator(demonic);
         effect.apply(simulation);
 
-        final double attackBuff1 = demonic.applyBuff(simulation, ATTACK_BUFF);
+        final double attackBuff1 = demonic.applyValuedBuff(simulation, ATTACK_BUFF);
         assertEquals(15.0, attackBuff1);
 
         final Servant nonDemonic = new Servant("", CombatantData.newBuilder().addTraits(RIDING.name()).build());
         simulation.setActivator(nonDemonic);
         effect.apply(simulation);
 
-        final double attackBuff2 = nonDemonic.applyBuff(simulation, ATTACK_BUFF);
+        final double attackBuff2 = nonDemonic.applyValuedBuff(simulation, ATTACK_BUFF);
         assertEquals(0, attackBuff2);
     }
 
@@ -121,7 +121,7 @@ public class GrantBuffTest {
         simulation.setActivator(servant);
         effect.internalApply(simulation, 3);
 
-        final double attackBuff = servant.applyBuff(simulation, ATTACK_BUFF);
+        final double attackBuff = servant.applyValuedBuff(simulation, ATTACK_BUFF);
         assertEquals(35.0, attackBuff);
     }
 
@@ -147,17 +147,17 @@ public class GrantBuffTest {
         simulation.setActivator(servant);
         effect.apply(simulation);
 
-        final double attackBuff = servant.applyBuff(simulation, ATTACK_BUFF);
+        final double attackBuff = servant.applyValuedBuff(simulation, ATTACK_BUFF);
         assertEquals(0, attackBuff);
 
         servant.addBuff(Buff.builder().buffType(BUFF_CHANCE_BUFF).value(0.05).build());
         effect.apply(simulation);
-        final double attackBuff2 = servant.applyBuff(simulation, ATTACK_BUFF);
+        final double attackBuff2 = servant.applyValuedBuff(simulation, ATTACK_BUFF);
         assertEquals(0, attackBuff2);
 
         servant.addBuff(Buff.builder().buffType(RECEIVED_BUFF_CHANCE_BUFF).value(0.05).build());
         effect.apply(simulation);
-        final double attackBuff3 = servant.applyBuff(simulation, ATTACK_BUFF);
+        final double attackBuff3 = servant.applyValuedBuff(simulation, ATTACK_BUFF);
         assertEquals(15, attackBuff3);
     }
 
@@ -214,7 +214,7 @@ public class GrantBuffTest {
         simulation.setActivator(servant);
         effect.apply(simulation);
 
-        assertTrue(servant.consumeBuffIfExist(simulation, EVADE));
+        assertTrue(servant.consumeBuffIfExists(simulation, EVADE));
         simulation.checkBuffStatus();
 
         effect.apply(simulation);
@@ -223,6 +223,6 @@ public class GrantBuffTest {
         effect.apply(simulation);
         assertEquals(1, servant.getBuffs().size());
 
-        assertTrue(servant.consumeBuffIfExist(simulation, EVADE));
+        assertTrue(servant.consumeBuffIfExists(simulation, EVADE));
     }
 }

@@ -169,13 +169,13 @@ public class CommandCardExecution {
 
         final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
         if (!skipDamage) {
-            final double commandCardResist = defender.applyBuff(simulation, COMMAND_CARD_RESIST);
+            final double commandCardResist = defender.applyValuedBuff(simulation, COMMAND_CARD_RESIST);
             final double defenseUpBuff = defender.applyPositiveBuff(simulation, DEFENSE_BUFF);
             final double defenseDownBuff = defender.applyNegativeBuff(simulation, DEFENSE_BUFF); // value is negative
             final double defenseBuff = ignoreDefense ? defenseDownBuff : defenseUpBuff + defenseDownBuff;
-            final double specificDefenseBuff = defender.applyBuff(simulation, SPECIFIC_DEFENSE_BUFF);
-            final double percentDefenseBuff = defender.applyBuff(simulation, PERCENT_DEFENSE_BUFF);
-            final double damageReductionBuff = defender.applyBuff(simulation, DAMAGE_REDUCTION_BUFF);
+            final double specificDefenseBuff = defender.applyValuedBuff(simulation, SPECIFIC_DEFENSE_BUFF);
+            final double percentDefenseBuff = defender.applyValuedBuff(simulation, PERCENT_DEFENSE_BUFF);
+            final double damageReductionBuff = defender.applyValuedBuff(simulation, DAMAGE_REDUCTION_BUFF);
 
             damageParameters.commandCardResist(commandCardResist)
                     .defenseBuff(defenseBuff)
@@ -270,12 +270,12 @@ public class CommandCardExecution {
             final Combatant defender,
             final CommandCard currentCard
     ) {
-        final boolean hasSpecialInvincible = defender.consumeBuffIfExist(simulation, SPECIAL_INVINCIBLE);
+        final boolean hasSpecialInvincible = defender.consumeBuffIfExists(simulation, SPECIAL_INVINCIBLE);
         final boolean hasIgnoreInvincible = consumeBuffIfExists(simulation, attacker, currentCard, IGNORE_INVINCIBLE);
         if (hasSpecialInvincible) {
             return true;
         }
-        final boolean hasInvincible = defender.consumeBuffIfExist(simulation, INVINCIBLE);
+        final boolean hasInvincible = defender.consumeBuffIfExists(simulation, INVINCIBLE);
         if (hasIgnoreInvincible) {
             return false;
         }
@@ -283,7 +283,7 @@ public class CommandCardExecution {
         if (hasInvincible) {
             return true;
         }
-        final boolean hasEvade = defender.consumeBuffIfExist(simulation, EVADE);
+        final boolean hasEvade = defender.consumeBuffIfExists(simulation, EVADE);
         if (hasSureHit) {
             return false;
         }
@@ -296,7 +296,7 @@ public class CommandCardExecution {
             final CommandCard currentCard,
             final BuffType buffType
             ) {
-        return attacker.applyBuff(simulation, buffType) + currentCard.applyBuff(simulation, buffType);
+        return attacker.applyValuedBuff(simulation, buffType) + currentCard.applyBuff(simulation, buffType);
     }
 
     public static void activateEffectActivatingBuff(
@@ -315,7 +315,7 @@ public class CommandCardExecution {
             final CommandCard currentCard,
             final BuffType buffType
     ) {
-        return attacker.consumeBuffIfExist(simulation, buffType) || currentCard.consumeBuffIfExist(simulation, buffType);
+        return attacker.consumeBuffIfExists(simulation, buffType) || currentCard.consumeBuffIfExist(simulation, buffType);
     }
 
     public static int calculateTotalDamage(final DamageParameters damageParameters) {

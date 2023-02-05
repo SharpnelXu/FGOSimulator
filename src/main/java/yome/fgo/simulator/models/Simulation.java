@@ -78,9 +78,20 @@ public class Simulation {
         this.simulationWindow = simulationWindow;
     }
 
+    /*
+     * ================================================================================
+     * GUI Fields
+     * ================================================================================
+     */
     public SimulationWindow simulationWindow;
-    public Level level;
+    private StatsLogger statsLogger;
 
+    /*
+     * ================================================================================
+     * Basic Fields
+     * ================================================================================
+     */
+    public Level level;
     public int currentStage;
     public int currentTurn;
 
@@ -99,20 +110,48 @@ public class Simulation {
     public double fixedRandom;
     public double probabilityThreshold;
 
-    // specialTargetSelection
+    private Combatant nullSourceSkillActivator = new Servant("nullSource"); // on ally side
+    private Combatant mysticCodeActivator = new Servant("master"); // on ally side
+
+    /*
+     * ================================================================================
+     * Execution Fields
+     * ================================================================================
+     */
     private List<Integer> orderChangeSelections;
     private CommandCardType selectedCommandCardType;
     private EffectData selectedEffectData;
-
-    // Logger
-    private StatsLogger statsLogger;
-
-    // condition related fields
-    // used when dealing damages
     private Stack<Combatant> attacker = new Stack<>();
     private Stack<Combatant> defender = new Stack<>();
     private Stack<CommandCard> currentCommandCard = new Stack<>();
     private boolean criticalStrike;
+    private Stack<Combatant> activator = new Stack<>();
+    private Stack<Combatant> effectTarget = new Stack<>();
+    private Stack<Buff> currentBuff = new Stack<>();
+
+    private boolean activatingServantPassiveEffects;
+    private boolean activatingCePassiveEffects;
+
+    /*
+     * ================================================================================
+     * Execution Methods - used only for managing simluation states
+     * ================================================================================
+     */
+    public void requestSpecialActivationTarget(final SpecialActivationParams specialActivationParams) {
+        simulationWindow.showSpecialTargetSelectionWindow(specialActivationParams);
+    }
+
+    public CommandCardType selectCommandCardType() {
+        return selectedCommandCardType;
+    }
+
+    public EffectData selectRandomEffects() {
+        return selectedEffectData;
+    }
+
+    public List<Integer> getOrderChangeTargets() {
+        return orderChangeSelections;
+    }
 
     public void setAttacker(final Combatant combatant) {
         attacker.push(combatant);
@@ -125,6 +164,7 @@ public class Simulation {
     public void unsetAttacker() {
         attacker.pop();
     }
+
     public void setDefender(final Combatant combatant) {
         defender.push(combatant);
     }
@@ -149,9 +189,6 @@ public class Simulation {
         currentCommandCard.pop();
     }
 
-    // used when activating effects
-    private Stack<Combatant> activator = new Stack<>();
-    private Stack<Combatant> effectTarget = new Stack<>();
 
     public boolean hasActivator() {
         return !activator.isEmpty();
@@ -168,6 +205,7 @@ public class Simulation {
     public void unsetActivator() {
         activator.pop();
     }
+
     public void setEffectTarget(final Combatant combatant) {
         effectTarget.push(combatant);
     }
@@ -179,8 +217,6 @@ public class Simulation {
     public void unsetEffectTarget() {
         effectTarget.pop();
     }
-
-    private Stack<Buff> currentBuff = new Stack<>(); // used by grantBuff, removeBuff and variation
 
     public void setCurrentBuff(final Buff buff) {
         currentBuff.push(buff);
@@ -194,12 +230,11 @@ public class Simulation {
         currentBuff.pop();
     }
 
-    private boolean activatingServantPassiveEffects; // used to denote passive & append skill buffs
-    private boolean activatingCePassiveEffects; // used to denote ce skills
-
-    private Combatant nullSourceSkillActivator = new Servant("nullSource"); // on ally side
-    private Combatant mysticCodeActivator = new Servant("master"); // on ally side
-
+    /*
+     * ================================================================================
+     * Initiation method
+     * ================================================================================
+     */
     public void initiate() {
         currentStage = 1;
         currentTurn = 1;
@@ -242,8 +277,84 @@ public class Simulation {
         }
     }
 
+    /*
+     * ================================================================================
+     * Basic Methods
+     * ================================================================================
+     */
     public boolean isSimulationCompleted() {
         return currentServants.stream().allMatch(Objects::isNull) || isAllEnemiesDead();
+    }
+
+    public Combatant getFirstAliveEnemy() {
+        final List<Combatant> aliveEnemies = getAliveEnemies();
+        if (aliveEnemies.isEmpty()) {
+            return null;
+        } else {
+            return aliveEnemies.get(0);
+        }
+    }
+
+    public List<Combatant> getAliveEnemies() {
+        return currentEnemies.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    public List<Servant> getAliveAllies() {
+        return currentServants.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    public List<Combatant> getOtherTeam(final Combatant combatant) {
+        if (!combatant.isAlly()) {
+            return currentServants.stream().map(servant -> (Combatant) servant).collect(Collectors.toList());
+        } else {
+            return currentEnemies;
+        }
+    }
+
+    public Servant getTargetedAlly() {
+        if (currentServants.size() <= currentAllyTargetIndex) {
+            return null;
+        }
+
+        return currentServants.get(currentAllyTargetIndex);
+    }
+
+    public Combatant getTargetedEnemy() {
+        if (currentEnemies.size() <= currentEnemyTargetIndex) {
+            return null;
+        }
+
+        return currentEnemies.get(currentEnemyTargetIndex);
+    }
+
+    public Set<String> getStageTraits() {
+        final Set<String> fieldTraits = new TreeSet<>(getLevel().getStage(getCurrentStage()).getTraits());
+        final Set<String> removeTraits = new HashSet<>();
+        for (final Combatant combatant : TargetUtils.getTargets(this, ALL_CHARACTERS)) {
+            for (final Buff buff : combatant.getBuffs()) {
+                if (buff.getBuffType() == GRANT_STAGE_TRAIT && buff.shouldApply(this)) {
+                    fieldTraits.add(buff.getTrait());
+                }
+
+                if (buff.getBuffType() == REMOVE_STAGE_TRAIT && buff.shouldApply(this)) {
+                    removeTraits.add(buff.getTrait());
+                }
+            }
+        }
+        fieldTraits.removeAll(removeTraits);
+        return fieldTraits;
+    }
+
+    /*
+     * ================================================================================
+     * Activation (player action) methods
+     * ================================================================================
+     */
+    public void gainStar(final double starsToGain) {
+        currentStars = RoundUtils.roundNearest(currentStars + starsToGain);
+        if (currentStars < 0) {
+            currentStars = 0;
+        }
     }
 
     public void activateServantSkill(final int servantIndex, final int activeSkillIndex) {
@@ -254,6 +365,20 @@ public class Simulation {
         takeSnapshot();
 
         currentServants.get(servantIndex).activateActiveSkill(this, activeSkillIndex);
+    }
+
+    public boolean canActivateMysticCodeSkill(final int i) {
+        if (isSimulationCompleted()) {
+            return false;
+        }
+
+        setActivator(mysticCodeActivator);
+
+        final boolean result = mysticCode.canActivateSkill(this, i);
+
+        unsetActivator();
+
+        return result;
     }
 
     public void activateMysticCodeSkill(final int skillIndex) {
@@ -271,24 +396,26 @@ public class Simulation {
         unsetActivator();
     }
 
-    public boolean canActivateMysticCodeSkill(final int i) {
+    public void activateCustomEffect(final EffectData effectData) {
         if (isSimulationCompleted()) {
-            return false;
+            return;
         }
 
-        setActivator(mysticCodeActivator);
+        try {
+            takeSnapshot();
 
-        final boolean result = mysticCode.canActivateSkill(this, i);
+            setActivator(nullSourceSkillActivator);
 
-        unsetActivator();
+            EffectFactory.buildEffect(effectData, 1).apply(this, 1);
 
-        return result;
-    }
+            checkBuffStatus();
 
-    public void requestSpecialActivationTarget(
-            final SpecialActivationParams specialActivationParams
-    ) {
-        simulationWindow.showSpecialTargetSelectionWindow(specialActivationParams);
+            unsetActivator();
+        } catch (final Exception e) {
+            if (getStatsLogger() != null) {
+                getStatsLogger().logException("Error activating custom effect", e);
+            }
+        }
     }
 
     public void executeCombatActions(final List<CombatAction> combatActions) {
@@ -366,10 +493,11 @@ public class Simulation {
         proceedTurn();
     }
 
-    public static boolean canAttack(final Servant servant) {
-        return servant != null && !servant.isAlreadyDead() && !servant.isImmobilized();
-    }
-
+    /*
+     * ================================================================================
+     * Utility Methods
+     * ================================================================================
+     */
     public void checkBuffStatus() {
         for (final Servant servant : currentServants) {
             if (servant != null) {
@@ -383,95 +511,8 @@ public class Simulation {
         }
     }
 
-    private void endAllyTurn() {
-        for (final Servant servant : currentServants) {
-            if (servant != null) {
-                servant.endOfMyTurn(this);
-            }
-        }
-        for (final Combatant combatant : currentEnemies) {
-            if (combatant != null) {
-                combatant.endOfYourTurn(this);
-            }
-        }
-
-        mysticCode.decreaseCoolDown();
-
-        removeDeadAlly();
-        removeDeadEnemies();
-    }
-
-    private void executeEnemyTurn() {
-        for (final Combatant combatant : currentEnemies) {
-            if (combatant != null) {
-                if (combatant.getCurrentHp() <= 0) {
-                    combatant.hpBarBreak(this);
-                }
-                combatant.startOfMyTurn(this);
-            }
-        }
-    }
-
-    private void endEnemyTurn() {
-        for (final Combatant combatant : currentEnemies) {
-            if (combatant != null) {
-                combatant.endOfMyTurn(this);
-            }
-        }
-
-        for (final Servant servant : currentServants) {
-            if (servant != null) {
-                servant.endOfYourTurn(this);
-            }
-        }
-        checkBuffStatus();
-
-        removeDeadAlly();
-        removeDeadEnemies();
-    }
-
-    private void proceedTurn() {
-        replenishDeadCombatantFromBackup(currentServants, backupServants);
-        replenishDeadCombatantFromBackup(currentEnemies, backupEnemies);
-
-        if (isAllEnemiesDead() && level.hasNextStage(currentStage)) {
-            currentStage += 1;
-            populateStageWithEnemies(currentStage);
-            for (final Combatant combatant : currentEnemies) {
-                combatant.initiate(this);
-            }
-            for (final Combatant combatant : backupEnemies) {
-                combatant.initiate(this);
-            }
-
-            setActivator(nullSourceSkillActivator);
-            level.getStage(currentStage).applyStageEffects(this);
-            unsetActivator();
-
-            for (final Combatant combatant : currentEnemies) {
-                combatant.enterField(this);
-            }
-        }
-        currentTurn += 1;
-        if (getStatsLogger() != null) {
-            getStatsLogger().logTurnStart(currentTurn);
-        }
-        for (final Servant servant : currentServants) {
-            if (servant != null) {
-                servant.startOfMyTurn(this);
-            }
-        }
-    }
-
-    private void populateStageWithEnemies(final int currentStage) {
-        currentEnemies.clear();
-        final Stage stage = level.getStage(currentStage);
-        while (stage.hasMoreEnemies() && currentEnemies.size() < stage.getMaximumEnemiesOnScreen()) {
-            currentEnemies.add(stage.getNextEnemy());
-        }
-        while (stage.hasMoreEnemies()) {
-            backupEnemies.add(stage.getNextEnemy());
-        }
+    public static boolean canAttack(final Servant servant) {
+        return servant != null && !servant.isAlreadyDead() && !servant.isImmobilized();
     }
 
     private boolean isAllEnemiesDead() {
@@ -494,7 +535,7 @@ public class Simulation {
     }
 
     @VisibleForTesting
-     boolean isTriColorChain(final List<CombatAction> combatActions) {
+    boolean isTriColorChain(final List<CombatAction> combatActions) {
         if (combatActions.size() != MAXIMUM_CARDS_PER_TURN) {
             return false;
         }
@@ -602,45 +643,95 @@ public class Simulation {
         }
     }
 
-    public Combatant getFirstAliveEnemy() {
-        final List<Combatant> aliveEnemies = getAliveEnemies();
-        if (aliveEnemies.isEmpty()) {
-            return null;
-        } else {
-            return aliveEnemies.get(0);
+    private void endAllyTurn() {
+        for (final Servant servant : currentServants) {
+            if (servant != null) {
+                servant.endOfMyTurn(this);
+            }
+        }
+        for (final Combatant combatant : currentEnemies) {
+            if (combatant != null) {
+                combatant.endOfYourTurn(this);
+            }
+        }
+
+        mysticCode.decreaseCoolDown();
+
+        removeDeadAlly();
+        removeDeadEnemies();
+    }
+
+    private void executeEnemyTurn() {
+        for (final Combatant combatant : currentEnemies) {
+            if (combatant != null) {
+                if (combatant.getCurrentHp() <= 0) {
+                    combatant.hpBarBreak(this);
+                }
+                combatant.startOfMyTurn(this);
+            }
         }
     }
 
-    public List<Combatant> getAliveEnemies() {
-        return currentEnemies.stream().filter(Objects::nonNull).collect(Collectors.toList());
+    private void endEnemyTurn() {
+        for (final Combatant combatant : currentEnemies) {
+            if (combatant != null) {
+                combatant.endOfMyTurn(this);
+            }
+        }
+
+        for (final Servant servant : currentServants) {
+            if (servant != null) {
+                servant.endOfYourTurn(this);
+            }
+        }
+        checkBuffStatus();
+
+        removeDeadAlly();
+        removeDeadEnemies();
     }
 
-    public List<Servant> getAliveAllies() {
-        return currentServants.stream().filter(Objects::nonNull).collect(Collectors.toList());
-    }
+    private void proceedTurn() {
+        replenishDeadCombatantFromBackup(currentServants, backupServants);
+        replenishDeadCombatantFromBackup(currentEnemies, backupEnemies);
 
-    public List<Combatant> getOtherTeam(final Combatant combatant) {
-        if (!combatant.isAlly()) {
-            return currentServants.stream().map(servant -> (Combatant) servant).collect(Collectors.toList());
-        } else {
-            return currentEnemies;
+        if (isAllEnemiesDead() && level.hasNextStage(currentStage)) {
+            currentStage += 1;
+            populateStageWithEnemies(currentStage);
+            for (final Combatant combatant : currentEnemies) {
+                combatant.initiate(this);
+            }
+            for (final Combatant combatant : backupEnemies) {
+                combatant.initiate(this);
+            }
+
+            setActivator(nullSourceSkillActivator);
+            level.getStage(currentStage).applyStageEffects(this);
+            unsetActivator();
+
+            for (final Combatant combatant : currentEnemies) {
+                combatant.enterField(this);
+            }
+        }
+        currentTurn += 1;
+        if (getStatsLogger() != null) {
+            getStatsLogger().logTurnStart(currentTurn);
+        }
+        for (final Servant servant : currentServants) {
+            if (servant != null) {
+                servant.startOfMyTurn(this);
+            }
         }
     }
 
-    public Servant getTargetedAlly() {
-        if (currentServants.size() <= currentAllyTargetIndex) {
-            return null;
+    private void populateStageWithEnemies(final int currentStage) {
+        currentEnemies.clear();
+        final Stage stage = level.getStage(currentStage);
+        while (stage.hasMoreEnemies() && currentEnemies.size() < stage.getMaximumEnemiesOnScreen()) {
+            currentEnemies.add(stage.getNextEnemy());
         }
-
-        return currentServants.get(currentAllyTargetIndex);
-    }
-
-    public Combatant getTargetedEnemy() {
-        if (currentEnemies.size() <= currentEnemyTargetIndex) {
-            return null;
+        while (stage.hasMoreEnemies()) {
+            backupEnemies.add(stage.getNextEnemy());
         }
-
-        return currentEnemies.get(currentEnemyTargetIndex);
     }
 
     @VisibleForTesting
@@ -675,65 +766,11 @@ public class Simulation {
         }
     }
 
-    public Set<String> getStageTraits() {
-        final Set<String> fieldTraits = new TreeSet<>(getLevel().getStage(getCurrentStage()).getTraits());
-        final Set<String> removeTraits = new HashSet<>();
-        for (final Combatant combatant : TargetUtils.getTargets(this, ALL_CHARACTERS)) {
-            for (final Buff buff : combatant.getBuffs()) {
-                if (buff.getBuffType() == GRANT_STAGE_TRAIT && buff.shouldApply(this)) {
-                    fieldTraits.add(buff.getTrait());
-                }
-
-                if (buff.getBuffType() == REMOVE_STAGE_TRAIT && buff.shouldApply(this)) {
-                    removeTraits.add(buff.getTrait());
-                }
-            }
-        }
-        fieldTraits.removeAll(removeTraits);
-        return fieldTraits;
-    }
-
-    public void gainStar(final double starsToGain) {
-        currentStars = RoundUtils.roundNearest(currentStars + starsToGain);
-        if (currentStars < 0) {
-            currentStars = 0;
-        }
-    }
-
-    public CommandCardType selectCommandCardType() {
-        return selectedCommandCardType;
-    }
-
-    public EffectData selectRandomEffects() {
-        return selectedEffectData;
-    }
-
-    public List<Integer> getOrderChangeTargets() {
-        return orderChangeSelections;
-    }
-
-    public void activateCustomEffect(final EffectData effectData) {
-        if (isSimulationCompleted()) {
-            return;
-        }
-
-        try {
-            takeSnapshot();
-
-            setActivator(nullSourceSkillActivator);
-
-            EffectFactory.buildEffect(effectData, 1).apply(this, 1);
-
-            checkBuffStatus();
-
-            unsetActivator();
-        } catch (final Exception e) {
-            if (getStatsLogger() != null) {
-                getStatsLogger().logException("Error activating custom effect", e);
-            }
-        }
-    }
-
+    /*
+     * ================================================================================
+     * Make Copy
+     * ================================================================================
+     */
     private Stack<Snapshot> snapshots = new Stack<>();
 
     public void takeSnapshot() {
