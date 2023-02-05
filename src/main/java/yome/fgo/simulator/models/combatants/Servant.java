@@ -391,6 +391,7 @@ public class Servant extends Combatant {
             final boolean isTypeChain,
             final boolean isTriColorChain
     ) {
+        final boolean isCrit = simulation.isCriticalStrike();
         simulation.setActivator(this);
         simulation.setAttacker(this);
         simulation.setDefender(simulation.getTargetedEnemy());
@@ -399,6 +400,7 @@ public class Servant extends Combatant {
 
         CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain, isTriColorChain);
 
+        simulation.setCriticalStrike(isCrit);
         simulation.unsetCurrentCommandCard();
         simulation.unsetDefender();
         simulation.unsetAttacker();

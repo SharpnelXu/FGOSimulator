@@ -110,6 +110,7 @@ public class Simulation {
     public double fixedRandom;
     public double probabilityThreshold;
 
+    // For activating chain effect & custom effects & level & stage effects
     private Combatant nullSourceSkillActivator = new Servant("nullSource"); // on ally side
     private Combatant mysticCodeActivator = new Servant("master"); // on ally side
 
