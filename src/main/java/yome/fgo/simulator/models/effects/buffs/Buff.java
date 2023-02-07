@@ -26,6 +26,8 @@ import static yome.fgo.data.proto.FgoStorageData.BuffTraits.POSITIVE_BUFF;
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
 import static yome.fgo.data.proto.FgoStorageData.FateClass.ANY_CLASS;
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.CHARM_RESIST_DOWN;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DELAYED_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.ON_FIELD_EFFECT;
 import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
@@ -62,7 +64,6 @@ public class Buff {
      * Common Methods
      * ============================================================
      */
-
     public boolean isBuff() {
         return buffTraits.contains(POSITIVE_BUFF.name());
     }
@@ -73,19 +74,11 @@ public class Buff {
 
     public boolean shouldApply(final Simulation simulation) {
         final boolean eval = condition.evaluate(simulation) && simulation.getProbabilityThreshold() <= probability;
-        if (buffType == BuffType.DELAYED_EFFECT) {
+        if (buffType == DELAYED_EFFECT) {
             return eval && activeTurns == 1;
         } else {
             return eval;
         }
-    }
-
-    public void setIrremovable(final boolean irremovable) {
-        this.irremovable = irremovable;
-    }
-
-    public void setIsPassive(final boolean isPassive) {
-        this.isPassive = isPassive;
     }
 
     /*
@@ -144,10 +137,6 @@ public class Buff {
         return this.activeTimes < 0;
     }
 
-    public void setActivatorHash(final int activatorHash) {
-        this.activatorHash = activatorHash;
-    }
-
     /*
      * ============================================================
      * Valued Buff Fields
@@ -170,7 +159,7 @@ public class Buff {
         final double result = effectiveness * variation.evaluate(simulation, value, addition);
         simulation.unsetCurrentBuff();
 
-        if (buffType == BuffType.CHARM_RESIST_DOWN) {
+        if (buffType == CHARM_RESIST_DOWN) {
             return -1 * result;
         } else {
             return result;

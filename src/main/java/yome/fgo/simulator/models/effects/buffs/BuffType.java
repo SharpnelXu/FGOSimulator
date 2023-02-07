@@ -56,7 +56,7 @@ public enum BuffType {
     RECEIVED_BUFF_CHANCE_BUFF("ReceivedBuffChanceBuff", ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE)),
     DEBUFF_CHANCE_BUFF("DebuffChanceBuff", ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE)),
     DEBUFF_RESIST("DebuffResist", ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE)),
-    CHARM_RESIST_DOWN("CharmResistDown", ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE)),
+    CHARM_RESIST_DOWN("CharmResistDown", ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE)), // Converted to DEBUFF_RESIST
     BUFF_REMOVAL_RESIST("BuffRemovalResist", ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE)),
     DEATH_CHANCE_BUFF("DeathChanceBuff", ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE)),
     DEATH_RESIST("DeathResist", ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE)),
@@ -103,8 +103,8 @@ public enum BuffType {
     STUN("Stun", ImmutableSet.of()),
     PIGIFY("Pigify", ImmutableSet.of()),
     CHARM("Charm", ImmutableSet.of()),
-    CONFUSION("Confusion", ImmutableSet.of()),
-    TERROR("Terror", ImmutableSet.of()),
+    CONFUSION("Confusion", ImmutableSet.of()), // Converted to END_OF_TURN_EFFECT
+    TERROR("Terror", ImmutableSet.of()), // Converted to END_OF_TURN_EFFECT
     SLEEP("Sleep", ImmutableSet.of()),
     PERMANENT_SLEEP("PermanentSleep", ImmutableSet.of()),
     NP_SEAL("NpSeal", ImmutableSet.of()),
