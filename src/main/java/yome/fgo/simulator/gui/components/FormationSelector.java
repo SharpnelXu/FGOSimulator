@@ -32,7 +32,7 @@ import java.util.Map;
 import static yome.fgo.simulator.ResourceManager.CRAFT_ESSENCE_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.SERVANT_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.getUnknownServantThumbnail;
-import static yome.fgo.simulator.gui.components.DataPrinter.printServantOption;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printServantOption;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectCraftEssence;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectServant;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;

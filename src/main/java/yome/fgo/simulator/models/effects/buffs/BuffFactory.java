@@ -84,7 +84,7 @@ public class BuffFactory {
             builder.effects(EffectFactory.buildEffects(buffData.getSubEffectsList(), level));
         }
 
-        builder.trait(buffData.getStringValue());
+        builder.stringValue(buffData.getStringValue());
 
         switch (buffType) {
             case CARD_TYPE_CHANGE:
@@ -187,6 +187,9 @@ public class BuffFactory {
                         ))
                         .build();
                 builder.effects(Lists.newArrayList(terrorEffect));
+                break;
+            case BUFF_TYPE_CONVERSION:
+                builder.convertIconPath(buffData.getConvertIconPath());
                 break;
         }
 

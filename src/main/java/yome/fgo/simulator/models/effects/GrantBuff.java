@@ -7,6 +7,7 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.BuffFactory;
+import yome.fgo.simulator.models.effects.buffs.BuffType;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.models.effects.buffs.BuffType.BUFF_CHANCE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.BUFF_TYPE_CONVERSION;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DEBUFF_CHANCE_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DEBUFF_RESIST;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.MAX_HP_BUFF;
@@ -58,6 +60,17 @@ public class GrantBuff extends Effect {
 
                 final double skillEffectiveness = activator.applyValuedBuff(simulation, SKILL_EFFECTIVENESS_UP);
                 buff.addEffectiveness(skillEffectiveness);
+                final List<Buff> conversions = combatant.fetchBuffs(BUFF_TYPE_CONVERSION);
+                if (!conversions.isEmpty()) {
+                    for (int j = conversions.size() - 1; j >= 0; j -= 1) {
+                        final Buff conversion = conversions.get(j);
+                        if (conversion.shouldApply(simulation)) {
+                            buff.convertType(BuffType.ofType(conversion.getStringValue()), conversion.getConvertIconPath());
+
+                            conversion.setApplied();
+                        }
+                    }
+                }
 
                 grantBuff(simulation, buff, combatant, probability);
 

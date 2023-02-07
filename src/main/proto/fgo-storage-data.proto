@@ -302,6 +302,7 @@ message BuffData {
   repeated double additions = 19;
 
   string stringValue = 7;
+  string convertIconPath = 21;
 
   repeated EffectData subEffects = 5;
 

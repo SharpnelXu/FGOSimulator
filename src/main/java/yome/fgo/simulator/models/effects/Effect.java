@@ -68,7 +68,9 @@ public abstract class Effect {
         ORDER_CHANGE(OrderChange.class.getSimpleName(), ImmutableSet.of()),
         MOVE_TO_LAST_BACKUP(MoveToLastBackup.class.getSimpleName(), ImmutableSet.of()),
         SHUFFLE_CARDS(ShuffleCards.class.getSimpleName(), ImmutableSet.of()),
-        RANDOM_EFFECTS(RandomEffects.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_RANDOM_EFFECT));
+        RANDOM_EFFECTS(RandomEffects.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_RANDOM_EFFECT)),
+        RANDOM_EFFECT_OPTION(RandomEffectOption.class.getSimpleName(), ImmutableSet.of(EFFECT_FIELD_RANDOM_EFFECT)),
+        RANDOM_EFFECT_EMPTY_OPTION(RandomEffectEmptyOption.class.getSimpleName(), ImmutableSet.of());
 
         private final String type;
         private final Set<EffectFields> requiredFields;

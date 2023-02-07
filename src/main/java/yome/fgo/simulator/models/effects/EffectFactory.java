@@ -89,6 +89,16 @@ public class EffectFactory {
                     effectData,
                     level
             );
+            case RANDOM_EFFECT_OPTION -> setEffectParams(
+                    RandomEffectOption.builder().effects(buildEffects(effectData.getEffectDataList(), level)),
+                    effectData,
+                    level
+            );
+            case RANDOM_EFFECT_EMPTY_OPTION -> setEffectParams(
+                    RandomEffectEmptyOption.builder(),
+                    effectData,
+                    level
+            );
         };
     }
 

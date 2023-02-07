@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_BUFF_TYPE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_CLASS_ADV;
 import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
@@ -115,7 +116,8 @@ public enum BuffType {
     DO_NOT_SHUFFLE_IN("DoNotShuffleIn", ImmutableSet.of()),
     FACELESS_MOON("FacelessMoon", ImmutableSet.of()),
     SKILL_RANK_UP("SkillRankUp", ImmutableSet.of()),
-    SKILL_EFFECTIVENESS_UP("SkillEffectivenessUp", ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE));
+    SKILL_EFFECTIVENESS_UP("SkillEffectivenessUp", ImmutableSet.of(BUFF_FIELD_DOUBLE_VALUE)),
+    BUFF_TYPE_CONVERSION("BuffTypeConversion", ImmutableSet.of(BUFF_FIELD_BUFF_TYPE));
 
 
     private final String type;

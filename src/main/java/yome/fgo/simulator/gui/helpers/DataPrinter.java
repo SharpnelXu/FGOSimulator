@@ -1,4 +1,4 @@
-package yome.fgo.simulator.gui.components;
+package yome.fgo.simulator.gui.helpers;
 
 import yome.fgo.data.proto.FgoStorageData.BuffData;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeAdditionalParams;
@@ -45,6 +45,7 @@ import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD
 import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_RANDOM_EFFECT;
 import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_REMOVE_BUFF;
 import static yome.fgo.simulator.models.effects.Effect.EffectFields.EFFECT_FIELD_TARGET;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_BUFF_TYPE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_CLASS_ADV;
 import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
@@ -290,6 +291,9 @@ public class DataPrinter {
         if (requiredFields.contains(BUFF_FIELD_STRING_VALUE)) {
             builder.append(" : ");
             builder.append(getTranslation(TRAIT_SECTION, buffData.getStringValue()));
+        } else if (requiredFields.contains(BUFF_FIELD_BUFF_TYPE)) {
+            builder.append(" : ");
+            builder.append(getTranslation(BUFF_SECTION, buffData.getStringValue()));
         }
         if (requiredFields.contains(BUFF_FIELD_EFFECTS)) {
             builder.append(" : ");

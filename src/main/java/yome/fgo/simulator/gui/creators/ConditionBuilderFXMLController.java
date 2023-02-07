@@ -34,8 +34,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
-import static yome.fgo.simulator.gui.components.DataPrinter.intToString;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.doubleToString;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.intToString;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListener;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillFateClass;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;

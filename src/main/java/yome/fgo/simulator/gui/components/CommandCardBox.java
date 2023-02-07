@@ -24,7 +24,7 @@ import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
-import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.doubleToString;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;

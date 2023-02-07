@@ -22,9 +22,9 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import static yome.fgo.simulator.gui.components.DataPrinter.printBuffData;
-import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
-import static yome.fgo.simulator.gui.components.DataPrinter.printEffectData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printBuffData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printEffectData;
 import static yome.fgo.simulator.gui.creators.BuffBuilder.createBuff;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.creators.EffectBuilder.createEffect;

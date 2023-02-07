@@ -39,8 +39,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
-import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
-import static yome.fgo.simulator.gui.components.DataPrinter.printVariationData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printVariationData;
 import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.doublesToString;
 import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.intsToString;
 import static yome.fgo.simulator.gui.creators.BuffBuilderFXMLController.parseDoubles;

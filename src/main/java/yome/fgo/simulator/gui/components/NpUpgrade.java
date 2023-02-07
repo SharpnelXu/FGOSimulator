@@ -23,7 +23,7 @@ import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import java.io.IOException;
 import java.util.List;
 
-import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.LIST_ITEM_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;

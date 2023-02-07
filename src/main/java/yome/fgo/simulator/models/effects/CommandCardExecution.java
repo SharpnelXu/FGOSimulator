@@ -271,12 +271,12 @@ public class CommandCardExecution {
             final Combatant defender,
             final CommandCard currentCard
     ) {
-        final boolean hasSpecialInvincible = defender.consumeBuffIfExists(simulation, SPECIAL_INVINCIBLE);
+        final boolean hasSpecialInvincible = defender.consumeFirstBuff(simulation, SPECIAL_INVINCIBLE);
         final boolean hasIgnoreInvincible = consumeBuffIfExists(simulation, attacker, currentCard, IGNORE_INVINCIBLE);
         if (hasSpecialInvincible) {
             return true;
         }
-        final boolean hasInvincible = defender.consumeBuffIfExists(simulation, INVINCIBLE);
+        final boolean hasInvincible = defender.consumeFirstBuff(simulation, INVINCIBLE);
         if (hasIgnoreInvincible) {
             return false;
         }
@@ -284,7 +284,7 @@ public class CommandCardExecution {
         if (hasInvincible) {
             return true;
         }
-        final boolean hasEvade = defender.consumeBuffIfExists(simulation, EVADE);
+        final boolean hasEvade = defender.consumeFirstBuff(simulation, EVADE);
         if (hasSureHit) {
             return false;
         }
@@ -316,7 +316,7 @@ public class CommandCardExecution {
             final CommandCard currentCard,
             final BuffType buffType
     ) {
-        return attacker.consumeBuffIfExists(simulation, buffType) || currentCard.consumeBuffIfExist(simulation, buffType);
+        return attacker.consumeFirstBuff(simulation, buffType) || currentCard.consumeBuffIfExist(simulation, buffType);
     }
 
     public static int calculateTotalDamage(final DamageParameters damageParameters) {

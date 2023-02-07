@@ -170,10 +170,10 @@ public class Combatant {
         final Set<String> traitsToRemove = new HashSet<>();
         for (final Buff buff : buffs) {
             if (buff.getBuffType() == GRANT_TRAIT && buff.shouldApply(simulation)) {
-                allTraits.add(buff.getTrait());
+                allTraits.add(buff.getStringValue());
                 buff.setApplied();
             } else if (buff.getBuffType() == REMOVE_TRAIT && buff.shouldApply(simulation)) {
-                traitsToRemove.add(buff.getTrait());
+                traitsToRemove.add(buff.getStringValue());
                 buff.setApplied();
             }
         }
@@ -429,7 +429,7 @@ public class Combatant {
         return applyValuedBuff(simulation, buffType, (value) -> value < 0);
     }
 
-    public boolean consumeBuffIfExists(final Simulation simulation, final BuffType buffType) {
+    public boolean consumeFirstBuff(final Simulation simulation, final BuffType buffType) {
         final Buff buff = fetchFirst(buffType);
         if (buff != null && buff.shouldApply(simulation)) {
             buff.setApplied();
@@ -612,7 +612,7 @@ public class Combatant {
         if (totalDamage >= currentHp) {
             for (final Buff buff : fetchBuffs(PREVENT_DEATH_AGAINST_DOT)) {
                 if (buff.shouldApply(simulation)) {
-                    final String preventType = buff.getTrait();
+                    final String preventType = buff.getStringValue();
                     if (dotType.getType().equalsIgnoreCase(preventType) || Strings.isNullOrEmpty(preventType)) {
                         buff.setApplied();
                         return currentHp - 1;

@@ -54,7 +54,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
-import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.doubleToString;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;

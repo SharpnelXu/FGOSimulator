@@ -334,11 +334,11 @@ public class Simulation {
         for (final Combatant combatant : TargetUtils.getTargets(this, ALL_CHARACTERS)) {
             for (final Buff buff : combatant.getBuffs()) {
                 if (buff.getBuffType() == GRANT_STAGE_TRAIT && buff.shouldApply(this)) {
-                    fieldTraits.add(buff.getTrait());
+                    fieldTraits.add(buff.getStringValue());
                 }
 
                 if (buff.getBuffType() == REMOVE_STAGE_TRAIT && buff.shouldApply(this)) {
-                    removeTraits.add(buff.getTrait());
+                    removeTraits.add(buff.getStringValue());
                 }
             }
         }

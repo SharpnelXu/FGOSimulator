@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 import static yome.fgo.simulator.ResourceManager.getEnemyThumbnail;
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.readFile;
-import static yome.fgo.simulator.gui.components.DataPrinter.printCombatantData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printCombatantData;
 import static yome.fgo.simulator.gui.components.StageNode.addEnemyNode;
 import static yome.fgo.simulator.gui.creators.EnemyCreator.editCombatantData;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;

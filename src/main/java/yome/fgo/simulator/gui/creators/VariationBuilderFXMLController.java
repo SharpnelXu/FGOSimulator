@@ -25,8 +25,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import static yome.fgo.simulator.gui.components.DataPrinter.doubleToString;
-import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.doubleToString;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;

@@ -11,6 +11,7 @@ import yome.fgo.simulator.translation.TranslationManager;
 
 import java.io.FileInputStream;
 
+import static yome.fgo.simulator.SimulatorMain.VERSION_STRING;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 
 public class MainMenu extends Application {
@@ -22,7 +23,7 @@ public class MainMenu extends Application {
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.getIcons().add(new Image(new FileInputStream(ResourceManager.getCCThumbnail("default"))));
 
-        stage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "FGO Simulator") + " v1.05");
+        stage.setTitle(TranslationManager.getTranslation(APPLICATION_SECTION, "FGO Simulator") + " " + VERSION_STRING);
         stage.setScene(scene);
         stage.show();
     }

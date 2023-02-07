@@ -147,7 +147,7 @@ public class NoblePhantasmDamage extends Effect {
 
             final double percentAttackBuff = attacker.applyValuedBuff(simulation, PERCENT_ATTACK_BUFF);
             final double damageAdditionBuff = attacker.applyValuedBuff(simulation, DAMAGE_ADDITION_BUFF);
-            final boolean ignoreDefense = attacker.consumeBuffIfExists(simulation, IGNORE_DEFENSE_BUFF) || isNpIgnoreDefense;
+            final boolean ignoreDefense = attacker.consumeFirstBuff(simulation, IGNORE_DEFENSE_BUFF) || isNpIgnoreDefense;
 
             final double npGenerationBuff = attacker.applyValuedBuff(simulation, NP_GENERATION_BUFF);
             final double classNpCorrection = defender.getCombatantData().getUseCustomNpMod()

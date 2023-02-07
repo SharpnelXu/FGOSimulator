@@ -54,8 +54,8 @@ import java.util.stream.Collectors;
 import static yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode.CLASS_ADV_NO_CHANGE;
 import static yome.fgo.data.writer.DataWriter.generateSkillValues;
 import static yome.fgo.simulator.ResourceManager.getBuffIcon;
-import static yome.fgo.simulator.gui.components.DataPrinter.printConditionData;
-import static yome.fgo.simulator.gui.components.DataPrinter.printVariationData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printVariationData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.creators.VariationBuilder.createVariation;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
@@ -65,6 +65,7 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillClassAdvMode;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillCommandCardType;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillOnFieldEffectTargets;
+import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_BUFF_TYPE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_CARD_TYPE;
 import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_CLASS_ADV;
 import static yome.fgo.simulator.models.effects.buffs.BuffFields.BUFF_FIELD_DOUBLE_VALUE;
@@ -283,6 +284,10 @@ public class BuffBuilderFXMLController implements Initializable {
     private ChoiceBox<Target> targetChoiceBox;
     private ListContainerVBox buffs;
 
+    private VBox buffTypePane;
+    private ChoiceBox<String> buffTypePaneChoices;
+    private TextField convertIconPath;
+
     public void setParentBuilder(final BuffData.Builder buffDataBuilder) {
         this.buffDataBuilder = buffDataBuilder;
 
@@ -400,12 +405,17 @@ public class BuffBuilderFXMLController implements Initializable {
                 targetChoiceBox.getSelectionModel().select(buffDataBuilder.getOnFieldBuffParams().getTarget());
                 buffs.loadBuff(List.of(buffDataBuilder.getOnFieldBuffParamsBuilder().getBuffData()));
             }
+            if (requiredFields.contains(BUFF_FIELD_BUFF_TYPE)) {
+                buffTypePaneChoices.getSelectionModel().select(buffDataBuilder.getStringValue());
+                convertIconPath.setText(buffDataBuilder.getConvertIconPath());
+            }
         }
     }
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
         onFieldPane = new VBox(10);
+        buffTypePane = new VBox(10);
         resetPane();
 
         buffTypeLabel.setText(getTranslation(APPLICATION_SECTION, "Buff Type"));
@@ -525,6 +535,35 @@ public class BuffBuilderFXMLController implements Initializable {
         onFieldPane.getChildren().addAll(targetHBox, buffs);
         scrollPaneVBox.getChildren().add(onFieldPane);
 
+        final Label buffTypePaneLabel = new Label(getTranslation(APPLICATION_SECTION, "Convert Type"));
+        buffTypePaneChoices = new ChoiceBox<>();
+        buffTypePaneChoices.setConverter(new TranslationConverter(BUFF_SECTION));
+        buffTypePaneChoices.setItems(FXCollections.observableArrayList(BuffType.getOrder()));
+        buffTypePaneChoices.setOnAction(e -> onBuffTypeChoiceChange());
+        buffTypePaneChoices.getSelectionModel().selectFirst();
+        final Label convertIconLabel = new Label(getTranslation(APPLICATION_SECTION, "Convert Icon"));
+        convertIconPath = new TextField();
+        final File iconFile = getBuffIcon("default");
+        Image convertIcon = null;
+        try {
+            convertIcon = new Image(new FileInputStream(iconFile));
+        } catch (FileNotFoundException ignored) {
+        }
+        final ImageView convertIconView = new ImageView();
+        convertIconView.setFitWidth(30);
+        convertIconView.setFitHeight(30);
+        convertIconView.setImage(convertIcon);
+        convertIconPath.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    try {
+                        convertIconView.setImage(new Image(new FileInputStream(getBuffIcon(newValue))));
+                    } catch (final FileNotFoundException ignored) {
+                    }
+                }
+        );
+        buffTypePane.getChildren().addAll(buffTypePaneLabel, buffTypePaneChoices, convertIconLabel, convertIconPath, convertIconView);
+        scrollPaneVBox.getChildren().add(buffTypePane);
+
         gutsPercentCheckbox.setText(getTranslation(APPLICATION_SECTION, "Set as percent"));
         gutsPercentCheckbox.setOnAction(e ->
             valueLabel.setText(
@@ -609,7 +648,6 @@ public class BuffBuilderFXMLController implements Initializable {
         });
 
         buffIconLabel.setText(getTranslation(APPLICATION_SECTION, "Buff Icon"));
-        final File iconFile = getBuffIcon("default");
         Image icon = null;
         try {
             icon = new Image(new FileInputStream(iconFile));
@@ -647,6 +685,9 @@ public class BuffBuilderFXMLController implements Initializable {
 
         onFieldPane.setVisible(false);
         onFieldPane.setManaged(false);
+
+        buffTypePane.setVisible(false);
+        buffTypePane.setManaged(false);
     }
 
     public void editVariation() {
@@ -724,6 +765,10 @@ public class BuffBuilderFXMLController implements Initializable {
         if (requiredFields.contains(BUFF_FIELD_ON_FIELD)) {
             onFieldPane.setVisible(true);
             onFieldPane.setManaged(true);
+        }
+        if (requiredFields.contains(BUFF_FIELD_BUFF_TYPE)) {
+            buffTypePane.setVisible(true);
+            buffTypePane.setManaged(true);
         }
     }
 
@@ -937,6 +982,10 @@ public class BuffBuilderFXMLController implements Initializable {
                         .build();
 
                 buffDataBuilder.setOnFieldBuffParams(onFieldBuffParamsBuilder);
+            }
+            if (requiredFields.contains(BUFF_FIELD_BUFF_TYPE)) {
+                buffDataBuilder.setStringValue(buffTypePaneChoices.getValue());
+                buffDataBuilder.setConvertIconPath(convertIconPath.getText());
             }
 
             buffDataBuilder.setType(buffTypeChoices.getValue());

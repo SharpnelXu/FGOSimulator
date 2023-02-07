@@ -8,6 +8,8 @@ import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.utils.FilePathUtils.USER_DIR;
 
 public class SimulatorMain {
+    public static final String VERSION_STRING = "v1.06";
+
     public static void main(String[] args) {
         loadOptions();
         MainMenu.main(args);

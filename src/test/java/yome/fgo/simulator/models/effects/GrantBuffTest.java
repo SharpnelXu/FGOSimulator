@@ -214,7 +214,7 @@ public class GrantBuffTest {
         simulation.setActivator(servant);
         effect.apply(simulation);
 
-        assertTrue(servant.consumeBuffIfExists(simulation, EVADE));
+        assertTrue(servant.consumeFirstBuff(simulation, EVADE));
         simulation.checkBuffStatus();
 
         effect.apply(simulation);
@@ -223,6 +223,6 @@ public class GrantBuffTest {
         effect.apply(simulation);
         assertEquals(1, servant.getBuffs().size());
 
-        assertTrue(servant.consumeBuffIfExists(simulation, EVADE));
+        assertTrue(servant.consumeFirstBuff(simulation, EVADE));
     }
 }

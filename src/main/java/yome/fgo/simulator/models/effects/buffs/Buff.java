@@ -47,8 +47,8 @@ public class Buff {
      * Common Fields
      * ============================================================
      */
-    private final BuffType buffType;
-    private final String iconName;
+    private BuffType buffType;
+    private String iconName;
     @Builder.Default
     private Condition condition = ALWAYS;
     @Builder.Default
@@ -300,10 +300,10 @@ public class Buff {
 
     /*
      * ============================================================
-     * Trait Fields
+     * String Value Fields
      * ============================================================
      */
-    private String trait;
+    private String stringValue;
 
     /*
      * ============================================================
@@ -311,6 +311,18 @@ public class Buff {
      * ============================================================
      */
     private boolean isPercentageGuts;
+
+    /*
+     * ============================================================
+     * Methods for Specific Buffs
+     * ============================================================
+     */
+    private String convertIconPath;
+
+    public void convertType(final BuffType ofType, final String convertIconPath) {
+        this.buffType = ofType;
+        this.iconName = convertIconPath;
+    }
 
     /*
      * ============================================================
@@ -595,7 +607,9 @@ public class Buff {
             case PREVENT_DEATH_AGAINST_DOT:
             case REMOVE_STAGE_TRAIT:
             case REMOVE_TRAIT:
-                return baseString + ": " + getTranslation(TRAIT_SECTION, trait);
+                return baseString + ": " + getTranslation(TRAIT_SECTION, stringValue);
+            case BUFF_TYPE_CONVERSION:
+                return baseString + ": " + getTranslation(BUFF_SECTION, stringValue);
             case GUTS:
                 final String gutsString = isPercentageGuts ?
                     numberFormat.format(value * effectiveness) :
@@ -687,7 +701,7 @@ public class Buff {
 
         this.storedDamage = other.storedDamage;
 
-        this.trait = other.trait;
+        this.stringValue = other.stringValue;
 
         this.isPercentageGuts = other.isPercentageGuts;
 
@@ -695,6 +709,8 @@ public class Buff {
         this.target = other.target;
         this.forceGrantBuff = other.forceGrantBuff;
         this.forceRemoveBuff = other.forceRemoveBuff;
+
+        this.convertIconPath = other.convertIconPath;
     }
 
     public Buff makeCopy() {
