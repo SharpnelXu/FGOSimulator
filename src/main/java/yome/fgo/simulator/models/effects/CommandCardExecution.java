@@ -67,6 +67,7 @@ public class CommandCardExecution {
     ) {
         for (final Buff buff : attacker.fetchBuffs(HITS_DOUBLED_BUFF)) {
             if (buff.shouldApply(simulation)) {
+                buff.setApplied();
                 final List<Double> doubledHits = new ArrayList<>();
                 for (final int hit : baseHitsPercentages) {
                     for (int i = 0; i < 2; i += 1) {

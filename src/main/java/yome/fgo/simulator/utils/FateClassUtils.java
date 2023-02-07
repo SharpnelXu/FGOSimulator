@@ -75,12 +75,14 @@ public class FateClassUtils {
         for (final Buff buff : attacker.fetchBuffs(CLASS_ADVANTAGE_CHANGE_BUFF)) {
             if (buff.shouldApply(simulation)) {
                 baseRate = buff.asAttacker(baseRate, defenderClass);
+                buff.setApplied();
             }
         }
 
         for (final Buff buff : defender.fetchBuffs(CLASS_ADVANTAGE_CHANGE_BUFF)) {
             if (buff.shouldApply(simulation)) {
                 baseRate = buff.asDefender(baseRate, attackerClass);
+                buff.setApplied();
             }
         }
 
