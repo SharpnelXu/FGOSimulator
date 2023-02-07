@@ -84,8 +84,8 @@ public class MainMenuFXMLController implements Initializable {
                 throw new RuntimeException(ex);
             }
         });
-        final Button converterButton = new Button(getTranslation(APPLICATION_SECTION, "Atlas Data Converter"));
-        converterButton.setOnAction(e -> launch("Atlas Data Converter", new AtlasDataConverterVBox(), false));
+//        final Button converterButton = new Button(getTranslation(APPLICATION_SECTION, "Atlas Data Converter"));
+//        converterButton.setOnAction(e -> launch("Atlas Data Converter", new AtlasDataConverterVBox(), false));
         final List<Button> buttons = ImmutableList.of(
                 simulationButton,
                 servantCreatorButton,
@@ -93,8 +93,8 @@ public class MainMenuFXMLController implements Initializable {
                 levelCreatorButton,
                 enemyCreatorButton,
                 commandCodeCreatorButton,
-                mysticCodeCreatorButton,
-                converterButton
+                mysticCodeCreatorButton
+//                converterButton
         );
         for (final Button button : buttons) {
             final AnchorPane wrapper = new AnchorPane();
