@@ -141,6 +141,8 @@ public class BuffFactory {
                 builder.isPercentageGuts(buffData.getIsGutsPercentBased());
                 break;
             case ON_FIELD_EFFECT:
+                builder.condition(ALWAYS);
+
                 final OnFieldBuffParams onFieldBuffParams = buffData.getOnFieldBuffParams();
                 final Buff baseBuff = buildBuff(onFieldBuffParams.getBuffData(), level);
                 builder.activatedBuffBase(baseBuff);
