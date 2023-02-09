@@ -7,7 +7,7 @@
       "gender": "MALE",
       "alignments": ["CHAOTIC", "GOOD"],
       "attribute": "SKY",
-      "traits": ["DIVINE", "PSEUDO_SERVANT", "DIVINE_SPIRIT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
+      "traits": ["LIVING_HUMAN", "DIVINE", "PSEUDO_SERVANT", "DIVINE_SPIRIT", "HAS_COSTUME", "HUMANOID", "WEAK_TO_ENUMA_ELISH", "IMMUNE_TO_PIGIFY"],
       "deathRate": 0.33
     },
     "defenseNpRate": 0.04,

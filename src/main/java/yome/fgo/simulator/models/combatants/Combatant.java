@@ -440,8 +440,7 @@ public class Combatant {
 
     public void activateEffectActivatingBuff(
             final Simulation simulation,
-            final BuffType buffType,
-            final boolean isOnFieldEnterField
+            final BuffType buffType
     ) {
         final List<Buff> buffsToActivate = fetchBuffs(buffType);
         simulation.setActivator(this);
@@ -450,7 +449,7 @@ public class Combatant {
                 if (simulation.getStatsLogger() != null) {
                     simulation.getStatsLogger().logEffectActivatingBuff(id, buffType);
                 }
-                buff.activate(simulation, isOnFieldEnterField);
+                buff.activate(simulation);
 
                 // extra step since this is a buff
                 buff.setApplied();
@@ -460,12 +459,20 @@ public class Combatant {
         simulation.unsetActivator();
     }
 
-    public void activateEffectActivatingBuff(final Simulation simulation, final BuffType buffType) {
-        activateEffectActivatingBuff(simulation, buffType, false);
-    }
+    public void activateOnFieldBuff(final Simulation simulation, final boolean isEnterField) {
+        final List<Buff> buffsToActivate = fetchBuffs(ON_FIELD_EFFECT);
+        simulation.setActivator(this);
+        for (final Buff buff : buffsToActivate) {
+            if (simulation.getStatsLogger() != null) {
+                simulation.getStatsLogger().logEffectActivatingBuff(id, ON_FIELD_EFFECT);
+            }
+            buff.activateOnFieldEffect(simulation, isEnterField);
 
-    public void activateOnFieldBuff(final Simulation simulation, final boolean isOnFieldEnterField) {
-        activateEffectActivatingBuff(simulation, ON_FIELD_EFFECT, isOnFieldEnterField);
+            // extra step since this is a buff
+            buff.setApplied();
+            checkBuffStatus();
+        }
+        simulation.unsetActivator();
     }
 
     /*

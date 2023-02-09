@@ -28,7 +28,6 @@ import static yome.fgo.data.proto.FgoStorageData.FateClass.ANY_CLASS;
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.CHARM_RESIST_DOWN;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DELAYED_EFFECT;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.ON_FIELD_EFFECT;
 import static yome.fgo.simulator.models.variations.NoVariation.NO_VARIATION;
 import static yome.fgo.simulator.translation.TranslationManager.BUFF_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_ADV_SECTION;
@@ -139,7 +138,7 @@ public class Buff {
 
     /*
      * ============================================================
-     * Valued Buff Fields
+     * Valued Buff Fields & Methods
      * ============================================================
      */
     protected double value;
@@ -149,11 +148,6 @@ public class Buff {
     @Builder.Default
     protected double effectiveness = 1;
 
-    /*
-     * ============================================================
-     * Valued Buff Methods
-     * ============================================================
-     */
     public double getValue(final Simulation simulation) {
         simulation.setCurrentBuff(this);
         final double result = effectiveness * variation.evaluate(simulation, value, addition);
@@ -179,7 +173,7 @@ public class Buff {
 
     /*
      * ============================================================
-     * ClassAdvantage Fields
+     * ClassAdvantage Fields & Methods
      * ============================================================
      */
     @Builder.Default
@@ -196,11 +190,6 @@ public class Buff {
     @Builder.Default
     private List<FateClass> defenseModeAffectedClasses = ImmutableList.of(ANY_CLASS);
 
-    /*
-     * ============================================================
-     * ClassAdvantage Methods
-     * ============================================================
-     */
     public double asAttacker(final double baseRate, final FateClass defenderClass) {
         if (attackMode == CLASS_ADV_NO_CHANGE) {
             return baseRate;
@@ -237,15 +226,23 @@ public class Buff {
 
     /*
      * ============================================================
-     * EffectActivatingBuff Fields
+     * EffectActivatingBuff Fields & Methods
      * ============================================================
      */
     @Builder.Default
     private List<Effect> effects = new ArrayList<>();
 
+    public void activate(final Simulation simulation) {
+        for (final Effect effect : effects) {
+            effect.apply(simulation);
+        }
+
+        simulation.checkBuffStatus();
+    }
+
     /*
      * ============================================================
-     * OnFieldEffect Fields
+     * OnFieldEffect Fields & Methods
      * ============================================================
      */
     public static final String ON_FIELD_BUFF_MARK = "onFieldBuffMark";
@@ -254,26 +251,11 @@ public class Buff {
     private ForceGrantBuff forceGrantBuff;
     private ForceRemoveBuff forceRemoveBuff;
 
-    /*
-     * ============================================================
-     * EffectActivatingBuff Methods
-     * ============================================================
-     */
-    public void activate(final Simulation simulation) {
-        activate(simulation, false);
-    }
-
-    public void activate(final Simulation simulation, final boolean isOnFieldEnterField) {
-        if (buffType == ON_FIELD_EFFECT) {
-            if (isOnFieldEnterField) {
-                forceGrantBuff.apply(simulation);
-            } else {
-                forceRemoveBuff.apply(simulation);
-            }
+    public void activateOnFieldEffect(final Simulation simulation, final boolean isOnFieldEnterField) {
+        if (isOnFieldEnterField) {
+            forceGrantBuff.apply(simulation);
         } else {
-            for (final Effect effect : effects) {
-                effect.apply(simulation);
-            }
+            forceRemoveBuff.apply(simulation);
         }
         simulation.checkBuffStatus();
     }
@@ -314,7 +296,7 @@ public class Buff {
 
     /*
      * ============================================================
-     * Methods for Specific Buffs
+     * Buff Type Conversion Fields & Methods
      * ============================================================
      */
     private String convertIconPath;

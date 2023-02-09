@@ -3104,7 +3104,8 @@
   }, {
     "craftEssenceNo": 1582,
     "option": {
-      "craftEssenceLevel": 1
+      "craftEssenceLevel": 1,
+      "isLimitBreak": true
     }
   }, {
     "craftEssenceNo": 48,
@@ -3241,7 +3242,7 @@
   }, {
     "mysticCodeNo": 18,
     "option": {
-      "mysticCodeLevel": 6,
+      "mysticCodeLevel": 1,
       "gender": "FEMALE"
     }
   }, {

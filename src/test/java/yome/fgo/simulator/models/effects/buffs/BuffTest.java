@@ -2,7 +2,6 @@ package yome.fgo.simulator.models.effects.buffs;
 
 import org.junit.jupiter.api.Test;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.variations.TurnPassVariation;
 
 import java.util.List;
 
