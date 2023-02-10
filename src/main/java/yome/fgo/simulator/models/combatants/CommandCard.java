@@ -17,20 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
-import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
-import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
-import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.simulator.ResourceManager.COMMAND_CODE_DATA_ANCHOR_MAP;
 
 @AllArgsConstructor
 @Getter
 public class CommandCard {
-    public static final CommandCard ENEMY_DEFAULT_QUICK = new CommandCard(QUICK, List.of(100), 0, 0);
-    public static final CommandCard ENEMY_DEFAULT_ARTS = new CommandCard(ARTS, List.of(100), 0, 0);
-    public static final CommandCard ENEMY_DEFAULT_BUSTER = new CommandCard(BUSTER, List.of(100), 0, 0);
-    public static final CommandCard ENEMY_DEFAULT_EXTRA = new CommandCard(EXTRA, List.of(100), 0, 0);
-
     private final CommandCardData commandCardData;
     private final CommandCodeData commandCodeData;
     private final List<Buff> commandCodeBuffs;

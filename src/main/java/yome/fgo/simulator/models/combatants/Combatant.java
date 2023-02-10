@@ -1,22 +1,17 @@
 package yome.fgo.simulator.models.combatants;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import lombok.Getter;
-import lombok.Setter;
 import yome.fgo.data.proto.FgoStorageData.Alignment;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
-import yome.fgo.data.proto.FgoStorageData.CommandCardData;
-import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.data.proto.FgoStorageData.Gender;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
 import yome.fgo.simulator.models.Simulation;
-import yome.fgo.simulator.models.effects.CommandCardExecution;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.BuffType;
 import yome.fgo.simulator.utils.BuffUtils;
@@ -29,15 +24,9 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static yome.fgo.simulator.models.combatants.CommandCard.ENEMY_DEFAULT_ARTS;
-import static yome.fgo.simulator.models.combatants.CommandCard.ENEMY_DEFAULT_BUSTER;
-import static yome.fgo.simulator.models.combatants.CommandCard.ENEMY_DEFAULT_EXTRA;
-import static yome.fgo.simulator.models.combatants.CommandCard.ENEMY_DEFAULT_QUICK;
-import static yome.fgo.simulator.models.combatants.NoblePhantasm.ENEMY_DEFAULT_NOBLE_PHANTASM;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.ATTACK_BUFF_DURATION_EXTEND;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.BURN;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.BURN_EFFECTIVENESS_UP;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.CARD_TYPE_CHANGE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.CURSE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.CURSE_EFFECTIVENESS_UP;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_REFLECT;
@@ -50,10 +39,8 @@ import static yome.fgo.simulator.models.effects.buffs.BuffType.GUTS;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.HP_BREAK_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.LEAVE_FIELD_EFFECT;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.MAX_HP_BUFF;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_CARD_TYPE_CHANGE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_SEAL;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.ON_FIELD_EFFECT;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.OVERCHARGE_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.PERMANENT_SLEEP;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.POISON;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.POISON_EFFECTIVENESS_UP;
@@ -70,7 +57,6 @@ import static yome.fgo.simulator.utils.BuffUtils.shouldDecreaseNumTurnsActiveAtM
 import static yome.fgo.simulator.utils.FateClassUtils.getClassMaxNpGauge;
 
 @Getter
-@Setter
 public class Combatant {
     /*
      * ================================================================================
@@ -90,12 +76,6 @@ public class Combatant {
     protected String id;
     protected List<Integer> hpBars;
     protected boolean isAlly;
-    protected int attack;
-
-    protected List<CommandCard> commandCards = new ArrayList<>();
-    protected CommandCard extraCommandCard;
-
-    protected NoblePhantasm noblePhantasm;
 
     /*
      * ================================================================================
@@ -116,10 +96,6 @@ public class Combatant {
      */
     public Combatant(final CombatantData combatantData, final EnemyData enemyData) {
         this(enemyData.getEnemyBaseId(), enemyData.getHpBarsList());
-        this.attack = 1000;
-        this.noblePhantasm = ENEMY_DEFAULT_NOBLE_PHANTASM;
-        this.commandCards.addAll(List.of(ENEMY_DEFAULT_QUICK, ENEMY_DEFAULT_ARTS, ENEMY_DEFAULT_BUSTER));
-        this.extraCommandCard = ENEMY_DEFAULT_EXTRA;
 
         if (enemyData.hasCombatantDataOverride()) {
             this.combatantData = enemyData.getCombatantDataOverride();
@@ -160,7 +136,8 @@ public class Combatant {
      * ================================================================================
      */
     public int getAttack() {
-        return attack;
+        // enemy don't have attack
+        return 0;
     }
 
     public FateClass getFateClass() {
@@ -181,70 +158,6 @@ public class Combatant {
 
     public int getRarity() {
         return combatantData.getRarity();
-    }
-
-    public CommandCardType getNoblePhantasmCardType() {
-        final Buff cardTypeChange = fetchFirst(NP_CARD_TYPE_CHANGE);
-        if (cardTypeChange != null) {
-            return cardTypeChange.getCommandCardType();
-        } else {
-            return noblePhantasm.getCommandCardType();
-        }
-    }
-
-    public NoblePhantasm getNoblePhantasm() {
-        final Buff cardTypeChange = fetchFirst(NP_CARD_TYPE_CHANGE);
-        if (cardTypeChange != null) {
-            return new NoblePhantasm(
-                    cardTypeChange.getCommandCardType(),
-                    noblePhantasm.getHitPercentages(),
-                    noblePhantasm.getNpCharge(),
-                    noblePhantasm.getCriticalStarGeneration(),
-                    noblePhantasm.getEffects(),
-                    noblePhantasm.getNoblePhantasmType(),
-                    noblePhantasm.getActivationCondition()
-            );
-        } else {
-            return noblePhantasm;
-        }
-    }
-
-    public CommandCardType getOriginalNoblePhantasmCardType() {
-        return noblePhantasm.getCommandCardType();
-    }
-
-    public CommandCardType getCommandCardType(final int commandCardIndex) {
-        final Buff cardTypeChange = fetchFirst(CARD_TYPE_CHANGE);
-        if (cardTypeChange != null) {
-            return cardTypeChange.getCommandCardType();
-        } else {
-            return commandCards.get(commandCardIndex).getCommandCardType();
-        }
-    }
-
-    public CommandCard getCommandCard(final int index) {
-        final Buff cardTypeChange = fetchFirst(CARD_TYPE_CHANGE);
-        if (cardTypeChange != null) {
-            final CommandCardType cardTypeOfChangedType = cardTypeChange.getCommandCardType();
-
-            CommandCardData cardDataOfChangedType = null;
-            for (final CommandCard commandCard : commandCards) {
-                if (commandCard.getCommandCardType() == cardTypeOfChangedType) {
-                    cardDataOfChangedType = commandCard.getCommandCardData();
-                    break;
-                }
-            }
-
-            final CommandCard supposedCard = commandCards.get(index);
-            return new CommandCard(
-                    cardDataOfChangedType,
-                    supposedCard.getCommandCodeData(),
-                    supposedCard.getCommandCodeBuffs(),
-                    supposedCard.getCommandCardStrengthen()
-            );
-        } else {
-            return commandCards.get(index);
-        }
     }
 
     public List<String> getAllTraits(final Simulation simulation) {
@@ -296,87 +209,6 @@ public class Combatant {
      * Methods for basic effects
      * ================================================================================
      */
-    public boolean npCheck() {
-        return currentNpGauge == maxNpGauge;
-    }
-
-    public boolean canActivateNoblePhantasm(final Simulation simulation) {
-        simulation.setActivator(this);
-
-        final boolean canActivate = npCheck() && !isNpInaccessible() && noblePhantasm.canActivate(simulation);
-
-        simulation.unsetActivator();
-
-        return canActivate;
-    }
-
-    public void resetNp() {
-        currentNpGauge = 0;
-    }
-
-    public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
-        final boolean isCrit = simulation.isCriticalStrike();
-        simulation.setActivator(this);
-        simulation.setCriticalStrike(false);
-
-        final int overchargeLevel = calculateOverchargeLevel(simulation, extraOvercharge);
-        if (simulation.getStatsLogger() != null) {
-            simulation.getStatsLogger().logNoblePhantasm(getId(), overchargeLevel);
-        }
-        resetNp();
-        noblePhantasm.activate(simulation, overchargeLevel);
-
-        simulation.setCriticalStrike(isCrit);
-        simulation.unsetActivator();
-    }
-
-    public void activateCommandCard(
-            final Simulation simulation,
-            final int commandCardIndex,
-            final int chainIndex,
-            final boolean isCriticalStrike,
-            final CommandCardType firstCardType,
-            final boolean isTypeChain,
-            final boolean isTriColorChain
-    ) {
-        final boolean isCrit = simulation.isCriticalStrike();
-        simulation.setActivator(this);
-        simulation.setAttacker(this);
-        simulation.setDefender(simulation.getTargetedEnemy());
-        simulation.setCurrentCommandCard(getCommandCard(commandCardIndex));
-        simulation.setCriticalStrike(isCriticalStrike);
-
-        CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain, isTriColorChain);
-
-        simulation.setCriticalStrike(isCrit);
-        simulation.unsetCurrentCommandCard();
-        simulation.unsetDefender();
-        simulation.unsetAttacker();
-        simulation.unsetActivator();
-    }
-
-    public void activateExtraAttack(
-            final Simulation simulation,
-            final CommandCardType firstCardType,
-            final boolean isTypeChain,
-            final boolean isTriColorChain
-    ) {
-        final boolean isCrit = simulation.isCriticalStrike();
-        simulation.setActivator(this);
-        simulation.setAttacker(this);
-        simulation.setDefender(simulation.getTargetedEnemy());
-        simulation.setCurrentCommandCard(extraCommandCard);
-        simulation.setCriticalStrike(false);
-
-        CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain, isTriColorChain);
-
-        simulation.setCriticalStrike(isCrit);
-        simulation.unsetCurrentCommandCard();
-        simulation.unsetDefender();
-        simulation.unsetAttacker();
-        simulation.unsetActivator();
-    }
-
     public void decreaseActiveSkillsCoolDown(final int change) {}
 
     public void changeNp(final double percentNpChange) {}
@@ -775,31 +607,6 @@ public class Combatant {
         }
     }
 
-    int convertOC() {
-        return 1;
-    }
-
-    @VisibleForTesting
-    int calculateOverchargeLevel(final Simulation simulation, final int extraOvercharge) {
-        int overchargeBuff = 0;
-
-        for (final Buff buff : fetchBuffs(OVERCHARGE_BUFF)) {
-            if (buff.shouldApply(simulation)) {
-                overchargeBuff += buff.getValue();
-                buff.setApplied();
-            }
-        }
-
-        final int calculatedOvercharge = overchargeBuff + extraOvercharge + convertOC();
-        if (calculatedOvercharge > 5) {
-            return 5;
-        } else if (calculatedOvercharge < 1) {
-            return 1;
-        } else {
-            return calculatedOvercharge;
-        }
-    }
-
     private int calculateDoTDamage(
             final Simulation simulation,
             final BuffType dotType,
@@ -842,10 +649,6 @@ public class Combatant {
      * ================================================================================
      */
     protected Combatant(final Combatant other) {
-        this.attack = other.attack;
-        this.commandCards = Lists.newArrayList(other.commandCards);
-        this.extraCommandCard = other.extraCommandCard;
-        this.noblePhantasm = other.noblePhantasm;
         this.maxNpGauge = other.maxNpGauge;
         this.currentNpGauge = other.currentNpGauge;
         this.currentHpBarIndex = other.currentHpBarIndex;
@@ -907,4 +710,5 @@ public class Combatant {
         this.hpBars = ImmutableList.of(1);
         this.currentHp = this.hpBars.get(this.currentHpBarIndex);
     }
+
 }
