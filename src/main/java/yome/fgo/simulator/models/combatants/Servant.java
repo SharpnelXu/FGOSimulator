@@ -113,11 +113,11 @@ public class Servant extends Combatant {
         this.hpStatusUp = servantOption.getHealthStatusUp();
         this.noblePhantasmLevel = servantOption.getNoblePhantasmLevel();
         this.bond = servantOption.getBond();
+        this.isAlly = true;
 
         buildAscension(this.ascension);
 
         this.currentHp = getMaxHp();
-        this.isAlly = true;
     }
 
     /*

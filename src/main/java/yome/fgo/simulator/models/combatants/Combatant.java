@@ -116,7 +116,7 @@ public class Combatant {
      */
     public Combatant(final CombatantData combatantData, final EnemyData enemyData) {
         this(enemyData.getEnemyBaseId(), enemyData.getHpBarsList());
-        this.attack = 1000;
+        this.attack = 6000;
         this.noblePhantasm = ENEMY_DEFAULT_NOBLE_PHANTASM;
         this.commandCards.addAll(List.of(ENEMY_DEFAULT_QUICK, ENEMY_DEFAULT_ARTS, ENEMY_DEFAULT_BUSTER));
         this.extraCommandCard = ENEMY_DEFAULT_EXTRA;
@@ -211,6 +211,15 @@ public class Combatant {
 
     public CommandCardType getOriginalNoblePhantasmCardType() {
         return noblePhantasm.getCommandCardType();
+    }
+
+    public int findCardIndexForType(final CommandCardType commandCardType) {
+        for (int i = 0; i < commandCards.size(); i += 1) {
+            if (commandCards.get(i).getCommandCardType() == commandCardType) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public CommandCardType getCommandCardType(final int commandCardIndex) {

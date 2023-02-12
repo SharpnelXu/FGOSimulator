@@ -3,6 +3,7 @@ package yome.fgo.simulator.gui.components;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
@@ -202,6 +203,9 @@ public class MiscDisplay extends VBox {
         randomSlider.setShowTickMarks(true);
         randomSlider.setValue(0.9);
 
+        final CheckBox simulateEnemyAction = new CheckBox(getTranslation(APPLICATION_SECTION, "SimulateEnemy"));
+        simulateEnemyAction.setOnAction(e -> simulationWindow.getSimulation().setSimulateEnemyAction(simulateEnemyAction.isSelected()));
+
         final HBox buttonsHBox = new HBox();
         buttonsHBox.setSpacing(10);
         buttonsHBox.setAlignment(Pos.CENTER);
@@ -281,6 +285,7 @@ public class MiscDisplay extends VBox {
                 probabilityThresholdSlider,
                 randomLabelHBox,
                 randomSlider,
+                simulateEnemyAction,
                 buttonsHBox,
                 logLevelHBox
         );

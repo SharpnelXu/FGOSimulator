@@ -1,6 +1,8 @@
 package yome.fgo.simulator.gui.components;
 
+import com.google.common.collect.Lists;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -11,9 +13,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -42,6 +47,7 @@ import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.CombatAction;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
+import yome.fgo.simulator.models.combatants.EnemyAction;
 import yome.fgo.simulator.models.combatants.NoblePhantasm;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
@@ -59,11 +65,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
+import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
+import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.simulator.ResourceManager.getBuffIcon;
 import static yome.fgo.simulator.ResourceManager.getCCThumbnail;
 import static yome.fgo.simulator.ResourceManager.getEnemyThumbnail;
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
+import static yome.fgo.simulator.ResourceManager.getUnknownServantThumbnail;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
 import static yome.fgo.simulator.gui.helpers.DataPrinter.printBasicCombatantData;
 import static yome.fgo.simulator.gui.helpers.DataPrinter.printEffectData;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.BUFF_SIZE;
@@ -75,6 +87,7 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENEMY_NAME_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.BUFF_ICON_DIRECTORY_PATH;
@@ -100,6 +113,7 @@ public class SimulationWindow {
     private final VBox specialSelectionVBox;
     private final VBox showBuffsVBox;
     private final VBox combatActionsVBox;
+    private final VBox enemyActionVBox;
     private final FateClassInfoVBox fateClassInfoVBox;
 
     public final Object mutex = new Object();
@@ -197,33 +211,17 @@ public class SimulationWindow {
         simulation.setStatsLogger(statsLogger);
 
         specialSelectionVBox = new VBox();
-        specialSelectionVBox.setVisible(false);
-        specialSelectionVBox.setSpacing(10);
-        specialSelectionVBox.setPadding(new Insets(30));
-        specialSelectionVBox.setStyle(SPECIAL_INFO_BOX_STYLE);
-        specialSelectionVBox.setAlignment(Pos.TOP_CENTER);
-        specialSelectionVBox.setEffect(new DropShadow());
-        stackPane.getChildren().add(new Group(specialSelectionVBox));
+        addSpecialVBox(specialSelectionVBox, stackPane);
 
         showBuffsVBox = new VBox();
-        showBuffsVBox.setVisible(false);
-        showBuffsVBox.setSpacing(10);
-        showBuffsVBox.setPadding(new Insets(30));
-        showBuffsVBox.setStyle(SPECIAL_INFO_BOX_STYLE);
-        showBuffsVBox.setAlignment(Pos.TOP_CENTER);
         showBuffsVBox.setFillWidth(false);
-        showBuffsVBox.setEffect(new DropShadow());
-
-        stackPane.getChildren().add(new Group(showBuffsVBox));
+        addSpecialVBox(showBuffsVBox, stackPane);
 
         combatActionsVBox = new VBox();
-        combatActionsVBox.setVisible(false);
-        combatActionsVBox.setSpacing(10);
-        combatActionsVBox.setPadding(new Insets(30));
-        combatActionsVBox.setStyle(SPECIAL_INFO_BOX_STYLE);
-        combatActionsVBox.setAlignment(Pos.TOP_CENTER);
-        combatActionsVBox.setEffect(new DropShadow());
-        stackPane.getChildren().add(new Group(combatActionsVBox));
+        addSpecialVBox(combatActionsVBox, stackPane);
+
+        enemyActionVBox = new VBox();
+        addSpecialVBox(enemyActionVBox, stackPane);
 
         fateClassInfoVBox = new FateClassInfoVBox(contentVBox);
         fateClassInfoVBox.setVisible(false);
@@ -232,6 +230,16 @@ public class SimulationWindow {
         simulation.initiate();
 
         render();
+    }
+
+    private void addSpecialVBox(final VBox box, final StackPane stack) {
+        box.setVisible(false);
+        box.setSpacing(10);
+        box.setPadding(new Insets(30));
+        box.setStyle(SPECIAL_INFO_BOX_STYLE);
+        box.setAlignment(Pos.TOP_CENTER);
+        box.setEffect(new DropShadow());
+        stack.getChildren().add(new Group(box));
     }
 
     /**
@@ -730,6 +738,189 @@ public class SimulationWindow {
 
         combatActionsVBox.getChildren().addAll(cardsHBox, buttonHBox);
         contentVBox.setDisable(true);
+    }
+
+    public EnemyAction getEnemyAction(final Combatant combatant) {
+        enemyActionVBox.setVisible(true);
+        contentVBox.setDisable(true);
+        enemyActionVBox.getChildren().clear();
+
+        final VBox combatantVBox = new VBox(10);
+        combatantVBox.setAlignment(Pos.TOP_CENTER);
+        combatantVBox.setFillWidth(false);
+        combatantVBox.getChildren().add(new Label(getTranslation(ENTITY_NAME_SECTION, combatant.getId())));
+        final ImageView combatantImage = new ImageView();
+        combatantImage.setFitHeight(SERVANT_THUMBNAIL_SIZE);
+        combatantImage.setFitWidth(SERVANT_THUMBNAIL_SIZE);
+        final AnchorPane imgAnchor = wrapInAnchor(combatantImage);
+        imgAnchor.setStyle(UNIT_THUMBNAIL_STYLE);
+        final boolean isServant = combatant instanceof Servant;
+        if (isServant) {
+            combatantImage.setImage(getServantImage(combatant.getId(), ((Servant) combatant).getAscension()));
+        } else {
+            combatantImage.setImage(getEnemyImage(combatant.getEnemyData().getEnemyCategories(), combatant.getId()));
+        }
+        final HBox attackHBox = new HBox(10);
+        attackHBox.setAlignment(Pos.CENTER);
+        attackHBox.getChildren().add(new Label(getTranslation(APPLICATION_SECTION, "ATK")));
+        final TextField atkText = new TextField(combatant.getAttack() + "");
+        atkText.setMaxWidth(100);
+        attackHBox.getChildren().add(atkText);
+        attackHBox.setDisable(isServant);
+        combatantVBox.getChildren().addAll(imgAnchor, attackHBox);
+
+        final VBox commandCardsVBox = new VBox(10);
+        commandCardsVBox.setAlignment(Pos.TOP_CENTER);
+        commandCardsVBox.getChildren().add(new Label(getTranslation(APPLICATION_SECTION, "Command Card")));
+        final HBox cardHBox = new HBox(10);
+        cardHBox.setAlignment(Pos.CENTER);
+        final List<CommandCardType> regularTypes = List.of(QUICK, ARTS, BUSTER);
+        final ToggleGroup cardToggleGroup = new ToggleGroup();
+        final EnemyAction tempHolder = new EnemyAction();
+        tempHolder.setCommandCardType(QUICK);
+        for (final CommandCardType commandCardType : regularTypes) {
+            final VBox cardVBox = new VBox(10);
+            cardVBox.setAlignment(Pos.CENTER);
+            final Button button = new Button();
+            final ImageView cardImage = new ImageView();
+            cardImage.setFitHeight(80);
+            cardImage.setFitWidth(80);
+            cardImage.setImage(getCardImage(commandCardType));
+            button.setGraphic(cardImage);
+            final RadioButton radioButton = new RadioButton(getTranslation(COMMAND_CARD_TYPE_SECTION, commandCardType.name()));
+            button.setOnAction(e -> {
+                radioButton.setSelected(true);
+                radioButton.fireEvent(new ActionEvent());
+            });
+            radioButton.setOnAction(e -> tempHolder.setCommandCardType(commandCardType));
+            radioButton.setToggleGroup(cardToggleGroup);
+            cardVBox.getChildren().addAll(button, radioButton);
+            cardHBox.getChildren().add(cardVBox);
+        }
+        commandCardsVBox.getChildren().add(cardHBox);
+
+        final VBox npCardsVBox = new VBox(10);
+        npCardsVBox.setAlignment(Pos.TOP_CENTER);
+        npCardsVBox.getChildren().add(new Label(getTranslation(APPLICATION_SECTION, "NP Card")));
+        final StackPane npStack = new StackPane();
+        final Button button = new Button();
+        final ImageView cardImage = new ImageView();
+        cardImage.setFitHeight(80);
+        cardImage.setFitWidth(80);
+        cardImage.setImage(getCardImage(combatant.getNoblePhantasmCardType()));
+        button.setGraphic(cardImage);
+        final RadioButton radioButton = new RadioButton(getTranslation(APPLICATION_SECTION, "NP Card"));
+        radioButton.setToggleGroup(cardToggleGroup);
+        button.setOnAction(e -> {
+            radioButton.setSelected(true);
+            radioButton.fireEvent(new ActionEvent());
+        });
+        npStack.getChildren().add(button);
+        if (!combatant.canActivateNoblePhantasm(simulation)) {
+            radioButton.setDisable(true);
+            button.setDisable(true);
+            final AnchorPane cdAnchor = createSkillCdAnchor();
+            npStack.getChildren().add(cdAnchor);
+        }
+        npCardsVBox.getChildren().addAll(npStack, radioButton);
+
+        final HBox selectCardHBox = new HBox(10);
+        selectCardHBox.getChildren().addAll(combatantVBox, commandCardsVBox, npCardsVBox);
+
+        final List<Integer> targetHits = Lists.newArrayList(0, 0, 0);
+        final HBox targetsHBox = new HBox(10);
+        targetsHBox.setAlignment(Pos.CENTER);
+        for (int i = 0; i < 3; i += 1) {
+            final Servant servant = simulation.getCurrentServants().size() > i ?
+                    simulation.getCurrentServants().get(i) :
+                    null;
+            final VBox servantVBox = new VBox(10);
+            servantVBox.setFillWidth(false);
+            final Label idLabel = new Label();
+            servantVBox.getChildren().add(idLabel);
+            servantVBox.setAlignment(Pos.TOP_CENTER);
+            final ImageView servantImage = new ImageView();
+            servantImage.setFitHeight(SERVANT_THUMBNAIL_SIZE);
+            servantImage.setFitWidth(SERVANT_THUMBNAIL_SIZE);
+            final AnchorPane servantImgAnchor = wrapInAnchor(servantImage);
+            servantImgAnchor.setStyle(UNIT_THUMBNAIL_STYLE);
+            if (servant != null) {
+                idLabel.setText(getTranslation(ENTITY_NAME_SECTION, servant.getId()));
+                servantImage.setImage(getServantImage(servant.getId(), servant.getAscension()));
+            } else {
+                idLabel.setText(getTranslation(APPLICATION_SECTION, "Empty"));
+                Image unknown = null;
+                try {
+                    unknown = new Image(new FileInputStream(getUnknownServantThumbnail()));
+                } catch (final FileNotFoundException ignored) {
+                }
+                servantImage.setImage(unknown);
+            }
+            servantVBox.getChildren().add(servantImgAnchor);
+            final Label hitTimesLabel = new Label(getTranslation(APPLICATION_SECTION, "HitTimes") + ": ");
+            final Label hitTimes = new Label("0");
+            final Button addButton = new Button();
+            addButton.setGraphic(createInfoImageView("up"));
+            addButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Increment hit times")));
+            final int tempI = i;
+            addButton.setOnAction(e -> {
+                final int previousTime = targetHits.get(tempI);
+                targetHits.set(tempI, previousTime + 1);
+                hitTimes.setText("" + (previousTime + 1));
+            });
+            addButton.setDisable(servant == null);
+            final Button subtractButton = new Button();
+            subtractButton.setGraphic(createInfoImageView("down"));
+            subtractButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Decrement hit times")));
+            subtractButton.setOnAction(e -> {
+                final int previousTime = targetHits.get(tempI);
+                final int nextTime = Math.max(previousTime - 1, 0);
+                targetHits.set(tempI, nextTime);
+                hitTimes.setText("" + nextTime);
+            });
+            subtractButton.setDisable(servant == null);
+            final HBox buttonHBox = new HBox(10);
+            buttonHBox.setAlignment(Pos.CENTER);
+            buttonHBox.getChildren().addAll(hitTimesLabel, hitTimes, addButton, subtractButton);
+            servantVBox.getChildren().add(buttonHBox);
+            targetsHBox.getChildren().add(servantVBox);
+        }
+
+        final HBox buttonHBox = new HBox(10);
+        buttonHBox.setAlignment(Pos.CENTER);
+        final Button buildButton = new Button(getTranslation(APPLICATION_SECTION, "Execute"));
+        buildButton.setOnAction(e -> {
+            final EnemyAction enemyAction = new EnemyAction();
+            try {
+                enemyAction.setAttack(Integer.parseInt(atkText.getText()));
+            } catch (final Exception ignored) {}
+
+            enemyAction.setNp(cardToggleGroup.getSelectedToggle() == radioButton);
+            if (!enemyAction.isNp()) {
+                enemyAction.setCommandCardType(tempHolder.getCommandCardType());
+            }
+            enemyAction.setTargetHits(targetHits);
+            enemyActionVBox.setVisible(false);
+            contentVBox.setDisable(false);
+            Platform.exitNestedEventLoop(mutex, enemyAction);
+        });
+        final Button skipButton = new Button(getTranslation(APPLICATION_SECTION, "Skip"));
+        skipButton.setOnAction(e -> {
+            enemyActionVBox.setVisible(false);
+            contentVBox.setDisable(false);
+            Platform.exitNestedEventLoop(mutex, null);
+        });
+        buttonHBox.getChildren().addAll(buildButton, skipButton);
+
+        enemyActionVBox.getChildren().addAll(
+                selectCardHBox,
+                new Separator(Orientation.HORIZONTAL),
+                targetsHBox,
+                new Separator(Orientation.HORIZONTAL),
+                buttonHBox
+        );
+
+        return (EnemyAction) Platform.enterNestedEventLoop(mutex);
     }
 
     public void showClassInfo(final FateClass fateClass) {

@@ -449,7 +449,7 @@ public class CommandCardExecution {
         final double overkillNpBonus = isOverkill ? 1.5 : 1;
 
         final double hitNpBeforeRound = defNpParameters.defNpCharge * defNpParameters.classNpCorrection *
-                undeadNpCorrection * (1 + defNpParameters.npGenerationBuff) * (1 + defNpParameters.defNpGenerationBuff);
+                undeadNpCorrection * (1 + defNpParameters.npGenerationBuff) * (1 + defNpParameters.defNpGenerationBuff) * 10000;
 
         final double roundedNpBeforeOverkillBonus = ((int) hitNpBeforeRound) * overkillNpBonus;
         final double roundedNp2 = (int) roundedNpBeforeOverkillBonus;

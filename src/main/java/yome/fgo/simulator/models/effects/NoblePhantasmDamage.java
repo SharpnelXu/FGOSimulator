@@ -113,24 +113,19 @@ public class NoblePhantasmDamage extends Effect {
         final List<Combatant> targets = TargetUtils.getTargets(simulation, target);
         final Combatant activator = simulation.getActivator();
         simulation.setAttacker(activator);
-        if (!(activator instanceof Servant)) {
-            simulation.unsetAttacker();
-            return;
-        }
-        final Servant attacker = (Servant) activator;
 
-        final CommandCard currentCard = attacker.getNoblePhantasm();
+        final CommandCard currentCard = activator.getNoblePhantasm();
         simulation.setCurrentCommandCard(currentCard);
 
         final CommandCardType currentCardType = currentCard.getCommandCardType();
-        final List<Double> hitsPercentages = getHitsPercentages(simulation, attacker, currentCard.getHitPercentages());
-        final CommandCardType originalCardType = attacker.getOriginalNoblePhantasmCardType();
+        final List<Double> hitsPercentages = getHitsPercentages(simulation, activator, currentCard.getHitPercentages());
+        final CommandCardType originalCardType = activator.getOriginalNoblePhantasmCardType();
 
         for (final Combatant defender : targets) {
             simulation.setDefender(defender);
             final FateClass defenderClass = defender.getFateClass();
 
-            attacker.activateEffectActivatingBuff(simulation, PRE_ATTACK_EFFECT);
+            activator.activateEffectActivatingBuff(simulation, PRE_ATTACK_EFFECT);
             defender.activateEffectActivatingBuff(simulation, PRE_DEFENSE_EFFECT);
 
             final double originalDamageRate = getDamageRate(simulation, level);
@@ -138,38 +133,38 @@ public class NoblePhantasmDamage extends Effect {
                     originalDamageRate :
                     convertDamageRate(originalDamageRate, originalCardType, currentCardType);
 
-            final double commandCardBuff = attacker.applyValuedBuff(simulation, COMMAND_CARD_BUFF);
-            final double attackBuff = attacker.applyValuedBuff(simulation, ATTACK_BUFF);
-            final double specificAttackBuff = attacker.applyValuedBuff(simulation, SPECIFIC_ATTACK_BUFF);
-            final double npDamageUpBuff = attacker.applyPositiveBuff(simulation, NP_DAMAGE_BUFF);
-            final double npDamageDownBuff = attacker.applyNegativeBuff(simulation, NP_DAMAGE_BUFF);; // value is negative
-            final double npEffectivenessUpBuff = attacker.applyValuedBuff(simulation, NP_DAMAGE_BUFF_EFFECTIVENESS_UP);
+            final double commandCardBuff = activator.applyValuedBuff(simulation, COMMAND_CARD_BUFF);
+            final double attackBuff = activator.applyValuedBuff(simulation, ATTACK_BUFF);
+            final double specificAttackBuff = activator.applyValuedBuff(simulation, SPECIFIC_ATTACK_BUFF);
+            final double npDamageUpBuff = activator.applyPositiveBuff(simulation, NP_DAMAGE_BUFF);
+            final double npDamageDownBuff = activator.applyNegativeBuff(simulation, NP_DAMAGE_BUFF);; // value is negative
+            final double npEffectivenessUpBuff = activator.applyValuedBuff(simulation, NP_DAMAGE_BUFF_EFFECTIVENESS_UP);
             final double npDamageBuff = RoundUtils.roundNearest(npDamageUpBuff * (1 + npEffectivenessUpBuff) + npDamageDownBuff);
 
-            final double percentAttackBuff = attacker.applyValuedBuff(simulation, PERCENT_ATTACK_BUFF);
-            final double damageAdditionBuff = attacker.applyValuedBuff(simulation, DAMAGE_ADDITION_BUFF);
-            final boolean ignoreDefense = attacker.consumeFirstBuff(simulation, IGNORE_DEFENSE_BUFF) || isNpIgnoreDefense;
+            final double percentAttackBuff = activator.applyValuedBuff(simulation, PERCENT_ATTACK_BUFF);
+            final double damageAdditionBuff = activator.applyValuedBuff(simulation, DAMAGE_ADDITION_BUFF);
+            final boolean ignoreDefense = activator.consumeFirstBuff(simulation, IGNORE_DEFENSE_BUFF) || isNpIgnoreDefense;
 
-            final double npGenerationBuff = attacker.applyValuedBuff(simulation, NP_GENERATION_BUFF);
+            final double npGenerationBuff = activator.applyValuedBuff(simulation, NP_GENERATION_BUFF);
             final double classNpCorrection = defender.getCombatantData().getUseCustomNpMod()
                     ? defender.getCombatantData().getCustomNpMod()
                     : getClassNpCorrection(defenderClass);
 
-            final double critStarGenerationBuff = attacker.applyValuedBuff(simulation, CRITICAL_STAR_GENERATION_BUFF);
+            final double critStarGenerationBuff = activator.applyValuedBuff(simulation, CRITICAL_STAR_GENERATION_BUFF);
 
             final double npSpecificDamageRate = getNpSpecificDamageRate(simulation, level);
 
-            final double classAdvantage = getClassAdvantage(simulation, attacker, defender);
+            final double classAdvantage = getClassAdvantage(simulation, activator, defender);
 
             final NpDamageParameters.NpDamageParametersBuilder npDamageParams = NpDamageParameters.builder()
-                    .attack(attacker.getAttack())
+                    .attack(activator.getAttack())
                     .totalHits(currentCard.getTotalHits())
                     .damageRate(damageRate)
                     .npSpecificAttackRate(npSpecificDamageRate)
-                    .attackerClass(attacker.getFateClass())
+                    .attackerClass(activator.getFateClass())
                     .defenderClass(defenderClass)
                     .classAdvantage(classAdvantage)
-                    .attackerAttribute(attacker.getAttribute())
+                    .attackerAttribute(activator.getAttribute())
                     .defenderAttribute(defender.getAttribute())
                     .currentCardType(currentCardType)
                     .commandCardBuff(commandCardBuff)
@@ -182,7 +177,7 @@ public class NoblePhantasmDamage extends Effect {
 
             final NpParameters.NpParametersBuilder npParameters = NpParameters.builder();
             final CriticalStarParameters.CriticalStarParametersBuilder critStarParams = CriticalStarParameters.builder();
-            if (attacker.isAlly()) {
+            if (activator.isAlly()) {
                 npParameters.npCharge(currentCard.getNpCharge())
                         .defenderClass(defenderClass)
                         .useUndeadNpCorrection(defender.getUndeadNpCorrection())
@@ -207,18 +202,18 @@ public class NoblePhantasmDamage extends Effect {
             final DefNpParameters.DefNpParametersBuilder defNpParameters = DefNpParameters.builder();
             if (defender.isAlly()) {
                 final Servant defendServant = (Servant) defender;
-                final double attackerClassNpCorrection = attacker.getCombatantData().getUseCustomNpMod()
-                        ? attacker.getCombatantData().getCustomNpMod()
-                        : getClassNpCorrection(attacker.getFateClass());
+                final double attackerClassNpCorrection = activator.getCombatantData().getUseCustomNpMod()
+                        ? activator.getCombatantData().getCustomNpMod()
+                        : getClassNpCorrection(activator.getFateClass());
                 defNpParameters.defNpCharge(defendServant.getDefNpCharge())
-                        .attackerClass(attacker.getFateClass())
+                        .attackerClass(activator.getFateClass())
                         .classNpCorrection(attackerClassNpCorrection)
-                        .useUndeadNpCorrection(attacker.getUndeadNpCorrection())
+                        .useUndeadNpCorrection(activator.getUndeadNpCorrection())
                         .npGenerationBuff(defendServant.applyValuedBuff(simulation, NP_GENERATION_BUFF))
                         .defNpGenerationBuff(defendServant.applyValuedBuff(simulation, DEF_NP_GENERATION_BUFF));
             }
 
-            final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
+            final boolean skipDamage = shouldSkipDamage(simulation, activator, defender, currentCard);
 
             if (!skipDamage) {
                 final double commandCardResist = defender.applyValuedBuff(simulation, COMMAND_CARD_RESIST);
@@ -254,7 +249,7 @@ public class NoblePhantasmDamage extends Effect {
             final int totalDamage = calculateTotalNpDamage(npDamageParams.build());
             final int damageDealt = hitExecution(
                     simulation,
-                    attacker,
+                    activator,
                     defender,
                     currentCard,
                     hitsPercentages,
@@ -266,7 +261,7 @@ public class NoblePhantasmDamage extends Effect {
                     Combatant::isAlreadyDead
             );
 
-            attacker.activateEffectActivatingBuff(simulation, POST_ATTACK_EFFECT);
+            activator.activateEffectActivatingBuff(simulation, POST_ATTACK_EFFECT);
             defender.activateEffectActivatingBuff(simulation, POST_DEFENSE_EFFECT);
             final List<Buff> buffs = defender.getBuffs();
             for (int j = buffs.size() - 1; j >= 0; j -= 1) {

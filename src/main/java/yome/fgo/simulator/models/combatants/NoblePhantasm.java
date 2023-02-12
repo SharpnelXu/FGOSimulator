@@ -10,17 +10,24 @@ import yome.fgo.simulator.models.conditions.Condition;
 import yome.fgo.simulator.models.conditions.ConditionFactory;
 import yome.fgo.simulator.models.effects.Effect;
 import yome.fgo.simulator.models.effects.EffectFactory;
+import yome.fgo.simulator.models.effects.NoblePhantasmDamage;
 
 import java.util.List;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
 import static yome.fgo.data.proto.FgoStorageData.NoblePhantasmType.ANY_NP_TYPE;
+import static yome.fgo.data.proto.FgoStorageData.Target.TARGETED_ENEMY;
 import static yome.fgo.simulator.models.conditions.Always.ALWAYS;
 
 @Getter
 public class NoblePhantasm extends CommandCard {
     public static final NoblePhantasm ENEMY_DEFAULT_NOBLE_PHANTASM =
-            new NoblePhantasm(BUSTER, List.of(100), 0, 0, List.of(), ANY_NP_TYPE, ALWAYS);
+            new NoblePhantasm(BUSTER, List.of(100), 0, 0, List.of(
+                    NoblePhantasmDamage.builder()
+                            .target(TARGETED_ENEMY)
+                            .damageRates(List.of(3.0))
+                            .build()
+            ), ANY_NP_TYPE, ALWAYS);
 
     private final List<Effect> effects;
     private final NoblePhantasmType noblePhantasmType;

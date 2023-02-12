@@ -168,6 +168,11 @@ public class StatsLogger extends VBox {
         appendLogEntry(ACTION, message);
     }
 
+    public void logEnemyAction() {
+        final String message = String.format("\n\n" + getTranslation(APPLICATION_SECTION, "SimulateEnemy") + "\n\n");
+        appendLogEntry(ACTION, message);
+    }
+
     public void logCommandCardAction(
             final String attackerId,
             final String defenderId,

@@ -13,6 +13,7 @@ import yome.fgo.simulator.gui.components.StatsLogger;
 import yome.fgo.simulator.models.combatants.CombatAction;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
+import yome.fgo.simulator.models.combatants.EnemyAction;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.CriticalStarChange;
 import yome.fgo.simulator.models.effects.Effect;
@@ -38,6 +39,7 @@ import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.BUSTER;
+import static yome.fgo.data.proto.FgoStorageData.CommandCardType.EXTRA;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.QUICK;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.UNRECOGNIZED;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_ALLIES;
@@ -513,12 +515,16 @@ public class Simulation {
         }
     }
 
-    public static boolean canAttack(final Servant servant) {
-        return servant != null && !servant.isAlreadyDead() && !servant.isImmobilized();
+    public static boolean canAttack(final Combatant combatant) {
+        return combatant != null && !combatant.isAlreadyDead() && !combatant.isImmobilized();
     }
 
     private boolean isAllEnemiesDead() {
         return currentEnemies.stream().allMatch(Objects::isNull);
+    }
+
+    private boolean isAllAlliesDead() {
+        return currentServants.stream().allMatch(Objects::isNull);
     }
 
     @VisibleForTesting
@@ -664,6 +670,8 @@ public class Simulation {
     }
 
     private void executeEnemyTurn() {
+
+
         for (final Combatant combatant : currentEnemies) {
             if (combatant != null) {
                 if (combatant.getCurrentHp() <= 0) {
@@ -674,9 +682,77 @@ public class Simulation {
         }
 
         if (simulateEnemyAction) {
-            for (final Combatant combatant : currentEnemies) {
-
+            if (statsLogger != null) {
+                statsLogger.logEnemyAction();
             }
+
+            for (final Combatant combatant : currentEnemies) {
+                if (!canAttack(combatant) || isAllAlliesDead()) {
+                    continue;
+                }
+
+                final EnemyAction enemyAction = simulationWindow.getEnemyAction(combatant);
+                if (enemyAction == null) {
+                    continue;
+                }
+                if (enemyAction.getAttack() != 0 && enemyAction.getAttack() != combatant.getAttack()) {
+                    combatant.setAttack(enemyAction.getAttack());
+                }
+                if (enemyAction.isNp()) {
+                    if (combatant.isNpInaccessible()) {
+                        continue;
+                    }
+
+                    if (combatant instanceof Servant) {
+                        combatant.activateNoblePhantasm(this, 0);
+                    } else {
+                        final int tempIndex = currentAllyTargetIndex;
+                        for (int i = 0; i < enemyAction.getTargetHits().size(); i += 1) {
+                            if (enemyAction.getTargetHits().get(i) > 0) {
+                                currentAllyTargetIndex = i;
+                                combatant.activateNoblePhantasm(this, 0);
+                            }
+                        }
+                        currentAllyTargetIndex = tempIndex;
+                    }
+                } else {
+                    for (int i = 0; i < enemyAction.getTargetHits().size(); i += 1) {
+                        if (currentServants.size() <= i) {
+                            continue;
+                        }
+                        final Servant defender = currentServants.get(i);
+                        if (!defender.isAlive(this)) {
+                            continue;
+                        }
+
+                        setDefender(currentServants.get(i));
+                        for (int j = 0; j < enemyAction.getTargetHits().get(i); j += 1) {
+                            combatant.activateCommandCard(
+                                    this,
+                                    combatant.findCardIndexForType(enemyAction.getCommandCardType()),
+                                    i,
+                                    false,
+                                    EXTRA,
+                                    false,
+                                    false
+                            );
+                        }
+                        unsetDefender();
+                    }
+                }
+            }
+
+            // For Bazett's NP not breaking HP bars
+            for (final Combatant combatant : currentEnemies) {
+                if (combatant != null) {
+                    if (combatant.getCurrentHp() <= 0 && combatant.hasNextHpBar()) {
+                        combatant.setCurrentHp(1);
+                    }
+                }
+            }
+
+            removeDeadEnemies();
+            removeDeadAlly();
         }
     }
 
