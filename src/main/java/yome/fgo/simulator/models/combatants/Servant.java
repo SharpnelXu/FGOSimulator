@@ -1,6 +1,5 @@
 package yome.fgo.simulator.models.combatants;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -8,7 +7,6 @@ import lombok.Setter;
 import yome.fgo.data.proto.FgoStorageData.AppendSkillData;
 import yome.fgo.data.proto.FgoStorageData.CombatantData;
 import yome.fgo.data.proto.FgoStorageData.CommandCardData;
-import yome.fgo.data.proto.FgoStorageData.CommandCardType;
 import yome.fgo.data.proto.FgoStorageData.EnemyData;
 import yome.fgo.data.proto.FgoStorageData.NoblePhantasmData;
 import yome.fgo.data.proto.FgoStorageData.PassiveSkillData;
@@ -18,7 +16,6 @@ import yome.fgo.data.proto.FgoStorageData.ServantOption;
 import yome.fgo.data.proto.FgoStorageData.Status;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.craftessences.CraftEssence;
-import yome.fgo.simulator.models.effects.CommandCardExecution;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.utils.RoundUtils;
 import yome.fgo.simulator.utils.TargetUtils;
@@ -30,9 +27,6 @@ import java.util.stream.Collectors;
 import static yome.fgo.data.proto.FgoStorageData.Target.ALL_CHARACTERS_INCLUDING_BACKUP;
 import static yome.fgo.data.proto.FgoStorageData.Traits.SERVANT;
 import static yome.fgo.simulator.gui.components.FormationSelector.defaultServantLevel;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.CARD_TYPE_CHANGE;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_CARD_TYPE_CHANGE;
-import static yome.fgo.simulator.models.effects.buffs.BuffType.OVERCHARGE_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.SKILL_RANK_UP;
 
 @Getter
@@ -45,18 +39,12 @@ public class Servant extends Combatant {
 
     private ServantData servantData;
     private ServantOption servantOption;
-    private int attack;
     private int attackStatusUp;
     private int hpStatusUp;
     private int ascension;
     private int servantLevel;
     private int noblePhantasmLevel;
     private int bond;
-
-    private List<CommandCard> commandCards = new ArrayList<>();
-    private CommandCard extraCommandCard;
-
-    private NoblePhantasm noblePhantasm;
     private List<ActiveSkill> activeSkills = new ArrayList<>();
     private List<PassiveSkill> passiveSkills = new ArrayList<>();
     private List<AppendSkill> appendSkills = new ArrayList<>();
@@ -93,19 +81,17 @@ public class Servant extends Combatant {
         this.ascension = enemyData.getServantAscension();
         final ServantAscensionData servantAscensionData = servantData.getServantAscensionData(this.ascension - 1);
         final int rarity = servantAscensionData.getCombatantData().getRarity();
-        final int servantLevel = Math.min(servantAscensionData.getServantStatusDataCount(), defaultServantLevel(rarity));
-        // For Bazett
-        final NoblePhantasmData noblePhantasmData = servantAscensionData.getNoblePhantasmUpgrades()
-                .getNoblePhantasmData(0);
-        this.noblePhantasm = new NoblePhantasm(noblePhantasmData, 1);
-        this.attack = servantAscensionData.getServantStatusData(servantLevel - 1).getATK();
-        this.commandCards = ImmutableList.of();
-        this.activeSkills = ImmutableList.of();
-        this.appendSkills = ImmutableList.of();
-        this.passiveSkills = new ArrayList<>();
-        for (final PassiveSkillData passiveSkillData : servantAscensionData.getPassiveSkillDataList()) {
-            this.passiveSkills.add(new PassiveSkill(passiveSkillData));
-        }
+        this.servantLevel = Math.min(servantAscensionData.getServantStatusDataCount(), defaultServantLevel(rarity));
+        this.noblePhantasmLevel = 1;
+        this.servantOption = ServantOption.newBuilder()
+                .setAscension(this.ascension)
+                .setServantLevel(this.servantLevel)
+                .setNoblePhantasmLevel(this.noblePhantasmLevel)
+                .setNoblePhantasmRank(1)
+                .addAllActiveSkillLevels(List.of(1, 1, 1))
+                .addAllActiveSkillRanks(List.of(1, 1, 1))
+                .build();
+        buildAscension(this.ascension);
     }
 
     /*
@@ -193,70 +179,6 @@ public class Servant extends Combatant {
         return iconPath;
     }
 
-    public CommandCardType getNoblePhantasmCardType() {
-        final Buff cardTypeChange = fetchFirst(NP_CARD_TYPE_CHANGE);
-        if (cardTypeChange != null) {
-            return cardTypeChange.getCommandCardType();
-        } else {
-            return noblePhantasm.getCommandCardType();
-        }
-    }
-
-    public NoblePhantasm getNoblePhantasm() {
-        final Buff cardTypeChange = fetchFirst(NP_CARD_TYPE_CHANGE);
-        if (cardTypeChange != null) {
-            return new NoblePhantasm(
-                    cardTypeChange.getCommandCardType(),
-                    noblePhantasm.getHitPercentages(),
-                    noblePhantasm.getNpCharge(),
-                    noblePhantasm.getCriticalStarGeneration(),
-                    noblePhantasm.getEffects(),
-                    noblePhantasm.getNoblePhantasmType(),
-                    noblePhantasm.getActivationCondition()
-            );
-        } else {
-            return noblePhantasm;
-        }
-    }
-
-    public CommandCardType getOriginalNoblePhantasmCardType() {
-        return noblePhantasm.getCommandCardType();
-    }
-
-    public CommandCardType getCommandCardType(final int commandCardIndex) {
-        final Buff cardTypeChange = fetchFirst(CARD_TYPE_CHANGE);
-        if (cardTypeChange != null) {
-            return cardTypeChange.getCommandCardType();
-        } else {
-            return commandCards.get(commandCardIndex).getCommandCardType();
-        }
-    }
-
-    public CommandCard getCommandCard(final int index) {
-        final Buff cardTypeChange = fetchFirst(CARD_TYPE_CHANGE);
-        if (cardTypeChange != null) {
-            final CommandCardType cardTypeOfChangedType = cardTypeChange.getCommandCardType();
-
-            CommandCardData cardDataOfChangedType = null;
-            for (final CommandCard commandCard : commandCards) {
-                if (commandCard.getCommandCardType() == cardTypeOfChangedType) {
-                    cardDataOfChangedType = commandCard.getCommandCardData();
-                    break;
-                }
-            }
-
-            final CommandCard supposedCard = commandCards.get(index);
-            return new CommandCard(
-                    cardDataOfChangedType,
-                    supposedCard.getCommandCodeData(),
-                    supposedCard.getCommandCodeBuffs(),
-                    supposedCard.getCommandCardStrengthen()
-            );
-        } else {
-            return commandCards.get(index);
-        }
-    }
-
     @Override
     public List<String> getAllTraits(final Simulation simulation) {
         final ImmutableList.Builder<String> allTraits = ImmutableList.builder();
@@ -334,77 +256,23 @@ public class Servant extends Combatant {
         simulation.unsetActivator();
     }
 
-    public boolean canActivateNoblePhantasm(final Simulation simulation) {
-        simulation.setActivator(this);
-
-        final boolean canActivate = currentNp >= 1 && !isNpInaccessible() && noblePhantasm.canActivate(simulation);
-
-        simulation.unsetActivator();
-
-        return canActivate;
-    }
-
-    public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
-        final boolean isCrit = simulation.isCriticalStrike();
-        simulation.setActivator(this);
-        simulation.setCriticalStrike(false);
-
-        final int overchargeLevel = calculateOverchargeLevel(simulation, extraOvercharge);
-        if (simulation.getStatsLogger() != null) {
-            simulation.getStatsLogger().logNoblePhantasm(getId(), overchargeLevel);
+    @Override
+    public boolean npCheck() {
+        if (!isAlly) {
+            return super.npCheck();
         }
+
+        return currentNp >= 1;
+    }
+
+    @Override
+    public void resetNp() {
+        if (!isAlly) {
+            super.resetNp();
+            return;
+        }
+
         currentNp = 0;
-        noblePhantasm.activate(simulation, overchargeLevel);
-
-        simulation.setCriticalStrike(isCrit);
-        simulation.unsetActivator();
-    }
-
-    public void activateCommandCard(
-            final Simulation simulation,
-            final int commandCardIndex,
-            final int chainIndex,
-            final boolean isCriticalStrike,
-            final CommandCardType firstCardType,
-            final boolean isTypeChain,
-            final boolean isTriColorChain
-    ) {
-        final boolean isCrit = simulation.isCriticalStrike();
-        simulation.setActivator(this);
-        simulation.setAttacker(this);
-        simulation.setDefender(simulation.getTargetedEnemy());
-        simulation.setCurrentCommandCard(getCommandCard(commandCardIndex));
-        simulation.setCriticalStrike(isCriticalStrike);
-
-        CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain, isTriColorChain);
-
-        simulation.setCriticalStrike(isCrit);
-        simulation.unsetCurrentCommandCard();
-        simulation.unsetDefender();
-        simulation.unsetAttacker();
-        simulation.unsetActivator();
-    }
-
-    public void activateExtraAttack(
-            final Simulation simulation,
-            final CommandCardType firstCardType,
-            final boolean isTypeChain,
-            final boolean isTriColorChain
-    ) {
-        final boolean isCrit = simulation.isCriticalStrike();
-        simulation.setActivator(this);
-        simulation.setAttacker(this);
-        simulation.setDefender(simulation.getTargetedEnemy());
-        simulation.setCurrentCommandCard(extraCommandCard);
-        simulation.setCriticalStrike(false);
-
-        CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain, isTriColorChain);
-
-        simulation.setCriticalStrike(isCrit);
-        simulation.unsetCurrentCommandCard();
-        simulation.unsetDefender();
-        simulation.unsetAttacker();
-        simulation.unsetActivator();
     }
 
     /*
@@ -466,7 +334,9 @@ public class Servant extends Combatant {
 
         final Status servantStatus = servantAscensionData.getServantStatusData(servantLevel - 1);
         attack = servantStatus.getATK();
-        hpBars = new ArrayList<>(ImmutableList.of(servantStatus.getHP()));
+        if (isAlly) {
+            hpBars = new ArrayList<>(ImmutableList.of(servantStatus.getHP()));
+        }
 
         final NoblePhantasmData noblePhantasmData = servantAscensionData.getNoblePhantasmUpgrades()
                 .getNoblePhantasmData(servantOption.getNoblePhantasmRank() - 1);
@@ -519,25 +389,9 @@ public class Servant extends Combatant {
         return currentRank + increasedRank;
     }
 
-    @VisibleForTesting
-    int calculateOverchargeLevel(final Simulation simulation, final int extraOvercharge) {
-        int overchargeBuff = 0;
-
-        for (final Buff buff : fetchBuffs(OVERCHARGE_BUFF)) {
-            if (buff.shouldApply(simulation)) {
-                overchargeBuff += buff.getValue();
-                buff.setApplied();
-            }
-        }
-
-        final int calculatedOvercharge = overchargeBuff + extraOvercharge + (int) currentNp;
-        if (calculatedOvercharge > 5) {
-            return 5;
-        } else if (calculatedOvercharge < 1) {
-            return 1;
-        } else {
-            return calculatedOvercharge;
-        }
+    @Override
+    int convertOC() {
+        return (int) currentNp;
     }
 
     public static double getNpCap(final int npLevel) {
@@ -564,16 +418,12 @@ public class Servant extends Combatant {
 
         this.servantData = other.servantData;
         this.servantOption = other.servantOption;
-        this.attack = other.attack;
         this.attackStatusUp = other.attackStatusUp;
         this.hpStatusUp = other.hpStatusUp;
         this.ascension = other.ascension;
         this.servantLevel = other.servantLevel;
         this.noblePhantasmLevel = other.noblePhantasmLevel;
         this.bond = other.bond;
-        this.commandCards = Lists.newArrayList(other.commandCards);
-        this.extraCommandCard = other.extraCommandCard;
-        this.noblePhantasm = other.noblePhantasm;
         this.activeSkills = Lists.newArrayList();
         for (final ActiveSkill activeSkill : other.activeSkills) {
             this.activeSkills.add(activeSkill.makeCopy());
