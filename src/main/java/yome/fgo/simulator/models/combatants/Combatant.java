@@ -317,6 +317,7 @@ public class Combatant {
     public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
         final boolean isCrit = simulation.isCriticalStrike();
         simulation.setActivator(this);
+        simulation.setAttacker(this);
         simulation.setCriticalStrike(false);
 
         final int overchargeLevel = calculateOverchargeLevel(simulation, extraOvercharge);
@@ -327,6 +328,7 @@ public class Combatant {
         noblePhantasm.activate(simulation, overchargeLevel);
 
         simulation.setCriticalStrike(isCrit);
+        simulation.unsetAttacker();
         simulation.unsetActivator();
     }
 
@@ -342,7 +344,6 @@ public class Combatant {
         final boolean isCrit = simulation.isCriticalStrike();
         simulation.setActivator(this);
         simulation.setAttacker(this);
-        simulation.setDefender(simulation.getTargetedEnemy());
         simulation.setCurrentCommandCard(getCommandCard(commandCardIndex));
         simulation.setCriticalStrike(isCriticalStrike);
 
@@ -350,7 +351,6 @@ public class Combatant {
 
         simulation.setCriticalStrike(isCrit);
         simulation.unsetCurrentCommandCard();
-        simulation.unsetDefender();
         simulation.unsetAttacker();
         simulation.unsetActivator();
     }
@@ -364,7 +364,6 @@ public class Combatant {
         final boolean isCrit = simulation.isCriticalStrike();
         simulation.setActivator(this);
         simulation.setAttacker(this);
-        simulation.setDefender(simulation.getTargetedEnemy());
         simulation.setCurrentCommandCard(extraCommandCard);
         simulation.setCriticalStrike(false);
 
@@ -372,7 +371,6 @@ public class Combatant {
 
         simulation.setCriticalStrike(isCrit);
         simulation.unsetCurrentCommandCard();
-        simulation.unsetDefender();
         simulation.unsetAttacker();
         simulation.unsetActivator();
     }

@@ -168,6 +168,10 @@ public class Servant extends Combatant {
         return attack + craftEssenceAtk + attackStatusUp;
     }
 
+    public double getDefNpCharge() {
+        return servantData.getServantAscensionData(ascension - 1).getDefenseNpRate();
+    }
+
     public String getActiveSkillIconPath(final Simulation simulation, final int activeSkillIndex) {
         simulation.setActivator(this);
 

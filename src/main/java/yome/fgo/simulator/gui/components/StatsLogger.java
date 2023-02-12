@@ -174,6 +174,7 @@ public class StatsLogger extends VBox {
             final CommandCard currentCard,
             final int totalDamage,
             final double totalNp,
+            final double defTotalNp,
             final double totalCritStar,
             final int overkillCount,
             final int hits
@@ -200,12 +201,13 @@ public class StatsLogger extends VBox {
         }
 
         final String message = String.format(
-                getTranslation(APPLICATION_SECTION, "%s executes %s on %s, total damage: %d, total NP: %s, total critical star: %s, overkill: %d/%d"),
+                getTranslation(APPLICATION_SECTION, "%s executes %s on %s, total damage: %d, total NP: %s, def total NP: %s, total critical star: %s, overkill: %d/%d"),
                 getTranslation(ENTITY_NAME_SECTION, attackerId),
                 commandCardString,
                 getTranslation(ENTITY_NAME_SECTION, defenderId),
                 totalDamage,
                 percentFormat.format(totalNp),
+                percentFormat.format(defTotalNp),
                 numberFormat.format(totalCritStar),
                 overkillCount,
                 hits

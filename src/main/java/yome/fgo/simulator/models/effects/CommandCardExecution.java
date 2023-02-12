@@ -8,12 +8,14 @@ import yome.fgo.data.proto.FgoStorageData.FateClass;
 import yome.fgo.simulator.models.Simulation;
 import yome.fgo.simulator.models.combatants.Combatant;
 import yome.fgo.simulator.models.combatants.CommandCard;
+import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.effects.buffs.BuffType;
 import yome.fgo.simulator.utils.RoundUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
@@ -27,6 +29,7 @@ import static yome.fgo.simulator.models.effects.buffs.BuffType.CRITICAL_STAR_GEN
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_ADDITION_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_REDUCTION_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DEFENSE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DEF_NP_GENERATION_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.EVADE;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.HITS_DOUBLED_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.IGNORE_DEFENSE_BUFF;
@@ -146,27 +149,43 @@ public class CommandCardExecution {
                 .criticalDamageBuff(criticalDamageBuff)
                 .fixedRandom(simulation.getFixedRandom());
 
-        final NpParameters.NpParametersBuilder npParameters = NpParameters.builder()
-                .npCharge(currentCard.getNpCharge())
-                .defenderClass(defenderClass)
-                .useUndeadNpCorrection(defender.getUndeadNpCorrection())
-                .currentCardType(currentCardType)
-                .chainIndex(chainIndex)
-                .isCriticalStrike(isCriticalStrike)
-                .useFirstCardBoost(firstCardType == ARTS || isTriColorChain)
-                .commandCardBuff(commandCardBuff)
-                .npGenerationBuff(npGenerationBuff)
-                .classNpCorrection(classNpCorrection);
+        final NpParameters.NpParametersBuilder npParameters = NpParameters.builder();
+        final CriticalStarParameters.CriticalStarParametersBuilder critStarParams = CriticalStarParameters.builder();
+        if (attacker.isAlly()) {
+            npParameters.npCharge(currentCard.getNpCharge())
+                    .defenderClass(defenderClass)
+                    .useUndeadNpCorrection(defender.getUndeadNpCorrection())
+                    .currentCardType(currentCardType)
+                    .chainIndex(chainIndex)
+                    .isCriticalStrike(isCriticalStrike)
+                    .useFirstCardBoost(firstCardType == ARTS || isTriColorChain)
+                    .commandCardBuff(commandCardBuff)
+                    .npGenerationBuff(npGenerationBuff)
+                    .classNpCorrection(classNpCorrection);
 
-        final CriticalStarParameters.CriticalStarParametersBuilder critStarParams = CriticalStarParameters.builder()
-                .servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
-                .defenderClass(defenderClass)
-                .currentCardType(currentCardType)
-                .chainIndex(chainIndex)
-                .isCriticalStrike(isCriticalStrike)
-                .useFirstCardBoost(firstCardType == QUICK || isTriColorChain)
-                .commandCardBuff(commandCardBuff)
-                .critStarGenerationBuff(critStarGenerationBuff);
+            critStarParams.servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
+                    .defenderClass(defenderClass)
+                    .currentCardType(currentCardType)
+                    .chainIndex(chainIndex)
+                    .isCriticalStrike(isCriticalStrike)
+                    .useFirstCardBoost(firstCardType == QUICK || isTriColorChain)
+                    .commandCardBuff(commandCardBuff)
+                    .critStarGenerationBuff(critStarGenerationBuff);
+        }
+
+        final DefNpParameters.DefNpParametersBuilder defNpParameters = DefNpParameters.builder();
+        if (defender.isAlly()) {
+            final Servant defendServant = (Servant) defender;
+            final double attackerClassNpCorrection = attacker.getCombatantData().getUseCustomNpMod()
+                    ? attacker.getCombatantData().getCustomNpMod()
+                    : getClassNpCorrection(attacker.getFateClass());
+            defNpParameters.defNpCharge(defendServant.getDefNpCharge())
+                    .attackerClass(attacker.getFateClass())
+                    .classNpCorrection(attackerClassNpCorrection)
+                    .useUndeadNpCorrection(attacker.getUndeadNpCorrection())
+                    .npGenerationBuff(defendServant.applyValuedBuff(simulation, NP_GENERATION_BUFF))
+                    .defNpGenerationBuff(defendServant.applyValuedBuff(simulation, DEF_NP_GENERATION_BUFF));
+        }
 
         final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
         if (!skipDamage) {
@@ -184,70 +203,39 @@ public class CommandCardExecution {
                     .percentDefenseBuff(percentDefenseBuff)
                     .damageReductionBuff(damageReductionBuff);
 
-            npParameters.commandCardResist(commandCardResist);
+            if (attacker.isAlly()) {
+                npParameters.commandCardResist(commandCardResist);
 
-            critStarParams.commandCardResist(commandCardResist);
+                critStarParams.commandCardResist(commandCardResist);
+            }
         }
 
         if (simulation.getStatsLogger() != null) {
             simulation.getStatsLogger().logDamageParameter(damageParameters.toString());
-            simulation.getStatsLogger().logDamageParameter(npParameters.toString());
-            simulation.getStatsLogger().logDamageParameter(critStarParams.toString());
+            if (attacker.isAlly()) {
+                simulation.getStatsLogger().logDamageParameter(npParameters.toString());
+                simulation.getStatsLogger().logDamageParameter(critStarParams.toString());
+            }
+
+            if (defender.isAlly()) {
+                simulation.getStatsLogger().logDamageParameter(defNpParameters.toString());
+            }
         }
 
         final int totalDamage = calculateTotalDamage(damageParameters.build());
-
-        int remainingDamage = totalDamage;
-
-        double totalNp = 0;
-        double totalCritStar = 0;
-        int overkillCount = 0;
-        for (int i = 0; i < hitsPercentages.size(); i += 1) {
-            if (!skipDamage) {
-                final double hitsPercentage = hitsPercentages.get(i);
-                final int hitDamage;
-                if (i < hitsPercentages.size() - 1) {
-                    hitDamage = (int) (totalDamage * hitsPercentage / 100.0);
-                } else {
-                    hitDamage = remainingDamage;
-                }
-
-                remainingDamage -= hitDamage;
-
-                defender.receiveDamage(hitDamage);
-            }
-
-            final boolean isOverkill = defender.isAlreadyDead() || defender.isBuggedOverkill();
-            if (isOverkill) {
-                overkillCount += 1;
-            }
-
-            final double hitNpGain = calculateNpGain(npParameters.build(), isOverkill);
-            totalNp = RoundUtils.roundNearest(hitNpGain + totalNp);
-            attacker.changeNp(hitNpGain);
-
-            final double hitStars = calculateCritStar(critStarParams.build(), isOverkill);
-            if (hitStars > 3) {
-                totalCritStar += 3;
-            } else {
-                totalCritStar += hitStars;
-            }
-        }
-        simulation.gainStar(RoundUtils.roundNearest(totalCritStar));
-
-        if (simulation.getStatsLogger() != null) {
-            simulation.getStatsLogger().logCommandCardAction(
-                    attacker.getId(),
-                    defender.getId(),
-                    currentCard,
-                    totalDamage - remainingDamage,
-                    totalNp,
-                    totalCritStar,
-                    overkillCount,
-                    hitsPercentages.size()
-            );
-        }
-
+        final int damageDealt = hitExecution(
+                simulation,
+                attacker,
+                defender,
+                currentCard,
+                hitsPercentages,
+                skipDamage,
+                totalDamage,
+                npParameters.build(),
+                critStarParams.build(),
+                defNpParameters.build(),
+                (combatant) -> combatant.isAlreadyDead() || combatant.isBuggedOverkill()
+        );
 
         activateEffectActivatingBuff(simulation, attacker, currentCard, POST_ATTACK_EFFECT);
         defender.activateEffectActivatingBuff(simulation, POST_DEFENSE_EFFECT);
@@ -262,7 +250,7 @@ public class CommandCardExecution {
         simulation.checkBuffStatus();
 
         // overkill bug
-        defender.addCumulativeTurnDamage(totalDamage - remainingDamage);
+        defender.addCumulativeTurnDamage(damageDealt);
     }
 
     public static boolean shouldSkipDamage(
@@ -319,6 +307,83 @@ public class CommandCardExecution {
         return attacker.consumeFirstBuff(simulation, buffType) || currentCard.consumeBuffIfExist(simulation, buffType);
     }
 
+    public static int hitExecution(
+            final Simulation simulation,
+            final Combatant attacker,
+            final Combatant defender,
+            final CommandCard currentCard,
+            final List<Double> hitsPercentages,
+            final boolean skipDamage,
+            final int totalDamage,
+            final NpParameters npParameters,
+            final CriticalStarParameters critStarParams,
+            final DefNpParameters defNpParameters,
+            final Function<Combatant, Boolean> overkillCheck
+    ) {
+        int remainingDamage = totalDamage;
+        double totalNp = 0;
+        double defTotalNp = 0;
+        double totalCritStar = 0;
+        int overkillCount = 0;
+        for (int i = 0; i < hitsPercentages.size(); i += 1) {
+            if (!skipDamage) {
+                final double hitsPercentage = hitsPercentages.get(i);
+                final int hitDamage;
+                if (i < hitsPercentages.size() - 1) {
+                    hitDamage = (int) (totalDamage * hitsPercentage / 100.0);
+                } else {
+                    hitDamage = remainingDamage;
+                }
+
+                remainingDamage -= hitDamage;
+
+                defender.receiveDamage(hitDamage);
+            }
+
+            final boolean isOverkill = overkillCheck.apply(defender);
+            if (isOverkill) {
+                overkillCount += 1;
+            }
+
+            if (attacker.isAlly()) {
+                final double hitNpGain = calculateNpGain(npParameters, isOverkill);
+                totalNp = RoundUtils.roundNearest(hitNpGain + totalNp);
+                attacker.changeNp(hitNpGain);
+
+                final double hitStars = calculateCritStar(critStarParams, isOverkill);
+                if (hitStars > 3) {
+                    totalCritStar += 3;
+                } else {
+                    totalCritStar += hitStars;
+                }
+            }
+
+            if (defender.isAlly()) {
+                final double hitNpGain = calculateDefNpGain(defNpParameters, isOverkill);
+
+                defTotalNp = RoundUtils.roundNearest(hitNpGain + defTotalNp);
+                defender.changeNp(hitNpGain);
+            }
+        }
+        simulation.gainStar(RoundUtils.roundNearest(totalCritStar));
+
+        final int damageDealt = totalDamage - remainingDamage;
+        if (simulation.getStatsLogger() != null) {
+            simulation.getStatsLogger().logCommandCardAction(
+                    attacker.getId(),
+                    defender.getId(),
+                    currentCard,
+                    damageDealt,
+                    totalNp,
+                    defTotalNp,
+                    totalCritStar,
+                    overkillCount,
+                    hitsPercentages.size()
+            );
+        }
+        return damageDealt;
+    }
+
     public static int calculateTotalDamage(final DamageParameters damageParameters) {
         // fixed values
         final double classAttackCorrection = getClassAttackCorrection(damageParameters.attackerClass);
@@ -373,6 +438,19 @@ public class CommandCardExecution {
         final double hitNpBeforeRound = npParameters.npCharge * classNpCorrection * undeadNpCorrection *
                 (commandCardNpCorrection * (1 + commandCardBuff - npParameters.commandCardResist) + artsStartNpBoost) *
                 (1 + npParameters.npGenerationBuff) * criticalStrikeNpCorrection * 10000;
+        final double roundedNpBeforeOverkillBonus = ((int) hitNpBeforeRound) * overkillNpBonus;
+        final double roundedNp2 = (int) roundedNpBeforeOverkillBonus;
+
+        return Math.max(0, RoundUtils.roundNearest(roundedNp2 / 10000));
+    }
+
+    public static double calculateDefNpGain(final DefNpParameters defNpParameters, final boolean isOverkill) {
+        final double undeadNpCorrection = defNpParameters.useUndeadNpCorrection ? 1.2 : 1;
+        final double overkillNpBonus = isOverkill ? 1.5 : 1;
+
+        final double hitNpBeforeRound = defNpParameters.defNpCharge * defNpParameters.classNpCorrection *
+                undeadNpCorrection * (1 + defNpParameters.npGenerationBuff) * (1 + defNpParameters.defNpGenerationBuff);
+
         final double roundedNpBeforeOverkillBonus = ((int) hitNpBeforeRound) * overkillNpBonus;
         final double roundedNp2 = (int) roundedNpBeforeOverkillBonus;
 
@@ -441,6 +519,17 @@ public class CommandCardExecution {
         private final double commandCardBuff;
         private final double commandCardResist;
         private final double npGenerationBuff;
+        private final double classNpCorrection;
+    }
+
+    @Builder
+    @ToString
+    public static class DefNpParameters {
+        private final double defNpCharge;
+        private final FateClass attackerClass;
+        private final boolean useUndeadNpCorrection;
+        private final double npGenerationBuff;
+        private final double defNpGenerationBuff;
         private final double classNpCorrection;
     }
 

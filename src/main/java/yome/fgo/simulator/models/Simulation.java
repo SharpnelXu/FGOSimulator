@@ -109,9 +109,6 @@ public class Simulation {
 
     public double fixedRandom;
     public double probabilityThreshold;
-
-    // For activating chain effect & custom effects & level & stage effects
-    private Combatant nullSourceSkillActivator = new Servant("nullSource"); // on ally side
     private Combatant mysticCodeActivator = new Servant("master"); // on ally side
 
     /*
@@ -119,6 +116,9 @@ public class Simulation {
      * Execution Fields
      * ================================================================================
      */
+    // For activating chain effect & custom effects & level & stage effects
+    private Combatant nullSourceSkillActivator = new Servant("nullSource"); // on ally side
+    private boolean simulateEnemyAction;
     private List<Integer> orderChangeSelections;
     private CommandCardType selectedCommandCardType;
     private EffectData selectedEffectData;
@@ -440,7 +440,7 @@ public class Simulation {
         for (int i = 0; i < combatActions.size(); i += 1) {
             final CombatAction combatAction = combatActions.get(i);
             final Servant servant = currentServants.get(combatAction.servantIndex);
-            setAttacker(servant);
+
             if (canAttack(servant) && !isAllEnemiesDead()) {
                 if (combatAction.isNoblePhantasm) {
                     if (servant.isNpInaccessible()) {
@@ -449,6 +449,7 @@ public class Simulation {
                     servant.activateNoblePhantasm(this, extraOvercharge);
                     extraOvercharge += 1;
                 } else {
+                    setDefender(getTargetedEnemy());
                     servant.activateCommandCard(
                             this,
                             combatAction.commandCardIndex,
@@ -459,6 +460,7 @@ public class Simulation {
                             triColorChain
                     );
                     extraOvercharge = 0;
+                    unsetDefender();
                 }
             }
 
@@ -466,22 +468,21 @@ public class Simulation {
                 removeDeadEnemies();
                 removeDeadAlly();
             }
-            unsetAttacker();
         }
 
         if (isBraveChain(combatActions) && currentEnemies.get(currentEnemyTargetIndex) != null) {
             final Servant servant = currentServants.get(combatActions.get(0).servantIndex);
-            setAttacker(servant);
             if (canAttack(servant)) {
+                setDefender(getTargetedEnemy());
                 servant.activateExtraAttack(
                         this,
                         firstCardType,
                         typeChain,
                         triColorChain
                 );
+                unsetDefender();
             }
             removeDeadEnemies();
-            unsetAttacker();
         }
 
         for (final Combatant combatant : getAliveEnemies()) {
@@ -669,6 +670,12 @@ public class Simulation {
                     combatant.hpBarBreak(this);
                 }
                 combatant.startOfMyTurn(this);
+            }
+        }
+
+        if (simulateEnemyAction) {
+            for (final Combatant combatant : currentEnemies) {
+
             }
         }
     }

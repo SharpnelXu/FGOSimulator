@@ -26,7 +26,6 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.newCapture;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static yome.fgo.data.proto.FgoStorageData.Attribute.MAN;
 import static yome.fgo.data.proto.FgoStorageData.Attribute.SKY;
 import static yome.fgo.data.proto.FgoStorageData.CommandCardType.ARTS;
@@ -94,6 +93,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         defender = niceMock(Combatant.class);
 
         expect(simulation.getAttacker()).andReturn(attacker);
+        expect(attacker.isAlly()).andReturn(true).anyTimes();
         expect(simulation.getDefender()).andReturn(defender);
         expect(attacker.getBuffs()).andReturn(ImmutableList.of()).anyTimes();
         expect(defender.getBuffs()).andReturn(ImmutableList.of()).anyTimes();
@@ -149,6 +149,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         defender = niceMock(Combatant.class);
 
         expect(simulation.getAttacker()).andReturn(attacker);
+        expect(attacker.isAlly()).andReturn(true).anyTimes();
         expect(simulation.getDefender()).andReturn(defender);
         expect(defender.getFateClass()).andReturn(CASTER).anyTimes();
         expect(simulation.getCurrentCommandCard()).andReturn(KAMA_AVENGER_EXTRA);
@@ -202,6 +203,7 @@ public class CommandCardExecutionTest extends EasyMockSupport {
         defender = niceMock(Combatant.class);
 
         expect(simulation.getAttacker()).andReturn(attacker);
+        expect(attacker.isAlly()).andReturn(true).anyTimes();
         expect(simulation.getDefender()).andReturn(defender);
         expect(defender.getFateClass()).andReturn(CASTER).anyTimes();
         expect(simulation.getCurrentCommandCard()).andReturn(KAMA_AVENGER_EXTRA);

@@ -14,6 +14,7 @@ import yome.fgo.simulator.models.combatants.CommandCard;
 import yome.fgo.simulator.models.combatants.Servant;
 import yome.fgo.simulator.models.conditions.Condition;
 import yome.fgo.simulator.models.effects.CommandCardExecution.CriticalStarParameters;
+import yome.fgo.simulator.models.effects.CommandCardExecution.DefNpParameters;
 import yome.fgo.simulator.models.effects.CommandCardExecution.NpParameters;
 import yome.fgo.simulator.models.effects.buffs.Buff;
 import yome.fgo.simulator.models.variations.Variation;
@@ -23,9 +24,8 @@ import yome.fgo.simulator.utils.TargetUtils;
 import java.util.List;
 
 import static yome.fgo.simulator.models.conditions.Never.NEVER;
-import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateCritStar;
-import static yome.fgo.simulator.models.effects.CommandCardExecution.calculateNpGain;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.getHitsPercentages;
+import static yome.fgo.simulator.models.effects.CommandCardExecution.hitExecution;
 import static yome.fgo.simulator.models.effects.CommandCardExecution.shouldSkipDamage;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.ATTACK_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.COMMAND_CARD_BUFF;
@@ -34,6 +34,7 @@ import static yome.fgo.simulator.models.effects.buffs.BuffType.CRITICAL_STAR_GEN
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_ADDITION_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DAMAGE_REDUCTION_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.DEFENSE_BUFF;
+import static yome.fgo.simulator.models.effects.buffs.BuffType.DEF_NP_GENERATION_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.IGNORE_DEFENSE_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_DAMAGE_BUFF;
 import static yome.fgo.simulator.models.effects.buffs.BuffType.NP_DAMAGE_BUFF_EFFECTIVENESS_UP;
@@ -179,27 +180,43 @@ public class NoblePhantasmDamage extends Effect {
                     .damageAdditionBuff(damageAdditionBuff)
                     .fixedRandom(simulation.getFixedRandom());
 
-            final NpParameters.NpParametersBuilder npParameters = NpParameters.builder()
-                    .npCharge(currentCard.getNpCharge())
-                    .defenderClass(defenderClass)
-                    .useUndeadNpCorrection(defender.getUndeadNpCorrection())
-                    .currentCardType(currentCardType)
-                    .chainIndex(0)
-                    .isCriticalStrike(false)
-                    .useFirstCardBoost(false)
-                    .commandCardBuff(commandCardBuff)
-                    .npGenerationBuff(npGenerationBuff)
-                    .classNpCorrection(classNpCorrection);
+            final NpParameters.NpParametersBuilder npParameters = NpParameters.builder();
+            final CriticalStarParameters.CriticalStarParametersBuilder critStarParams = CriticalStarParameters.builder();
+            if (attacker.isAlly()) {
+                npParameters.npCharge(currentCard.getNpCharge())
+                        .defenderClass(defenderClass)
+                        .useUndeadNpCorrection(defender.getUndeadNpCorrection())
+                        .currentCardType(currentCardType)
+                        .chainIndex(0)
+                        .isCriticalStrike(false)
+                        .useFirstCardBoost(false)
+                        .commandCardBuff(commandCardBuff)
+                        .npGenerationBuff(npGenerationBuff)
+                        .classNpCorrection(classNpCorrection);
 
-            final CriticalStarParameters.CriticalStarParametersBuilder critStarParams = CriticalStarParameters.builder()
-                    .servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
-                    .defenderClass(defenderClass)
-                    .currentCardType(currentCardType)
-                    .chainIndex(0)
-                    .isCriticalStrike(false)
-                    .useFirstCardBoost(false)
-                    .commandCardBuff(commandCardBuff)
-                    .critStarGenerationBuff(critStarGenerationBuff);
+                critStarParams.servantCriticalStarGeneration(currentCard.getCriticalStarGeneration())
+                        .defenderClass(defenderClass)
+                        .currentCardType(currentCardType)
+                        .chainIndex(0)
+                        .isCriticalStrike(false)
+                        .useFirstCardBoost(false)
+                        .commandCardBuff(commandCardBuff)
+                        .critStarGenerationBuff(critStarGenerationBuff);
+            }
+
+            final DefNpParameters.DefNpParametersBuilder defNpParameters = DefNpParameters.builder();
+            if (defender.isAlly()) {
+                final Servant defendServant = (Servant) defender;
+                final double attackerClassNpCorrection = attacker.getCombatantData().getUseCustomNpMod()
+                        ? attacker.getCombatantData().getCustomNpMod()
+                        : getClassNpCorrection(attacker.getFateClass());
+                defNpParameters.defNpCharge(defendServant.getDefNpCharge())
+                        .attackerClass(attacker.getFateClass())
+                        .classNpCorrection(attackerClassNpCorrection)
+                        .useUndeadNpCorrection(attacker.getUndeadNpCorrection())
+                        .npGenerationBuff(defendServant.applyValuedBuff(simulation, NP_GENERATION_BUFF))
+                        .defNpGenerationBuff(defendServant.applyValuedBuff(simulation, DEF_NP_GENERATION_BUFF));
+            }
 
             final boolean skipDamage = shouldSkipDamage(simulation, attacker, defender, currentCard);
 
@@ -235,59 +252,19 @@ public class NoblePhantasmDamage extends Effect {
             }
 
             final int totalDamage = calculateTotalNpDamage(npDamageParams.build());
-
-            int remainingDamage = totalDamage;
-
-            double totalNp = 0;
-            double totalCritStar = 0;
-            int overkillCount = 0;
-            for (int i = 0; i < hitsPercentages.size(); i += 1) {
-                if (!skipDamage) {
-                    final double hitsPercentage = hitsPercentages.get(i);
-                    final int hitDamage;
-                    if (i < hitsPercentages.size() - 1) {
-                        hitDamage = (int) (totalDamage * hitsPercentage / 100.0);
-                    } else {
-                        hitDamage = remainingDamage;
-                    }
-
-                    remainingDamage -= hitDamage;
-
-                    defender.receiveDamage(hitDamage);
-                }
-
-                final boolean isOverkill = defender.isAlreadyDead();
-                if (isOverkill) {
-                    overkillCount += 1;
-                }
-
-                final double hitNpGain = calculateNpGain(npParameters.build(), isOverkill);
-                totalNp = RoundUtils.roundNearest(hitNpGain + totalNp);
-                attacker.changeNp(hitNpGain);
-
-                final double hitStars = calculateCritStar(critStarParams.build(), isOverkill);
-                if (hitStars > 3) {
-                    totalCritStar += 3;
-                } else {
-                    totalCritStar += hitStars;
-                }
-            }
-            if (attacker.isAlly()) {
-                simulation.gainStar(totalCritStar);
-            }
-
-            if (simulation.getStatsLogger() != null) {
-                simulation.getStatsLogger().logCommandCardAction(
-                        attacker.getId(),
-                        defender.getId(),
-                        currentCard,
-                        totalDamage - remainingDamage,
-                        totalNp,
-                        totalCritStar,
-                        overkillCount,
-                        hitsPercentages.size()
-                );
-            }
+            final int damageDealt = hitExecution(
+                    simulation,
+                    attacker,
+                    defender,
+                    currentCard,
+                    hitsPercentages,
+                    skipDamage,
+                    totalDamage,
+                    npParameters.build(),
+                    critStarParams.build(),
+                    defNpParameters.build(),
+                    Combatant::isAlreadyDead
+            );
 
             attacker.activateEffectActivatingBuff(simulation, POST_ATTACK_EFFECT);
             defender.activateEffectActivatingBuff(simulation, POST_DEFENSE_EFFECT);
@@ -300,7 +277,7 @@ public class NoblePhantasmDamage extends Effect {
             }
 
             // overkill bug
-            defender.addCumulativeTurnDamage(totalDamage - remainingDamage);
+            defender.addCumulativeTurnDamage(damageDealt);
 
             simulation.unsetDefender();
         }
