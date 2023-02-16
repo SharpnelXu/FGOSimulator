@@ -306,7 +306,7 @@ public class Combatant {
      * ================================================================================
      */
     public boolean npCheck() {
-        return currentNpGauge == maxNpGauge;
+        return currentNpGauge == maxNpGauge && maxNpGauge > 0;
     }
 
     public boolean canActivateNoblePhantasm(final Simulation simulation) {
@@ -320,7 +320,7 @@ public class Combatant {
     }
 
     public void resetNp() {
-        currentNpGauge = 0;
+        // enemy gauge is reset in endOfMyTurn()
     }
 
     public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {

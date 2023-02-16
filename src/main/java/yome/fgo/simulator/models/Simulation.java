@@ -670,8 +670,6 @@ public class Simulation {
     }
 
     private void executeEnemyTurn() {
-
-
         for (final Combatant combatant : currentEnemies) {
             if (combatant != null) {
                 if (combatant.getCurrentHp() <= 0) {

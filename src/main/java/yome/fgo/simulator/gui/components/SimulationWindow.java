@@ -754,8 +754,7 @@ public class SimulationWindow {
         combatantImage.setFitWidth(SERVANT_THUMBNAIL_SIZE);
         final AnchorPane imgAnchor = wrapInAnchor(combatantImage);
         imgAnchor.setStyle(UNIT_THUMBNAIL_STYLE);
-        final boolean isServant = combatant instanceof Servant;
-        if (isServant) {
+        if (combatant instanceof Servant) {
             combatantImage.setImage(getServantImage(combatant.getId(), ((Servant) combatant).getAscension()));
         } else {
             combatantImage.setImage(getEnemyImage(combatant.getEnemyData().getEnemyCategories(), combatant.getId()));
@@ -766,7 +765,6 @@ public class SimulationWindow {
         final TextField atkText = new TextField(combatant.getAttack() + "");
         atkText.setMaxWidth(100);
         attackHBox.getChildren().add(atkText);
-        attackHBox.setDisable(isServant);
         combatantVBox.getChildren().addAll(imgAnchor, attackHBox);
 
         final VBox commandCardsVBox = new VBox(10);
