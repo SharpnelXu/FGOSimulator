@@ -1,0 +1,14 @@
+{
+  "buffs": [{
+    "type": "NpGenerationBuff",
+    "values": [0.05],
+    "buffIcon": "npGainUp"
+  }, {
+    "type": "CriticalStarWeightBuff",
+    "values": [0.5],
+    "buffIcon": "starWeightUp"
+  }],
+  "id": "commandCode114",
+  "ccNum": 114,
+  "rarity": 4
+}

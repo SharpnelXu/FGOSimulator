@@ -1,0 +1,15 @@
+{
+  "buffs": [{
+    "type": "SpecificAttackBuff",
+    "applyCondition": {
+      "type": "TargetsHaveTrait",
+      "value": "CHAOTIC",
+      "target": "DEFENDER"
+    },
+    "values": [0.25],
+    "buffIcon": "specialDamageUp"
+  }],
+  "id": "commandCode138",
+  "ccNum": 138,
+  "rarity": 5
+}
