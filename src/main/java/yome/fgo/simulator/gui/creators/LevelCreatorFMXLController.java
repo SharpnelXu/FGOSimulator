@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -56,7 +55,9 @@ import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static yome.fgo.simulator.ResourceManager.MYSTIC_CODE_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectMysticCode;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.DEFAULT_18;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
@@ -112,7 +113,7 @@ public class LevelCreatorFMXLController implements Initializable {
         addStageButton.setText(null);
 
         addStageButton.setGraphic(createInfoImageView("add"));
-        addStageButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add Stage")));
+        addStageButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Add Stage")));
         addStageButton.setOnAction(e -> stagesVBox.getChildren().add(new StageNode(stagesVBox.getChildren().size() + 1, errorLabel, stagesVBox)));
 
         levelEffects = new ListContainerVBox(getTranslation(APPLICATION_SECTION, "Level Effects"), errorLabel, Mode.EFFECT);
@@ -258,11 +259,11 @@ public class LevelCreatorFMXLController implements Initializable {
         formationNameHBox.setVisible(true);
         formationNameHBox.setManaged(true);
         final Button loadFormationButton = new Button(getTranslation(APPLICATION_SECTION, "Load Formation"));
-        loadFormationButton.setFont(new Font(18));
+        loadFormationButton.setFont(DEFAULT_18);
         final Button saveFormationButton = new Button(getTranslation(APPLICATION_SECTION, "Save Formation"));
-        saveFormationButton.setFont(new Font(18));
+        saveFormationButton.setFont(DEFAULT_18);
         final TextField formationNameText = new TextField();
-        formationNameText.setFont(new Font(18));
+        formationNameText.setFont(DEFAULT_18);
         final AnchorPane nameAnchor = wrapInAnchor(formationNameText);
         HBox.setHgrow(nameAnchor, Priority.ALWAYS);
 
@@ -305,11 +306,12 @@ public class LevelCreatorFMXLController implements Initializable {
         nodes.add(miscVBox);
 
         final Button selectMCButton = new Button();
-        final MysticCodeDataAnchorPane defaultMC = MYSTIC_CODE_DATA_ANCHOR_MAP.get(2);
+        final MysticCodeDataAnchorPane defaultMC = MYSTIC_CODE_DATA_ANCHOR_MAP.get(18);
         mysticCodeDataAnchorPane = new MysticCodeDataAnchorPane(defaultMC.getMysticCodeData(), defaultMC.getImages());
+        selectMCButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Select mystic code")));
         selectMCButton.setGraphic(mysticCodeDataAnchorPane);
 
-        final Label mcNameLabel = new Label(getTranslation(ENTITY_NAME_SECTION, "mysticCode2"));
+        final Label mcNameLabel = new Label(getTranslation(ENTITY_NAME_SECTION, "mysticCode18"));
         mcNameLabel.setWrapText(true);
         mcNameLabel.setAlignment(Pos.CENTER);
 
@@ -331,7 +333,7 @@ public class LevelCreatorFMXLController implements Initializable {
 
         final Button viewMCButton = new Button();
         viewMCButton.setGraphic(createInfoImageView("info2"));
-        viewMCButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Details")));
+        viewMCButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Details")));
         viewMCButton.setOnAction(e -> {
             try {
                 MysticCodeCreator.preview(simulationPrepHBox.getScene().getWindow(), mysticCodeDataAnchorPane.getMysticCodeData());

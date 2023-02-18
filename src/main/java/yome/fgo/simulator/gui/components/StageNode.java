@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -34,6 +33,7 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListener;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
@@ -78,7 +78,7 @@ public class StageNode extends VBox {
 
         final Button addEnemyButton = new Button();
         addEnemyButton.setGraphic(createInfoImageView("addEnemy"));
-        addEnemyButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add Enemy")));
+        addEnemyButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Add Enemy")));
         addEnemyButton.setOnAction(e -> {
             final FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialDirectory(new File(ENEMY_DIRECTORY_PATH));
@@ -102,7 +102,7 @@ public class StageNode extends VBox {
 
         final Button addServantButton = new Button();
         addServantButton.setGraphic(createInfoImageView("addServant"));
-        addServantButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add Servant")));
+        addServantButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Add Servant")));
         addServantButton.setOnAction(e -> {
             final FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialDirectory(new File(SERVANT_DIRECTORY_PATH));
@@ -126,7 +126,7 @@ public class StageNode extends VBox {
 
         final Button upButton = new Button();
         upButton.setGraphic(createInfoImageView("up"));
-        upButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move stage up")));
+        upButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move stage up")));
         upButton.setOnAction(e -> {
             final ObservableList<Node> items = stageVBox.getChildren();
             if (items.isEmpty() || items.size() == 1) {
@@ -145,7 +145,7 @@ public class StageNode extends VBox {
 
         final Button downButton = new Button();
         downButton.setGraphic(createInfoImageView("down"));
-        downButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move stage down")));
+        downButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move stage down")));
         downButton.setOnAction(e -> {
             final ObservableList<Node> items = stageVBox.getChildren();
             if (items.isEmpty() || items.size() == 1) {
@@ -164,7 +164,7 @@ public class StageNode extends VBox {
 
         final Button removeButton = new Button();
         removeButton.setGraphic(createInfoImageView("remove"));
-        removeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove stage")));
+        removeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Remove stage")));
         removeButton.setOnAction(e -> {
             final ObservableList<Node> items = stageVBox.getChildren();
             final List<Node> remainingNodes = new ArrayList<>(items);

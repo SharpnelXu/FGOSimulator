@@ -8,7 +8,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -31,6 +30,7 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SI
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -71,7 +71,7 @@ public class NonActiveSkill extends HBox {
 
         final Button upButton = new Button();
         upButton.setGraphic(createInfoImageView("up"));
-        upButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move Skill Up")));
+        upButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move Skill Up")));
         upButton.setOnAction(e -> {
             final ObservableList<Node> children = skillVBox.getChildren();
             if (children.isEmpty() || children.size() == 1) {
@@ -88,7 +88,7 @@ public class NonActiveSkill extends HBox {
 
         final Button downButton = new Button();
         downButton.setGraphic(createInfoImageView("down"));
-        downButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move Skill Down")));
+        downButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move Skill Down")));
         downButton.setOnAction(e -> {
             final ObservableList<Node> children = skillVBox.getChildren();
             if (children.isEmpty() || children.size() == 1) {
@@ -105,7 +105,7 @@ public class NonActiveSkill extends HBox {
 
         final Button removeButton = new Button();
         removeButton.setGraphic(createInfoImageView("remove"));
-        removeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove Skill")));
+        removeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Remove Skill")));
         removeButton.setOnAction(e -> {
             final ObservableList<Node> children = skillVBox.getChildren();
             final List<Node> remainingNodes = new ArrayList<>(children);

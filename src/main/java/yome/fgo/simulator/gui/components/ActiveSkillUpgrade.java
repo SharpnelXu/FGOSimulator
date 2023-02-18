@@ -8,7 +8,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -25,14 +24,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
-import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.LIST_ITEM_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 
@@ -101,7 +101,7 @@ public class ActiveSkillUpgrade extends HBox {
         conditionCheckBox = new CheckBox(getTranslation(APPLICATION_SECTION, "Activate Condition"));
         final Button editConditionButton = new Button();
         editConditionButton.setGraphic(createInfoImageView("edit"));
-        editConditionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit")));
+        editConditionButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Edit")));
 
         coolDownHBox.getChildren().addAll(coolDownLabel, coolDownText, iconFileNameLabel, iconFileNameText, conditionCheckBox, editConditionButton);
 

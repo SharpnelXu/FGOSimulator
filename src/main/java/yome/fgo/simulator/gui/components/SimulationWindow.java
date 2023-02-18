@@ -18,7 +18,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -74,16 +73,19 @@ import static yome.fgo.simulator.ResourceManager.getEnemyThumbnail;
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.getSkillIcon;
 import static yome.fgo.simulator.ResourceManager.getUnknownServantThumbnail;
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
-import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
-import static yome.fgo.simulator.gui.helpers.DataPrinter.printBasicCombatantData;
-import static yome.fgo.simulator.gui.helpers.DataPrinter.printEffectData;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.BUFF_SIZE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.DEFAULT_18;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.DEFAULT_30;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.PERMANENT_BUFF_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printBasicCombatantData;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printEffectData;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENEMY_NAME_SECTION;
@@ -150,6 +152,7 @@ public class SimulationWindow {
         scrollPane.setContent(contentVBox);
 
         final Label levelName = new Label(levelData.getId());
+        levelName.setFont(DEFAULT_30);
 
         contentVBox.getChildren().add(levelName);
 
@@ -405,6 +408,7 @@ public class SimulationWindow {
         switch (specialActivationParams.getSpecialTarget()) {
             case ORDER_CHANGE -> {
                 final Label orderChangeDesc = new Label(getTranslation(APPLICATION_SECTION, "Select servants to swap"));
+                orderChangeDesc.setFont(DEFAULT_18);
                 specialSelectionVBox.getChildren().add(orderChangeDesc);
                 final HBox servantsHBox = new HBox();
                 servantsHBox.setAlignment(Pos.CENTER);
@@ -488,6 +492,7 @@ public class SimulationWindow {
             }
             case CARD_TYPE -> {
                 final Label cardTypeDesc = new Label(getTranslation(APPLICATION_SECTION, "Select card type"));
+                cardTypeDesc.setFont(DEFAULT_18);
                 specialSelectionVBox.getChildren().add(cardTypeDesc);
                 final HBox cardTypesHBox = new HBox();
                 cardTypesHBox.setAlignment(Pos.CENTER);
@@ -519,6 +524,7 @@ public class SimulationWindow {
             }
             case RANDOM_EFFECT -> {
                 final Label effectSelectDesc = new Label(getTranslation(APPLICATION_SECTION, "Select random effect"));
+                effectSelectDesc.setFont(DEFAULT_18);
                 specialSelectionVBox.getChildren().add(effectSelectDesc);
                 final List<EffectData> randomEffectSelections = specialActivationParams.getRandomEffectSelectionsList();
                 for (final EffectData effectData : randomEffectSelections) {
@@ -859,7 +865,7 @@ public class SimulationWindow {
             final Label hitTimes = new Label("0");
             final Button addButton = new Button();
             addButton.setGraphic(createInfoImageView("up"));
-            addButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Increment hit times")));
+            addButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Increment hit times")));
             final int tempI = i;
             addButton.setOnAction(e -> {
                 final int previousTime = targetHits.get(tempI);
@@ -869,7 +875,7 @@ public class SimulationWindow {
             addButton.setDisable(servant == null);
             final Button subtractButton = new Button();
             subtractButton.setGraphic(createInfoImageView("down"));
-            subtractButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Decrement hit times")));
+            subtractButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Decrement hit times")));
             subtractButton.setOnAction(e -> {
                 final int previousTime = targetHits.get(tempI);
                 final int nextTime = Math.max(previousTime - 1, 0);

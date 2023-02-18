@@ -17,7 +17,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -54,16 +53,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
-import static yome.fgo.simulator.gui.helpers.DataPrinter.doubleToString;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.DEFAULT_18;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.addSplitTraitListener;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillAttribute;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillFateClass;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillGender;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.doubleToString;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getKeyForTrait;
@@ -217,7 +218,7 @@ public class ServantAscensionTab extends ScrollPane {
         nodes.add(new Separator());
 
         final Label cardsLabel = new Label(getTranslation(APPLICATION_SECTION, "Command Card"));
-        cardsLabel.setFont(new Font(18));
+        cardsLabel.setFont(DEFAULT_18);
 
         final HBox quickCardDataHBox = new HBox(10);
         quickCardDataHBox.setAlignment(Pos.CENTER_LEFT);
@@ -249,7 +250,7 @@ public class ServantAscensionTab extends ScrollPane {
         nodes.add(new Separator());
 
         final Label npLabel = new Label(getTranslation(APPLICATION_SECTION, "NP Card"));
-        npLabel.setFont(new Font(18));
+        npLabel.setFont(DEFAULT_18);
 
         final HBox npButtonsHBox = new HBox(10);
         npButtonsHBox.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
@@ -261,7 +262,7 @@ public class ServantAscensionTab extends ScrollPane {
 
         final Button addNpUpgradeButton = new Button();
         addNpUpgradeButton.setGraphic(createInfoImageView("add"));
-        addNpUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add NP Upgrade")));
+        addNpUpgradeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Add NP Upgrade")));
         addNpUpgradeButton.setOnAction(e -> {
             final List<Tab> tabs = npUpgradesTabs.getTabs();
             if (tabs.isEmpty()) {
@@ -276,7 +277,7 @@ public class ServantAscensionTab extends ScrollPane {
 
         final Button leftNpUpgradeButton = new Button();
         leftNpUpgradeButton.setGraphic(createInfoImageView("left"));
-        leftNpUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item left")));
+        leftNpUpgradeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move item left")));
         leftNpUpgradeButton.setOnAction(e -> {
             final ObservableList<Tab> tabs = npUpgradesTabs.getTabs();
             if (tabs.isEmpty() || tabs.size() == 1) {
@@ -295,7 +296,7 @@ public class ServantAscensionTab extends ScrollPane {
 
         final Button rightNpUpgradeButton = new Button();
         rightNpUpgradeButton.setGraphic(createInfoImageView("right"));
-        rightNpUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item right")));
+        rightNpUpgradeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move item right")));
         rightNpUpgradeButton.setOnAction(e -> {
             final ObservableList<Tab> tabs = npUpgradesTabs.getTabs();
             if (tabs.isEmpty() || tabs.size() == 1) {
@@ -314,7 +315,7 @@ public class ServantAscensionTab extends ScrollPane {
 
         final Button removeNpUpgradeButton = new Button();
         removeNpUpgradeButton.setGraphic(createInfoImageView("remove"));
-        removeNpUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove NP Upgrade")));
+        removeNpUpgradeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Remove NP Upgrade")));
         removeNpUpgradeButton.setOnAction(e -> {
             final ObservableList<Tab> tabs = npUpgradesTabs.getTabs();
             final List<Tab> remainingNodes = new ArrayList<>(tabs);
@@ -345,7 +346,7 @@ public class ServantAscensionTab extends ScrollPane {
         activeSkillUpgradeTabPanes = new ArrayList<>();
         for (int i = 1; i <= 3; i += 1) {
             final Label activeSkillsLabel = new Label(getTranslation(APPLICATION_SECTION, "Active Skill") + " " + i);
-            activeSkillsLabel.setFont(new Font(18));
+            activeSkillsLabel.setFont(DEFAULT_18);
 
             final TabPane activeSkillTabPane = new TabPane(
                     new Tab(
@@ -358,7 +359,7 @@ public class ServantAscensionTab extends ScrollPane {
 
             final Button addActiveSkillUpgradeButton = new Button();
             addActiveSkillUpgradeButton.setGraphic(createInfoImageView("add"));
-            addActiveSkillUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add NP Upgrade")));
+            addActiveSkillUpgradeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Add NP Upgrade")));
             addActiveSkillUpgradeButton.setOnAction(e -> {
                 final List<Tab> tabs = activeSkillTabPane.getTabs();
                 if (tabs.isEmpty()) {
@@ -373,7 +374,7 @@ public class ServantAscensionTab extends ScrollPane {
 
             final Button leftActiveSkillUpgradeButton = new Button();
             leftActiveSkillUpgradeButton.setGraphic(createInfoImageView("left"));
-            leftActiveSkillUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item left")));
+            leftActiveSkillUpgradeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move item left")));
             leftActiveSkillUpgradeButton.setOnAction(e -> {
                 final ObservableList<Tab> tabs = activeSkillTabPane.getTabs();
                 if (tabs.isEmpty() || tabs.size() == 1) {
@@ -392,7 +393,7 @@ public class ServantAscensionTab extends ScrollPane {
 
             final Button rightActiveSkillUpgradeButton = new Button();
             rightActiveSkillUpgradeButton.setGraphic(createInfoImageView("right"));
-            rightActiveSkillUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item right")));
+            rightActiveSkillUpgradeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move item right")));
             rightActiveSkillUpgradeButton.setOnAction(e -> {
                 final ObservableList<Tab> tabs = activeSkillTabPane.getTabs();
                 if (tabs.isEmpty() || tabs.size() == 1) {
@@ -411,7 +412,7 @@ public class ServantAscensionTab extends ScrollPane {
 
             final Button removeSkillUpgradeButton = new Button();
             removeSkillUpgradeButton.setGraphic(createInfoImageView("remove"));
-            removeSkillUpgradeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove Active Skill Upgrade")));
+            removeSkillUpgradeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Remove Active Skill Upgrade")));
             removeSkillUpgradeButton.setOnAction(e -> {
                 final ObservableList<Tab> tabs = activeSkillTabPane.getTabs();
                 final List<Tab> remainingNodes = new ArrayList<>(tabs);
@@ -438,7 +439,7 @@ public class ServantAscensionTab extends ScrollPane {
         nodes.add(new Separator());
 
         final Label passiveSkillLabel = new Label(getTranslation(APPLICATION_SECTION, "Passive Skill"));
-        passiveSkillLabel.setFont(new Font(18));
+        passiveSkillLabel.setFont(DEFAULT_18);
         nodes.add(passiveSkillLabel);
 
         passiveSkillsVBox = new VBox(10);
@@ -448,7 +449,7 @@ public class ServantAscensionTab extends ScrollPane {
 
         final Button addPassiveButton = new Button();
         addPassiveButton.setGraphic(createInfoImageView("add"));
-        addPassiveButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add Passive Skill")));
+        addPassiveButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Add Passive Skill")));
         addPassiveButton.setOnAction(e -> passiveSkillsVBox.getChildren().add(new NonActiveSkill(passiveSkillsVBox, errorLabel)));
 
         nodes.add(passiveSkillsVBox);
@@ -457,7 +458,7 @@ public class ServantAscensionTab extends ScrollPane {
         nodes.add(new Separator());
 
         final Label appendSkillLabel = new Label(getTranslation(APPLICATION_SECTION, "Append Skill"));
-        appendSkillLabel.setFont(new Font(18));
+        appendSkillLabel.setFont(DEFAULT_18);
         nodes.add(appendSkillLabel);
 
         appendSkillsVBox = new VBox(10);
@@ -466,7 +467,7 @@ public class ServantAscensionTab extends ScrollPane {
         appendHBox.setAlignment(Pos.CENTER);
         final Button addAppendButton = new Button();
         addAppendButton.setGraphic(createInfoImageView("add"));
-        addAppendButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add Append Skill")));
+        addAppendButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Add Append Skill")));
         addAppendButton.setOnAction(e -> appendSkillsVBox.getChildren().add(new NonActiveSkill(appendSkillsVBox, errorLabel)));
 
         nodes.add(appendSkillsVBox);

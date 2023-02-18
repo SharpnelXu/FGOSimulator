@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +19,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Window;
+import javafx.util.Duration;
 import yome.fgo.data.proto.FgoStorageData.Attribute;
 import yome.fgo.data.proto.FgoStorageData.ClassAdvantageChangeMode;
 import yome.fgo.data.proto.FgoStorageData.CommandCardType;
@@ -253,9 +255,21 @@ public class ComponentUtils {
         return anchorPane;
     }
 
+    public static final Font DEFAULT_14 = Font.font(14);
+    public static final Font DEFAULT_18 = Font.font(18);
+    public static final Font DEFAULT_30 = Font.font(30);
+
+    public static Tooltip createTooltip(final String tooltipText) {
+        final Tooltip tooltip = new Tooltip(tooltipText);
+        tooltip.setFont(DEFAULT_14);
+        tooltip.setShowDelay(Duration.ZERO);
+        tooltip.setShowDuration(Duration.INDEFINITE);
+        return tooltip;
+    }
+
     public static AnchorPane createSkillCdAnchor() {
         final Label cdLabel = new Label("X");
-        cdLabel.setFont(new Font(30));
+        cdLabel.setFont(DEFAULT_30);
         cdLabel.setStyle("-fx-text-fill: white");
         cdLabel.setAlignment(Pos.CENTER);
         cdLabel.setWrapText(true);

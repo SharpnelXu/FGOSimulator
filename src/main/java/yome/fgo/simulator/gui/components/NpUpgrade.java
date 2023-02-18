@@ -11,7 +11,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -23,10 +22,11 @@ import yome.fgo.simulator.gui.components.ListContainerVBox.Mode;
 import java.io.IOException;
 import java.util.List;
 
-import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.LIST_ITEM_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -81,7 +81,7 @@ public class NpUpgrade extends HBox {
         conditionCheckBox = new CheckBox(getTranslation(APPLICATION_SECTION, "Activate Condition"));
         final Button editConditionButton = new Button();
         editConditionButton.setGraphic(createInfoImageView("edit"));
-        editConditionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit")));
+        editConditionButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Edit")));
 
         npTypeChoicesHBox.getChildren().addAll(npTypeLabel, npTypeChoices, conditionCheckBox, editConditionButton);
         dataVBox.getChildren().add(npTypeChoicesHBox);

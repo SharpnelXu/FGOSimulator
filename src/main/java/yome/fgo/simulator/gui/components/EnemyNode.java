@@ -12,7 +12,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -36,14 +35,15 @@ import java.util.stream.Collectors;
 import static yome.fgo.simulator.ResourceManager.getEnemyThumbnail;
 import static yome.fgo.simulator.ResourceManager.getServantThumbnail;
 import static yome.fgo.simulator.ResourceManager.readFile;
-import static yome.fgo.simulator.gui.helpers.DataPrinter.printCombatantData;
 import static yome.fgo.simulator.gui.components.StageNode.addEnemyNode;
 import static yome.fgo.simulator.gui.creators.EnemyCreator.editCombatantData;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.COMMA_SPLIT_REGEX;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printCombatantData;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FilePathUtils.ENEMY_DIRECTORY_PATH;
@@ -148,7 +148,7 @@ public class EnemyNode extends VBox {
 
         final Button leftButton = new Button();
         leftButton.setGraphic(createInfoImageView("left"));
-        leftButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move enemy left")));
+        leftButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move enemy left")));
         leftButton.setOnAction(e -> {
             final ObservableList<Node> items = enemyGrid.getChildren();
             if (items.isEmpty() || items.size() == 1) {
@@ -168,7 +168,7 @@ public class EnemyNode extends VBox {
 
         final Button rightButton = new Button();
         rightButton.setGraphic(createInfoImageView("right"));
-        rightButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move enemy right")));
+        rightButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move enemy right")));
         rightButton.setOnAction(e -> {
             final ObservableList<Node> items = enemyGrid.getChildren();
             if (items.isEmpty() || items.size() == 1) {
@@ -188,7 +188,7 @@ public class EnemyNode extends VBox {
 
         final Button editEnemyButton = new Button();
         editEnemyButton.setGraphic(createInfoImageView("edit"));
-        editEnemyButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit enemy data")));
+        editEnemyButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Edit enemy data")));
         editEnemyButton.setOnAction(e -> {
             final CombatantData.Builder builder = combatantDataOverride.toBuilder();
             try {
@@ -204,7 +204,7 @@ public class EnemyNode extends VBox {
 
         final Button removeButton = new Button();
         removeButton.setGraphic(createInfoImageView("remove"));
-        removeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove enemy")));
+        removeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Remove enemy")));
         removeButton.setOnAction(e -> {
             final ObservableList<Node> items = enemyGrid.getChildren();
             final List<Node> remainingNodes = new ArrayList<>(items);

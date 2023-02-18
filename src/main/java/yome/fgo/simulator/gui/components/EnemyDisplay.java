@@ -23,6 +23,7 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.INFO_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SERVANT_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_DISPLAY_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.getClassIcon;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.renderBuffPane;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
@@ -70,6 +71,7 @@ public class EnemyDisplay extends VBox {
         final Button enemySelectButton = new Button();
         enemySelectButton.setGraphic(imgAnchor);
         enemySelectButton.setOnAction(e -> enemyTarget.fire());
+        enemySelectButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Set as target")));
 
         getChildren().add(enemySelectButton);
 
@@ -85,7 +87,7 @@ public class EnemyDisplay extends VBox {
         classImage.setFitHeight(INFO_THUMBNAIL_SIZE);
         final Button classButton = new Button();
         classButton.setGraphic(classImage);
-        classButtonTooltip = new Tooltip();
+        classButtonTooltip = createTooltip("");
         classButton.setTooltip(classButtonTooltip);
         classButton.setOnAction(e -> {
             final Combatant combatant = this.simulationWindow.getSimulation().getCurrentEnemies().get(this.enemyIndex);
@@ -98,7 +100,7 @@ public class EnemyDisplay extends VBox {
         checkBuffImage.setImage(this.simulationWindow.getSimulationImage("checkBuff"));
         final Button viewBuffs = new Button();
         viewBuffs.setOnAction(e -> this.simulationWindow.viewEnemyBuffs(enemyIndex));
-        viewBuffs.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "View Buffs")));
+        viewBuffs.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "View Buffs")));
         viewBuffs.setGraphic(checkBuffImage);
 
         final HBox buttonsHBox = new HBox(5);

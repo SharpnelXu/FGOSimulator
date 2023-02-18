@@ -477,6 +477,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
 - v1.07 (Beta):
   - 系统：
     - 添加了敌方攻击的模拟，该功能仅供巴姐小安图一乐，可能有挺多bug，例如敌方宝具的各种效果（比如获取暴击星、获取NP）不会正确执行。
+    - 为UI界面的大量按钮添加了描述说明。
 - v1.06 (Beta):
   - 系统：
     - 重写了底层代码，所以新版本可能会有奇怪的Bug

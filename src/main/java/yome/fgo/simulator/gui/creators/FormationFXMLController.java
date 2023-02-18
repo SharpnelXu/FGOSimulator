@@ -32,6 +32,7 @@ import static yome.fgo.simulator.ResourceManager.CRAFT_ESSENCE_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.MYSTIC_CODE_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.SERVANT_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.getUnknownServantThumbnail;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.DEFAULT_18;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.LIST_ITEM_STYLE;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -60,11 +61,11 @@ public class FormationFXMLController implements Initializable {
             final HBox nameHBox = new HBox(20);
             nameHBox.setAlignment(Pos.CENTER_LEFT);
             final Button selectButton = new Button(getTranslation(APPLICATION_SECTION, "Select Formation"));
-            selectButton.setFont(new Font(18));
+            selectButton.setFont(DEFAULT_18);
             final Button deleteButton = new Button(getTranslation(APPLICATION_SECTION, "Delete Formation"));
-            deleteButton.setFont(new Font(18));
+            deleteButton.setFont(DEFAULT_18);
             final Label formationName = new Label(formation.getName());
-            formationName.setFont(new Font(18));
+            formationName.setFont(DEFAULT_18);
             nameHBox.getChildren().addAll(selectButton, deleteButton, formationName);
 
             final HBox partyHBox = new HBox(15);

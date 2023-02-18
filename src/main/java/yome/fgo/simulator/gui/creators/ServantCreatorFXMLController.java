@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import yome.fgo.data.proto.FgoStorageData.ServantAscensionData;
@@ -27,6 +26,7 @@ import java.util.ResourceBundle;
 
 import static yome.fgo.simulator.ResourceManager.readFile;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -88,7 +88,7 @@ public class ServantCreatorFXMLController implements Initializable {
 
         final Button addAscensionButton = new Button();
         addAscensionButton.setGraphic(createInfoImageView("add"));
-        addAscensionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Add Ascension")));
+        addAscensionButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Add Ascension")));
         addAscensionButton.setOnAction(e -> {
             final List<Tab> tabs = servantAscTabPane.getTabs();
             final int ascension = tabs.size() + 1;
@@ -105,7 +105,7 @@ public class ServantCreatorFXMLController implements Initializable {
 
         final Button leftButton = new Button();
         leftButton.setGraphic(createInfoImageView("left"));
-        leftButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item left")));
+        leftButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move item left")));
         leftButton.setOnAction(e -> {
             final ObservableList<Tab> tabs = servantAscTabPane.getTabs();
             if (tabs.isEmpty() || tabs.size() == 1) {
@@ -125,7 +125,7 @@ public class ServantCreatorFXMLController implements Initializable {
 
         final Button rightButton = new Button();
         rightButton.setGraphic(createInfoImageView("right"));
-        rightButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Move item right")));
+        rightButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Move item right")));
         rightButton.setOnAction(e -> {
             final ObservableList<Tab> tabs = servantAscTabPane.getTabs();
             if (tabs.isEmpty() || tabs.size() == 1) {
@@ -145,7 +145,7 @@ public class ServantCreatorFXMLController implements Initializable {
 
         final Button removeButton = new Button();
         removeButton.setGraphic(createInfoImageView("remove"));
-        removeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove Ascension")));
+        removeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Remove Ascension")));
         removeButton.setOnAction(e -> {
             final ObservableList<Tab> tabs = servantAscTabPane.getTabs();
             final List<Tab> remainingNodes = new ArrayList<>(tabs);

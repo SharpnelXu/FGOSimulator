@@ -35,6 +35,7 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.BUFF_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.INFO_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SKILL_THUMBNAIL_SIZE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.getFieldIcon;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
@@ -96,6 +97,7 @@ public class MiscDisplay extends VBox {
             final int iI = i;
             skillButton.setOnAction(e -> activateSkill(iI));
             skillButton.setGraphic(skillImgView);
+            skillButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Activate Skill") + " " + (i + 1)));
 
             final AnchorPane cdAnchor = createSkillCdAnchor();
             skillCoolDownHides.add(cdAnchor);
@@ -111,7 +113,7 @@ public class MiscDisplay extends VBox {
             } catch (IOException ignored) {
             }
         });
-        mysticCodeInfoButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Details")));
+        mysticCodeInfoButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Details")));
         final ImageView infoImg = new ImageView(this.simulationWindow.getSimulationImage("info"));
         infoImg.setFitHeight(INFO_THUMBNAIL_SIZE);
         infoImg.setFitWidth(INFO_THUMBNAIL_SIZE);
@@ -212,7 +214,7 @@ public class MiscDisplay extends VBox {
 
         final Button executeButton = new Button();
         executeButton.setOnAction(e -> this.simulationWindow.executeCombatActions());
-        executeButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Attack")));
+        executeButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Attack")));
         final ImageView executeImg = new ImageView(this.simulationWindow.getSimulationImage("attack"));
         executeImg.setFitHeight(SKILL_THUMBNAIL_SIZE);
         executeImg.setFitWidth(SKILL_THUMBNAIL_SIZE);
@@ -223,14 +225,14 @@ public class MiscDisplay extends VBox {
             this.simulationWindow.getSimulation().activateCustomEffect(CHARGE_100_NP_FOR_ALL_ALLIES);
             this.simulationWindow.render();
         });
-        chargeNpButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Charge 100% NP for all allies")));
+        chargeNpButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Charge 100% NP for all allies")));
         final ImageView chargeNpImg = new ImageView(this.simulationWindow.getSimulationImage("npCharge"));
         chargeNpImg.setFitHeight(SKILL_THUMBNAIL_SIZE);
         chargeNpImg.setFitWidth(SKILL_THUMBNAIL_SIZE);
         chargeNpButton.setGraphic(chargeNpImg);
 
         final Button activateEffectButton = new Button();
-        activateEffectButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Activate custom effect")));
+        activateEffectButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Activate custom effect")));
         customEffectImage = new ImageView();
         customEffectImage.setFitHeight(SKILL_THUMBNAIL_SIZE);
         customEffectImage.setFitWidth(SKILL_THUMBNAIL_SIZE);
@@ -249,7 +251,7 @@ public class MiscDisplay extends VBox {
         });
 
         final Button revertActionButton = new Button();
-        revertActionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Revert")));
+        revertActionButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Revert")));
         final ImageView revertImg = new ImageView(this.simulationWindow.getSimulationImage("revert"));
         revertImg.setFitHeight(SKILL_THUMBNAIL_SIZE);
         revertImg.setFitWidth(SKILL_THUMBNAIL_SIZE);
@@ -339,7 +341,7 @@ public class MiscDisplay extends VBox {
             fieldImage.setFitHeight(BUFF_SIZE);
             fieldImage.setFitWidth(BUFF_SIZE);
             fieldImage.setImage(simulationWindow.getBuffImage(getFieldIcon(fieldTrait)));
-            final Tooltip tooltip = new Tooltip(getTranslation(TRAIT_SECTION, fieldTrait));
+            final Tooltip tooltip = createTooltip(getTranslation(TRAIT_SECTION, fieldTrait));
             Tooltip.install(fieldImage, tooltip);
             fieldChildren.add(fieldImage);
         }

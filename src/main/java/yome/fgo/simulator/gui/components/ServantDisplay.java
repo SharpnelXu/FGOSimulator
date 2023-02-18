@@ -38,6 +38,7 @@ import static yome.fgo.simulator.gui.helpers.ComponentUtils.SKILL_THUMBNAIL_SIZE
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_DISPLAY_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.UNIT_THUMBNAIL_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createSkillCdAnchor;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.getClassIcon;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.renderBuffPane;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.wrapInAnchor;
@@ -110,6 +111,7 @@ public class ServantDisplay extends VBox {
         final Button servantSelectButton = new Button();
         servantSelectButton.setGraphic(imgAnchor);
         servantSelectButton.setOnAction(e -> allyTarget.fire());
+        servantSelectButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Set as target")));
 
         getChildren().add(servantSelectButton);
 
@@ -134,6 +136,7 @@ public class ServantDisplay extends VBox {
             final int iI = i;
             skillButton.setOnAction(e -> activateSkill(iI));
             skillButton.setGraphic(skillImgView);
+            skillButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Activate Skill") + " " + (i + 1)));
 
             final AnchorPane cdAnchor = createSkillCdAnchor();
             skillCoolDownHides.add(cdAnchor);
@@ -157,7 +160,7 @@ public class ServantDisplay extends VBox {
         classImage.setFitHeight(INFO_THUMBNAIL_SIZE);
         final Button classButton = new Button();
         classButton.setGraphic(classImage);
-        classButtonTooltip = new Tooltip();
+        classButtonTooltip = createTooltip("");
         classButton.setTooltip(classButtonTooltip);
         classButton.setOnAction(e -> {
             final Combatant combatant = this.simulationWindow.getSimulation().getCurrentServants().get(this.servantIndex);
@@ -170,7 +173,7 @@ public class ServantDisplay extends VBox {
         checkBuffImage.setImage(this.simulationWindow.getSimulationImage("checkBuff"));
         final Button viewBuffs = new Button();
         viewBuffs.setOnAction(e -> this.simulationWindow.viewServantBuffs(servantIndex));
-        viewBuffs.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "View Buffs")));
+        viewBuffs.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "View Buffs")));
         viewBuffs.setGraphic(checkBuffImage);
 
         final ImageView servantInfoImage = new ImageView();
@@ -190,7 +193,7 @@ public class ServantDisplay extends VBox {
             } catch (final IOException ignored) {
             }
         });
-        servantInfo.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Servant details")));
+        servantInfo.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Servant details")));
         servantInfo.setGraphic(servantInfoImage);
 
         final ImageView decreaseCDImage = new ImageView(this.simulationWindow.getSimulationImage("skillCharge"));
@@ -198,7 +201,7 @@ public class ServantDisplay extends VBox {
         decreaseCDImage.setFitWidth(INFO_THUMBNAIL_SIZE);
         final Button chargeSkillButton = new Button();
         chargeSkillButton.setOnAction(e -> activateTargetedEffect(DECREASE_COOL_DOWN_FOR_TARGETED_ALLY));
-        chargeSkillButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Charge skill for this servant")));
+        chargeSkillButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Charge skill for this servant")));
         chargeSkillButton.setGraphic(decreaseCDImage);
 
         final ImageView forceInstantDeathImg = new ImageView(this.simulationWindow.getSimulationImage("forceInstantDeath"));
@@ -206,7 +209,7 @@ public class ServantDisplay extends VBox {
         forceInstantDeathImg.setFitWidth(INFO_THUMBNAIL_SIZE);
         final Button forceInstantDeathButton = new Button();
         forceInstantDeathButton.setOnAction(e -> activateTargetedEffect(FORCE_INSTANT_DEATH_ON_TARGETED_ALLY));
-        forceInstantDeathButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Force instant death on turn end")));
+        forceInstantDeathButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Force instant death on turn end")));
         forceInstantDeathButton.setGraphic(forceInstantDeathImg);
 
         final HBox buttonHBox = new HBox(5);

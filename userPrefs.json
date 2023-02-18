@@ -174,6 +174,20 @@
       "ascension": 1
     }
   }, {
+    "servantNo": 7,
+    "option": {
+      "servantLevel": 70,
+      "noblePhantasmRank": 2,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 2],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
     "servantNo": 264,
     "option": {
       "servantLevel": 80,
@@ -531,6 +545,20 @@
     "servantNo": 280,
     "option": {
       "servantLevel": 90,
+      "noblePhantasmRank": 1,
+      "noblePhantasmLevel": 5,
+      "attackStatusUp": 1000,
+      "healthStatusUp": 1000,
+      "activeSkillRanks": [1, 1, 1],
+      "activeSkillLevels": [10, 10, 10],
+      "appendSkillLevels": [0, 0, 0],
+      "bond": 10,
+      "ascension": 1
+    }
+  }, {
+    "servantNo": 24,
+    "option": {
+      "servantLevel": 65,
       "noblePhantasmRank": 1,
       "noblePhantasmLevel": 5,
       "attackStatusUp": 1000,
@@ -3256,7 +3284,7 @@
   }, {
     "mysticCodeNo": 18,
     "option": {
-      "mysticCodeLevel": 6,
+      "mysticCodeLevel": 10,
       "gender": "FEMALE"
     }
   }, {

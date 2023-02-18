@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -39,9 +38,11 @@ import static yome.fgo.simulator.ResourceManager.CRAFT_ESSENCE_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.MYSTIC_CODE_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.SERVANT_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createClassImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.CLASS_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.COMMAND_CARD_TYPE_SECTION;
+import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.TRAIT_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
 import static yome.fgo.simulator.utils.FateClassUtils.ALL_CLASSES;
@@ -68,6 +69,9 @@ public class EntityFilterFXMLController implements Initializable {
         for (final ServantDataAnchorPane servantDataAnchorPane : SERVANT_DATA_ANCHOR_MAP.values()) {
             final Button servantSelectButton = new Button();
             servantSelectButton.setGraphic(servantDataAnchorPane);
+            final int servantNum = servantDataAnchorPane.getServantData().getServantNum();
+            final String servantId = "servant" + servantNum;
+            servantSelectButton.setTooltip(createTooltip(servantNum + ": " + getTranslation(ENTITY_NAME_SECTION, servantId)));
             servantSelectButton.setOnAction(e -> selectServant(servantDataAnchorPane));
             entityFlowPane.getChildren().add(servantSelectButton);
         }
@@ -141,7 +145,7 @@ public class EntityFilterFXMLController implements Initializable {
         for (final CheckBox checkBox : allowedClasses.keySet()) {
             final FateClass fateClass = allowedClasses.get(checkBox);
             checkBox.setGraphic(createClassImageView(fateClass));
-            checkBox.setTooltip(new Tooltip(getTranslation(CLASS_SECTION, fateClass.name())));
+            checkBox.setTooltip(createTooltip(getTranslation(CLASS_SECTION, fateClass.name())));
             checkBox.setText(" ");
 
             checkBox.setOnAction(e -> filterServant(
@@ -238,6 +242,9 @@ public class EntityFilterFXMLController implements Initializable {
         for (final CraftEssenceDataAnchorPane ceDataWrapper : CRAFT_ESSENCE_DATA_ANCHOR_MAP.values()) {
             final Button selectButton = new Button();
             selectButton.setGraphic(ceDataWrapper);
+            final int ceNum = ceDataWrapper.getCraftEssenceData().getCeNum();
+            final String ceId = "craftEssence" + ceNum;
+            selectButton.setTooltip(createTooltip(ceNum + ": " + getTranslation(ENTITY_NAME_SECTION, ceId)));
             selectButton.setOnAction(e -> selectCraftEssence(ceDataWrapper));
             entityFlowPane.getChildren().add(selectButton);
         }
@@ -297,6 +304,9 @@ public class EntityFilterFXMLController implements Initializable {
             final Button selectButton = new Button();
             dataWrapper.setFromGender(gender);
             selectButton.setGraphic(dataWrapper);
+            final int mcNum = dataWrapper.getMysticCodeData().getMcNum();
+            final String mcId = "mysticCode" + mcNum;
+            selectButton.setTooltip(createTooltip(mcNum + ": " + getTranslation(ENTITY_NAME_SECTION, mcId)));
             selectButton.setOnAction(e -> selectMysticCode(dataWrapper));
             entityFlowPane.getChildren().add(selectButton);
         }
@@ -337,6 +347,9 @@ public class EntityFilterFXMLController implements Initializable {
         for (final CommandCodeDataAnchorPane ccDataWrapper : COMMAND_CODE_DATA_ANCHOR_MAP.values()) {
             final Button selectButton = new Button();
             selectButton.setGraphic(ccDataWrapper);
+            final int ccNum = ccDataWrapper.getCommandCodeData().getCcNum();
+            final String ccId = "commandCode" + ccNum;
+            selectButton.setTooltip(createTooltip(ccNum + ": " + getTranslation(ENTITY_NAME_SECTION, ccId)));
             selectButton.setOnAction(e -> selectCommandCode(ccDataWrapper));
             entityFlowPane.getChildren().add(selectButton);
         }

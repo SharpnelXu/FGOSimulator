@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -32,10 +31,11 @@ import java.util.Map;
 import static yome.fgo.simulator.ResourceManager.CRAFT_ESSENCE_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.SERVANT_DATA_ANCHOR_MAP;
 import static yome.fgo.simulator.ResourceManager.getUnknownServantThumbnail;
-import static yome.fgo.simulator.gui.helpers.DataPrinter.printServantOption;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectCraftEssence;
 import static yome.fgo.simulator.gui.creators.EntitySelector.selectServant;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printServantOption;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -105,7 +105,7 @@ public class FormationSelector extends VBox {
 
         viewServantButton = new Button();
         viewServantButton.setGraphic(createInfoImageView("info2"));
-        viewServantButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Details")));
+        viewServantButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Details")));
         viewServantButton.setDisable(true);
         viewServantButton.setOnAction(e -> {
             try {
@@ -116,16 +116,17 @@ public class FormationSelector extends VBox {
 
         editServantOptionButton = new Button();
         editServantOptionButton.setGraphic(createInfoImageView("edit"));
-        editServantOptionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit Servant Option")));
+        editServantOptionButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Edit Servant Option")));
         editServantOptionButton.setDisable(true);
         editServantOptionButton.setOnAction(e -> editServantOption());
 
         removeServantButton = new Button();
         removeServantButton.setGraphic(createInfoImageView("remove"));
-        removeServantButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove selection")));
+        removeServantButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Remove selection")));
         removeServantButton.setDisable(true);
         removeServantButton.setOnAction(e -> removeServant());
 
+        servantSelectButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Select servant")));
         servantSelectButton.setGraphic(selectedServant);
         servantSelectButton.setOnAction(e -> {
             try {
@@ -181,7 +182,7 @@ public class FormationSelector extends VBox {
 
         viewCEButton = new Button();
         viewCEButton.setGraphic(createInfoImageView("info2"));
-        viewCEButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Details")));
+        viewCEButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Details")));
         viewCEButton.setDisable(true);
         viewCEButton.setOnAction(e -> {
             try {
@@ -192,10 +193,11 @@ public class FormationSelector extends VBox {
 
         removeCEButton = new Button();
         removeCEButton.setGraphic(createInfoImageView("remove"));
-        removeCEButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Remove selection")));
+        removeCEButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Remove selection")));
         removeCEButton.setDisable(true);
         removeCEButton.setOnAction(e -> removeCraftEssence());
 
+        ceSelectButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Select craft essence")));
         ceSelectButton.setGraphic(selectedCE);
         ceSelectButton.setOnAction(e -> {
             try {

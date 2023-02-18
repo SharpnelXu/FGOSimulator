@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -16,6 +15,7 @@ import yome.fgo.simulator.gui.creators.EntitySelector;
 import java.io.IOException;
 
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.translation.TranslationManager.APPLICATION_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.ENTITY_NAME_SECTION;
 import static yome.fgo.simulator.translation.TranslationManager.getTranslation;
@@ -60,11 +60,11 @@ public class CommandCardOptionBox extends VBox {
 
         final Button editCCButton = new Button();
         editCCButton.setGraphic(createInfoImageView("edit"));
-        editCCButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "SelectCommandCode")));
+        editCCButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "SelectCommandCode")));
 
         final Button removeCCButton = new Button();
         removeCCButton.setGraphic(createInfoImageView("remove"));
-        removeCCButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "RemoveCommandCode")));
+        removeCCButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "RemoveCommandCode")));
 
         this.commandCodeNameLabel = new Label(getTranslation(APPLICATION_SECTION, "Empty"));
         HBox.setHgrow(this.commandCodeNameLabel, Priority.ALWAYS);

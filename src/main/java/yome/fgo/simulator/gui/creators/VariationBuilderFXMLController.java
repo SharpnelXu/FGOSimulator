@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -25,12 +24,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import static yome.fgo.simulator.gui.helpers.DataPrinter.doubleToString;
-import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
 import static yome.fgo.simulator.gui.creators.ConditionBuilder.createCondition;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.SPECIAL_INFO_BOX_STYLE;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.createInfoImageView;
+import static yome.fgo.simulator.gui.helpers.ComponentUtils.createTooltip;
 import static yome.fgo.simulator.gui.helpers.ComponentUtils.fillTargets;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.doubleToString;
+import static yome.fgo.simulator.gui.helpers.DataPrinter.printConditionData;
 import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_BUFF;
 import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_HP;
 import static yome.fgo.simulator.models.variations.Variation.VariationFields.VARIATION_FIELD_MAX_COUNT;
@@ -183,7 +183,7 @@ public class VariationBuilderFXMLController implements Initializable {
         conditionLabel.setText(getTranslation(APPLICATION_SECTION, "Buff Condition"));
 
         addConditionButton.setGraphic(createInfoImageView("edit"));
-        addConditionButton.setTooltip(new Tooltip(getTranslation(APPLICATION_SECTION, "Edit")));
+        addConditionButton.setTooltip(createTooltip(getTranslation(APPLICATION_SECTION, "Edit")));
         addConditionButton.setOnAction(e -> onAddConditionButtonClick());
         addConditionButton.setText(null);
         builtConditionLabel.setPadding(new Insets(5));
