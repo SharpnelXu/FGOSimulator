@@ -476,6 +476,9 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
 * 巴姐被晕/宝具封印会攻击吗？
 
 ## 更新相关
+- v1.08:
+  - Buff相关：
+    - 修复了退场时效果无法正确找到攻击者的问题
 - v1.07 (Beta):
   - 系统：
     - 添加了敌方攻击的模拟，该功能仅供巴姐小安图一乐，可能有挺多bug，例如敌方宝具的各种效果（比如获取暴击星、获取NP）不会正确执行。
