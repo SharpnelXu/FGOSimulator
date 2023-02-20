@@ -28,7 +28,7 @@ Also, this simulator supports translations. If you are interested, you can put y
 ## 使用说明
 
 ### 下载
-在Release页面中下载当前版本的压缩包解压就好：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.05)
+在Release页面中下载当前版本的压缩包解压就好：[传送门](https://github.com/SharpnelXu/FGOSimulator/releases/tag/v1.07)
 
 #### 注意
 如果你的电脑安装了Java 15以上，可以直接下载标注为`.jar`的`zip`压缩包解压。
