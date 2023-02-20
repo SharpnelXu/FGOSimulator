@@ -162,6 +162,7 @@ java -p <path to javafx sdk>/lib  --add-modules=javafx.controls,javafx.graphics,
   - 普通敌方单位默认6000ATK，三色卡、宝具均为1Hit，宝具倍率为300%。
   - 普通敌方单位的宝具至多对每个选择的目标发动一次，调整攻击次数不会影响。
   - 敌方从者的宝具正常发动，但是部分效果不处理（例如获取NP、获取暴击星之类）。
+  - ![敌方行动模拟](./ReadmePic/BattleSimulation/enemySim.png)
 - 虽然敌方从者会发动回合结束时获得暴击星的技能，但并不会真正获得暴击星。
 
 ## 编辑器说明
