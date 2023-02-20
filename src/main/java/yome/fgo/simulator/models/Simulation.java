@@ -443,6 +443,11 @@ public class Simulation {
             final CombatAction combatAction = combatActions.get(i);
             final Servant servant = currentServants.get(combatAction.servantIndex);
 
+            final boolean isCrit = isCriticalStrike();
+            setActivator(servant);
+            setAttacker(servant);
+            setCriticalStrike(combatAction.isCriticalStrike);
+
             if (canAttack(servant) && !isAllEnemiesDead()) {
                 if (combatAction.isNoblePhantasm) {
                     if (servant.isNpInaccessible()) {
@@ -470,10 +475,18 @@ public class Simulation {
                 removeDeadEnemies();
                 removeDeadAlly();
             }
+
+            setCriticalStrike(isCrit);
+            unsetAttacker();
+            unsetActivator();
         }
 
         if (isBraveChain(combatActions) && currentEnemies.get(currentEnemyTargetIndex) != null) {
             final Servant servant = currentServants.get(combatActions.get(0).servantIndex);
+
+            setActivator(servant);
+            setAttacker(servant);
+
             if (canAttack(servant)) {
                 setDefender(getTargetedEnemy());
                 servant.activateExtraAttack(
@@ -485,6 +498,9 @@ public class Simulation {
                 unsetDefender();
             }
             removeDeadEnemies();
+
+            unsetAttacker();
+            unsetActivator();
         }
 
         for (final Combatant combatant : getAliveEnemies()) {
@@ -696,6 +712,9 @@ public class Simulation {
                 if (enemyAction.getAttack() != 0 && enemyAction.getAttack() != combatant.getAttack()) {
                     combatant.setAttack(enemyAction.getAttack());
                 }
+
+                setActivator(combatant);
+                setAttacker(combatant);
                 if (enemyAction.isNp()) {
                     if (combatant.isNpInaccessible()) {
                         continue;
@@ -719,7 +738,7 @@ public class Simulation {
                             continue;
                         }
                         final Servant defender = currentServants.get(i);
-                        if (!defender.isAlive(this)) {
+                        if (defender == null || !defender.isAlive(this)) {
                             continue;
                         }
 
@@ -738,6 +757,11 @@ public class Simulation {
                         unsetDefender();
                     }
                 }
+
+                removeDeadAlly();
+
+                unsetAttacker();
+                unsetActivator();
             }
 
             // For Bazett's NP not breaking HP bars

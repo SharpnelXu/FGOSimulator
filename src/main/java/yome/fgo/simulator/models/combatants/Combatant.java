@@ -324,21 +324,12 @@ public class Combatant {
     }
 
     public void activateNoblePhantasm(final Simulation simulation, final int extraOvercharge) {
-        final boolean isCrit = simulation.isCriticalStrike();
-        simulation.setActivator(this);
-        simulation.setAttacker(this);
-        simulation.setCriticalStrike(false);
-
         final int overchargeLevel = calculateOverchargeLevel(simulation, extraOvercharge);
         if (simulation.getStatsLogger() != null) {
             simulation.getStatsLogger().logNoblePhantasm(getId(), overchargeLevel);
         }
         resetNp();
         noblePhantasm.activate(simulation, overchargeLevel);
-
-        simulation.setCriticalStrike(isCrit);
-        simulation.unsetAttacker();
-        simulation.unsetActivator();
     }
 
     public void activateCommandCard(
@@ -350,18 +341,11 @@ public class Combatant {
             final boolean isTypeChain,
             final boolean isTriColorChain
     ) {
-        final boolean isCrit = simulation.isCriticalStrike();
-        simulation.setActivator(this);
-        simulation.setAttacker(this);
         simulation.setCurrentCommandCard(getCommandCard(commandCardIndex));
-        simulation.setCriticalStrike(isCriticalStrike);
 
         CommandCardExecution.executeCommandCard(simulation, chainIndex, isCriticalStrike, firstCardType, isTypeChain, isTriColorChain);
 
-        simulation.setCriticalStrike(isCrit);
         simulation.unsetCurrentCommandCard();
-        simulation.unsetAttacker();
-        simulation.unsetActivator();
     }
 
     public void activateExtraAttack(
@@ -370,18 +354,11 @@ public class Combatant {
             final boolean isTypeChain,
             final boolean isTriColorChain
     ) {
-        final boolean isCrit = simulation.isCriticalStrike();
-        simulation.setActivator(this);
-        simulation.setAttacker(this);
         simulation.setCurrentCommandCard(extraCommandCard);
-        simulation.setCriticalStrike(false);
 
         CommandCardExecution.executeCommandCard(simulation, 3, false, firstCardType, isTypeChain, isTriColorChain);
 
-        simulation.setCriticalStrike(isCrit);
         simulation.unsetCurrentCommandCard();
-        simulation.unsetAttacker();
-        simulation.unsetActivator();
     }
 
     public void decreaseActiveSkillsCoolDown(final int change) {}
