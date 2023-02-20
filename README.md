@@ -35,7 +35,7 @@ Also, this simulator supports translations. If you are interested, you can put y
 
 如果没有或者不确定的话，Windows用户可以尝试下载标注为`.exe`的`zip`压缩包解压。这个压缩包包含了程序需求的运行环境，所以会大一点。
 
-当前版本：v1.07，数据版本：v1.07（更新至库库尔坎）
+当前版本：v1.07，数据版本：v1.07（更新至女教皇若安）
 
 ![下载程序](./ReadmePic/System/download1.png)
 
