@@ -1,3 +1,11 @@
+# 本模拟器已合并至Chaldea
+
+直接去下[Chaldea](https://github.com/chaldea-center/chaldea)就好咧：https://docs.chaldea.center/zh/
+
+
+
+# 以下为原本的Readme
+
 # FGO模拟器
 
 未来大概就只在github随缘更新，但是现有的制作器基本支持写出绝大部分东西了。
