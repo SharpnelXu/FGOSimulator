@@ -2,7 +2,9 @@
 
 直接去下[Chaldea](https://github.com/chaldea-center/chaldea)就好咧：https://docs.chaldea.center/zh/
 
+# This Simulator has been incorporated into Chaldea
 
+You can use the incorporated Laplace Simulator with [Chaldea](https://github.com/chaldea-center/chaldea)：https://docs.chaldea.center/
 
 # 以下为原本的Readme
 
