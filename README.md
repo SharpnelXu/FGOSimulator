@@ -1,12 +1,17 @@
-# 本模拟器已合并至Chaldea
+# 本模拟器已合并至Chaldea，以下为原本的Readme
 
 直接去下[Chaldea](https://github.com/chaldea-center/chaldea)就好咧：https://docs.chaldea.center/zh/
 
-# This Simulator has been incorporated into Chaldea
+写这个模拟器的时候对FGO还有很多机制不懂，所以陈宫宝具啊和特性判定什么的都不完全正确。这些问题在Chaldea那边修复了，不过没有同步更新回来，敬请注意。
+
+# This Simulator has been incorporated into Chaldea. The following are the original README for this project
 
 You can use the incorporated Laplace Simulator with [Chaldea](https://github.com/chaldea-center/chaldea)：https://docs.chaldea.center/
 
-# 以下为原本的Readme
+When I was writing this there were still lots of mechanisms I still don't understand, so some interactions were not completely correct. These issues are fixed in the Chaldea simulator, but not updated here.
+
+
+---
 
 # FGO模拟器
 
